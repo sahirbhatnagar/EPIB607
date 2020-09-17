@@ -12,12 +12,13 @@
 
 
 automate_water_task <- function(index, student_id, type = c("water", "depth"),
-                                start_sampling_from = 84 * 25 + 1,
+                                start_sampling_from = 87 * 25 + 1,
                                 sampling_factor = 10) {
   type <- match.arg(type)
   sample_size <- length(index)
 
   allLocations <- read.csv("https://raw.githubusercontent.com/sahirbhatnagar/EPIB607/master/labs/003-ocean-depths/earth-locations-20180914.csv")
+  # allLocations <- read.csv("~/git_repositories/EPIB607/labs/003-ocean-depths/earth-locations-20180914.csv")
   allLocations$water <- 1 * (allLocations$alt < 0)
 
   subset_locations <- allLocations[index, , drop = FALSE]

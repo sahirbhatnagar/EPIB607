@@ -1,5 +1,5 @@
 ---
-title: Exercise - How Deep is the Ocean? September 16, 2020.
+title: Exercise - How Deep is the Ocean? September 18, 2020.
 params:
   email:
     value: sahir.bhatnagar@mcgill.ca
@@ -9,14 +9,65 @@ params:
     value: !r as.vector(2131:2150)
   name:
     value: Bhatnagar, Sahir
-output: 
-  pdf_document:
-    extra_dependencies: ["float"]
+author:
+  - name: EPIB607 - Inferential Statistics
+    affiliation: a
+#  - name: Second Author
+#    affiliation: a,b
+address:
+  - code: a
+    address: Fall 2020, McGill University
+#  - code: b
+#    address: Department of Neat Tricks, Whereever State University, Someplace, MC, 67890
+lead_author_surname: Bhatnagar
+abstract: |
+  This in-class exercise will introduce you to sampling distributions for means and proportions. We will do this exercise in class on Friday September 18 in small breakout rooms. And then discuss the results altogether. Take the opportunity to introduce yourself to your peers in the breakout room. Discuss the exercise together. 
+  
+# Optional: Acknowledgements
+#acknowledgements: |
+#  [rticles](https://cran.r-project.org/package=rticles) package, and both packages rely on the
+#  [PNAS LaTeX](http://www.pnas.org/site/authors/latex.xhtml) macros. Both these sources are
+#  ([GPL-3](https://www.gnu.org/licenses/gpl-3.0.en.html) and
+#  [LPPL (>= 1.3)](https://www.latex-project.org/lppl/)).
+# Optional: One or more keywords
+keywords:
+  - Sampling distribution
+  - Means
+  - Proportions
+  - Standard error
+  - Standard deviation
+  - Parameter
+  - Statistic
+papersize: letter
+fontsize: 10pt
+# Optional: Force one-column layout, default is two-column
+one_column: true
+# Optional: Enables lineno mode, but only if one_column mode is also true
+#lineno: true
+# Optional: Enable one-sided layout, default is two-sided
+#one_sided: true
+# Optional: Enable section numbering, default is unnumbered
+numbersections: true
+# Optional: Specify the depth of section number, default is 5
+#secnumdepth: 5
+# Optional: Skip inserting final break between acknowledgements, default is false
+#skip_final_break: true
+# Optional: Bibliography 
+#bibliography: pinp
+# Optional: Enable a 'Draft' watermark on the document
+watermark: false
+footer_contents: "Exercise: Sampling Distributions for Means and Proportions"
+output: pinp::pinp
+includes: \usepackage{float}
+# Required: Vignette metadata for inclusion in a package.
+vignette: >
+  %\VignetteIndexEntry{YourPackage-vignetteentry}
+  %\VignetteKeywords{YourPackage, r, anotherkeyword}
+  %\VignettePackage{Due Sepetember 19, 2018}
+  %\VignetteEngine{knitr::rmarkdown}
 editor_options: 
   chunk_output_type: console
 ---
-
-
 
 ```{r setup, echo=FALSE, message=FALSE, eval=TRUE}
 knitr::opts_chunk$set(
@@ -58,7 +109,7 @@ knitr::opts_template$set("kill_prefix"=list(comment=NA, null_prefix=TRUE))
 ```
 
 ```{r get-locations}
-allLocations <- read.csv("/home/sahir/git_repositories/EPIB607/resources/assets/labs/003-ocean-depths/earth-locations-20180914.csv")
+allLocations <- read.csv("~/git_repositories/EPIB607/labs/003-ocean-depths/earth-locations-20180914.csv")
 allLocations$water  = 1*(allLocations$alt < 0)
 # plot(allLocations$lon[allLocations$water==1],
 #      allLocations$lat[allLocations$water==1],
@@ -76,13 +127,7 @@ depthsOfWater$depth <- -depthsOfWater$alt
 
 # What percentage of the world's surface is covered by water? 
 
-The data provided by the [Scripps Institution of Oceanography](https://topex.ucsd.edu/cgi-bin/get_srtm30.cgi) can provide an answer, but some work is required on your part. James Hanley (JH) has randomly sampled $n=5$ and $n=20$ latitudes and longitudes for every student in the class. This document contains unique latitudes and longitudes for
-
-```{r}
-params$name
-```
-
-and was sent in an email (using the [gmailr](https://cran.r-project.org/package=gmailr) package) as a pdf attachment to the following address:
+The data provided by the [Scripps Institution of Oceanography](https://topex.ucsd.edu/cgi-bin/get_srtm30.cgi) can provide an answer, but some work is required on your part. James Hanley (JH) has randomly sampled $n=5$ and $n=20$ latitudes and longitudes for every student in the class. This document contains unique latitudes and longitudes and was sent in an email (using the [gmailr](https://cran.r-project.org/package=gmailr) package) as a pdf attachment to the following address:
 
 ```{r}
 params$email
@@ -137,7 +182,7 @@ cat(paste("Longitude.n.",toString(n)," <- c(",
 
 \begin{figure}[H]
   \begin{center}
-    \includegraphics[scale = 0.90]{lat-long.png} 
+    \includegraphics[scale=0.75]{lat-long.png} 
   \end{center}
   \caption{Latitude and longitude in Google maps. Latitudes range from (-90,90) and longitudes range from (-180, 180). Latitude is entered first followed by longitude and separated by a comma.}\label{maps}
 \end{figure}
@@ -152,7 +197,7 @@ cat(paste("landed_in_water", " <- c(",
 
 3. Using `R`, estimate the percentage of the world's surface covered by water from your sample of 5. This can be done by simply taking the mean of the binary vector created in Step 2: `mean(landed_in_water)`.
 
-4. Enter your estimate in this [Google sheet](https://docs.google.com/spreadsheets/d/1Mnxeq9nQcTdQycZ7S_62fYFiNC5_a3fibsyodzfwO58/edit?usp=sharing) next to your name and in the column titled `PropnW.5.locations`.
+4. Enter your estimate in this [Google sheet](https://docs.google.com/spreadsheets/d/1Mnxeq9nQcTdQycZ7S_62fYFiNC5_a3fibsyodzfwO58/edit?usp=sharing) next to your email and in the column titled `PropnW.5.locations`.
 
 
 ## Determine the proportion of water from the sample of 20
@@ -175,16 +220,14 @@ cat(paste("index.n.",toString(n)," <- c(",
 
 3. Load a function into your `R` session that JH and SB created to automate the process using the following command:
 
-```{r, echo=TRUE, eval=TRUE, size='tiny'}
-path <- 
-"https://github.com/sahirbhatnagar/EPIB607/raw/gh-pages/resources/assets/labs/003-ocean-depths/automate_water_task.R"
-source(path)
+```{r, echo=TRUE, eval=TRUE}
+source("https://github.com/sahirbhatnagar/EPIB607/raw/master/labs/003-ocean-depths/automate_water_task.R")
 ```
 
 4. Now that the function `automate_water_task` has been loaded into your environment, you can use it to automatically determine which of the locations in your sample of 20 are on water. This function requires the unique index vector shown in Step 2 above as input and returns a binary vector of length 20 (1 for water, 0 for land). You can call the function as follows in `R`:
 
 ```{r, echo=TRUE, eval=FALSE}
-landed_in_water <- automate_water_task(index = index.n.20)
+landed_in_water <- automate_water_task(index = index.n.20, type = "water")
 ```
 
 As before, enter your estimate of the proportion of the earth's surface covered by water in this [Google sheet](https://docs.google.com/spreadsheets/d/1Mnxeq9nQcTdQycZ7S_62fYFiNC5_a3fibsyodzfwO58/edit?usp=sharing) next to your name, but in the column titled `PropnW.20.locations`.
@@ -215,7 +258,7 @@ index.n.5 <- 1:5
 depths.n.5 <- automate_water_task(index = index.n.5, student_id = 222333444, type = "depth")
 ```
 
-\newpage
+
 
 The `alt` column gives the depth in meters:
 
@@ -230,14 +273,17 @@ knitr::kable(depths.n.5)
 5. Enter your estimates of the mean depth of the ocean from your samples of 5 and 20 in this [Google sheet](https://docs.google.com/spreadsheets/d/1Mnxeq9nQcTdQycZ7S_62fYFiNC5_a3fibsyodzfwO58/edit?usp=sharing) next to your name, in the columns titled `Mean.5.depths` and `Mean.20.depths`, respectively.
 
 
-# Plot the sampling distribution of the proportion and mean
+\newpage
+
+# Plot the sampling distribution of the proportion and mean (to be completed only once everyone has completed the above exercises)
 
 It is now time to plot the sampling distributions of the proportions and means. Once everyone has filled in the [Google sheet](https://docs.google.com/spreadsheets/d/1Mnxeq9nQcTdQycZ7S_62fYFiNC5_a3fibsyodzfwO58/edit?usp=sharing), export the sheet as a `.csv` file by clicking on `File --> Download as --> Comma-separated values (.csv, current sheet)`. 
 
 1. Read in the data:
 
-```{r, echo=c(-1), eval=FALSE}
+```{r, echo=c(-1,-2), eval=FALSE}
 water_results <- read.csv("~/git_repositories/epib607/slides/sampling_dist/EPIB607_FALL2020_water_exercise - water.csv", as.is=TRUE)
+water_results <- read.csv("~/Downloads/EPIB607_FALL2020_water_exercise - sample.sheet.csv", as.is = TRUE)
 # read in the results from the Google sheet 
 water_results <- read.csv("EPIB607_FALL2020_water_exercise - water.csv", as.is=TRUE)
 water_results <- water_results[,1:6]
@@ -301,6 +347,8 @@ hist(water_results[,"Mean.5.depths"],
 a) Calculate the mean and the standard error of the mean depth for samples of size 5
 b) Comment on this graph (e.g. range, variability)
 
+\newpage
+
 4. Repeat Steps 2 and 3 for samples of size 20. 
 
 a) Compare the two graphs for proportions, and the two graphs for means. What do you notice? You might find it helpful to overlay the distributions on the sample plot. You may use the following code or run your own:
@@ -315,23 +363,25 @@ hist(water_results[,6],xlim=c(0,6000),
 ```
 
 ```{r, echo=TRUE, eval=FALSE}
-library(mosaic)
+library(ggplot2)
 library(tidyr)
 
 # first 'melt' the data to get it in plotting form
-m.melt <- water_results %>% tidyr::gather(key = "type", value = "value", -X., -student)
-
-# subset for means
-m.melt.means <- subset(m.melt, type %in% c("Mean.20.depths","Mean.5.depths"))
+m.melt <- water_results %>% 
+            tidyr::pivot_longer(cols = PropnW.5.locations:Mean.20.depths,
+                                names_to = "type")
 
 # plot for means
-gf_density(~ value, data = m.melt.means, fill = ~ type) + theme_bw()
-
-# subset for proportions
-m.melt.props <- subset(m.melt, type %in% c("PropnW.20.locations","PropnW.5.locations"))
-
+m.melt %>% 
+  dplyr::filter(type %in% c("Mean.20.depths","Mean.5.depths")) %>% 
+  ggplot(mapping = aes(x = value, fill = type)) + 
+    geom_density(alpha = 0.5)
+  
 # plot for proportions
-gf_histogram(~ value, data = m.melt.props, fill = ~ type, position = "dodge") + theme_bw()
+m.melt %>% 
+  dplyr::filter(type %in% c("PropnW.20.locations","PropnW.5.locations")) %>% 
+  ggplot(mapping = aes(x = value, fill = type)) + 
+    geom_histogram(alpha = 0.5, position = "dodge")
 ```
 
 

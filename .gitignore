@@ -21,6 +21,7 @@
 .Rproj.user/
 *.Rproj
 
+labs/003-ocean-depths/students/*
 
 # produced vignettes
 vignettes/*.html

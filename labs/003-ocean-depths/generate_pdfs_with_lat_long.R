@@ -48,9 +48,9 @@ for (i in 1:N.r) {
 
 # function to generate separate reports for each students
 renderMyDocument <- function(email, id, name, ind5, ind20) {
-  rmarkdown::render(input = "/home/sahir/git_repositories/EPIB607/resources/assets/labs/003-ocean-depths/water_exercise_epib607.Rmd",
+  rmarkdown::render(input = "/home/sahir/git_repositories/EPIB607/labs/003-ocean-depths/water_exercise_epib607.Rmd",
                     output_file = sprintf("%s_water_exercise_epib607.pdf", id),
-                    output_dir = "/home/sahir/git_repositories/EPIB607/resources/assets/labs/003-ocean-depths/students/",
+                    output_dir = "/home/sahir/git_repositories/EPIB607/labs/003-ocean-depths/students/",
                     params = list(
                       email = email,
                       name = name,
@@ -62,33 +62,29 @@ renderMyDocument <- function(email, id, name, ind5, ind20) {
 
 names(emails)
 emails[87,]
-BODY <- paste("See attached pdf for your randomly sampled latitudes and longitudes for the in-class exercise we will do on sampling distributions for means and proportions, Monday September 23. Note that these latitudes and longitudes are have been randomly sampled for each student in the class.")
+BODY <- paste("Hello! See attached pdf for your randomly sampled latitudes and longitudes for the in-class exercise we will do on sampling distributions for means and proportions, Friday September 18. Note that these latitudes and longitudes have been randomly sampled for each student in the class. If you get a chance to, please look over the exercise prior to class.")
 
 # first run the renderMyDocument to get all the pdfs, then comment that code and
 # run the gmail code
 # for (i in 1:nrow(emails)) {
-  for(i in 87) {
-  renderMyDocument(email = emails[i, "Email"],
-                   id = emails[i,"ID"],
-                   name = paste(emails[i, "First.Name"], emails[i, "Last.Name"]),
-                   ind5 = emails[i, "I_5_start"]:emails[i, "I_5_end"],
-                   ind20 = emails[i, "I_20_start"]:emails[i, "I_20_end"])
+for(i in 1:nrow(emails)) {
+  # renderMyDocument(email = emails[i, "Email"],
+  #                  id = emails[i,"ID"],
+  #                  name = paste(emails[i, "First.Name"], emails[i, "Last.Name"]),
+  #                  ind5 = emails[i, "I_5_start"]:emails[i, "I_5_end"],
+  #                  ind20 = emails[i, "I_20_start"]:emails[i, "I_20_end"])
+  # system(sprintf("rm /home/sahir/git_repositories/EPIB607/labs/003-ocean-depths/students/%s_water_exercise_epib607.tex", emails[i,"ID"]))
 
-  # test_email <-
-  #   gm_mime() %>%
-  #   gm_to(emails[i, "Email"]) %>%
-  #   gm_from("sahir.bhatnagar@gmail.com") %>%
-  #   gm_subject("[Fall 2020 - EPIB-607-001 - Inferential Statistics]: In-class exercise on sampling distributions") %>%
-  #   gm_html_body(BODY) %>%
-  #   gm_attach_file(sprintf("/home/sahir/git_repositories/EPIB607/resources/assets/labs/003-ocean-depths/students/%s_water_exercise_epib607.pdf", emails[i,"ID"]))
-  #
-  # gm_send_message(test_email)
+  test_email <-
+    gm_mime() %>%
+    gm_to(emails[i, "Email"]) %>%
+    gm_from("sahir.bhatnagar@gmail.com") %>%
+    gm_subject("[Fall 2020 - EPIB-607-001 - Inferential Statistics]: In-class exercise on sampling distributions") %>%
+    gm_html_body(BODY) %>%
+    gm_attach_file(sprintf("/home/sahir/git_repositories/EPIB607/labs/003-ocean-depths/students/%s_water_exercise_epib607.pdf", emails[i,"ID"]))
+
+  gm_send_message(test_email)
   # base::message(sprintf("%s, %s", emails[i,"Student.Name"], emails[i,"ID"]))
-  # system(sprintf("rm /home/sahir/git_repositories/EPIB607/resources/assets/labs/003-ocean-depths/students/%s_water_exercise_epib607.tex", emails[i,"ID"]))
-  #
-
-
-
 }
 
 # emails[86,]
