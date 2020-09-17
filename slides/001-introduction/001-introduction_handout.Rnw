@@ -2,8 +2,8 @@
 
 
 %\input{slides_header.tex}
-\input{/home/sahir/git_repositories/EPIB607/resources/assets/slides/slides_header2.tex}
-\graphicspath{{/home/sahir/git_repositories/EPIB607/resources/assets/slides/figure/}}
+\input{/home/sahir/git_repositories/EPIB607/slides/slides_header2.tex}
+\graphicspath{{/home/sahir/git_repositories/EPIB607/slides/figure/}}
 
 %\let\oldShaded\Shaded
 %\let\endoldShaded\endShaded
