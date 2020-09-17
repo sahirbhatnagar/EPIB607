@@ -1,0 +1,152 @@
+---
+title: DALITE Q1 - Displaying and Describing Categorical and Quantitative Data, Boxplots, Standard Deviation and Normal Curves. Due September 11, 2020 by 10am.
+
+# Use letters for affiliations
+author:
+  - name: EPIB607 - Inferential Statistics
+    affiliation: a
+#  - name: Second Author
+#    affiliation: a,b
+address:
+  - code: a
+    address: Fall 2020, McGill University
+#  - code: b
+#    address: Department of Neat Tricks, Whereever State University, Someplace, MC, 67890
+
+# For footer text  TODO(fold into template, allow free form two-authors)
+lead_author_surname: Bhatnagar
+
+# Place DOI URL or CRAN Package URL here
+#doi: "https://sahirbhatnagar.com/EPIB607/"
+
+# Abstract
+abstract: |
+  This DALITE quiz will cover the basic concepts of displaying and describing categorical and quantitative data such as histograms, mean, median, mode, five-number summary. It will cover more descriptives such as boxplots, standard deviation, and introduce you to normal density curves. 
+
+# Optional: Acknowledgements
+#acknowledgements: |
+#  This template package builds upon, and extends, the work of the excellent
+#  [rticles](https://cran.r-project.org/package=rticles) package, and both packages rely on the
+#  [PNAS LaTeX](http://www.pnas.org/site/authors/latex.xhtml) macros. Both these sources are
+#  gratefully acknowledged as this work would not have been possible without them.  Our extensions
+#  are under the same respective licensing term
+#  ([GPL-3](https://www.gnu.org/licenses/gpl-3.0.en.html) and
+#  [LPPL (>= 1.3)](https://www.latex-project.org/lppl/)).
+
+# Optional: One or more keywords
+keywords:
+  - Histogram
+  - Categorical Data
+  - Quantitative Data
+  - Density Plot
+  - Mean
+  - Median
+  - Mode
+  - Boxplots
+  - Standard deviation
+  - Normal curves
+
+# Paper size for the document, values of letterpaper and a4paper
+papersize: letter
+
+# Font size of the document, values of 9pt (default), 10pt, 11pt and 12pt
+fontsize: 12pt
+
+# Optional: Force one-column layout, default is two-column
+one_column: true
+
+# Optional: Enables lineno mode, but only if one_column mode is also true
+#lineno: true
+
+# Optional: Enable one-sided layout, default is two-sided
+#one_sided: true
+
+# Optional: Enable section numbering, default is unnumbered
+numbersections: true
+
+# Optional: Specify the depth of section number, default is 5
+#secnumdepth: 5
+
+# Optional: Skip inserting final break between acknowledgements, default is false
+skip_final_break: true
+
+# Optional: Bibliography 
+bibliography: pinp
+
+# Optional: Enable a 'Draft' watermark on the document
+watermark: false
+
+# Customize footer, eg by referencing the vignette
+footer_contents: "DALITE Q1 due Sepetember 11, 2020 by 10am"
+
+# Produce a pinp document
+output: pinp::pinp
+
+# Required: Vignette metadata for inclusion in a package.
+vignette: >
+  %\VignetteIndexEntry{YourPackage-vignetteentry}
+  %\VignetteKeywords{YourPackage, r, anotherkeyword}
+  %\VignettePackage{Due Sepetember 10, 2019}
+  %\VignetteEngine{knitr::rmarkdown}
+---
+
+# Marking {-}
+
+Completion of this DALITE exercise will be availble to us automatically through the DALITE website. Therefore **you do not need to hand anything in**. Marks will be based on the number of correct answers. For each question you will receive 0.5 marks for getting the correct answer on the first attempt and an additional 0.5 marks if you stick with the right answer or switch to the correct answer after seeing someone else's rationale. 
+
+# Sign up for DALITE 
+
+**This step only needs to be completed once for the whole semester**:  
+
+1. You can join the EPIB607 group by accessing the unique link: [https://mydalite.org/en/live/signup/form/OTIw
+](https://mydalite.org/en/live/signup/form/OTIw)
+2. Upon accessing the link, you will be prompted to enter an e-mail address. I recommend using the same e-mail address as your DataCamp account. **You must also enter your McGill ID number**. 
+3. You never need to remember a username or password to access the DALITE platform; access to your assignments is managed through tokens sent to your e-mail address. You will be sent a new link everytime a new exercise has been posted. 
+4. Watch the brief introduction to DALITE video: https://www.youtube.com/watch?v=0tJVVy2ay7c
+
+# Displaying and Describing Numerical and Categorical Data
+
+<!--
+## Learning Objectives
+1. Understand that the distribution of a variable consists of what values the variable takes and
+how often.
+2. Understand that class intervals should be of equal width; choose appropriate class widths
+to effectively reveal informative patterns in the data.
+3. Understand that the vertical axis of the histogram may be scaled for frequency, proportion,
+or percentage. The choice of vertical scaling for any data set does not affect the important
+features revealed by a histogram.
+4. Be able to describe a graphical display of data by first describing the overall pattern and
+then deviations from that pattern. Describe the shape of the overall pattern and identify any
+gaps in data and potential outliers.
+5. Recognize rough symmetry and clear skewness in the overall pattern of a distribution
+-->
+
+## Videos
+
+1. [Against All Odds Unit 1](https://www.learner.org/series/against-all-odds-inside-statistics/what-is-statistics/)  
+2. [Against All Odds Unit 3](https://www.learner.org/series/against-all-odds-inside-statistics/histograms/)  
+3. [Against All Odds Unit 4](https://www.learner.org/series/against-all-odds-inside-statistics/measures-of-center/)
+4. [Against All Odds Unit 5](https://www.learner.org/series/against-all-odds-inside-statistics/boxplots/)
+5. [Against All Odds Unit 6](https://www.learner.org/series/against-all-odds-inside-statistics/standard-deviation/)
+6. [Against All Odds Unit 7](https://www.learner.org/series/against-all-odds-inside-statistics/normal-curves/)
+
+
+\vspace*{0.25cm}
+
+## Required Readings
+
+1. [Against All Odds Unit 3](https://www.learner.org/wp-content/uploads/2019/03/AgainstAllOdds_StudentGuide_Unit03.pdf)
+2. [Against All Odds Unit 4](https://www.learner.org/wp-content/uploads/2019/03/AgainstAllOdds_StudentGuide_Unit04.pdf)
+3. [Against All Odds Unit 5](https://www.learner.org/wp-content/uploads/2019/03/AgainstAllOdds_StudentGuide_Unit05-1.pdf)
+4. [Against All Odds Unit 6](https://www.learner.org/wp-content/uploads/2019/03/AgainstAllOdds_StudentGuide_Unit06-Standard-Deviation.pdf)
+5. [Against All Odds Unit 7](https://www.learner.org/wp-content/uploads/2019/03/AgainstAllOdds_StudentGuide_Unit07-Normal-Curves.pdf)
+6. [Visualizing distributions: Histograms and density plots](https://clauswilke.com/dataviz/histograms-density-plots.html)
+7. De Veaux, Velleman and Bock (DVB), Chapter 3
+8. De Veaux, Velleman and Bock (DVB), Chapter 4
+
+
+
+
+
+
+

@@ -1,0 +1,344 @@
+%\usepackage{default}
+\usepackage{animate} %need the animate.sty file 
+\usepackage{graphicx}
+
+\usepackage{hyperref, url}
+%\usepackage[round,sort]{natbib}   % bibliography omit 'round' option if you prefer square brackets
+%\bibliographystyle{apalike}
+\usepackage{biblatex}
+\bibliography{bib.bib}
+% Removes icon in bibliography
+\setbeamertemplate{bibliography item}[text]
+
+\usepackage[normalem]{ulem}
+
+\setbeamertemplate{theorems}[numbered]
+\setbeamertemplate{caption}[numbered]
+\setbeamertemplate{caption label separator}{: }
+\setbeamercolor{caption name}{fg=normal text.fg}
+
+%\newtheorem{prop}{Proposition}
+%\newenvironment{theoremc}[1]
+%{\begin{shaded}\begin{theorem}[#1]}
+%		{\end{theorem}\end{shaded}}
+	
+%\newtheorem{examplefirst}{Example}
+%\newtheorem{examplesecond}{Example}
+%\newenvironment<>{examplefirst}[1][]{%
+%	\setbeamercolor{block title example}{bg=lightgray}%
+%	\begin{example}#2[#1]}{\end{example}}
+%\newenvironment<>{examplesecond}[1][]{%
+%	\setbeamercolor{block title example}{fg=white,bg=blue!75!black}%
+%	\begin{example}#2[#1]}{\end{example}}	
+
+%\usepackage{amsthm}
+
+
+\usepackage[figurename=Fig.]{caption}
+\usepackage{subfig}
+\usepackage{tikz, pgfplots,epsfig}
+\usetikzlibrary{arrows,shapes.geometric}
+\usepackage{color, colortbl,xcolor}
+\definecolor{lightgray}{RGB}{200,200,200}
+\definecolor{palegray}{RGB}{221,221,221}
+\definecolor{myblue}{RGB}{0,89,179}
+\definecolor{myorange}{rgb}{0.776,0.357,0.157}
+
+\definecolor{gray}{RGB}{110,110,110}
+\definecolor{darkgray}{RGB}{100,100,100}
+\definecolor{lightgray}{RGB}{200,200,200}
+\definecolor{turquoise}{RGB}{81,193,188}
+\definecolor{tomato}{RGB}{255,136,136}
+\definecolor{mandarina}{RGB}{229,169,25}
+\definecolor{foreground}{RGB}{81,141,193}
+\definecolor{background}{RGB}{246,244,240}
+\definecolor{highlight}{RGB}{229,169,25}
+\definecolor{lowlight}{RGB}{200,200,200}
+\definecolor{beige}{RGB}{255,255,240}
+\definecolor{pinkish}{RGB}{255,223,247}
+
+\newcommand{\code}[1]{\texttt{#1}}
+
+
+\usepackage{comment}
+\setbeamercolor{frametitle}{fg=myblue}
+\setbeamercolor{section in head/foot}{bg=myblue, fg=white}
+\setbeamercolor{author in head/foot}{bg=myblue}
+\setbeamercolor{date in head/foot}{bg=myblue}
+
+\usepackage{amsthm}
+\usepackage{shadethm}
+%\colorlet{shadecolor}{blue!15}
+\colorlet{shadecolor}{palegray}
+%\setlength{\shadeboxrule}{.4pt}
+
+%\newshadetheorem{thm}{Theorem}
+\newshadetheorem{defm}{Definition}
+\newshadetheorem{exm}{Exercise}
+\newshadetheorem{remarkm}{Remark}
+%\definecolor{shadethmcolor}{HTML}{EDF8FF}
+\definecolor{shadethmcolor}{RGB}{221,221,221}
+%\definecolor{shaderulecolor}{HTML}{45CFFF}
+\definecolor{shaderulecolor}{RGB}{0,89,179}
+\setlength{\shadeboxrule}{.4pt}
+
+\newtheorem{thm}{Theorem}
+\newcommand{\statetheoremhoriz}[2][\textwidth]{
+	\par\noindent\tikzstyle{mybox} = [draw=myblue,left color=cyan!50,
+	right color=cyan!5,thick,rectangle,inner sep=6pt]
+	\begin{tikzpicture}
+	\node [mybox] (box){%
+		\begin{minipage}{#1}{#2}\end{minipage}
+	};
+	\end{tikzpicture}
+}
+\newcommand{\statetheoremvert}[2][\textwidth]{
+	\par\noindent\tikzstyle{mybox} = [draw=myblue,top color=cyan!50,
+	bottom color=cyan!5,thick,rectangle,inner sep=6pt]
+	\begin{tikzpicture}
+	\node [mybox] (box){%
+		\begin{minipage}{#1}{#2}\end{minipage}
+	};
+	\end{tikzpicture}
+}
+\newcommand{\statetheoremsolid}[2][\textwidth]{
+	\par\noindent\tikzstyle{mybox} = [draw=myblue,fill=palegray,
+	thick,rectangle,inner sep=6pt]
+	\begin{tikzpicture}
+	\node [mybox] (box){%
+		\begin{minipage}{#1}{#2}\end{minipage}
+	};
+	\end{tikzpicture}
+}
+
+\usetikzlibrary{shapes.geometric, arrows,shapes.symbols,decorations.pathreplacing}
+\tikzstyle{startstop} = [rectangle, rounded corners, minimum width=3cm, minimum height=1cm, draw=black, fill=pinkish,text width=3.5cm]
+\tikzstyle{startstop2} = [rectangle, rounded corners, minimum width=3cm, minimum height=1cm, draw=black, fill=background,text width=4.5cm]
+\tikzstyle{startstop3} = [rectangle, rounded corners, minimum width=3cm, minimum height=1cm, draw=black, fill=beige,text width=3.0cm]
+\tikzstyle{startstop4} = [rectangle, rounded corners, minimum width=3cm, minimum height=1cm, draw=black, fill=pinkish,text width=4.5cm]
+\tikzstyle{io} = [trapezium, trapezium left angle=70, trapezium right angle=110, minimum width=2cm, minimum height=1cm, text centered, draw=black, fill=blue!30,text width=1.5cm]
+\tikzstyle{process} = [rectangle, minimum width=1cm, minimum height=1cm, text centered, draw=black, fill=orange!30,text width=2cm]
+\tikzstyle{decision} = [diamond, minimum width=2cm, minimum height=1cm, text centered, draw=black, fill=green!30]
+\tikzstyle{arrow} = [thick,->,>=stealth]
+\tikzstyle{both} = [thick,<->,>=stealth, red]
+
+
+\usepackage{array}
+\newcolumntype{L}{>{\centering\arraybackslash}m{3cm}} % used for text wrapping in ctable
+\usepackage{ctable}
+\usepackage[utf8]{inputenc}
+\usepackage{fontenc}
+\usepackage{pifont}% http://ctan.org/pkg/pifont
+\newcommand{\cmark}{\ding{51}}%
+\newcommand{\xmark}{\ding{55}}%
+\def\widebar#1{\overline{#1}}
+\definecolor{whitesmoke}{rgb}{0.96, 0.96, 0.96}
+
+\usepackage{amssymb}
+\usepackage{amsmath}
+
+\usepackage{bm}
+\def\transpose{{\sf{T}}}
+\def\E{{\skew0\bm{E}}}
+\def\Xvec{{\skew0\bm{X}}}
+\def\Xveca{{\skew0\bm{X}}_1}
+\def\Xvecb{{\skew0\bm{X}}_2}
+
+\def\Yvec{{\skew0\bm{Y}}}
+\def\bmY{{\skew0\bm{Y}}}
+\def\bmX{{\skew0\bm{X}}}
+\def\bmy{{\skew0\bm{y}}}
+\def\bmG{{\skew0\bm{G}}}
+\def\bmS{{\skew0\bm{S}}}
+\def\bmA{{\skew0\bm{A}}}
+\def\bmB{{\skew0\bm{B}}}
+\def\bmD{{\skew0\bm{D}}}
+\def\bmI{{\skew0\bm{I}}}
+\def\bmV{{\skew0\bm{V}}}
+\def\bmU{{\skew0\bm{U}}}
+\def\bv{{\skew0\bm{v}}}
+\def\bw{{\skew0\bm{w}}}
+\def\bmm{{\skew0\bm{m}}}
+\def\bmzero{{\skew0\bm{0}}}
+\def\bx{{\skew0\bm{x}}}
+\def\xveca{{\skew0\bm{x}}_1}
+\def\xvecb{{\skew0\bm{x}}_2}
+
+\def\N{{\skew0\mathcal{N}}}
+\def\T{{\small T}}
+
+\def\mvec{{\skew0\bm{m}}}
+\def\bmmu{{\skew0\bm{\mu}}}
+\def\muvec{{\skew0\bm{\mu}}}
+\def\balpha{{\skew0\bm{\alpha}}}
+\def\bbeta{{\skew0\bm{\beta}}}
+\def\bmtheta{{\skew0\bm{\theta}}}
+\def\btheta{{\skew0\bm{\theta}}}
+
+\def\cvec{{\skew0\mathbf{c}}}
+
+\def\Xbar{\overline{X}}
+
+\definecolor{lightgray}{rgb}{0.91,0.91,0.91}
+\definecolor{purpleblue}{rgb}{0.50,0.50,1.00}
+
+
+
+\usepackage{fontspec}
+%\setsansfont{Fira Sans}
+%\setmonofont{Fira Mono}
+%\setsansfont[ItalicFont={Fira Sans Light Italic},BoldFont={Fira Sans},BoldItalicFont={Fira Sans Italic}]{Fira Sans Light}
+%\setmonofont[BoldFont={Fira Mono Medium}]{Fira Mono}
+
+\def\installpath{/usr/local/share/texmf/fonts/opentype/libertinus/}
+\setmainfont{LibertinusSerif}[
+UprightFont    = *-Regular,
+BoldFont       = *-Bold,
+ItalicFont     = *-Italic,
+BoldItalicFont = *-BoldItalic,
+Ligatures      = TeX,
+Extension      = .otf,
+Path           = \installpath/
+]
+
+\setsansfont{LibertinusSerif}[
+UprightFont    = *-Regular,
+BoldFont       = *-Bold,
+ItalicFont     = *-Italic,
+BoldItalicFont = *-BoldItalic,
+Ligatures      = TeX,
+Extension      = .otf,
+Path           = \installpath/
+]
+
+
+\setmonofont{LibertinusSerif}[
+UprightFont    = *-Regular,
+BoldFont       = *-Bold,
+ItalicFont     = *-Italic,
+BoldItalicFont = *-BoldItalic,
+Ligatures      = TeX,
+Extension      = .otf,
+Path           = \installpath/
+]
+
+
+
+\setbeamercolor{itemize item}{fg=myblue}
+%\setbeamertemplate{itemize item}[square]
+\setbeamertemplate{itemize items}[circle]
+%\setbeamertemplate{blocks}[rounded][shadow=true]
+
+
+%\setbeamertemplate{navigation symbols}{\usebeamercolor[fg]{title in head/foot}\usebeamerfont{title in head/foot}\insertframenumber}
+
+
+%\setbeamertemplate{footline}{}
+
+\beamertemplatenavigationsymbolsempty % toggle off if you want navigation symbols at the bottom
+
+\setbeamertemplate{footline}
+{ \usebeamercolor[fg]{page number in head/foot}%
+	\usebeamerfont{page number in head/foot}%
+	\hspace{1em}\insertsectionhead%
+	\hfill%
+	\insertframenumber\,/\,\hyperlinkappendixstart{\insertmainframenumber}
+	\ifnum \thepage = \insertframeendpage{\small .}\else{\phantom{\small .}}\fi
+	\hspace{1em}
+	\vskip2pt%
+}
+
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{exercise}[theorem]{Exercise}
+
+\titlegraphic{\hfill\includegraphics[height=1cm]{/home/sahir/git_repositories/EPIB607/resources/assets/slides/mcgill_logo.png}}
+
+
+%% You also use hyperref, and pick colors 
+\hypersetup{colorlinks,citecolor=myorange,filecolor=red,linkcolor=brown,urlcolor=blue}
+
+\newcommand {\framedgraphiccaption}[2] {
+	\begin{figure}
+		\centering
+		\includegraphics[width=\textwidth,height=0.8\textheight,keepaspectratio]{#1}
+		\caption{#2}
+	\end{figure}
+}
+
+\newcommand {\framedgraphic}[1] {
+	\begin{figure}
+		\centering
+		\includegraphics[width=\textwidth,height=0.9\textheight,keepaspectratio]{#1}
+	\end{figure}
+}
+
+
+\AtBeginSection[]{
+	\begin{frame}
+		\vfill
+		\centering
+		\begin{beamercolorbox}[sep=8pt,center,shadow=true,rounded=true]{title}
+			\usebeamerfont{title}\insertsectionhead\par%
+		\end{beamercolorbox}
+		\vfill
+	\end{frame}
+}
+
+\newcommand\Wider[2][3em]{%
+	\makebox[\linewidth][c]{%
+		\begin{minipage}{\dimexpr\textwidth+#1\relax}
+			\raggedright#2
+		\end{minipage}%
+	}%
+}
+
+
+\makeatletter
+
+\def \iqsssectiontitleheader {}
+
+\newcommand{\iqsssectiontitle}[1]{
+	\def \iqsssectiontitleheader{#1}
+}
+
+\@ifundefined{insertmainframenumber}
+{%
+	% \insertmainframenumber not defined
+	\newcommand{\insertmainframenumber}{\inserttotalframenumber}
+}
+{%
+	% \insertmainframenumber already defined
+}%
+
+
+\AtBeginSection[]{
+	\title{\insertsectionhead}
+	{
+		%\definecolor{white}{RGB}{140,193,250}
+		%\definecolor{white}{RGB}{200,200,200}
+		%\definecolor{white}{RGB}{242,244,247}
+		\definecolor{white}{RGB}{0,89,179}
+		%\definecolor{iqss@orange}{rgb}{1,1,1}
+		\ifnum \insertmainframenumber > \insertframenumber
+		%\setbeamercolor{background canvas}{bg=myblue}
+		%\setbeamercolor{normal text}{fg=black,bg=white}
+		%\setbeamercolor{frametitle}{fg=red}
+		%\setbeamercolor{section in toc}{fg=myblue, bg=white}
+		%\setbeamercolor{subsection in toc}{fg=myblue, bg=white}
+		\frame{
+			\frametitle{\iqsssectiontitleheader}
+			\tableofcontents[currentsection]
+		}
+		\else
+		\frame{
+			\frametitle{Backup Slides}
+			\tableofcontents[sectionstyle=shaded/shaded,subsectionstyle=shaded/shaded/shaded]
+		}
+		\fi
+	}
+}
+\makeatother
+
+\pgfplotsset{compat=1.16}
+
+\graphicspath{{/home/sahir/git_repositories/EPIB607/resources/assets/slides/figure/}}

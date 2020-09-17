@@ -1,0 +1,348 @@
+---
+title: DALITE Q5 - Bootstrap, Tests of Significance, Binomial Distribution, Inference for Means and Proportions. Due October 8, 2019 by 10pm.
+
+# Use letters for affiliations
+author:
+  - name: EPIB607 - Inferential Statistics
+    affiliation: a
+#  - name: Second Author
+#    affiliation: a,b
+address:
+  - code: a
+    address: Fall 2019, McGill University
+#  - code: b
+#    address: Department of Neat Tricks, Whereever State University, Someplace, MC, 67890
+
+# For footer text  TODO(fold into template, allow free form two-authors)
+lead_author_surname: Bhatnagar and Hanley
+
+# Place DOI URL or CRAN Package URL here
+doi: "https://sahirbhatnagar.com/EPIB607/"
+
+# Abstract
+abstract: |
+  This DALITE quiz will cover the bootstrap, an introduction to significance testing, and inference for a single mean using the t distribution. This will also cover the binomial distribution and inference for a sample proportion. You need to understand the binomial distribution before moving on to the chapter on one sample proportions. This is analgous to learning the normal distribution before inference for a single mean. 
+
+# Optional: Acknowledgements
+#acknowledgements: |
+#  This template package builds upon, and extends, the work of the excellent
+#  [rticles](https://cran.r-project.org/package=rticles) package, and both packages rely on the
+#  [PNAS LaTeX](http://www.pnas.org/site/authors/latex.xhtml) macros. Both these sources are
+#  gratefully acknowledged as this work would not have been possible without them.  Our extensions
+#  are under the same respective licensing term
+#  ([GPL-3](https://www.gnu.org/licenses/gpl-3.0.en.html) and
+#  [LPPL (>= 1.3)](https://www.latex-project.org/lppl/)).
+
+# Optional: One or more keywords
+keywords:
+  - Hypothesis testing
+  - Bootstrap
+  - t distribution
+  - One sample mean
+  - Normal calculations
+  - Confidence intervals
+  - Central Limit Theorem (CLT)
+  - Binomial distribution
+  - One sample proportion
+
+# Paper size for the document, values of letterpaper and a4paper
+papersize: letter
+
+# Font size of the document, values of 9pt (default), 10pt, 11pt and 12pt
+fontsize: 10pt
+
+# Optional: Force one-column layout, default is two-column
+#one_column: true
+
+# Optional: Enables lineno mode, but only if one_column mode is also true
+#lineno: true
+
+# Optional: Enable one-sided layout, default is two-sided
+#one_sided: true
+
+# Optional: Enable section numbering, default is unnumbered
+numbersections: true
+
+# Optional: Specify the depth of section number, default is 5
+#secnumdepth: 5
+
+# Optional: Skip inserting final break between acknowledgements, default is false
+skip_final_break: true
+
+# Optional: Bibliography 
+bibliography: pinp
+
+# Optional: Enable a 'Draft' watermark on the document
+watermark: false
+
+# Customize footer, eg by referencing the vignette
+footer_contents: "DALITE Q5 due October 8, 2019 by 5pm"
+
+# Produce a pinp document
+output: pinp::pinp
+
+# Required: Vignette metadata for inclusion in a package.
+vignette: >
+  %\VignetteIndexEntry{YourPackage-vignetteentry}
+  %\VignetteKeywords{YourPackage, r, anotherkeyword}
+  %\VignettePackage{Due Sepetember 26, 2018}
+  %\VignetteEngine{knitr::rmarkdown}
+---
+
+# Marking {-}
+
+Completion of this DALITE exercise will be availble to us automatically through the DALITE website. Therefore **you do not need to hand anything in**. Marks will be based on the number of correct answers. For each question you will receive 0.5 marks for getting the correct answer on the first attempt and an additional 0.5 marks if you stick with the right answer or switch to the correct answer after seeing someone else's rationale. Recall that access to your assignments is managed through tokens sent to your e-mail address. You will be sent a new link everytime a new assignment has been posted.
+
+
+# Bootstrap
+
+## Learning Objectives
+
+1. Understand that the bootstrap can be used to simulate a sampling distribution
+2. Confidence intervals can subsequently be calculated directly from the bootstrap distribution
+3. Bootstrap confidence intervals do not rely on the Central Limit Theorem
+
+
+## Required Readings
+
+\begin{enumerate}
+\item \href{https://www.dropbox.com/s/cxiq70zxxtyxlb5/EfronDiaconisBootstrap.pdf?dl=0}{Computer-Intensive Methods in Statistics by Persi Diaconis and Bradley Efron, Scientific American 1983}
+\end{enumerate}
+
+\vspace*{0.25cm}
+
+
+# Tests of Significance
+
+## Learning Objectives
+
+1. Understand that a significance test answers the question ``Is this sample outcome good
+evidence that an effect is present in the population, or could it easily occur just by chance?''
+2. Be able to formulate the null hypothesis and alternative hypothesis for tests about the mean
+of a population. Understand that the alternative hypothesis is the researcher's point of view.
+3. Understand the concept of a p-value. Know that smaller p-values indicate stronger
+evidence against the null hypothesis.
+4. Be able to calculate p-values as areas under a normal curve in the setting of tests about the
+mean of a normal population with known standard deviation.
+5. Be able to test a population mean with a z-test. 
+
+
+## Videos
+
+1. [Against All Odds Unit 25](https://www.learner.org/courses/againstallodds/unitpages/unit25.html)
+
+
+## Required Readings
+
+\begin{enumerate}
+\item \href{https://www.learner.org/courses/againstallodds/pdfs/AgainstAllOdds_StudentGuide_Unit25.pdf#page=1}{Against All Odds Unit 25, pages 1-12}
+\item \href{http://www.medicine.mcgill.ca/epidemiology/hanley/BionanoWorkshop/P-Values.pdf}{JH notes on p-values}
+\end{enumerate}
+
+
+
+# Small Sample Inference for One Mean
+
+## Learning Objectives
+
+1. Understand when to use t-procedures for a single sample and how they differ from the z-procedures covered in Units 24 and 25.
+2. Understand what a t-distribution is and how it differs from a normal distribution.
+3. Know how to check whether the underlying assumptions for a t-test or t-confidence interval
+are reasonably satisfied.
+4. Be able to calculate a t-confidence interval for a population mean.
+5. Be able to test a population mean with a t-test. Be able to calculate the t-test statistic and to
+determine the p-value as an area under a t-density curve.
+6. Be able to adapt one-sample t-procedures to analyze matched pairs data. 
+
+
+## Videos
+
+1. [Against All Odds Unit 26](https://www.learner.org/courses/againstallodds/unitpages/unit26.html)
+
+
+## Required Readings
+
+\begin{enumerate}
+\item \href{https://www.learner.org/courses/againstallodds/pdfs/AgainstAllOdds_StudentGuide_Unit26.pdf#page=1}{Against All Odds Unit 26, pages 1-11}
+\item DVB Chapter 23
+\end{enumerate}
+
+
+# Binomial Distributions
+
+## Learning Objectives
+
+1. Be able to identify a binomial setting and define a binomial random variable.
+2. Know how to find probabilities associated with a binomial random variable.
+3. Know how to determine the mean and standard deviation of a binomial random variable.
+
+
+## Videos
+
+1. [Against All Odds Unit 21](https://www.learner.org/courses/againstallodds/unitpages/unit21.html)
+
+
+## Required Readings
+
+\begin{enumerate}
+\item \href{https://www.learner.org/courses/againstallodds/pdfs/AgainstAllOdds_StudentGuide_Unit21.pdf#page=1}{Against All Odds Unit 21, pages 1-10}
+\item \href{https://www.dropbox.com/s/g1ui3xg8nup1p6b/proportion-model-inference-plan-2018.pdf?dl=0}{JH notes Section 1 on binomial distributions}
+\item DVB Chapter 17 (Binomial Model)
+\end{enumerate}
+
+\vspace*{0.25cm}
+
+
+# Inference for Proportions
+
+## Learning Objectives
+
+1. Identify inference problems that concern a population proportion.
+2. Know how to conduct a significance test of a population proportion.
+3. Be able to calculate a confidence interval for a population proportion.
+4. Understand that the $z$-inference procedures for proportions are based on approximations to the normal distribution and that accuracy depends on having moderately large sample sizes. 
+
+
+## Videos
+
+1. [Against All Odds Unit 28](https://www.learner.org/courses/againstallodds/unitpages/unit28.html)
+
+
+## Required Readings
+
+\begin{enumerate}
+\item \href{https://www.learner.org/courses/againstallodds/pdfs/AgainstAllOdds_StudentGuide_Unit28.pdf#page=1}{Against All Odds Unit 28, pages 1-11}
+\item \href{https://www.dropbox.com/s/g1ui3xg8nup1p6b/proportion-model-inference-plan-2018.pdf?dl=0}{JH notes Section 2 on Inference for a proportion}
+\item DVB Chapters 19, 20 and 21
+\end{enumerate}
+
+<!-- 
+We support several options via the YAML header
+
+- Setting a DOI or URL footer, for example for the CRAN package URL,
+  which is placed in the bottom-left footer of the title page and even pages;
+- Setting a footer label, for example _YourPackage Vignette_ stating
+  your package, which is placed in the bottom-right footer on odd
+  pages;
+- Setting a free-form author field used on the inside footer;
+- Optional _Draft_ watermarking;
+
+
+
+## References 
+
+Here we differ from PNAS and suggest natbib. References will appear in
+author-year form. Use `\citet{}`, `\citep{}`, etc as usual.
+
+We default to the `jss.bst` style. To switch to a different bibliography
+style, please use `biblio-style: style` in the YAML header.
+
+
+## Inline R Code 
+
+The PNAS sample included a fixed PNG image here, but this document prefers
+to show the results and embedding of _R_ code. 
+
+```{r figex, fig.width=3, fig.height=3, cache=TRUE, echo=TRUE, fig.cap="Narrow ggplot2 figure"}
+library(ggplot2)
+ggplot(mtcars, aes(wt, mpg)) +
+    geom_point(size=3, aes(colour=factor(cyl))) +
+    theme(legend.position="none")
+```
+
+Here we use a standard knitr bloc with explicit options for
+
+- figure width and height (`fig.width`, `fig.height`), both set to three inches;
+- whether the code is shown (`echo=TRUE`); and
+- the caption (`fig.cap`) as shown above.
+
+
+## Digital Figures 
+
+Markdown, Pandoc and LaTeX support `.eps` and `.pdf` files.
+
+Figures and Tables should be labelled and referenced in the standard way
+using the `\label{}` and `\ref{}` commands.
+
+The R examples above show how to insert a column-wide
+figure. To insert a figure wider than one column, please use the
+`\begin{figure*}...\end{figure*}` environment. 
+
+One (roundabout) way of doing this is to _not_ actually plot a figure, but to
+save it in a file as the following segment shows:
+
+```{r densityPlot, echo=TRUE}
+library(ggplot2)
+p <- ggplot(data = midwest,
+            mapping = aes(x = area,
+                          fill = state,
+                          color = state)) +
+    geom_density(alpha = 0.3)
+## save to file
+suppressMessages(ggsave("densities.pdf", p))
+```
+
+This file is then included via standard LaTeX commands.
+
+\begin{figure*}
+  \begin{center}
+    \includegraphics[width=0.66\textwidth, height=3.5in]{densities} 
+  \end{center}
+  \caption{Wide ggplot2 figure}\label{fig}
+\end{figure*}
+
+
+## Typeset Code (But Do Not Run It) 
+
+We can also just show code.
+
+```r
+xx <- faithful[,"eruptions"]
+fit <- density(xx)
+plot(fit)
+```
+
+This simply used a pandoc bloc started and ended by three backticks,
+with `r` as the language choice.  Similarly, _many_ other languages
+can be typeset directly simply by relying on pandoc.
+
+
+## Single column equations 
+
+Authors may use 1- or 2-column equations in their article, according to
+their preference.
+
+To allow an equation to span both columns, options are to use the
+`\begin{figure*}...\end{figure*}` environment mentioned above for
+figures, or to use the `\begin{widetext}...\end{widetext}` environment
+as shown in equation \ref{eqn:example} below.
+
+Please note that this option may run into problems with floats and
+footnotes, as mentioned in the [cuted package
+documentation](http://texdoc.net/pkg/cuted). In the case of problems
+with footnotes, it may be possible to correct the situation using
+commands `\footnotemark` and `\footnotetext`.
+
+\begin{equation}
+  \begin{aligned}
+(x+y)^3&=(x+y)(x+y)^2\\
+       &=(x+y)(x^2+2xy+y^2) \\
+       &=x^3+3x^2y+3xy^3+x^3. 
+       \label{eqn:example} 
+  \end{aligned}
+\end{equation}
+
+
+pandoc writes all tables using longtable, which fails in 2-column mode
+
+  Species                    CBS     CV     G3
+  ----------------------- ------ ------ ------
+  1\. Acetaldehyde           0.0    0.0    0.0
+  2\. Vinyl alcohol          9.1    9.6   13.5
+  3\. Hydroxyethylidene     50.8   51.2   54.0
+
+  : Comparison of the fitted potential energy surfaces and ab initio
+  benchmark electronic energy calculations
+
+-->
+

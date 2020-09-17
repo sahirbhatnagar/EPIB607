@@ -1,0 +1,148 @@
+---
+title: DALITE Q4 - Normal Curve Calculations and Confidence Intervals. Due Ocotber 1, 2019 by 5pm.
+
+# Use letters for affiliations
+author:
+  - name: EPIB607 - Inferential Statistics
+    affiliation: a
+#  - name: Second Author
+#    affiliation: a,b
+address:
+  - code: a
+    address: Fall 2019, McGill University
+#  - code: b
+#    address: Department of Neat Tricks, Whereever State University, Someplace, MC, 67890
+
+# For footer text  TODO(fold into template, allow free form two-authors)
+lead_author_surname: Bhatnagar and Hanley
+
+# Place DOI URL or CRAN Package URL here
+doi: "https://sahirbhatnagar.com/EPIB607/"
+
+# Abstract
+abstract: |
+  This DALITE quiz will cover the normal curve calculations and confidence intervals. 
+
+# Optional: Acknowledgements
+#acknowledgements: |
+#  This template package builds upon, and extends, the work of the excellent
+#  [rticles](https://cran.r-project.org/package=rticles) package, and both packages rely on the
+#  [PNAS LaTeX](http://www.pnas.org/site/authors/latex.xhtml) macros. Both these sources are
+#  gratefully acknowledged as this work would not have been possible without them.  Our extensions
+#  are under the same respective licensing term
+#  ([GPL-3](https://www.gnu.org/licenses/gpl-3.0.en.html) and
+#  [LPPL (>= 1.3)](https://www.latex-project.org/lppl/)).
+
+# Optional: One or more keywords
+keywords:
+  - Normal calculations
+  - Confidence intervals
+  - Central Limit Theorem (CLT)
+
+# Paper size for the document, values of letterpaper and a4paper
+papersize: letter
+
+# Font size of the document, values of 9pt (default), 10pt, 11pt and 12pt
+fontsize: 9pt
+
+# Optional: Force one-column layout, default is two-column
+#one_column: true
+
+# Optional: Enables lineno mode, but only if one_column mode is also true
+#lineno: true
+
+# Optional: Enable one-sided layout, default is two-sided
+#one_sided: true
+
+# Optional: Enable section numbering, default is unnumbered
+numbersections: true
+
+# Optional: Specify the depth of section number, default is 5
+#secnumdepth: 5
+
+# Optional: Skip inserting final break between acknowledgements, default is false
+skip_final_break: true
+
+# Optional: Bibliography 
+bibliography: pinp
+
+# Optional: Enable a 'Draft' watermark on the document
+watermark: false
+
+# Customize footer, eg by referencing the vignette
+footer_contents: "DALITE Q4 due October 1, 2019 by 5pm"
+
+# Produce a pinp document
+output: pinp::pinp
+
+# Required: Vignette metadata for inclusion in a package.
+vignette: >
+  %\VignetteIndexEntry{YourPackage-vignetteentry}
+  %\VignetteKeywords{YourPackage, r, anotherkeyword}
+  %\VignettePackage{Due Sepetember 26, 2018}
+  %\VignetteEngine{knitr::rmarkdown}
+---
+
+# Marking {-}
+
+Completion of this DALITE exercise will be availble to us automatically through the DALITE website. Therefore **you do not need to hand anything in**. Marks will be based on the number of correct answers. For each question you will receive 0.5 marks for getting the correct answer on the first attempt and an additional 0.5 marks if you stick with the right answer or switch to the correct answer after seeing someone else's rationale. Recall that access to your assignments is managed through tokens sent to your e-mail address. You will be sent a new link everytime a new assignment has been posted.
+
+
+# Normal Calculations
+
+## Learning Objectives
+
+1. Be able to use the Empirical Rule (68-95-99.7% Rule) to approximate the proportions of
+normal data falling in certain intervals.
+2. Understand that standardizing (by subtracting the mean and dividing by the standard
+deviation) allows us to compare observations from different normal distributions.
+3. Know that in order to use a standard normal table to do calculations involving normal
+distributions, we must first standardize measurements.
+4. Be able to use `pnorm` and `qnorm` to find the proportion of observations
+below any value of $z$.
+
+
+## Required Readings
+
+\begin{enumerate}
+\item \href{https://www.learner.org/courses/againstallodds/pdfs/AgainstAllOdds_StudentGuide_Unit08.pdf#page=1}{Against All Odds Unit 8, pages 1-12}
+\end{enumerate}
+
+\vspace*{0.25cm}
+
+
+# Confidence Intervals
+
+## Learning Objectives
+
+1. Understand that a common reason for taking a sample is to estimate some property of the
+underlying population.
+2. Recognize that a useful estimate requires a measure of how accurate the estimate is.
+3. Know that a confidence interval has two parts: an interval that gives the estimate and the
+margin of error, and a confidence level that gives the likelihood that the method will produce
+correct results in the long range.
+4. Be able to assess whether the underlying assumptions for confidence intervals are
+reasonably satisfied. Provided the underlying assumptions are satisfied, be able to calculate
+a confidence interval for $\mu$ given the sample mean, sample size, and population standard
+deviation.
+5. Understand the tradeoff between confidence and margin of error in intervals based on the
+same data.
+6. Given a specific confidence level, recognize that increasing the size of the sample can give
+a margin of error as small as desired. 
+
+
+## Videos
+
+1. [Against All Odds Unit 24](https://www.learner.org/courses/againstallodds/unitpages/unit24.html)
+
+
+## Required Readings
+
+\begin{enumerate}
+\item \href{https://www.learner.org/courses/againstallodds/pdfs/AgainstAllOdds_StudentGuide_Unit24.pdf#page=1}{Against All Odds Unit 24, pages 1-6}
+\item \href{https://www.dropbox.com/s/epgqkz3g0qklcp9/Ch14ConfidenceIntervalsJH2018.pdf?dl=0}{JH notes on CIs}
+\item De Veaux, Velleman and Bock (DVB), Chapter 19 and Chapter 23
+\end{enumerate}
+
+
+

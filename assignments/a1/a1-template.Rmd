@@ -1,0 +1,83 @@
+---
+title: "A1: Exploring Data"
+subtitle: "EPIB 607 - FALL 2020"
+author: "your name and McGill ID"
+institute: "Department of Epidemiology, Biostatistics, and Occupational Health, McGill University"
+date: "`r paste('compiled on',format(Sys.time(), '%B %d, %Y'))`"
+output:
+  pdf_document:
+    toc: false
+    number_sections: true
+    toc_depth: 4
+    keep_md: false
+fontsize: 12pt
+editor_options: 
+  chunk_output_type: console
+---
+
+
+```{r include = FALSE}
+## ---- Setup ------------------------------------------------------------------
+# set default chunk options here
+knitr::opts_chunk$set(
+  echo = FALSE,          # don't show code
+  warning = FALSE,       # don't show warnings
+  message = FALSE,       # don't show messages (less serious warnings)
+  cache = FALSE,         # set to TRUE to save results from last compilation
+  fig.align = "center",   # center figures
+  fig.asp = 1          # fig.aspect ratio
+)
+```
+
+
+# Immunogenicity of the ChAdOx1 nCoV-19 vaccine against SARS-CoV-2
+
+## (a)
+
+
+## (b)
+
+```{r}
+## ---- Question-1 ------------------------------------------------------------
+
+```
+
+\newpage
+
+# COVID-19 Cases Comparison Between Counties With and Without Stay-at-Home Orders
+
+```{r}
+## ---- Question-2 ------------------------------------------------------------
+
+```
+
+\newpage
+
+# Age-structures of Populations, then and now
+
+```{r}
+## ---- Question-3 ------------------------------------------------------------
+
+```
+
+\newpage
+
+
+# Flint Blood Lead Levels
+
+
+```{r}
+## ---- Question-4 ------------------------------------------------------------
+
+```
+
+
+\newpage
+
+
+# Code {-}
+
+```{r all-code, ref.label=knitr::all_labels(), echo = TRUE, eval = FALSE}
+
+```
+

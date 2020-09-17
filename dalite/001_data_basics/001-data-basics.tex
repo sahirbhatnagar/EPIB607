@@ -1,0 +1,176 @@
+\documentclass[letterpaper,12pt,twoside,]{pinp}
+
+%% Some pieces required from the pandoc template
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+
+% Use the lineno option to display guide line numbers if required.
+% Note that the use of elements such as single-column equations
+% may affect the guide line number alignment.
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+
+% pinp change: the geometry package layout settings need to be set here, not in pinp.cls
+\geometry{layoutsize={0.95588\paperwidth,0.98864\paperheight},%
+  layouthoffset=0.02206\paperwidth, layoutvoffset=0.00568\paperheight}
+
+\definecolor{pinpblue}{HTML}{185FAF}  % imagecolorpicker on blue for new R logo
+\definecolor{pnasbluetext}{RGB}{101,0,0} %
+
+
+
+\title{DALITE Q1 - Displaying and Describing Categorical and Quantitative Data,
+Boxplots, Standard Deviation and Normal Curves. Due September 11, 2020
+by 10am.}
+
+\author[a]{EPIB607 - Inferential Statistics}
+
+  \affil[a]{Fall 2020, McGill University}
+
+\setcounter{secnumdepth}{5}
+
+% Please give the surname of the lead author for the running footer
+\leadauthor{Bhatnagar}
+
+% Keywords are not mandatory, but authors are strongly encouraged to provide them. If provided, please include two to five keywords, separated by the pipe symbol, e.g:
+ \keywords{  Histogram |  Categorical Data |  Quantitative Data |  Density Plot |  Mean |  Median |  Mode |  Boxplots |  Standard deviation |  Normal curves  }  
+
+\begin{abstract}
+This DALITE quiz will cover the basic concepts of displaying and
+describing categorical and quantitative data such as histograms, mean,
+median, mode, five-number summary. It will cover more descriptives such
+as boxplots, standard deviation, and introduce you to normal density
+curves.
+\end{abstract}
+
+\dates{This version was compiled on \today} 
+
+% initially we use doi so keep for backwards compatibility
+% new name is doi_footer
+
+\pinpfootercontents{DALITE Q1 due Sepetember 11, 2020 by 10am}
+
+\begin{document}
+
+% Optional adjustment to line up main text (after abstract) of first page with line numbers, when using both lineno and twocolumn options.
+% You should only change this length when you've finalised the article contents.
+\verticaladjustment{-2pt}
+
+\maketitle
+\thispagestyle{firststyle}
+\ifthenelse{\boolean{shortarticle}}{\ifthenelse{\boolean{singlecolumn}}{\abscontentformatted}{\abscontent}}{}
+
+% If your first paragraph (i.e. with the \dropcap) contains a list environment (quote, quotation, theorem, definition, enumerate, itemize...), the line after the list may have some extra indentation. If this is the case, add \parshape=0 to the end of the list environment.
+
+
+\hypertarget{marking}{%
+\section*{Marking}\label{marking}}
+\addcontentsline{toc}{section}{Marking}
+
+Completion of this DALITE exercise will be availble to us automatically
+through the DALITE website. Therefore \textbf{you do not need to hand
+anything in}. Marks will be based on the number of correct answers. For
+each question you will receive 0.5 marks for getting the correct answer
+on the first attempt and an additional 0.5 marks if you stick with the
+right answer or switch to the correct answer after seeing someone else's
+rationale.
+
+\hypertarget{sign-up-for-dalite}{%
+\section{Sign up for DALITE}\label{sign-up-for-dalite}}
+
+\textbf{This step only needs to be completed once for the whole
+semester}:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  You can join the EPIB607 group by accessing the unique link:
+  \url{https://mydalite.org/en/live/signup/form/OTIw}
+\item
+  Upon accessing the link, you will be prompted to enter an e-mail
+  address. I recommend using the same e-mail address as your DataCamp
+  account. \textbf{You must also enter your McGill ID number}.
+\item
+  You never need to remember a username or password to access the DALITE
+  platform; access to your assignments is managed through tokens sent to
+  your e-mail address. You will be sent a new link everytime a new
+  exercise has been posted.
+\item
+  Watch the brief introduction to DALITE video:
+  \url{https://www.youtube.com/watch?v=0tJVVy2ay7c}
+\end{enumerate}
+
+\hypertarget{displaying-and-describing-numerical-and-categorical-data}{%
+\section{Displaying and Describing Numerical and Categorical
+Data}\label{displaying-and-describing-numerical-and-categorical-data}}
+
+\hypertarget{videos}{%
+\subsection{Videos}\label{videos}}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  \href{https://www.learner.org/series/against-all-odds-inside-statistics/what-is-statistics/}{Against
+  All Odds Unit 1}\\
+\item
+  \href{https://www.learner.org/series/against-all-odds-inside-statistics/histograms/}{Against
+  All Odds Unit 3}\\
+\item
+  \href{https://www.learner.org/series/against-all-odds-inside-statistics/measures-of-center/}{Against
+  All Odds Unit 4}
+\item
+  \href{https://www.learner.org/series/against-all-odds-inside-statistics/boxplots/}{Against
+  All Odds Unit 5}
+\item
+  \href{https://www.learner.org/series/against-all-odds-inside-statistics/standard-deviation/}{Against
+  All Odds Unit 6}
+\item
+  \href{https://www.learner.org/series/against-all-odds-inside-statistics/normal-curves/}{Against
+  All Odds Unit 7}
+\end{enumerate}
+
+\vspace*{0.25cm}
+
+\hypertarget{required-readings}{%
+\subsection{Required Readings}\label{required-readings}}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  \href{https://www.learner.org/wp-content/uploads/2019/03/AgainstAllOdds_StudentGuide_Unit03.pdf}{Against
+  All Odds Unit 3}
+\item
+  \href{https://www.learner.org/wp-content/uploads/2019/03/AgainstAllOdds_StudentGuide_Unit04.pdf}{Against
+  All Odds Unit 4}
+\item
+  \href{https://www.learner.org/wp-content/uploads/2019/03/AgainstAllOdds_StudentGuide_Unit05-1.pdf}{Against
+  All Odds Unit 5}
+\item
+  \href{https://www.learner.org/wp-content/uploads/2019/03/AgainstAllOdds_StudentGuide_Unit06-Standard-Deviation.pdf}{Against
+  All Odds Unit 6}
+\item
+  \href{https://www.learner.org/wp-content/uploads/2019/03/AgainstAllOdds_StudentGuide_Unit07-Normal-Curves.pdf}{Against
+  All Odds Unit 7}
+\item
+  \href{https://clauswilke.com/dataviz/histograms-density-plots.html}{Visualizing
+  distributions: Histograms and density plots}
+\item
+  De Veaux, Velleman and Bock (DVB), Chapter 3
+\item
+  De Veaux, Velleman and Bock (DVB), Chapter 4
+\end{enumerate}
+
+%\showmatmethods
+
+
+\bibliography{pinp}
+\bibliographystyle{jss}
+
+
+
+\end{document}
+

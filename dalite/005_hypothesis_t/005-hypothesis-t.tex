@@ -1,0 +1,302 @@
+\documentclass[letterpaper,10pt,twocolumn,twoside,printwatermark=false]{pinp}
+
+%% Some pieces required from the pandoc template
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+
+% Use the lineno option to display guide line numbers if required.
+% Note that the use of elements such as single-column equations
+% may affect the guide line number alignment.
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+
+% The geometry package layout settings need to be set here...
+\geometry{layoutsize={0.95588\paperwidth,0.98864\paperheight},%
+          layouthoffset=0.02206\paperwidth,%
+		  layoutvoffset=0.00568\paperheight}
+
+\definecolor{pinpblue}{HTML}{185FAF}  % imagecolorpicker on blue for new R logo
+\definecolor{pnasbluetext}{RGB}{101,0,0} %
+
+
+
+\title{DALITE Q5 - Bootstrap, Tests of Significance, Binomial Distribution,
+Inference for Means and Proportions. Due October 8, 2019 by 10pm.}
+
+\author[a]{EPIB607 - Inferential Statistics}
+
+  \affil[a]{Fall 2019, McGill University}
+
+\setcounter{secnumdepth}{5}
+
+% Please give the surname of the lead author for the running footer
+\leadauthor{Bhatnagar and Hanley}
+
+% Keywords are not mandatory, but authors are strongly encouraged to provide them. If provided, please include two to five keywords, separated by the pipe symbol, e.g:
+ \keywords{  Hypothesis testing |  Bootstrap |  t distribution |  One sample mean |  Normal calculations |  Confidence intervals |  Central Limit Theorem (CLT) |  Binomial distribution |  One sample proportion  }  
+
+\begin{abstract}
+This DALITE quiz will cover the bootstrap, an introduction to
+significance testing, and inference for a single mean using the t
+distribution. This will also cover the binomial distribution and
+inference for a sample proportion. You need to understand the binomial
+distribution before moving on to the chapter on one sample proportions.
+This is analgous to learning the normal distribution before inference
+for a single mean.
+\end{abstract}
+
+\dates{This version was compiled on \today} 
+
+% initially we use doi so keep for backwards compatibility
+\doifooter{\url{https://sahirbhatnagar.com/EPIB607/}}
+% new name is doi_footer
+
+\pinpfootercontents{DALITE Q5 due October 8, 2019 by 5pm}
+
+\begin{document}
+
+% Optional adjustment to line up main text (after abstract) of first page with line numbers, when using both lineno and twocolumn options.
+% You should only change this length when you've finalised the article contents.
+\verticaladjustment{-2pt}
+
+\maketitle
+\thispagestyle{firststyle}
+\ifthenelse{\boolean{shortarticle}}{\ifthenelse{\boolean{singlecolumn}}{\abscontentformatted}{\abscontent}}{}
+
+% If your first paragraph (i.e. with the \dropcap) contains a list environment (quote, quotation, theorem, definition, enumerate, itemize...), the line after the list may have some extra indentation. If this is the case, add \parshape=0 to the end of the list environment.
+
+
+\hypertarget{marking}{%
+\section*{Marking}\label{marking}}
+\addcontentsline{toc}{section}{Marking}
+
+Completion of this DALITE exercise will be availble to us automatically
+through the DALITE website. Therefore \textbf{you do not need to hand
+anything in}. Marks will be based on the number of correct answers. For
+each question you will receive 0.5 marks for getting the correct answer
+on the first attempt and an additional 0.5 marks if you stick with the
+right answer or switch to the correct answer after seeing someone else's
+rationale. Recall that access to your assignments is managed through
+tokens sent to your e-mail address. You will be sent a new link
+everytime a new assignment has been posted.
+
+\hypertarget{bootstrap}{%
+\section{Bootstrap}\label{bootstrap}}
+
+\hypertarget{learning-objectives}{%
+\subsection{Learning Objectives}\label{learning-objectives}}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Understand that the bootstrap can be used to simulate a sampling
+  distribution
+\item
+  Confidence intervals can subsequently be calculated directly from the
+  bootstrap distribution
+\item
+  Bootstrap confidence intervals do not rely on the Central Limit
+  Theorem
+\end{enumerate}
+
+\hypertarget{required-readings}{%
+\subsection{Required Readings}\label{required-readings}}
+
+\begin{enumerate}
+\item \href{https://www.dropbox.com/s/cxiq70zxxtyxlb5/EfronDiaconisBootstrap.pdf?dl=0}{Computer-Intensive Methods in Statistics by Persi Diaconis and Bradley Efron, Scientific American 1983}
+\end{enumerate}
+
+\vspace*{0.25cm}
+
+\hypertarget{tests-of-significance}{%
+\section{Tests of Significance}\label{tests-of-significance}}
+
+\hypertarget{learning-objectives-1}{%
+\subsection{Learning Objectives}\label{learning-objectives-1}}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Understand that a significance test answers the question ``Is this
+  sample outcome good evidence that an effect is present in the
+  population, or could it easily occur just by chance?''
+\item
+  Be able to formulate the null hypothesis and alternative hypothesis
+  for tests about the mean of a population. Understand that the
+  alternative hypothesis is the researcher's point of view.
+\item
+  Understand the concept of a p-value. Know that smaller p-values
+  indicate stronger evidence against the null hypothesis.
+\item
+  Be able to calculate p-values as areas under a normal curve in the
+  setting of tests about the mean of a normal population with known
+  standard deviation.
+\item
+  Be able to test a population mean with a z-test.
+\end{enumerate}
+
+\hypertarget{videos}{%
+\subsection{Videos}\label{videos}}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  \href{https://www.learner.org/courses/againstallodds/unitpages/unit25.html}{Against
+  All Odds Unit 25}
+\end{enumerate}
+
+\hypertarget{required-readings-1}{%
+\subsection{Required Readings}\label{required-readings-1}}
+
+\begin{enumerate}
+\item \href{https://www.learner.org/courses/againstallodds/pdfs/AgainstAllOdds_StudentGuide_Unit25.pdf#page=1}{Against All Odds Unit 25, pages 1-12}
+\item \href{http://www.medicine.mcgill.ca/epidemiology/hanley/BionanoWorkshop/P-Values.pdf}{JH notes on p-values}
+\end{enumerate}
+
+\hypertarget{small-sample-inference-for-one-mean}{%
+\section{Small Sample Inference for One
+Mean}\label{small-sample-inference-for-one-mean}}
+
+\hypertarget{learning-objectives-2}{%
+\subsection{Learning Objectives}\label{learning-objectives-2}}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Understand when to use t-procedures for a single sample and how they
+  differ from the z-procedures covered in Units 24 and 25.
+\item
+  Understand what a t-distribution is and how it differs from a normal
+  distribution.
+\item
+  Know how to check whether the underlying assumptions for a t-test or
+  t-confidence interval are reasonably satisfied.
+\item
+  Be able to calculate a t-confidence interval for a population mean.
+\item
+  Be able to test a population mean with a t-test. Be able to calculate
+  the t-test statistic and to determine the p-value as an area under a
+  t-density curve.
+\item
+  Be able to adapt one-sample t-procedures to analyze matched pairs
+  data.
+\end{enumerate}
+
+\hypertarget{videos-1}{%
+\subsection{Videos}\label{videos-1}}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  \href{https://www.learner.org/courses/againstallodds/unitpages/unit26.html}{Against
+  All Odds Unit 26}
+\end{enumerate}
+
+\hypertarget{required-readings-2}{%
+\subsection{Required Readings}\label{required-readings-2}}
+
+\begin{enumerate}
+\item \href{https://www.learner.org/courses/againstallodds/pdfs/AgainstAllOdds_StudentGuide_Unit26.pdf#page=1}{Against All Odds Unit 26, pages 1-11}
+\item DVB Chapter 23
+\end{enumerate}
+
+\hypertarget{binomial-distributions}{%
+\section{Binomial Distributions}\label{binomial-distributions}}
+
+\hypertarget{learning-objectives-3}{%
+\subsection{Learning Objectives}\label{learning-objectives-3}}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Be able to identify a binomial setting and define a binomial random
+  variable.
+\item
+  Know how to find probabilities associated with a binomial random
+  variable.
+\item
+  Know how to determine the mean and standard deviation of a binomial
+  random variable.
+\end{enumerate}
+
+\hypertarget{videos-2}{%
+\subsection{Videos}\label{videos-2}}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  \href{https://www.learner.org/courses/againstallodds/unitpages/unit21.html}{Against
+  All Odds Unit 21}
+\end{enumerate}
+
+\hypertarget{required-readings-3}{%
+\subsection{Required Readings}\label{required-readings-3}}
+
+\begin{enumerate}
+\item \href{https://www.learner.org/courses/againstallodds/pdfs/AgainstAllOdds_StudentGuide_Unit21.pdf#page=1}{Against All Odds Unit 21, pages 1-10}
+\item \href{https://www.dropbox.com/s/g1ui3xg8nup1p6b/proportion-model-inference-plan-2018.pdf?dl=0}{JH notes Section 1 on binomial distributions}
+\item DVB Chapter 17 (Binomial Model)
+\end{enumerate}
+
+\vspace*{0.25cm}
+
+\hypertarget{inference-for-proportions}{%
+\section{Inference for Proportions}\label{inference-for-proportions}}
+
+\hypertarget{learning-objectives-4}{%
+\subsection{Learning Objectives}\label{learning-objectives-4}}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Identify inference problems that concern a population proportion.
+\item
+  Know how to conduct a significance test of a population proportion.
+\item
+  Be able to calculate a confidence interval for a population
+  proportion.
+\item
+  Understand that the \(z\)-inference procedures for proportions are
+  based on approximations to the normal distribution and that accuracy
+  depends on having moderately large sample sizes.
+\end{enumerate}
+
+\hypertarget{videos-3}{%
+\subsection{Videos}\label{videos-3}}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  \href{https://www.learner.org/courses/againstallodds/unitpages/unit28.html}{Against
+  All Odds Unit 28}
+\end{enumerate}
+
+\hypertarget{required-readings-4}{%
+\subsection{Required Readings}\label{required-readings-4}}
+
+\begin{enumerate}
+\item \href{https://www.learner.org/courses/againstallodds/pdfs/AgainstAllOdds_StudentGuide_Unit28.pdf#page=1}{Against All Odds Unit 28, pages 1-11}
+\item \href{https://www.dropbox.com/s/g1ui3xg8nup1p6b/proportion-model-inference-plan-2018.pdf?dl=0}{JH notes Section 2 on Inference for a proportion}
+\item DVB Chapters 19, 20 and 21
+\end{enumerate}
+
+%\showmatmethods
+
+
+\bibliography{pinp}
+\bibliographystyle{jss}
+
+
+
+\end{document}
+

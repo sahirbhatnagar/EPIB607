@@ -1,0 +1,438 @@
+\documentclass[letterpaper,12pt,twoside,]{pinp}
+
+%% Some pieces required from the pandoc template
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+
+% Use the lineno option to display guide line numbers if required.
+% Note that the use of elements such as single-column equations
+% may affect the guide line number alignment.
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+
+% pinp change: the geometry package layout settings need to be set here, not in pinp.cls
+\geometry{layoutsize={0.95588\paperwidth,0.98864\paperheight},%
+  layouthoffset=0.02206\paperwidth, layoutvoffset=0.00568\paperheight}
+
+\definecolor{pinpblue}{HTML}{185FAF}  % imagecolorpicker on blue for new R logo
+\definecolor{pnasbluetext}{RGB}{101,0,0} %
+
+
+
+\title{Assignment 1 - Exploring Data. Due September 27, 11:59pm 2019}
+
+\author[a]{EPIB607 - Inferential Statistics}
+
+  \affil[a]{Fall 2020, McGill University}
+
+\setcounter{secnumdepth}{5}
+
+% Please give the surname of the lead author for the running footer
+\leadauthor{Bhatnagar}
+
+% Keywords are not mandatory, but authors are strongly encouraged to provide them. If provided, please include two to five keywords, separated by the pipe symbol, e.g:
+ 
+
+\begin{abstract}
+All questions are to be answered in an R Markdown document using the
+provided template and compiled to a pdf document. You are free to choose
+any function from any package to complete the assignment. Concise
+answers will be rewarded. Be brief and to the point. Each question is
+worth 25 points. Label your graphs appropriately with proper titles and
+axis labels. Please submit both the compiled pdf report to Crowdmark by
+September 27, 2019, 11:59pm. You need to save your answers to each
+question in separate pdf files. You also need to upload your code. See
+\url{https://crowdmark.com/help/} for details.
+\end{abstract}
+
+\dates{This version was compiled on \today} 
+
+% initially we use doi so keep for backwards compatibility
+% new name is doi_footer
+
+\pinpfootercontents{Assignment 1 due Sepetember 27, 2020 by 11:59pm}
+
+\begin{document}
+
+% Optional adjustment to line up main text (after abstract) of first page with line numbers, when using both lineno and twocolumn options.
+% You should only change this length when you've finalised the article contents.
+\verticaladjustment{-2pt}
+
+\maketitle
+\thispagestyle{firststyle}
+\ifthenelse{\boolean{shortarticle}}{\ifthenelse{\boolean{singlecolumn}}{\abscontentformatted}{\abscontent}}{}
+
+% If your first paragraph (i.e. with the \dropcap) contains a list environment (quote, quotation, theorem, definition, enumerate, itemize...), the line after the list may have some extra indentation. If this is the case, add \parshape=0 to the end of the list environment.
+
+
+\hypertarget{template}{%
+\section*{Template}\label{template}}
+\addcontentsline{toc}{section}{Template}
+
+Please use the \texttt{.Rmd} template for Assignment 1 is available on
+myCourses.
+
+\hypertarget{points-immunogenicity-of-the-chadox1-ncov-19-vaccine-against-sars-cov-2}{%
+\section{(25 points) Immunogenicity of the ChAdOx1 nCoV-19 vaccine
+against
+SARS-CoV-2}\label{points-immunogenicity-of-the-chadox1-ncov-19-vaccine-against-sars-cov-2}}
+
+This questions refers to the Lancet paper \emph{Safety and
+immunogenicity of the ChAdOx1 nCoV-19 vaccine against SARS-CoV-2:a
+preliminary report of a phase 1/2, single-blind, randomised controlled
+trial} by Folegatti et. al (2020) and available in myCourses.
+
+\begin{enumerate}
+\def\labelenumi{\alph{enumi})}
+\tightlist
+\item
+  (2 points) Consider Figure 3 Panel B: What visual cues (or aesthetics)
+  are being used? Briefly describe the main takeaways from the entire
+  Figure 3.
+\item
+  (3 points) Do you think Figure 3 is a good graphic in terms of
+  conveying its message clearly? Is there anything you would have done
+  differently? Explain.
+\item
+  (2 points) Consider the data introduced in class which contains
+  immunity levels (Immunoglobulin G (IgG)) from the convalescent group
+  and the vaccine groups post 28 days. Note that the IgG levels in the
+  dataset below are given on the log10 scale. Calculate the median IgG
+  levels (ELISA units) on the log10 scale for each group.
+\end{enumerate}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{path <-}
+\StringTok{"http://www.biostat.mcgill.ca/hanley/statbook/immunogenicityChAdOx1.nCoV-19vaccine.txt"}
+\NormalTok{ds <-}\StringTok{ }\KeywordTok{read.table}\NormalTok{(path)}
+\KeywordTok{head}\NormalTok{(ds)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{ShadedResult}
+\begin{verbatim}
+#    RefIndexCategory IgGResponse.log10.ElisaUnits
+#  1     Convalescent                         2.56
+#  2     Convalescent                         2.74
+#  3     Convalescent                         2.79
+#  4     Convalescent                         3.32
+#  5     Convalescent                         3.15
+#  6     Convalescent                         2.35
+\end{verbatim}
+\end{ShadedResult}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{str}\NormalTok{(ds)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{ShadedResult}
+\begin{verbatim}
+#  'data.frame':    307 obs. of  2 variables:
+#   $ RefIndexCategory            : Factor w/ 2 levels "Convalescent",..: 1 1 1 1 1 1 1 1 1 1 ...
+#   $ IgGResponse.log10.ElisaUnits: num  2.56 2.74 2.79 3.32 3.15 2.35 2.72 2.95 2.42 2.64 ...
+\end{verbatim}
+\end{ShadedResult}
+
+\begin{enumerate}
+\def\labelenumi{\alph{enumi})}
+\setcounter{enumi}{4}
+\tightlist
+\item
+  (1 point) Are you able to calculate a correlation of IgG levels
+  between groups? If not, explain why not? If yes, interpret the
+  correlation.
+\item
+  (4 points) From the medians alone, is there enough evidence to
+  conclude that the median IgG levels in the convalescent group are
+  higher than the median IgG levels in the vaccine group (post 28 days)?
+  Explain.
+\item
+  (7 points) Use the Boostrap to asses if there is enough evidence to
+  suggest that the median IgG levels in the convalescent group are
+  higher than the median IgG levels in the vaccine group (post 28 days).
+  \emph{Hint: resample the data with replacement separately in each
+  group B=1000 times. For each of the B datasets, calculate the median
+  IgG level and take the difference in medians between the two groups.
+  Plot the differences in a histogram and calculate the 2.5 and 97.5
+  percentiles.}
+\item
+  (6 points) The dataset, shown below and available on myCourses, was
+  extracted (approximately) from Figure 3 Panel A for the ChAdOx1
+  nCoV-19 (prime) group only. The \texttt{time} column represents the
+  days since vaccination, and \texttt{igg\_response} are the IgG levels
+  on the original scale. Create an appropriate figure which shows the
+  immunity levels as a function of time. You are free to choose the plot
+  type; the choice of plot should be guided by the message you are
+  trying to convey. Be sure to label your axes, show units, include a
+  title and choose an appropriate color palette. Briefly interpret the
+  plot.
+\end{enumerate}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{DT <-}\StringTok{ }\KeywordTok{read.csv}\NormalTok{(}\StringTok{"prime_igg_response.csv"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{head}\NormalTok{(DT)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{ShadedResult}
+\begin{verbatim}
+#    time igg_response
+#  1    0    930.37376
+#  2    0    267.80142
+#  3    0    241.40290
+#  4    0    170.80787
+#  5    0     79.79795
+#  6    0     67.12348
+\end{verbatim}
+\end{ShadedResult}
+
+\newpage
+
+\hypertarget{points-covid-19-cases-comparison-between-counties-with-and-without-stay-at-home-orders}{%
+\section{(25 points) COVID-19 Cases Comparison Between Counties With and
+Without Stay-at-Home
+Orders}\label{points-covid-19-cases-comparison-between-counties-with-and-without-stay-at-home-orders}}
+
+This question is based on the JAMA Network Open article \emph{Comparison
+of Estimated Rates of Coronavirus Disease 2019 (COVID-19) in Border
+Counties in Iowa Without a Stay-at-Home Order and Border Counties in
+Illinois With a Stay-at-Home Order} by Lyu and Wehby (2020) and
+available in myCourses. The county and state level cumulative incidence
+of cases data is provided in the code below. Note: you need to install
+the \texttt{covdata} package (which is not on CRAN) using
+\texttt{remotes::install\_github("kjhealy/covdata")}.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# remotes::install_github("kjhealy/covdata")}
+\KeywordTok{library}\NormalTok{(covdata) }
+\KeywordTok{library}\NormalTok{(dplyr); }\KeywordTok{library}\NormalTok{(tidyr); }\KeywordTok{library}\NormalTok{(ggplot2); }\KeywordTok{library}\NormalTok{(readr)}
+\CommentTok{# get population data from https://covid19.census.gov/datasets/}
+\NormalTok{f <-}\StringTok{ "https://opendata.arcgis.com/datasets/21843f238cbb46b08615fc53e19e0daf_1.csv"}
+\NormalTok{pop_county <-}\StringTok{ }\KeywordTok{read_csv}\NormalTok{(}\DataTypeTok{file =}\NormalTok{ f) }\OperatorTok{%>%}
+\StringTok{  }\NormalTok{dplyr}\OperatorTok{::}\KeywordTok{rename}\NormalTok{(}\DataTypeTok{fips =}\NormalTok{ GEOID, }\DataTypeTok{population =}\NormalTok{ B01001_001E, }\DataTypeTok{state =}\NormalTok{ State) }\OperatorTok{%>%}
+\StringTok{  }\NormalTok{dplyr}\OperatorTok{::}\KeywordTok{select}\NormalTok{(state, fips, population)}
+
+\NormalTok{county_level <-}\StringTok{ }\NormalTok{nytcovcounty }\OperatorTok{%>%}
+\StringTok{  }\NormalTok{dplyr}\OperatorTok{::}\KeywordTok{left_join}\NormalTok{(pop_county, }\DataTypeTok{by =} \KeywordTok{c}\NormalTok{(}\StringTok{"state"}\NormalTok{,}\StringTok{"fips"}\NormalTok{)) }\OperatorTok{%>%}
+\StringTok{  }\NormalTok{dplyr}\OperatorTok{::}\KeywordTok{mutate}\NormalTok{(}\DataTypeTok{cases.per.10k =}\NormalTok{ cases}\OperatorTok{/}\NormalTok{population }\OperatorTok{*}\StringTok{ }\FloatTok{1e4}\NormalTok{) }\OperatorTok{%>%}
+\StringTok{  }\NormalTok{dplyr}\OperatorTok{::}\KeywordTok{filter}\NormalTok{(state }\OperatorTok{%in%}\StringTok{ }\KeywordTok{c}\NormalTok{(}\StringTok{"Iowa"}\NormalTok{,}\StringTok{"Illinois"}\NormalTok{)) }\OperatorTok{%>%}
+\StringTok{  }\NormalTok{dplyr}\OperatorTok{::}\KeywordTok{group_by}\NormalTok{(county)}
+
+\NormalTok{pop_state <-}\StringTok{ }\NormalTok{pop_county }\OperatorTok{%>%}
+\StringTok{  }\NormalTok{dplyr}\OperatorTok{::}\KeywordTok{group_by}\NormalTok{(state) }\OperatorTok{%>%}
+\StringTok{  }\NormalTok{dplyr}\OperatorTok{::}\KeywordTok{summarise}\NormalTok{(}\DataTypeTok{population =} \KeywordTok{sum}\NormalTok{(population, }\DataTypeTok{na.rm =} \OtherTok{TRUE}\NormalTok{))}
+
+\NormalTok{state_level <-}\StringTok{ }\NormalTok{county_level }\OperatorTok{%>%}
+\StringTok{  }\NormalTok{dplyr}\OperatorTok{::}\KeywordTok{group_by}\NormalTok{(state, date) }\OperatorTok{%>%}
+\StringTok{  }\NormalTok{dplyr}\OperatorTok{::}\KeywordTok{filter}\NormalTok{(date }\OperatorTok{>=}\StringTok{ "2020-03-15"}\NormalTok{) }\OperatorTok{%>%}
+\StringTok{  }\NormalTok{dplyr}\OperatorTok{::}\KeywordTok{summarise}\NormalTok{(}\DataTypeTok{cases =} \KeywordTok{sum}\NormalTok{(cases)) }\OperatorTok{%>%}
+\StringTok{  }\NormalTok{dplyr}\OperatorTok{::}\KeywordTok{left_join}\NormalTok{(pop_state, }\DataTypeTok{by =} \StringTok{"state"}\NormalTok{) }\OperatorTok{%>%}
+\StringTok{  }\NormalTok{dplyr}\OperatorTok{::}\KeywordTok{mutate}\NormalTok{(}\DataTypeTok{cases.per.10k =}\NormalTok{ cases }\OperatorTok{/}\StringTok{ }\NormalTok{population }\OperatorTok{*}\StringTok{ }\FloatTok{1e4}\NormalTok{, }\DataTypeTok{state =} \KeywordTok{factor}\NormalTok{(state),}
+                \DataTypeTok{time =} \KeywordTok{as.numeric}\NormalTok{(date }\OperatorTok{-}\StringTok{ }\KeywordTok{min}\NormalTok{(date)) }\OperatorTok{+}\StringTok{ }\DecValTok{1}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{head}\NormalTok{(county_level)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{ShadedResult}
+\begin{verbatim}
+#  # A tibble: 6 x 8
+#  # Groups:   county [1]
+#    date       county state    fips  cases deaths population cases.per.10k
+#    <date>     <chr>  <chr>    <chr> <dbl>  <dbl>      <dbl>         <dbl>
+#  1 2020-01-24 Cook   Illinois 17031     1      0    5223719       0.00191
+#  2 2020-01-25 Cook   Illinois 17031     1      0    5223719       0.00191
+#  3 2020-01-26 Cook   Illinois 17031     1      0    5223719       0.00191
+#  4 2020-01-27 Cook   Illinois 17031     1      0    5223719       0.00191
+#  5 2020-01-28 Cook   Illinois 17031     1      0    5223719       0.00191
+#  6 2020-01-29 Cook   Illinois 17031     1      0    5223719       0.00191
+\end{verbatim}
+\end{ShadedResult}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{head}\NormalTok{(state_level)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{ShadedResult}
+\begin{verbatim}
+#  # A tibble: 6 x 6
+#  # Groups:   state [1]
+#    state    date       cases population cases.per.10k  time
+#    <fct>    <date>     <dbl>      <dbl>         <dbl> <dbl>
+#  1 Illinois 2020-03-15    94   12821497        0.0733     1
+#  2 Illinois 2020-03-16   104   12821497        0.0811     2
+#  3 Illinois 2020-03-17   159   12821497        0.124      3
+#  4 Illinois 2020-03-18   286   12821497        0.223      4
+#  5 Illinois 2020-03-19   420   12821497        0.328      5
+#  6 Illinois 2020-03-20   583   12821497        0.455      6
+\end{verbatim}
+\end{ShadedResult}
+
+\begin{enumerate}
+\def\labelenumi{\alph{enumi})}
+\tightlist
+\item
+  (6 points) Using the county level dataset provided, reproduce Figure 1
+  of the paper. Does your Figure agree with theirs? Would county level
+  curves have been more appropriate to show instead of the state totals?
+\item
+  (5 points) Plot the cumulative incidence curves per 10000 people from
+  March 21 until the most recent day for which you have data, for each
+  of the counties used in the paper. Interpret the plot and discuss if
+  the county level plots still agree with the overall conclusion of the
+  paper.
+\item
+  (4 points) Case counts are inherently tied to testing capacity. Death
+  from COVID19 doesn't have this issue, although there are other biases
+  such as misclassification and under reporting. Plot the same graph as
+  in part (b) but for deaths and interpret the plot.
+\item
+  (10 points) Illinois (Democrat-controlled legislature) is surrounded
+  by states with
+  \href{https://www.ncsl.org/research/about-state-legislatures/partisan-composition.aspx\#}{Republican-controlled
+  legislatures (Iowa, Missouri, Kentucky, Indianna, Wisconsin)}. Do the
+  data suggest there is a correlation between COVID-19 cases (or deaths)
+  and which party has legislative control? Explain and justify using
+  summary statistics and/or figures. Do not overcomplicate this
+  analysis, i.e., feel free to make simplifying assumptions about
+  testing.
+\end{enumerate}
+
+\newpage
+
+\hypertarget{points-age-structures-of-populations-then-and-now}{%
+\section{(25 points) Age-structures of Populations, then and
+now}\label{points-age-structures-of-populations-then-and-now}}
+
+The 1911 census of Ireland was taken on April 2nd 1911 and was released
+to the public in 1961. Follow
+\href{http://www.census.nationalarchives.ie/help/about19011911census.html}{this
+link} for further details on the census. James Hanley (JH) has scrapped
+the data for Dublin, collected the age-frequency distribtion by gender
+and provided you with a three column .csv file on myCourses called
+\texttt{age\_sex\_frequencies\_ireland.csv} which looks like this:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{cens <-}\StringTok{ }\KeywordTok{read.csv}\NormalTok{(}\StringTok{"age_sex_frequencies_ireland.csv"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{head}\NormalTok{(cens)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{ShadedResult}
+\begin{verbatim}
+#    Gender Age Freq
+#  1   Male   0 5332
+#  2   Male   1 4570
+#  3   Male   2 4979
+#  4   Male   3 4789
+#  5   Male   4 4884
+#  6   Male   5 4787
+\end{verbatim}
+\end{ShadedResult}
+
+The \texttt{Age} column represents the age in 1911. The \texttt{Freq}
+column gives the frequency of the number of people for a given age and
+\texttt{Gender}. Note that \texttt{Age} is an interval; for example,
+\texttt{Age=0} actually represents individuals who are between the ages
+of 0 and 1, \texttt{Age=1} are individuals between ages 1 and 2, and so
+on.
+
+\begin{enumerate}
+\def\labelenumi{\alph{enumi})}
+\tightlist
+\item
+  (6 points) What was the earliest year of birth for (i) males and (ii)
+  females ?
+\item
+  (8 points) Create a suitable visualization of this data and then
+  comment on any patterns you see and give reasons for these patterns.
+  Your choice should leverage all the information provided in the data
+  and be influenced by the message that you are trying to convey. Be
+  sure to include an informative title and figure caption.
+\item
+  (8 points) Calculate the mean age, the standard deviation (SD), and
+  the quartiles: \(Q_{25}, Q_{50} (median), Q_{75}\) separately for
+  males and females.
+\item
+  (3 points) The original census cards have been scanned are available
+  online.
+  \href{http://www.census.nationalarchives.ie/reels/nai000230598/}{This
+  one in particular} is quite famous. Why?
+\end{enumerate}
+
+\newpage
+
+\hypertarget{points-flint-blood-lead-levels}{%
+\section{(25 points) Flint Blood Lead
+Levels}\label{points-flint-blood-lead-levels}}
+
+Lead in the environment is persistent, bio-accumulative, and toxic.
+Chronic exposure to lead in children is associated with many negative
+health outcomes even when the Blood Lead Levels (BLLs) are measured as
+low as 1.0-10.0 µg/dL. An analysis of childhood exposure to lead is
+described in the article \emph{Blood Lead Levels of Children in Flint,
+Michigan: 2006-2016} by Gomez et al.~(2018) available on myCourses.
+
+\begin{enumerate}
+\def\labelenumi{\alph{enumi})}
+\item
+  (2 points) Summarize the main findings of the study in 280 characters
+  or less.
+\item
+  (5 points) Does Figure 1 do a good job of conveying its message?
+  Explain why or why not.
+\item
+  (6 points) Consider the information presented in Figure 1 and think
+  about the dataset which would have been used to generate the plot.
+  What are the rows and what are the columns? What is the dimension of
+  the dataset? Are the data in tidy format?
+\item
+  (6 points) From the graph, extract the yearly BLL percentages \(\geq\)
+  5.0 \(\mu\)g/dL, in children 5 years and younger, for Flint and
+  Michigan. You may read directly off the graph or try using a
+  \href{https://automeris.io/WebPlotDigitizer/}{WebPlotDigitizer}.
+  Calculate the yearly change from baseline (2006) percentages
+  separately for each group. Is there evidence to suggest that the
+  change from baselines are different for Flint vs.~Michigan? Support
+  your answer with summary statistics and/or a plot.
+\item
+  (6 points) Figure 2 shows the geometric mean BLL levels over time for
+  children residing within Flint boundaries. Recreate the plot and add
+  the simple linear regression line. Calculate the correlation
+  coeffecient \(r\) and compare it with the linear regression output. Do
+  the results agree?
+\end{enumerate}
+
+%\showmatmethods
+
+
+\bibliography{pinp}
+\bibliographystyle{jss}
+
+
+
+\end{document}
+

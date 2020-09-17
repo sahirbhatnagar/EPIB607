@@ -1,0 +1,308 @@
+"RefIndexCategory" "IgGResponse.log10.ElisaUnits"
+"1" "Convalescent" 2.56
+"2" "Convalescent" 2.74
+"3" "Convalescent" 2.79
+"4" "Convalescent" 3.32
+"5" "Convalescent" 3.15
+"6" "Convalescent" 2.35
+"7" "Convalescent" 2.72
+"8" "Convalescent" 2.95
+"9" "Convalescent" 2.42
+"10" "Convalescent" 2.64
+"11" "Convalescent" 2.71
+"12" "Convalescent" 2.41
+"13" "Convalescent" 3.35
+"14" "Convalescent" 3.29
+"15" "Convalescent" 2.36
+"16" "Convalescent" 1.85
+"17" "Convalescent" 2.37
+"18" "Convalescent" 2.3
+"19" "Convalescent" 2.41
+"20" "Convalescent" 2.46
+"21" "Convalescent" 2.43
+"22" "Convalescent" 2.49
+"23" "Convalescent" 2.26
+"24" "Convalescent" 2.42
+"25" "Convalescent" 2.42
+"26" "Convalescent" 2.67
+"27" "Convalescent" 2.22
+"28" "Convalescent" 3.15
+"29" "Convalescent" 2.41
+"30" "Convalescent" 2.7
+"31" "Convalescent" 3.13
+"32" "Convalescent" 2.78
+"33" "Convalescent" 2.51
+"34" "Convalescent" 3.07
+"35" "Convalescent" 3.12
+"36" "Convalescent" 2.35
+"37" "Convalescent" 2.38
+"38" "Convalescent" 2.81
+"39" "Convalescent" 2.49
+"40" "Convalescent" 3.86
+"41" "Convalescent" 2.18
+"42" "Convalescent" 1.93
+"43" "Convalescent" 2.77
+"44" "Convalescent" 2.79
+"45" "Convalescent" 2.74
+"46" "Convalescent" 2.16
+"47" "Convalescent" 2.36
+"48" "Convalescent" 3.05
+"49" "Convalescent" 2.15
+"50" "Convalescent" 2.62
+"51" "Convalescent" 2.64
+"52" "Convalescent" 2.53
+"53" "Convalescent" 2.59
+"54" "Convalescent" 2.6
+"55" "Convalescent" 2.27
+"56" "Convalescent" 2.6
+"57" "Convalescent" 1.79
+"58" "Convalescent" 2.64
+"59" "Convalescent" 2.67
+"60" "Convalescent" 2.66
+"61" "Convalescent" 2.86
+"62" "Convalescent" 3.31
+"63" "Convalescent" 2.77
+"64" "Convalescent" 2.99
+"65" "Convalescent" 1.94
+"66" "Convalescent" 2.57
+"67" "Convalescent" 2.83
+"68" "Convalescent" 2.82
+"69" "Convalescent" 2.82
+"70" "Convalescent" 2.28
+"71" "Convalescent" 0
+"72" "Convalescent" 2.72
+"73" "Convalescent" 3.25
+"74" "Convalescent" 3.29
+"75" "Convalescent" 2.57
+"76" "Convalescent" 2.55
+"77" "Convalescent" 2.34
+"78" "Convalescent" 2.35
+"79" "Convalescent" 2.52
+"80" "Convalescent" 2.57
+"81" "Convalescent" 2.59
+"82" "Convalescent" 2.59
+"83" "Convalescent" 2.59
+"84" "Convalescent" 2.88
+"85" "Convalescent" 2.92
+"86" "Convalescent" 2.72
+"87" "Convalescent" 2.72
+"88" "Convalescent" 2.74
+"89" "Convalescent" 2.76
+"90" "Convalescent" 2.7
+"91" "Convalescent" 1.96
+"92" "Convalescent" 2.56
+"93" "Convalescent" 2.13
+"94" "Convalescent" 2.47
+"95" "Convalescent" 2.51
+"96" "Convalescent" 2.98
+"97" "Convalescent" 2.14
+"98" "Convalescent" 2.33
+"99" "Convalescent" 2.35
+"100" "Convalescent" 2.34
+"101" "Convalescent" 3.04
+"102" "Convalescent" 2.45
+"103" "Convalescent" 2.44
+"104" "Convalescent" 2.43
+"105" "Convalescent" 2.39
+"106" "Convalescent" 2.43
+"107" "Convalescent" 2.69
+"108" "Convalescent" 3.34
+"109" "Convalescent" 2.22
+"110" "Convalescent" 2.87
+"111" "Convalescent" 2.87
+"112" "Convalescent" 2.82
+"113" "Convalescent" 3.02
+"114" "Convalescent" 2.88
+"115" "Convalescent" 2.9
+"116" "Convalescent" 2.87
+"117" "Convalescent" 2.87
+"118" "Convalescent" 2.24
+"119" "Convalescent" 2.22
+"120" "Convalescent" 2.23
+"121" "Convalescent" 2.18
+"122" "Convalescent" 2.53
+"123" "Convalescent" 2.5
+"124" "Convalescent" 2.5
+"125" "Convalescent" 2.53
+"126" "Convalescent" 2.52
+"127" "Convalescent" 0.22
+"128" "Convalescent" 2.43
+"129" "Convalescent" 2.47
+"130" "Convalescent" 2.47
+"131" "Convalescent" 2.47
+"132" "Convalescent" 2.5
+"133" "Convalescent" 2.44
+"134" "Convalescent" 2.44
+"135" "Convalescent" 1.97
+"136" "Convalescent" 2.55
+"137" "Convalescent" 2.68
+"138" "Convalescent" 2.67
+"139" "Convalescent" 2.73
+"140" "Convalescent" 2.11
+"141" "Convalescent" 2.13
+"142" "Convalescent" 2.49
+"143" "Convalescent" 2.52
+"144" "Convalescent" 2.56
+"145" "Convalescent" 2.54
+"146" "Convalescent" 2.55
+"147" "Convalescent" 2.52
+"148" "Convalescent" 2.52
+"149" "Convalescent" 2.52
+"150" "Convalescent" 2.49
+"151" "Convalescent" 2.51
+"152" "Convalescent" 3.21
+"153" "Convalescent" 3.25
+"154" "Convalescent" 3.35
+"155" "Convalescent" 2.7
+"156" "Convalescent" 2.71
+"157" "Convalescent" 2.65
+"158" "Convalescent" 2.28
+"159" "Convalescent" 2.6
+"160" "Convalescent" 2.59
+"161" "Convalescent" 2.56
+"162" "Convalescent" 2.98
+"163" "Convalescent" 2.72
+"164" "Convalescent" 2.71
+"165" "Convalescent" 2.76
+"166" "Convalescent" 2.7
+"167" "Convalescent" 2.75
+"168" "Convalescent" 0
+"169" "Convalescent" 2.29
+"170" "Convalescent" 2.33
+"171" "Convalescent" 2.33
+"172" "Convalescent" 2.96
+"173" "Convalescent" 3.22
+"174" "Convalescent" 2.96
+"175" "Convalescent" 3.01
+"176" "Convalescent" 2.98
+"177" "Convalescent" 2.72
+"178" "Convalescent" 2.78
+"179" "Convalescent" 2.72
+"180" "Convalescent" 2.73
+"181" "Day28PostChAdOx1 nCoV-19" 1.76
+"182" "Day28PostChAdOx1 nCoV-19" 2.36
+"183" "Day28PostChAdOx1 nCoV-19" 2.17
+"184" "Day28PostChAdOx1 nCoV-19" 2.17
+"185" "Day28PostChAdOx1 nCoV-19" 2.45
+"186" "Day28PostChAdOx1 nCoV-19" 1.7
+"187" "Day28PostChAdOx1 nCoV-19" 1.94
+"188" "Day28PostChAdOx1 nCoV-19" 1.78
+"189" "Day28PostChAdOx1 nCoV-19" 2.8
+"190" "Day28PostChAdOx1 nCoV-19" 2.23
+"191" "Day28PostChAdOx1 nCoV-19" 1.57
+"192" "Day28PostChAdOx1 nCoV-19" 2.15
+"193" "Day28PostChAdOx1 nCoV-19" 2.46
+"194" "Day28PostChAdOx1 nCoV-19" 2.15
+"195" "Day28PostChAdOx1 nCoV-19" 1.77
+"196" "Day28PostChAdOx1 nCoV-19" 2.85
+"197" "Day28PostChAdOx1 nCoV-19" 1.92
+"198" "Day28PostChAdOx1 nCoV-19" 1.9
+"199" "Day28PostChAdOx1 nCoV-19" 1.88
+"200" "Day28PostChAdOx1 nCoV-19" 1.32
+"201" "Day28PostChAdOx1 nCoV-19" 2.15
+"202" "Day28PostChAdOx1 nCoV-19" 2.1
+"203" "Day28PostChAdOx1 nCoV-19" 2.1
+"204" "Day28PostChAdOx1 nCoV-19" 2.1
+"205" "Day28PostChAdOx1 nCoV-19" 2.09
+"206" "Day28PostChAdOx1 nCoV-19" 2.08
+"207" "Day28PostChAdOx1 nCoV-19" 2.08
+"208" "Day28PostChAdOx1 nCoV-19" 2.01
+"209" "Day28PostChAdOx1 nCoV-19" 2.06
+"210" "Day28PostChAdOx1 nCoV-19" 2.06
+"211" "Day28PostChAdOx1 nCoV-19" 2.4
+"212" "Day28PostChAdOx1 nCoV-19" 1.62
+"213" "Day28PostChAdOx1 nCoV-19" 2
+"214" "Day28PostChAdOx1 nCoV-19" 2
+"215" "Day28PostChAdOx1 nCoV-19" 2.05
+"216" "Day28PostChAdOx1 nCoV-19" 2.01
+"217" "Day28PostChAdOx1 nCoV-19" 2.02
+"218" "Day28PostChAdOx1 nCoV-19" 2.05
+"219" "Day28PostChAdOx1 nCoV-19" 1.75
+"220" "Day28PostChAdOx1 nCoV-19" 2.01
+"221" "Day28PostChAdOx1 nCoV-19" 1.68
+"222" "Day28PostChAdOx1 nCoV-19" 1.71
+"223" "Day28PostChAdOx1 nCoV-19" 2.01
+"224" "Day28PostChAdOx1 nCoV-19" 2.4
+"225" "Day28PostChAdOx1 nCoV-19" 2.13
+"226" "Day28PostChAdOx1 nCoV-19" 2.1
+"227" "Day28PostChAdOx1 nCoV-19" 2.1
+"228" "Day28PostChAdOx1 nCoV-19" 2.1
+"229" "Day28PostChAdOx1 nCoV-19" 1.87
+"230" "Day28PostChAdOx1 nCoV-19" 2.01
+"231" "Day28PostChAdOx1 nCoV-19" 2.04
+"232" "Day28PostChAdOx1 nCoV-19" 2.08
+"233" "Day28PostChAdOx1 nCoV-19" 2.08
+"234" "Day28PostChAdOx1 nCoV-19" 2.03
+"235" "Day28PostChAdOx1 nCoV-19" 2.05
+"236" "Day28PostChAdOx1 nCoV-19" 2.05
+"237" "Day28PostChAdOx1 nCoV-19" 2.05
+"238" "Day28PostChAdOx1 nCoV-19" 2.04
+"239" "Day28PostChAdOx1 nCoV-19" 2.06
+"240" "Day28PostChAdOx1 nCoV-19" 2.02
+"241" "Day28PostChAdOx1 nCoV-19" 2.05
+"242" "Day28PostChAdOx1 nCoV-19" 2.03
+"243" "Day28PostChAdOx1 nCoV-19" 2.02
+"244" "Day28PostChAdOx1 nCoV-19" 2.03
+"245" "Day28PostChAdOx1 nCoV-19" 1.91
+"246" "Day28PostChAdOx1 nCoV-19" 1.9
+"247" "Day28PostChAdOx1 nCoV-19" 2.36
+"248" "Day28PostChAdOx1 nCoV-19" 2.37
+"249" "Day28PostChAdOx1 nCoV-19" 2.36
+"250" "Day28PostChAdOx1 nCoV-19" 2.75
+"251" "Day28PostChAdOx1 nCoV-19" 1.93
+"252" "Day28PostChAdOx1 nCoV-19" 1.93
+"253" "Day28PostChAdOx1 nCoV-19" 2.25
+"254" "Day28PostChAdOx1 nCoV-19" 2.05
+"255" "Day28PostChAdOx1 nCoV-19" 2.06
+"256" "Day28PostChAdOx1 nCoV-19" 2.07
+"257" "Day28PostChAdOx1 nCoV-19" 2.1
+"258" "Day28PostChAdOx1 nCoV-19" 2.09
+"259" "Day28PostChAdOx1 nCoV-19" 2.09
+"260" "Day28PostChAdOx1 nCoV-19" 2.06
+"261" "Day28PostChAdOx1 nCoV-19" 2.06
+"262" "Day28PostChAdOx1 nCoV-19" 2.06
+"263" "Day28PostChAdOx1 nCoV-19" 2.06
+"264" "Day28PostChAdOx1 nCoV-19" 2.05
+"265" "Day28PostChAdOx1 nCoV-19" 1.74
+"266" "Day28PostChAdOx1 nCoV-19" 1.76
+"267" "Day28PostChAdOx1 nCoV-19" 1.74
+"268" "Day28PostChAdOx1 nCoV-19" 1.72
+"269" "Day28PostChAdOx1 nCoV-19" 1.7
+"270" "Day28PostChAdOx1 nCoV-19" 2.11
+"271" "Day28PostChAdOx1 nCoV-19" 2.12
+"272" "Day28PostChAdOx1 nCoV-19" 2.15
+"273" "Day28PostChAdOx1 nCoV-19" 2.15
+"274" "Day28PostChAdOx1 nCoV-19" 2.11
+"275" "Day28PostChAdOx1 nCoV-19" 2.11
+"276" "Day28PostChAdOx1 nCoV-19" 2.12
+"277" "Day28PostChAdOx1 nCoV-19" 2.12
+"278" "Day28PostChAdOx1 nCoV-19" 2.12
+"279" "Day28PostChAdOx1 nCoV-19" 2.35
+"280" "Day28PostChAdOx1 nCoV-19" 2.32
+"281" "Day28PostChAdOx1 nCoV-19" 2.36
+"282" "Day28PostChAdOx1 nCoV-19" 1.69
+"283" "Day28PostChAdOx1 nCoV-19" 1.81
+"284" "Day28PostChAdOx1 nCoV-19" 1.86
+"285" "Day28PostChAdOx1 nCoV-19" 1.85
+"286" "Day28PostChAdOx1 nCoV-19" 1.61
+"287" "Day28PostChAdOx1 nCoV-19" 1.66
+"288" "Day28PostChAdOx1 nCoV-19" 2
+"289" "Day28PostChAdOx1 nCoV-19" 2.01
+"290" "Day28PostChAdOx1 nCoV-19" 2.01
+"291" "Day28PostChAdOx1 nCoV-19" 2.03
+"292" "Day28PostChAdOx1 nCoV-19" 2.04
+"293" "Day28PostChAdOx1 nCoV-19" 2.04
+"294" "Day28PostChAdOx1 nCoV-19" 2.06
+"295" "Day28PostChAdOx1 nCoV-19" 2.05
+"296" "Day28PostChAdOx1 nCoV-19" 2.05
+"297" "Day28PostChAdOx1 nCoV-19" 2.19
+"298" "Day28PostChAdOx1 nCoV-19" 2.21
+"299" "Day28PostChAdOx1 nCoV-19" 2.2
+"300" "Day28PostChAdOx1 nCoV-19" 1.98
+"301" "Day28PostChAdOx1 nCoV-19" 1.99
+"302" "Day28PostChAdOx1 nCoV-19" 1.99
+"303" "Day28PostChAdOx1 nCoV-19" 1.99
+"304" "Day28PostChAdOx1 nCoV-19" 2.42
+"305" "Day28PostChAdOx1 nCoV-19" 2.46
+"306" "Day28PostChAdOx1 nCoV-19" 2.42
+"307" "Day28PostChAdOx1 nCoV-19" 1.17

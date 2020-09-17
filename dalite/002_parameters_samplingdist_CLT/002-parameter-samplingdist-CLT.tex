@@ -1,0 +1,175 @@
+\documentclass[letterpaper,12pt,twoside,]{pinp}
+
+%% Some pieces required from the pandoc template
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+
+% Use the lineno option to display guide line numbers if required.
+% Note that the use of elements such as single-column equations
+% may affect the guide line number alignment.
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+
+% pinp change: the geometry package layout settings need to be set here, not in pinp.cls
+\geometry{layoutsize={0.95588\paperwidth,0.98864\paperheight},%
+  layouthoffset=0.02206\paperwidth, layoutvoffset=0.00568\paperheight}
+
+\definecolor{pinpblue}{HTML}{185FAF}  % imagecolorpicker on blue for new R logo
+\definecolor{pnasbluetext}{RGB}{101,0,0} %
+
+
+
+\title{DALITE Q1 - Parameters, Sampling Distributions and the Central Limit
+Theorem. Due September 23, 2020 by 10am.}
+
+\author[a]{EPIB607 - Inferential Statistics}
+
+  \affil[a]{Fall 2020, McGill University}
+
+\setcounter{secnumdepth}{5}
+
+% Please give the surname of the lead author for the running footer
+\leadauthor{Bhatnagar}
+
+% Keywords are not mandatory, but authors are strongly encouraged to provide them. If provided, please include two to five keywords, separated by the pipe symbol, e.g:
+ \keywords{  Parameters and statistics |  Sampling distributions |  Central Limit Theorem (CLT)  }  
+
+\begin{abstract}
+This DALITE quiz will cover the building blocks of statistical
+inference.
+\end{abstract}
+
+\dates{This version was compiled on \today} 
+
+% initially we use doi so keep for backwards compatibility
+% new name is doi_footer
+
+\pinpfootercontents{DALITE Q2 due Wednesday Sepetember 23, 2020 by 10am}
+
+\begin{document}
+
+% Optional adjustment to line up main text (after abstract) of first page with line numbers, when using both lineno and twocolumn options.
+% You should only change this length when you've finalised the article contents.
+\verticaladjustment{-2pt}
+
+\maketitle
+\thispagestyle{firststyle}
+\ifthenelse{\boolean{shortarticle}}{\ifthenelse{\boolean{singlecolumn}}{\abscontentformatted}{\abscontent}}{}
+
+% If your first paragraph (i.e. with the \dropcap) contains a list environment (quote, quotation, theorem, definition, enumerate, itemize...), the line after the list may have some extra indentation. If this is the case, add \parshape=0 to the end of the list environment.
+
+
+\hypertarget{marking}{%
+\section*{Marking}\label{marking}}
+\addcontentsline{toc}{section}{Marking}
+
+Completion of this DALITE exercise will be availble to us automatically
+through the DALITE website. Therefore \textbf{you do not need to hand
+anything in}. Marks will be based on the number of correct answers. For
+each question you will receive 0.5 marks for getting the correct answer
+on the first attempt and an additional 0.5 marks if you stick with the
+right answer or switch to the correct answer after seeing someone else's
+rationale.
+
+\hypertarget{parameters-and-statistics}{%
+\section{Parameters and statistics}\label{parameters-and-statistics}}
+
+\hypertarget{learning-objectives}{%
+\subsection{Learning Objectives}\label{learning-objectives}}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Understand the difference between a parameter and a statistic.
+\item
+  A parameter is related to the population.
+\item
+  A statistic is related to the sample.
+\end{enumerate}
+
+\hypertarget{required-readings}{%
+\subsection{Required Readings}\label{required-readings}}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  \href{https://www.dropbox.com/s/kr293cablb11nrm/Ch13SamplingDistributionsJH2018.pdf?dl=0}{JH
+  section 1}
+\end{enumerate}
+
+\vspace*{0.25cm}
+
+\hypertarget{sampling-distributions-and-central-limit-theorem}{%
+\section{Sampling Distributions and Central Limit
+Theorem}\label{sampling-distributions-and-central-limit-theorem}}
+
+\hypertarget{learning-objectives-1}{%
+\subsection{Learning Objectives}\label{learning-objectives-1}}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Recognize that there is variability due to sampling. Repeated random
+  samples from the same population will give variable results.
+\item
+  Understand the concept of a sampling distribution of a statistic such
+  as a sample mean, sample median, or sample proportion.
+\item
+  Know that the sampling distributions of some common statistics are
+  approximately normally distributed; in particular, the sample mean x
+  of a simple random sample drawn from a normal population has a normal
+  distribution.
+\item
+  Know that the standard deviation of the sampling distribution of x
+  depends on both the standard deviation of the population from which
+  the sample was drawn and the sample size \(n\).
+\item
+  Grasp a key concept of statistical process control: Monitor the
+  process rather than examine all of the products; all processes have
+  variation; we want to distinguish the natural variation of the process
+  from the added variation that shows that the process has been
+  disturbed.
+\item
+  Make an \(\bar{x}\) control chart. Use the 68-95-99.7\% rule and the
+  sampling distribution of \(\bar{x}\) to help identify if a process is
+  out of control.
+\item
+  Be familiar with the Central Limit Theorem: the sample mean
+  \(\bar{x}\) of a large number of observations has an approximately
+  normal distribution even when the distribution of individual
+  observations is not normal.
+\end{enumerate}
+
+\hypertarget{videos}{%
+\subsection{Videos}\label{videos}}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  \href{https://www.learner.org/series/against-all-odds-inside-statistics/sampling-distributions/}{Against
+  All Odds Unit 22}
+\end{enumerate}
+
+\hypertarget{required-readings-1}{%
+\subsection{Required Readings}\label{required-readings-1}}
+
+\begin{enumerate}
+\item \href{https://www.learner.org/wp-content/uploads/2019/03/AgainstAllOdds_StudentGuide_Unit22-Sampling-Distributions.pdf}{Against All Odds Unit 22}
+\item De Veaux, Velleman and Bock (DVB), Chapter 18
+\end{enumerate}
+
+%\showmatmethods
+
+
+\bibliography{pinp}
+\bibliographystyle{jss}
+
+
+
+\end{document}
+

@@ -1,0 +1,253 @@
+\documentclass[letterpaper,12pt,twoside,printwatermark=false]{pinp}
+
+%% Some pieces required from the pandoc template
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+
+% Use the lineno option to display guide line numbers if required.
+% Note that the use of elements such as single-column equations
+% may affect the guide line number alignment.
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+
+% The geometry package layout settings need to be set here...
+\geometry{layoutsize={0.95588\paperwidth,0.98864\paperheight},%
+          layouthoffset=0.02206\paperwidth,%
+		  layoutvoffset=0.00568\paperheight}
+
+\definecolor{pinpblue}{HTML}{185FAF}  % imagecolorpicker on blue for new R logo
+\definecolor{pnasbluetext}{RGB}{101,0,0} %
+
+
+
+\title{DALITE Q2 - Boxplots, Standard Deviation and Normal Curves. Due
+September 17, 2019.}
+
+\author[a]{EPIB607 - Inferential Statistics}
+
+  \affil[a]{Fall 2019, McGill University}
+
+\setcounter{secnumdepth}{5}
+
+% Please give the surname of the lead author for the running footer
+\leadauthor{Bhatnagar and Hanley}
+
+% Keywords are not mandatory, but authors are strongly encouraged to provide them. If provided, please include two to five keywords, separated by the pipe symbol, e.g:
+ \keywords{  Boxplots |  Standard deviation |  Normal curves  }  
+
+\begin{abstract}
+This DALITE quiz will cover more descriptives such as boxplots, standard
+deviation, and introduce you to normal density curves.
+\end{abstract}
+
+\dates{This version was compiled on \today} 
+
+% initially we use doi so keep for backwards compatibility
+\doifooter{\url{https://sahirbhatnagar.com/EPIB607/}}
+% new name is doi_footer
+
+\pinpfootercontents{DALITE Q2 due Sepetember 17, 2019 by 5pm}
+
+\begin{document}
+
+% Optional adjustment to line up main text (after abstract) of first page with line numbers, when using both lineno and twocolumn options.
+% You should only change this length when you've finalised the article contents.
+\verticaladjustment{-2pt}
+
+\maketitle
+\thispagestyle{firststyle}
+\ifthenelse{\boolean{shortarticle}}{\ifthenelse{\boolean{singlecolumn}}{\abscontentformatted}{\abscontent}}{}
+
+% If your first paragraph (i.e. with the \dropcap) contains a list environment (quote, quotation, theorem, definition, enumerate, itemize...), the line after the list may have some extra indentation. If this is the case, add \parshape=0 to the end of the list environment.
+
+
+\hypertarget{marking}{%
+\section*{Marking}\label{marking}}
+\addcontentsline{toc}{section}{Marking}
+
+Completion of this DALITE exercise will be availble to us automatically
+through the DALITE website. Therefore \textbf{you do not need to hand
+anything in}. Marks will be based on the number of correct answers. For
+each question you will receive 0.5 marks for getting the correct answer
+on the first attempt and an additional 0.5 marks if you stick with the
+right answer or switch to the correct answer after seeing someone else's
+rationale. Recall that access to your assignments is managed through
+tokens sent to your e-mail address. You will be sent a new link
+everytime a new assignment has been posted.
+
+\hypertarget{boxplots}{%
+\section{Boxplots}\label{boxplots}}
+
+\hypertarget{learning-objectives}{%
+\subsection{Learning Objectives}\label{learning-objectives}}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Recognize that a basic numerical description of a distribution
+  requires both a measure of center and a measure of spread.
+\item
+  Use the quartiles and the extremes to provide information about the
+  unequal spread in the two sides of a skewed distribution.
+\item
+  Be able to calculate the quartiles and give the five-number summary of
+  a data set of using a computer.
+\item
+  Understand that boxplots provide less detail than stemplots or
+  histograms but are especially useful for comparing several
+  distributions.
+\end{enumerate}
+
+\hypertarget{videos}{%
+\subsection{Videos}\label{videos}}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  \href{https://www.learner.org/courses/againstallodds/unitpages/unit05.html}{Against
+  All Odds Unit 5}
+\end{enumerate}
+
+\hypertarget{required-readings}{%
+\subsection{Required Readings}\label{required-readings}}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  \href{https://www.learner.org/courses/againstallodds/pdfs/AgainstAllOdds_StudentGuide_Unit05.pdf\#page=1}{Against
+  All Odds Unit 5, pages 1-5}
+\item
+  De Veaux, Velleman and Bock (DVB), Chapter 5
+\end{enumerate}
+
+\vspace*{0.25cm}
+
+\hypertarget{standard-deviation}{%
+\section{Standard Deviation}\label{standard-deviation}}
+
+\hypertarget{learning-objectives-1}{%
+\subsection{Learning Objectives}\label{learning-objectives-1}}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Know that the sample standard deviation, \(s\), is the measure of
+  spread most commonly used when the mean, \(\bar{x}\), is used as the
+  measure of center.
+\item
+  Know the formula for the standard deviation \(s\)
+\item
+  Know the basic properties of the standard deviation:
+
+  \begin{enumerate}
+  \def\labelenumii{\alph{enumii})}
+  \tightlist
+  \item
+    \(s \geq 0\), and only when all data values are identical can
+    \(s = 0\)
+  \item
+    \(s\) increases as the spread about \(x\) increases.
+  \item
+    \(s\), like \(\bar{x}\), is strongly influenced by outliers.
+  \end{enumerate}
+\item
+  Know that the standard deviation is most useful for symmetric
+  distributions and, in particular, for normal distributions.
+\item
+  Know that adding the same constant \(a\) to all the observations
+  increases the value of \(\bar{x}\) by \(a\). However, adding the same
+  constant \(a\) to all the observations does not change the value of
+  \(s\). That's because adding a constant \(a\) to all data values
+  shifts the location of the data but does not affect its spread.
+\item
+  Know that multiplying all data values by a constant amount \(k\)
+  changes \(\bar{x}\) and \(s\) by a factor of \(k\).
+\end{enumerate}
+
+\hypertarget{videos-1}{%
+\subsection{Videos}\label{videos-1}}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  \href{https://www.learner.org/courses/againstallodds/unitpages/unit06.html}{Against
+  All Odds Unit 6}
+\end{enumerate}
+
+\hypertarget{required-readings-1}{%
+\subsection{Required Readings}\label{required-readings-1}}
+
+\begin{enumerate}
+\item \href{https://www.learner.org/courses/againstallodds/pdfs/AgainstAllOdds_StudentGuide_Unit06.pdf#page=1}{Against All Odds Unit 6, pages 1-8}
+\item De Veaux, Velleman and Bock (DVB), Chapter 6
+\end{enumerate}
+
+\hypertarget{normal-curves}{%
+\section{Normal Curves}\label{normal-curves}}
+
+\hypertarget{learning-objectives-2}{%
+\subsection{Learning Objectives}\label{learning-objectives-2}}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Understand that the overall shape of a distribution of a large number
+  of observations can be summarized by a smooth curve called a density
+  curve.
+\item
+  Know that an area under a density curve over an interval represents
+  the proportion of data that falls in that interval.
+\item
+  Recognize the characteristic bell-shapes of normal curves. Locate the
+  mean and standard deviation on a normal density curve by eye.
+\item
+  Understand how changing the mean and standard deviation affects a
+  normal density curve.
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Know that changing the mean of a normal density curve shifts the
+    curve along the horizontal axis without changing its shape.
+  \item
+    Know that increasing the standard deviation produces a flatter and
+    wider bell-shaped curve and that decreasing the standard deviation
+    produces a taller and narrower curve.
+  \end{itemize}
+\end{enumerate}
+
+\hypertarget{videos-2}{%
+\subsection{Videos}\label{videos-2}}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  \href{https://www.learner.org/courses/againstallodds/unitpages/unit07.html}{Against
+  All Odds Unit 7}
+\end{enumerate}
+
+\hypertarget{required-readings-2}{%
+\subsection{Required Readings}\label{required-readings-2}}
+
+\begin{enumerate}
+\item \href{https://www.learner.org/courses/againstallodds/pdfs/AgainstAllOdds_StudentGuide_Unit07.pdf#page=1}{Against All Odds Unit 7, pages 1-9}
+\end{enumerate}
+
+%\showmatmethods
+
+
+\bibliography{pinp}
+\bibliographystyle{jss}
+
+
+
+\end{document}
+

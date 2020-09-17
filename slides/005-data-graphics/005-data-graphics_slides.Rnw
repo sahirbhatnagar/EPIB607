@@ -1,0 +1,302 @@
+\documentclass[10pt]{beamer}
+
+
+%\input{slides_header.tex}
+\input{/home/sahir/git_repositories/EPIB607/resources/assets/slides/slides_header2.tex}
+\graphicspath{{/home/sahir/git_repositories/EPIB607/resources/assets/slides/figure/}}
+
+%\let\oldShaded\Shaded
+%\let\endoldShaded\endShaded
+%\renewenvironment{Shaded}{\footnotesize\oldShaded}{\endoldShaded}
+
+
+
+
+\begin{document}
+	
+	<<setup, include=FALSE>>=
+	library(knitr)
+	knitr::opts_chunk$set(cache=FALSE, message = FALSE, tidy = FALSE, warning = FALSE,
+	echo = FALSE, 
+	#fig.width = 8, 
+	#fig.asp = 0.8, 
+	fig.align = 'center', 
+	#out.width = "0.50\\linewidth", 
+	size = 'tiny')
+	
+	# the kframe environment does not work with allowframebreaks, so remove it
+	#knit_hooks$set(document = function(x) {
+	#gsub('\\\\(begin|end)\\{kframe\\}', '', x)
+	#})
+	
+	library(tidyverse)
+	library(NCStats)
+	# remotes::install_github('droglenc/NCStats',type='binary')
+	options(digits = 2)
+	
+	
+	#knitr::opts_chunk$set(background = '#FFFF00')
+	library(tools) #needed for include_graphics2 function
+	source("/home/sahir/git_repositories/EPIB607/resources/assets/slides/bin/include_graphics2.R")
+	@
+	
+	%\title{Introduction to Regression Trees}
+	%\author{Sahir Bhatnagar \inst{1}}
+	%\author[shortname]{Sahir Rai Bhatnagar, PhD Candidate (Biostatistics) }
+	%\institute[shortinst]{Department of Epidemiology, Biostatistics and Occupational Health}
+	
+	\title{005 - Data Graphics}
+	\author{EPIB 607 - FALL 2020}
+	\institute{
+		Sahir Rai Bhatnagar\\
+		Department of Epidemiology, Biostatistics, and Occupational Health\\
+		McGill University\\
+		
+		\vspace{0.1 in}
+		
+		\texttt{sahir.bhatnagar@mcgill.ca}\\
+		%\texttt{\url{https://sahirbhatnagar.com/EPIB607/}}
+	}
+	
+	\date{slides compiled on \today}
+	
+	\maketitle
+	
+	\begin{frame}{Objective}
+	\begin{itemize}
+		\item Understand the building blocks of visualizing data
+	\end{itemize}
+	\end{frame}
+	
+	\section{Visualizing data: Mapping data onto aesthetics}
+	
+		\begin{frame}{What is Data Visualization?}
+		\begin{itemize}
+			\item In its most basic form, visualization is simply mapping data to geometry and color. 
+			\item It works because your brain is wired to find patterns, and you can switch back and forth between the visual and the numbers it represents. 
+			\item This is the important bit. You must make sure that the essence of the data isn't lost in that back and forth between visual and the value it represents because if you can't map back to the data, the visualization is just a bunch of shapes.
+		\end{itemize}
+	\end{frame}
+	
+	
+	\begin{frame}{Aesthetics (aka Visual Cues)}
+	\begin{itemize}
+		\item All data visualizations map data values into quantifiable features of the resulting graphic. 
+		\item We refer to these features as aesthetics, also known as Visual Cues.
+	\end{itemize}
+		\end{frame}
+	
+	%\begin{frame}[allowframebreaks]
+	%\nocite{breiman1984classification}
+	%	\nocite{friedman2001elements}
+	%	\nocite{james2013introduction}
+	%	\nocite{lopez2015arbres}
+	%	\frametitle{References}
+	%\printbibliography
+	%\end{frame}
+	
+	\begin{frame}{Example: Scatterplot}
+		\begin{itemize}
+			\item When you use position as a visual cue, you compare values based on where others are placed in a given space or coordinate system
+		\end{itemize}
+		
+\includegraphics[scale=0.5]{005-1.png}
+	\end{frame}
+
+\begin{frame}{Aesthetics (Visual Cues): The Building Blocks}
+	\begin{enumerate}
+		\item Position (numerical): where in relation to other things? 
+		\item Length (numerical): how big (in one dimension)? 
+		\item  Angle (numerical): how wide? parallel to something else? 
+		\item  Direction (numerical) at what slope? In a time series, going up or down? 
+		\item  Shape (categorical) belonging to which group? 
+		\item  Area (numerical) how big (in two dimensions)? 
+		\item  Volume (numerical) how big (in three dimensions)? 
+		\item  Shade (either) to what extent? how severely? 
+		\item  Color (either) to what extent? how severely? Beware of red/green color blindness
+		
+		
+	\end{enumerate}
+\end{frame}
+
+
+	\begin{frame}{Visual Cues: When you visualize data, you encode values to shapes, sizes, and colors}
+		\centering
+	\includegraphics[scale=0.4]{005-2.png}
+\end{frame}
+
+	\begin{frame}{Commonly Used Visual Cues}
+	\centering
+	\includegraphics[scale=0.4]{005-3.png}
+\end{frame}
+
+	\begin{frame}{All visual cues fall into one of two groups}
+\begin{itemize}
+	\item Those that can represent continuous data and those that can not
+\end{itemize}
+\end{frame}
+
+
+	\begin{frame}{Which of the following can represent continuous data? Discrete data?}
+	\centering
+	\includegraphics[scale=0.4]{005-3.png}
+\end{frame}
+
+
+\section{Scales}
+
+\begin{frame}{Scales}
+	\begin{itemize}
+		\item To \textbf{map} data values onto \textbf{aesthetics}, we need to specify which data values correspond to which specific aesthetics values. \pause 
+		\item For example, if our graphic has an x axis, then we need to specify which data values fall onto particular positions along this axis. \pause 
+		\item Similarly, we may need to specify which data values are represented by particular shapes or colors. 
+		
+	\end{itemize}
+\end{frame}
+
+
+	\begin{frame}{Scales}
+	\begin{itemize}
+		\item This mapping between data values and aesthetics values is created via scales. 
+		\item A scale defines a unique mapping between data and aesthetics.
+		\item Importantly, \textbf{a scale must be one-to-one}, such that for each specific data value there is exactly one aesthetics value and vice versa. 
+		\item If a scale isn't one-to-one, then the data visualization becomes ambiguous.		
+	\end{itemize}
+\end{frame}
+
+
+
+
+	\begin{frame}{Scales}
+		\begin{itemize}
+			\item Scales link data values to aesthetics. 
+			\item Here, the numbers 1 through 4 have been mapped onto a position scale, a shape scale, and a color scale. 
+			\item For each scale, each number corresponds to a unique position, shape, or color and vice versa
+		\end{itemize}
+	\centering
+	\includegraphics[scale=0.3]{005-5.png}
+\end{frame}
+
+
+	\begin{frame}{How many scales are being used?}
+	\centering
+	\includegraphics[scale=0.4]{005-6.png}
+\end{frame}
+
+	\begin{frame}{How many scales are being used?}
+	\centering
+	\includegraphics[scale=0.4]{005-7.png}
+\end{frame}
+
+	\begin{frame}{How many scales are being used?}
+	\centering
+	\includegraphics[scale=0.4]{005-8.png}
+\end{frame}
+
+
+\begin{frame}{Difference between Aesthetics (Visual Cues) and Scales ?}
+\begin{itemize}
+	\item \textbf{Aesthetics:} describe every aspect of a given graphical element.
+	\item \textbf{Scale:} defines a unique mapping between data and aesthetics.
+	\item A scale is a visual cue with data attached to it
+	
+\end{itemize}
+\end{frame}
+
+
+\section{Color scales}
+
+\begin{frame}{Color scales: 3 use cases}
+	\begin{enumerate}
+		\item To distinguish groups of data from each other
+		\item Represent data values
+		\item To highlight
+	\end{enumerate}
+
+\vspace{0.2in}
+		The types of colors we use and the way in which we use them are quite different for these three cases.
+\end{frame}
+
+
+	\begin{frame}{Color as a tool to distinguish}
+	\centering
+	\includegraphics[scale=0.4]{005-9.png}
+\end{frame}
+
+
+	\begin{frame}{Color to represent values}
+	\centering
+	\includegraphics[scale=0.4]{005-10.png}
+\end{frame}
+
+
+	\begin{frame}{Color as a tool to highlight}
+	\centering
+	\includegraphics[scale=0.4]{005-11.png}
+\end{frame}
+
+
+
+	\begin{frame}{Cynthia Brewer Palette}
+	\centering
+	\includegraphics[scale=0.4]{005-12.png}
+\end{frame}
+
+
+	\begin{frame}{Good choice of colors?}
+	\centering
+	\includegraphics[scale=0.4]{005-13.png}
+\end{frame}
+
+
+
+
+	\begin{frame}{Perceptually Uniform Palettes}
+	\centering
+	\includegraphics[scale=0.4]{005-14.png}
+	
+	\begin{itemize}
+		\item \url{https://cran.r-project.org/web/packages/colorspace/vignettes/colorspace.html}
+		\item \url{https://cran.r-project.org/web/packages/viridis/vignettes/intro-to-viridis.html}
+	\end{itemize}
+\end{frame}
+
+
+
+\begin{frame}[fragile]{Qualitative palette}
+	<<echo = TRUE, fig.asp=0.681>>=
+	library(oibiostat); data("famuss")
+	library(ggplot2)
+	library(colorspace)
+	
+	ggplot(famuss, aes(x = actn3.r577x, y = bmi, fill = actn3.r577x)) + 
+	  geom_boxplot() + 
+	  colorspace::scale_fill_discrete_qualitative()
+		
+	ggplot(famuss, aes(x = height, y = weight, color = bmi)) + 
+	  geom_point() + 
+	  colorspace::scale_color_continuous_sequential(palette = "Viridis")
+	@
+\end{frame}
+
+	
+	
+	\begin{frame}[fragile]{Sequential palette}
+		<<echo = TRUE, fig.asp=0.681>>=
+		ggplot(famuss, aes(x = height, y = weight, color = bmi)) + 
+		  geom_point() + 
+		  colorspace::scale_color_continuous_sequential(palette = "Viridis")
+		@
+	\end{frame}
+	
+	
+	\begin{frame}[fragile]{Session Info}
+		\tiny
+		
+		<<echo=FALSE, comment = NA, size = 'tiny'>>=
+		print(sessionInfo(), locale = FALSE)
+		@
+		
+	\end{frame}
+	
+\end{document}

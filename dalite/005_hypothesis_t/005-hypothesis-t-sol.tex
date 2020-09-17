@@ -1,0 +1,877 @@
+\documentclass[letterpaper,9pt,twoside,printwatermark=false]{pinp}
+
+%% Some pieces required from the pandoc template
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+
+% Use the lineno option to display guide line numbers if required.
+% Note that the use of elements such as single-column equations
+% may affect the guide line number alignment.
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+
+% The geometry package layout settings need to be set here...
+\geometry{layoutsize={0.95588\paperwidth,0.98864\paperheight},%
+          layouthoffset=0.02206\paperwidth,%
+		  layoutvoffset=0.00568\paperheight}
+
+\definecolor{pinpblue}{HTML}{185FAF}  % imagecolorpicker on blue for new R logo
+\definecolor{pnasbluetext}{RGB}{101,0,0} %
+
+
+
+\title{DALITE Q5 - Bootstrap, Tests of Significance, Binomial Distribution,
+Inference for Means and Proportions. Solutions.}
+
+\author[a]{EPIB607 - Inferential Statistics}
+
+  \affil[a]{Fall 2019, McGill University}
+
+\setcounter{secnumdepth}{5}
+
+% Please give the surname of the lead author for the running footer
+\leadauthor{Bhatnagar and Hanley}
+
+% Keywords are not mandatory, but authors are strongly encouraged to provide them. If provided, please include two to five keywords, separated by the pipe symbol, e.g:
+ \keywords{  Hypothesis testing |  Bootstrap |  t distribution |  One sample mean |  Normal calculations |  Confidence intervals |  Central Limit Theorem (CLT)  }  
+
+\begin{abstract}
+This DALITE quiz will cover the bootstrap, an introduction to
+significance testing, and inference for a single mean using the t
+distribution.
+\end{abstract}
+
+\dates{This version was compiled on \today} 
+
+% initially we use doi so keep for backwards compatibility
+\doifooter{\url{https://sahirbhatnagar.com/EPIB607/}}
+% new name is doi_footer
+
+\pinpfootercontents{DALITE Q5 due October 3, 2018 by 5pm}
+
+\begin{document}
+
+% Optional adjustment to line up main text (after abstract) of first page with line numbers, when using both lineno and twocolumn options.
+% You should only change this length when you've finalised the article contents.
+\verticaladjustment{-2pt}
+
+\maketitle
+\thispagestyle{firststyle}
+\ifthenelse{\boolean{shortarticle}}{\ifthenelse{\boolean{singlecolumn}}{\abscontentformatted}{\abscontent}}{}
+
+% If your first paragraph (i.e. with the \dropcap) contains a list environment (quote, quotation, theorem, definition, enumerate, itemize...), the line after the list may have some extra indentation. If this is the case, add \parshape=0 to the end of the list environment.
+
+
+\hypertarget{hypothesis-tests-1}{%
+\section{Hypothesis tests 1}\label{hypothesis-tests-1}}
+
+The average human gestation time is 266 days from conception. A
+researcher suspects that proper nutrition plays an important role and
+that poor women with inadequate food intake would have shorter gestation
+times even when given vitamin supplements. A random sample of 20 poor
+women given vitamin supplements throughout the pregnancy has a mean
+gestation time from conception of \(\bar{y}\)=256 days. The null
+hypothesis for the researcher's test is
+
+\begin{enumerate}
+\def\labelenumi{\alph{enumi}.}
+\tightlist
+\item
+  \textbf{\(\textrm{H}_0\): \(\mu\) = 266 (Correct)}
+\item
+  \(\textrm{H}_0\): \(\mu\) = 256
+\item
+  \(\textrm{H}_0\): \(\mu\) \textless{} 266
+\item
+  \(\textrm{H}_0\): \(\bar{y}\) = 266
+\end{enumerate}
+
+\hypertarget{correct-rationales}{%
+\subsection{Correct rationales}\label{correct-rationales}}
+
+\begin{itemize}
+\tightlist
+\item
+  The null hypothesis is usually a statement of ``no effect'' or ``no
+  difference.''
+\item
+  The null hypothesis is the statement of no effect, so if there was no
+  effect, the average gestation time would be the population mean.
+\item
+  The null hypothesis of this study is that the average gestation period
+  of women with proper nutrition and poor women with inadequate food
+  intake is the same that is 266 days. Hence, the population mean (all
+  poor women) have the gestation period of 266 days.
+\end{itemize}
+
+\hypertarget{incorrect-rationales}{%
+\subsection{Incorrect rationales}\label{incorrect-rationales}}
+
+\begin{itemize}
+\tightlist
+\item
+  The null hypothesis is ``the accepted fact'', which in this case is
+  that poorer nutrion will yield results lower than the mean
+  (\textless{}266) or H null: u\textless{}266
+\item
+  The researcher is testing that the hypothesis that poor women with
+  inadequate food intake will have lower gestation time
+\end{itemize}
+
+\hypertarget{hypothesis-tests-2}{%
+\section{Hypothesis tests 2}\label{hypothesis-tests-2}}
+
+The average human gestation time is 266 days from conception. A
+researcher suspects that proper nutrition plays an important role and
+that poor women with inadequate food intake would have shorter gestation
+times even when given vitamin supplements. A random sample of 20 poor
+women given vitamin supplements throughout the pregnancy has a mean
+gestation time from conception of \(\bar{y}\)=256 days. The researcher's
+alternative hypothesis for the test is
+
+\begin{enumerate}
+\def\labelenumi{\alph{enumi}.}
+\tightlist
+\item
+  \(\textrm{H}_a\): \(\mu \neq 256\)
+\item
+  \textbf{\(\textrm{H}_a\): \(\mu < 266\) (Correct)}
+\item
+  \(\textrm{H}_a\): \(\mu < 256\)
+\end{enumerate}
+
+\hypertarget{correct-rationales-1}{%
+\subsection{Correct rationales}\label{correct-rationales-1}}
+
+\begin{itemize}
+\tightlist
+\item
+  The alternative hypothesis is the point of view of the researchers. In
+  this scenario, the researchers are suspecting that there will be a
+  shorter gestation time for poor women in comparison to an average
+  woman. The alternative hypothesis should be one-sided because the
+  investigators only want to know if gestation time will be shorter and
+  not if it is overall different (shorter or greater) from the average
+  gestation time.
+\item
+  Researcher has specified a specific direction - that the sample would
+  generate a mean gestation time less than 266. Therefore the
+  alternative hypothesis is that \(\mu\) is less than 266.
+\end{itemize}
+
+\hypertarget{incorrect-rationales-1}{%
+\subsection{Incorrect rationales}\label{incorrect-rationales-1}}
+
+\hypertarget{hypothesis-test-3}{%
+\section{Hypothesis test 3}\label{hypothesis-test-3}}
+
+The average human gestation time is 266 days from conception. A
+researcher suspects that proper nutrition plays an important role and
+that poor women with inadequate food intake would have shorter gestation
+times even when given vitamin supplements. A random sample of 20 poor
+women given vitamin supplements throughout the pregnancy has a mean
+gestation time from conception of \(\bar{y}\)=256 days. Human gestation
+times are approximately Normal with standard deviation \(\sigma\) = 16
+days. The p-value for the researcher's test is (provide your calculation
+in the rationale)
+
+\begin{enumerate}
+\def\labelenumi{\alph{enumi}.}
+\tightlist
+\item
+  more than 0.1
+\item
+  \textbf{less than 0.01 (Correct)}
+\item
+  less than 0.001
+\item
+  less than 0.05
+\item
+  less than 0.025
+\end{enumerate}
+
+\hypertarget{correct-rationales-2}{%
+\subsection{Correct rationales}\label{correct-rationales-2}}
+
+\begin{itemize}
+\tightlist
+\item
+  \(Z= (y - \mu)/ (\sigma / sqrt (n))\) = -2.795 \(\to\)
+  \texttt{pnorm(-2.795,\ mean\ =\ 0\ ,\ sd=1\ )\ =\ 0.00026}
+\item
+  \texttt{mosaic::xpnorm(q=\ (256\ -\ 266)/(16/sqrt(20)))}
+\item
+  \texttt{stats::pnorm(q\ =\ 256,\ mean\ =\ 266,\ sd\ =\ 16/(sqrt(20)),\ lower.tail\ =\ T)}
+\end{itemize}
+
+\hypertarget{incorrect-rationales-2}{%
+\subsection{Incorrect rationales}\label{incorrect-rationales-2}}
+
+\begin{itemize}
+\tightlist
+\item
+  \(t* = (256-266) / (16 / \sqrt(20))\) = -2.795. degrees of freedom =
+  n-1 = 19. p-value is between 0.01 and 0.005. This is a one tailed
+  t-test so divide by 2 and p-value is between 0.005 and 0.0025.
+  Therefore, less than 0.01.
+\item
+  \((256 - 266)/16 = -0.625 \to\) \texttt{pnorm(-0.625)} corresponds to
+  a p value of 0.27
+\item
+  \(t = (\bar{y}-\mu)/(\sigma/\sqrt{n})\) then use \(t\) distribution
+  with df=19
+\end{itemize}
+
+\hypertarget{hypothesis-tests-4}{%
+\section{Hypothesis tests 4}\label{hypothesis-tests-4}}
+
+Average human gestation time is 266 days, when counted from conception.
+A hospital gives a 90\% confidence interval for the mean gestation time
+from conception among its patients. That interval is 264 \(\pm\) 5 days.
+Is the mean gestation time in that hospital significantly different from
+266 days?
+
+\begin{enumerate}
+\def\labelenumi{\alph{enumi}.}
+\tightlist
+\item
+  \textbf{It is not significantly different at the 10\% level and
+  therefore is also not significantly different at the 5\% level.
+  (Correct)}
+\item
+  It is not significantly different at the 10\% level but might be
+  significantly different at the 5\% level. c. It is significantly
+  different at the 10\% level
+\end{enumerate}
+
+\hypertarget{correct-rationales-3}{%
+\subsection{Correct rationales}\label{correct-rationales-3}}
+
+\begin{itemize}
+\tightlist
+\item
+  The average human gestation time falls within the interval of the
+  hospital which is 259-269 days, therefore the mean gestation time is
+  not significantly different at the 10\% level and since the 5\% level
+  is even more specific, then it is not significantly different at the
+  5\% level either.
+\item
+  266 is included in the 259-269 range, therefore the mean gestation
+  time in the hospital is not significantly different from 266 days at
+  the 10\% level. Looking at the significance at the 5\% level would
+  make the confidence interval bigger, meaning there's not significant
+  different there either
+\end{itemize}
+
+\hypertarget{incorrect-rationales-3}{%
+\subsection{Incorrect rationales}\label{incorrect-rationales-3}}
+
+\begin{itemize}
+\tightlist
+\item
+  Because 266 falls at the upper tail of the 90\% confidence interval,
+  therefore it is significant different at 10\% significance level
+\item
+  It is significantly different at the 10\% level, since the CI does not
+  contain the value zero.
+\item
+  The 90\% CI includes 266, but the 95\% CI may not include 266, in
+  which case a value like 266 would only be observed less than or equal
+  to 5\% of the time.
+\item
+  To be significantly different, p-value should be less than 5\%.
+\item
+  As 266 falls within 264+/- 5 days, it is not significant at the 10\%
+  level, but it may not fall under this range because when the level of
+  confidence is increased, the confidence interval becomes smaller.
+\end{itemize}
+
+\hypertarget{one-sample-mean}{%
+\section{One sample mean}\label{one-sample-mean}}
+
+We prefer the \(t\) procedures to the \(z\) procedures for inference
+about a population mean because
+
+\begin{enumerate}
+\def\labelenumi{\alph{enumi}.}
+\tightlist
+\item
+  \(z\) can be used only for large samples
+\item
+  \textbf{\(z\) requires that you know the population standard deviation
+  \(\sigma\) (Correct)}
+\item
+  \(z\) requires that you can regard your data as an SRS from the
+  population
+\end{enumerate}
+
+\hypertarget{correct-rationales-4}{%
+\subsection{Correct rationales}\label{correct-rationales-4}}
+
+\begin{itemize}
+\tightlist
+\item
+  The reason we can use z on large samples is because when we have large
+  samples, we can use the sample sd as an estimate for the population
+  sd. The core reason for using t is because we don't know the
+  population sd and we can't estimate the sd with the small sample size.
+\item
+  because you don't know population sd, only sample sd for t procedures
+\item
+  Z test needs to have a known population standard deviation sigma and
+  either a normal distribution or the sample size n is large. If the
+  population standard deviation is unknown and the sample size is small
+  then t test statistic can be used.
+\end{itemize}
+
+\hypertarget{incorrect-rationales-4}{%
+\subsection{Incorrect rationales}\label{incorrect-rationales-4}}
+
+\begin{itemize}
+\tightlist
+\item
+  df are smaller for t-test, and you do not need a SD value
+\end{itemize}
+
+\hypertarget{one-sample-mean-2}{%
+\section{One sample mean 2}\label{one-sample-mean-2}}
+
+Because \(t\) procedures are robust, the most important condition for
+their safe use is that
+
+\begin{enumerate}
+\def\labelenumi{\alph{enumi}.}
+\tightlist
+\item
+  the population standard deviation \(\sigma\) is known
+\item
+  the population distribution is exactly Normal
+\item
+  \textbf{the data can be regarded as an SRS from the population
+  (Correct)}
+\item
+  the CLT hasn't kicked in yet
+\item
+  the sample size is small
+\end{enumerate}
+
+\hypertarget{correct-rationales-5}{%
+\subsection{Correct rationales}\label{correct-rationales-5}}
+
+\begin{itemize}
+\tightlist
+\item
+  The point of the t test is that sigma is not known (rules out A) The
+  CLT says that the population distribution doesn't matter (rules out B)
+  We want the CLT to kick in (rules out D) The larger the sample size
+  the better(rules out E).
+\end{itemize}
+
+\hypertarget{incorrect-rationales-5}{%
+\subsection{Incorrect rationales}\label{incorrect-rationales-5}}
+
+\begin{itemize}
+\tightlist
+\item
+  We should only use t procedures if the CLT is not applicable.
+\item
+  In order to use the T procedure comfortably, the sample size must be
+  large and the population distribution must be normal.
+\end{itemize}
+
+\hypertarget{bootstrap}{%
+\section{Bootstrap}\label{bootstrap}}
+
+Which of the following statements \emph{best} describes the utility of
+the bootstrap
+
+\begin{enumerate}
+\def\labelenumi{\alph{enumi}.}
+\tightlist
+\item
+  The bootstrap frees us from the requirement of using simple formulas
+  to derive confidence intervals
+\item
+  The bootstrap allows us to simulate a sampling distribution
+\item
+  \textbf{The bootstrap frees us from the assumption of a Gaussian
+  sampling distribution for the mean (as per the CLT) (Correct)}
+\item
+  The bootstrap tells us if the sampling distribution is asymmetric
+\end{enumerate}
+
+\hypertarget{correct-rationales-6}{%
+\subsection{Correct rationales}\label{correct-rationales-6}}
+
+\begin{itemize}
+\tightlist
+\item
+  Computer intensive methods can solve most problems without assuming
+  that the data have a Gaussian distribution.
+\item
+  The bootstrap frees us from the assumption that the data conform to a
+  bell-shaped normal distribution.
+\end{itemize}
+
+\hypertarget{incorrect-rationales-6}{%
+\subsection{Incorrect rationales}\label{incorrect-rationales-6}}
+
+\begin{itemize}
+\tightlist
+\item
+  due to the nature of bootstrap, you can resample things MANY times,
+  which means that CLT will always kick in giving a gaussian
+  distribution instead of assuming one exists
+\item
+  Bootstrap is useful in because it does not require the CLT and
+  \textbf{the population} does not have to be normally distributed
+\item
+  The bootstrap doesn't rely on CLT, and gives us freedom from having to
+  assume the normal distribution of \textbf{the population}.
+\item
+  The bootstrap allows us to derive estimates when often-used theories
+  do not apply. This is especially useful when n is small (e.g.~CLT
+  requires n \textgreater{} 30 to assume normality).
+\end{itemize}
+
+\hypertarget{binomial-distribution-1}{%
+\section{Binomial Distribution 1}\label{binomial-distribution-1}}
+
+In which of the following would Y not have a Binomial distribution?
+Provide your justification in the rationale.
+
+\begin{enumerate}
+\def\labelenumi{\alph{enumi}.}
+\tightlist
+\item
+  \textbf{Y = Number, out of 60 occupants of 30 randomly chosen cars,
+  wearing seatbelts. (Correct)}
+\item
+  Y = Number, out of 60 occupants of 60 randomly chosen cars, wearing
+  seatbelts.
+\item
+  Y = Number, out of simple random sample of 100 individuals, that are
+  left-handed.
+\end{enumerate}
+
+\hypertarget{correct-rationales-7}{%
+\subsection{Correct rationales}\label{correct-rationales-7}}
+
+\begin{itemize}
+\tightlist
+\item
+  60 occupants from 30 cars would mean more than one occupant per car -
+  whether each occupant is wearing a seatbelt or not isn't independent
+  if more than one comes from the same car.
+\item
+  There is a chance that if someone in the car is not wearing a
+  seatbelt, the other passenger in the car is not too. This means that
+  it is not independent. \#idiotswhodon'twearseatbeltsdrivetogether
+\item
+  Not independent, idiots who don't wear seatbelts in cars drive
+  together!!! VROOM VROOM
+\item
+  If there are more than one occupant in a car, they may influence each
+  other to wear or not wear a seat belt.
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Richard: ``hey Timmy, only losers wear seat belts, be cool like me
+    and don't wear your seat belt''
+  \item
+    Timothy: ``oh snap, you're right Ricky, not wearing a seat belt is
+    the fleekest''
+  \item
+    Richard and Timothy: ``we're going to live forever''
+  \end{itemize}
+\item
+  The outcome does not fall into one of two categories as someone can be
+  left-handed, right-handed, or ambidextrous.
+\end{itemize}
+
+\hypertarget{incorrect-rationales-7}{%
+\subsection{Incorrect rationales}\label{incorrect-rationales-7}}
+
+\begin{itemize}
+\tightlist
+\item
+  Each trial does not have an equal probability of success as there are
+  more right-handed people than left-handed people.
+\item
+  Because in this case the observations are not independent. If the
+  first volunteer selected is left-handed, the second one is more likely
+  to be right-handed because there are more right-handed individuals
+  than left-handed in the remaining sample.
+\end{itemize}
+
+\hypertarget{binomial-distribution-2}{%
+\section{Binomial Distribution 2}\label{binomial-distribution-2}}
+
+In which of the following would Y not have a Binomial distribution?
+Provide your justification in the rationale.
+
+\begin{enumerate}
+\def\labelenumi{\alph{enumi}.}
+\tightlist
+\item
+  \textbf{You want to know what percent of married people believe that
+  mothers of young children should not be employed outside the home. You
+  plan to interview 50 people, and for the sake of convenience you
+  decide to interview both the husband and the wife in 25 married
+  couples. The random variable Y is the number among the 50 persons
+  interviewed who think mothers should not be employed. (Correct)}
+\item
+  You observe the sex of the next 50 children born at a local hospital;
+  Y is the number of girls among them.
+\item
+  Y = number of occasions, out of a randomly selected sample of 100
+  occasions during the year, in which you were indoors.
+\end{enumerate}
+
+\hypertarget{correct-rationales-8}{%
+\subsection{Correct rationales}\label{correct-rationales-8}}
+
+\begin{itemize}
+\tightlist
+\item
+  Husband's opinion may depend on wife's opinion, and vice versa -
+  observations aren't independent.
+\item
+  One of the conditions for the binomial distribution is that the trials
+  must be independent. In A, they are selecting 25 married couples in
+  order to gather data on 50 people, but in this scenario either the
+  husband or the wife could influence the other, so the trials are not
+  independent.
+\end{itemize}
+
+\hypertarget{incorrect-rationales-8}{%
+\subsection{Incorrect rationales}\label{incorrect-rationales-8}}
+
+\hypertarget{binomial-distribution-3}{%
+\section{Binomial Distribution 3}\label{binomial-distribution-3}}
+
+The U.S. National Center for Health Statistics reports that
+approximately 12\% of emergency department visits result in hospital
+admissions. Consider 20 randomly selected emergency department visits
+and assume that visits to emergency departments are independent. What is
+the approximate probability that at most 2 of the 20 visits would result
+in hospital admissions?
+
+\begin{enumerate}
+\def\labelenumi{\alph{enumi}.}
+\tightlist
+\item
+  \textbf{0.5631 (Correct)}
+\item
+  0.2740
+\item
+  0.1344
+\item
+  0.2891
+\item
+  0.4369
+\end{enumerate}
+
+\hypertarget{correct-rationales-9}{%
+\subsection{Correct rationales}\label{correct-rationales-9}}
+
+\begin{itemize}
+\tightlist
+\item
+  We have to callculate the probability at 0,1, and 2 and add them up:
+  For 0: (1)(1)(0.88)\^{}20 For 1: 20(0.12)(0.88)\^{}19 For 2:
+  190(0.12)\textsuperscript{2(0.88)}18 Adding these all up equals 0.5631
+\item
+  P(X\textless{} or=2) = P(X=2)+P(X=1)+P(X=0) = 0.5631
+\item
+  pbinom(2, 20, 0.12, lower.tail = TRUE)
+\end{itemize}
+
+\hypertarget{incorrect-rationales-9}{%
+\subsection{Incorrect rationales}\label{incorrect-rationales-9}}
+
+\begin{itemize}
+\tightlist
+\item
+  1- pbinom(2, size = 20, prob = 0.12)
+\end{itemize}
+
+\hypertarget{binomial-distribution-4}{%
+\section{Binomial DIstribution 4}\label{binomial-distribution-4}}
+
+The U.S. National Center for Health Statistics reports that
+approximately 12\% of emergency department visits result in hospital
+admissions. Consider 20 randomly selected emergency department visits
+and assume that visits to emergency departments are independent. How
+many hospital admissions do we expect, on average, in a random sample of
+20 emergency department visits?
+
+\begin{enumerate}
+\def\labelenumi{\alph{enumi}.}
+\tightlist
+\item
+  2
+\item
+  \textbf{2.4 (Correct)}
+\item
+  12
+\item
+  24
+\item
+  1.4533
+\end{enumerate}
+
+\hypertarget{correct-rationales-10}{%
+\subsection{Correct rationales}\label{correct-rationales-10}}
+
+\begin{itemize}
+\tightlist
+\item
+  mean of a binomial distribution = np = 20*0.12 = 2.4
+\item
+  \(\mu\) = np = (20)(0.12) = 2.4 hospital admissions
+\end{itemize}
+
+\hypertarget{incorrect-rationales-10}{%
+\subsection{Incorrect rationales}\label{incorrect-rationales-10}}
+
+\begin{itemize}
+\tightlist
+\item
+  0.12 x 20 = 2.4 But we can't in a random sample get .4, so we choose
+  2.
+\end{itemize}
+
+\hypertarget{binomial-distribution-5}{%
+\section{Binomial Distribution 5}\label{binomial-distribution-5}}
+
+The U.S. National Center for Health Statistics reports that
+approximately 12\% of emergency department visits result in hospital
+admissions. Consider 20 randomly selected emergency department visits
+and assume that visits to emergency departments are independent. If Y is
+the number of emergency department visits that result in hospital
+admissions in random samples of 20 visits, what is approximately the
+standard deviation of Y?
+
+\begin{enumerate}
+\def\labelenumi{\alph{enumi}.}
+\tightlist
+\item
+  \textbf{1.45 (Correct)}
+\item
+  2.11
+\item
+  4.46
+\end{enumerate}
+
+\hypertarget{correct-rationales-11}{%
+\subsection{Correct rationales}\label{correct-rationales-11}}
+
+\begin{itemize}
+\tightlist
+\item
+  The standard deviation of U can be solved using the equation sigma =
+  sqrt(np(1-p)) = sqrt(20\emph{.12}(1-0.12)) = 1.45
+\end{itemize}
+
+\hypertarget{incorrect-rationales-11}{%
+\subsection{Incorrect rationales}\label{incorrect-rationales-11}}
+
+\hypertarget{binomial-distribution-6}{%
+\section{Binomial Distribution 6}\label{binomial-distribution-6}}
+
+According to the 2015 U.S. census update, approximately 13\% of
+Americans are black. Let Y be the number of blacks in a random sample of
+1500 Americans. What is the probability that the sample will contain 200
+or more blacks?
+
+\begin{enumerate}
+\def\labelenumi{\alph{enumi}.}
+\tightlist
+\item
+  pbinom(q = 200, size = 1500, prob = 0.13)
+\item
+  1-dbinom(x = 200, size = 1500, prob = 0.13)
+\item
+  dbinom(x = 200, size = 1500, prob = 0.13)
+\item
+  \texttt{pnorm(200, mean = 195, sd = 13.025, lower.tail = FALSE)}
+  \textbf{(Correct)}
+\item
+  \texttt{1 - pbinom(q = 200, size = 1500, prob = 0.13, lower.tail = FALSE)}
+\end{enumerate}
+
+\hypertarget{correct-rationales-12}{%
+\subsection{Correct rationales}\label{correct-rationales-12}}
+
+\begin{itemize}
+\item
+  \begin{enumerate}
+  \def\labelenumi{\alph{enumi})}
+  \tightlist
+  \item
+    is not correct because it is looking at all values below 200 b) is
+    not correct because it is looking at the probability of getting
+    anything but 200 c) is not correct because it is looking at getting
+    exactly 200 e) is not correct because it is looking at all values
+    below \textbf{201} d) since sample size is large, we can use normal
+    approximation for binomial distribution
+  \end{enumerate}
+\item
+  In this case, we can use the normal approximation because n is large
+  enough, n*p = 195 \textgreater{} 10, n(1-p) = 1305 \textgreater{} 10.
+  Therefore, we can use pnorm function with q=200, lower.tail false. A
+  doesn't specify a lower.tail=FALSE, so R gives lower.tail = TRUE by
+  default. dbinom are wrong.
+\end{itemize}
+
+\hypertarget{incorrect-rationales-12}{%
+\subsection{Incorrect rationales}\label{incorrect-rationales-12}}
+
+\begin{itemize}
+\item
+  because you are calculating the sample that will contain 200 or more,
+  lower.tail is false.
+\item
+  \begin{enumerate}
+  \def\labelenumi{\Alph{enumi})}
+  \setcounter{enumi}{4}
+  \tightlist
+  \item
+    would be right if it didn't have the 1 - before the code.
+  \end{enumerate}
+\item
+  Enough ppl not to do a t-test
+\end{itemize}
+
+\hypertarget{one-sample-proportion-1}{%
+\section{One Sample Proportion 1}\label{one-sample-proportion-1}}
+
+A CDC report on secondhand smoke at home gives the following 95\%
+confidence interval for the percent of California households that are
+free of secondhand smoke: (90.8, 92.2). The correct interpretation for
+this confidence interval is that we can be 95\% confident that
+
+\begin{enumerate}
+\def\labelenumi{\alph{enumi}.}
+\tightlist
+\item
+  the proportion of households free of secondhand smoke in another
+  sample of California households would be between 0.908 and 0.922
+\item
+  the population mean number of households in California that are free
+  of secondhand smoke is between 90.8 and 92.2
+\item
+  \textbf{the true proportion of all California households that are free
+  of secondhand smoke is between 0.908 and 0.922 (Correct)}
+\end{enumerate}
+
+\hypertarget{correct-rationales-13}{%
+\subsection{Correct rationales}\label{correct-rationales-13}}
+
+\begin{itemize}
+\tightlist
+\item
+  The answer is C because the confidence interval looks at where the
+  true population proportion will fall 95\% of the time.
+\item
+  A is not right because the CI is only for that trial, not for all
+  trials. B is not right because they are not talking about a mean value
+  but a proportion.
+\end{itemize}
+
+\hypertarget{incorrect-rationales-13}{%
+\subsection{Incorrect rationales}\label{incorrect-rationales-13}}
+
+\hypertarget{one-sample-proportion-2}{%
+\section{One Sample Proportion 2}\label{one-sample-proportion-2}}
+
+A CDC report on secondhand smoke at home gives the following 95\%
+confidence interval for the percent of California households that are
+free of secondhand smoke: (90.8, 92.2). What is the margin of error for
+this interval?
+
+\begin{enumerate}
+\def\labelenumi{\alph{enumi}.}
+\tightlist
+\item
+  \textbf{0.007 (Correct)}
+\item
+  0.014
+\item
+  0.028
+\end{enumerate}
+
+\hypertarget{correct-rationales-14}{%
+\subsection{Correct rationales}\label{correct-rationales-14}}
+
+\begin{itemize}
+\tightlist
+\item
+  The margin of error is half the width of the confidence interval.
+\item
+  The margin of error is half of the confidence interval. 92.2 - 90.8 /
+  2 = 0.007
+\end{itemize}
+
+\hypertarget{incorrect-rationales-14}{%
+\subsection{Incorrect rationales}\label{incorrect-rationales-14}}
+
+\hypertarget{one-sample-proportion-3}{%
+\section{One Sample Proportion 3}\label{one-sample-proportion-3}}
+
+How many observations must be recorded to estimate a population with
+unknown proportion p to within +/- 0.02 with 95\% confidence?
+
+\begin{enumerate}
+\def\labelenumi{\alph{enumi}.}
+\tightlist
+\item
+  n=25
+\item
+  n=1225
+\item
+  \textbf{n=2401 (Correct)}
+\item
+  n=2350
+\item
+  n=1691
+\end{enumerate}
+
+\hypertarget{correct-rationales-15}{%
+\subsection{Correct rationales}\label{correct-rationales-15}}
+
+\begin{itemize}
+\tightlist
+\item
+  We would have to guess p in this case because it is not given. It is
+  best to assume p is 0.5 when it is unknown because the margin of error
+  is largest when p is 0.5 so by doing so we are giving a more
+  conservation estimation for how many people we will need. We then use
+  the formula n=(z/m)\^{}2(p)(1-p) where p=0.5, z=1.96, m=0.02.
+\end{itemize}
+
+\hypertarget{incorrect-rationales-15}{%
+\subsection{Incorrect rationales}\label{incorrect-rationales-15}}
+
+\begin{itemize}
+\tightlist
+\item
+  1691 = (1.645/0.02)\^{}2 * (0.5 * (1-0.5))
+\item
+  Using the formula: n = (z*/m)(p)(1-p) = (1.96/0.02)(0.5)(1-0.5) = 24.5
+  = 25. Here, test is conservative and p is set to 0.5.
+\end{itemize}
+
+%\showmatmethods
+
+
+\bibliography{pinp}
+\bibliographystyle{jss}
+
+
+
+\end{document}
+

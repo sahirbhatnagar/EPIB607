@@ -1,0 +1,307 @@
+---
+title: DALITE Q2 - Boxplots, Standard Deviation and Normal Curves. Due September 17, 2019.
+
+# Use letters for affiliations
+author:
+  - name: EPIB607 - Inferential Statistics
+    affiliation: a
+#  - name: Second Author
+#    affiliation: a,b
+address:
+  - code: a
+    address: Fall 2019, McGill University
+#  - code: b
+#    address: Department of Neat Tricks, Whereever State University, Someplace, MC, 67890
+
+# For footer text  TODO(fold into template, allow free form two-authors)
+lead_author_surname: Bhatnagar and Hanley
+
+# Place DOI URL or CRAN Package URL here
+doi: "https://sahirbhatnagar.com/EPIB607/"
+
+# Abstract
+abstract: |
+  This DALITE quiz will cover more descriptives such as boxplots, standard deviation, and introduce you to normal density curves. 
+
+# Optional: Acknowledgements
+#acknowledgements: |
+#  This template package builds upon, and extends, the work of the excellent
+#  [rticles](https://cran.r-project.org/package=rticles) package, and both packages rely on the
+#  [PNAS LaTeX](http://www.pnas.org/site/authors/latex.xhtml) macros. Both these sources are
+#  gratefully acknowledged as this work would not have been possible without them.  Our extensions
+#  are under the same respective licensing term
+#  ([GPL-3](https://www.gnu.org/licenses/gpl-3.0.en.html) and
+#  [LPPL (>= 1.3)](https://www.latex-project.org/lppl/)).
+
+# Optional: One or more keywords
+keywords:
+  - Boxplots
+  - Standard deviation
+  - Normal curves
+
+# Paper size for the document, values of letterpaper and a4paper
+papersize: letter
+
+# Font size of the document, values of 9pt (default), 10pt, 11pt and 12pt
+fontsize: 12pt
+
+# Optional: Force one-column layout, default is two-column
+one_column: true
+
+# Optional: Enables lineno mode, but only if one_column mode is also true
+#lineno: true
+
+# Optional: Enable one-sided layout, default is two-sided
+#one_sided: true
+
+# Optional: Enable section numbering, default is unnumbered
+numbersections: true
+
+# Optional: Specify the depth of section number, default is 5
+#secnumdepth: 5
+
+# Optional: Skip inserting final break between acknowledgements, default is false
+skip_final_break: true
+
+# Optional: Bibliography 
+bibliography: pinp
+
+# Optional: Enable a 'Draft' watermark on the document
+watermark: false
+
+# Customize footer, eg by referencing the vignette
+footer_contents: "DALITE Q2 due Sepetember 17, 2019 by 5pm"
+
+# Produce a pinp document
+output: pinp::pinp
+
+# Required: Vignette metadata for inclusion in a package.
+vignette: >
+  %\VignetteIndexEntry{YourPackage-vignetteentry}
+  %\VignetteKeywords{YourPackage, r, anotherkeyword}
+  %\VignettePackage{Due Sepetember 17, 2019}
+  %\VignetteEngine{knitr::rmarkdown}
+---
+
+# Marking {-}
+
+Completion of this DALITE exercise will be availble to us automatically through the DALITE website. Therefore **you do not need to hand anything in**. Marks will be based on the number of correct answers. For each question you will receive 0.5 marks for getting the correct answer on the first attempt and an additional 0.5 marks if you stick with the right answer or switch to the correct answer after seeing someone else's rationale. Recall that access to your assignments is managed through tokens sent to your e-mail address. You will be sent a new link everytime a new assignment has been posted.
+
+
+# Boxplots
+
+## Learning Objectives
+
+1. Recognize that a basic numerical description of a distribution requires both a measure of
+center and a measure of spread.
+2. Use the quartiles and the extremes to provide information about the unequal spread in the
+two sides of a skewed distribution.
+3. Be able to calculate the quartiles and give the five-number summary of a data set of
+using a computer.
+4. Understand that boxplots provide less detail than stemplots or histograms but are especially
+useful for comparing several distributions.
+
+## Videos
+
+1. [Against All Odds Unit 5](https://www.learner.org/courses/againstallodds/unitpages/unit05.html)  
+
+<!--\vspace*{0.25cm}-->
+
+## Required Readings
+
+1. [Against All Odds Unit 5, pages 1-5](https://www.learner.org/courses/againstallodds/pdfs/AgainstAllOdds_StudentGuide_Unit05.pdf#page=1)
+2. De Veaux, Velleman and Bock (DVB), Chapter 5
+
+
+\vspace*{0.25cm}
+
+# Standard Deviation
+
+## Learning Objectives
+
+1. Know that the sample standard deviation, $s$, is the measure of spread most commonly used when the mean, $\bar{x}$, is used as the measure of center.
+2. Know the formula for the standard deviation $s$ 
+3. Know the basic properties of the standard deviation:
+    a) $s \geq 0$, and only when all data values are identical can $s = 0$
+    b) $s$ increases as the spread about $x$ increases.
+    c) $s$, like $\bar{x}$, is strongly influenced by outliers.
+4. Know that the standard deviation is most useful for symmetric distributions and, in
+particular, for normal distributions.
+5. Know that adding the same constant $a$ to all the observations increases the value of $\bar{x}$ by $a$. However, adding the same constant $a$ to all the observations does not change the value
+of $s$. That's because adding a constant $a$ to all data values shifts the location of the data but
+does not affect its spread.
+6. Know that multiplying all data values by a constant amount $k$ changes $\bar{x}$ and $s$ by
+a factor of $k$.
+
+## Videos
+
+1. [Against All Odds Unit 6](https://www.learner.org/courses/againstallodds/unitpages/unit06.html)
+
+
+## Required Readings
+
+\begin{enumerate}
+\item \href{https://www.learner.org/courses/againstallodds/pdfs/AgainstAllOdds_StudentGuide_Unit06.pdf#page=1}{Against All Odds Unit 6, pages 1-8}
+\item De Veaux, Velleman and Bock (DVB), Chapter 6
+\end{enumerate}
+
+
+
+
+
+# Normal Curves
+
+## Learning Objectives
+
+1. Understand that the overall shape of a distribution of a large number of observations can be
+summarized by a smooth curve called a density curve.
+2. Know that an area under a density curve over an interval represents the proportion of data
+that falls in that interval.
+3. Recognize the characteristic bell-shapes of normal curves. Locate the mean and standard
+deviation on a normal density curve by eye.
+4. Understand how changing the mean and standard deviation affects a normal density curve.
+    - Know that changing the mean of a normal density curve shifts the curve along the horizontal axis without changing its shape.
+    - Know that increasing the standard deviation produces a flatter and wider bell-shaped curve and that decreasing the standard deviation produces a taller and narrower curve. 
+
+## Videos
+
+1. [Against All Odds Unit 7](https://www.learner.org/courses/againstallodds/unitpages/unit07.html)
+
+
+## Required Readings
+
+\begin{enumerate}
+\item \href{https://www.learner.org/courses/againstallodds/pdfs/AgainstAllOdds_StudentGuide_Unit07.pdf#page=1}{Against All Odds Unit 7, pages 1-9}
+\end{enumerate}
+
+
+<!-- 
+We support several options via the YAML header
+
+- Setting a DOI or URL footer, for example for the CRAN package URL,
+  which is placed in the bottom-left footer of the title page and even pages;
+- Setting a footer label, for example _YourPackage Vignette_ stating
+  your package, which is placed in the bottom-right footer on odd
+  pages;
+- Setting a free-form author field used on the inside footer;
+- Optional _Draft_ watermarking;
+
+
+
+## References 
+
+Here we differ from PNAS and suggest natbib. References will appear in
+author-year form. Use `\citet{}`, `\citep{}`, etc as usual.
+
+We default to the `jss.bst` style. To switch to a different bibliography
+style, please use `biblio-style: style` in the YAML header.
+
+
+## Inline R Code 
+
+The PNAS sample included a fixed PNG image here, but this document prefers
+to show the results and embedding of _R_ code. 
+
+```{r figex, fig.width=3, fig.height=3, cache=TRUE, echo=TRUE, fig.cap="Narrow ggplot2 figure"}
+library(ggplot2)
+ggplot(mtcars, aes(wt, mpg)) +
+    geom_point(size=3, aes(colour=factor(cyl))) +
+    theme(legend.position="none")
+```
+
+Here we use a standard knitr bloc with explicit options for
+
+- figure width and height (`fig.width`, `fig.height`), both set to three inches;
+- whether the code is shown (`echo=TRUE`); and
+- the caption (`fig.cap`) as shown above.
+
+
+## Digital Figures 
+
+Markdown, Pandoc and LaTeX support `.eps` and `.pdf` files.
+
+Figures and Tables should be labelled and referenced in the standard way
+using the `\label{}` and `\ref{}` commands.
+
+The R examples above show how to insert a column-wide
+figure. To insert a figure wider than one column, please use the
+`\begin{figure*}...\end{figure*}` environment. 
+
+One (roundabout) way of doing this is to _not_ actually plot a figure, but to
+save it in a file as the following segment shows:
+
+```{r densityPlot, echo=TRUE}
+library(ggplot2)
+p <- ggplot(data = midwest,
+            mapping = aes(x = area,
+                          fill = state,
+                          color = state)) +
+    geom_density(alpha = 0.3)
+## save to file
+suppressMessages(ggsave("densities.pdf", p))
+```
+
+This file is then included via standard LaTeX commands.
+
+\begin{figure*}
+  \begin{center}
+    \includegraphics[width=0.66\textwidth, height=3.5in]{densities} 
+  \end{center}
+  \caption{Wide ggplot2 figure}\label{fig}
+\end{figure*}
+
+
+## Typeset Code (But Do Not Run It) 
+
+We can also just show code.
+
+```r
+xx <- faithful[,"eruptions"]
+fit <- density(xx)
+plot(fit)
+```
+
+This simply used a pandoc bloc started and ended by three backticks,
+with `r` as the language choice.  Similarly, _many_ other languages
+can be typeset directly simply by relying on pandoc.
+
+
+## Single column equations 
+
+Authors may use 1- or 2-column equations in their article, according to
+their preference.
+
+To allow an equation to span both columns, options are to use the
+`\begin{figure*}...\end{figure*}` environment mentioned above for
+figures, or to use the `\begin{widetext}...\end{widetext}` environment
+as shown in equation \ref{eqn:example} below.
+
+Please note that this option may run into problems with floats and
+footnotes, as mentioned in the [cuted package
+documentation](http://texdoc.net/pkg/cuted). In the case of problems
+with footnotes, it may be possible to correct the situation using
+commands `\footnotemark` and `\footnotetext`.
+
+\begin{equation}
+  \begin{aligned}
+(x+y)^3&=(x+y)(x+y)^2\\
+       &=(x+y)(x^2+2xy+y^2) \\
+       &=x^3+3x^2y+3xy^3+x^3. 
+       \label{eqn:example} 
+  \end{aligned}
+\end{equation}
+
+
+pandoc writes all tables using longtable, which fails in 2-column mode
+
+  Species                    CBS     CV     G3
+  ----------------------- ------ ------ ------
+  1\. Acetaldehyde           0.0    0.0    0.0
+  2\. Vinyl alcohol          9.1    9.6   13.5
+  3\. Hydroxyethylidene     50.8   51.2   54.0
+
+  : Comparison of the fitted potential energy surfaces and ab initio
+  benchmark electronic energy calculations
+
+-->
+

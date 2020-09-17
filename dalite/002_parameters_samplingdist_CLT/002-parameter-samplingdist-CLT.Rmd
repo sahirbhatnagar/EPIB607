@@ -1,0 +1,136 @@
+---
+title: DALITE Q1 - Parameters, Sampling Distributions and the Central Limit Theorem. Due September 23, 2020 by 10am.
+
+# Use letters for affiliations
+author:
+  - name: EPIB607 - Inferential Statistics
+    affiliation: a
+#  - name: Second Author
+#    affiliation: a,b
+address:
+  - code: a
+    address: Fall 2020, McGill University
+#  - code: b
+#    address: Department of Neat Tricks, Whereever State University, Someplace, MC, 67890
+
+# For footer text  TODO(fold into template, allow free form two-authors)
+lead_author_surname: Bhatnagar
+
+# Place DOI URL or CRAN Package URL here
+#doi: "https://sahirbhatnagar.com/EPIB607/"
+
+# Abstract
+abstract: |
+  This DALITE quiz will cover the building blocks of statistical inference. 
+
+# Optional: Acknowledgements
+#acknowledgements: |
+#  This template package builds upon, and extends, the work of the excellent
+#  [rticles](https://cran.r-project.org/package=rticles) package, and both packages rely on the
+#  [PNAS LaTeX](http://www.pnas.org/site/authors/latex.xhtml) macros. Both these sources are
+#  gratefully acknowledged as this work would not have been possible without them.  Our extensions
+#  are under the same respective licensing term
+#  ([GPL-3](https://www.gnu.org/licenses/gpl-3.0.en.html) and
+#  [LPPL (>= 1.3)](https://www.latex-project.org/lppl/)).
+
+# Optional: One or more keywords
+keywords:
+  - Parameters and statistics
+  - Sampling distributions
+  - Central Limit Theorem (CLT)
+
+# Paper size for the document, values of letterpaper and a4paper
+papersize: letter
+
+# Font size of the document, values of 9pt (default), 10pt, 11pt and 12pt
+fontsize: 12pt
+
+# Optional: Force one-column layout, default is two-column
+one_column: true
+
+# Optional: Enables lineno mode, but only if one_column mode is also true
+#lineno: true
+
+# Optional: Enable one-sided layout, default is two-sided
+#one_sided: true
+
+# Optional: Enable section numbering, default is unnumbered
+numbersections: true
+
+# Optional: Specify the depth of section number, default is 5
+#secnumdepth: 5
+
+# Optional: Skip inserting final break between acknowledgements, default is false
+skip_final_break: true
+
+# Optional: Bibliography 
+bibliography: pinp
+
+# Optional: Enable a 'Draft' watermark on the document
+watermark: false
+
+# Customize footer, eg by referencing the vignette
+footer_contents: "DALITE Q2 due Wednesday Sepetember 23, 2020 by 10am"
+
+# Produce a pinp document
+output: pinp::pinp
+
+# Required: Vignette metadata for inclusion in a package.
+vignette: >
+  %\VignetteIndexEntry{YourPackage-vignetteentry}
+  %\VignetteKeywords{YourPackage, r, anotherkeyword}
+  %\VignettePackage{Due Sepetember 23, 2020}
+  %\VignetteEngine{knitr::rmarkdown}
+---
+
+# Marking {-}
+
+Completion of this DALITE exercise will be availble to us automatically through the DALITE website. Therefore **you do not need to hand anything in**. Marks will be based on the number of correct answers. For each question you will receive 0.5 marks for getting the correct answer on the first attempt and an additional 0.5 marks if you stick with the right answer or switch to the correct answer after seeing someone else's rationale. 
+
+# Parameters and statistics
+
+## Learning Objectives
+
+1. Understand the difference between a parameter and a statistic.
+2. A parameter is related to the population.
+3. A statistic is related to the sample.
+
+## Required Readings
+
+1. [JH section 1](https://www.dropbox.com/s/kr293cablb11nrm/Ch13SamplingDistributionsJH2018.pdf?dl=0)
+
+\vspace*{0.25cm}
+
+# Sampling Distributions and Central Limit Theorem
+
+## Learning Objectives
+
+1. Recognize that there is variability due to sampling. Repeated random samples from the same population will give variable results.
+2. Understand the concept of a sampling distribution of a statistic such as a sample mean, sample median, or sample proportion.
+3. Know that the sampling distributions of some common statistics are approximately normally distributed; in particular, the sample mean x of a simple random sample drawn from a normal population has a normal distribution.
+4. Know that the standard deviation of the sampling distribution of x depends on both the standard deviation of the population from which the sample was drawn and the sample size $n$.
+5. Grasp a key concept of statistical process control: Monitor the process rather than examine
+all of the products; all processes have variation; we want to distinguish the natural variation of
+the process from the added variation that shows that the process has been disturbed.
+6. Make an $\bar{x}$ control chart. Use the 68-95-99.7% rule and the sampling distribution of $\bar{x}$ to
+help identify if a process is out of control.
+7. Be familiar with the Central Limit Theorem: the sample mean $\bar{x}$ of a large number of
+observations has an approximately normal distribution even when the distribution of individual
+observations is not normal.
+
+
+## Videos
+
+1. [Against All Odds Unit 22](https://www.learner.org/series/against-all-odds-inside-statistics/sampling-distributions/)
+
+
+## Required Readings
+
+\begin{enumerate}
+\item \href{https://www.learner.org/wp-content/uploads/2019/03/AgainstAllOdds_StudentGuide_Unit22-Sampling-Distributions.pdf}{Against All Odds Unit 22}
+\item De Veaux, Velleman and Bock (DVB), Chapter 18
+\end{enumerate}
+
+
+
+

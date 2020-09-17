@@ -1,0 +1,127 @@
+\documentclass{beamer}
+
+
+%\input{slides_header.tex}
+\input{/home/sahir/git_repositories/EPIB607/resources/assets/slides/slides_header2.tex}
+\graphicspath{{/home/sahir/git_repositories/EPIB607/resources/assets/slides/figure/}}
+
+%\let\oldShaded\Shaded
+%\let\endoldShaded\endShaded
+%\renewenvironment{Shaded}{\footnotesize\oldShaded}{\endoldShaded}
+
+
+
+\begin{document}
+	
+	<<setup, include=FALSE>>=
+	library(knitr)
+	knitr::opts_chunk$set(cache=FALSE, message = FALSE, tidy = FALSE, warning = FALSE,
+	echo = TRUE, fig.width = 8, fig.asp = 0.8, 
+	fig.align = 'center', out.width = "100%", size = 'scriptsize')
+	
+	# the kframe environment does not work with allowframebreaks, so remove it
+	#knit_hooks$set(document = function(x) {
+	#gsub('\\\\(begin|end)\\{kframe\\}', '', x)
+	#})
+	
+	library(tidyverse)
+	#knitr::opts_chunk$set(background = '#FFFF00')
+	library(tools) #needed for include_graphics2 function
+	source("/home/sahir/git_repositories/EPIB607/resources/assets/slides/bin/include_graphics2.R")
+	@
+	
+	%\title{Introduction to Regression Trees}
+	%\author{Sahir Bhatnagar \inst{1}}
+	%\author[shortname]{Sahir Rai Bhatnagar, PhD Candidate (Biostatistics) }
+	%\institute[shortinst]{Department of Epidemiology, Biostatistics and Occupational Health}
+	
+	\title{002 - Motivating Examples}
+	\author{EPIB 607 - FALL 2020}
+	\institute{
+		Sahir Rai Bhatnagar\\
+		Department of Epidemiology, Biostatistics, and Occupational Health\\
+		McGill University\\
+		
+		\vspace{0.1 in}
+		
+		\texttt{sahir.bhatnagar@mcgill.ca}\\
+		%\texttt{\url{https://sahirbhatnagar.com/EPIB607/}}
+	}
+	
+	\date{slides compiled on \today}
+	
+	\maketitle
+
+\section{Case study 1: Safety and immunogenicity of the ChAdOx1 nCoV-19	vaccine against SARS-CoV-2}
+
+
+\begin{frame}{Early phase COVID-19 vaccine trial\footnote{\scriptsize\url{https://www.thelancet.com/journals/lancet/article/PIIS0140-6736(20)31604-4/fulltext}}}
+	\centering
+	\includegraphics[scale=0.25]{002-cs1.png}	
+\end{frame}
+
+
+
+
+\begin{frame}{Phase 1/2 trial}
+	\begin{itemize}
+		\item The focus in phase 1/2 trials is looking at what the vaccine does to the body and what the body does with the vaccine in \textit{healthy} individuals
+		\item Healthy adults aged 18-55 years with no history of laboratory confirmed SARS-CoV-2 infection or of COVID-19-like symptoms were randomly assigned (1:1) to receive \textbf{ChAdOx1 nCoV-19} at a dose of $5\times 10^{10}$ viral particles or \textbf{MenACWY} as a single intramuscular injection
+		\item Between April 23 and May 21, 2020, 1077 participants were enrolled and assigned to receive either ChAdOx1 nCoV-19 (n=543) or MenACWY (n=534)
+		\item Convalescent plasma is collected from someone who has recovered from a virus. When a person is infected with a virus, their body starts making antibodies to fight it. It is believed these antibodies could be the key ingredient for a treatment to help others with the same virus.
+		\item Safety was assessed over 28 days after vaccination
+	\end{itemize}
+\end{frame}
+
+
+
+\begin{frame}[fragile]{Comparing levels of immunity}
+	
+	
+<<named-chunk, eval=TRUE>>=
+include_graphics2("http://www.biostat.mcgill.ca/hanley/statbook/OxfordCovidVaccine.png")
+@
+
+
+	
+\end{frame}
+
+
+
+\begin{frame}[fragile]{What levels of immunity are found in patients who have recovered from  COVID-19? (PANEL B)}
+	<<oxforrr>>=
+	ds=read.table("http://www.biostat.mcgill.ca/hanley/statbook/immunogenicityChAdOx1.nCoV-19vaccine.txt")
+	str(ds)
+	tail(ds)
+	@
+\end{frame}
+
+
+
+\begin{frame}
+
+
+
+
+\end{frame}
+	
+%\begin{frame}[allowframebreaks]
+%\nocite{breiman1984classification}
+%	\nocite{friedman2001elements}
+%	\nocite{james2013introduction}
+%	\nocite{lopez2015arbres}
+%	\frametitle{References}
+%\printbibliography
+%\end{frame}
+
+
+\begin{frame}[fragile]{Session Info}
+	\tiny
+	
+	<<echo=FALSE, comment = NA, size = 'tiny'>>=
+	print(sessionInfo(), locale = FALSE)
+	@
+	
+\end{frame}
+
+\end{document}
