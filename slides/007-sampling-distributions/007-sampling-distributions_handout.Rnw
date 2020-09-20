@@ -1,0 +1,1512 @@
+\documentclass[10pt,handout]{beamer}
+
+
+%\input{slides_header.tex}
+\input{/home/sahir/git_repositories/EPIB607/slides/slides_header2.tex}
+\graphicspath{{/home/sahir/git_repositories/EPIB607/slides/figure/}}
+
+%\let\oldShaded\Shaded
+%\let\endoldShaded\endShaded
+%\renewenvironment{Shaded}{\footnotesize\oldShaded}{\endoldShaded}
+
+
+
+
+\begin{document}
+
+<<setup, include=FALSE>>=
+library(knitr)
+knitr::opts_chunk$set(cache=FALSE, message = FALSE, tidy = FALSE, warning = FALSE,
+echo = FALSE, 
+#fig.width = 8, 
+#fig.asp = 0.8, 
+fig.align = 'center', 
+#out.width = "0.50\\linewidth", 
+size = 'tiny')
+
+# the kframe environment does not work with allowframebreaks, so remove it
+#knit_hooks$set(document = function(x) {
+#gsub('\\\\(begin|end)\\{kframe\\}', '', x)
+#})
+
+library(tidyverse)
+library(NCStats)
+options(digits = 2)
+
+
+#knitr::opts_chunk$set(background = '#FFFF00')
+library(tools) #needed for include_graphics2 function
+source("/home/sahir/git_repositories/EPIB607/slides/bin/include_graphics2.R")
+@
+
+%\title{Introduction to Regression Trees}
+%\author{Sahir Bhatnagar \inst{1}}
+%\author[shortname]{Sahir Rai Bhatnagar, PhD Candidate (Biostatistics) }
+%\institute[shortinst]{Department of Epidemiology, Biostatistics and Occupational Health}
+
+	\title{007 - Sampling Distributions}
+\author{EPIB 607 - FALL 2020}
+\institute{
+	Sahir Rai Bhatnagar\\
+	Department of Epidemiology, Biostatistics, and Occupational Health\\
+	McGill University\\
+	
+	\vspace{0.1 in}
+	
+	\texttt{sahir.bhatnagar@mcgill.ca}\\
+	%\texttt{\url{https://sahirbhatnagar.com/EPIB607/}}
+}
+
+\date{slides compiled on \today}
+
+\maketitle
+
+\section{Samples}
+
+\begin{frame}{Parameters and  Statistics}
+	
+	\begin{itemize}
+		\item \textbf{Paramter}: An  unknown  numerical  constant  pertaining  to  a  population/universe,  or  in  a  statistical  model. 
+		\begin{itemize}
+			\item $\mu$: population mean $\qquad\qquad$ $\pi$: population proportion
+		\end{itemize}
+
+		\item \textbf{Statistic}: A  numerical  quantity  calculated  from  a  sample. The  empirical counterpart of the parameter,  used  to  \textit{estimate}  it.
+
+		\begin{itemize}
+			\item $\bar{y}$: sample mean $\qquad\qquad$ $p$: sample proportion
+		\end{itemize}
+	\end{itemize}
+	
+
+	\Wider[4em]{
+		\centering
+		\includegraphics[scale=0.35]{MeansFig1.png}
+	}
+	
+\end{frame}
+
+
+
+
+
+
+
+\begin{frame}{Examples}
+	\textbf{Proportions}:
+	\begin{itemize}
+		\setlength\itemsep{1.2em}
+		\item Proportion of  Earth's  surface  covered  by  water
+		\item Proportion  who saw a medical doctor last year
+		\item Proportion of Québécois who don't have a family doctor
+	\end{itemize}  
+	\pause 
+	\vspace{0.1 in}
+	
+	\textbf{Means}:
+	\begin{itemize}	 
+		\setlength\itemsep{1.2em} 
+		\item Mean  depth  in $n$ randomly  selected  ocean  locations
+		\item Mean  household  size  in $n$ randomly  selected  households.  
+		\item Median  number  of  persons  under-5  in  a  sample  of $n$ households
+	\end{itemize}  
+	
+\end{frame}
+
+\frame{\frametitle{Samples must be random} 
+	
+	\begin{itemize}
+		\item 	The validity of inference will depend on the
+		way that the sample was collected. If a sample was collected badly, no amount of
+		statistical sophistication can rescue the study. \\ \ \\ \pause
+		
+		\item Samples should be \textbf{random}. That is, there should be no systematic set of
+		characteristics that is related to the scientific question of interest that causes some
+		people to be more likely to be sampled than others. The simplest type of randomization
+		selects members from the population with equal probability (a uniform distribution). \\ \
+		\\ \pause
+		
+		\item When conducting a study, it is always better to seek statistical
+		advice sooner rather than later. Get a statistician involved at the
+		\textit{planning} stage of the study... by the analysis stage, it
+		may be too late!
+	\end{itemize}
+}
+
+
+\frame{\frametitle{Samples must be random - No cheating!} 
+	
+	\textbf{Do not cheat by} \pause 
+	\begin{itemize}
+		\item 	Taking 5 people from the \emph{same} household to estimate
+		
+		\begin{itemize}
+			\item proportion of Québécois who don't have a family doctor
+			\item who saw a medical doctor last year
+			\item average rent
+		\end{itemize}  
+		
+		\pause
+		\vspace{0.2 in}
+		
+		\item Sampling the depth of the ocean \emph{only around Montreal} to estimate \begin{itemize}
+			\item proportion of  Earth's  surface  covered  by  water
+		\end{itemize} 
+		
+	\end{itemize}
+}
+
+
+
+\frame{\frametitle{Collecting data takes effort} 
+	
+	\textbf{In general} 
+	\begin{itemize}
+		\item The larger the sample $\to $ the more accurate the estimate (if sampling is done correctly) \pause
+		
+		
+	\end{itemize}	
+	
+	\vspace{0.2 in}
+	
+	\textbf{CAVEAT} 
+	\begin{itemize}
+		\item Collecting more data takes effort and money!
+		\item We will also soon discover the curse of the $\sqrt{n}$ 			 		
+	\end{itemize}	
+	
+}
+
+
+\frame{\frametitle{Collecting data takes effort} 
+	
+	\textbf{In general} 
+	\begin{itemize}
+		\item The larger the sample $\to $ the more accurate the estimate (if sampling is done correctly) \pause
+		
+		
+	\end{itemize}	
+	
+	\vspace{0.2 in}
+	
+	\textbf{CAVEAT} 
+	\begin{itemize}
+		\item Collecting more data takes effort and money!
+		\item We will also soon discover the curse of the $\sqrt{n}$ 			 		
+	\end{itemize}	
+	
+}
+
+
+
+\section{Sampling Distributions}
+
+
+\frame{\frametitle{Sampling Distributions} 
+	
+	\begin{itemize}
+		\setlength\itemsep{2em} 
+		\item Given a sample of $n$ observations from a population, we will be
+		calculating estimates of the population mean, proportion, standard
+		deviation, and various other population characteristics
+		(parameters) 
+		
+		\item Prior to obtaining data, there is uncertainty as to which of all
+		possible samples will occur 
+		
+		\item  Because of this, estimates such as $\bar{y}$ (the sample mean) will vary
+		from one sample to another
+		
+		
+	\end{itemize}	
+	
+	
+}
+
+
+\frame{\frametitle{Sampling Distributions} 
+	
+	\begin{itemize}
+		\setlength\itemsep{2em} 
+		\item The behavior of such estimates in many samples of equal size is
+		described by what are called \textbf{sampling distributions} \pause
+		
+		\item DVB definition: If we could see all the statistics (means, proportions, ect.) from all possible samples (Chapter 18, page 432)
+		
+	\end{itemize}	
+	
+	
+}
+
+
+
+\begin{frame}[fragile]{Sampling distribution of correlations\footnote{\tiny{from 004-exploring-data-2}}}
+	\small 
+	Lets create a pseudo population from the 595 observations by sampling \textbf{with replacement}, and calculate the correlation. Lets repeat this process 1000 times: 
+	<<cor-hist, echo = c(1,2),fig.asp = 0.381>>=
+	library(oibiostat); data("famuss"); B <- 1000; N <- 595
+	R <- replicate(B, {
+	  dplyr::sample_n(famuss, size = N, replace = TRUE) %>% 
+	  dplyr::summarize(r = cor(height, weight)) %>% 
+	  dplyr::pull(r)
+	})
+	hist(R, breaks = 20, col = "lightblue", xlab = "", 
+    main = "Distribution of samples of size 595")
+			abline(v = mean(R), col = "red", lwd = 2)
+			abline(v = quantile(R, probs = c(0.025, 0.975)), col = "blue", 
+			lty = 2, lwd = 2)
+			@
+\end{frame}
+
+
+\frame{\frametitle{Why are sampling distributions important?} 
+	
+	\begin{itemize}
+		\setlength\itemsep{2em} 
+		\item Modeling how sample statistics vary from sample to sample is one of
+		the most powerful ideas we'll see in this course. 
+		
+		\item A sampling distribution \textit{model} for how a sample statistics varies from sample to sample allows us to
+		quantify that variation and to talk about how likely it is that we'd observe a sample statistic in any particular interval.
+		
+		\item Thus,  they  are  used  in  confidence  intervals  for  parameters. Specific  sampling  distributions  (based  on  a null value  for  the  parameter)  are also  used  in  statistical  tests  of  hypotheses.
+		
+	\end{itemize}	
+	
+	
+}
+
+
+\frame{\frametitle{Exercise 1: How Deep is the Ocean?} 
+	
+	\begin{itemize}
+		\setlength\itemsep{2em} 
+		\item We will get a sense of what a sampling distribution is in Exercise 1 \pause
+		
+		\item \textbf{CAVEAT}: This is a luxury using a toy example. In actual studies, we only get one shot!
+		
+	\end{itemize}	
+	
+	
+}
+
+
+\section{Exercise 1 Results}
+
+\begin{frame}[fragile]{Sampling distribution: proportion covered by water}
+	
+	<<read-data,echo=FALSE, eval=TRUE>>=
+	water_results <- read.csv("EPIB607_FALL2018_water_exercise - water.csv", as.is=TRUE)
+	water_results <- water_results[,1:6]
+	water_results <- water_results[complete.cases(water_results), ]
+	# count the number of students who provided a mean and proportion
+	N.r <- nrow(water_results)
+	@
+	
+	
+	<<echo=FALSE, fig.asp = 0.681>>=
+	par(mfrow=c(2,1), mai = c(0.45,0.45,0.45,0.1))
+	plot(table(water_results[,"PropnW.5.locations"]), 
+	xlim = c(0,1),
+	xlab = "Students' Estimates of Proportion Covered by Water",
+	main = "n = 5", 
+	ylim = c(0, N.r/1.5), 
+	ylab = "Frequency")
+	abline(v=0.71, col = "#009E73", lty = 2)
+	text(0.72, 40, expression(mu))
+	text(0.76, 41, "=0.71")
+	plot(table(water_results[,"PropnW.20.locations"]), 
+	xlim = c(0,1),
+	xlab = "Students' Estimates of Proportion Covered by Water",
+	main = "n = 20", 
+	ylim = c(0, N.r/1.5), 
+	ylab = "Frequency")
+	abline(v=0.71, col = "#009E73", lty = 2)
+	text(0.72, 40, expression(mu))
+	text(0.76, 41, "=0.71")
+	@
+	
+\end{frame}
+
+
+
+\begin{frame}[fragile]{Sampling distribution: proportion covered by water}
+	
+	<<echo=FALSE, eval=TRUE, message = FALSE, warning = FALSE, fig.asp = 0.581>>=
+	library(mosaic)
+	library(tidyr)
+	
+	# first 'melt' the data to get it in plotting form
+	m.melt <- water_results %>% tidyr::gather(key = "type", value = "value", -X., -student)
+	
+	# subset for means
+	m.melt.means <- subset(m.melt, type %in% c("Mean.20.depths","Mean.5.depths"))
+	
+	# plot for means
+	#gf_density(~ value, data = m.melt.means, fill = ~ type) + theme_bw()
+	
+	# subset for proportions
+	m.melt.props <- subset(m.melt, type %in% c("PropnW.20.locations","PropnW.5.locations"))
+	
+	@
+	
+	
+	<<echo=FALSE, fig.asp = 0.581>>=
+	# plot for proportions
+	gf_histogram(~ value, data = m.melt.props, fill = ~ type, position = "dodge") + theme_bw()
+	@
+	
+\end{frame}
+
+
+
+\begin{frame}[fragile]{Sampling distribution: mean depth of the ocean}
+	
+	
+	<<echo=FALSE, fig.asp = 0.681>>=
+	d.BREAKS <- seq(1000,6000,500)
+	par(mfrow=c(2,1), mai = c(0.45,0.45,0.45,0.1))
+	hist(water_results[,"Mean.5.depths"], 
+	xlim = c(0,6000),
+	ylim = c(0, N.r/1.5), 
+	breaks = d.BREAKS,
+	xlab = "Students' Estimates of Mean Ocean Depth (m)",
+	main = "n = 5")
+	abline(v=3700, col = "#009E73", lty = 2)
+	text(3800, 45, expression(mu))
+	text(4100, 46, "=3700m")
+	hist(water_results[,"Mean.20.depths"], 
+	xlim = c(0,6000),
+	ylim = c(0, N.r/1.5), 
+	breaks = d.BREAKS,
+	xlab = "Students' Estimates of Mean Ocean Depth (m)",
+	main = "n = 20")
+	abline(v=3700, col = "#009E73", lty = 2)
+	text(3800, 45, expression(mu))
+	text(4100, 46, "=3700m")
+	@
+	
+\end{frame}
+
+
+
+\begin{frame}[fragile]{Sampling distribution: mean depth of the ocean}
+	
+	
+	<<echo=FALSE, fig.asp = 0.681>>=
+	# plot for means
+	gf_density(~ value, data = m.melt.means, fill = ~ type) + theme_bw()
+	@
+	
+\end{frame}
+
+
+
+
+%\begin{frame}[fragile]{Emulating the ``population''}
+
+
+<<echo=FALSE, eval=FALSE>>=
+allLocations <- read.csv("~/git_repositories/epib607/data/earth-locations-20180914.csv")
+allLocations$water  = 1*(allLocations$alt < 0)
+plot(allLocations$lon[allLocations$water==1],
+allLocations$lat[allLocations$water==1],
+col="#0072B2",cex=0.02, xlab = "longitude", ylab = "latitude")
+@
+
+%\end{frame}
+
+
+
+%\begin{frame}[fragile]{Emulating the ``population''}
+
+
+<<echo=FALSE, eval=FALSE>>=
+ew=allLocations$lon[allLocations$water==1]
+ns=allLocations$lat[allLocations$water==1]
+plot(ew*cos(pi*ns/180),
+allLocations$lat[allLocations$water==1],
+col="#0072B2",cex=0.02, xlab = "longitude", ylab = "latitude")
+@
+
+%\end{frame}
+
+
+
+
+\begin{comment}
+\begin{frame}
+
+
+The bigger the individual variaiton 
+
+1) Normal curves. Show the 
+
+2) the variance of y bar is the sum of the individual variances
+standard error always have a root of n in the bottom
+
+for now use 2.. estimate the sigma... Baldi and Moore give the sigma which makes no sense. 
+what are the sample sizes..
+
+start by asking 1+/- the SE, then +- 2 * SE, 
+temperature in montreal for motivating the 100\%   confidence interval, 
+temperature in august over the past 100 years, whos been here in montreal 0 years, 5
+any one estimate has 0\% confidence
+
+
+\end{frame}
+\end{comment}
+
+
+\section{Normal Curves and Calculations}
+
+
+\frame{\frametitle{The Normal (Gaussian) distribution} What is
+	it?
+	\begin{itemize}
+		\item A distribution that describes continuous (numerical) data
+		\item Can also be used to approximate discrete data distributions
+		\item Range is (technically) infinite, though the probability of seeing
+		very large or very small values is extremely tiny
+		\item Fully described by only two parameters, the mean and variance
+		($\mu$ and $\sigma^2$)
+		\item \textcolor{red}{NOTE:} \texttt{R} use the short-hand: $X \sim
+		\mathcal{N}(\mu,\sigma)$, denoting the normal distribution as a
+		function of the mean and \textit{standard deviation}. This is not
+		standard; many texts instead write $X \sim
+		\mathcal{N}(\mu,\sigma^2)$. Be careful of this!
+	\end{itemize}
+} \frame{\frametitle{The Normal (Gaussian) distribution} Carl Gauss
+	was a German mathematician who developed a number of important
+	advances in statistics such as the method of least squares.
+	\begin{figure}
+		\begin{center}
+			\includegraphics[scale=0.2]{gauss.jpg}
+		\end{center}
+		\caption{The Deutsche Bundesbank issued Deutsche Mark banknotes in 15 different denominations, including this 10 Deutsche Marks banknote featuring Carl Friedrich Gauss.}
+	\end{figure}
+} 
+
+\frame{\frametitle{The Normal distribution} Where do Normal data
+	come from?
+	\begin{itemize}
+		\item Natural processes
+		\begin{itemize}
+			\item Blood pressure
+			\item Height
+			\item Weight
+			\item[]
+		\end{itemize} \pause
+		\item ``Man-made'' (or derived)
+		\begin{itemize}
+			\item Binomial (proportion) and Poisson (count) data are
+			approximately Normal under certain conditions
+			\item Sums and means of random variables (Central Limit Theorem)
+			\item Data can sometimes be made to look Normal via transformations
+			(squares, logs, etc)
+		\end{itemize}
+	\end{itemize}
+} 
+
+\frame{\frametitle{The Normal distribution} For Normal data, we
+	can use \sout{the Gaussian tables} \texttt{R} to answer the questions:
+	\begin{itemize}
+		\item What is the probability that a single observation $X$ is
+		\begin{itemize}
+			\item greater than $X^*$?
+			\item less than $X^*$?
+			\item between $X^*_L$ and $X^*_U$?
+		\end{itemize}
+		\item That is, we can find out information about the percent
+		distribution of $X$ as a function of thresholds $X^*$, or $X^*_L$
+		and $X^*_U$.
+		\item[] \pause
+		\item We can also use \sout{the Normal tables} \texttt{R} to find out information about
+		thresholds $X^*$ that will contain particular percentages of
+		the data. I.e., we can find what threshold values will
+		\begin{itemize}
+			\item Exclude the lower $\omega^*$\% of a population
+			\item Exclude the upper $\omega^*$\% of a population
+			\item Contain the middle $\omega^*$\% of a population
+		\end{itemize}
+	\end{itemize}
+}
+
+\frame{\frametitle{The Normal distribution} We can use \sout{the
+		Gaussian tables} \texttt{R} to answer these questions \textbf{no matter
+		what the values
+		of} $\mu$ and $\sigma^2$. \\ \ \\
+	That is, the \% of the Normal distribution falling between $X^*_L =
+	\mu - m_1\sigma$ and $X^*_U = \mu + m_2\sigma$ where
+	$m_1, m_2$ are any multiples \textbf{remains the same} for any $\mu$ and $\sigma$. \\ \ \\
+	How so?? \pause
+	\begin{center}
+		Because we can \textbf{standardize} any $X \sim
+		\mathcal{N}(\mu,\sigma)$ to find $Z \sim \mathcal{N}(0,1)$
+\end{center} }
+
+\frame{\frametitle{The Normal distribution} An illustration
+	using IQ scores, which we presume have a $\mathcal{N}(100,13)$
+	distribution of scores. \\ \ \\
+	
+	\textcolor{blue}{Q1:} What percentage of scores are
+	\textbf{above}
+	130? \\
+	Two steps:
+	\begin{enumerate}
+		\item Change of location from $\mu_X=100$ to $\mu_Z=0$
+		\item Change of scale from $\sigma_X=13$ to $\sigma_Z=1$
+		\item[]
+	\end{enumerate}
+	Together, this gives us \[Z = \frac{X-\mu_X}{\sigma_X} =
+	\frac{130-100}{13} = 2.31\] }
+
+\begin{frame}[fragile]{The Normal distribution}
+	
+	\vspace*{-.01in}
+	
+	\small{The position of $X$=130 in a $\mathcal{N}(100,13)$ distribution is the same as
+		the place of $Z=2.31$ on the $\mathcal{N}(0,1)$, which we call the \textbf{standardized} Normal distribution (or	$Z$-distribution).}
+	
+	%\begin{figure}
+	%		\begin{center}
+	%			\epsfig{figure=Part1Figs/TwoNormals-equalProb.eps,width=4.4in,height=2.5in}
+	%		\end{center}
+	%	\end{figure}
+	
+	<<probs, fig.width = 2, fig.asp = 0.618, results='hide', fig.align = 'center', out.width = "55%">>=
+	library(mosaic)
+	xpnorm(130, 100,13)
+	xpnorm(2.31)
+	@
+	
+\end{frame} 
+
+\frame{\frametitle{The Normal distribution} How are the
+	values
+	in the Normal tables found?\\ \ \\
+	Normal density:
+	\[f(x|\mu,\sigma) = \frac{1}{\sqrt{2\pi}\sigma}\exp\frac{-(x-\mu)^2}{2\sigma^2}\]
+	
+	\vspace{.5cm} Probabilities found by integration (area under the
+	Normal curve): \[ P(a \le x \le b) =
+	\int_a^b\frac{1}{\sqrt{2\pi}\sigma}\exp\frac{-(x-\mu)^2}{2\sigma^2}dx\]
+}
+
+
+\frame{\frametitle{The Normal distribution} (The percent above
+	$X=130$) = (\% above $Z=2.31$) =1.04\%\\ \ \\
+	
+	How do we know this? We look at the lower tail probability of
+	2.31 [i.e., the \% below 2.31], and then subtract it from 1:
+	\begin{enumerate}
+		\item $P(X < 130) = P(Z < 2.31) = 0.9896$
+		\item $P(X > 130) = 1 - P(X < 130) = 0.0104$
+		\item[]
+	\end{enumerate}
+	So 130 is the 98.96$^{th}$ percentile of a $\mathcal{N}$(100,13)
+	distribution. }
+
+
+\begin{frame}{Reminder about percentiles and quantiles}
+	
+	\begin{itemize}
+		\item \textbf{Quantile}
+		\begin{itemize}
+			\item Any set of data, arranged in ascending or descending order, can be divided into various parts, also known as partitions or subsets, regulated by quantiles. 
+			\item Quantile is a generic term for those values that divide the set into partitions of size $n$, so that each part represents $1/n$ of the set. 
+			\item Quantiles are not the partition itself. They are the numbers that define the partition. 
+			\item You can think of them as a sort of numeric boundary.
+		\end{itemize}
+	\end{itemize}
+	\pause 
+	
+	\begin{itemize}
+		\item \textbf{Percentile}
+		\begin{itemize}
+			\item Percentiles are quite similar to quantiles: they split your set, but only into two partitions. 
+			\item For a generic $k$th percentile, the lower partition contains k\% of the data, and the upper partition contains the rest of the data, which amounts to 100 - k \%, because the total amount of data is 100\%. 
+			\item Of course k can be any number between 0 and 100.
+		\end{itemize}
+	\end{itemize}
+	
+\end{frame}
+
+
+
+\begin{frame}{More about percentiles and quantiles}
+	\begin{itemize}
+		\item In class, we will find ourselves asking for the quantiles of a distribution. 
+		\item Percentiles go from 0 to 100
+		\item Quantiles go from any number to any number
+		\item Percentiles are examples of quantiles and you might find some people use them interchangeably (though this may not always be correct since quantiles can take on any value, positive or negative). 
+		\item \textbf{In particular}, \texttt{R} uses the term quantiles. 
+		%\item This is a small semantic quibble, but we ought to be precise. 
+		%\item That being said, I won't correct somebody if they call these percentiles. 
+		\item \textcolor{blue}{In the previous example}, we saw that $P(Z < 2.31) = 0.9896$. In \texttt{R}, 2.31 is called the quantile 
+		.
+	\end{itemize}
+\end{frame}
+
+
+\frame{\frametitle{The Normal distribution} (The percent above
+	$X=130$) = (\% above $Z=2.31$) =1.04\%\\ \ \\
+	
+	But wait!! The standard Normal is symmetric about 0, so we can do
+	this another way... The \% \textbf{above} 2.31 is equal to the \%
+	\textbf{below} -2.31:
+	\begin{itemize}
+		\item[] $P(X > 130) = P(Z > 2.31)$ \pause
+		\item[] $\qquad \Rightarrow$ $P(Z > 2.31) = P(Z < -2.31) $ \pause
+		\item[] $\qquad \Rightarrow$ $P(X > 130) = P(Z < -2.31) = 0.0104$
+		\item[]
+	\end{itemize}
+	So 130 is the 98.96$^{th}$ percentile of a $\mathcal{N}(130,13)$ distribution. What is
+	the 1.04$^{th}$ percentile? \\ \ \\\pause
+	
+	Transform from $Z = -2.31$ back to $X$:
+	\[ X = \sigma Z + \mu = 13(-2.31) + 100 = 69.97.\]
+	
+}
+
+\begin{frame}[fragile]{For probabilities we use $pnorm$}
+	
+	
+	<<probs2, echo = TRUE, fig.width = 3, fig.asp = 0.618, fig.align = 'center', out.width = "60%">>=
+	stats::pnorm(q = 130, mean = 100, sd = 13)
+	@
+	
+	\pause 
+	
+	<<probs3, echo = TRUE, fig.width = 3, fig.asp = 0.618, fig.align = 'center', out.width = "60%">>=
+	mosaic::xpnorm(q = 130, mean = 100, sd = 13)
+	@
+	
+	\pause 
+	
+	\begin{itemize}
+		\item \texttt{pnorm} returns the integral from $-\infty$ to $q$ for a $\mathcal{N}(\mu, \sigma)$
+		\item \texttt{pnorm} goes from \textit{quantiles} (think $Z$ scores) to probabilities
+	\end{itemize}
+	
+\end{frame}
+
+
+
+\begin{frame}[fragile]{For quantiles we use $qnorm$}
+	
+	
+	
+	<<probs4, echo = TRUE, fig.width = 3, fig.asp = 0.618, fig.align = 'center', out.width = "60%">>=
+	stats::qnorm(p = 0.0104, mean = 100, sd = 13)
+	@
+	
+	\pause 
+	
+	<<probs5, echo = TRUE, fig.width = 3, fig.asp = 0.618, fig.align = 'center', out.width = "60%">>=
+	mosaic::xqnorm(p = 0.0104, mean = 100, sd = 13)
+	@
+	
+	\pause 
+	
+	\small{
+		\begin{itemize}
+			\item \texttt{qnorm} answers the question: What is the Z-score of the $p$th percentile of the normal distribution?
+			
+			\item \texttt{qnorm} goes from \textit{probabilities} to quantiles 
+		\end{itemize}
+	}
+\end{frame}
+
+
+\frame{\frametitle{The Normal distribution}
+	\textcolor{blue}{Q2:} What is the probability of seeing an IQ
+	score \textbf{as extreme as} (think highly unusual)  130? \\
+	\begin{enumerate}
+		\item Again, we find that $X=130$ is the same percentile of the
+		IQ Normal distribution as $Z=2.31$ is of the standard Normal. \pause
+		\item To see what scores are as extreme, we want to know the
+		probability that $Z>$2.31 or that $Z<$-2.31. \pause
+		\item As we saw previously, $P(Z > 2.31) = P(Z < -2.31) =
+		0.0104$, so the probability of seeing an IQ as extreme or more
+		so than 130 is $2\times0.0104 = 0.0208$.
+	\end{enumerate}
+}
+
+
+\begin{frame}[fragile]{Finding tail probabilities}
+	
+	
+	
+	<<probs6, echo = TRUE, fig.width = 3, fig.asp = 0.618, fig.align = 'center', out.width = "60%">>=
+	# lower.tail = TRUE is the default
+	stats::pnorm(q = -2.31, mean = 0, sd = 1, lower.tail = TRUE) +
+	stats::pnorm(q = 2.31, mean = 0, sd = 1, lower.tail = FALSE)
+	@
+	
+	\pause 
+	
+	<<probs7, echo = TRUE, fig.width = 4, fig.asp = 0.618, fig.align = 'center', out.width = "60%">>=
+	mosaic::xpnorm(q = c(-2.31,2.31), mean = 0, sd = 1)
+	@
+	
+	
+\end{frame}
+
+
+
+\begin{frame}[fragile]{The Normal distribution}
+	\textcolor{blue}{Q3:}
+	What is the 75$^{th}$ percentile of the IQ scores distribution? \\
+	We now have to reverse the sequence of steps: \pause
+	\begin{itemize}
+		\item \textcolor{blue}{Ask yourself:} What $Z$ value corresponds to a probability of 0.75? Should you use \texttt{pnorm} or \texttt{qnorm}? \pause
+		
+		<<probs8, echo = TRUE, fig.width = 4, fig.asp = 0.618, fig.align = 'center', out.width = "60%">>=
+		mosaic::xqnorm(p = 0.75, mean = 100, sd = 13)
+		@		
+		
+		\item[]
+	\end{itemize} This tells us that 75\% of the IQ scores fall below 108.8. 
+\end{frame}
+
+
+\begin{frame}[fragile]{Empirical Rule or 68-95-99.7\% Rule}
+	
+	In any normal distribution with mean $\mu$ and standard deviation $\sigma^2$:
+	\begin{itemize}
+		\setlength\itemsep{2em}
+		\item Approximately 68\% of the data fall within one standard deviation of the mean.
+		\item Approximately 95\% of the data fall within two standard deviations of the mean.
+		\item Approximately 99.7\% of the data fall within three standard deviations of the mean.
+	\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Demo of Empirical Rule}
+	
+	<<echo = TRUE, eval = FALSE>>=
+	pacman::p_load(mosaic)
+	pacman::p_load(manipulate)
+	
+	mNorm <- function(mean = 0, sd = 1) {
+	lo <- mean - 5 * sd
+	hi <- mean + 5 * sd
+	manipulate(
+	xpnorm(c(A,B), mean, sd, verbose = FALSE, invisible = TRUE),
+	A = slider(lo, hi, initial = mean - sd),
+	B = slider(lo, hi, initial = mean + sd)
+	)
+	}
+	mNorm(mean = 0, sd = 1)
+	@
+\end{frame}
+
+
+\begin{frame}[fragile]{Empirical Rule or 68-95-99.7\% Rule}
+	
+	\framedgraphic{6899rule.png}
+	
+\end{frame}
+
+\frame{\frametitle{Properties of Normal random variables} Special
+	properties of the Normal distribution:
+	\begin{itemize}
+		\item[] \item In $Y$ is a Normal random variable, then so is $a+bY$. \pause
+		\item[] \item If $X$ and $Y$ are two Normal random variables, then
+		$X+Y$ is a Normal random variable. What is the mean and variance of this new random
+		variable? \pause
+		\item[] \item If $X$ and $Y$ are two Normal random variables and
+		$\rho_{XY}=0$ (correlation between $X$ and $Y$), then $X$ and $Y$ are independent.
+	\end{itemize}
+} \frame{\frametitle{Properties of Normal random variables} 
+	Let $Y_1,...,Y_n \sim \mathcal{N}(\mu,\sigma)$, and let each $Y_i$
+	be independent of the others. (\textcolor{blue}{think simple random sample})\\ \ \\
+	
+	Then $\overline{Y} = \frac{1}{n}\sum_{i=1}^n Y_i$ has what distribution? \pause
+	\begin{itemize}
+		\item The sum of Normal random variables is Normal, so $\overline{Y}$ is a
+		Normal random variable. \pause
+		\item $E(\overline{Y}) = \frac{1}{n}\sum_{i=1}^n E(Y_i) =  \frac{1}{n}\sum_{i=1}^n \mu =
+		\mu$.\pause
+		\item $Var(\overline{Y}) = Var(\frac{1}{n}\sum_{i=1}^n Y_i) =  \frac{1}{n^2}\sum_{i=1}^n Var(Y_i) =
+		\sigma^2/n$. \pause 
+		\item Standard Error of $\overline{Y}$ = $\sqrt{Var(\overline{Y})} = \sigma / \sqrt{n}$
+	\end{itemize}
+}
+
+
+
+\begin{comment}
+\frame{\frametitle{Properties of estimators} As we have discussed,
+there are several properties that we want in an estimator:
+\begin{enumerate}
+\item Unbiased: the expected value (mean) of the estimator is equal to the
+parameter
+\begin{itemize}
+\item The sample mean, $\overline{x}$, is unbiased for the population
+mean, $\mu$
+\end{itemize} \pause
+\item Consistent: as sample size gets larger, the estimator gets
+closer to the parameter \pause
+\end{enumerate}
+How do we go about finding an estimator might have good properties?
+\\ \ \\ \pause
+
+One approach to finding good estimates is to ask ``What value of the parameter is most
+likely, given the data that I observed?'' Such an estimate is a \textbf{Maximum
+Likelihood Estimator} (MLE). } \frame{\frametitle{Maximum Likelihood Estimators} Suppose
+we have a sample $x_1,x_2,...,x_n$ from a Normally distributed population with unknown
+mean $\mu$ and known variance $\sigma^2=1$. We want to estimate $\mu$ from the data. The
+obvious estimator is the sample mean, $\bar{x}$. \\ \ \\\pause
+
+We have already shown that the sample mean is unbiased (that is,
+$E[\bar{x}] = \mu$) and that we can control its variability through
+the size of our sample (since Var$[\bar{x}] = \sigma^2/n$). Are
+there other theoretically justifications for using the sample mean?
+} \frame{\frametitle{Maximum Likelihood Estimators} It turns out
+that $\bar{x}$ maximizes the probability of the observed data, given
+$\mu$. An estimator that has this property is a \textbf{maximum
+likelihood estimator}.
+\begin{figure}
+\begin{center}
+\epsfig{figure=MLE-R-1.eps,width=3in,height=2.7in}
+\end{center}
+\end{figure}
+} \frame{\frametitle{Maximum Likelihood Estimators} It turns out
+that $\bar{x}$ maximizes the probability of the observed data, given
+$\mu$. An estimator that has this property is a \textbf{maximum
+likelihood estimator}.
+\begin{figure}
+\begin{center}
+\epsfig{figure=MLE-R-2.eps,width=3in,height=2.7in}
+\end{center}
+\end{figure}
+} \frame{\frametitle{Maximum Likelihood Estimators} It turns out
+that $\bar{x}$ maximizes the probability of the observed data, given
+$\mu$. An estimator that has this property is a \textbf{maximum
+likelihood estimator}.
+\begin{figure}
+\begin{center}
+\epsfig{figure=MLE-R-3.eps,width=3in,height=2.7in}
+\end{center}
+\end{figure}
+} \frame{\frametitle{Maximum Likelihood Estimators} It turns out
+that $\bar{x}$ maximizes the probability of the observed data, given
+$\mu$. An estimator that has this property is a \textbf{maximum
+likelihood estimator}.
+\begin{figure}
+\begin{center}
+\epsfig{figure=MLE-R-4.eps,width=3in,height=2.7in}
+\end{center}
+\end{figure}
+}
+content...
+\end{comment}
+
+\begin{comment}
+\frame{\frametitle{Maximum Likelihood Estimators} For each data
+point, the probability density function is given by:
+\[ f(x_i|\mu,\sigma) = \frac{1}{\sqrt{2p}\sigma}\exp\left(-\frac{(x_i-\mu)^2}{2\sigma^2}\right). \]
+Since the data are independent, we can use the product rule:
+\begin{eqnarray*}
+f(x_1,x_2,...,x_n|\mu,\sigma) & = &
+\prod_{i=1}^n\frac{1}{\sqrt{2p}\sigma}\exp\left(-\frac{(x_i-\mu)^2}{2\sigma^2}\right)\\
+& = & \frac{1}{\sqrt{2p}\sigma}\exp\left(-\frac{\sum_{i=1}^n(x_i-\mu)^2}{2\sigma^2}\right).\\
+\end{eqnarray*}
+This function is called a \textbf{likelihood function}; it describes
+the likelihood (or the probability) of the observed data for a given
+value of $\mu$ (and $\sigma$). }
+
+\frame{\frametitle{Maximum Likelihood Estimators} We want to maximize this probability
+function. That is, we want to find the value of $\mu$ that gives the highest probability
+to the data we observed. \\ \ \\ \pause
+
+From calculus, we know that we maximize a function by taking its derivative and set it
+equal to zero. Doing this and simplifying gives
+\[\frac{1}{2\sigma^2}\sum_{i=1}^n2(x_i-\mu) = 0.\] \pause
+
+This implies \[\sum_{i=1}^n(x_i-\mu) = \sum_{i=1}^nx_i - n\mu  = 0\]
+so that the likelihood is maximized at $\mu=
+\frac{1}{n}\sum_{i=1}^nx_i = \bar{x}.$ Thus the MLE of $\mu$ is
+$\bar{x}.$ }
+\end{comment}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{comment}
+\subsection{Normal approximation to binomial}
+
+\frame{\frametitle{Normal approximation of the binomial
+distribution} Suppose we take a large random sample of size $n$
+in our population, and count $X$, the number of `successes'
+(success could be the event of having MS, the event of
+exercising more than twice per week, etc.).
+\begin{itemize}
+\item We can view $X$ as being sampled from a Binomial$(n,p)$
+distribution... \pause
+\item OR we can view $X$ as the sum of $n$ binary variable
+$Y_1$,...,$Y_n$ where $Y_i \sim$ Binomial$(1,p)$.
+\item The Binomial$(1,p)$ distribution is also called a
+Bernoulli$(p)$ distribution.
+\end{itemize}
+} \frame{\frametitle{Normal approximation of the binomial} Now
+$\hat{p} = X/n$ is the sample proportion of successes, which is an
+estimate of $p$, the mean of the Bernoulli$(p)$ distribution. \\ \ \\
+
+If $\min(np,n(1-p)) \ge 10$, then we have
+\begin{itemize}
+\item $X$ is approximately distributed $\mathcal{N}(np,\sqrt{np(1-p)})$
+\item $\hat{p}$ is approximately distributed $\mathcal{N}(\quad,\quad\quad)$
+\end{itemize}
+} \frame{\frametitle{Normal approximation of the binomial}
+Why is this true? \\
+\begin{itemize}
+\item[] \item For $\hat{p}$, this is easy to explain: $\hat{p}$ is just a
+sample average of Bernoulli random variables, since \[\hat{p} = X/n =
+(\frac{1}{n}\sum_{i=1}^n Y_i),\] and so the CLT applies. \pause
+\item[] \item But what about $X$? $X$ is just a linear
+transformation of $\hat{p}$, since $X = n\hat{p}$, and linear
+combinations of (approximately) Normal random variables are
+(approximately) Normal.
+\item[] \item The approximation is best when $p$ is near 0.5 (which makes the
+distribution of $X$ symmetric) and/or $n$ is large.
+\end{itemize}
+} \frame{\frametitle{Normal approximation of the binomial}
+\begin{figure}
+\begin{center}
+\epsfig{figure=NormalApproxBino.eps,width=3.3in,height=3.3in}
+\end{center}
+\end{figure}
+}
+
+\frame{\frametitle{Normal approximation of the binomial}
+Suppose we collect a simple random sample of $n=150$ health
+care workers in India. What is the probability that $X=80$ or
+more of the individuals show antibody response to TB
+(indicating previous TB exposure) if $p=0.6$? \\ \ \\
+
+Our binomial tables do not cover the cases for $n$ as large as
+150. Also, calculating
+\[ P(X = 80\hbox{ out of } 150) =
+\frac{150!}{(150-80)!80!}0.6^{80}0.4^{(150-80)}\] is difficult at
+best. 150! is a number that is over 250 digits long, and $0.6^{80}$
+is very, very small. Not only that, but to find $P(X \ge 80\hbox{ out of } 150)$, we would have to sum 70
+terms to calculate this probability. }
+
+\frame{\frametitle{Normal approximation of the binomial} Let's
+use the Normal approximation!! \\ \ \\
+First, we need to calculate the mean and variance of the
+distribution:
+\begin{eqnarray*}
+\mu & = & np = 150\times0.6 = 90\\
+\sigma^2 & = & np(1-p) = 150\times0.6\times0.4 = 36
+\end{eqnarray*} \pause
+The Normal approximation to the binomial is improved by using a
+\textbf{continuity correction}, so that instead of estimation $P(X
+\ge 80|X\sim\hbox{Bino}(150,0.6))$ we estimate $P(X \ge
+79.5|X\sim\hbox{Bino}(150,0.6))$, and approximate this by $P(X \ge
+79.5|X\sim\mathcal{N}(90,6))$. }
+
+\frame{\frametitle{Normal approximation of the binomial}
+{\small
+\[P(X \ge 80|X\sim\hbox{Bino}(150,0.6)) = P(X \ge
+79.5|X\sim\hbox{Bino}(150,0.6))\]
+\begin{eqnarray*}
+\qquad \qquad & \approx & P(X \ge 79.5|X\sim\mathcal{N}(90,6))\\
+\pause
+& = & P\left(\frac{X-\mu}{\sigma} \ge
+\frac{79.5-\mu}{\sigma}|X\sim\mathcal{N}(90,6)\right)\\ \pause
+& = & P\left(\frac{X-90}{6} \ge
+\frac{79.5-90}{6}|X\sim\mathcal{N}(90,6)\right)\\ \pause
+& = & P\left(Z \ge -1.75|Z\sim\mathcal{N}(0,1)\right)\\
+& = & 0.9599
+\end{eqnarray*} }
+}
+
+\frame{\frametitle{Normal approximation of the binomial} What
+difference does the continuity correction make? \\ \ \\ {\small
+\[P(X \ge 80|X\sim\hbox{Bino}(150,0.6)) \qquad \qquad \qquad \qquad \qquad \qquad \]
+\begin{eqnarray*}
+\qquad \qquad & \approx & P\left(\frac{X-\mu}{\sigma} \ge
+\frac{80-\mu}{\sigma}|X\sim\mathcal{N}(90,6)\right)\\
+& = & P\left(\frac{X-90}{6} \ge
+\frac{80-90}{6}|X\sim\mathcal{N}(90,6)\right)\\
+& = & P\left(Z \ge -1.667|Z\sim\mathcal{N}(0,1)\right)\\
+& = & 0.9522
+\end{eqnarray*} }
+...In this case, it doesn't matter much. BUT...
+}
+
+\frame{\frametitle{Normal approximation of the binomial} Now we
+ask the question, ``What is the probability that exactly $X=80$
+of the health care workers show antibody response to TB?'' \\ \ \\
+
+If we \textit{don't} use the continuity correction, we find:
+{\small
+\[P(X = 80|X\sim\hbox{Bino}(150,0.6)) \qquad \qquad \qquad \qquad \qquad \qquad \]
+\begin{eqnarray*}
+\qquad \qquad & \approx & P\left(\frac{X-\mu}{\sigma} = \frac{80-\mu}{\sigma}|X\sim\mathcal{N}(90,6)\right)\\
+& = & P\left(\frac{X-90}{6} = \frac{80-90}{6}|X\sim\mathcal{N}(90,6)\right)\\
+& = & P\left(Z= -1.667|Z\sim\mathcal{N}(0,1)\right)\\
+& = & 0
+\end{eqnarray*}  }
+(Why this this probability zero?)
+}
+
+\frame{\frametitle{Normal approximation of the binomial} Using
+the continuity correction gives {\small
+\[P(X = 80|X\sim\hbox{Bino}(150,0.6)) \qquad \qquad \qquad \qquad \qquad \qquad \]
+\begin{eqnarray*}
+\qquad \qquad & = & P(79.5 \le X \le
+80.5|X\sim\hbox{Bino}(150,0.6))\\
+& \approx & P(79.5 \le X \le 80.5|X\sim\mathcal{N}(90,6))\\
+& = & P\left(\frac{79.5-\mu}{\sigma} \le \frac{X-\mu}{\sigma} \le
+\frac{80.5-\mu}{\sigma}|X\sim\mathcal{N}(90,6)\right)\\
+& = & P\left(\frac{79.5-90}{6}| \le \frac{X-90}{6} \le
+\frac{80.5-90}{6}|X\sim\mathcal{N}(90,6)\right)\\
+& = & P\left(-1.75 < Z \le -1.583|Z\sim\mathcal{N}(0,1)\right)\\
+& = & 0.0166
+\end{eqnarray*}} \pause
+
+Using the binomial distribution formula, the exact answer is
+0.01659816. The Normal approximation with the continuity
+correction is correct to 4 decimal places.}
+\end{comment}
+
+
+	
+\begin{frame}[fragile]{Session Info}
+	\tiny
+	
+	<<echo=FALSE, comment = NA, size = 'tiny'>>=
+	print(sessionInfo(), locale = FALSE)
+	@
+	
+\end{frame}
+
+
+
+\end{document}
+
+
+
+
+
+
+
+\section{Central Limit Theorem}
+
+
+\frame{\frametitle{Properties of the sample mean: The Central Limit Theorem (CLT)} The
+	sampling distribution of $\overline{Y}$ is Normal if $Y$ is Normal. What probability
+	distribution does the sample mean follow if $Y$ is not Normal?\\ \ \\ \pause
+	
+	\textcolor{blue}{As sample size increases, the distribution of
+		$\overline{Y}$ becomes closer to a Normal distribution, no matter
+		what the distribution of sampled variable $Y$!} \\ \ \\
+	(This is true as long as the distribution has a finite variance.) }
+
+\frame{\frametitle{The Central Limit Theorem (CLT)} 
+	
+	\begin{itemize}
+		\item The sampling distribution of $\bar{y}$ is, for a large enough $n$, close to Gaussian in shape no matter what the shape of the distribution of individual $Y$ values. \pause 
+		\item This phenomenon is referred to as the CENTRAL LIMIT THEOREM \pause
+		\item The CLT applied also to a \underline{sample proportion}, \underline{slope}, \underline{correlation}, or any other statistic created by \underline{aggregation of individual observations}
+	\end{itemize}
+	
+	\begin{thm}[Central Limit Theorem]
+		\begin{center}
+			if $Y \sim ???(\mu_Y, \sigma_Y)$, then \\ \ \\
+			$\bar{y} \sim \mathcal{N}(\mu_Y, \sigma_Y / \sqrt{n})$
+		\end{center}
+	\end{thm}
+	
+	\vspace{1.25cm}
+	%pause
+}
+
+
+\begin{frame}{Standard error (SE) of a sample statistic}
+	\begin{itemize}
+		\item Recall: When we are talking about the variability of a
+		\textbf{statistic}, we use the term \textbf{standard error} (not
+		standard deviation). The standard error of the sample mean is $\sigma/\sqrt{n}$.
+	\end{itemize}
+	\pause
+	
+	\begin{remarkm}[SE vs. SD]
+		\begin{center}
+			In quantifying the instability of the sample mean ($\bar{y}$) statistic,
+			we talk of SE of the mean (SEM) \\ \ \\
+			SE($\bar{y}$) describes how far $\bar{y}$ could (typically) deviate from $\mu$; \\ \ \\
+			SD($y$) describes how far an individual $y$ (typically) deviates from $\mu$ (or from $\bar{y}$).
+		\end{center}
+	\end{remarkm}	
+	
+	
+\end{frame}
+
+\frame{\frametitle{CLT in action: Binomial(n = 5,p = 0.8) distribution}
+	\begin{figure}
+		\begin{center}
+			\epsfig{figure=CLT1.eps,width=3.3in,height=3.3in}
+		\end{center}
+	\end{figure}
+} \frame{\frametitle{CLT in action: Uniform(a = 0, b = 1) distribution}
+	\begin{figure}
+		\begin{center}
+			\epsfig{figure=CLT2.eps,width=3.3in,height=3.3in}
+		\end{center}
+	\end{figure}
+} \frame{\frametitle{CLT in action: Exponential($\lambda = 1$) distribution}
+	\begin{figure}
+		\begin{center}
+			\epsfig{figure=CLT3.eps,width=3.3in,height=3.3in}
+		\end{center}
+	\end{figure}
+}
+
+
+
+
+<<echo=FALSE, fig.show="hold", eval=FALSE>>=
+depthsOfWater = allLocations[allLocations$water==1,]
+depthsOfWater$depth = -depthsOfWater$alt
+par(mar = c(4,4,1,0.1))
+for (panel in 1){
+
+# depths
+
+if(panel==1) y = round(depthsOfWater$depth/100)
+if(panel==2) y = round(heightsOfLand$alt/100)
+
+f = table(y) 
+#str(f)
+x=as.numeric(dimnames(f)[[1]])
+Y=0:max(x) ;  
+FREQ=approx(x,f,Y)$y
+#plot(Y,FREQ,type="l")
+
+#( n.bins=length(FREQ) )
+
+max.Y = max(Y); 
+
+max.X = max.Y
+if (panel==2) max.X =25
+
+M = 1.05*max(f)
+
+FREQ[1+Y] =  FREQ/sum(FREQ)
+
+AVE = sum(Y*FREQ)
+SD = sqrt(sum( FREQ*(Y-AVE)^2 ) )
+
+already = FREQ
+
+max.n = 16; show=c(1,2,3,4,5,5,6,7,8,9,16)
+
+YLIM=sqrt(max.n/(panel^2.5))*max(FREQ)*c(-0.11,0.75)
+
+XLAB=c("OCEAN DEPTH","LAND ELEVATION")
+plot(Y,already,pch=19,lwd=1,col="white",
+type="l",ylim=YLIM, xlim=c(0,max.X),
+ylab="Density", xlab=XLAB[panel] )
+polygon(c(0,Y),c(0,FREQ),
+col=c("lightblue","bisque","grey98")[panel],
+border="grey10",lwd=1)
+for(n in 2:max.n){
+f = outer(already,FREQ)
+f[1:5,1:5]
+ff = sapply(split(f, col(f) + row(f)), sum)
+ff[1:5]
+ave = (0:(n* max.Y))/n
+if( n %in% show ){
+lines(ave,ff*n,col=n,lwd=4.5-4*(n-1)/n)
+
+text(1.5*AVE,max(ff*n),
+paste("means of samples of size",toString(n)),
+adj=c(0,0.5),col=n,cex=0.65)
+} 
+already=as.numeric(ff)
+}
+segments(AVE,0, AVE, 1.1*max(FREQ),lty="dotted")
+text(AVE,  0.35*YLIM[1],toString(round(AVE,0)), adj=c(0.5,1),
+cex=0.85 )
+txt= "Ocean Depths
+(units = 100m)"
+if(panel==2) txt="Land Elevations
+(units = 100m)"
+text(AVE+5,0.7*YLIM[1],txt,
+col="lightblue",adj=c(0,0.5),font=2)
+text(0.85*AVE,0.35*YLIM[1],expression(mu), adj=c(0.5,1.25),
+cex=0.95 )
+text(AVE,  0.99*YLIM[1], toString(round(SD,0)), adj=c(0.5,0),
+cex=0.85 )
+text(0.85*AVE,0.99*YLIM[1],expression(sigma), adj=c(0.5,0),
+cex=0.95 )
+for(a in AVE+(-20:20)) segments(a,0,a,0.1*YLIM[1])
+for(a in AVE+c(-20,-15,-10,-5,0,5,10,15,20)) segments(a,0,a,0.2*YLIM[1])
+
+}
+@
+
+%\end{frame}
+
+\begin{frame}[fragile]{CLT in action: Depths of the ocean}
+	\includegraphics<1>[width=\textwidth,height=0.8\textheight,keepaspectratio]{ocean1.png}
+	\includegraphics<2>[width=\textwidth,height=0.8\textheight,keepaspectratio]{ocean2.png}
+	\includegraphics<3>[width=\textwidth,height=0.8\textheight,keepaspectratio]{ocean3.png}
+	\includegraphics<4>[width=\textwidth,height=0.8\textheight,keepaspectratio]{ocean4.png}
+	\includegraphics<5>[width=\textwidth,height=0.8\textheight,keepaspectratio]{ocean5.png}
+	\includegraphics<6>[width=\textwidth,height=0.8\textheight,keepaspectratio]{ocean6.png}
+	\includegraphics<7>[width=\textwidth,height=0.8\textheight,keepaspectratio]{ocean7.png}
+	\includegraphics<8>[width=\textwidth,height=0.8\textheight,keepaspectratio]{ocean8.png}
+	\includegraphics<9>[width=\textwidth,height=0.8\textheight,keepaspectratio]{ocean9.png}
+	\includegraphics<10>[width=\textwidth,height=0.8\textheight,keepaspectratio]{ocean10.png}
+	\includegraphics<11>[width=\textwidth,height=0.8\textheight,keepaspectratio]{ocean17.png}
+	\includegraphics<12>[width=\textwidth,height=0.8\textheight,keepaspectratio]{oceanAll.png}
+	%\includegraphics<3>{C}
+\end{frame}
+
+\begin{frame}[fragile]{How long does it take for the CLT to 'kick in'?}
+	\begin{itemize}
+		\item How \textit{fast} or slowly the CLT will \textcolor{blue}{kick in} is a function of how symmetric, or how asymmetric and \textcolor{blue}{CLT-unfriendly}, the distribution of $Y$ (the depths of the ocean) is
+	\end{itemize}
+	
+	
+	\includegraphics[width=\textwidth,height=0.8\textheight,keepaspectratio]{oceanAll.png}
+	%\includegraphics<3>{C}
+\end{frame}
+
+
+
+\begin{frame}[fragile]{Quadruple the work, half the benefit}
+	
+	\framedgraphiccaption{ROOToceanAll.png}{When the sample size increases from 4 to 16, the spread of the sampling distribution for the mean is reduced by a half, i.e., the range is cut in half. This is known as the curse of the $\sqrt{n}$}
+\end{frame}
+
+
+\section{Confidence Intervals}
+
+
+\begin{frame}{Key takeaways and next steps}
+	\begin{enumerate}
+		\setlength\itemsep{2em}
+		\item We've been exclusively talking about point estimates \pause
+		\item How confident are we about these point estimates? \pause
+		\item \textcolor{blue}{Thought experiment}: Estimate the average temperature in Montreal in August over the past 100 years. \pause  
+		\item We're going into stat territory now. 
+	\end{enumerate}
+\end{frame}
+
+
+\begin{frame}{Confidence Interval}
+	
+	\begin{defm}[Confidence Interval]
+		A level $C$ confidence interval for a parameter has two parts:
+		\begin{enumerate}
+			\item An interval calculated from the data, \underline{usually} of the form $$\textrm{estimate} \pm \textrm{margin of error}$$ where the estimate is a sample statistic and the margin of error represents the accuracy of our guess for the parameter.
+			\item A confidence level $C$, which gives the probability that the interval will capture the true parameter value in \textit{different possible samples}. That is, the confidence level is the success rate for the method
+		\end{enumerate}
+	\end{defm}
+	
+	%\framedgraphic{6899rule.png}
+	
+\end{frame}
+
+\frame{\frametitle{Confidence Interval: A simulation study}
+	
+	\vspace*{-0.1in}
+	
+	\begin{figure}
+		\begin{center}
+			\epsfig{figure=CIplots.eps,width=3.2in,height=2.7in}
+			\caption{\small{True parameter value is 2 (red line). Each horizontal black line represents a 95\% CI from a sample and contains the true parameter value. The blue CIs do not contain the true parameter value. 95\% of all samples give an interval that contains the population parameter.}}
+		\end{center}
+	\end{figure}
+}
+
+
+
+
+
+\begin{frame}{Confidence Intervals: we only get one shot}
+	\begin{itemize}
+		\setlength\itemsep{2em}
+		\item In practice, we don't take many simple random samples (``repeated'' samples) to estimate the population parameter $\theta$. \pause 
+		\item Because the method has a 95\% success rate, all we need is one simple random sample to compute one CI. 
+	\end{itemize}
+\end{frame}
+
+\begin{frame}{Interpreting a frequentist confidence interval}
+	\begin{itemize}
+		\setlength\itemsep{1em}
+		\item The confidence level is the success rate of the method that produces the interval. \pause
+		\item We don't know whether the 95\% confidence interval from a \underline{particular
+			sample} is one of the 95\% that capture $\theta$ (the unknown population parameter), or one of the unlucky 5\% that miss. \pause
+		\item To say that we are 95\% confident that the unknown value of $\theta$
+		lies between $U$ and $L$ is shorthand for ``We got these numbers using a
+		method that gives correct results 95\% of the time.''
+	\end{itemize}
+\end{frame}
+
+%\frame{\frametitle{Inference for a single population mean} So to
+%perform inference, we want an estimator that is unbiased for the
+%parameter of interest and that has a relatively small spread (low
+%variability or high efficiency). \\ \ \\
+%Examples - estimating the population mean $\mu$:
+%\begin{itemize}
+%\item What is the bias (if any) of $\frac{1}{n}\sum^n_{i=1}(x_i + 1)$?
+%\item[] \item What is the bias (if any) of $\frac{1}{n}\sum^n_{i=1}x_i + \frac{1}{n}$?
+%\item[] \item Which of the two estimators above would you prefer?
+%\end{itemize}
+%}
+
+
+\begin{frame}{More about a frequentist confidence interval}
+	
+	\begin{itemize}
+		\item The confidence level of 95\% has to say something about the sampling procedure: \pause
+		
+		\begin{itemize}
+			\item The confidence interval depends on the sample. If the sample had come out differently, the confidence interval would have been different. \pause
+			\item With some samples, the interval 'estimate $\pm$ margin of error' does trap the population parameter (the word statisticians use is cover). But with other samples, the interval fails to cover.
+		\end{itemize}
+		\pause
+		\item It's like buying a used car. Sometimes you get a lemon – a confidence interval which doesn't cover the parameter.
+		
+		\framedgraphiccaption{lemon.jpg}{3 confidence intervals 'chasing' (taking a shot at) the population parameter $P$}
+	\end{itemize}
+\end{frame}
+
+
+\begin{frame}{More about a frequentist confidence interval}
+	\begin{itemize}
+		\setlength\itemsep{2em}
+		\item In the frequentist approach, $\theta$ is regarded as a fixed (but unknowable) constant, such as the exact speed of light to an infinite number of digits, or the exact mean depth of the ocean at a given point in time. \pause
+		
+		\item It doesn't ``fall'' or ``vary around'' any particular values; in contrast you can think of the statistic $\hat{\theta}$ ``falling'' or ``varying around'' the fixed (but unknowable) value of $\theta$
+	\end{itemize}
+\end{frame}
+
+
+\begin{frame}{Polling companies}
+	\begin{itemize}
+		\setlength\itemsep{2em}
+		\item Polling companies who say ``polls of this size are accurate to within so many percentage points 19 times out of 20'' are being statistically correct $\to$ they emphasize the \textbf{procedure} rather than what has happened in this specific instance. \pause 
+		\item Polling companies (or reporters) who say ``this poll is accurate .. 19
+		times out of 20'' are talking statistical nonsense -- this specific poll is either right or wrong. On average 19 polls out of 20 are ``correct''. But this
+		poll cannot be right on average 19 times out of 20.
+	\end{itemize}
+\end{frame}
+
+\frame{\frametitle{Example: Inference for a single population mean} We begin
+	with the (unrealistic) assumption that the population variance is
+	known.
+	\begin{itemize}
+		\item Then the true variance of the sample mean is known!
+		\item We can use \texttt{mosaic::xpnorm(q = c(-1.96, 1.96))} to find that there is a 95\% chance that a $\mathcal{N}$(0,1) random variable lies within 1.96 
+		standard errors of the population mean of the distribution. So then:
+		\[ P\left(-1.96 \le \frac{\bar{y}-\mu}{\sigma/\sqrt{n}} \le
+		1.96\right) = 0.95 \]
+		\item[]
+	\end{itemize}
+	What does allow us to learn about $\mu$? }
+
+\frame{\frametitle{Example: Inference for a single population mean} We can
+	use this probability statement about the standardized version of
+	$\bar{y}$ to place bounds on where we think the true mean lies
+	by examining the probability that $\bar{y}$ is within
+	1.96$\frac{\sigma}{\sqrt{n}}$ of $\mu$. \\ \ \\
+	
+	$P\left(-1.96 \le \frac{\bar{y}-\mu}{\sigma/\sqrt{n}} \le
+	1.96\right)$\\
+	\[\begin{array}{ccl} \qquad & = & P\left(-1.96\frac{\sigma}{\sqrt{n}}
+	\le \bar{y}-\mu \le +1.96\frac{\sigma}{\sqrt{n}}\right)\\
+	\pause
+	& = & P\left(-\bar{y}-1.96\frac{\sigma}{\sqrt{n}} \le
+	-\mu \le -\bar{y}+1.96\frac{\sigma}{\sqrt{n}}\right)\\ \pause
+	& = & P\left(\bar{y}+1.96\frac{\sigma}{\sqrt{n}} \ge
+	\mu \ge \bar{y}-1.96\frac{\sigma}{\sqrt{n}}\right)\\ \pause
+	& = & P\left(\bar{y}-1.96\frac{\sigma}{\sqrt{n}} \le \mu
+	\le \bar{y}+1.96\frac{\sigma}{\sqrt{n}}\right)\\
+	& = & 0.95\\
+	& & \\
+	\end{array}\]
+	
+	We call the interval
+	$\left(\bar{y}-1.96\frac{\sigma}{\sqrt{n}},
+	\bar{y}+1.96\frac{\sigma}{\sqrt{n}}\right)$ a \textbf{95\%
+		confidence interval} for $\mu$. }
+
+\frame{\frametitle{Example: Inference for a single population mean} So what does the CI allow us
+	to learn about $\mu$?? \pause
+	
+	\begin{itemize}
+		\setlength\itemsep{.5em}
+		\item In classical (frequentist) statistics, we assume that the population
+		mean, $\mu$ is a \textbf{fixed} but unknown value.
+		\item With this view, it doesn't make sense to think of $\mu$ as
+		having a distribution. Therefore we can't make probability statements about $\mu$. \pause
+		\item What about the CI? It is made up of the sample mean
+		and other fixed numbers (1.96, the square root of the known sample
+		size $n$, and the known standard deviation, $\sigma$).
+		\item \textcolor{blue}{\textbf{The CI is a random quantity.}}
+		\item Remember: a random quantity is one in which the outcome is not
+		known ahead of time. We don't know the lower and upper limits of the
+		CI before the sample has been collected since we don't yet know the
+		value of the random quantity $\bar{x}$.
+	\end{itemize}
+	
+}
+
+\frame{\frametitle{Example: Inference for a single population mean} So what
+	does the CI allow us to learn about $\mu$??
+	\begin{itemize}
+		\setlength\itemsep{2em}
+		\item It tells us that if we repeated this procedure again and again
+		(collecting a sample mean, and constructing a 95\% CI), 95\% of the
+		time, the CI would \textit{cover} $\mu$. \pause 
+		\item That is, with 95\% probability, the \textit{procedure}
+		will include the true value of $\mu$. Note that we are making \underline{a probability statement about the CI}, not about the parameter. \pause
+		\item Unfortunately, \textcolor{blue}{we do not know whether the true value of $\mu$ is
+			contained in the CI in the particular experiment that we have
+			performed.}
+	\end{itemize}
+}
+
+
+\begin{frame}{Interactive visualization of CIs}
+	\Large\href{http://rpsychologist.com/d3/CI/}{http://rpsychologist.com/d3/CI/}
+\end{frame}
+
+
+
+\begin{frame}[fragile]{Exercise: How deep is the ocean?}
+	%\begin{exm}[Confidence intervals in many samples]
+	\begin{enumerate}
+		\item For your samples of $n=5$ and $n=20$ of depths of the ocean, calculate the
+		\begin{enumerate}
+			\item sample mean ($\bar{y}$)
+			\item standard error of the sample mean ($SE_{\bar{y}}$)
+		\end{enumerate}
+		\item Calculate the 68\%, 95\% and 99\% confidence intervals (CI) for both samples of $n=5$ and $n=20$.
+		\item Enter your results in the \href{https://docs.google.com/spreadsheets/d/1Mnxeq9nQcTdQycZ7S_62fYFiNC5_a3fibsyodzfwO58/edit?usp=sharing}{Google sheet} 
+		\item Plot the CIs for each student using the following code:
+		
+		<<eval=FALSE, echo = TRUE>>=
+		plot(dt$Mean.5.depths, 1:nrow(dt), pch=20, 
+		xlim=range(pretty(c(dt$lower.mean.5.66, dt$upper.mean.5.66))),
+		xlab='Depth of ocean (m)', ylab='Student (sample)', 
+		las=1, cex.axis=0.8, cex=1.5)
+		abline(v = 3700, lty = 2, col = "red", lwd = 2)
+		segments(x0 = dt$lower.mean.5.66, x1=dt$upper.mean.5.66, 
+		y0 = 1:nrow(dt), lend=1)
+		@
+		
+	\end{enumerate}
+	%\end{exm}
+\end{frame}
+
+\end{document}
+
+
