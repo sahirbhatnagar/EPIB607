@@ -1,14 +1,17 @@
 ---
-title: "Lab 001-3: Introduction to R Markdown"
-subtitle: "EPIB 607 - FALL 2020"
+title: 'Lab 001-3: Introduction to R Markdown'
 author: "your name"
-institute: "Department of Epidemiology, Biostatistics, and Occupational Health"
 date: "`r paste('compiled on',format(Sys.time(), '%B %d, %Y'))`"
 output:
+  html_document:
+    toc: yes
+    df_print: paged
   pdf_document:
-    toc: true
-    number_sections: true
-    keep_md: true
+    toc: yes
+    number_sections: yes
+    keep_md: yes
+subtitle: EPIB 607 - FALL 2020
+institute: Department of Epidemiology, Biostatistics, and Occupational Health
 ---
 
 
@@ -80,7 +83,7 @@ To make a "comment" in an R Markdown document, use the syntax on the lines prece
 
 5. To start a new page in the PDF document, enter the text 'newpage' preceded by a backslash, as in...(new page coming in the PDF!)
 
-\newpage
+<br><br><br><br><br><br><br><br>
 
 # Using R with R Markdown
 

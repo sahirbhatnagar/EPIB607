@@ -1,0 +1,375 @@
+---
+title: "A3: Central Limit Theorem, Confidence Intervals and Bootstrap. Solutions."
+subtitle: "Your Name Here and ID number here"
+author: "EPIB 607, Fall 2019, McGill University"
+date: "`r Sys.Date()`"
+output:
+  html_document:
+    toc: true
+    toc_float: false
+    number_sections: true
+    toc_depth: 3
+    keep_md: false
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r include = FALSE}
+## ---- Setup ------------------------------------------------------------------
+knitr::opts_chunk$set(
+  echo = TRUE,          # don't show code
+  warning = FALSE,       # don't show warnings
+  message = FALSE,       # don't show messages (less serious warnings)
+  cache = FALSE,         # set to TRUE to save results from last compilation
+  fig.align = "center",   # center figures
+  fig.asp = 1,          # fig.aspect ratio
+  fig.width = 10        # fig width
+)
+```
+
+
+# Rainfall (20 points)
+
+```{r, results='hide', fig.keep='none'}
+## ---- Question-1 ------------------------------------------------------------
+
+#a
+mu <- 35.4
+sigma <- 4.2
+prob_over_40 <- pnorm(q = 40, mean = mu, sd = sigma, lower.tail = FALSE)
+
+#b
+quant_driest_20 <- qnorm(p = 0.2, mean = mu, sd = sigma, lower.tail = TRUE)
+
+#c
+ybar <- mu
+n <- 4
+se <- sigma/sqrt(n)
+
+
+
+#d
+ybar_less_than_30 <- pnorm(q = 30, mean = mu, sd = se, lower.tail = TRUE)
+```
+
+a. Ithaca gets more than 40 feet of rain during `r sprintf("%.2f", prob_over_40*100)`\% of years.
+
+b. In the driest 20\% of all years, Ithaca gets less than `r sprintf("%.2f", quant_driest_20)` feet of rain fall each year.
+
+c. Assuming random sample, the sampling distribution for this sample mean, $\bar{y}$, is a Normal distribution with a mean of the population mean `r sprintf("%.2f", mu)` (feet) and a standard deviation (SE) of $\text{SE} = \frac{\sigma}{\sqrt{n}} =$ `r sprintf("%.2f", se)` (feet): $\bar{y} \sim N(35.4, 2.1)$ (feet). The plot of the sampling distribution is as follows:
+
+```{r}
+plot(x = seq(mu - 4*se, mu + 4*se, by = 0.05), y = dnorm(seq(mu - 4*se, mu + 4*se, by = 0.05), mean = mu, sd = se), type = 'l', ylab = "density", xlab = "x", xaxt = "n")
+axis(1, at = seq(mu - 4*se, mu + 4*se, by = 1))
+abline(v = mu, lty = 2)
+
+```
+
+d. The probability that those 4 years average less than 30 feet of rain is `r sprintf("%.4f", ybar_less_than_30)`.
+
+# Museum Membership (20 points)
+
+```{r}
+donations <- c(rep(50,41), rep(100,37), 
+               rep(250,14), rep(500,7), 1000)
+
+mean_donations <- mean(donations)
+
+#if you assume the distribution in table 1 was a population then you should calculate sigma by hand, and not use the sd function in R because the function in R uses n-1 in the denominator but if you are calculating sigma you should use n in the denominator
+
+sigma <- round( sqrt(sum((donations - mean(mean_donations))^2 /
+                           (length(donations)))), digits = 2)
+
+#if you assume the distribution in table 1 was a sample then you can just using the sd function in R
+
+sd_donations <- round(sd(donations),2) 
+```
+
+a) The mean of the donations is `r mean_donations` and the standard deviation is `r sigma` (5 points) 
+
+b) The distribution of donations for a day wouldn't follow a Normal distribution. Assuming that the sample of size 50 is representative of the population it would follow the same distribution as the population. Looking at table 1 we can see that the distribution is skewed, so we would expect the sample distribution to be skewed as well.  (5 points)
+
+c) Assuming that a sample size of 50 is large enough for the CLT to kick in we would expect the sampling distribution to follow a normal distribution.  
+The center of the sampling distribution is the population mean ($\mu$) -if you assumed that the distribution in table 1 to be a population then the mean in 2a is $\mu$, if you assumed that the distribution in table to be a sample then the mean you calculate in 2a is ybar and because it is a large sample size we assume that ybar is an unbiased estimate of $\mu$ - therefore the center of the distribution will be `r mean_donations`.  
+The spread of the sampling distribution is standard error (the standard deviation of the means). If you treated distribution in table 1 as a population then SE = sigma/sqrt(n), if you treated the distribution as a sample then SE = sd/sqrt(n).   (5 points)
+
+d) (5 points)
+```{r}
+donations_d <- c(rep(50,410), rep(100,370), rep(250,140),
+               rep(500,70), rep(1000,10))
+hist(donations_d, breaks = 50, 
+     xlab = "Donations (dollars)", 
+     main = "Distribution of donations amounts for a cohort of 1000   members" )
+```
+
+
+
+
+# Where do you buy? (20 points)
+
+(-2 points each for not providing units for the mean, SD, and CI. In this example it suffices to say mean performance score)
+
+
+a) (5 points) The authors of the study want to draw conclusions about the entire American consumer population. 
+b) (5 points) The authors can draw conclusions about the population of Indianapolis. 
+
+c) (10 points) You need to justify the use of $\pm 1.96$ by a large sample size or the CLT kicking in (-5 points for no justification). A justification is not required if a $t$ interval was constructed. 
+
+```{r, results='hide', fig.keep='none'}
+## ---- Question-1 ------------------------------------------------------------
+ybarfoodstores <- 18.67
+ybarmassmerch <- 32.38
+ybarpharma <- 48.6
+
+sfoodstores <- 24.95
+smassmerch <- 33.37
+spharma <- 35.62
+#creating the Confidence Intervals
+cifoodstores <- ybarfoodstores+ c(-1.96,1.96)*(sfoodstores/sqrt(201))
+cimassmerch <- ybarmassmerch + c(-1.96,1.96)*(smassmerch/sqrt(201))
+cipharma <- ybarpharma + c(-1.96,1.96)*(spharma/sqrt(201))
+
+```
+
+<br> 
+
+## CI using z procedure
+
+|Store Type  |Mean (CI)  for $n=201$ using $z$ procedure            |
+  |:----|:----------------------------------|
+  |Food Stores\ |`r sprintf("%#.2f (%#.2f, %#.2f)", ybarfoodstores, cifoodstores[1], cifoodstores[2])` |
+  |Mass Merchandisers\ |`r sprintf("%#.2f (%#.2f, %#.2f)", ybarmassmerch, cimassmerch[1], cimassmerch[2])` | 
+  |Pharmacies\ |`r sprintf("%#.2f (%#.2f, %#.2f)", ybarpharma, cipharma[1], cipharma[2])` |
+
+These confidence intervals are calculated based off of the standard error multiplied by the critical value. Since there are 201 samples, it is fair to assume that a t critical value would be equivalent to the corresponding z critical value, 1.96. Its also assumed that the CLT has kicked in allowing for a normal distribution.
+
+<br> 
+
+## CI using t procedure
+
+
+```{r}
+# Confidence Interval using t procedure
+#t score function
+qt_ls <- function(p, df, mean, sd) qt(p = p, df = df) * sd + mean
+
+n = 201
+
+food_store_ybar <- 18.67
+food_store_SE <- 24.95/sqrt(n)
+
+# using the q function
+food_store_CI <- qt_ls(p = c(0.025,0.975), df = n-1, mean = food_store_ybar, sd = food_store_SE)
+# We can also use the plus/minus formula
+# food_store_CI <- food_store_ybar + qt(p = c(0.025,0.975), df = n-1) * food_store_SE
+food_store_CI <- round(food_store_CI, 2)
+
+mass_merch_ybar <- 32.38
+mass_merch_SE <- 33.37/sqrt(n)
+mass_merch_CI <- qt_ls(p = c(0.025,0.975), df = n-1, mean = mass_merch_ybar, sd = mass_merch_SE)
+mass_merch_CI <- round(mass_merch_CI, 2)
+
+pharmacy_ybar <- 48.6
+pharmacy_SE <- 35.62/sqrt(n)
+pharmacy_CI <- qt_ls(p = c(0.025,0.975), df = n-1, mean = pharmacy_ybar, sd = pharmacy_SE)
+pharmacy_CI <- round(pharmacy_CI, 2)
+```
+
+The 95% confidence interval for the mean performance of food stores is [**`r food_store_CI`**].  
+The 95% confidence interval for the mean performance of mass merchandisers is [**`r mass_merch_CI`**].  
+The 95% confidence interval for the mean performance of pharmacies is [**`r pharmacy_CI`**].
+
+d) (5 points) Based on these confidence intervals I am mostly convinced that consumers think that pharmacies offer higher performance than the other types of stores. We can say that when using this surveying method and analysis strategy, 95 out of 100 times, will produce a confidence interval which covers the true mean of the pharmacies performance, which is higher than the other types of stores. 
+
+<br><br> 
+
+# Deer mice (20 points)
+
+(-3 points each for not providing units for the mean, SD, and CI)
+
+
+```{r}
+## ---- Question-2 ------------------------------------------------------------
+length_SE <- 8/sqrt(14)
+
+CI_90_length <- qnorm(p = c(0.05,0.95), mean = 91.1, sd = length_SE)
+CI_90_length <- round(CI_90_length, 2)
+
+CI_95_length <- qnorm(p = c(0.025,0.975), mean = 91.1, sd = length_SE)
+CI_95_length <- round(CI_95_length, 2)
+
+```
+
+a) (5 points) The standard deviation of the mean length ybar is **`r round(length_SE, 2)` millimeters**. 
+
+b) (5 points) To compute a 95% CI, we need the following critical values: **`r round(qnorm(p = c(0.025,0.975)), 2)`**. This is because there is equal chance a measurement could be above or below the mean, thus it is a two-tailed test using alpha/2, providing critical values at the probabilites of 0.025 and 0.975.
+
+c) (10 points) 
+  i)The 90% CI for the mean body length of all deer mice in the forest habitat is [**`r CI_90_length` millimeters**] .  
+  ii)The 95% CI for the mean body length of all deer mice in the forest habitat is [**`r CI_95_length` millimeters**].  
+
+d) (5 points) The 90% CI has a smaller margin of error because it allows one to be less accurate than a 95% CI, thus letting us use a smaller range of possibilities to capture the true value.
+
+
+<br><br>
+
+# Does breast-feeding weaken bones? (20 points + 5 points BONUS)
+
+(-3 points each for not providing units for the mean, SD, and CI)
+
+
+```{r}
+## ---- Question-3 ------------------------------------------------------------
+boneloss <- read.csv("https://github.com/sahirbhatnagar/EPIB607/raw/master/data/boneloss.csv")
+
+##prepare the data for plotting, split the data into Breastfeeding and Other
+Other <- subset(boneloss, boneloss$type == "Other")
+Breastfeeding <- subset(boneloss, boneloss$type == "Breast-feeding")
+
+ybar1 <- mean(Breastfeeding$mineral_loss)
+ybar2 <- mean(Other$mineral_loss)
+
+SE1 <- sd(Breastfeeding$mineral_loss) / sqrt(47)
+SE2 <- sd(Other$mineral_loss) / sqrt(22)
+
+CI_95_1 <- qnorm(p = c(0.025,0.975), mean = ybar1, sd = SE1)
+CI_95_1 <- round(CI_95_1, 2)
+
+CI_95_2 <- qnorm(p = c(0.025,0.975), mean = ybar2, sd = SE2)
+CI_95_2 <- round(CI_95_2, 2)
+```
+
+a) (15 points) The 95% confidence interval for the mean **percent change of mineral loss** for the breastfeeding group is [**`r CI_95_1`**].  
+The 95% confidence interval for the mean percent change of mineral loss for the other feeding group (non-breastfeeding) is [**`r CI_95_2`**].  
+
+b) (10 points) From the confidence intervals, I am convinced that there is distinctly greater bone mineral loss among breast-feeding women. The CI for breast-feeding women lies below that of other women, and there is no overlap between them. 
+
+<br>
+
+
+```{r}
+library(mosaic)
+bootstrap.Breast <- do(10000) * mean( ~ mineral_loss, data = resample(Breastfeeding))
+bootstrap.Other <- do(10000) * mean( ~ mineral_loss, data = resample(Other))
+
+bootstrap.diff <- bootstrap.Other - bootstrap.Breast
+
+
+#bootstrap CI
+CI_95 <- quantile(~ mean, data = bootstrap.diff, probs = c(0.025, 0.975))
+CI_95 <- round(CI_95, 2)
+
+hist(bootstrap.diff$mean, breaks = 50, col = "#56B4E9",
+     main="", xlab = "Differences in mean mineral loss")
+# draw red line at the sample mean
+abline(v = mean(bootstrap.diff$mean), lty =1, col = "red", lwd = 4)
+# draw black dotted lines at 95% CI
+abline(v = CI_95[1], lty =2, col = "blue", lwd = 4)
+abline(v = CI_95[2], lty =2, col = "blue", lwd = 4)
+# include legend
+library(latex2exp)
+legend("topleft",
+       legend = c(TeX("$\\bar{y} = 3.9$"),
+                  sprintf("95%% CI: [%.f, %.f]",CI_95[1], CI_95[2])),
+       lty = c(1,1),
+       col = c("red","black"), lwd = 4)
+```
+
+c) (5 points) From the histogram above, the **diffrence in mean percent change of bone loss** between breast-feeding women and other women is **`r round(mean(bootstrap.diff$mean), 2)`** with a 95% CI of [**`r CI_95`**]. Since even the lowest possible value in the CI is approximately equal to 3, this means that the difference between breast-feeding women and other women is convincing, which further supports the argument made in part b.
+
+<br><br>
+
+# How deep is the ocean? (25 points)
+
+```{r}
+## ---- Question-4 - --------------------------------------------------------
+
+source("https://github.com/sahirbhatnagar/EPIB607/raw/master/exercises/water/automate_water_task.R")
+
+index.n.20 <- c(2056,2057,2058,2059,2060,2061,2062,2063,2064,2065,
+                2066,2067,2068,2069,2070,2071,2072,2073,2074,2075)
+
+depths.n.20 <- automate_water_task(index = index.n.20, student_id = 260676245, type = "depth")
+
+depths.n.20$alt = round(depths.n.20$alt/100,0)
+
+# ybar based on n=20
+ybar.n20 <- mean(depths.n.20$alt)
+
+# Standard Error of ybar based on n=20
+SEybar.n20 <- sd(depths.n.20$alt) / sqrt(20)
+SEybar.n20 <- round(SEybar.n20, 2)
+###################################################
+
+# 95% CI using plus/minus formula
+ci95.n20.a <- ybar.n20 + c(-1.96,1.96) * SEybar.n20
+ci95.n20.a <- round(ci95.n20.a, 2)
+
+# 95% CI using qnorm
+ci95.n20.b <- qnorm(p = c(0.025,0.975), mean = ybar.n20, sd = SEybar.n20)
+ci95.n20.b <- round(ci95.n20.b, 2)
+
+# 10000 bootstrap samples
+bootstrap.n20 <- do(10000) * mean( ~ alt, data = resample(depths.n.20))
+
+# 95% CI using bootstrap
+CI_95 <- quantile(~ mean, data = bootstrap.n20, probs = c(0.025, 0.975))
+CI_95 <- round(CI_95, 2)
+
+```
+
+
+(-3 points for not providing units for each CI)
+
+
+a. (5 points) 95% CI from plus/minus formula: [**`r ci95.n20.a`**] meters.
+b. (5 points) 95% CI from qnorm function: [**`r ci95.n20.b`**]  meters.
+c. (5 points) 95% CI from 10000 bootstrap samples: [**`r CI_95`**]  meters.
+
+
+
+```{r}
+compare_CI <- function(ybar, PM, QNORM, BOOT, 
+                       col = c("#E41A1C","#377EB8","#4DAF4A")) {
+  
+  dt <- data.frame(type = c("plus_minus", "qnorm", "bootstrap"),
+                   ybar = rep(ybar, 3),
+                   low = c(PM[1], QNORM[1], BOOT[1]),
+                   up = c(PM[2], QNORM[2], BOOT[2])
+  )
+  
+  plot(dt$ybar, 1:nrow(dt), pch = 20, ylim = c(0, 5), 
+       xlim = range(pretty(c(dt$low, dt$up))),
+       xlab = 'Depth of ocean (m)', ylab = 'Confidence Interval Type',
+       las = 1, cex.axis = 0.8, cex = 3)
+  
+  abline(v = 37, lty = 2, col = "black", lwd = 2)
+  segments(x0 = dt$low, x1 = dt$up,
+           y0 = 1:nrow(dt), lend = 1,
+           col = col, lwd = 4)
+  
+  legend("topleft",
+         legend = c(eval(substitute( expression(paste(mu," = ",37)))),
+                    sprintf("plus/minus CI: [%.f, %.f]",PM[1], PM[2]),
+                    sprintf("qnorm CI: [%.f, %.f]",QNORM[1], QNORM[2]),
+                    sprintf("bootstrap CI: [%.f, %.f]",BOOT[1], BOOT[2])),
+         lty = c(1, 1,1,1),
+         col = c("black",col), lwd = 4)
+}
+
+compare_CI(ybar = ybar.n20, PM = ci95.n20.a, QNORM = ci95.n20.b, BOOT = CI_95)
+```
+
+
+d. (10 points) In the 3 plotted confidence intervals, we can observe that 2 look identical and one looks very similar to the other 2. More specifically, the confidence interval calculated via the +/- formula (4a) and the confidence interval calculated via the qnorm function (4b) are identical. Additionally, both confidence intervals are symmetric in the sense that the width below and above the mean within the same confidence interval are the same value. However, this is one aspect that differentiates the bootstrap confidence interval (4c). The bootstrap is not entirely symmetrical on both sides of the mean within the interval. However, since the bootstrap interval is relatively similar to the intervals for +/- formula and the qnorm function, it can be suggested that the central limit theorum has kicked in and we can safelyperform inference based on the Normal distribution. 
+
+
+<br><br>
+
+
+# Code {-}
+
+```{r all-code, ref.label=knitr::all_labels(), echo = TRUE, eval = FALSE}
+
+```
+

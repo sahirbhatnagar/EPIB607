@@ -3,7 +3,7 @@ title: "Lab 001-3: Introduction to R Markdown"
 subtitle: "EPIB 607 - FALL 2020"
 author: "your name"
 institute: "Department of Epidemiology, Biostatistics, and Occupational Health"
-date: "compiled on September 11, 2020"
+date: "compiled on September 22, 2020"
 output:
   pdf_document:
     toc: true
@@ -78,7 +78,7 @@ To make a "comment" in an R Markdown document, use the syntax on the lines prece
 
 5. To start a new page in the PDF document, enter the text 'newpage' preceded by a backslash, as in...(new page coming in the PDF!)
 
-\newpage
+<br><br><br><br><br><br><br><br>
 
 # Using R with R Markdown
 

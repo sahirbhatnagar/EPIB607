@@ -1,0 +1,179 @@
+---
+title: Lab 004 - Normal curve calculations. 
+author:
+  - name: EPIB607 - Inferential Statistics
+    affiliation: a
+#  - name: Second Author
+#    affiliation: a,b
+address:
+  - code: a
+    address: Fall 2020, McGill University
+#  - code: b
+#    address: Department of Neat Tricks, Whereever State University, Someplace, MC, 67890
+lead_author_surname: Bhatnagar
+#doi: "https://sahirbhatnagar.com/EPIB607/"
+abstract: |
+  Because the results of random samples include an element of chance, we can't guarantee that our inferences are correct. What we can guarantee is that our methods usually give correct answers. We will see that the reasoning of statistical inference rests on asking "How often would this method give a correct answer if I used it very many times ?" To be able to answer these questions we need to understand sampling distributions and the normal curve. In this exercise you will practice calculating quantiles and probablities from the Normal distribution. 
+# Optional: Acknowledgements
+#acknowledgements: |
+#  [rticles](https://cran.r-project.org/package=rticles) package, and both packages rely on the
+#  [PNAS LaTeX](http://www.pnas.org/site/authors/latex.xhtml) macros. Both these sources are
+#  ([GPL-3](https://www.gnu.org/licenses/gpl-3.0.en.html) and
+#  [LPPL (>= 1.3)](https://www.latex-project.org/lppl/)).
+# Optional: One or more keywords
+keywords:
+  - Sampling distribution
+  - Standard error
+  - Normal distribution
+  - Quantiles
+  - Percentiles
+  - Z-scores
+papersize: letter
+fontsize: 12pt
+# Optional: Force one-column layout, default is two-column
+one_column: true
+# Optional: Enables lineno mode, but only if one_column mode is also true
+#lineno: true
+# Optional: Enable one-sided layout, default is two-sided
+#one_sided: true
+# Optional: Enable section numbering, default is unnumbered
+numbersections: true
+# Optional: Specify the depth of section number, default is 5
+#secnumdepth: 5
+# Optional: Skip inserting final break between acknowledgements, default is false
+skip_final_break: true
+# Optional: Bibliography 
+bibliography: pinp
+# Optional: Enable a 'Draft' watermark on the document
+watermark: false
+footer_contents: "in-class exercise on pnorm qnorm"
+output: pinp::pinp
+# Required: Vignette metadata for inclusion in a package.
+vignette: >
+  %\VignetteIndexEntry{YourPackage-vignetteentry}
+  %\VignetteKeywords{YourPackage, r, anotherkeyword}
+  %\VignettePackage{Due Sepetember 28, 2018}
+  %\VignetteEngine{knitr::rmarkdown}
+editor_options: 
+  chunk_output_type: console
+---
+
+# The `mosaic` package (optional) {-}
+
+The `mosaic` package provides a consistent and user-friendly interface for descriptive statistics, plots and inference. In particular you might find the `mosaic::xpnorm` and `mosaic::xqnorm` functions useful for this exercise. Have a look at the slides 007-sampling-distributions for some examples on how to use these functions. Remember to install the package:
+
+```{r, eval=FALSE}
+install.packages("mosaic", dependencies = TRUE)
+```
+
+Then you must load the library to access its functions:
+
+```{r, eval=FALSE}
+library(mosaic)
+
+load(file = "~/Downloads/nytcovcounty (1).rda")
+
+```
+
+
+
+```{r, eval=FALSE, echo=FALSE}
+library(readr)
+library(dplyr)
+DT <- readr::read_csv("~/Downloads/cars.csv", skip = 6)
+dplyr::glimpse(DT)
+tt <- DT %>% 
+  dplyr::select(`2019`:`1900`)
+
+year_totals <- apply(tt, 2, sum, na.rm = TRUE)
+plot(1900:2019, cumsum(rev(year_totals)))
+
+Fn <- ecdf(year_totals)
+Fn %>% plot
+summary(Fn)
+knots(Fn)
+
+require(graphics)
+
+op <- par(mfrow = c(3, 1), mgp = c(1.5, 0.8, 0), mar =  .1+c(3,3,2,1))
+
+F10 <- ecdf(rnorm(10))
+summary(F10)
+
+plot(F10)
+plot(F10, verticals = TRUE, do.points = FALSE)
+
+
+dev.off()
+plot(Fn, verticals = TRUE, do.points = TRUE)
+Fn(100000)
+summary(Fn)
+summary.stepfun(Fn)
+quantile(year_totals, probs = c(0.25,0.50,0.75))
+
+hist(year_totals, breaks = 50)
+```
+
+
+# In-line R code {-}
+
+For future assignments you may find it useful to include calculations from `R` directly in your text. For example, in the following code chunk I calculate $P(Y < 2)$ where $Y \sim \mathcal{N}(0,1)$, and store the result in an object called `prob_less_2`:
+
+
+````r
+`r ''````{r}
+prob_less_2 <- mosaic::xpnorm(2)
+
+# round to 2 digits
+prob_less_2 <- round(prob_less_2, 2)
+```
+````
+
+To print this result verbatim in an inline R expression use `` `r
+prob_less_2` `` in the text.
+
+\vspace{0.1in}
+
+You can also call the function directly without storing the result in a code chunk using
+
+\vspace{0.1in}
+
+`` `r
+round(mosaic::xpnorm(2), 2)` `` 
+
+\vspace{0.1in}
+
+A sample answer would be: The probability that $Y$ is less than 2 is `r round(mosaic::xpnorm(2), 2)`.
+
+\newpage
+
+# Normal probability calculations
+
+Using your method of choice, calculate the following probabilities assuming $Y$ is a standard normal distribution ($Y \sim \mathcal{N}(0,1)$):
+
+  a) $P(Y < -1.80)$
+  b) $P(Y > -1.80)$
+  c) $P(Y \geq 1.60)$
+  d) $P(-1.8 < Y \leq 1.6)$
+
+
+
+# HDL cholesterol
+
+  a. US women over the age of 19 have a mean (HDL) cholesterol measure of 55 mg/dL with a standard deviation of 15.5 mg/dL. Assume HDL follows a Normal distribution.
+      i. What percent of women have low values of HDL, where low is defined to be 40 mg/dL or less?
+      ii. HDL levels of 60 mg/dL or more are believed to be protective against heart disease. What percent of women have protective levels of HDL?
+      iii. What proportion of women has HDL in the range of 40-60 mg/dL?
+      iv. What proportion of women has HDL in the range of 35-65 mg/dL?
+
+
+# Osteoporosis
+
+Osteoporosis is a condition in which the bones become brittle due to loss of minerals. To diagnose osteoporosis, an elaborate apparatus measures bone mineral density (BMD). BMD is usually reported in standardized form. The standardization is based on a population of healthy young adults. The Wolrd Health Organization (WHO) criterion for osteoporosis is a BMD 2.5 or more standard deviations below the mean for young adults. BMD measurements in a population of people who are similar in age and sex roughly follow a standard normal distribution. 
+
+  a. What percent of healthy young adults have osteoporosis?
+  b. Woman aged 70 to 79 are, of course, not young adults. The mean BMD in this age is about -2 on the standard scale for young adults. Suppose that the standard deviation is the same for young adults. What percent of this older population has osteoporosis?
+  c. Likewise, osteopenia is low BMD, defined by the WHO as a BMD between 1 and 2.5 standard deviations below the mean of young adults. What percent of healthy young adults have osteopenia?
+  d. The mean BMD among women aged 70 to 79 is about -2 on the standard scale for young adults. Suppose that the standard deviation is the same as for young adults. What percent of this older population has osteopenia?
+
+

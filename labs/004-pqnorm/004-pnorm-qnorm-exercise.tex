@@ -1,0 +1,223 @@
+\documentclass[letterpaper,12pt,twoside,]{pinp}
+
+%% Some pieces required from the pandoc template
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+
+% Use the lineno option to display guide line numbers if required.
+% Note that the use of elements such as single-column equations
+% may affect the guide line number alignment.
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+
+% pinp change: the geometry package layout settings need to be set here, not in pinp.cls
+\geometry{layoutsize={0.95588\paperwidth,0.98864\paperheight},%
+  layouthoffset=0.02206\paperwidth, layoutvoffset=0.00568\paperheight}
+
+\definecolor{pinpblue}{HTML}{185FAF}  % imagecolorpicker on blue for new R logo
+\definecolor{pnasbluetext}{RGB}{101,0,0} %
+
+
+
+\title{Lab 004 - Normal curve calculations.}
+
+\author[a]{EPIB607 - Inferential Statistics}
+
+  \affil[a]{Fall 2020, McGill University}
+
+\setcounter{secnumdepth}{5}
+
+% Please give the surname of the lead author for the running footer
+\leadauthor{Bhatnagar}
+
+% Keywords are not mandatory, but authors are strongly encouraged to provide them. If provided, please include two to five keywords, separated by the pipe symbol, e.g:
+ \keywords{  Sampling distribution |  Standard error |  Normal distribution |  Quantiles |  Percentiles |  Z-scores  }  
+
+\begin{abstract}
+Because the results of random samples include an element of chance, we
+can't guarantee that our inferences are correct. What we can guarantee
+is that our methods usually give correct answers. We will see that the
+reasoning of statistical inference rests on asking ``How often would
+this method give a correct answer if I used it very many times ?'' To be
+able to answer these questions we need to understand sampling
+distributions and the normal curve. In this exercise you will practice
+calculating quantiles and probablities from the Normal distribution.
+\end{abstract}
+
+\dates{This version was compiled on \today} 
+
+% initially we use doi so keep for backwards compatibility
+% new name is doi_footer
+
+\pinpfootercontents{in-class exercise on pnorm qnorm}
+
+\begin{document}
+
+% Optional adjustment to line up main text (after abstract) of first page with line numbers, when using both lineno and twocolumn options.
+% You should only change this length when you've finalised the article contents.
+\verticaladjustment{-2pt}
+
+\maketitle
+\thispagestyle{firststyle}
+\ifthenelse{\boolean{shortarticle}}{\ifthenelse{\boolean{singlecolumn}}{\abscontentformatted}{\abscontent}}{}
+
+% If your first paragraph (i.e. with the \dropcap) contains a list environment (quote, quotation, theorem, definition, enumerate, itemize...), the line after the list may have some extra indentation. If this is the case, add \parshape=0 to the end of the list environment.
+
+
+\hypertarget{the-mosaic-package-optional}{%
+\section*{\texorpdfstring{The \texttt{mosaic} package
+(optional)}{The mosaic package (optional)}}\label{the-mosaic-package-optional}}
+\addcontentsline{toc}{section}{The \texttt{mosaic} package (optional)}
+
+The \texttt{mosaic} package provides a consistent and user-friendly
+interface for descriptive statistics, plots and inference. In particular
+you might find the \texttt{mosaic::xpnorm} and \texttt{mosaic::xqnorm}
+functions useful for this exercise. Have a look at the slides
+007-sampling-distributions for some examples on how to use these
+functions. Remember to install the package:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{install.packages}\NormalTok{(}\StringTok{"mosaic"}\NormalTok{, }\DataTypeTok{dependencies =} \OtherTok{TRUE}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+Then you must load the library to access its functions:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{library}\NormalTok{(mosaic)}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{in-line-r-code}{%
+\section*{In-line R code}\label{in-line-r-code}}
+\addcontentsline{toc}{section}{In-line R code}
+
+For future assignments you may find it useful to include calculations
+from \texttt{R} directly in your text. For example, in the following
+code chunk I calculate \(P(Y < 2)\) where \(Y \sim \mathcal{N}(0,1)\),
+and store the result in an object called \texttt{prob\_less\_2}:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\StringTok{```}\DataTypeTok{\{r\}}
+\DataTypeTok{prob_less_2 <- mosaic::xpnorm(2)}
+
+\DataTypeTok{# round to 2 digits}
+\DataTypeTok{prob_less_2 <- round(prob_less_2, 2)}
+\StringTok{```}
+\end{Highlighting}
+\end{Shaded}
+
+To print this result verbatim in an inline R expression use
+\texttt{\textasciigrave{}r\ prob\_less\_2\textasciigrave{}} in the text.
+
+\vspace{0.1in}
+
+You can also call the function directly without storing the result in a
+code chunk using
+
+\vspace{0.1in}
+
+\texttt{\textasciigrave{}r\ round(mosaic::xpnorm(2),\ 2)\textasciigrave{}}
+
+\vspace{0.1in}
+
+A sample answer would be: The probability that \(Y\) is less than 2 is
+0.98.
+
+\newpage
+
+\hypertarget{normal-probability-calculations}{%
+\section{Normal probability
+calculations}\label{normal-probability-calculations}}
+
+Using your method of choice, calculate the following probabilities
+assuming \(Y\) is a standard normal distribution
+(\(Y \sim \mathcal{N}(0,1)\)):
+
+\begin{enumerate}
+\def\labelenumi{\alph{enumi})}
+\tightlist
+\item
+  \(P(Y < -1.80)\)
+\item
+  \(P(Y > -1.80)\)
+\item
+  \(P(Y \geq 1.60)\)
+\item
+  \(P(-1.8 < Y \leq 1.6)\)
+\end{enumerate}
+
+\hypertarget{hdl-cholesterol}{%
+\section{HDL cholesterol}\label{hdl-cholesterol}}
+
+\begin{enumerate}
+\def\labelenumi{\alph{enumi}.}
+\tightlist
+\item
+  US women over the age of 19 have a mean (HDL) cholesterol measure of
+  55 mg/dL with a standard deviation of 15.5 mg/dL. Assume HDL follows a
+  Normal distribution.
+
+  \begin{enumerate}
+  \def\labelenumii{\roman{enumii}.}
+  \tightlist
+  \item
+    What percent of women have low values of HDL, where low is defined
+    to be 40 mg/dL or less?
+  \item
+    HDL levels of 60 mg/dL or more are believed to be protective against
+    heart disease. What percent of women have protective levels of HDL?
+  \item
+    What proportion of women has HDL in the range of 40-60 mg/dL?
+  \item
+    What proportion of women has HDL in the range of 35-65 mg/dL?
+  \end{enumerate}
+\end{enumerate}
+
+\hypertarget{osteoporosis}{%
+\section{Osteoporosis}\label{osteoporosis}}
+
+Osteoporosis is a condition in which the bones become brittle due to
+loss of minerals. To diagnose osteoporosis, an elaborate apparatus
+measures bone mineral density (BMD). BMD is usually reported in
+standardized form. The standardization is based on a population of
+healthy young adults. The Wolrd Health Organization (WHO) criterion for
+osteoporosis is a BMD 2.5 or more standard deviations below the mean for
+young adults. BMD measurements in a population of people who are similar
+in age and sex roughly follow a standard normal distribution.
+
+\begin{enumerate}
+\def\labelenumi{\alph{enumi}.}
+\tightlist
+\item
+  What percent of healthy young adults have osteoporosis?
+\item
+  Woman aged 70 to 79 are, of course, not young adults. The mean BMD in
+  this age is about -2 on the standard scale for young adults. Suppose
+  that the standard deviation is the same for young adults. What percent
+  of this older population has osteoporosis?
+\item
+  Likewise, osteopenia is low BMD, defined by the WHO as a BMD between 1
+  and 2.5 standard deviations below the mean of young adults. What
+  percent of healthy young adults have osteopenia?
+\item
+  The mean BMD among women aged 70 to 79 is about -2 on the standard
+  scale for young adults. Suppose that the standard deviation is the
+  same as for young adults. What percent of this older population has
+  osteopenia?
+\end{enumerate}
+
+%\showmatmethods
+
+
+\bibliography{pinp}
+\bibliographystyle{jss}
+
+
+
+\end{document}
+

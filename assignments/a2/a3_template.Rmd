@@ -1,0 +1,123 @@
+---
+title: "A3: Central Limit Theorem, Confidence Intervals and Bootstrap"
+subtitle: "Your Name Here and ID number here"
+author: "EPIB 607, Fall 2019, McGill University"
+date: "`r Sys.Date()`"
+output:
+  html_document:
+    toc: true
+    toc_float: false
+    number_sections: true
+    toc_depth: 3
+    keep_md: false
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r include = FALSE}
+## ---- Setup ------------------------------------------------------------------
+knitr::opts_chunk$set(
+  echo = FALSE,          # don't show code
+  warning = FALSE,       # don't show warnings
+  message = FALSE,       # don't show messages (less serious warnings)
+  cache = FALSE,         # set to TRUE to save results from last compilation
+  fig.align = "center",   # center figures
+  fig.asp = 1,          # fig.aspect ratio
+  fig.width = 10        # fig width
+)
+```
+
+
+# Rainfall
+
+```{r, results='hide', fig.keep='none'}
+## ---- Question-1 ------------------------------------------------------------
+
+```
+
+# Museum Membership
+
+```{r, results='hide', fig.keep='none'}
+## ---- Question-2 ------------------------------------------------------------
+
+```
+
+
+
+
+
+# Where do you buy?
+
+```{r, results='hide', fig.keep='none'}
+## ---- Question-3 ------------------------------------------------------------
+
+```
+
+
+
+# Deer mice
+
+```{r}
+## ---- Question-4 ------------------------------------------------------------
+
+```
+
+
+
+# Does breast-feeding weaken bones?
+
+```{r}
+## ---- Question-5 ------------------------------------------------------------
+
+```
+
+
+
+
+# How deep is the ocean?
+
+```{r}
+## ---- Question-6 - --------------------------------------------------------
+
+compare_CI <- function(ybar, PM, QNORM, BOOT, 
+                       col = c("#E41A1C","#377EB8","#4DAF4A")) {
+
+  dt <- data.frame(type = c("plus_minus", "qnorm", "bootstrap"),
+                   ybar = rep(ybar, 3),
+                   low = c(PM[1], QNORM[1], BOOT[1]),
+                   up = c(PM[2], QNORM[2], BOOT[2])
+  )
+  
+  plot(dt$ybar, 1:nrow(dt), pch = 20, ylim = c(0, 5), 
+       xlim = range(pretty(c(dt$low, dt$up))),
+       xlab = 'Depth of ocean (m)', ylab = 'Confidence Interval Type',
+       las = 1, cex.axis = 0.8, cex = 3)
+  
+  abline(v = 37, lty = 2, col = "black", lwd = 2)
+  segments(x0 = dt$low, x1 = dt$up,
+           y0 = 1:nrow(dt), lend = 1,
+           col = col, lwd = 4)
+  
+  legend("topleft",
+         legend = c(eval(substitute( expression(paste(mu," = ",37)))),
+                    sprintf("plus/minus CI: [%.f, %.f]",PM[1], PM[2]),
+                    sprintf("qnorm CI: [%.f, %.f]",QNORM[1], QNORM[2]),
+                    sprintf("bootstrap CI: [%.f, %.f]",BOOT[1], BOOT[2])),
+         lty = c(1, 1,1,1),
+         col = c("black",col), lwd = 4)
+}
+
+```
+
+
+
+
+
+
+
+# Code {-}
+
+```{r all-code, ref.label=knitr::all_labels(), echo = TRUE, eval = FALSE}
+
+```
+

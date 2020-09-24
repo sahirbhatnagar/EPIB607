@@ -1,0 +1,365 @@
+---
+title: Assignment 2 - Central Limit Theorem, Confidence Intervals and Bootstrap. Due October 11, 11:59pm 2019
+author:
+  - name: EPIB607 - Inferential Statistics
+    affiliation: a
+#  - name: Second Author
+#    affiliation: a,b
+address:
+  - code: a
+    address: Fall 2020, McGill University
+#  - code: b
+#    address: Department of Neat Tricks, Whereever State University, Someplace, MC, 67890
+lead_author_surname: Bhatnagar
+#doi: "https://sahirbhatnagar.com/EPIB607/"
+abstract: |
+  In this assignment you will practice calculating confidence intervals. Provide confidence intervals with appropriate units. Answers should be given in full sentences (DO NOT just provide the number). All graphs and calculations are to be completed in an R Markdown document using the provided template. You are free to choose any function from any package to complete the assignment. Concise answers will be rewarded. Be brief and to the point. Please submit the compiled pdf report to Crowdmark by October 11, 2020, 11:59pm. You need to save your answers to each question in separate pdf files. You also need to upload your code. See https://crowdmark.com/help/ for details.  
+# Optional: Acknowledgements
+#acknowledgements: |
+#  [rticles](https://cran.r-project.org/package=rticles) package, and both packages rely on the
+#  [PNAS LaTeX](http://www.pnas.org/site/authors/latex.xhtml) macros. Both these sources are
+#  ([GPL-3](https://www.gnu.org/licenses/gpl-3.0.en.html) and
+#  [LPPL (>= 1.3)](https://www.latex-project.org/lppl/)).
+# Optional: One or more keywords
+keywords:
+  - Sampling distribution
+  - Standard error
+  - Normal distribution
+  - Quantiles
+  - Percentiles
+  - Z-scores
+papersize: letter
+fontsize: 12pt
+# Optional: Force one-column layout, default is two-column
+one_column: true
+# Optional: Enables lineno mode, but only if one_column mode is also true
+#lineno: true
+# Optional: Enable one-sided layout, default is two-sided
+#one_sided: true
+# Optional: Enable section numbering, default is unnumbered
+numbersections: true
+# Optional: Specify the depth of section number, default is 5
+#secnumdepth: 5
+# Optional: Skip inserting final break between acknowledgements, default is false
+skip_final_break: true
+# Optional: Bibliography 
+bibliography: pinp
+# Optional: Enable a 'Draft' watermark on the document
+watermark: false
+footer_contents: "Assignment 2 due October 11, 2020 by 11:59pm"
+output: pinp::pinp
+# Required: Vignette metadata for inclusion in a package.
+vignette: >
+  %\VignetteIndexEntry{YourPackage-vignetteentry}
+  %\VignetteKeywords{YourPackage, r, anotherkeyword}
+  %\VignettePackage{Due October 11, 2020}
+  %\VignetteEngine{knitr::rmarkdown}
+editor_options: 
+  chunk_output_type: console
+---
+
+
+
+```{r setup, echo=FALSE, message=FALSE, warning=FALSE}
+library(dplyr)
+library(knitr)
+library(kableExtra)
+```
+
+
+# Rainfall
+
+Statistics from Cornell's Northeast Regional Climate Center indicate that Ithaca, NY, gets an average of 35.4 feet of rain each year, with a standard deviation of 4.2 feet. Assume that a Normal model applies. 
+
+a. During what percentage of years does Ithaca get more than 40 feet of rain?
+b. Less than how much rain falls in the driest 20% of all years?
+c. A Cornell University student is in Ithaca for 4 years. Let $\bar{y}$ represent the mean amount of rain for those 4 years. Describe the sampling distribution model of this sample mean, $\bar{y}$.
+d. What's the probability that those 4 years average less than 30 feet of rain?
+
+# Museum membership 
+
+A museum offers several levels of membership, as shown in the following table:
+
+```{r, results='asis', echo=FALSE}
+df <- as.data.frame(rbind(
+  c("Individual", 50, 41),
+  c("Family", 100, 37),
+  c("Sponsor", 250, 14),
+  c("Patron", 500, 7),
+  c("Benefactor", 1000, 1)
+))
+
+df %>% knitr::kable(col.names = c("Member Category", "Amount of Donation ($)", "Percent of Members"), format = "markdown") 
+```
+
+a. Find the mean and standard deviation of the donations.
+b. During their annual membership drive, they hope to
+sign up 50 new members each day. Would you expect
+the distribution of the donations for a day to follow a
+Normal model? Explain.
+c. Consider the mean donation of the 50 new members
+each day. Describe the sampling model for these
+means (shape, center, and spread).
+d. Assume a hypothetical cohort of 1000 members follows the distribution in the Table. Plot the frequency histogram of the donation amounts. 
+
+# Where do you buy?
+
+Consumers can purchase nonprescription medications at food stores, mass merchandise stores such as Kmart and Wal-Mart, or pharmacies. About 45% of consumers make such purchases at pharmacies. What accounts for the popularity of pharmacies, which often charge higher prices?
+
+A study examined consumers' perceptions of overall performance of the three types of stores, using a long questionnaire that had asked about such things as "neat and attractive store", "knowledgeable staff", and "assistance in choosing among various types of nonprescription medication". A performance score was based on 27 such questions. The subjects were 201 people chosen at random from the Indianapollis telephone directory. Here are the means ($\bar{y}$) and standard deviations ($s$) of the performances scores for the sample:
+
+
+```{r, results='asis', echo=FALSE}
+df <- as.data.frame(rbind(
+  c(" Food stores", 18.67, 24.95),
+  c("Mass merchandisers", 32.38, 33.37),
+  c("Pharmacies", 48.60, 35.62)
+))
+
+df %>% kable(col.names = c("Store type", "$\\bar{y}$", "$s$"), format = "markdown") 
+```
+
+a. What population do you think the authors of the study want to draw conclusions about?
+b. What population are you certain they can draw conclusions about?
+c. Give a 95% confidence interval for the mean performance for each type of store. 
+d. Based on these confidence intervals, are you convinced that consumers think that pharmacies offer higher performance than the other types of stores?
+
+
+
+# Deer mice
+
+Deer mice are small rodents native to North America. Their adult body lengths (excluding tail) are known to vary approximately Normally, with mean $\mu = 86$ millimeters (mm) and standard deviation $\sigma=8$ mm. Deer mice are found in diverse habitats and exhibit different adaptations to their environment. A random sample of 14 deer mice in a rich forest habitat gives an average body length of $\bar{y} = 91.1$ mm. Assume that the standard deviation $\sigma$ of all deer mice in this area is also 8 mm. 
+
+a. What is the standard deviation of the mean length $\bar{y}$?
+b. What critical value do you need to use in order to compute a 95% confidence interval for the mean $\mu$
+c. Give a i) 90% confidence interval and ii) 95% confidence interval for the mean body length of all deer mice in the forest habitat. 
+d. Why does the 90% interval have a smaller margin of error?
+
+
+# Does breast-feeding weaken bones?
+
+Breast-feeding mothers secrete calcium into their milk. Some of the calcium may come from their bones, so mothers may lose bone mineral content. Researchers compared 47 breast-feeding women with 22 women of similar age who were neither pregnant nor lactating. They measured the percent change in the mineral content of the women's spines over three months. A negative value of `mineral_loss` indicates a loss in mineral content. The data can be read into `R` and a boxplot comparing the two groups is shown in the Figure below:
+
+```{r, echo=TRUE, eval=TRUE, warning=FALSE, message=FALSE}
+bnurl <- "https://github.com/sahirbhatnagar/EPIB607/raw/master/data/boneloss.csv"
+boneloss <- read.csv(bnurl)
+head(boneloss)
+library(mosaic)
+ggformula::gf_boxplot(mineral_loss ~ type, data = boneloss)
+```
+
+a. Give a 95% confidence interval for the mean mineral loss for each group. 
+b. Based on these confidence intervals, are you convinced that the data show distinctly greater bone mineral loss among the breast-feeding women?
+c. (**BONUS**) Let $\bar{y}_1$ be the mean mineral loss for breast-feeding women and $\bar{y}_2$ be the mean mineral loss for the other group. Construct a 95% bootstrap confidence interval for the difference $\bar{y}_2 - \bar{y}_1$ based on $B=10000$ bootstrap samples. Interpret this confidence interval and compare it to the ones obtained in b. _Hint_: split the data in two data.frames by `type`. For each data.frame, create $B$ resamples and calculate the means for each. Plot the histogram of the difference in means, which gives you the bootstrap distribution for the difference. From this you can use the `quantile` function to calculate the 95% CI. 
+
+```{r, echo=FALSE, eval=FALSE}
+
+bf <- subset(boneloss, type != "Other")
+ot <- subset(boneloss, type == "Other")
+
+library(mosaic)
+bf_boot <- do(10000) * mean(~ mineral_loss, data = resample(bf))
+histogram(bf_boot$mean)
+ot_boot <- do(10000) * mean(~ mineral_loss, data = resample(ot))
+
+histogram(ot_boot$mean - bf_boot$mean)
+
+quantile(ot_boot$mean - bf_boot$mean, probs = c(0.025, 0.975))
+mean(mineral_loss ~ type, data = boneloss) %>% diff
+
+# Function to compute 0.95 confidence interval for the difference in two means
+# g is grouping variable
+bootdif <- function(y, g) {
+ g <- as.factor(g)
+ a <- attr(smean.cl.boot(y[g==levels(g)[1]], B=2000, reps=TRUE),'reps')
+ b <- attr(smean.cl.boot(y[g==levels(g)[2]], B=2000, reps=TRUE),'reps')
+ meandif <- diff(tapply(y, g, mean, na.rm=TRUE))
+ a.b <- quantile(b-a, c(.025,.975))
+ res <- c(meandif, a.b)
+ names(res) <- c('Mean Difference','.025','.975')
+ res
+}
+
+ci.vd <- bootdif(y = boneloss$mineral_loss, g = boneloss$type)
+ci.vd
+```
+
+
+
+
+# How deep is the ocean?
+
+This question is based on the [in-class Exercise](https://github.com/sahirbhatnagar/EPIB607/blob/master/exercises/water/students/260194225_water_exercise_epib607.pdf) on sampling distributions. Refer to the [slides on Bootstrap confidence intervals](https://github.com/sahirbhatnagar/EPIB607/raw/master/slides/bootstrap/EPIB607_bootstrap.pdf) for `R` code on how to calculate bootstrap confidence intervals. For your sample of $n=20$ of depths of the ocean, calculate the
+
+a. 95% Confidence interval using the $\pm$ formula
+b. 95% Confidence interval using the `qnorm` function
+c. 95% Confidence interval using $B=10000$ bootstrap samples
+d. Plot all three confidence intervals on the same plot and comment on the difference/similarities between the 3 intervals. You may use the `compare_CI` function provided below to produce the plot. This takes as input, the sample mean (`ybar`), and the CIs calculated from a,b,c in the form of a numeric vector of length 2 into the arguments `PM`, `QNORM` and `BOOT`, respectively. 
+  
+  
+```{r, echo=TRUE, message=FALSE, warning=FALSE, eval=FALSE}
+compare_CI <- function(ybar, PM, QNORM, BOOT, 
+                       col = c("#E41A1C","#377EB8","#4DAF4A")) {
+
+  dt <- data.frame(type = c("plus_minus", "qnorm", "bootstrap"),
+                   ybar = rep(ybar, 3),
+                   low = c(PM[1], QNORM[1], BOOT[1]),
+                   up = c(PM[2], QNORM[2], BOOT[2])
+  )
+  
+  plot(dt$ybar, 1:nrow(dt), pch = 20, ylim = c(0, 5), 
+       xlim = range(pretty(c(dt$low, dt$up))),
+       xlab = "Depth of ocean (m)", ylab = "Confidence Interval Type",
+       las = 1, cex.axis = 0.8, cex = 3)
+  
+  abline(v = 37, lty = 2, col = "black", lwd = 2)
+  segments(x0 = dt$low, x1 = dt$up,
+           y0 = 1:nrow(dt), lend = 1,
+           col = col, lwd = 4)
+  
+  legend("topleft",
+         legend = c(eval(substitute( expression(paste(mu," = ",37)))),
+                    sprintf("plus/minus CI: [%.f, %.f]",PM[1], PM[2]),
+                    sprintf("qnorm CI: [%.f, %.f]",QNORM[1], QNORM[2]),
+                    sprintf("bootstrap CI: [%.f, %.f]",BOOT[1], BOOT[2])),
+         lty = c(1, 1,1,1),
+         col = c("black",col), lwd = 4)
+}
+
+# example of how to use the function:
+compare_CI(ybar = 36, PM = c(28, 40), QNORM = c(25,40), BOOT = c(31, 38))
+```
+  
+
+
+
+<!-- 
+We support several options via the YAML header
+
+- Setting a DOI or URL footer, for example for the CRAN package URL,
+  which is placed in the bottom-left footer of the title page and even pages;
+- Setting a footer label, for example _YourPackage Vignette_ stating
+  your package, which is placed in the bottom-right footer on odd
+  pages;
+- Setting a free-form author field used on the inside footer;
+- Optional _Draft_ watermarking;
+
+
+
+## References 
+
+Here we differ from PNAS and suggest natbib. References will appear in
+author-year form. Use `\citet{}`, `\citep{}`, etc as usual.
+
+We default to the `jss.bst` style. To switch to a different bibliography
+style, please use `biblio-style: style` in the YAML header.
+
+
+## Inline R Code 
+
+The PNAS sample included a fixed PNG image here, but this document prefers
+to show the results and embedding of _R_ code. 
+
+```{r figex, fig.width=3, fig.height=3, cache=TRUE, echo=TRUE, fig.cap="Narrow ggplot2 figure"}
+library(ggplot2)
+ggplot(mtcars, aes(wt, mpg)) +
+    geom_point(size=3, aes(colour=factor(cyl))) +
+    theme(legend.position="none")
+```
+
+Here we use a standard knitr bloc with explicit options for
+
+- figure width and height (`fig.width`, `fig.height`), both set to three inches;
+- whether the code is shown (`echo=TRUE`); and
+- the caption (`fig.cap`) as shown above.
+
+
+## Digital Figures 
+
+Markdown, Pandoc and LaTeX support `.eps` and `.pdf` files.
+
+Figures and Tables should be labelled and referenced in the standard way
+using the `\label{}` and `\ref{}` commands.
+
+The R examples above show how to insert a column-wide
+figure. To insert a figure wider than one column, please use the
+`\begin{figure*}...\end{figure*}` environment. 
+
+One (roundabout) way of doing this is to _not_ actually plot a figure, but to
+save it in a file as the following segment shows:
+
+```{r densityPlot, echo=TRUE}
+library(ggplot2)
+p <- ggplot(data = midwest,
+            mapping = aes(x = area,
+                          fill = state,
+                          color = state)) +
+    geom_density(alpha = 0.3)
+## save to file
+suppressMessages(ggsave("densities.pdf", p))
+```
+
+This file is then included via standard LaTeX commands.
+
+\begin{figure*}
+  \begin{center}
+    \includegraphics[width=0.66\textwidth, height=3.5in]{densities} 
+  \end{center}
+  \caption{Wide ggplot2 figure}\label{fig}
+\end{figure*}
+
+
+## Typeset Code (But Do Not Run It) 
+
+We can also just show code.
+
+```r
+xx <- faithful[,"eruptions"]
+fit <- density(xx)
+plot(fit)
+```
+
+This simply used a pandoc bloc started and ended by three backticks,
+with `r` as the language choice.  Similarly, _many_ other languages
+can be typeset directly simply by relying on pandoc.
+
+
+## Single column equations 
+
+Authors may use 1- or 2-column equations in their article, according to
+their preference.
+
+To allow an equation to span both columns, options are to use the
+`\begin{figure*}...\end{figure*}` environment mentioned above for
+figures, or to use the `\begin{widetext}...\end{widetext}` environment
+as shown in equation \ref{eqn:example} below.
+
+Please note that this option may run into problems with floats and
+footnotes, as mentioned in the [cuted package
+documentation](http://texdoc.net/pkg/cuted). In the case of problems
+with footnotes, it may be possible to correct the situation using
+commands `\footnotemark` and `\footnotetext`.
+
+\begin{equation}
+  \begin{aligned}
+(x+y)^3&=(x+y)(x+y)^2\\
+       &=(x+y)(x^2+2xy+y^2) \\
+       &=x^3+3x^2y+3xy^3+x^3. 
+       \label{eqn:example} 
+  \end{aligned}
+\end{equation}
+
+
+pandoc writes all tables using longtable, which fails in 2-column mode
+
+  Species                    CBS     CV     G3
+  ----------------------- ------ ------ ------
+  1\. Acetaldehyde           0.0    0.0    0.0
+  2\. Vinyl alcohol          9.1    9.6   13.5
+  3\. Hydroxyethylidene     50.8   51.2   54.0
+
+  : Comparison of the fitted potential energy surfaces and ab initio
+  benchmark electronic energy calculations
+
+-->
+
