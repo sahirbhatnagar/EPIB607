@@ -67,7 +67,7 @@ library(kableExtra)
 ```
 
 
-# Rainfall
+# (8 points, 2 each) Rainfall
 
 Statistics from Cornell's Northeast Regional Climate Center indicate that Ithaca, NY, gets an average of 35.4 feet of rain each year, with a standard deviation of 4.2 feet. Assume that a Normal model applies. 
 
@@ -76,7 +76,7 @@ b. Less than how much rain falls in the driest 20% of all years?
 c. A Cornell University student is in Ithaca for 4 years. Let $\bar{y}$ represent the mean amount of rain for those 4 years. Describe the sampling distribution model of this sample mean, $\bar{y}$.
 d. What's the probability that those 4 years average less than 30 feet of rain?
 
-# Museum membership 
+# (12 points) Museum membership 
 
 A museum offers several levels of membership, as shown in the following table:
 
@@ -92,17 +92,17 @@ df <- as.data.frame(rbind(
 df %>% knitr::kable(col.names = c("Member Category", "Amount of Donation ($)", "Percent of Members"), format = "markdown") 
 ```
 
-a. Find the mean and standard deviation of the donations.
-b. During their annual membership drive, they hope to
+a. (2 points) Find the mean and standard deviation of the donations.
+b. (4 points) During their annual membership drive, they hope to
 sign up 50 new members each day. Would you expect
 the distribution of the donations for a day to follow a
 Normal model? Explain.
-c. Consider the mean donation of the 50 new members
+c. (2 points) Consider the mean donation of the 50 new members
 each day. Describe the sampling model for these
 means (shape, center, and spread).
-d. Assume a hypothetical cohort of 1000 members follows the distribution in the Table. Plot the frequency histogram of the donation amounts. 
+d. (4 points) Assume a hypothetical cohort of 1000 members follows the distribution in the Table. Plot the frequency histogram of the donation amounts. 
 
-# Where do you buy?
+# (12 points) Where do you buy?
 
 Consumers can purchase nonprescription medications at food stores, mass merchandise stores such as Kmart and Wal-Mart, or pharmacies. About 45% of consumers make such purchases at pharmacies. What accounts for the popularity of pharmacies, which often charge higher prices?
 
@@ -119,24 +119,24 @@ df <- as.data.frame(rbind(
 df %>% kable(col.names = c("Store type", "$\\bar{y}$", "$s$"), format = "markdown") 
 ```
 
-a. What population do you think the authors of the study want to draw conclusions about?
-b. What population are you certain they can draw conclusions about?
-c. Give a 95% confidence interval for the mean performance for each type of store. 
-d. Based on these confidence intervals, are you convinced that consumers think that pharmacies offer higher performance than the other types of stores?
+a. (2 points) What population do you think the authors of the study want to draw conclusions about?
+b. (2 points) What population are you certain they can draw conclusions about?
+c. (5 points) Give a 95% confidence interval for the mean performance for each type of store. 
+d. (3 points) Based on these confidence intervals, are you convinced that consumers think that pharmacies offer higher performance than the other types of stores?
 
 
 
-# Deer mice
+# (18 points) Deer mice
 
 Deer mice are small rodents native to North America. Their adult body lengths (excluding tail) are known to vary approximately Normally, with mean $\mu = 86$ millimeters (mm) and standard deviation $\sigma=8$ mm. Deer mice are found in diverse habitats and exhibit different adaptations to their environment. A random sample of 14 deer mice in a rich forest habitat gives an average body length of $\bar{y} = 91.1$ mm. Assume that the standard deviation $\sigma$ of all deer mice in this area is also 8 mm. 
 
-a. What is the standard deviation of the mean length $\bar{y}$?
-b. What critical value do you need to use in order to compute a 95% confidence interval for the mean $\mu$
-c. Give a i) 90% confidence interval and ii) 95% confidence interval for the mean body length of all deer mice in the forest habitat. 
-d. Why does the 90% interval have a smaller margin of error?
+a. (3 points) What is the standard deviation of the mean length $\bar{y}$?
+b. (5 points) What critical value do you need to use in order to compute a 95% confidence interval for the mean $\mu$
+c. (7 points) Give a i) 90% confidence interval and ii) 95% confidence interval for the mean body length of all deer mice in the forest habitat. 
+d. (3 points) Why does the 90% interval have a smaller margin of error?
 
 
-# Does breast-feeding weaken bones?
+# (20 points) Does breast-feeding weaken bones?
 
 Breast-feeding mothers secrete calcium into their milk. Some of the calcium may come from their bones, so mothers may lose bone mineral content. Researchers compared 47 breast-feeding women with 22 women of similar age who were neither pregnant nor lactating. They measured the percent change in the mineral content of the women's spines over three months. A negative value of `mineral_loss` indicates a loss in mineral content. The data can be read into `R` and a boxplot comparing the two groups is shown in the Figure below:
 
@@ -148,9 +148,9 @@ library(mosaic)
 ggformula::gf_boxplot(mineral_loss ~ type, data = boneloss)
 ```
 
-a. Give a 95% confidence interval for the mean mineral loss for each group. 
-b. Based on these confidence intervals, are you convinced that the data show distinctly greater bone mineral loss among the breast-feeding women?
-c. (**BONUS**) Let $\bar{y}_1$ be the mean mineral loss for breast-feeding women and $\bar{y}_2$ be the mean mineral loss for the other group. Construct a 95% bootstrap confidence interval for the difference $\bar{y}_2 - \bar{y}_1$ based on $B=10000$ bootstrap samples. Interpret this confidence interval and compare it to the ones obtained in b. _Hint_: split the data in two data.frames by `type`. For each data.frame, create $B$ resamples and calculate the means for each. Plot the histogram of the difference in means, which gives you the bootstrap distribution for the difference. From this you can use the `quantile` function to calculate the 95% CI. 
+a. (4 points) Give a 95% confidence interval for the mean mineral loss for each group. 
+b. (6 points) Based on these confidence intervals, are you convinced that the data show distinctly greater bone mineral loss among the breast-feeding women?
+c. (10 points) Let $\bar{y}_1$ be the mean mineral loss for breast-feeding women and $\bar{y}_2$ be the mean mineral loss for the other group. Construct a 95% bootstrap confidence interval for the difference $\bar{y}_2 - \bar{y}_1$ based on $B=10000$ bootstrap samples. Interpret this confidence interval and compare it to the ones obtained in b. _Hint_: split the data in two data.frames by `type`. For each data.frame, create $B$ resamples and calculate the means for each. Plot the histogram of the difference in means, which gives you the bootstrap distribution for the difference. From this you can use the `quantile` function to calculate the 95% CI. 
 
 ```{r, echo=FALSE, eval=FALSE}
 
@@ -187,14 +187,14 @@ ci.vd
 
 
 
-# How deep is the ocean?
+# (15 points) How deep is the ocean?
 
 This question is based on the [in-class Exercise](https://github.com/sahirbhatnagar/EPIB607/blob/master/exercises/water/students/260194225_water_exercise_epib607.pdf) on sampling distributions. Refer to the [slides on Bootstrap confidence intervals](https://github.com/sahirbhatnagar/EPIB607/raw/master/slides/bootstrap/EPIB607_bootstrap.pdf) for `R` code on how to calculate bootstrap confidence intervals. For your sample of $n=20$ of depths of the ocean, calculate the
 
-a. 95% Confidence interval using the $\pm$ formula
-b. 95% Confidence interval using the `qnorm` function
-c. 95% Confidence interval using $B=10000$ bootstrap samples
-d. Plot all three confidence intervals on the same plot and comment on the difference/similarities between the 3 intervals. You may use the `compare_CI` function provided below to produce the plot. This takes as input, the sample mean (`ybar`), and the CIs calculated from a,b,c in the form of a numeric vector of length 2 into the arguments `PM`, `QNORM` and `BOOT`, respectively. 
+a. (3 points) 95% Confidence interval using the $\pm$ formula
+b. (3 points) 95% Confidence interval using the `qnorm` function
+c. (5 points) 95% Confidence interval using $B=10000$ bootstrap samples
+d. (4 points) Plot all three confidence intervals on the same plot and comment on the difference/similarities between the 3 intervals. You may use the `compare_CI` function provided below to produce the plot. This takes as input, the sample mean (`ybar`), and the CIs calculated from a,b,c in the form of a numeric vector of length 2 into the arguments `PM`, `QNORM` and `BOOT`, respectively. 
   
   
 ```{r, echo=TRUE, message=FALSE, warning=FALSE, eval=FALSE}

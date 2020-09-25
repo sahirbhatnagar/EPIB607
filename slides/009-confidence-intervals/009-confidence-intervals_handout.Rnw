@@ -1,0 +1,765 @@
+\documentclass[10pt,handout]{beamer}
+
+
+%\input{slides_header.tex}
+\input{/home/sahir/git_repositories/EPIB607/slides/slides_header2.tex}
+\graphicspath{{/home/sahir/git_repositories/EPIB607/slides/figure/}}
+
+%\let\oldShaded\Shaded
+%\let\endoldShaded\endShaded
+%\renewenvironment{Shaded}{\footnotesize\oldShaded}{\endoldShaded}
+
+
+
+
+\begin{document}
+
+<<setup, include=FALSE>>=
+library(knitr)
+knitr::opts_chunk$set(cache=FALSE, message = FALSE, tidy = FALSE, warning = FALSE,
+echo = FALSE, 
+#fig.width = 8, 
+#fig.asp = 0.8, 
+fig.align = 'center', 
+#out.width = "0.50\\linewidth", 
+size = 'tiny')
+
+# the kframe environment does not work with allowframebreaks, so remove it
+#knit_hooks$set(document = function(x) {
+#gsub('\\\\(begin|end)\\{kframe\\}', '', x)
+#})
+
+library(tidyverse)
+library(NCStats)
+options(digits = 2)
+
+
+#knitr::opts_chunk$set(background = '#FFFF00')
+library(tools) #needed for include_graphics2 function
+source("/home/sahir/git_repositories/EPIB607/slides/bin/include_graphics2.R")
+@
+
+%\title{Introduction to Regression Trees}
+%\author{Sahir Bhatnagar \inst{1}}
+%\author[shortname]{Sahir Rai Bhatnagar, PhD Candidate (Biostatistics) }
+%\institute[shortinst]{Department of Epidemiology, Biostatistics and Occupational Health}
+
+	\title{009 - Confidence Intervals}
+\author{EPIB 607 - FALL 2020}
+\institute{
+	Sahir Rai Bhatnagar\\
+	Department of Epidemiology, Biostatistics, and Occupational Health\\
+	McGill University\\
+	
+	\vspace{0.1 in}
+	
+	\texttt{sahir.bhatnagar@mcgill.ca}\\
+	%\texttt{\url{https://sahirbhatnagar.com/EPIB607/}}
+}
+
+\date{slides compiled on \today}
+
+\maketitle
+
+\begin{frame}{Key takeaways and next steps}
+	\begin{enumerate}
+		\setlength\itemsep{2em}
+		\item We've been exclusively talking about point estimates \pause
+		\item How confident are we about these point estimates? \pause
+		\item \textcolor{blue}{Thought experiment}: Estimate the average temperature in Montreal in August over the past 100 years. How much money would you be willing to bet on it?\pause  
+		\item We're going into stat territory now. 
+	\end{enumerate}
+\end{frame}
+
+
+
+%\section{Parameter Intervals}
+
+
+\section{Reverse engineering logic}
+
+\subsection{Example 1: Height of a building}
+
+\begin{frame}{Example 1: Height of a building}
+\begin{itemize}
+	\item Consider the height of a particular building \(\theta\).
+	\item We use tools of mathematical science (trignometry) to	measure it. 	
+\item Suppose you measure the height of this building by standing a known horizontal distance (e.g. 100 metres) from the bottom of the building	and using an instrument to measure the angle between the horizontal and the top of the building.
+\end{itemize}
+\end{frame}
+
+
+
+
+\begin{frame}[fragile,plain]
+	
+	<<hanley-fig3, fig.align="center", fig.height=7, fig.width=9, warning=FALSE, message=F>>=
+	
+	DA = 10
+	
+	xmax=0.75
+	DX=3+xmax
+	ymax=4
+	
+	u = 100
+	
+	par(mar = c(0.01,1,0.01,0.25))
+	
+	for (example in 1) {
+	
+	plot(u*c(-3,xmax),u*c(-0.5,ymax),col="white",
+	xaxt="n", yaxt="n",xlab="",ylab="",
+	xlim=u*c(-3.35,xmax+0.35),ylim=u*c(-0.5,ymax),
+	frame=FALSE)
+	lines(u*c(-4,0,0),u*c(0,0,ymax),lty="dotted")
+	
+	segments(u*xmax, 0, u*xmax,  u*6)
+	for(h in seq(0,6,1)){
+	text(u*xmax,u*h,
+	paste(toString(u*h),"m",sep=""),
+	adj=c(-0.2,0.5),cex=0.75)
+	segments(u*(xmax-0.025), u*h, u*xmax,  u*h)
+	}
+	for(d in seq(1,3,1)){
+	text(-u*d,-0.15*u,
+	paste(toString(u*d),"m",sep=""),
+	adj=c(0.5,1),cex=0.75)
+	segments(-u*d, 0, -u*d,  -u*0.05)
+	}
+	
+	
+	H = u*2.25
+	
+	x=0.15
+	U=u*5
+	L=0
+	COL=1
+	dd = 1
+	
+	distances = 1
+	if(example==2) distances = seq(dd,3,dd)
+	
+	for (d in u*distances ) {	
+	ANGLE   = atan( H/d ) * 360/(2*pi) 
+	angle.hat   = DA*round(ANGLE/DA)
+	h.hat   = d*tan(  angle.hat       / ( 360/(2*pi) ) )
+	segments(-d,0,0,h.hat,col=COL)
+	ii = d/u
+	
+	text(-d + u*c(0.1,0.2,0.25)[ii], 0,
+	paste("'",toString(angle.hat),"'",sep="") ,
+	adj=c(0,-0.3), col=COL)
+	#h.upper = d*tan( (angle.hat+DA/2) / ( 360/(2*pi) ) )
+	#h.lower = d*tan( (angle.hat-DA/2) / ( 360/(2*pi) ) )
+	#segments(u*x,h.lower,u*x,h.upper,col=COL)
+	#if(example==1){
+	#text(u*x, h.upper, expression(theta[U]),adj=c(-0.5,0.5))
+	#text(u*x, h.lower, expression(theta[L]),adj=c(-0.5,0.5))
+	#} 
+	points(u*x,h.hat,pch=19,cex=0.4,col=COL)
+	if(example==1) points(u*xmax,h.hat,pch=19,cex=0.4,col=COL)
+	#U = min(U,h.upper)
+	#L = max(L,h.lower)
+	x=x+0.15
+	COL=COL+1
+	}
+	if(example==2){
+	segments(u*(xmax),L,u*(xmax),U,lwd=4)
+	segments(u*(xmax-0.075),L,u*(xmax+0.075),L )
+	segments(u*(xmax-0.075),U,u*(xmax+0.075),U )
+	} 
+	
+	}
+	@
+	
+	
+\end{frame}
+
+
+\begin{frame}{Example 1: Height of a building}
+	\begin{itemize}
+		\item After calculating this, you learn that the measuring instrument only
+		displays the angle is to the nearest 10 degrees. This means that the
+		true angle is somewhere between 65 and 75 degrees.
+		
+\item 		So you \textbf{cannot say} that the true height is \textbf{exactly} 275
+		metres. What \textbf{can} you say? And with what certainty?
+	\pause	
+\item 		You can put \textbf{limits} on the true height by asking \textbf{what
+			are the minimum and maximum heights that could have produced the
+			observed reading of 70 degrees?}
+
+	\end{itemize}
+\end{frame}
+
+
+\begin{frame}{Example 1: Height of a building}
+	\begin{itemize}
+		\item \textbf{Lower limit:} What is the \textbf{minimum} angle that could have given the (rounded) readout of 70 degrees ?
+		
+		\vspace{1in}
+		
+		\pause 
+		
+				\item \textbf{Upper limit:} What is the \textbf{maximum} angle that could have given the (rounded) readout of 70 degrees ?
+		
+	\end{itemize}
+\end{frame}
+
+
+
+
+
+\begin{frame}[fragile]{Example 1: Height of a building}
+
+<<hanley-fig2, fig.cap="Estimating the height of an building by measuring subtended angles. The '70' signifies that the real angle was somewhere between 65 and 75 degrees; thus the real height lies between the L and U limits of 214 and 373 metres.", eval=T, echo=F, fig.align="center", fig.height=4, fig.width=9, warning=FALSE, message=F>>=
+
+DA = 10
+
+xmax=0.75
+DX=3+xmax
+ymax=4
+
+u = 100
+
+par(mar = c(0.01,1,0.01,0.25))
+
+for (example in 1) {
+
+plot(u*c(-3,xmax),u*c(-0.5,ymax),col="white",
+xaxt="n", yaxt="n",xlab="",ylab="",
+xlim=u*c(-3.35,xmax+0.35),ylim=u*c(-0.5,ymax),
+frame=FALSE)
+lines(u*c(-4,0,0),u*c(0,0,ymax),lty="dotted")
+
+segments(u*xmax, 0, u*xmax,  u*6)
+for(h in seq(0,6,1)){
+text(u*xmax,u*h,
+paste(toString(u*h),"m",sep=""),
+adj=c(-0.2,0.5),cex=0.75)
+segments(u*(xmax-0.025), u*h, u*xmax,  u*h)
+}
+for(d in seq(1,3,1)){
+text(-u*d,-0.15*u,
+paste(toString(u*d),"m",sep=""),
+adj=c(0.5,1),cex=0.75)
+segments(-u*d, 0, -u*d,  -u*0.05)
+}
+
+
+H = u*2.25
+
+x=0.15
+U=u*5
+L=0
+COL=1
+dd = 1
+
+distances = 1
+if(example==2) distances = seq(dd,3,dd)
+
+for (d in u*distances ) {	
+ANGLE   = atan( H/d ) * 360/(2*pi) 
+angle.hat   = DA*round(ANGLE/DA)
+h.hat   = d*tan(  angle.hat       / ( 360/(2*pi) ) )
+segments(-d,0,0,h.hat,col=COL)
+ii = d/u
+
+text(-d + u*c(0.1,0.2,0.25)[ii], 0,
+paste("'",toString(angle.hat),"'",sep="") ,
+adj=c(0,-0.3), col=COL)
+h.upper = d*tan( (angle.hat+DA/2) / ( 360/(2*pi) ) )
+h.lower = d*tan( (angle.hat-DA/2) / ( 360/(2*pi) ) )
+segments(u*x,h.lower,u*x,h.upper,col=COL)
+if(example==1){
+text(u*x, h.upper, expression(theta[U]),adj=c(-0.5,0.5))
+text(u*x, h.lower, expression(theta[L]),adj=c(-0.5,0.5))
+} 
+points(u*x,h.hat,pch=19,cex=0.4,col=COL)
+if(example==1) points(u*xmax,h.hat,pch=19,cex=0.4,col=COL)
+U = min(U,h.upper)
+L = max(L,h.lower)
+x=x+0.15
+COL=COL+1
+}
+if(example==2){
+segments(u*(xmax),L,u*(xmax),U,lwd=4)
+segments(u*(xmax-0.075),L,u*(xmax+0.075),L )
+segments(u*(xmax-0.075),U,u*(xmax+0.075),U )
+} 
+
+}
+@
+
+
+\end{frame}
+
+\subsection{Example 2: Estimating calendar age}
+
+\begin{frame}{Example 2: Estimating calendar age\footnote{\tiny{People smugglers, statistics and bone age by Tim Cole (2012). Significance Magazine. \url{https://doi.org/10.1111/j.1740-9713.2012.00568.x}}}}
+	\centering
+\includegraphics[scale=0.35]{boat.png}
+\end{frame}
+
+
+\begin{frame}{Example 2: Estimating calendar age\footnote{\tiny{People smugglers, statistics and bone age by Tim Cole (2012). Significance Magazine. \url{https://doi.org/10.1111/j.1740-9713.2012.00568.x}}}}
+	\centering
+	\includegraphics[scale=0.35]{xray.png}
+\end{frame}
+
+
+\begin{frame}{Example 2: Estimating calendar age}
+\begin{itemize}
+	\item The person's correct chronological age is a particularistic
+	parameter, one that had nothing to do with science, or universal laws of
+	Nature. But it can be estimated by using the laws of mathematics and
+	statistics.
+	\pause 
+	
+	\item Consider first a single indirect measurement of chronological age, that
+	yielded a value of 17.6 years.
+	
+	\pause 
+	
+	\item Given what you know about the sizes of the possible errors, you
+	\textbf{cannot say} that the true age is \textbf{exactly} 17.6 years
+	What \textbf{can} you say? And with what certainty?
+	
+	\pause 
+	
+	\item You can put \textbf{limits} on the true age by asking \textbf{what are
+		the minimum and maximum ages that could have produced the observed
+		reading of} 17.6 years.
+\end{itemize}
+\end{frame}
+
+
+
+
+
+
+
+\begin{frame}[fragile,plain]
+<<eval=T, echo=F, fig.align="center", fig.height=7, fig.width=9, warning=FALSE, message=F>>=
+
+dSemiElliptical = function(q,mean=0,radius=1) ( 2/(pi*radius^2) ) *
+sqrt(radius^2 - (q-mean)^2)
+
+pSemiElliptical =  function(q,mean=0,radius=1) 1/2 + 
+(q*sqrt(radius^2-q^2))/(pi*radius^2) + asin(q/radius)/pi 
+
+qSemiElliptical = function(p,mean=0,radius=1){
+cdf = function(x) pSemiElliptical(x) - p 
+root = uniroot(cdf, c(-1,1))$root
+return(mean + root*radius)
+}
+
+rSemiElliptical =  function(n=1,mean=0,radius=1) {
+q = rep(NA,n)
+Max = dSemiElliptical(mean,mean,radius)
+i = 0
+while(i < n){
+u = mean + runif(1,-radius,radius)
+h = runif(1,0,Max)
+d = dSemiElliptical(u,mean,radius)
+if( h < d ) {i=i+1; q[i] = u}
+}
+return(q)
+}
+
+AGE = 18   # (7/8)*AGE
+
+radius.as.proportion = 0.125
+
+set.seed(1345437)
+set.seed(2454375)
+
+age.hats = rSemiElliptical(4, AGE, radius.as.proportion*AGE)
+
+draw = function(conf.level){
+
+q.u = qSemiElliptical( (1+conf.level)/2 )
+
+half.alpha = toString( (1-conf.level)/2 )
+
+a.min=14; a.max=22; da=2
+beta = 1
+
+dx=75
+dy=0.4
+
+a.bottom = a.min - 1.75*da
+
+AGE = 18   # (7/8)*AGE
+
+par(mar = c(0,0,0,0))
+
+
+for (example in 1) {
+
+n=1 ; if(example>1) n=4
+
+age.hat = age.hats[1:n]
+
+age.bar = mean(age.hat)
+
+div = 1; if (conf.level < 1) div=sqrt(n)
+u.at.a.max = (1+radius.as.proportion/div)*beta*(a.max+1)
+l.at.a.max = (1-radius.as.proportion/div)*beta*(a.max+1)
+
+u.at.a.min = (1+radius.as.proportion/div)*beta*a.min
+l.at.a.min = (1-radius.as.proportion/div)*beta*a.min
+
+plot(c(a.min,a.max),c(l.at.a.min,u.at.a.max),col="white",
+xlim=c(a.min-1.35*da/2,a.max+2.75*da/2),
+ylim=c(a.min-2.6*da,a.max+1.6*da), frame=FALSE,
+xaxt ="n", yaxt="n")
+lines(c(a.min-da/2,a.min-da/2,a.max+da/2),
+c(a.max+da,a.min-2*da,a.min-2*da))
+text(( a.min+a.max)/2,a.min-2.5*da,
+"True Chronological Age (A)", adj=c(0.5,1),cex=1.25)
+txt = "Indirect\nMeasure\nof Age (a)"
+if(n>1) txt = "Indirect\nMeasures\nof Age (a)"
+text(a.min-da/2.5, a.max+da, txt,
+adj=c(0,1),cex=1.05,font=4)
+for(a in seq(a.min,a.max,da/2)){
+text(a,a.min-2*da,toString(a), adj=c(0.5,1.5))
+segments(a, a.min-2*da, a, a.min-2.05*da)
+text(a.min-da/2,a,toString(a),adj=c(1.5,0.5))
+segments(a.min-da/2, a, a.min-da/2-da/20, a)
+} 
+polygon(c(a.min,a.min,
+a.max+1,a.max+1,a.min),
+c(l.at.a.min,u.at.a.min,
+u.at.a.max,l.at.a.max, l.at.a.min),
+col="grey90",border=NA)
+
+segments(a.min,   a.min,
+a.max+1, beta*(a.max+1),
+col="white",lwd=2)
+
+arrows(a.max+1.2, l.at.a.max,
+a.max+1.2, u.at.a.max,
+code=3,length=0.05,angle=35)
+arrows(a.min-0.2, l.at.a.min,
+a.min-0.2, u.at.a.min,
+code=3,length=0.05,angle=35)
+text(a.min -0.3, a.min, 
+paste( toString(100*conf.level),"%",sep=""),
+adj=c(0.5,0),srt=90,cex=1)
+
+text(a.max+1.3, a.max+1, 
+paste( toString(100*conf.level),"%",sep=""), cex = 1.25,
+adj=c(0,0.5))
+
+UU = 100 ; LL = 0
+
+for (i in 1:n){
+points(a.min-da/2 + i/6, age.hat[i], pch=19,cex=0.5)
+if(conf.level < 1 & i==n & n>1) segments(
+a.min-da/2 + 1/6 , age.bar ,
+a.min-da/2 + n/6 , age.bar ) 
+if(example==1) text(a.min-da/3,age.hat[i],
+toString(round(age.hat[i],1)), cex=0.85,
+adj=c(0,0.5),font=4)
+M = age.hat[i] ; if(conf.level < 1 & n> 1) M = age.bar
+L = M/(1+radius.as.proportion/div)
+R = M/(1-radius.as.proportion/div)
+segments(L, M, R, M, lty="dotted")
+for(a in c(L,M,R)){
+if(example==1 | conf.level < 1) arrows( 
+a, a.bottom+3.5*dy,
+a, a.bottom+1.5*dy, 
+length=0.07,angle=30)
+if(example==1 & a==L){
+
+aA  = toString(round(M,1))
+AA  = toString(round(L,1))
+txt = substitute(paste(
+"P[ a > ",aA,
+" | A =",AA, " ] = ", Pval,sep=""),
+list(aA=aA,AA=AA,Pval=half.alpha))
+arrows( 
+a, L,
+a, M,lwd=2,angle=35,length=0.07)
+text(L,L,toString(round(L,1)),adj=c(0.5,1.5))
+text(L,M+0.25,txt,adj=c(0,0.5),srt=75)
+} 
+if(example==1 & a==R){
+aA  = toString(round(M,1))
+AA  = toString(round(R,1))
+txt = substitute(paste(
+"P[ a < ",aA,
+" | A =",AA, " ] = ", Pval,sep=""),
+list(aA=aA,AA=AA,Pval=half.alpha))
+arrows( 
+a, R,
+a, M,lwd=2,angle=35,length=0.07,code=2)
+text(R,R,toString(round(R,1)),adj=c(0.5,-0.5))
+text(R,M-0.25,txt,adj=c(0,0.5),srt=-55)
+} 
+}
+if(conf.level ==1 | (conf.level < 1 & i==1 ) ) {
+segments(L,a.bottom + i*dy, R,a.bottom + i*dy,lwd=1.25)
+points(M,a.bottom+i*dy, pch=19,cex=0.5)
+Limits = round(c(L,R),1)
+if(conf.level < 1 | example == 1 ) text(L-0.1,a.bottom + i*dy,
+toString(Limits[1]), adj=c(1,0.5),cex=0.8,font=2)
+if(conf.level < 1 | example == 1)  text(R+0.1,a.bottom + i*dy,
+toString(Limits[2]), adj=c(0,0.5),cex=0.8,font=2)
+}
+
+UU = min(UU,R)
+LL = max(LL,L)
+} # i
+
+if(example > 1 & conf.level==1){
+segments(LL, a.bottom, UU,  a.bottom, 
+lwd=3)
+segments(LL, a.bottom+dy, LL,  a.bottom +n*dy,  lty="dotted")
+segments(UU, a.bottom+dy, UU,  a.bottom +n*dy,  lty="dotted")
+Limits = round(c(LL,UU),1)
+text(LL-0.1,a.bottom,toString(Limits[1]), adj=c(1,0.5),cex=0.8,
+font=2)
+text(UU+0.1,a.bottom,toString(Limits[2]), adj=c(0,0.5),cex=0.8,
+font=2)
+} 
+if(example==1 ){ 
+points(age.hat[i],age.hat[i], pch=19,cex=0.75)
+points(age.hat[i],-1.0*dy, pch=19,cex=0.75)
+}
+} 
+}
+@
+
+
+<<eval=T, echo=F, fig.align="center", fig.height=6, fig.width=9, warning=FALSE, message=F, fig.cap="100\\% Confidence Intervals for a person's chronological age when error distributions (that in this example are wider at the  older ages) are 100\\% confined within the shaded ranges. ">>=
+conf.level = 1; 
+draw(conf.level)
+@
+
+
+\end{frame}
+
+
+
+
+
+
+\section{Interpreting Frequentist Confidence Intervals}
+
+
+
+
+
+\begin{frame}{Confidence Interval}
+	
+	\begin{defm}[Confidence Interval]
+		A level $C$ confidence interval for a parameter has two parts:
+		\begin{enumerate}
+			\item An interval calculated from the data, \underline{usually} of the form $$\textrm{estimate} \pm \textrm{margin of error}$$ where the estimate is a sample statistic and the margin of error represents the accuracy of our guess for the parameter.
+			\item A confidence level $C$, which gives the probability that the interval will capture the true parameter value in \textit{different possible samples}. That is, the confidence level is the success rate for the method
+		\end{enumerate}
+	\end{defm}
+	
+	%\framedgraphic{6899rule.png}
+	
+\end{frame}
+
+\frame{\frametitle{Confidence Interval: A simulation study}
+	
+	\vspace*{-0.1in}
+	
+	\begin{figure}
+		\begin{center}
+			\epsfig{figure=CIplots.eps,width=3.2in,height=2.7in}
+			\caption{\small{True parameter value is 2 (red line). Each horizontal black line represents a 95\% CI from a sample and contains the true parameter value. The blue CIs do not contain the true parameter value. 95\% of all samples give an interval that contains the population parameter.}}
+		\end{center}
+	\end{figure}
+}
+
+
+
+
+
+\begin{frame}{Confidence Intervals: we only get one shot}
+	\begin{itemize}
+		\setlength\itemsep{2em}
+		\item In practice, we don't take many simple random samples (``repeated'' samples) to estimate the population parameter $\theta$. \pause 
+		\item Because the method has a 95\% success rate, all we need is one simple random sample to compute one CI. 
+	\end{itemize}
+\end{frame}
+
+\begin{frame}{Interpreting a frequentist confidence interval}
+	\begin{itemize}
+		\setlength\itemsep{1em}
+		\item The confidence level is the success rate of the method that produces the interval. \pause
+		\item We don't know whether the 95\% confidence interval from a \underline{particular
+			sample} is one of the 95\% that capture $\theta$ (the unknown population parameter), or one of the unlucky 5\% that miss. \pause
+		\item To say that we are 95\% confident that the unknown value of $\theta$
+		lies between $U$ and $L$ is shorthand for ``We got these numbers using a
+		method that gives correct results 95\% of the time.''
+	\end{itemize}
+\end{frame}
+
+%\frame{\frametitle{Inference for a single population mean} So to
+%perform inference, we want an estimator that is unbiased for the
+%parameter of interest and that has a relatively small spread (low
+%variability or high efficiency). \\ \ \\
+%Examples - estimating the population mean $\mu$:
+%\begin{itemize}
+%\item What is the bias (if any) of $\frac{1}{n}\sum^n_{i=1}(x_i + 1)$?
+%\item[] \item What is the bias (if any) of $\frac{1}{n}\sum^n_{i=1}x_i + \frac{1}{n}$?
+%\item[] \item Which of the two estimators above would you prefer?
+%\end{itemize}
+%}
+
+
+\begin{frame}{More about a frequentist confidence interval}
+	
+	\begin{itemize}
+		\item The confidence level of 95\% has to say something about the sampling procedure: 
+		
+		\begin{itemize}
+			\item The confidence interval depends on the sample. If the sample had come out differently, the confidence interval would have been different. 
+			\item With some samples, the interval 'estimate $\pm$ margin of error' does trap the population parameter (the word statisticians use is cover). But with other samples, the interval fails to cover.
+		\end{itemize}
+		\pause
+		\item It's like buying a used car. Sometimes you get a lemon – a confidence interval which doesn't cover the parameter.
+		
+		\framedgraphiccaption{lemon.jpg}{3 confidence intervals 'chasing' (taking a shot at) the population parameter $P$}
+	\end{itemize}
+\end{frame}
+
+
+\begin{frame}{More about a frequentist confidence interval}
+	\begin{itemize}
+		\setlength\itemsep{2em}
+		\item In the frequentist approach, $\theta$ is regarded as a fixed (but unknowable) constant, such as the exact speed of light to an infinite number of digits, or the exact mean depth of the ocean at a given point in time. \pause
+		
+		\item It doesn't ``fall'' or ``vary around'' any particular values; in contrast you can think of the statistic $\hat{\theta}$ ``falling'' or ``varying around'' the fixed (but unknowable) value of $\theta$
+	\end{itemize}
+\end{frame}
+
+
+\begin{frame}{Polling companies}
+	\begin{itemize}
+		\setlength\itemsep{2em}
+		\item Polling companies who say ``polls of this size are accurate to within so many percentage points 19 times out of 20'' are being statistically correct $\to$ they emphasize the \textbf{procedure} rather than what has happened in this specific instance. 
+		\item Polling companies (or reporters) who say ``this poll is accurate .. 19
+		times out of 20'' are talking statistical nonsense -- this specific poll is either right or wrong. On average 19 polls out of 20 are ``correct''. But this
+		poll cannot be right on average 19 times out of 20.
+	\end{itemize}
+\end{frame}
+
+\frame{\frametitle{Example: Inference for a single population mean} We begin
+	with the (unrealistic) assumption that the population variance is
+	known.
+	\begin{itemize}
+		\item Then the true variance of the sample mean is known!
+		\item We can use \texttt{mosaic::xpnorm(q = c(-1.96, 1.96))} to find that there is a 95\% chance that a $\mathcal{N}$(0,1) random variable lies within 1.96 
+		standard errors of the population mean of the distribution. So then:
+		\[ P\left(-1.96 \le \frac{\bar{y}-\mu}{\sigma/\sqrt{n}} \le
+		1.96\right) = 0.95 \]
+		\item[]
+	\end{itemize}
+	What does allow us to learn about $\mu$? }
+
+\frame{\frametitle{Example: Inference for a single population mean} We can
+	use this probability statement about the standardized version of
+	$\bar{y}$ to place bounds on where we think the true mean lies
+	by examining the probability that $\bar{y}$ is within
+	1.96$\frac{\sigma}{\sqrt{n}}$ of $\mu$. \\ \ \\
+	
+	$P\left(-1.96 \le \frac{\bar{y}-\mu}{\sigma/\sqrt{n}} \le
+	1.96\right)$\\
+	\[\begin{array}{ccl} \qquad & = & P\left(-1.96\frac{\sigma}{\sqrt{n}}
+	\le \bar{y}-\mu \le +1.96\frac{\sigma}{\sqrt{n}}\right)\\
+	\pause
+	& = & P\left(-\bar{y}-1.96\frac{\sigma}{\sqrt{n}} \le
+	-\mu \le -\bar{y}+1.96\frac{\sigma}{\sqrt{n}}\right)\\ \pause
+	& = & P\left(\bar{y}+1.96\frac{\sigma}{\sqrt{n}} \ge
+	\mu \ge \bar{y}-1.96\frac{\sigma}{\sqrt{n}}\right)\\ \pause
+	& = & P\left(\bar{y}-1.96\frac{\sigma}{\sqrt{n}} \le \mu
+	\le \bar{y}+1.96\frac{\sigma}{\sqrt{n}}\right)\\
+	& = & 0.95\\
+	& & \\
+	\end{array}\]
+	
+	We call the interval
+	$\left(\bar{y}-1.96\frac{\sigma}{\sqrt{n}},
+	\bar{y}+1.96\frac{\sigma}{\sqrt{n}}\right)$ a \textbf{95\%
+		confidence interval} for $\mu$. }
+
+\frame{\frametitle{Example: Inference for a single population mean} So what does the CI allow us
+	to learn about $\mu$?? \pause
+	
+	\begin{itemize}
+		\setlength\itemsep{.5em}
+		\item In classical (frequentist) statistics, we assume that the population
+		mean, $\mu$ is a \textbf{fixed} but unknown value.
+		\item With this view, it doesn't make sense to think of $\mu$ as
+		having a distribution. Therefore we can't make probability statements about $\mu$. \pause
+		\item What about the CI? It is made up of the sample mean
+		and other fixed numbers (1.96, the square root of the known sample
+		size $n$, and the known standard deviation, $\sigma$).
+		\item \textcolor{blue}{\textbf{The CI is a random quantity.}}
+		\item Remember: a random quantity is one in which the outcome is not
+		known ahead of time. We don't know the lower and upper limits of the
+		CI before the sample has been collected since we don't yet know the
+		value of the random quantity $\bar{x}$.
+	\end{itemize}
+	
+}
+
+\frame{\frametitle{Example: Inference for a single population mean} So what
+	does the CI allow us to learn about $\mu$??
+	\begin{itemize}
+		\setlength\itemsep{2em}
+		\item It tells us that if we repeated this procedure again and again
+		(collecting a sample mean, and constructing a 95\% CI), 95\% of the
+		time, the CI would \textit{cover} $\mu$. \pause 
+		\item That is, with 95\% probability, the \textit{procedure}
+		will include the true value of $\mu$. Note that we are making \underline{a probability statement about the CI}, not about the parameter. \pause
+		\item Unfortunately, \textcolor{blue}{we do not know whether the true value of $\mu$ is
+			contained in the CI in the particular experiment that we have
+			performed.}
+	\end{itemize}
+}
+
+
+\begin{frame}{Interactive visualization of CIs}
+	\Large\href{http://rpsychologist.com/d3/CI/}{http://rpsychologist.com/d3/CI/}
+\end{frame}
+
+
+
+\begin{frame}[fragile]{Exercise: How deep is the ocean?}
+	%\begin{exm}[Confidence intervals in many samples]
+	\begin{enumerate}
+		\item For your samples of $n=5$ and $n=20$ of depths of the ocean, calculate the
+		\begin{enumerate}
+			\item sample mean ($\bar{y}$)
+			\item standard error of the sample mean ($SE_{\bar{y}}$)
+		\end{enumerate}
+		\item Calculate the 68\%, 95\% and 99\% confidence intervals (CI) for both samples of $n=5$ and $n=20$.
+		\item Enter your results in the \href{https://docs.google.com/spreadsheets/d/1Mnxeq9nQcTdQycZ7S_62fYFiNC5_a3fibsyodzfwO58/edit?usp=sharing}{Google sheet} 
+		\item Plot the CIs for each student using the following code:
+		
+		<<eval=FALSE, echo = TRUE>>=
+		plot(dt$Mean.5.depths, 1:nrow(dt), pch=20, 
+		xlim=range(pretty(c(dt$lower.mean.5.66, dt$upper.mean.5.66))),
+		xlab='Depth of ocean (m)', ylab='Student (sample)', 
+		las=1, cex.axis=0.8, cex=1.5)
+		abline(v = 3700, lty = 2, col = "red", lwd = 2)
+		segments(x0 = dt$lower.mean.5.66, x1=dt$upper.mean.5.66, 
+		y0 = 1:nrow(dt), lend=1)
+		@
+		
+	\end{enumerate}
+	%\end{exm}
+\end{frame}
+
+\end{document}
+
+
