@@ -189,7 +189,7 @@ ci.vd
 
 # (15 points) How deep is the ocean?
 
-This question is based on the [in-class Exercise](https://github.com/sahirbhatnagar/EPIB607/blob/master/exercises/water/students/260194225_water_exercise_epib607.pdf) on sampling distributions. Refer to the [slides on Bootstrap confidence intervals](https://github.com/sahirbhatnagar/EPIB607/raw/master/slides/bootstrap/EPIB607_bootstrap.pdf) for `R` code on how to calculate bootstrap confidence intervals. For your sample of $n=20$ of depths of the ocean, calculate the
+This question is based on the [in-class Exercise](https://github.com/sahirbhatnagar/EPIB607/blob/master/labs/003-ocean-depths/water_exercise_epib607.pdf) on sampling distributions. For your sample of $n=20$ of depths of the ocean, calculate the
 
 a. (3 points) 95% Confidence interval using the $\pm$ formula
 b. (3 points) 95% Confidence interval using the `qnorm` function
