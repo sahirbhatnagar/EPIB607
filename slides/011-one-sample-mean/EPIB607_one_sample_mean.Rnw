@@ -1,0 +1,749 @@
+\documentclass{beamer}
+
+\usepackage{default}
+\usepackage{animate} %need the animate.sty file 
+\usepackage{graphicx}
+%\graphicspath{{/home/sahir/Dropbox/jobs/laval/minicours/slides/}}
+\usepackage{hyperref, url}
+%\usepackage[round,sort]{natbib}   % bibliography omit 'round' option if you prefer square brackets
+%\bibliographystyle{apalike}
+\usepackage{biblatex}
+\bibliography{bib.bib}
+% Removes icon in bibliography
+\setbeamertemplate{bibliography item}[text]
+
+\usepackage[normalem]{ulem}
+
+\setbeamertemplate{theorems}[numbered]
+
+
+
+%\newtheorem{prop}{Proposition}
+%\newenvironment{theoremc}[1]
+%{\begin{shaded}\begin{theorem}[#1]}
+%		{\end{theorem}\end{shaded}}
+	
+%\newtheorem{examplefirst}{Example}
+%\newtheorem{examplesecond}{Example}
+%\newenvironment<>{examplefirst}[1][]{%
+%	\setbeamercolor{block title example}{bg=lightgray}%
+%	\begin{example}#2[#1]}{\end{example}}
+%\newenvironment<>{examplesecond}[1][]{%
+%	\setbeamercolor{block title example}{fg=white,bg=blue!75!black}%
+%	\begin{example}#2[#1]}{\end{example}}	
+
+%\usepackage{amsthm}
+
+
+\usepackage[figurename=Fig.]{caption}
+\usepackage{subfig}
+\usepackage{tikz, pgfplots,epsfig}
+\usetikzlibrary{arrows,shapes.geometric}
+\usepackage{color, colortbl,xcolor}
+\definecolor{lightgray}{RGB}{200,200,200}
+\definecolor{palegray}{RGB}{221,221,221}
+\definecolor{myblue}{RGB}{0,89,179}
+\usepackage{comment}
+\setbeamercolor{frametitle}{fg=myblue}
+\setbeamercolor{section in head/foot}{bg=myblue, fg=white}
+\setbeamercolor{author in head/foot}{bg=myblue}
+\setbeamercolor{date in head/foot}{bg=myblue}
+
+\usepackage{shadethm}
+%\colorlet{shadecolor}{blue!15}
+\colorlet{shadecolor}{palegray}
+%\setlength{\shadeboxrule}{.4pt}
+
+\newshadetheorem{thm}{Theorem}
+\newshadetheorem{defm}{Definition}
+\newshadetheorem{exm}{Exercise}
+\newshadetheorem{remarkm}{Remark}
+%\definecolor{shadethmcolor}{HTML}{EDF8FF}
+\definecolor{shadethmcolor}{RGB}{221,221,221}
+%\definecolor{shaderulecolor}{HTML}{45CFFF}
+\definecolor{shaderulecolor}{RGB}{0,89,179}
+\setlength{\shadeboxrule}{.4pt}
+
+
+\usepackage{array}
+\newcolumntype{L}{>{\centering\arraybackslash}m{3cm}} % used for text wrapping in ctable
+\usepackage{ctable}
+\usepackage[utf8]{inputenc}
+\usepackage{fontenc}
+\usepackage{pifont}% http://ctan.org/pkg/pifont
+\newcommand{\cmark}{\ding{51}}%
+\newcommand{\xmark}{\ding{55}}%
+\def\widebar#1{\overline{#1}}
+\definecolor{whitesmoke}{rgb}{0.96, 0.96, 0.96}
+
+\usepackage{amssymb}
+\usepackage{amsmath}
+
+\usepackage{bm}
+\def\transpose{{\sf{T}}}
+\def\E{{\skew0\bm{E}}}
+\def\Xvec{{\skew0\bm{X}}}
+\def\Xveca{{\skew0\bm{X}}_1}
+\def\Xvecb{{\skew0\bm{X}}_2}
+
+\def\Yvec{{\skew0\bm{Y}}}
+\def\bmY{{\skew0\bm{Y}}}
+\def\bmX{{\skew0\bm{X}}}
+\def\bmy{{\skew0\bm{y}}}
+\def\bmG{{\skew0\bm{G}}}
+\def\bmS{{\skew0\bm{S}}}
+\def\bmA{{\skew0\bm{A}}}
+\def\bmB{{\skew0\bm{B}}}
+\def\bmD{{\skew0\bm{D}}}
+\def\bmI{{\skew0\bm{I}}}
+\def\bmV{{\skew0\bm{V}}}
+\def\bmU{{\skew0\bm{U}}}
+\def\bv{{\skew0\bm{v}}}
+\def\bw{{\skew0\bm{w}}}
+\def\bmm{{\skew0\bm{m}}}
+\def\bmzero{{\skew0\bm{0}}}
+\def\bx{{\skew0\bm{x}}}
+\def\xveca{{\skew0\bm{x}}_1}
+\def\xvecb{{\skew0\bm{x}}_2}
+
+\def\N{{\skew0\mathcal{N}}}
+\def\T{{\small T}}
+
+\def\mvec{{\skew0\bm{m}}}
+\def\bmmu{{\skew0\bm{\mu}}}
+\def\muvec{{\skew0\bm{\mu}}}
+\def\balpha{{\skew0\bm{\alpha}}}
+\def\bbeta{{\skew0\bm{\beta}}}
+\def\bmtheta{{\skew0\bm{\theta}}}
+\def\btheta{{\skew0\bm{\theta}}}
+
+\def\cvec{{\skew0\mathbf{c}}}
+
+\def\Xbar{\overline{X}}
+
+\definecolor{lightgray}{rgb}{0.91,0.91,0.91}
+\definecolor{purpleblue}{rgb}{0.50,0.50,1.00}
+
+
+
+\usepackage{fontspec}
+%\setsansfont{Fira Sans}
+%\setmonofont{Fira Mono}
+\setsansfont[ItalicFont={Fira Sans Light Italic},BoldFont={Fira Sans},BoldItalicFont={Fira Sans Italic}]{Fira Sans Light}
+\setmonofont[BoldFont={Fira Mono Medium}]{Fira Mono}
+
+
+\setbeamercolor{itemize item}{fg=myblue}
+\setbeamertemplate{itemize item}[square]
+
+\setbeamertemplate{navigation symbols}{\usebeamercolor[fg]{title in head/foot}\usebeamerfont{title in head/foot}\insertframenumber}
+\setbeamertemplate{footline}{}
+
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{exercise}[theorem]{Exercise}
+
+\titlegraphic{\hfill\includegraphics[height=1cm]{mcgill_logo.png}}
+
+
+%% You also use hyperref, and pick colors 
+\hypersetup{colorlinks,citecolor=orange,filecolor=red,linkcolor=brown,urlcolor=blue}
+
+\newcommand {\framedgraphiccaption}[2] {
+	\begin{figure}
+		\centering
+		\includegraphics[width=\textwidth,height=0.8\textheight,keepaspectratio]{#1}
+		\caption{#2}
+	\end{figure}
+}
+
+\newcommand {\framedgraphic}[1] {
+	\begin{figure}
+		\centering
+		\includegraphics[width=\textwidth,height=0.9\textheight,keepaspectratio]{#1}
+	\end{figure}
+}
+
+
+\AtBeginSection[]{
+	\begin{frame}
+		\vfill
+		\centering
+		\begin{beamercolorbox}[sep=8pt,center,shadow=true,rounded=true]{title}
+			\usebeamerfont{title}\insertsectionhead\par%
+		\end{beamercolorbox}
+		\vfill
+	\end{frame}
+}
+
+\newcommand\Wider[2][3em]{%
+	\makebox[\linewidth][c]{%
+		\begin{minipage}{\dimexpr\textwidth+#1\relax}
+			\raggedright#2
+		\end{minipage}%
+	}%
+}
+
+
+
+\newcommand{\blue}[1]{\textcolor{blue}{#1}}
+\newcommand{\red}[1]{\textcolor{red}{#1}}
+%\makeatother
+
+\usepackage{xparse}
+\NewDocumentCommand\mylist{>{\SplitList{;}}m}
+{
+	\begin{itemize}
+		\ProcessList{#1}{ \insertitem }
+	\end{itemize}
+}
+\NewDocumentCommand\mynum{>{\SplitList{;}}m}
+{
+	\begin{enumerate}
+		\ProcessList{#1}{ \insertitem }
+	\end{enumerate}
+}
+\newcommand\insertitem[1]{\item #1}
+
+\newcommand\FrameText[1]{%
+	\begin{textblock*}{\paperwidth}(0pt,\textheight)
+		\raggedright #1\hspace{.5em}
+\end{textblock*}}
+
+
+\begin{document}
+%\sffamily
+
+<<setup, include=FALSE>>=
+rm(list = ls())
+library(knitr)
+knitr::opts_chunk$set(cache=TRUE, message = FALSE, tidy = FALSE,warning=FALSE, 
+echo = FALSE, fig.width = 8, fig.asp = 0.8, 
+fig.align = 'center', out.width = "100%", size = 'scriptsize')
+# the kframe environment does not work with allowframebreaks, so remove it
+knit_hooks$set(document = function(x) {
+gsub('\\\\(begin|end)\\{kframe\\}', '', x)
+})
+pacman::p_load(knitr)
+
+# pacman::p_load(ISLR)
+# pacman::p_load(data.table)
+# pacman::p_load(rpart)
+# pacman::p_load(rpart.plot)
+# pacman::p_load(xtable)
+# pacman::p_load(ggplot2)
+# trop <- RSkittleBrewer::RSkittleBrewer("trop")
+# gg_sy <- theme(legend.position = "bottom", axis.text = element_text(size = 20), axis.title = element_text(size = 20), legend.text = element_text(size = 20), legend.title = element_text(size = 20))
+@
+
+%\title{Introduction to Regression Trees}
+%\author{Sahir Bhatnagar \inst{1}}
+%\author[shortname]{Sahir Rai Bhatnagar, PhD Candidate (Biostatistics) }
+%\institute[shortinst]{Department of Epidemiology, Biostatistics and Occupational Health}
+
+\title{Inference about a Population Mean ($\mu$)}
+\subtitle{AAO unit 26; Baldi \& Moore, Ch 17}
+\author{Sahir Bhatnagar and James Hanley}
+\institute{
+	EPIB 607\\
+	Department of Epidemiology, Biostatistics, and Occupational Health\\
+	McGill University\\
+	
+	\vspace{0.1 in}
+	
+	\texttt{sahir.bhatnagar@mcgill.ca}\\
+	\texttt{\url{https://sahirbhatnagar.com/EPIB607/}}}
+
+%\date
+
+\maketitle
+
+\section{The t distribution}
+
+\frame{\frametitle{Inference for $\mu$ when $\sigma$ is not known}
+	Up until now, all of our calculations have relied on us knowing the
+	value of the population standard deviation ($\sigma$). It is rare that this is the case. \\ \ \\
+	
+	We now consider methods of inference for when \blue{$\sigma$ is unknown}.
+	\\ \ \\
+	
+	When $\sigma$ is unknown, we must \blue{estimate it from the data using $s$, the sample standard deviation}.
+}
+
+\frame{\frametitle{Inference for $\mu$ when $\sigma$ is unknown}
+	\begin{itemize}
+		\item When the true variance was known, we performed our calculations
+	using the standardization \[Z =
+	\frac{\overline{y}-\mu}{\sigma/\sqrt{n}} \sim \mathcal{N}(0,1).\] \pause 
+	\item We no longer can use this, so instead we use \[t =
+	\frac{\overline{y}-\mu}{s/\sqrt{n}} \sim t_{(n-1)}\] which follows a
+	\textbf{$t$-distribution} with $n-1$ degrees of freedom based on the $n$ values, $y_1,...,y_n$ in an SRS \pause
+	\item There is a different $t$ distribution for each sample size. The
+	degrees of freedom specify which distribution we use, and are
+	determined by the denominator used in estimating $s$ which is $(n-1)$.
+\end{itemize} }
+
+
+\begin{frame}{$\sigma$ known vs. unknown}
+\begin{center}
+	\begin{tabular}{|l|c|c|} \hline
+		$\sigma$& known & unknown \\ \hline Data & $\{y_1,y_2,...,y_n\}$ &
+		$\{y_1,y_2,...,y_n\}$\\
+		& & \\
+		Pop'n param & $\mu$ & $\mu$\\
+		& & \\
+		Estimator & $\overline{y} = \frac{1}{n}\sum_{i=1}^n y_i$ & $\overline{y} = \frac{1}{n}\sum_{i=1}^n y_i$ \\
+		& & \\
+		SD & $\sigma$ & $s = \sqrt{\frac{\sum_{i=1}^n(y_i-\overline{y})^2}{n-1}}$ \\
+		& & \\
+		SEM & $\sigma/\sqrt{n}$ & $s / \sqrt{n}$ \\
+		& & \\
+		$(1-\alpha)100$\% CI & $\overline{y} \pm z^\star_{1-\alpha/2}$(SEM) & $\overline{y} \pm t^\star_{1-\alpha/2, (n-1)}$(SEM) \\
+		& & \\
+		test statistic & $\frac{\overline{y}-\mu_0}{\textrm{SEM}}\sim \mathcal{N}(0,1)$ &
+		$\frac{\overline{y}-\mu_0}{\textrm{SEM}}\sim t_{(n-1)}$ \\
+		\hline
+	\end{tabular}
+\end{center}
+\end{frame}
+
+
+
+\begin{frame}{$t$ distribution vs. Normal distribution}
+
+\Wider[4em]{
+	\begin{figure}
+		\centering
+		\includegraphics[scale=0.33, angle=90]{t_normal_comparison.pdf}
+		\caption{Density curves for the $t$ distribution with 2 and 9 degrees of freedom and for the standard Normal distribution. All are symmetric with center 0. The $t$ distributions are somewhat more spread out.}
+	\end{figure}
+}
+
+\end{frame}
+
+
+\begin{frame}[fragile]{$t_{(5)}$ distribution vs. Standard Normal distribution}
+\begin{minipage}{0.47\textwidth}
+	<<echo = TRUE, message=FALSE, eval=FALSE>>=
+	library(mosaic)
+	xqnorm(p = c(0.025, 0.975))
+	@
+	<<echo = FALSE, message=FALSE, eval=TRUE>>=
+	library(mosaic)
+	xqnorm(p = c(0.025, 0.975),
+	xlim = c(-6,6))
+	@
+\end{minipage}
+\begin{minipage}{0.5\textwidth}
+	<<echo = TRUE>>=
+	library(mosaic)
+	xqt(p = c(0.025, 0.975), df = 5)
+	@
+\end{minipage}
+\end{frame}
+
+
+
+\begin{frame}[fragile]{$t_{(30)}$ distribution vs. Standard Normal distribution}
+\begin{minipage}{0.47\textwidth}
+	<<echo = TRUE, message=FALSE, eval=FALSE>>=
+	library(mosaic)
+	xqnorm(p = c(0.025, 0.975))
+	@
+	<<echo = FALSE, message=FALSE, eval=TRUE>>=
+	library(mosaic)
+	xqnorm(p = c(0.025, 0.975),
+	xlim = c(-4,4))
+	@
+\end{minipage}
+\begin{minipage}{0.5\textwidth}
+	<<echo = TRUE, message=FALSE, eval=FALSE>>=
+	library(mosaic)
+	xqt(p = c(0.025, 0.975), df = 30)
+	@
+	<<echo = FALSE, message=FALSE, eval=TRUE>>=
+	library(mosaic)
+	xqt(p = c(0.025, 0.975), df = 30,
+	xlim = c(-4,4))
+	@
+\end{minipage}
+\end{frame}
+
+%\frame{\frametitle{$t$ distributions}
+%	\begin{figure}
+%		\begin{center}
+%			\epsfig{figure=Tables/psls_table_C.eps,scale=.35}
+%		\end{center}
+%	\end{figure}
+%}
+
+
+\begin{frame}{$t$ distributions}
+\begin{itemize}
+	\small
+	\item Is symmetric around 0 ( just like the $\mathcal{N}(0,1)$ )
+	\item Has a shape like that of the Z distribution, but with a SD slightly larger than
+	unity i.e. slightly flatter and heavier-tailed
+	\item Shape becomes indistinguishable from Z distribution as $n \rightarrow \infty$ (in fact as $n$ goes much beyond 30)
+	\item Instead of  $\pm 1.96 \times  $ SEM for 95\% confidence (or to use as the critical value in a null-hypothesis test), we need these multiples (or critical values): \\ \ \\
+	
+	\begin{tabular}{r r r r}
+		$n$ & `degrees of freedom' & Multiple & from \texttt{R} \\ 
+		\hline
+		2 & 1 & 12.71 & \texttt{qt(0.975,  1)} \\
+		3 & 2 & 4.30 & \texttt{qt(0.975,  2)}\\
+		4 & 3 & 3.18 & \texttt{qt(0.975,  3)}\\
+		11 &10 & 2.23 & \texttt{qt(0.975, 10)}  \\
+		21 & 20 & 2.09 & \texttt{qt(0.975, 20)} \\
+		31 & 30 & 2.04 & \texttt{qt(0.975, 30)} \\
+		121 & 120 & 1.98 & \texttt{qt(0.975,120)} \\
+		$\infty$ & $\infty$ & 1.96 & \texttt{qt(0.975,Inf)}   \\
+	\end{tabular}
+	
+\end{itemize}
+\end{frame}
+
+ 
+
+\begin{frame}[fragile]{$t$ distributions}
+Sample size increases $\rightarrow$ degrees of freedom increase $\rightarrow$ $t$ starts to look like $\mathcal{N}(0,1)$
+<<fig.align='center',echo=FALSE, fig.asp = 0.598>>=
+curve(dnorm(x), -4,4, lty=1, ylab="density", col=1, lwd=2)
+curve(dt(x,3), -4,4, add=TRUE, lty=2, col=2,lwd=2)
+#curve(dt(x,30), -4,4, add=TRUE, lty=4, col=3,lwd=3)
+legend(1.5, .4, c("N(0,1)", "t(df=3)"), col = c(1,2), lty = c(1,2),
+merge = TRUE, bg = "gray90", lwd=c(2,2))
+#legend(1.5, .4, c("N(0,1)", "t(df=15)","t(df=30)"), col = c(1,2,3), lty = c(1,2,4),
+#merge = TRUE, bg = "gray90", lwd=c(2,2,3))
+@
+\end{frame}
+
+\begin{frame}[fragile]{$t$ distributions}
+Sample size increases $\rightarrow$ degrees of freedom increase $\rightarrow$ $t$ starts to look like $\mathcal{N}(0,1)$
+<<fig.align='center',echo=FALSE, fig.asp = 0.598>>=
+curve(dnorm(x), -4,4, lty=1, ylab="density", col=1, lwd=2)
+#curve(dt(x,3), -4,4, add=TRUE, lty=2, col=2,lwd=2)
+curve(dt(x,30), -4,4, add=TRUE, lty=4, col="blue",lwd=3)
+legend(1.5, .4, c("N(0,1)", "t(df=30)"), col = c(1,"blue"), lty = c(1,4),
+merge = TRUE, bg = "gray90", lwd=c(2,3))
+@
+
+\Large This is where the infamous $n=30$ comes from !!
+\end{frame}
+
+\frame{\frametitle{$t$ procedures} We can calculate CIs and
+	perform significance tests much as before (example coming up
+	soon).\\\ \\
+	
+	A significance test of a single sample mean using the $t$-statistic
+	is called a \textcolor{blue}{one-sample $t$-test}. \\ \ \\
+	
+	Collectively, the significance tests and confidence-interval based
+	tests using the $t$ distribution are called \underline{$t$ procedures}.  \\ \ \\
+	
+}
+
+\begin{frame}{The one-sample $t$ test}
+
+\Wider[4em]{
+	\centering
+		\includegraphics[scale=0.35]{ttest.pdf}
+	
+}
+
+\end{frame}
+
+ 
+\begin{frame}{A note about the conditions for $t$ procedures}
+
+\begin{itemize}
+	\setlength\itemsep{1em}
+	\item B\&M stress that the \textbf{first} of their conditions as \textit{very important}: \textit{we can regard} our data as a simple random sample (SRS) from  the population \pause 
+	\item The \textbf{second}, observations from the population have a \textit{\underline{Normal}} distribution with unknown mean parameter $\mu$ and unknown standard deviation parameter $\sigma$ less so 
+	\item \textit{In practice}, inference procedures \textit{can accommodate some deviations from
+		the Normality condition} when the sample is large enough. 
+\end{itemize}
+\end{frame}
+
+
+\frame{\frametitle{Robustness of the $t$ procedures} A statistical
+	procedure is said to be \textbf{robust} if it is insensitive to
+	violations of the assumptions made. \\ \ \\
+	\begin{itemize}
+			\setlength\itemsep{1em}
+		%\item Results of $t$ procedures (CIs, significance tests) are exact if the
+		%population from which the simple random sample was drawn is Normal. \pause
+		\item $t$ procedures are not robust against \textit{extreme}
+		skewness, \underline{in small samples}, since the procedures are
+		based on using $\overline{y}$ and $s$ (which are sensitive to
+		outliers).
+		\item Recall: \textcolor{blue}{Unless there is a very compelling reason
+			(e.g.~known/confirmed error in the recorded data), outliers should not be discarded.}
+		
+	\end{itemize}
+} \frame{\frametitle{Robustness of the $t$ procedures}
+	\begin{itemize}
+					\setlength\itemsep{2em}
+		\item $t$ procedures \textbf{are} robust against other forms
+		of non-normality and, even with considerable skew, perform well when $n$ is large. Why?
+		\pause
+		\item When $n$ is large, $s$ is a good estimate of $\sigma$
+		(recall that $s$ is unbiased and, like most estimates, precision
+		improves with increasing sample size) \pause
+		\item CLT: $\overline{y}$ will be Normal when $n$ is large, even if the
+		population data are not
+
+
+	\end{itemize}
+}
+
+
+
+\begin{frame}{When and why we use the $t$-distribution}
+\mylist{When $\sigma$ is unknown use $t$ distribution. \blue{but why?}; \pause the spread of the $t$ distribution is greater than $\mathcal{N}(0,1)$  }
+\end{frame}
+
+
+
+\begin{frame}[fragile]{Rejecting the Null ($H_0: \mu = \mu_0$) when $\sigma$ is known}
+\small
+\[ \underbrace{z_{0.975}}_{\textrm{critical value}}=1.96 = \frac{\bar{y}-\mu_0}{\sigma/\sqrt{n}} \rightarrow \frac{1.96 }{\sqrt{n}}\sigma = \bar{y}-\mu_0   \] which means that to reject $H_0$ the difference between your sample mean and $\mu_0$ needs to be \blue{greater than $\frac{1.96}{\sqrt{n}}$ standard deviations} 
+<<fig.align='center',out.width='.6\\linewidth',echo=FALSE,cache=TRUE, eval = FALSE>>=
+library(ggplot2)
+draws <- rnorm(1e6) ; dens <- density(draws)
+dd <- with(dens,data.frame(x,y))
+q <- quantile(draws, ecdf(draws)(-1.96))
+qplot(x,y,data=dd,geom="line")+
+geom_ribbon(data=subset(dd,x<q),aes(ymax=y),ymin=0,
+fill="red",colour=NA,alpha=0.5)+geom_ribbon(data=subset(dd,x>abs(q)),aes(ymax=y),ymin=0,
+fill="red",colour=NA,alpha=0.5)+
+annotate("text", x =-3.5, y = 0.38, label = "Total shaded area is 5%")+
+ylab("probability density")+ xlab("z")+
+geom_segment(aes(x = -3.5, y = 0.1, xend = -2.9, yend = 0.02),color="red", 
+arrow = arrow(angle=20,length = unit(0.5, "cm")))+
+annotate("text", label = "P(Z<-1.96)=2.5%", x = -3.5, y = 0.11, size = 6, colour = "red")+
+geom_segment(aes(x = 3.5, y = 0.1, xend = 2.9, yend = 0.02),color="red", 
+arrow = arrow(angle=20,length = unit(0.5, "cm")))+
+annotate("text", label = "P(Z>1.96)=2.5%", x = 3.5, y = 0.11, size = 6, colour = "red") + 
+theme_bw()
+@
+<<echo = TRUE, message=FALSE, eval=TRUE, fig.asp = 0.428>>=
+mosaic::xqnorm(p = c(0.025, 0.975))
+@
+\end{frame}
+
+
+
+\begin{frame}[fragile]{Rejecting the Null ($H_0: \mu = \mu_0$) when $\sigma$ is unknown}
+\small
+\[ \underbrace{t_{0.975,df=3}^\star}_{\textrm{critical value}}=3.18 = \frac{\bar{y}-\mu_0}{s/\sqrt{n}} \rightarrow  \frac{3.18}{\sqrt{n}}s = \bar{y}-\mu_0   \] which means that to reject $H_0$ the difference between your sample mean and $\mu_0$ needs to be \blue{greater than $\frac{3.18}{\sqrt{n}}$ standard deviations} 
+<<fig.align='center',out.width='.6\\linewidth',echo=FALSE,warning=FALSE,message=FALSE,cache=TRUE, eval = FALSE>>=
+set.seed(12893)
+draws <- rt(1e6,3) ; dens <- density(draws)
+dd <- with(dens,data.frame(x,y))
+q <- quantile(draws, ecdf(draws)(qt(0.025,df=3)))
+qplot(x,y,data=dd,geom="line")+
+geom_ribbon(data=subset(dd,x<q),aes(ymax=y),ymin=0,
+fill="red",colour=NA,alpha=0.5)+geom_ribbon(data=subset(dd,x>abs(q)),aes(ymax=y),ymin=0,
+fill="red",colour=NA,alpha=0.5)+xlim(-5,5)+
+annotate("text", x =-3.5, y = 0.6, label = "Total shaded area is 5%")+
+ylab("probability density")+ xlab("t")+
+geom_segment(aes(x = -4.6, y = 0.25, xend = -3.6, yend = 0.02),color="red", 
+arrow = arrow(angle=20,length = unit(0.5, "cm")))+
+annotate("text", label = "P(t<-3.18)=2.5%", x = -3.5, y = 0.31, size = 6, colour = "red")+
+geom_segment(aes(x = 4.6, y = 0.25, xend = 3.7, yend = 0.02),color="red", 
+arrow = arrow(angle=20,length = unit(0.5, "cm")))+
+annotate("text", label = "P(t>3.18)=2.5%", x = 3.5, y = 0.31, size = 6, colour = "red")+ 
+theme_bw()
+@
+
+<<echo = TRUE, message=FALSE, eval=TRUE, fig.asp = 0.428>>=
+mosaic::xqt(p = c(0.025, 0.975), df = 3)
+@
+
+\end{frame}
+
+
+
+
+\begin{frame}{Summary of $t$ distribution}
+\mylist{Its harder to reject the null when using the $t$ distribution; \pause Confidence intervals are also wider; \pause This is due to our uncertainty about the estimated variance ;\pause Larger samples lead to more accurate estimates of $\sigma$; \pause This is reflected in the fact that there is a different $t$ distribution for each sample size  ; \pause As $n \rightarrow \infty$, sample standard deviation $s$ gets closer to $\sigma$; \pause As degrees of freedom increase, $t$ distribution gets closer to Normal distribution}
+\end{frame}
+
+
+\section{Examples}
+
+
+\begin{frame}{Application: How fast is your reaction time?}
+\small\url{https://faculty.washington.edu/chudler/java/redgreen.html} 
+
+\framedgraphic{JHReactionTimes.png}
+
+\end{frame}
+
+
+\begin{frame}[fragile]{Application: How fast is your reaction time?}
+<<echo = TRUE>>=
+reaction.times <- c(325,327,357,299,378)/1000
+summary(reaction.times)
+round(sd(reaction.times),3)
+length(reaction.times)
+@
+
+\end{frame}
+
+
+\begin{frame}[fragile]{5 ways of calculating a confidence interval}
+
+We are interested in calculating a 95\% confidence interval for the mean reaction time based on the sample of 5 reaction times. \\ \ \\
+\pause
+Five ways of doing this:
+\begin{enumerate}
+	\setlength\itemsep{1em}
+	\item By hand (using the $\pm$ formula and \texttt{R} as a calculator)
+	\item Using the quantile function for the $t$ distribution \texttt{stats::qt}
+	\item Fitting an intercept-only regression model ($y = \beta_0 + \varepsilon$)
+	\item Using a canned function (\texttt{mosaic::t.test}, \texttt{stats::t.test})
+	\item Bootstrap
+\end{enumerate}
+
+\end{frame}
+
+\begin{frame}[fragile]{1. By hand using the $\pm$ formula}
+<<echo = c(-3,-5,-7,-9)>>=
+n <- length(reaction.times)
+SEM <- sd(reaction.times)/sqrt(n)
+(SEM <- sd(reaction.times)/sqrt(n))
+ybar <- mean(reaction.times)
+(ybar <- mean(reaction.times))
+multiple.for.95pct <- stats::qt(p = c(0.025, 0.975), df = n-1)
+(multiple.for.95pct <- stats::qt(p = c(0.025, 0.975), df = n-1))
+by_hand_CI <- ybar + multiple.for.95pct * SEM
+round(by_hand_CI, 5)
+@
+\end{frame}
+
+\begin{frame}[fragile]{2. Using \texttt{stats::qt}}
+\textit{Note: \texttt{R} only provides the standard $t$ distribution. In order to get a scaled version we must define our own function.}
+
+\vspace*{0.2in}
+
+<<echo = TRUE>>=
+n <- length(reaction.times)
+SEM <- sd(reaction.times)/sqrt(n)
+ybar <- mean(reaction.times)
+
+# scaled version of the standard t distribution
+qt_ls <- function(p, df, mean, sd) qt(p = p, df = df) * sd + mean
+
+qt_ls(p = c(0.025, 0.975), df = n - 1, mean = ybar, sd = SEM)
+@
+\end{frame}
+
+
+\begin{frame}[fragile]{3. Fitting an intercept-only regression model}
+<<echo = TRUE>>=
+fit <- stats::lm(reaction.times ~ 1)
+summary(fit)
+stats::confint(fit)
+@
+\end{frame}
+
+
+\begin{frame}[fragile]{3. Fitting an intercept-only regression model}
+In the regression output:
+\begin{itemize}
+	\setlength\itemsep{1em}
+	\item \texttt{Estimate}: the mean reaction time (an estimate of the intercept $\beta_0$)
+	\item \texttt{t value}: the test statistic 
+	\item \texttt{Std. Error}: the standard error of the mean (SEM)
+	\item \texttt{Pr(>|t|)}: is the $p$-value
+\end{itemize} 
+
+
+\end{frame}
+
+
+\begin{frame}[fragile]{3. Fitting an intercept-only regression model}
+
+<<>>=
+options(digits = 3)
+@
+
+\small
+These are based on the (useless) null hypothesis $H_0: \mu_0 = 0$ \\ \ \\
+
+\begin{itemize}
+	\item \texttt{t value} = $\frac{\bar{y} - \mu_0}{s / \sqrt{n}}$ = $\frac{0.33720 - 0}{0.01373}$ = \Sexpr{round(coef(fit)[1]/SEM, 2)}
+	\item \texttt{Pr(>|t|)} \\ \ \\
+	= $P(\textrm{t value} > t_{(n-1)}) + P(-\textrm{t value} < t_{(n-1)})$ \\ \ \\
+	 = \small{\texttt{pt(q = 24.56, df = n-1, lower.tail = FALSE)} +  \texttt{pt(q = -24.56, df = n-1)}} \\ \ \\
+	  = \Sexpr{pt(q = 24.56, df = n-1, lower.tail = FALSE)} + \Sexpr{pt(q = -24.56, df = n-1)} = \Sexpr{pt(q = 24.56, df = n-1, lower.tail = FALSE)*2}
+\end{itemize}
+
+
+\end{frame}
+
+
+
+\begin{frame}[fragile]{4. Canned function}
+
+<<echo = TRUE>>=
+stats::t.test(reaction.times)
+@
+
+\end{frame}
+
+
+
+\begin{frame}[fragile]{5. Bootstrap}
+
+<<echo = 1:3, fig.asp=0.498>>=
+df_react <- data.frame(reaction.times) # need data.frame to bootstrap
+s_dist <- do(10000) * mean( ~ reaction.times, 
+		data = resample(df_react))
+CI_95 <- quantile(~ mean, data = s_dist, probs = c(0.025, 0.975))
+CI_95
+# plot sampling distribution
+hist(s_dist$mean, breaks = 50, col = "#56B4E9",
+main="",
+xlab = "mean reaction time (s) from each bootstrap sample")
+
+# draw red line at the sample mean
+abline(v = mean(reaction.times), lty =1, col = "red", lwd = 4)
+
+# draw black dotted lines at 95% CI
+abline(v = CI_95[1], lty =2, col = "black", lwd = 4)
+abline(v = CI_95[2], lty =2, col = "black", lwd = 4)
+
+# include legend
+library(latex2exp)
+legend("topright", 
+legend = c(TeX("$\\bar{y} = 0.3372$"),
+sprintf("95%% CI: [%.3f, %.3f]",CI_95[1], CI_95[2])), 
+lty = c(1,1), 
+col = c("red","black"), lwd = 4)
+@
+
+\end{frame}
+
+
+\begin{frame}{Summary}
+\begin{itemize}
+	\setlength\itemsep{1em}
+	\item We use $t$ procedures instead of $Z$ when we have very small samples ($n \leq 30$)
+	\item This is because our estimate of $\sigma$ is probably not accurate with such a small sample
+	\item We account for this extra uncertainty by widening the interval $\to$ larger multiplicative factor ($t_{(n-1)}$ > $z^\star$) \pause 
+	\item Reality check: It is unlikely you will have such a small sample unless you're working with rats
+	\item In practice you don't need to worry about $t$ vs. $Z$. The software does it for you.
+	\item However, you should still understand where the numbers are coming from and how it is being calculated. Computers aren't intelligent, they're just well trained. 
+\end{itemize}
+\end{frame}
+
+
+\end{document}
+
+
+
+
+
+
