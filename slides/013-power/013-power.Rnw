@@ -40,7 +40,7 @@ library(knitr)
 knitr::opts_chunk$set(cache=FALSE, message = FALSE, tidy = FALSE, warning = FALSE,
 echo = FALSE, 
 #fig.width = 8, 
-#fig.asp = 0.8, 
+fig.asp = 0.8, 
 fig.align = 'center', 
 #out.width = "0.50\\linewidth", 
 size = 'tiny')
@@ -342,7 +342,7 @@ source("/home/sahir/git_repositories/EPIB607/slides/bin/include_graphics2.R")
 
 \begin{frame}[fragile]{If the supplier added 1\% water to the milk}
 	<<echo=FALSE, eval=TRUE>>=
-	source("https://raw.githubusercontent.com/sahirbhatnagar/EPIB607/master/code/plot_null_alt.R")
+	source("https://raw.githubusercontent.com/sahirbhatnagar/EPIB607/master/slides/bin/plot_null_alt.R")
 	n <- 5
 	s <- 0.0080
 	mu0 <- -0.540
@@ -593,8 +593,8 @@ source("/home/sahir/git_repositories/EPIB607/slides/bin/include_graphics2.R")
 
 \begin{frame}[fragile]{Code for null and alternative distribution plots}
 	<<eval = FALSE, echo = TRUE, tidy = FALSE>>=
-	source("https://raw.githubusercontent.com/sahirbhatnagar/EPIB607/
-	master/assignments/a6/plot_null_alt.R")
+	source("https://raw.githubusercontent.com/sahirbhatnagar/EPIB607/master/
+	        slides/bin/plot_null_alt.R")
 	
 	mu0 <- -0.540 # mean under the null
 	mha <- 0.99*-0.540 # mean under the alternative
@@ -616,7 +616,7 @@ source("/home/sahir/git_repositories/EPIB607/slides/bin/include_graphics2.R")
 \begin{frame}[fragile]{Code for power as a function of sample size and noise}
 	<<eval = FALSE, echo = TRUE, tidy = FALSE>>=
 	source("https://raw.githubusercontent.com/sahirbhatnagar/EPIB607/
-	master/assignments/a6/plot_null_alt.R")
+	        master/slides/bin/plot_null_alt.R")
 	
 	pacman::p_load(manipulate) # or library(manipulate)
 	
