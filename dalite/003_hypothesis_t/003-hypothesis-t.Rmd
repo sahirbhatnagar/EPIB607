@@ -1,5 +1,5 @@
 ---
-title: DALITE Q5 - Bootstrap, Tests of Significance, Binomial Distribution, Inference for Means and Proportions. Due October 8, 2019 by 10pm.
+title: DALITE Q3 - Bootstrap, Tests of Significance, Binomial Distribution, Inference for Means and Proportions. Due October 21, 2020 by 10:00am.
 
 # Use letters for affiliations
 author:
@@ -9,12 +9,12 @@ author:
 #    affiliation: a,b
 address:
   - code: a
-    address: Fall 2019, McGill University
+    address: Fall 2020, McGill University
 #  - code: b
 #    address: Department of Neat Tricks, Whereever State University, Someplace, MC, 67890
 
 # For footer text  TODO(fold into template, allow free form two-authors)
-lead_author_surname: Bhatnagar and Hanley
+lead_author_surname: Bhatnagar
 
 # Place DOI URL or CRAN Package URL here
 doi: "https://sahirbhatnagar.com/EPIB607/"
@@ -76,7 +76,7 @@ bibliography: pinp
 watermark: false
 
 # Customize footer, eg by referencing the vignette
-footer_contents: "DALITE Q5 due October 8, 2019 by 5pm"
+#footer_contents: "DALITE Q5 due October , 2019 by 5pm"
 
 # Produce a pinp document
 output: pinp::pinp
@@ -107,6 +107,7 @@ Completion of this DALITE exercise will be availble to us automatically through 
 
 \begin{enumerate}
 \item \href{https://www.dropbox.com/s/cxiq70zxxtyxlb5/EfronDiaconisBootstrap.pdf?dl=0}{Computer-Intensive Methods in Statistics by Persi Diaconis and Bradley Efron, Scientific American 1983}
+\item \href{https://amstat.tandfonline.com/doi/full/10.1080/00031305.2015.1089789}{What Teachers Should Know About the Bootstrap: Resampling in the Undergraduate Statistics Curriculum}
 \end{enumerate}
 
 \vspace*{0.25cm}
@@ -129,13 +130,13 @@ mean of a normal population with known standard deviation.
 
 ## Videos
 
-1. [Against All Odds Unit 25](https://www.learner.org/courses/againstallodds/unitpages/unit25.html)
+1. [Against All Odds Unit 25](https://www.learner.org/series/against-all-odds-inside-statistics/tests-of-significance/)
 
 
 ## Required Readings
 
 \begin{enumerate}
-\item \href{https://www.learner.org/courses/againstallodds/pdfs/AgainstAllOdds_StudentGuide_Unit25.pdf#page=1}{Against All Odds Unit 25, pages 1-12}
+\item \href{https://www.learner.org/wp-content/uploads/2019/03/AgainstAllOdds_StudentGuide_Unit25-Tests-of-Significance.pdf}{Against All Odds Unit 25, pages 1-12}
 \item \href{http://www.medicine.mcgill.ca/epidemiology/hanley/BionanoWorkshop/P-Values.pdf}{JH notes on p-values}
 \end{enumerate}
 
@@ -157,13 +158,13 @@ determine the p-value as an area under a t-density curve.
 
 ## Videos
 
-1. [Against All Odds Unit 26](https://www.learner.org/courses/againstallodds/unitpages/unit26.html)
+1. [Against All Odds Unit 26](https://www.learner.org/series/against-all-odds-inside-statistics/small-sample-inference-for-one-mean/)
 
 
 ## Required Readings
 
 \begin{enumerate}
-\item \href{https://www.learner.org/courses/againstallodds/pdfs/AgainstAllOdds_StudentGuide_Unit26.pdf#page=1}{Against All Odds Unit 26, pages 1-11}
+\item \href{https://www.learner.org/wp-content/uploads/2019/03/AgainstAllOdds_StudentGuide_Unit26-Small-Sample-Inference-for-One-Mean.pdf}{Against All Odds Unit 26, pages 1-11}
 \item DVB Chapter 23
 \end{enumerate}
 
@@ -179,14 +180,14 @@ determine the p-value as an area under a t-density curve.
 
 ## Videos
 
-1. [Against All Odds Unit 21](https://www.learner.org/courses/againstallodds/unitpages/unit21.html)
+1. [Against All Odds Unit 21](https://www.learner.org/series/against-all-odds-inside-statistics/binomial-distributions/)
 
 
 ## Required Readings
 
 \begin{enumerate}
-\item \href{https://www.learner.org/courses/againstallodds/pdfs/AgainstAllOdds_StudentGuide_Unit21.pdf#page=1}{Against All Odds Unit 21, pages 1-10}
-\item \href{https://www.dropbox.com/s/g1ui3xg8nup1p6b/proportion-model-inference-plan-2018.pdf?dl=0}{JH notes Section 1 on binomial distributions}
+\item \href{https://www.learner.org/wp-content/uploads/2019/03/AgainstAllOdds_StudentGuide_Unit21-Binomial-Distributions.pdf}{Against All Odds Unit 21, pages 1-10}
+%\item \href{https://www.dropbox.com/s/g1ui3xg8nup1p6b/proportion-model-inference-plan-2018.pdf?dl=0}{JH notes Section 1 on %binomial distributions}
 \item DVB Chapter 17 (Binomial Model)
 \end{enumerate}
 
@@ -205,14 +206,14 @@ determine the p-value as an area under a t-density curve.
 
 ## Videos
 
-1. [Against All Odds Unit 28](https://www.learner.org/courses/againstallodds/unitpages/unit28.html)
+1. [Against All Odds Unit 28](https://www.learner.org/series/against-all-odds-inside-statistics/inference-for-proportions/)
 
 
 ## Required Readings
 
 \begin{enumerate}
-\item \href{https://www.learner.org/courses/againstallodds/pdfs/AgainstAllOdds_StudentGuide_Unit28.pdf#page=1}{Against All Odds Unit 28, pages 1-11}
-\item \href{https://www.dropbox.com/s/g1ui3xg8nup1p6b/proportion-model-inference-plan-2018.pdf?dl=0}{JH notes Section 2 on Inference for a proportion}
+\item \href{https://www.learner.org/wp-content/uploads/2019/03/AgainstAllOdds_StudentGuide_Unit28-Inference-for-Proportions.pdf}{Against All Odds Unit 28, pages 1-11}
+%\item \href{https://www.dropbox.com/s/g1ui3xg8nup1p6b/proportion-model-inference-plan-2018.pdf?dl=0}{JH notes Section 2 on Inference for a proportion}
 \item DVB Chapters 19, 20 and 21
 \end{enumerate}
 

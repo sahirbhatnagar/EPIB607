@@ -111,6 +111,46 @@
 
 %\section{Objectives}
 
+\section{Motivating Example}
+
+\begin{frame}{Phase 1 trial in patients with advanced melanoma\footnote{\tiny \url{https://www.nejm.org/doi/full/10.1056/nejmoa1302369}}}
+	\centering
+\includegraphics[scale=0.25]{wolchok.png}
+\end{frame}
+
+\begin{frame}{Table of results: Response to therapy}
+\begin{itemize}
+	\item Advanced melanoma is an aggressive form of skin cancer that until recently was almost uniformly fatal. 
+	\item In rare instances, a patient's melanoma stopped progressing or disappeared altogether when the patient's immune system successfully mounted a response to the cancer. 
+	\item Those observations led to research into therapies that might trigger an immune response in cancer. 
+	\item Some of the	most notable successes have been in melanoma, particularly with two new therapies, nivolumab
+	and ipilimumab. \pause 
+	\item A 2013 report in the New England Journal of Medicine by Wolchok et al.a\footnote{\tiny \url{https://www.nejm.org/doi/full/10.1056/nejmoa1302369}} reported the results
+	of a study in which patients were treated with both nivolumab and ipilimumab. 53 patients were given the new regimens concurrently, and the response to therapy could be evaluated in 52 of the 53.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Phase 1 trial in patients with advanced melanoma\footnote{\tiny \url{https://www.nejm.org/doi/full/10.1056/nejmoa1302369}}}
+	\centering
+	\includegraphics[scale=0.25]{wolchok2.png}
+\end{frame}
+
+\begin{frame}{How to interpret the 95\% CI of 40 [27-55] ?\footnote{\tiny this page is intentionally left blank}}
+	
+\end{frame}
+
+
+\begin{frame}{Binomial Data}
+\begin{itemize}
+	\item The data from this study are binomial data. 
+	\item Event defined as a response to therapy.
+	\item Suppose the number of patients who respond in a study like this is represented by the random
+	variable Y, where Y is binomial with parameters n (the number of trials, where each trial is rep-
+	resented by a patient) and $\pi$ (the unknown population proportion of response). This is denoted by $$Y\sim Binom(n,\pi)$$
+	\item In this section we are concerned about the inference of $\pi$
+\end{itemize}
+\end{frame}
+
 
 %\section{Power and Sample Size}
 
@@ -130,18 +170,7 @@
 
 \section{Binomial Model for Sampling Variability of Proportion/Count in a Sample}
 
-\begin{frame}[fragile]{}
-\begin{knitrout}\tiny
-\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}
 
-{\centering \includegraphics[width=\maxwidth]{figure/unnamed-chunk-2-1} 
-
-}
-
-
-
-\end{knitrout}
-\end{frame}
 
 
 \begin{frame}
@@ -150,7 +179,7 @@
 	\begin{itemize}
 		\setlength\itemsep{0.5em}
 		\item It is the $n+1$ probabilities $p_{0}, p_{1}, ..., p_{y}, ..., p_{n}$ of observing 
-		$0, 1, 2, \dots , n$ ``positives''  in \underline{$n$ independent realizations of a Bernoulli random variable} $Y$:
+		$0, 1, 2, \dots , n$ ``events''  in \underline{$n$ independent realizations of a Bernoulli random variable} $Y$:
 		$$
 		Y = \begin{cases}
 		1 & P(Y=1) = \pi \\
@@ -192,6 +221,7 @@
 		Shorthand:  $Y\sim\; \textrm{Binomial}(n, \pi)$.
 	\end{itemize}
 \end{frame}
+
 
 \begin{frame}{Example: Searching for LeBron (DVB Chapter 17)}
 	\begin{columns}
@@ -281,6 +311,20 @@ independent of the sex at any previous birth.
 	$$
 	
 }
+
+\begin{frame}[fragile]{}
+\begin{knitrout}\tiny
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}
+
+{\centering \includegraphics[width=\maxwidth]{figure/unnamed-chunk-2-1} 
+
+}
+
+
+
+\end{knitrout}
+\end{frame}
+
 
 \begin{frame}[fragile]{Calculating binomial probabilities in R}
 	
@@ -452,12 +496,26 @@ Study&   &  is eligible \& willing to participate in long-term\\
 
 
 \begin{frame}{Mean and Variance of Bernoulli Random Variable}
-	\includegraphics[scale=1,width=\linewidth]{binom_math1.png}
+	\begin{itemize}
+		\item To derive the formulas for the mean and standard deviation of a Binomial model we start with
+		the most basic situation.
+		\item Consider a single Bernoulli trial with probability of an event $\pi$. Let's find the mean and
+		variance of the number of events ('successes').
+	\end{itemize}
+\vspace*{1.5in}
+	
+%	\includegraphics[scale=1,width=\linewidth]{binom_math1.png}
 \end{frame}
 
 
 \begin{frame}{Mean and Variance of Binomial Random Variable}
-	\includegraphics[scale=1,width=\linewidth]{binom_math2.png}
+%	\includegraphics[scale=1,width=\linewidth]{binom_math2.png}
+	\begin{itemize}
+	\item What happens when there is more than one trial, though? A Binomial model simply counts the
+	number of successes in a series of $n$ independent Bernoulli trials. That makes it easy to find the
+	mean and standard deviation of a binomial random variable, $Y$.
+\end{itemize}
+\vspace*{1.5in}
 \end{frame}
 
 
@@ -1231,7 +1289,7 @@ CI:  interval estmate & - (credible) interval  \\
 \end{knitrout}
 	
 % latex table generated in R 4.0.2 by xtable 1.8-4 package
-% Fri Oct  9 14:57:53 2020
+% Wed Oct 14 15:03:56 2020
 \begin{table}[ht]
 \centering
 \begin{tabular}{rrrrr}

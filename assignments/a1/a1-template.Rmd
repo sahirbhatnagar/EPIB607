@@ -39,8 +39,16 @@ knitr::opts_chunk$set(
 
 ```{r}
 ## ---- Question-1 ------------------------------------------------------------
-
+DT <- mtcars
+#head(DT)
+#DT[1:10, ]
+mean_mpg <- mean(mtcars$mpg)
+mean_mpg
 ```
+
+a) The mean miles per gallon is shown above. (NOT PROPER)
+
+
 
 \newpage
 
