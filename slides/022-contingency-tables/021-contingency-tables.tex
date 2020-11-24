@@ -1,0 +1,931 @@
+\documentclass[letterpaper,12pt,twoside,]{pinp}
+
+%% Some pieces required from the pandoc template
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+
+% Use the lineno option to display guide line numbers if required.
+% Note that the use of elements such as single-column equations
+% may affect the guide line number alignment.
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+
+% pinp change: the geometry package layout settings need to be set here, not in pinp.cls
+\geometry{layoutsize={0.95588\paperwidth,0.98864\paperheight},%
+  layouthoffset=0.02206\paperwidth, layoutvoffset=0.00568\paperheight}
+
+\definecolor{pinpblue}{HTML}{185FAF}  % imagecolorpicker on blue for new R logo
+\definecolor{pnasbluetext}{RGB}{101,0,0} %
+
+
+
+\title{021 - Contingency Tables and Difference of Proportions}
+
+\author[a]{EPIB607 - Inferential Statistics}
+
+  \affil[a]{Fall 2020, McGill University}
+
+\setcounter{secnumdepth}{5}
+
+% Please give the surname of the lead author for the running footer
+\leadauthor{Bhatnagar}
+
+% Keywords are not mandatory, but authors are strongly encouraged to provide them. If provided, please include two to five keywords, separated by the pipe symbol, e.g:
+ 
+
+\begin{abstract}
+
+\end{abstract}
+
+\dates{This version was compiled on \today} 
+
+% initially we use doi so keep for backwards compatibility
+% new name is doi_footer
+
+
+\begin{document}
+
+% Optional adjustment to line up main text (after abstract) of first page with line numbers, when using both lineno and twocolumn options.
+% You should only change this length when you've finalised the article contents.
+\verticaladjustment{-2pt}
+
+\maketitle
+\thispagestyle{firststyle}
+\ifthenelse{\boolean{shortarticle}}{\ifthenelse{\boolean{singlecolumn}}{\abscontentformatted}{\abscontent}}{}
+
+% If your first paragraph (i.e. with the \dropcap) contains a list environment (quote, quotation, theorem, definition, enumerate, itemize...), the line after the list may have some extra indentation. If this is the case, add \parshape=0 to the end of the list environment.
+
+
+\hypertarget{inference-for-binomial-proportions}{%
+\section{Inference for Binomial
+Proportions}\label{inference-for-binomial-proportions}}
+
+\hypertarget{hypothesis-testing-with}{%
+\subsection{\texorpdfstring{Hypothesis Testing with
+\texttt{prop.test()}}{Hypothesis Testing with }}\label{hypothesis-testing-with}}
+
+The function \texttt{prop.test()} is used to conduct a hypothesis test
+for a single proportion or for the difference of two proportions, under
+the assumption that the sampling distribution for each sample proportion
+is approximately normal.
+
+The \textbf{\texttt{prop.test()}} function has the following generic
+structure:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{prop.test}\NormalTok{(x, n, }\DataTypeTok{alternative =} \StringTok{"two.sided"}\NormalTok{, }\DataTypeTok{p =} \FloatTok{0.5}\NormalTok{, }\DataTypeTok{conf.level =} \FloatTok{0.95}\NormalTok{, }\DataTypeTok{correct =} \OtherTok{TRUE}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+where \texttt{x} is the count of successes, \texttt{n} is the number of
+trials, \texttt{alternative} specifies the form of the alternative
+hypothesis, \texttt{p} is \(p_0\), and \texttt{conf.level} refers to the
+confidence level. The argument for \texttt{alternative} can be either
+\texttt{"two.sided"} (\(H_A: p \neq p_0\)), \texttt{"less"}
+(\(H_A: p < p_0\)), or \texttt{"greater"} (\(H_A: p > p_0\). By default,
+confidence level is set to 95\% and a two-sided alternative is tested.
+To conduct the two-sample test, enter \texttt{x} and \texttt{n} as
+vectors; i.e., enter the number of successes in each group and the
+number of trials in each group.
+
+By default, Yates' continuity correction is applied where possible
+(\texttt{correct = TRUE}). The purpose of the continuity correction is
+to adjust for the error introduced by using a continuous distribution
+(the \(\chi^2\) distribution) to model discrete probabilities; the
+correction is meant to protect from underestimating \(p\)-values when
+sample sizes are small. It has been shown, however, that the correction
+can be overly strict and contribute to Type II error. In modern
+practice, exact tests like the binomial test and Fisher's test are used
+when sample sizes are small.
+
+The following example shows a hypothesis test for testing the one-sided
+hypothesis that the proportion of patients who respond to combined
+therapy with nivolumab and ipilimumab is greater than 0.30, using data
+that 21 out of 52 patients experienced a response.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{prop.test}\NormalTok{(}\DataTypeTok{x =} \DecValTok{21}\NormalTok{, }\DataTypeTok{n =} \DecValTok{52}\NormalTok{, }\DataTypeTok{alternative =} \StringTok{"greater"}\NormalTok{, }\DataTypeTok{p =} \FloatTok{0.30}\NormalTok{, }\DataTypeTok{conf.level =} \FloatTok{0.95}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{ShadedResult}
+\begin{verbatim}
+#  
+#   1-sample proportions test with continuity correction
+#  
+#  data:  21 out of 52, null probability 0.3
+#  X-squared = 2.1987, df = 1, p-value = 0.06906
+#  alternative hypothesis: true p is greater than 0.3
+#  95 percent confidence interval:
+#   0.2906582 1.0000000
+#  sample estimates:
+#          p 
+#  0.4038462
+\end{verbatim}
+\end{ShadedResult}
+
+The output of \texttt{prop.test()} is organized as a list object, and so
+specific pieces can be extracted using the dollar sign (\texttt{\$}) and
+the name of the desired component. The following examples show the
+\(p\)-value and the confidence interval being selectively output from
+the example shown above.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{prop.test}\NormalTok{(}\DataTypeTok{x =} \DecValTok{21}\NormalTok{, }\DataTypeTok{n =} \DecValTok{52}\NormalTok{, }\DataTypeTok{alternative =} \StringTok{"greater"}\NormalTok{, }\DataTypeTok{p =} \FloatTok{0.30}\NormalTok{, }\DataTypeTok{conf.level =} \FloatTok{0.95}\NormalTok{)}\OperatorTok{$}\NormalTok{p.val}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{ShadedResult}
+\begin{verbatim}
+#  [1] 0.06906279
+\end{verbatim}
+\end{ShadedResult}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{prop.test}\NormalTok{(}\DataTypeTok{x =} \DecValTok{21}\NormalTok{, }\DataTypeTok{n =} \DecValTok{52}\NormalTok{, }\DataTypeTok{alternative =} \StringTok{"greater"}\NormalTok{, }\DataTypeTok{p =} \FloatTok{0.30}\NormalTok{, }\DataTypeTok{conf.level =} \FloatTok{0.95}\NormalTok{)}\OperatorTok{$}\NormalTok{conf.int}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{ShadedResult}
+\begin{verbatim}
+#  [1] 0.2906582 1.0000000
+#  attr(,"conf.level")
+#  [1] 0.95
+\end{verbatim}
+\end{ShadedResult}
+
+The following example shows a hypothesis test for testing the one-sided
+hypothesis that the proportion of American adults who have sleep trouble
+is less than 0.40, using data from \texttt{nhanes.samp.adult}.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#load the data}
+\KeywordTok{library}\NormalTok{(oibiostat)}
+\KeywordTok{data}\NormalTok{(}\StringTok{"nhanes.samp.adult"}\NormalTok{)}
+
+\KeywordTok{prop.test}\NormalTok{(}\KeywordTok{sum}\NormalTok{(nhanes.samp.adult}\OperatorTok{$}\NormalTok{SleepTrouble }\OperatorTok{==}\StringTok{ "Yes"}\NormalTok{), }
+          \KeywordTok{length}\NormalTok{(nhanes.samp.adult}\OperatorTok{$}\NormalTok{SleepTrouble), }\DataTypeTok{alternative =} \StringTok{"less"}\NormalTok{, }\DataTypeTok{p =} \FloatTok{0.40}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{ShadedResult}
+\begin{verbatim}
+#  
+#   1-sample proportions test with continuity correction
+#  
+#  data:  sum(nhanes.samp.adult$SleepTrouble == "Yes") out of length(nhanes.samp.adult$SleepTrouble), null probability 0.4
+#  X-squared = 9.4522, df = 1, p-value = 0.001055
+#  alternative hypothesis: true p is less than 0.4
+#  95 percent confidence interval:
+#   0.0000000 0.3373014
+#  sample estimates:
+#          p 
+#  0.2666667
+\end{verbatim}
+\end{ShadedResult}
+
+The following example shows a hypothesis test for the difference in
+population proportions of breast cancer deaths between women who
+received annual mammograms and women who received standard physical
+exams. Of the 44,925 women in the mammogram group, 500 died of breast
+cancer; of the 44,910 women in the control group, 505 died of breast
+cancer.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{prop.test}\NormalTok{(}\DataTypeTok{x =} \KeywordTok{c}\NormalTok{(}\DecValTok{500}\NormalTok{, }\DecValTok{505}\NormalTok{), }\DataTypeTok{n =} \KeywordTok{c}\NormalTok{(}\DecValTok{44925}\NormalTok{, }\DecValTok{44910}\NormalTok{), }\DataTypeTok{alternative =} \StringTok{"two.sided"}\NormalTok{, }
+          \DataTypeTok{conf.level =} \FloatTok{0.95}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{ShadedResult}
+\begin{verbatim}
+#  
+#   2-sample test for equality of proportions with continuity correction
+#  
+#  data:  c(500, 505) out of c(44925, 44910)
+#  X-squared = 0.01748, df = 1, p-value = 0.8948
+#  alternative hypothesis: two.sided
+#  95 percent confidence interval:
+#   -0.001512853  0.001282751
+#  sample estimates:
+#      prop 1     prop 2 
+#  0.01112966 0.01124471
+\end{verbatim}
+\end{ShadedResult}
+
+The following example shows a hypothesis test for the difference in
+population proportions of sleep trouble between American men and women,
+using data from \texttt{nhanes.samp.adult}.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{x1 =}\StringTok{ }\KeywordTok{sum}\NormalTok{(nhanes.samp.adult}\OperatorTok{$}\NormalTok{Gender }\OperatorTok{==}\StringTok{ "female"} \OperatorTok{&}\StringTok{ }\NormalTok{nhanes.samp.adult}\OperatorTok{$}\NormalTok{SleepTrouble }\OperatorTok{==}\StringTok{ "Yes"}\NormalTok{)}
+\NormalTok{x2 =}\StringTok{ }\KeywordTok{sum}\NormalTok{(nhanes.samp.adult}\OperatorTok{$}\NormalTok{Gender }\OperatorTok{==}\StringTok{ "male"} \OperatorTok{&}\StringTok{ }\NormalTok{nhanes.samp.adult}\OperatorTok{$}\NormalTok{SleepTrouble }\OperatorTok{==}\StringTok{ "Yes"}\NormalTok{)}
+\NormalTok{n1 =}\StringTok{ }\KeywordTok{length}\NormalTok{(nhanes.samp.adult}\OperatorTok{$}\NormalTok{Gender }\OperatorTok{==}\StringTok{ "female"}\NormalTok{)}
+\NormalTok{n2 =}\StringTok{ }\KeywordTok{length}\NormalTok{(nhanes.samp.adult}\OperatorTok{$}\NormalTok{Gender }\OperatorTok{==}\StringTok{ "male"}\NormalTok{)}
+
+\KeywordTok{prop.test}\NormalTok{(}\DataTypeTok{x =} \KeywordTok{c}\NormalTok{(x1, x2), }\DataTypeTok{n =} \KeywordTok{c}\NormalTok{(n1, n2), }\DataTypeTok{alternative =} \StringTok{"two.sided"}\NormalTok{, }\DataTypeTok{conf.level =} \FloatTok{0.90}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{ShadedResult}
+\begin{verbatim}
+#  
+#   2-sample test for equality of proportions with continuity correction
+#  
+#  data:  c(x1, x2) out of c(n1, n2)
+#  X-squared = 0.80128, df = 1, p-value = 0.3707
+#  alternative hypothesis: two.sided
+#  90 percent confidence interval:
+#   -0.03087407  0.11976296
+#  sample estimates:
+#     prop 1    prop 2 
+#  0.1555556 0.1111111
+\end{verbatim}
+\end{ShadedResult}
+
+\hypertarget{hypothesis-testing-with-1}{%
+\subsection{\texorpdfstring{Hypothesis Testing with
+\texttt{binom.test()}}{Hypothesis Testing with }}\label{hypothesis-testing-with-1}}
+
+The function \texttt{binom.test()} is used to conduct a hypothesis test
+for a single proportion based on exact binomial probabilities.
+
+The \textbf{\texttt{binom.test()}} function has the following generic
+structure:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{binom.test}\NormalTok{(x, n, }\DataTypeTok{alternative =} \StringTok{"two.sided"}\NormalTok{, }\DataTypeTok{p =} \FloatTok{0.5}\NormalTok{, }\DataTypeTok{conf.level =} \FloatTok{0.95}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+where \texttt{x} is the count of successes, \texttt{n} is the number of
+trials, \texttt{alternative} specifies the form of the alternative
+hypothesis, \texttt{p} is \(p_0\), and \texttt{conf.level} refers to the
+confidence level. The argument for \texttt{alternative} can be either
+\texttt{"two.sided"} (\(H_A: p \neq p_0\)), \texttt{"less"}
+(\(H_A: p < p_0\)), or \texttt{"greater"} (\(H_A: p > p_0\). By default,
+confidence level is set to 95\% and a two-sided alternative is tested.
+
+The following example shows a hypothesis test for testing the one-sided
+hypothesis that the proportion of glioblastoma patients who respond to
+Avastin is different from 0.05, using data that 24 out of 85 patients
+experienced a response.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{binom.test}\NormalTok{(}\DataTypeTok{x =} \DecValTok{24}\NormalTok{, }\DataTypeTok{n =} \DecValTok{85}\NormalTok{, }\DataTypeTok{alternative =} \StringTok{"two.sided"}\NormalTok{, }\DataTypeTok{p =} \FloatTok{0.05}\NormalTok{, }\DataTypeTok{conf.level =} \FloatTok{0.95}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{ShadedResult}
+\begin{verbatim}
+#  
+#   Exact binomial test
+#  
+#  data:  24 and 85
+#  number of successes = 24, number of trials = 85, p-value = 2.674e-12
+#  alternative hypothesis: true probability of success is not equal to 0.05
+#  95 percent confidence interval:
+#   0.1900101 0.3904038
+#  sample estimates:
+#  probability of success 
+#               0.2823529
+\end{verbatim}
+\end{ShadedResult}
+
+Note how an attempt to use \texttt{prop.test()} in this setting produces
+a warning that the \(\chi^2\) (i.e., Normal) approximation may be
+incorrect.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{prop.test}\NormalTok{(}\DataTypeTok{x =} \DecValTok{24}\NormalTok{, }\DataTypeTok{n =} \DecValTok{85}\NormalTok{, }\DataTypeTok{alternative =} \StringTok{"two.sided"}\NormalTok{, }\DataTypeTok{p =} \FloatTok{0.05}\NormalTok{, }\DataTypeTok{conf.level =} \FloatTok{0.95}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{ShadedResult}
+\begin{verbatim}
+#  Warning in prop.test(x = 24, n = 85, alternative = "two.sided", p = 0.05, : Chi-
+#  squared approximation may be incorrect
+\end{verbatim}
+\end{ShadedResult}
+\begin{ShadedResult}
+\begin{verbatim}
+#  
+#   1-sample proportions test with continuity correction
+#  
+#  data:  24 out of 85, null probability 0.05
+#  X-squared = 91.78, df = 1, p-value < 2.2e-16
+#  alternative hypothesis: true p is not equal to 0.05
+#  95 percent confidence interval:
+#   0.1926329 0.3920210
+#  sample estimates:
+#          p 
+#  0.2823529
+\end{verbatim}
+\end{ShadedResult}
+
+\newpage
+
+\hypertarget{inference-for-two-way-tables}{%
+\section{Inference for Two-Way
+Tables}\label{inference-for-two-way-tables}}
+
+\hypertarget{chi2-distribution-functions}{%
+\subsection{\texorpdfstring{\(\chi^2\) Distribution
+Functions}{\textbackslash chi\^{}2 Distribution Functions}}\label{chi2-distribution-functions}}
+
+The function \textbf{\texttt{pchisq()}} used to calculate
+\(P(X \leq k)\) or \(P(X > k)\) has the generic structure
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{pchisq}\NormalTok{(q, df, }\DataTypeTok{lower.tail =} \OtherTok{TRUE}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+where \texttt{q} is \(k\) and \texttt{df} is the degrees of freedom. By
+default, \textsf{R} calculates \(P(X \leq k)\). In order to compute
+\(P(X > k)\), specify \texttt{lower.tail = FALSE}.
+
+The following example shows how to calculate \(P(X \leq 29.5)\) and
+\(P(X > 29.5)\) for \(X \sim \chi^2_{df = 20}\).
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#probability X is less than (or equal to) 1.20}
+\KeywordTok{pchisq}\NormalTok{(}\FloatTok{29.5}\NormalTok{, }\DataTypeTok{df =} \DecValTok{20}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{ShadedResult}
+\begin{verbatim}
+#  [1] 0.9216293
+\end{verbatim}
+\end{ShadedResult}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#probability X is greater than 1.20}
+\KeywordTok{pchisq}\NormalTok{(}\FloatTok{29.5}\NormalTok{, }\DataTypeTok{df =} \DecValTok{20}\NormalTok{, }\DataTypeTok{lower.tail =} \OtherTok{FALSE}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{ShadedResult}
+\begin{verbatim}
+#  [1] 0.07837072
+\end{verbatim}
+\end{ShadedResult}
+
+\vspace{0.5cm}
+
+The function \textbf{\texttt{qchisq()}} used to identify the observation
+that corresponds to a particular probability \(p\) has the generic
+structure
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{qchisq}\NormalTok{(p, df, }\DataTypeTok{lower.tail =} \OtherTok{TRUE}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+where \texttt{p} is \(p\) and \texttt{df} is the degrees of freedom. By
+default, \textsf{R} identifies the observation that corresponds to area
+\(p\) in the lower tail (i.e., to the left). To identify the observation
+with area \(p\) in the upper tail, specify \texttt{lower.tail = FALSE}.
+
+The following example shows how to calculate the value of the
+observation where there is 0.922 area to the left (and 0.078 area to the
+right) on a \(\chi^2\) distribution with 20 degrees of freedom.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#identify X value}
+\KeywordTok{qchisq}\NormalTok{(}\FloatTok{0.922}\NormalTok{, }\DataTypeTok{df =} \DecValTok{20}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{ShadedResult}
+\begin{verbatim}
+#  [1] 29.52077
+\end{verbatim}
+\end{ShadedResult}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#probability X is greater than 1.20}
+\KeywordTok{qchisq}\NormalTok{(}\FloatTok{0.078}\NormalTok{, }\DataTypeTok{df =} \DecValTok{20}\NormalTok{, }\DataTypeTok{lower.tail =} \OtherTok{FALSE}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{ShadedResult}
+\begin{verbatim}
+#  [1] 29.52077
+\end{verbatim}
+\end{ShadedResult}
+
+\newpage
+
+\hypertarget{entering-data-tables}{%
+\subsection{Entering Data Tables}\label{entering-data-tables}}
+
+The use of the function \texttt{matrix()} to construct matrices was
+previously introduced in the Chapter 1 Lab Notes. For clarity when
+displaying contingency tables, the matrix dimensions can be labeled
+using \textbf{\texttt{dimnames()}}. The first entry in
+\texttt{dimnames()} labels the rows and the second entry labels the
+columns.
+
+The following example shows a matrix from the HIV study comparing
+nevirapine (NVP) and lopinarvir (LPV) with labeled dimensions.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#enter the data}
+\NormalTok{hiv.table =}\StringTok{ }\KeywordTok{matrix}\NormalTok{(}\KeywordTok{c}\NormalTok{(}\DecValTok{60}\NormalTok{, }\DecValTok{27}\NormalTok{, }\DecValTok{87}\NormalTok{, }\DecValTok{113}\NormalTok{),}
+                   \DataTypeTok{nrow =} \DecValTok{2}\NormalTok{, }\DataTypeTok{ncol =} \DecValTok{2}\NormalTok{, }\DataTypeTok{byrow =}\NormalTok{ T)}
+
+\CommentTok{#add labels}
+\KeywordTok{dimnames}\NormalTok{(hiv.table) =}\StringTok{ }\KeywordTok{list}\NormalTok{(}\StringTok{"Outcome"}\NormalTok{ =}\StringTok{ }\KeywordTok{c}\NormalTok{(}\StringTok{"Virologic Failure"}\NormalTok{, }\StringTok{"Stable Disease"}\NormalTok{),}
+                           \StringTok{"Drug"}\NormalTok{ =}\StringTok{ }\KeywordTok{c}\NormalTok{(}\StringTok{"NVP"}\NormalTok{, }\StringTok{"LPV"}\NormalTok{))}
+
+\NormalTok{hiv.table}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{ShadedResult}
+\begin{verbatim}
+#                     Drug
+#  Outcome             NVP LPV
+#    Virologic Failure  60  27
+#    Stable Disease     87 113
+\end{verbatim}
+\end{ShadedResult}
+
+\hypertarget{hypothesis-testing-with-2}{%
+\subsection{\texorpdfstring{Hypothesis Testing with
+\texttt{chisq.test()}}{Hypothesis Testing with }}\label{hypothesis-testing-with-2}}
+
+The \textbf{\texttt{chisq.test()}} has the following generic structure
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{chisq.test}\NormalTok{(x, y, }\DataTypeTok{correct =} \OtherTok{TRUE}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+where \texttt{x} is either a matrix or a vector, \texttt{y} is a vector,
+and Yates' continuity correction is applied by default. If \texttt{x} is
+a matrix, the argument \texttt{y} is ignored.
+
+The following example shows a test of independence for treatment and
+outcome in the HIV data.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{chisq.test}\NormalTok{(hiv.table)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{ShadedResult}
+\begin{verbatim}
+#  
+#   Pearson's Chi-squared test with Yates' continuity correction
+#  
+#  data:  hiv.table
+#  X-squared = 14.733, df = 1, p-value = 0.0001238
+\end{verbatim}
+\end{ShadedResult}
+
+The output of \texttt{chisq.test()} is organized as a list object, and
+so specific pieces can be extracted using the dollar sign (\texttt{\$})
+and the name of the desired component. The following examples show the
+residuals and expected values being selectively output from the test
+conducted above.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{chisq.test}\NormalTok{(hiv.table)}\OperatorTok{$}\NormalTok{residuals}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{ShadedResult}
+\begin{verbatim}
+#                     Drug
+#  Outcome                   NVP       LPV
+#    Virologic Failure  2.312824 -2.369939
+#    Stable Disease    -1.525412  1.563082
+\end{verbatim}
+\end{ShadedResult}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{chisq.test}\NormalTok{(hiv.table)}\OperatorTok{$}\NormalTok{expected}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{ShadedResult}
+\begin{verbatim}
+#                     Drug
+#  Outcome                   NVP      LPV
+#    Virologic Failure  44.56098 42.43902
+#    Stable Disease    102.43902 97.56098
+\end{verbatim}
+\end{ShadedResult}
+
+The following example shows a test of independence for statin use and
+educational level from \texttt{prevend.samp}, using both entry options.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#load the data}
+\KeywordTok{data}\NormalTok{(}\StringTok{"prevend.samp"}\NormalTok{)}
+
+\CommentTok{#use x, y format}
+\KeywordTok{chisq.test}\NormalTok{(prevend.samp}\OperatorTok{$}\NormalTok{Statin, prevend.samp}\OperatorTok{$}\NormalTok{Education)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{ShadedResult}
+\begin{verbatim}
+#  
+#   Pearson's Chi-squared test
+#  
+#  data:  prevend.samp$Statin and prevend.samp$Education
+#  X-squared = 19.054, df = 3, p-value = 0.0002665
+\end{verbatim}
+\end{ShadedResult}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#enter x as a table}
+\NormalTok{statin.edu.table =}\StringTok{ }\KeywordTok{table}\NormalTok{(prevend.samp}\OperatorTok{$}\NormalTok{Statin, prevend.samp}\OperatorTok{$}\NormalTok{Education)}
+\KeywordTok{chisq.test}\NormalTok{(statin.edu.table)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{ShadedResult}
+\begin{verbatim}
+#  
+#   Pearson's Chi-squared test
+#  
+#  data:  statin.edu.table
+#  X-squared = 19.054, df = 3, p-value = 0.0002665
+\end{verbatim}
+\end{ShadedResult}
+
+\hypertarget{hypothesis-testing-with-3}{%
+\subsection{\texorpdfstring{Hypothesis Testing with
+\texttt{fisher.test( )}}{Hypothesis Testing with }}\label{hypothesis-testing-with-3}}
+
+The \textbf{\texttt{fisher.test()}} has the following generic structure
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{fisher.test}\NormalTok{(x, y, }\DataTypeTok{correct =} \OtherTok{TRUE}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+where \texttt{x} is either a matrix or a vector and \texttt{y} is a
+vector. If \texttt{x} is a matrix, the argument \texttt{y} is ignored.
+
+The following example shows a test of independence for treatment and
+outcome in the \emph{C. difficile} fecal infusion study.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#enter the data}
+\NormalTok{infusion.table =}\StringTok{ }\KeywordTok{matrix}\NormalTok{(}\KeywordTok{c}\NormalTok{(}\DecValTok{13}\NormalTok{, }\DecValTok{3}\NormalTok{, }\DecValTok{4}\NormalTok{, }\DecValTok{9}\NormalTok{), }\DataTypeTok{nrow =} \DecValTok{2}\NormalTok{, }\DataTypeTok{ncol =} \DecValTok{2}\NormalTok{, }\DataTypeTok{byrow =}\NormalTok{ T)}
+\KeywordTok{dimnames}\NormalTok{(infusion.table) =}\StringTok{ }\KeywordTok{list}\NormalTok{(}\StringTok{"Outcome"}\NormalTok{ =}\StringTok{ }\KeywordTok{c}\NormalTok{(}\StringTok{"Cured"}\NormalTok{, }\StringTok{"Uncured"}\NormalTok{),}
+                           \StringTok{"Drug"}\NormalTok{ =}\StringTok{ }\KeywordTok{c}\NormalTok{(}\StringTok{"Fecal Infusion"}\NormalTok{, }\StringTok{"Vancomycin"}\NormalTok{))}
+
+\KeywordTok{fisher.test}\NormalTok{(infusion.table)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{ShadedResult}
+\begin{verbatim}
+#  
+#   Fisher's Exact Test for Count Data
+#  
+#  data:  infusion.table
+#  p-value = 0.00953
+#  alternative hypothesis: true odds ratio is not equal to 1
+#  95 percent confidence interval:
+#    1.373866 78.811505
+#  sample estimates:
+#  odds ratio 
+#    8.848725
+\end{verbatim}
+\end{ShadedResult}
+
+\hypertarget{relative-risk-and-odds-ratio-with}{%
+\subsection{\texorpdfstring{Relative Risk and Odds Ratio with
+\texttt{epitools}}{Relative Risk and Odds Ratio with }}\label{relative-risk-and-odds-ratio-with}}
+
+The \texttt{epitools} package contains various useful calculators for
+epidemiology, including functions to calculate relative risk and odds
+ratios in two-way tables. First, install and load the package:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{install.packages}\NormalTok{(}\StringTok{"epitools"}\NormalTok{)}
+\KeywordTok{library}\NormalTok{(epitools)}
+\end{Highlighting}
+\end{Shaded}
+
+The package requires that the rows of the table contain information on
+exposure (i.e., treatment) while the columns of the table contain
+information on outcome (i.e., disease), where the first row specifies
+the baseline treatment group and the second column specifies presence of
+the disease outcome.
+
+The following example shows the HIV data re-entered to be in the
+preferred format, where the rows of the table specify the type of drug
+treatment and the columns specify the outcome. Note that the second
+column specifies virologic failure.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#enter the data}
+\NormalTok{hiv.table =}\StringTok{ }\KeywordTok{matrix}\NormalTok{(}\KeywordTok{c}\NormalTok{(}\DecValTok{87}\NormalTok{, }\DecValTok{113}\NormalTok{, }\DecValTok{60}\NormalTok{, }\DecValTok{27}\NormalTok{),}
+                   \DataTypeTok{nrow =} \DecValTok{2}\NormalTok{, }\DataTypeTok{ncol =} \DecValTok{2}\NormalTok{, }\DataTypeTok{byrow =}\NormalTok{ F)}
+
+\CommentTok{#add labels}
+\KeywordTok{dimnames}\NormalTok{(hiv.table) =}\StringTok{ }\KeywordTok{list}\NormalTok{(}\StringTok{"Drug"}\NormalTok{ =}\StringTok{ }\KeywordTok{c}\NormalTok{(}\StringTok{"NVP"}\NormalTok{, }\StringTok{"LPV"}\NormalTok{),}
+                           \StringTok{"Outcome"}\NormalTok{ =}\StringTok{ }\KeywordTok{c}\NormalTok{(}\StringTok{"Stable Disease"}\NormalTok{, }\StringTok{"Virologic Failure"}\NormalTok{))}
+
+\NormalTok{hiv.table}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{ShadedResult}
+\begin{verbatim}
+#       Outcome
+#  Drug  Stable Disease Virologic Failure
+#    NVP             87                60
+#    LPV            113                27
+\end{verbatim}
+\end{ShadedResult}
+
+\vspace{0.5cm}
+
+The function \textbf{\texttt{riskratio()}} calculates the relative risk
+and has the following generic structure
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{riskratio}\NormalTok{(x, }\DataTypeTok{y =} \OtherTok{NULL}\NormalTok{, }\DataTypeTok{rev =} \StringTok{"neither"}\NormalTok{)}\OperatorTok{$}\NormalTok{measure}
+\end{Highlighting}
+\end{Shaded}
+
+where \texttt{x} is either a matrix or a vector and \texttt{y} is a
+vector; if \texttt{x} is a matrix, then \texttt{y} is ignored. The
+argument \texttt{rev} can be either \texttt{"neither"}, \texttt{"rows"},
+\texttt{"columns"}, or \texttt{"both"}, and will either leave the data
+as-is, reverse the ordering of the rows, reverse the ordering of the
+columns, or reverse the ordering of both. To specifically output the
+estimated relative risk, use \texttt{\$measure}.
+
+In the following example, the relative risk of virologic failure is
+calculated, first with nevirapine as the baseline then with lopinarvir
+as the baseline. The estimated RR for the baseline group appears as 1.
+The RR of virologic failure comparing NVP to LPV is 2.12; the risk of
+virologic failure for individuals treated with nevirapine is over twice
+that of the risk for those treated with lopinarvir.
+
+The RR can also be calculated in terms of the risk of `success' (ie.,
+stable disease); for example, the RR of stable disease comparing LPV to
+NVP is 1.37; the risk of stable disease for individuals treated with
+lopinarvir is 1.37 times that of the risk for those treated with
+nevirapine.\footnote{Note that all combinations are only shown to illustrate use of \texttt{rev}; relative risks are generally interpreted in terms of presence of disease.}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#calculate RR of failure with respect to NVP}
+\KeywordTok{riskratio}\NormalTok{(hiv.table)}\OperatorTok{$}\NormalTok{measure}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{ShadedResult}
+\begin{verbatim}
+#       risk ratio with 95% C.I.
+#  Drug  estimate     lower    upper
+#    NVP   1.0000        NA       NA
+#    LPV   0.4725 0.3196517 0.698436
+\end{verbatim}
+\end{ShadedResult}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#calculate RR of failure with respect to LPV}
+\KeywordTok{riskratio}\NormalTok{(hiv.table, }\DataTypeTok{rev =} \StringTok{"rows"}\NormalTok{)}\OperatorTok{$}\NormalTok{measure}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{ShadedResult}
+\begin{verbatim}
+#       risk ratio with 95% C.I.
+#  Drug  estimate   lower    upper
+#    LPV 1.000000      NA       NA
+#    NVP 2.116402 1.43177 3.128405
+\end{verbatim}
+\end{ShadedResult}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#calculate RR of success with respect to NVP}
+\KeywordTok{riskratio}\NormalTok{(hiv.table, }\DataTypeTok{rev =} \StringTok{"columns"}\NormalTok{)}\OperatorTok{$}\NormalTok{measure}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{ShadedResult}
+\begin{verbatim}
+#       risk ratio with 95% C.I.
+#  Drug  estimate    lower    upper
+#    NVP 1.000000       NA       NA
+#    LPV 1.363793 1.165901 1.595274
+\end{verbatim}
+\end{ShadedResult}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#calculate RR of success with respect to LPV}
+\KeywordTok{riskratio}\NormalTok{(hiv.table, }\DataTypeTok{rev =} \StringTok{"both"}\NormalTok{)}\OperatorTok{$}\NormalTok{measure}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{ShadedResult}
+\begin{verbatim}
+#       risk ratio with 95% C.I.
+#  Drug   estimate     lower     upper
+#    LPV 1.0000000        NA        NA
+#    NVP 0.7332491 0.6268517 0.8577056
+\end{verbatim}
+\end{ShadedResult}
+
+The following example shows the use of \texttt{riskratio} with vectors;
+specifically, vectors from a larger dataframe. The relative risk of
+cardiovascular disease comparing smokers to non-smokers is 1.09; smokers
+have a 9\% higher risk of cardiovascular disease compared to
+non-smokers, as estimated from \texttt{prevend.samp}.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#load the data}
+\KeywordTok{data}\NormalTok{(}\StringTok{"prevend.samp"}\NormalTok{)}
+
+\CommentTok{#convert to factors}
+\NormalTok{prevend.samp}\OperatorTok{$}\NormalTok{Smoking =}\StringTok{ }\KeywordTok{factor}\NormalTok{(prevend.samp}\OperatorTok{$}\NormalTok{Smoking, }\DataTypeTok{levels =} \KeywordTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{, }\DecValTok{1}\NormalTok{),}
+                             \DataTypeTok{labels =} \KeywordTok{c}\NormalTok{(}\StringTok{"SmokeNo"}\NormalTok{, }\StringTok{"SmokeYes"}\NormalTok{))}
+\NormalTok{prevend.samp}\OperatorTok{$}\NormalTok{CVD =}\StringTok{ }\KeywordTok{factor}\NormalTok{(prevend.samp}\OperatorTok{$}\NormalTok{CVD, }\DataTypeTok{levels =} \KeywordTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{, }\DecValTok{1}\NormalTok{),}
+                          \DataTypeTok{labels =} \KeywordTok{c}\NormalTok{(}\StringTok{"CVDNo"}\NormalTok{, }\StringTok{"CVDYes"}\NormalTok{))}
+
+\CommentTok{#calculate the relative risk of CVD with respect to not smoking}
+\KeywordTok{riskratio}\NormalTok{(prevend.samp}\OperatorTok{$}\NormalTok{Smoking, prevend.samp}\OperatorTok{$}\NormalTok{CVD)}\OperatorTok{$}\NormalTok{measure}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{ShadedResult}
+\begin{verbatim}
+#            risk ratio with 95% C.I.
+#  Predictor  estimate     lower  upper
+#    SmokeNo  1.000000        NA     NA
+#    SmokeYes 1.086207 0.5476699 2.1543
+\end{verbatim}
+\end{ShadedResult}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#view the data table}
+\KeywordTok{riskratio}\NormalTok{(prevend.samp}\OperatorTok{$}\NormalTok{Smoking, prevend.samp}\OperatorTok{$}\NormalTok{CVD)}\OperatorTok{$}\NormalTok{data}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{ShadedResult}
+\begin{verbatim}
+#            Outcome
+#  Predictor  CVDNo CVDYes Total
+#    SmokeNo    348     30   378
+#    SmokeYes   106     10   116
+#    Total      454     40   494
+\end{verbatim}
+\end{ShadedResult}
+
+The function \textbf{\texttt{oddsratio()}} calculates the odds ratio and
+has the following generic structure
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{oddsratio}\NormalTok{(x, }\DataTypeTok{y =} \OtherTok{NULL}\NormalTok{, }\DataTypeTok{rev =} \StringTok{"neither"}\NormalTok{, }\DataTypeTok{method =} \StringTok{"wald"}\NormalTok{)}\OperatorTok{$}\NormalTok{measure}
+\end{Highlighting}
+\end{Shaded}
+
+where \texttt{x} is either a matrix or a vector and \texttt{y} is a
+vector; if \texttt{x} is a matrix, then \texttt{y} is ignored. The
+argument \texttt{rev} can be either \texttt{"neither"}, \texttt{"rows"},
+\texttt{"columns"}, or \texttt{"both"}, and will either leave the data
+as-is, reverse the ordering of the rows, reverse the ordering of the
+columns, or reverse the ordering of both. The argument \texttt{"wald"}
+specifies that the odds ratio should be calculated using unconditional
+maximum likelihood estimation; this corresponds to the formula used in
+\emph{OI Biostat}. To specifically output the estimated odds, use
+\texttt{\$measure}.
+
+In the following example, the odds ratio of virologic failure is
+calculated, first with nevirapine as the baseline then with lopinarvir
+as the baseline. The OR for the baseline group appears as 1. The OR of
+virologic failure comparing NVP to LPV is 2.87; the odds of virologic
+failure for individuals treated with NVP are over twice as large as the
+odds of failure for those treated with LPV.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#calculate OR of failure with respect to NVP}
+\KeywordTok{oddsratio}\NormalTok{(hiv.table, }\DataTypeTok{method =} \StringTok{"wald"}\NormalTok{)}\OperatorTok{$}\NormalTok{measure}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{ShadedResult}
+\begin{verbatim}
+#       odds ratio with 95% C.I.
+#  Drug   estimate     lower    upper
+#    NVP 1.0000000        NA       NA
+#    LPV 0.3464602 0.2032484 0.590581
+\end{verbatim}
+\end{ShadedResult}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#calculate OR of failure with respect to LPV}
+\KeywordTok{oddsratio}\NormalTok{(hiv.table, }\DataTypeTok{rev =} \StringTok{"rows"}\NormalTok{, }\DataTypeTok{method =} \StringTok{"wald"}\NormalTok{)}\OperatorTok{$}\NormalTok{measure}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{ShadedResult}
+\begin{verbatim}
+#       odds ratio with 95% C.I.
+#  Drug  estimate    lower    upper
+#    LPV 1.000000       NA       NA
+#    NVP 2.886335 1.693248 4.920088
+\end{verbatim}
+\end{ShadedResult}
+
+The following example shows the use of \texttt{oddsratio} with vectors;
+specifically, vectors from a larger dataframe. The odds ratio of
+cardiovascular disease comparing smokers to non-smokers is 1.10, as
+estimated from \texttt{prevend.samp}; the odds of cardiovascular disease
+in smokers are 10\% larger than in non-smokers.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#calculate the odds ratio of CVD with respect to not smoking}
+\KeywordTok{oddsratio}\NormalTok{(prevend.samp}\OperatorTok{$}\NormalTok{Smoking, prevend.samp}\OperatorTok{$}\NormalTok{CVD, }\DataTypeTok{method =} \StringTok{"wald"}\NormalTok{)}\OperatorTok{$}\NormalTok{measure}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{ShadedResult}
+\begin{verbatim}
+#            odds ratio with 95% C.I.
+#  Predictor  estimate     lower    upper
+#    SmokeNo   1.00000        NA       NA
+#    SmokeYes  1.09434 0.5179749 2.312041
+\end{verbatim}
+\end{ShadedResult}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#view the data table}
+\KeywordTok{oddsratio}\NormalTok{(prevend.samp}\OperatorTok{$}\NormalTok{Smoking, prevend.samp}\OperatorTok{$}\NormalTok{CVD)}\OperatorTok{$}\NormalTok{data}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{ShadedResult}
+\begin{verbatim}
+#            Outcome
+#  Predictor  CVDNo CVDYes Total
+#    SmokeNo    348     30   378
+#    SmokeYes   106     10   116
+#    Total      454     40   494
+\end{verbatim}
+\end{ShadedResult}
+
+%\showmatmethods
+
+
+\bibliography{pinp}
+\bibliographystyle{jss}
+
+
+
+\end{document}
+

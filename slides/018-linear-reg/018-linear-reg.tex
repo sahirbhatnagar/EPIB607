@@ -1,0 +1,504 @@
+\documentclass[10pt]{beamer}\usepackage[]{graphicx}\usepackage[]{color}
+% maxwidth is the original width if it is less than linewidth
+% otherwise use linewidth (to make sure the graphics do not exceed the margin)
+\makeatletter
+\def\maxwidth{ %
+  \ifdim\Gin@nat@width>\linewidth
+    \linewidth
+  \else
+    \Gin@nat@width
+  \fi
+}
+\makeatother
+
+\definecolor{fgcolor}{rgb}{0.345, 0.345, 0.345}
+\newcommand{\hlnum}[1]{\textcolor[rgb]{0.686,0.059,0.569}{#1}}%
+\newcommand{\hlstr}[1]{\textcolor[rgb]{0.192,0.494,0.8}{#1}}%
+\newcommand{\hlcom}[1]{\textcolor[rgb]{0.678,0.584,0.686}{\textit{#1}}}%
+\newcommand{\hlopt}[1]{\textcolor[rgb]{0,0,0}{#1}}%
+\newcommand{\hlstd}[1]{\textcolor[rgb]{0.345,0.345,0.345}{#1}}%
+\newcommand{\hlkwa}[1]{\textcolor[rgb]{0.161,0.373,0.58}{\textbf{#1}}}%
+\newcommand{\hlkwb}[1]{\textcolor[rgb]{0.69,0.353,0.396}{#1}}%
+\newcommand{\hlkwc}[1]{\textcolor[rgb]{0.333,0.667,0.333}{#1}}%
+\newcommand{\hlkwd}[1]{\textcolor[rgb]{0.737,0.353,0.396}{\textbf{#1}}}%
+\let\hlipl\hlkwb
+
+\usepackage{framed}
+\makeatletter
+\newenvironment{kframe}{%
+ \def\at@end@of@kframe{}%
+ \ifinner\ifhmode%
+  \def\at@end@of@kframe{\end{minipage}}%
+  \begin{minipage}{\columnwidth}%
+ \fi\fi%
+ \def\FrameCommand##1{\hskip\@totalleftmargin \hskip-\fboxsep
+ \colorbox{shadecolor}{##1}\hskip-\fboxsep
+     % There is no \\@totalrightmargin, so:
+     \hskip-\linewidth \hskip-\@totalleftmargin \hskip\columnwidth}%
+ \MakeFramed {\advance\hsize-\width
+   \@totalleftmargin\z@ \linewidth\hsize
+   \@setminipage}}%
+ {\par\unskip\endMakeFramed%
+ \at@end@of@kframe}
+\makeatother
+
+\definecolor{shadecolor}{rgb}{.97, .97, .97}
+\definecolor{messagecolor}{rgb}{0, 0, 0}
+\definecolor{warningcolor}{rgb}{1, 0, 1}
+\definecolor{errorcolor}{rgb}{1, 0, 0}
+\newenvironment{knitrout}{}{} % an empty environment to be redefined in TeX
+
+\usepackage{alltt}
+
+
+%\input{slides_header.tex}
+\input{/home/sahir/git_repositories/EPIB607/slides/slides_header2.tex}
+\graphicspath{{/home/sahir/git_repositories/EPIB607/slides/figure/}}
+
+%\let\oldShaded\Shaded
+%\let\endoldShaded\endShaded
+%\renewenvironment{Shaded}{\footnotesize\oldShaded}{\endoldShaded}
+
+%\newcommand{\blue}[1]{\textcolor{blue}{#1}}
+%\newcommand{\red}[1]{\textcolor{red}{#1}}
+
+
+\usepackage{xparse}
+\NewDocumentCommand\mylist{>{\SplitList{;}}m}
+{
+	\begin{itemize}
+		\ProcessList{#1}{ \insertitem }
+	\end{itemize}
+}
+\NewDocumentCommand\mynum{>{\SplitList{;}}m}
+{
+	\begin{enumerate}
+		\ProcessList{#1}{ \insertitem }
+	\end{enumerate}
+}
+\newcommand\insertitem[1]{\item #1}
+
+\newcommand\FrameText[1]{%
+	\begin{textblock*}{\paperwidth}(0pt,\textheight)
+		\raggedright #1\hspace{.5em}
+\end{textblock*}}
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\begin{document}
+	
+	
+	
+	%\title{Introduction to Regression Trees}
+	%\author{Sahir Bhatnagar \inst{1}}
+	%\author[shortname]{Sahir Rai Bhatnagar, PhD Candidate (Biostatistics) }
+	%\institute[shortinst]{Department of Epidemiology, Biostatistics and Occupational Health}
+	
+	\title{018 - Linear Regression}
+	\author{EPIB 607 - FALL 2020}
+	\institute{
+		Sahir Rai Bhatnagar\\
+		Department of Epidemiology, Biostatistics, and Occupational Health\\
+		McGill University\\
+		
+		\vspace{0.1 in}
+		
+		\texttt{sahir.bhatnagar@mcgill.ca}\\
+		%\texttt{\url{https://sahirbhatnagar.com/EPIB607/}}
+	}
+	
+	\date{slides compiled on \today}
+	
+	\maketitle
+	
+	%\section{Objectives}
+	
+	\section{Example: Depths of the ocean}
+
+
+
+
+\begin{frame}[fragile,plain]
+\vspace*{-1.0in}
+\textbf{1. Mean depth of the ocean}
+
+
+\begin{knitrout}\tiny
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlkwd{head}\hlstd{(depths,} \hlkwc{n}\hlstd{=}\hlnum{3}\hlstd{)}
+\end{alltt}
+\begin{verbatim}
+##           X      lon     lat  alt water South
+## 26118 26118  157.559  8.8311 5044     1     0
+## 29349 29349  -51.597 29.2888 5277     1     0
+## 4391   4391 -133.031 13.6859 5032     1     0
+\end{verbatim}
+\begin{alltt}
+\hlkwd{dim}\hlstd{(depths)}
+\end{alltt}
+\begin{verbatim}
+## [1] 400   6
+\end{verbatim}
+\begin{alltt}
+\hlstd{fit} \hlkwb{<-} \hlkwd{lm}\hlstd{(alt} \hlopt{~} \hlnum{1}\hlstd{,} \hlkwc{data} \hlstd{= depths)}
+\hlkwd{print}\hlstd{(}\hlkwd{summary}\hlstd{(fit),} \hlkwc{signif.stars} \hlstd{= F)}
+\end{alltt}
+\begin{verbatim}
+## Coefficients:
+##             Estimate Std. Error t value Pr(>|t|)
+## (Intercept)   3628.5       86.5      42   <2e-16
+## 
+## Residual standard error: 1730 on 399 degrees of freedom
+\end{verbatim}
+\end{kframe}
+\end{knitrout}
+
+
+\end{frame}
+
+
+\begin{frame}[fragile,plain]
+\vspace*{-.90551in}
+%\scriptsize
+\textbf{2. Difference of mean depth in north vs south hemisphere}
+
+	
+	
+\begin{knitrout}\tiny
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlstd{fit} \hlkwb{<-} \hlkwd{lm}\hlstd{(alt} \hlopt{~} \hlstd{South,} \hlkwc{data} \hlstd{= depths)}
+\hlkwd{print}\hlstd{(}\hlkwd{summary}\hlstd{(fit),} \hlkwc{signif.stars} \hlstd{= F)}
+\end{alltt}
+\begin{verbatim}
+## Coefficients:
+##             Estimate Std. Error t value Pr(>|t|)
+## (Intercept)     3523        122   28.82   <2e-16
+## South            211        173    1.22     0.22
+## 
+## Residual standard error: 1730 on 398 degrees of freedom
+## Multiple R-squared: 0.00372,	Adjusted R-squared: 0.00122 
+## F-statistic: 1.49 on 1 and 398 DF,  p-value: 0.223
+\end{verbatim}
+\begin{alltt}
+\hlstd{stats}\hlopt{::}\hlkwd{t.test}\hlstd{(alt} \hlopt{~} \hlstd{South,} \hlkwc{data} \hlstd{= depths,} \hlkwc{var.equal} \hlstd{=} \hlnum{TRUE}\hlstd{)}
+\end{alltt}
+\begin{verbatim}
+##  Two Sample t-test with alt by South 
+## t = -1.2192, df = 398, p-value = 0.2235
+## alternative hypothesis: true difference in means is not equal to 0 
+## 95 percent confidence interval:
+##  -550.58  129.08 
+## sample estimates:
+## mean in group 0 mean in group 1 
+##          3523.1          3733.9
+\end{verbatim}
+\end{kframe}
+\end{knitrout}
+\end{frame}
+
+\begin{frame}[fragile,plain]
+	%\vspace*{-.0551in}
+	%\scriptsize
+%	\textbf{2. Difference of mean depth in north vs south hemisphere}
+
+	
+\begin{knitrout}\tiny
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlkwd{coef}\hlstd{(fit)}
+\end{alltt}
+\begin{verbatim}
+## (Intercept)       South 
+##     3523.11      210.75
+\end{verbatim}
+\begin{alltt}
+\hlkwd{vcov}\hlstd{(fit)}
+\end{alltt}
+\begin{verbatim}
+##             (Intercept)  South
+## (Intercept)       14940 -14940
+## South            -14940  29880
+\end{verbatim}
+\begin{alltt}
+\hlkwd{confint}\hlstd{(fit)}
+\end{alltt}
+\begin{verbatim}
+##               2.5 %  97.5 %
+## (Intercept) 3282.82 3763.41
+## South       -129.08  550.58
+\end{verbatim}
+\end{kframe}
+\end{knitrout}
+\end{frame}
+
+
+
+\begin{frame}[fragile,plain]
+	%	\vspace*{-0.2in}
+	\small
+	\textbf{2.2 Bootstrap CI for mean difference using canned function}
+\begin{knitrout}\tiny
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlstd{pacman}\hlopt{::}\hlkwd{p_load}\hlstd{(car)}
+\hlstd{betahat.boot} \hlkwb{<-} \hlstd{car}\hlopt{::}\hlkwd{Boot}\hlstd{(fit,} \hlkwc{R}\hlstd{=}\hlnum{999}\hlstd{)}
+\hlkwd{head}\hlstd{(betahat.boot}\hlopt{$}\hlstd{t)}
+\end{alltt}
+\begin{verbatim}
+##      (Intercept)   South
+## [1,]      3577.0 115.734
+## [2,]      3603.2 202.018
+## [3,]      3521.5 250.253
+## [4,]      3688.2  77.188
+## [5,]      3574.3 203.502
+## [6,]      3716.5 -88.660
+\end{verbatim}
+\begin{alltt}
+\hlkwd{dim}\hlstd{(betahat.boot}\hlopt{$}\hlstd{t)}
+\end{alltt}
+\begin{verbatim}
+## [1] 999   2
+\end{verbatim}
+\begin{alltt}
+\hlstd{deltamuhat.boot} \hlkwb{<-} \hlstd{betahat.boot}\hlopt{$}\hlstd{t[,}\hlnum{2}\hlstd{]}
+\hlkwd{median}\hlstd{(deltamuhat.boot)}
+\end{alltt}
+\begin{verbatim}
+## [1] 204.45
+\end{verbatim}
+\begin{alltt}
+\hlkwd{quantile}\hlstd{(deltamuhat.boot,} \hlkwc{probs} \hlstd{=} \hlkwd{c}\hlstd{(}\hlnum{0.025}\hlstd{,} \hlnum{0.975}\hlstd{))}
+\end{alltt}
+\begin{verbatim}
+##    2.5%   97.5% 
+## -141.92  553.28
+\end{verbatim}
+\end{kframe}
+
+\includegraphics[width=0.35\textwidth]{figure/unnamed-chunk-6-1} \hfill{}
+
+
+
+\end{knitrout}
+	
+\end{frame}
+
+
+\begin{frame}[fragile,plain]
+	%	\vspace*{-0.2in}
+	\small
+	\textbf{2.2 Bootstrap CI for mean difference using canned function (continued)}
+\begin{knitrout}\tiny
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlkwd{summary}\hlstd{(betahat.boot)}
+\end{alltt}
+\begin{verbatim}
+## 
+## Number of bootstrap replications R = 999 
+##             original bootBias bootSE bootMed
+## (Intercept)     3523     3.65    140    3529
+## South            211    -7.49    179     204
+\end{verbatim}
+\begin{alltt}
+\hlkwd{confint}\hlstd{(betahat.boot)}
+\end{alltt}
+\begin{verbatim}
+## Bootstrap bca confidence intervals
+## 
+##               2.5 %  97.5 %
+## (Intercept) 3200.79 3782.23
+## South       -127.46  569.08
+\end{verbatim}
+\begin{alltt}
+\hlkwd{hist}\hlstd{(betahat.boot)}
+\end{alltt}
+\end{kframe}
+
+{\centering \includegraphics[width=0.55\textwidth]{figure/unnamed-chunk-7-1} 
+
+}
+
+
+
+\end{knitrout}
+	
+\end{frame}
+
+
+
+
+\begin{frame}[fragile,plain]
+		\textbf{2.3 Bootstrap CI for mean difference using \texttt{boot} package}
+\begin{figure}
+	\begin{minipage}[h]{0.40\linewidth}
+\begin{knitrout}\tiny
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlkwd{library}\hlstd{(boot)}
+\hlcom{# function to obtain deltamu hat}
+\hlstd{deltamu} \hlkwb{<-} \hlkwa{function}\hlstd{(}\hlkwc{data}\hlstd{,} \hlkwc{indices}\hlstd{) \{}
+        \hlcom{# allows boot to select sample}
+        \hlstd{d} \hlkwb{<-} \hlstd{data[indices,]}
+        \hlstd{fit} \hlkwb{<-} \hlkwd{lm}\hlstd{(alt} \hlopt{~} \hlstd{South,} \hlkwc{data}\hlstd{=d)}
+        \hlkwd{coef}\hlstd{(fit)[}\hlstr{"South"}\hlstd{]}
+\hlstd{\}}
+
+\hlstd{results} \hlkwb{<-} \hlstd{boot}\hlopt{::}\hlkwd{boot}\hlstd{(}\hlkwc{data} \hlstd{= depths,}
+\hlkwc{statistic} \hlstd{= deltamu,} \hlkwc{R}\hlstd{=}\hlnum{999}\hlstd{)}
+
+\hlstd{results}
+\end{alltt}
+\begin{verbatim}
+## 
+## ORDINARY NONPARAMETRIC BOOTSTRAP
+## 
+## 
+## Call:
+## boot::boot(data = depths, statistic = deltamu, R = 999)
+## 
+## 
+## Bootstrap Statistics :
+##     original    bias    std. error
+## t1*   210.75 -0.060188      171.68
+\end{verbatim}
+\end{kframe}
+\end{knitrout}
+		
+	\end{minipage}
+	\hspace{0.4cm}
+	\begin{minipage}[h]{0.50\linewidth}
+\begin{knitrout}\tiny
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlkwd{plot}\hlstd{(results)}
+\end{alltt}
+\end{kframe}
+
+{\centering \includegraphics[width=\maxwidth]{figure/unnamed-chunk-9-1} 
+
+}
+
+
+\begin{kframe}\begin{alltt}
+\hlkwd{boot.ci}\hlstd{(results)}
+\end{alltt}
+\begin{verbatim}
+## BOOTSTRAP CONFIDENCE INTERVAL CALCULATIONS
+## Based on 999 bootstrap replicates
+## 
+## CALL : 
+## boot.ci(boot.out = results)
+## 
+## Intervals : 
+## Level      Normal              Basic         
+## 95%   (-125.7,  547.3 )   (-138.1,  537.1 )  
+## 
+## Level     Percentile            BCa          
+## 95%   (-115.6,  559.6 )   (-106.4,  563.3 )  
+## Calculations and Intervals on Original Scale
+\end{verbatim}
+\end{kframe}
+\end{knitrout}
+	\end{minipage}
+\end{figure}
+\end{frame}
+
+
+\begin{frame}{Permutation Testing}
+\begin{itemize}
+	\item In testing a null hypothesis we need a test statistic that will have different values under the null hypothesis and the alternatives we	care about 
+	\item We then need to compute the sampling distribution of the test	statistic when the null hypothesis is true. For some test statistics	and some null hypotheses this can be done analytically. 
+	\item The pvalue is the probability that the test statistic would be at	least as extreme as we observed, if the null hypothesis is true.
+	\item A permutation test gives a simple way to compute the sampling	distribution for any test statistic, under the null hypothesis that there is no effect (i.e. South is not a determinant of the mean depth of the ocean)
+\end{itemize}
+\end{frame}
+
+
+\begin{frame}{Permutation Testing}
+	\begin{itemize}
+		\item To estimate the sampling distribution of the test statistic we
+		need many samples generated under the strong null hypothesis.
+		\item If the null hypothesis is true, changing the exposure would have
+		no effect on the outcome. By randomly shuffling the determinants
+		we can make up as many data sets as we like.
+		\item If the null hypothesis is true, the shuffled data sets should look
+		like the real data, otherwise they should look different from the real data.
+		\item The ranking of the real test statistic among the shuffled test
+		statistics gives a p-value
+	\end{itemize}
+\end{frame}
+
+
+\begin{frame}[fragile]{Permutation Testing}
+\begin{knitrout}\tiny
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlstd{one.test} \hlkwb{<-} \hlkwa{function}\hlstd{(}\hlkwc{x}\hlstd{,}\hlkwc{y}\hlstd{) \{}
+   \hlstd{xstar} \hlkwb{<-} \hlkwd{sample}\hlstd{(x)}
+   \hlkwd{mean}\hlstd{(y[xstar}\hlopt{==}\hlnum{1}\hlstd{])} \hlopt{-} \hlkwd{mean}\hlstd{(y[xstar}\hlopt{==}\hlnum{0}\hlstd{])}
+\hlstd{\}}
+
+\hlstd{null.dist} \hlkwb{<-} \hlkwd{replicate}\hlstd{(}\hlnum{1000}\hlstd{,} \hlkwd{one.test}\hlstd{(}\hlkwc{x} \hlstd{= depths}\hlopt{$}\hlstd{South,} \hlkwc{y} \hlstd{= depths}\hlopt{$}\hlstd{alt))}
+\hlkwd{hist}\hlstd{(null.dist)}
+\hlkwd{abline}\hlstd{(}\hlkwc{v}\hlstd{=}\hlkwd{coef}\hlstd{(fit)[}\hlstr{"South"}\hlstd{],} \hlkwc{lwd}\hlstd{=}\hlnum{2}\hlstd{,} \hlkwc{col}\hlstd{=}\hlstr{"blue"}\hlstd{)}
+\end{alltt}
+\end{kframe}
+
+{\centering \includegraphics[width=0.5\textwidth]{figure/unnamed-chunk-10-1} 
+
+}
+
+
+\begin{kframe}\begin{alltt}
+\hlkwd{mean}\hlstd{(}\hlkwd{abs}\hlstd{(null.dist)} \hlopt{>} \hlkwd{abs}\hlstd{(}\hlkwd{coef}\hlstd{(fit)[}\hlstr{"South"}\hlstd{]))}
+\end{alltt}
+\begin{verbatim}
+## [1] 0.222
+\end{verbatim}
+\end{kframe}
+\end{knitrout}
+\end{frame}
+
+
+
+
+\begin{frame}[fragile,plain]
+\vspace*{-1.1in}
+\textbf{3. Ratio depth of ocean depths in north vs south hemisphere}
+\begin{knitrout}\tiny
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlcom{# note: we are now using glm}
+\hlstd{fit} \hlkwb{<-} \hlkwd{glm}\hlstd{(alt} \hlopt{~} \hlstd{South,} \hlkwc{data} \hlstd{= depths,} \hlkwc{family} \hlstd{=} \hlkwd{gaussian}\hlstd{(}\hlkwc{link}\hlstd{=log))}
+\hlkwd{print}\hlstd{(}\hlkwd{summary}\hlstd{(fit),} \hlkwc{signif.stars} \hlstd{= F)}
+\end{alltt}
+\begin{verbatim}
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(>|t|)
+## (Intercept)   8.1671     0.0347  235.41   <2e-16
+## South         0.0581     0.0477    1.22     0.22
+## 
+## (Dispersion parameter for gaussian family taken to be 2988040)
+## 
+##     Null deviance: 1193681102  on 399  degrees of freedom
+## Residual deviance: 1189239546  on 398  degrees of freedom
+## AIC: 7103
+## 
+## Number of Fisher Scoring iterations: 5
+\end{verbatim}
+\end{kframe}
+\end{knitrout}
+
+\end{frame}
+
+
+\section{Bootstrap confidence intervals}
+
+
+
+
+
+
+\end{document}

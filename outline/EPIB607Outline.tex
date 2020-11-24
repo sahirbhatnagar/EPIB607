@@ -1,0 +1,259 @@
+\documentclass[]{article}
+%\usepackage[margin=1.5in]{geometry}
+\usepackage[pagebackref=true,bookmarks]{hyperref}
+                             % Neat package to turn href, ref, cite, gloss entries
+                             % into hyperlinks in the dvi file.
+                             % Make sure this is the last package loaded.
+                             % Use with dvips option to get hyperlinks to work in ps and pdf
+                             % files.  Unfortunately, then they don't work in the dvi file!
+                             % Use without the dvips option to get the links to work in the dvi file.
+
+                             % Note:  \floatstyle{ruled} don't work properly; so change to plain.
+                             % Not as pretty, but functional...
+                             % The bookmarks option sets up proper bookmarks in the pdf file :)
+\hypersetup{
+    unicode=false,          
+    pdftoolbar=true,        
+    pdfmenubar=true,        
+    pdffitwindow=false,     % window fit to page when opened
+    pdfstartview={FitH},    % fits the width of the page to the window
+    pdftitle={EPIB 607 - Fall 2020 Course Outline},    % title
+    pdfauthor={Sahir Rai Bhatnagar},     % author
+    pdfsubject={Subject},   % subject of the document
+    pdfcreator={Sahir Rai Bhatnagar},   % creator of the document
+    pdfproducer={Sahir Rai Bhatnagar}, % producer of the document
+    pdfkeywords={}, % list of keywords
+    pdfnewwindow=true,      % links in new window
+    colorlinks=true,       % false: boxed links; true: colored links
+    linkcolor=red,          % color of internal links (change box color with linkbordercolor)
+    citecolor=blue,        % color of links to bibliography
+    filecolor=black,      % color of file links
+    urlcolor=blue           % color of external links
+}
+
+
+\usepackage{color}
+
+%opening
+\title{Course Outline - EPIB 607 Inferential Statistics}
+
+%\title{Course Outline - EPIB 607 - Fall 2020\\Principles of Inferential Statistics in Medicine\\\url{https://sahirbhatnagar.com/EPIB607}}
+%\author{4 credits\\Mondays and Wednesday 11:30-13:30\\
+%Location: EDUC 129}
+
+\date{}
+
+\begin{document}
+
+
+
+\maketitle
+
+\section{General Information}
+
+\begin{itemize}
+	\item Course \#: EPIB 607
+	\item Term: Fall 2020
+	\item Course pre-requisite(s): A first year course in undergraduate differential and integral calculus. Basic understanding of exponentials, logs, histograms, graphs, mean, median, mode, standard deviation. Enrollment in the Epidemiology or Public Health program at McGill University, or with the permission of the instructor.
+	\item Course schedule: Wednesdays and Fridays 3:35pm - 5:25pm. 
+	\item Number of credits: 4
+	\item \href{https://mcgill.zoom.us/meeting/register/tJcucu6qpzgiGdLfhoi4ONLN3FIMP1xyapT2}{Zoom link}
+%	\item Course location: EDUC 129
+\end{itemize}
+
+\section{Instructor \& TA Information}
+
+\subsection{Instructor Information}
+\begin{itemize}
+	\item Sahir Rai Bhatnagar, Assistant Professor
+	\item \href{mailto:sahir.bhatnagar@mcgill.ca}{\color{blue}{sahir.bhatnagar@mcgill.ca}}
+\item Phone: 514-398-2711
+%\item Office hours for students: Wednesdays 10am-11am
+%\item Office location: Purvis Hall 37
+%Department of Epidemiology, Biostatistics, and Occupational Health\\
+%Department of Diagnostic Radiology\\Office hours: 
+\end{itemize}
+
+%\vspace{0.40cm}
+\newpage
+
+\subsection{TA Information}
+\begin{itemize}
+	\item \textbf{Mila Sun}
+	\begin{itemize}
+		\item \href{mailto:shuo.sun@mail.mcgill.ca}{shuo.sun@mail.mcgill.ca}
+		\item Office hours: Tuesdays 2:00pm - 3:00pm
+		\item Students with last names beginning with: Aa - Em
+	\end{itemize}
+	\item \textbf{Dirk Douwes-Schultz}
+\begin{itemize}
+	\item \href{mailto:dirk.douwes-schultz@mail.mcgill.ca}{dirk.douwes-schultz@mail.mcgill.ca}
+	\item Office hours: Thursdays 1:00pm - 2:00pm
+	\item Students with last names beginning with: Fa - Lo
+\end{itemize}
+	\item \textbf{Paritosh Kumar Roy}
+\begin{itemize}
+	\item \href{mailto:paritosh.roy@mail.mcgill.ca}{paritosh.roy@mail.mcgill.ca}
+	\item Office hours: Fridays 9:00am - 10:00am
+	\item Students with last names beginning with: Ma - Sb
+\end{itemize}
+	\item \textbf{Julien St-Pierre}
+\begin{itemize}
+	\item \href{mailto:julien.st-pierre@mail.mcgill.ca}{julien.st-pierre@mail.mcgill.ca}
+	\item Office hours: Tuesdays 10:00am - 11:00am
+	\item Students with last names beginning with: Sc - Zh
+\end{itemize}
+\end{itemize}
+
+\subsection{E-mails}
+
+You are expected to \textbf{come to office hours} should you have questions about course content. E-mails with questions about course content may not receive a response until you have tried office hours first. Please send e-mails with informative subject titles beginning with 
+\begin{center}
+	\textbf{[Fall 2020 - EPIB-607-001 - Inferential Statistics]: }
+\end{center}
+
+
+
+
+\section{Course Overview}
+Introduction to the basic principles of statistical inference used in clinical and epidemiologic research. Topics include variability; methods of processing and describing data; sampling and sampling distributions; inferences regarding means and proportions, non-parametric methods, regression and correlation. \\
+
+The principal audience is researchers in the natural and social sciences who haven't had an introductory course in statistics (or did have one a long time ago). This audience accepts that statistics has penetrated the life sciences pervasively and is required knowledge for both doing research and understanding scientific papers.
+
+\section{Learning Outcomes}
+The aim of this course is to provide students with basic principles of statistical inference so that they can:
+
+\begin{itemize}
+\item Visualize/Analyze/Interpret data using statistical methods with the \texttt{R} statistical software program.
+\item Understand the statistical results in a scientific paper.
+\item Apply statistical methods in their own research.
+\item Use the methods learned in this course as a foundation for more advanced biostatistics courses.
+\end{itemize}
+
+
+\section{Instructional Method}
+\textbf{This course will follow the Flipped Classroom model}: Here, students are expected to have engaged with the material before coming to class (based on very precise pre-class instructions). The students will then be expected to answer a series of conceptual multiple choice questions using the DALITE online platform (\url{https://mydalite.org/}, \url{https://www.youtube.com/watch?v=0tJVVy2ay7c}). This allows the instructor to delegate the delivery of basic content and definitions to textbooks and videos, and enforces the idea that students cannot be simply passive recipients of information. This approach then allows the professor to focus valuable class time on nurturing efficient discussions surrounding the ideas within the content, guiding interactive exploration of typical misconceptions, and promoting collaborative problem solving with peers.\\
+
+\textbf{A focus on computation}: Classic introductory statistics textbooks were written during a time when computers were still in their infancy. As such, even the newer editions heavily rely on by-hand computations such as looking up tables for tail probabilities. We take a modern approach and introduce computational methods in statistics with the statistical software program \texttt{R}. Assignments must be submitted in \texttt{R Markdown} format to ensure reproducible results. \\
+
+There will alse be series of in-class exercises and live polls. Students will also be asked to provide weekly feedback in the form of \textbf{muddy cards}. See \url{http://www.cdio.org/files/mudcards.pdf} for details. 
+
+\section{Required Course Materials}
+
+\subsection{Course notes}
+These are available as a PDF document on myCourses to download. Extra material such as \texttt{R} code and class schedule will be made available on myCourses. You will also be asked to watched the accompanying \href{https://www.learner.org/courses/againstallodds/unitpages/index.html}{Against all odds video series} by Annenberg Learner.
+
+
+\subsection{Equipment}
+Hand calculators (with square root, log, and exponential function) are required. Laptops for in-class exercises can be useful but is not required.   
+
+
+\subsection{Software}
+The \texttt{R} software package will be introduced and used for in-class illustrations. \texttt{R} is available under GPL (free) at \href{http://cran.r-project.org/}{\color{blue}{http://cran.r-project.org/}}. \\
+
+%\vspace{0.51cm}
+\noindent
+It is recommended to use the RStudio interactive development environment (IDE) which can be downloaded for free at \href{http://www.rstudio.com/}{\color{blue}{http://www.rstudio.com/}}.\\ 
+\textbf{Note:} to use RStudio, you must first download the  \texttt{R}
+software package at the link provided above.
+
+\subsection{Tutorials from DataCamp}
+This class is supported by DataCamp, which will allow you to learn \texttt{R} through a combination of short expert videos and hands-on-the-keyboard exercises. You will be asked to complete some of the courses in DataCamp for background reading or for assignments. You can sign up for a free account at this \href{https://www.datacamp.com/groups/shared_links/a10245cf1485dc55a1ee21a23d6dfe6ae703fd60}{link}. Note: you are required to sign up with a @mail.mcgill.ca or @mcgill.ca email address.
+
+
+%\section{Optional Course Materials}
+
+%\subsection{Optional textbook}
+%Baldi B and Moore D S. \textit{The Practice of Statistics in the Life Sciences}, 3${rd}$ edition. Freeman and Company.
+
+
+\section{Course Content}
+%Course structure will consist of elaborating selected topics from the book Baldi \& Moore: The Practice of Statistics in the Life Sciences, 3$^{rd}$ edition. You will also be asked to watched the accompanying \href{https://www.learner.org/courses/againstallodds/unitpages/index.html}{Against all odds video series} by Annenberg Learner. We will also cover more advanced material not covered in the textbook, for which class notes will be made available. 
+
+\subsection{Descriptive Statistics}
+\begin{itemize}
+\item Histograms, density plots, measures of center, boxplots, standard deviation
+\item Data visualization (aesthetics, visual cues, coordinate systems, scales, facets and layers)
+\item Choosing color palettes: Cynthia Brewer palettes, perceptually uniform palettes, color blind friendly palettes. 
+\item Tidy data
+\end{itemize}
+
+\subsection{Sampling Distributions}
+\begin{itemize}
+\item Parameters and statistics
+\item Standard error of the mean
+\item Normal (Gaussian) distribution
+\item Central Limit Theorem
+\item Confidence intervals
+\item Bootstrap for sampling distributions and confidence intervals
+\end{itemize}
+
+\subsection{One Sample Inference}
+\begin{itemize}
+\item Inference about a population mean
+\item P values, power, and sample size considerations
+\item Inference about a population proportion
+\item Inference about a population rate
+\end{itemize}
+
+
+\subsection{Regression}
+\begin{itemize}
+\item Linear regression for means, difference in means, ratio of means
+\item Poisson regression for rates, rate differences, rate ratios
+\item Logistic regression for odds ratios and risk ratios
+\end{itemize}
+
+
+
+
+
+
+
+\section{Evaluation}
+\noindent
+\begin{tabular}{lc}
+4 Assignments (submit to myCourses) & 15\%\\
+6 DALITE Quizzes & 15\%\\ 
+Group Project due \textbf{December 22nd} & 10\%  \\
+Midterm exam (1 two-sided formula sheet) \textbf{October 23rd} & 25\%  \\
+3-hour Final exam (2 two-sided formula sheets) \textbf{December 8th}  & 35\%
+\end{tabular}
+\newline
+
+The final grade will be the maximum of:\\
+
+\vspace{.31cm}
+
+\begin{tabular}{c}
+	15\% Assignments + 15\% DALITE + 10\% Group Project + 25\% Midterm + 35\% Final\\
+	OR\\
+	15\% Assignments + 15\% DALITE + 10\% Group Project + 60\% Final
+\end{tabular}
+
+\vspace{.51cm}
+
+Group project is subject to change due to online format.
+
+\vspace{.51cm}
+
+\noindent
+FAQ for how to submit an assignment via myCourses available at this \href{http://kb.mcgill.ca/kb/?ArticleId=4337&source=Article&c=12&cid=2#tab:homeTab:crumb:8:artId:4337:src:article}{link}. Extensions for assignments may be granted upon request only. \textbf{There is no possibility to take the midterm or final exam on alternative dates.} The final grade will consist of a letter grade.
+
+
+\section{McGill Policy Statments}
+
+
+\subsection{Language of Submission}
+In accord with McGill University’s Charter of Students' Rights, students in this course have the right to submit in English or in French any written work that is to be graded. This does not apply to courses in which acquiring proficiency in a language is one of the objectives. \\
+
+\noindent Conformément à la Charte des droits de l’étudiant de l’Université McGill, chaque étudiant a le droit de soumettre en français ou en anglais tout travail écrit devant être noté (sauf dans le cas des cours dont l'un des objets est la maîtrise d'une langue).
+
+\subsection{Academic integrity}
+
+McGill University values academic integrity. Therefore, all students must understand the meaning and consequences of cheating, plagiarism and other academic offences under the Code of Student Conduct and Disciplinary Procedures (see \url{www.mcgill.ca/students/srr/honest/} for more information).\\
+
+\noindent L'université McGill attache une haute importance à l’honnêteté académique. Il incombe par conséquent à tous les étudiants de comprendre ce que l'on entend par tricherie, plagiat et autres infractions académiques, ainsi que les conséquences que peuvent avoir de telles actions, selon le Code de conduite de l'étudiant et des procédures disciplinaires (pour de plus amples renseignements, veuillez consulter le site \url{www.mcgill.ca/students/srr/honest/}).
+
+
+\end{document}

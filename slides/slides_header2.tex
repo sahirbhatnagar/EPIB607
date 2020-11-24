@@ -71,7 +71,8 @@
 \usepackage{epsfig}
 
 \newcommand{\code}[1]{\texttt{#1}}
-
+\newcommand{\blue}[1]{\textcolor{blue}{#1}}
+\newcommand{\red}[1]{\textcolor{red}{#1}}
 
 \usepackage{comment}
 
@@ -227,7 +228,17 @@ Path           = \installpath/
 \providecommand{\tightlist}{%
 	\setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
 
-
+\newcommand\AddButton{%
+	\setbeamertemplate{background canvas}{%
+		\begin{tikzpicture}[remember picture,overlay]
+		\node[anchor=west] at ([yshift=5pt,xshift=0.1em]current page.south west)
+		{\hyperlink{toc}{\beamergotobutton{back to TOC}}};
+		\end{tikzpicture}%
+	}%
+}
 
 
 \titlegraphic{\hfill\includegraphics[height=1cm]{/home/sahir/git_repositories/EPIB607/slides/mcgill_logo.png}}
+
+
+

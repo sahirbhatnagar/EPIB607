@@ -36,7 +36,7 @@ options(digits = 2)
 
 #knitr::opts_chunk$set(background = '#FFFF00')
 library(tools) #needed for include_graphics2 function
-source("/home/sahir/git_repositories/EPIB607/resources/assets/slides/bin/include_graphics2.R")
+source("/home/sahir/git_repositories/EPIB607/slides/bin/include_graphics2.R")
 @
 
 %\title{Introduction to Regression Trees}

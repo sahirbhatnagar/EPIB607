@@ -1,0 +1,293 @@
+\documentclass[10pt]{beamer}
+
+
+%\input{slides_header.tex}
+\input{/home/sahir/git_repositories/EPIB607/slides/slides_header2.tex}
+\graphicspath{{/home/sahir/git_repositories/EPIB607/slides/figure/}}
+
+%\let\oldShaded\Shaded
+%\let\endoldShaded\endShaded
+%\renewenvironment{Shaded}{\footnotesize\oldShaded}{\endoldShaded}
+
+%\newcommand{\blue}[1]{\textcolor{blue}{#1}}
+%\newcommand{\red}[1]{\textcolor{red}{#1}}
+
+
+\usepackage{xparse}
+\NewDocumentCommand\mylist{>{\SplitList{;}}m}
+{
+	\begin{itemize}
+		\ProcessList{#1}{ \insertitem }
+	\end{itemize}
+}
+\NewDocumentCommand\mynum{>{\SplitList{;}}m}
+{
+	\begin{enumerate}
+		\ProcessList{#1}{ \insertitem }
+	\end{enumerate}
+}
+\newcommand\insertitem[1]{\item #1}
+
+\newcommand\FrameText[1]{%
+	\begin{textblock*}{\paperwidth}(0pt,\textheight)
+		\raggedright #1\hspace{.5em}
+\end{textblock*}}
+
+\begin{document}
+	
+	<<setup, include=FALSE>>=
+	library(knitr)
+	knitr::opts_chunk$set(cache=FALSE, message = FALSE, tidy = FALSE, warning = FALSE,
+	echo = FALSE, 
+	#fig.width = 8, 
+	fig.asp = 0.75, 
+	fig.align = 'center', 
+	#out.width = "0.50\\linewidth", 
+	size = 'tiny')
+	
+	# the kframe environment does not work with allowframebreaks, so remove it
+	#knit_hooks$set(document = function(x) {
+	#gsub('\\\\(begin|end)\\{kframe\\}', '', x)
+	#})
+	
+	library(tidyverse)
+	library(NCStats)
+	options(digits = 5)
+	
+	
+	#knitr::opts_chunk$set(background = '#FFFF00')
+	library(tools) #needed for include_graphics2 function
+	source("/home/sahir/git_repositories/EPIB607/slides/bin/include_graphics2.R")
+	@
+	
+	%\title{Introduction to Regression Trees}
+	%\author{Sahir Bhatnagar \inst{1}}
+	%\author[shortname]{Sahir Rai Bhatnagar, PhD Candidate (Biostatistics) }
+	%\institute[shortinst]{Department of Epidemiology, Biostatistics and Occupational Health}
+	
+	\title{018 - Linear Regression}
+	\author{EPIB 607 - FALL 2020}
+	\institute{
+		Sahir Rai Bhatnagar\\
+		Department of Epidemiology, Biostatistics, and Occupational Health\\
+		McGill University\\
+		
+		\vspace{0.1 in}
+		
+		\texttt{sahir.bhatnagar@mcgill.ca}\\
+		%\texttt{\url{https://sahirbhatnagar.com/EPIB607/}}
+	}
+	
+	\date{slides compiled on \today}
+	
+	\maketitle
+	
+	%\section{Objectives}
+	
+	\section{Example: Depths of the ocean}
+
+
+
+
+\begin{frame}[fragile,plain]
+\vspace*{-1.0in}
+\textbf{1. Mean depth of the ocean}
+<<>>=
+# load function to get depths
+source("https://raw.githubusercontent.com/sahirbhatnagar/EPIB607/master/labs/003-ocean-depths/automate_water_task.R")
+
+# get 1000 depths
+set.seed(222333444)
+depths <- automate_water_task(index = sample(1:50000, 1000), student_id = 222333444, type = "depth")
+
+# separate by north and south hemisphere
+depths_north <- depths[which(depths$lat>0),]
+depths_south <- depths[which(depths$lat<0),]
+
+# restrict sample to 200 (at random)
+depths_north <- depths_north[sample(1:nrow(depths_north), 200), ]
+depths_south <- depths_south[sample(1:nrow(depths_south), 200), ]
+
+# add indicator variable
+depths_north$South <- 0
+depths_south$South <- 1
+
+# combine data
+depths <- rbind(depths_north, depths_south)
+# regression. lm assumes equal variances
+#fit <- lm(alt ~ South, data = depths)
+#summary(fit)
+@
+
+<<echo=TRUE, eval=TRUE>>=
+head(depths, n=3)
+dim(depths)
+fit <- lm(alt ~ 1, data = depths)
+print(summary(fit), signif.stars = F)
+@
+
+
+\end{frame}
+
+
+\begin{frame}[fragile,plain]
+\vspace*{-.90551in}
+%\scriptsize
+\textbf{2. Difference of mean depth in north vs south hemisphere}
+<<echo=FALSE, fig.align='left', fig.width=3, fig.height=2,	fig.asp = 1, eval=FALSE>>=
+library(ggplot2)
+ggplot(depths, aes(x = South, y = alt)) + geom_jitter() + cowplot::theme_cowplot()
+@	
+	
+	
+<<echo=TRUE>>=
+fit <- lm(alt ~ South, data = depths)
+print(summary(fit), signif.stars = F)
+stats::t.test(alt ~ South, data = depths, var.equal = TRUE)
+@
+\end{frame}
+
+\begin{frame}[fragile,plain]
+	%\vspace*{-.0551in}
+	%\scriptsize
+%	\textbf{2. Difference of mean depth in north vs south hemisphere}
+
+	
+	<<echo=TRUE>>=
+	coef(fit)
+	vcov(fit)
+	confint(fit)
+	@
+\end{frame}
+
+
+
+\begin{frame}[fragile,plain]
+	%	\vspace*{-0.2in}
+	\small
+	\textbf{2.2 Bootstrap CI for mean difference using canned function}
+	<<eval=TRUE, echo=1:7, out.width="0.35\\textwidth", fig.align='left'>>=
+	pacman::p_load(car)
+	betahat.boot <- car::Boot(fit, R=999)
+	head(betahat.boot$t)
+	dim(betahat.boot$t)
+	deltamuhat.boot <- betahat.boot$t[,2]
+	median(deltamuhat.boot)
+	quantile(deltamuhat.boot, probs = c(0.025, 0.975))
+	hist(deltamuhat.boot, col = "lightblue")
+	abline(v = median(deltamuhat.boot), col = "blue") 
+	abline(v = quantile(deltamuhat.boot, probs = c(0.025, 0.975)), col = "red", lty = 2)
+	@
+	
+\end{frame}
+
+
+\begin{frame}[fragile,plain]
+	%	\vspace*{-0.2in}
+	\small
+	\textbf{2.2 Bootstrap CI for mean difference using canned function (continued)}
+	<<eval=TRUE, echo=TRUE, out.width="0.55\\textwidth", fig.align='center'>>=
+	summary(betahat.boot)
+	confint(betahat.boot)
+	hist(betahat.boot)
+	@
+	
+\end{frame}
+
+
+
+
+\begin{frame}[fragile,plain]
+		\textbf{2.3 Bootstrap CI for mean difference using \texttt{boot} package}
+\begin{figure}
+	\begin{minipage}[h]{0.40\linewidth}
+		<<echo=TRUE, out.width="99%">>=
+		library(boot)
+		# function to obtain deltamu hat
+		deltamu <- function(data, indices) {
+			# allows boot to select sample
+			d <- data[indices,] 
+			fit <- lm(alt ~ South, data=d)
+			coef(fit)["South"]
+		}
+		
+		results <- boot::boot(data = depths,
+		statistic = deltamu, R=999)
+		
+		results
+		@
+		
+	\end{minipage}
+	\hspace{0.4cm}
+	\begin{minipage}[h]{0.50\linewidth}
+		<<echo=TRUE, eval = TRUE>>=
+		plot(results)
+		boot.ci(results)
+		@
+	\end{minipage}
+\end{figure}
+\end{frame}
+
+
+\begin{frame}{Permutation Testing}
+\begin{itemize}
+	\item In testing a null hypothesis we need a test statistic that will have different values under the null hypothesis and the alternatives we	care about 
+	\item We then need to compute the sampling distribution of the test	statistic when the null hypothesis is true. For some test statistics	and some null hypotheses this can be done analytically. 
+	\item The pvalue is the probability that the test statistic would be at	least as extreme as we observed, if the null hypothesis is true.
+	\item A permutation test gives a simple way to compute the sampling	distribution for any test statistic, under the null hypothesis that there is no effect (i.e. South is not a determinant of the mean depth of the ocean)
+\end{itemize}
+\end{frame}
+
+
+\begin{frame}{Permutation Testing}
+	\begin{itemize}
+		\item To estimate the sampling distribution of the test statistic we
+		need many samples generated under the strong null hypothesis.
+		\item If the null hypothesis is true, changing the exposure would have
+		no effect on the outcome. By randomly shuffling the determinants
+		we can make up as many data sets as we like.
+		\item If the null hypothesis is true, the shuffled data sets should look
+		like the real data, otherwise they should look different from the real data.
+		\item The ranking of the real test statistic among the shuffled test
+		statistics gives a p-value
+	\end{itemize}
+\end{frame}
+
+
+\begin{frame}[fragile]{Permutation Testing}
+	<<echo = TRUE, out.width="0.5\\textwidth">>=
+	one.test <- function(x,y) {
+	   xstar <- sample(x)
+	   mean(y[xstar==1]) - mean(y[xstar==0])
+	}
+		
+	null.dist <- replicate(1000, one.test(x = depths$South, y = depths$alt))
+	hist(null.dist)
+	abline(v=coef(fit)["South"], lwd=2, col="blue")
+	mean(abs(null.dist) > abs(coef(fit)["South"]))
+	@
+\end{frame}
+
+
+
+
+\begin{frame}[fragile,plain]
+\vspace*{-1.1in}
+\textbf{3. Ratio depth of ocean depths in north vs south hemisphere}
+<<eval=TRUE, echo=TRUE>>=
+# note: we are now using glm
+fit <- glm(alt ~ South, data = depths, family = gaussian(link=log))
+print(summary(fit), signif.stars = F)
+@
+
+\end{frame}
+
+
+\section{Bootstrap confidence intervals}
+
+
+
+
+
+
+\end{document}

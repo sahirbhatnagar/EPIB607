@@ -1,0 +1,198 @@
+\documentclass[10pt]{beamer}\usepackage[]{graphicx}\usepackage[]{color}
+% maxwidth is the original width if it is less than linewidth
+% otherwise use linewidth (to make sure the graphics do not exceed the margin)
+\makeatletter
+\def\maxwidth{ %
+  \ifdim\Gin@nat@width>\linewidth
+    \linewidth
+  \else
+    \Gin@nat@width
+  \fi
+}
+\makeatother
+
+\definecolor{fgcolor}{rgb}{0.345, 0.345, 0.345}
+\newcommand{\hlnum}[1]{\textcolor[rgb]{0.686,0.059,0.569}{#1}}%
+\newcommand{\hlstr}[1]{\textcolor[rgb]{0.192,0.494,0.8}{#1}}%
+\newcommand{\hlcom}[1]{\textcolor[rgb]{0.678,0.584,0.686}{\textit{#1}}}%
+\newcommand{\hlopt}[1]{\textcolor[rgb]{0,0,0}{#1}}%
+\newcommand{\hlstd}[1]{\textcolor[rgb]{0.345,0.345,0.345}{#1}}%
+\newcommand{\hlkwa}[1]{\textcolor[rgb]{0.161,0.373,0.58}{\textbf{#1}}}%
+\newcommand{\hlkwb}[1]{\textcolor[rgb]{0.69,0.353,0.396}{#1}}%
+\newcommand{\hlkwc}[1]{\textcolor[rgb]{0.333,0.667,0.333}{#1}}%
+\newcommand{\hlkwd}[1]{\textcolor[rgb]{0.737,0.353,0.396}{\textbf{#1}}}%
+\let\hlipl\hlkwb
+
+\usepackage{framed}
+\makeatletter
+\newenvironment{kframe}{%
+ \def\at@end@of@kframe{}%
+ \ifinner\ifhmode%
+  \def\at@end@of@kframe{\end{minipage}}%
+  \begin{minipage}{\columnwidth}%
+ \fi\fi%
+ \def\FrameCommand##1{\hskip\@totalleftmargin \hskip-\fboxsep
+ \colorbox{shadecolor}{##1}\hskip-\fboxsep
+     % There is no \\@totalrightmargin, so:
+     \hskip-\linewidth \hskip-\@totalleftmargin \hskip\columnwidth}%
+ \MakeFramed {\advance\hsize-\width
+   \@totalleftmargin\z@ \linewidth\hsize
+   \@setminipage}}%
+ {\par\unskip\endMakeFramed%
+ \at@end@of@kframe}
+\makeatother
+
+\definecolor{shadecolor}{rgb}{.97, .97, .97}
+\definecolor{messagecolor}{rgb}{0, 0, 0}
+\definecolor{warningcolor}{rgb}{1, 0, 1}
+\definecolor{errorcolor}{rgb}{1, 0, 0}
+\newenvironment{knitrout}{}{} % an empty environment to be redefined in TeX
+
+\usepackage{alltt}
+
+
+%\input{slides_header.tex}
+\input{/home/sahir/git_repositories/EPIB607/slides/slides_header2.tex}
+\graphicspath{{/home/sahir/git_repositories/EPIB607/slides/figure/}}
+
+%\let\oldShaded\Shaded
+%\let\endoldShaded\endShaded
+%\renewenvironment{Shaded}{\footnotesize\oldShaded}{\endoldShaded}
+
+%\newcommand{\blue}[1]{\textcolor{blue}{#1}}
+%\newcommand{\red}[1]{\textcolor{red}{#1}}
+
+
+\usepackage{xparse}
+\NewDocumentCommand\mylist{>{\SplitList{;}}m}
+{
+	\begin{itemize}
+		\ProcessList{#1}{ \insertitem }
+	\end{itemize}
+}
+\NewDocumentCommand\mynum{>{\SplitList{;}}m}
+{
+	\begin{enumerate}
+		\ProcessList{#1}{ \insertitem }
+	\end{enumerate}
+}
+\newcommand\insertitem[1]{\item #1}
+
+\newcommand\FrameText[1]{%
+	\begin{textblock*}{\paperwidth}(0pt,\textheight)
+		\raggedright #1\hspace{.5em}
+\end{textblock*}}
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\begin{document}
+	
+	
+	
+	%\title{Introduction to Regression Trees}
+	%\author{Sahir Bhatnagar \inst{1}}
+	%\author[shortname]{Sahir Rai Bhatnagar, PhD Candidate (Biostatistics) }
+	%\institute[shortinst]{Department of Epidemiology, Biostatistics and Occupational Health}
+	
+	\title{014 - Inference about a Population Proportion ($\pi$)}
+	\author{EPIB 607 - FALL 2020}
+	\institute{
+		Sahir Rai Bhatnagar\\
+		Department of Epidemiology, Biostatistics, and Occupational Health\\
+		McGill University\\
+		
+		\vspace{0.1 in}
+		
+		\texttt{sahir.bhatnagar@mcgill.ca}\\
+		%\texttt{\url{https://sahirbhatnagar.com/EPIB607/}}
+	}
+	
+	\date{slides compiled on \today}
+	
+	\maketitle
+	
+	%\section{Objectives}
+	
+	\section{Motivating Example}
+
+
+
+
+\begin{frame}[fragile,plain]
+
+
+\begin{knitrout}\tiny
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlkwd{head}\hlstd{(depths)}
+\end{alltt}
+\begin{verbatim}
+##           X  lon  lat  alt water South
+## 26118 26118  158  8.8 5044     1     0
+## 29349 29349  -52 29.3 5277     1     0
+## 4391   4391 -133 13.7 5032     1     0
+## 9424   9424  156 13.4 5727     1     0
+## 9082   9082 -113 23.6 3551     1     0
+## 25102 25102  -98 23.4   20     1     0
+\end{verbatim}
+\begin{alltt}
+\hlkwd{dim}\hlstd{(depths)}
+\end{alltt}
+\begin{verbatim}
+## [1] 400   6
+\end{verbatim}
+\begin{alltt}
+\hlstd{fit} \hlkwb{<-} \hlkwd{lm}\hlstd{(alt} \hlopt{~} \hlnum{1}\hlstd{,} \hlkwc{data} \hlstd{= depths)}
+\hlkwd{print}\hlstd{(}\hlkwd{summary}\hlstd{(fit),} \hlkwc{signif.stars} \hlstd{= F)}
+\end{alltt}
+\begin{verbatim}
+## Coefficients:
+##             Estimate Std. Error t value Pr(>|t|)
+## (Intercept)   3628.5       86.5      42   <2e-16
+## 
+## Residual standard error: 1730 on 399 degrees of freedom
+\end{verbatim}
+\end{kframe}
+\end{knitrout}
+
+
+\end{frame}
+
+
+\begin{frame}[fragile,plain]
+
+
+	
+	
+\begin{knitrout}\tiny
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlstd{fit} \hlkwb{<-} \hlkwd{lm}\hlstd{(alt} \hlopt{~} \hlstd{South,} \hlkwc{data} \hlstd{= depths)}
+\hlkwd{print}\hlstd{(}\hlkwd{summary}\hlstd{(fit),} \hlkwc{signif.stars} \hlstd{= F)}
+\end{alltt}
+\begin{verbatim}
+## Coefficients:
+##             Estimate Std. Error t value Pr(>|t|)
+## (Intercept)     3523        122   28.82   <2e-16
+## South            211        173    1.22     0.22
+## 
+## Residual standard error: 1730 on 398 degrees of freedom
+## Multiple R-squared: 0.00372,	Adjusted R-squared: 0.00122 
+## F-statistic: 1.49 on 1 and 398 DF,  p-value: 0.223
+\end{verbatim}
+\begin{alltt}
+\hlstd{stats}\hlopt{::}\hlkwd{t.test}\hlstd{(alt} \hlopt{~} \hlstd{South,} \hlkwc{data} \hlstd{= depths,} \hlkwc{var.equal} \hlstd{=} \hlnum{TRUE}\hlstd{)}
+\end{alltt}
+\begin{verbatim}
+##  Two Sample t-test with alt by South 
+## t = -1.2, df = 398, p-value = 0.2235
+## alternative hypothesis: true difference in means is not equal to 0 
+## 95 percent confidence interval:
+##  -551  129 
+## sample estimates:
+## mean in group 0 mean in group 1 
+##            3523            3734
+\end{verbatim}
+\end{kframe}
+\end{knitrout}
+\end{frame}
+
+\end{document}

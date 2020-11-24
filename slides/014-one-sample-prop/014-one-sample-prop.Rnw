@@ -9,8 +9,8 @@
 %\let\endoldShaded\endShaded
 %\renewenvironment{Shaded}{\footnotesize\oldShaded}{\endoldShaded}
 
-\newcommand{\blue}[1]{\textcolor{blue}{#1}}
-\newcommand{\red}[1]{\textcolor{red}{#1}}
+%\newcommand{\blue}[1]{\textcolor{blue}{#1}}
+%\newcommand{\red}[1]{\textcolor{red}{#1}}
 
 
 \usepackage{xparse}
