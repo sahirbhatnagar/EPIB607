@@ -1,0 +1,724 @@
+\documentclass[landscape,twocolumn,letterpaper,9pt,reqno]{article}
+
+\usepackage{lscape,fancyhdr}
+
+\usepackage{hyperref}
+\usepackage{float}
+\pagestyle{fancy}
+
+\usepackage{amsmath,epsfig,subfigure,amsthm,amsfonts,epsf,psfrag,rotating,setspace,bm}
+
+\usepackage{verbatim,color} % Allow text colors}
+\usepackage{placeins}
+
+\setlength{\oddsidemargin}{-0.4in}		% default=0in
+\setlength\evensidemargin{-0.4in}
+
+\setlength{\textwidth}{9.8in}		% default=9in
+
+\setlength{\columnsep}{0.5in}		% default=10pt
+
+\setlength{\columnseprule}{0pt}		% default=0pt (no line)
+
+
+\setlength{\textheight}{7.0in}		% default=5.15in
+
+\setlength{\topmargin}{-0.75in}		% default=0.20in
+
+\setlength{\headsep}{0.25in}		% default=0.35in
+
+\setlength{\parskip}{1.2ex}
+
+\setlength{\parindent}{0mm}
+
+\newcommand{\compresslist}{ % Define a command to reduce spacing within itemize/enumerate environments, this is used right after \begin{itemize} or \begin{enumerate}
+	\setlength{\itemsep}{1pt}
+	\setlength{\parskip}{0pt}
+	\setlength{\parsep}{0pt}
+}
+
+
+\lhead{Course EPIB607: Regression handout 006 (Logistic regression - HIV and Smoking examples)}
+\rhead{jh,sb \ \ \ v. 2018.11.26}
+
+\begin{document}
+	
+<<setup, echo=FALSE, message=FALSE, warning=FALSE>>=
+rm(list = ls())
+library(knitr)
+library(mosaic)
+knitr::opts_chunk$set(cache=TRUE, message = FALSE, tidy = FALSE,warning=FALSE, 
+echo = FALSE, fig.width = 8, fig.asp = 0.8, 
+fig.align = 'center', out.width = "100%", size = 'normalsize')
+# the kframe environment does not work with allowframebreaks, so remove it
+knit_hooks$set(document = function(x) {
+gsub('\\\\(begin|end)\\{kframe\\}', '', x)
+})
+pacman::p_load(knitr)
+# trop <- RSkittleBrewer::RSkittleBrewer("trop")
+# gg_sy <- theme(legend.position = "bottom", axis.text = element_text(size = 20), axis.title = element_text(size = 20), legend.text = element_text(size = 20), legend.title = element_text(size = 20))
+@
+
+
+\section{Mean depth of the ocean}
+
+
+<<eval=TRUE, echo=FALSE, size='scriptsize'>>=
+# load function to get depths
+source("https://github.com/sahirbhatnagar/EPIB607/raw/master/exercises/water/automate_water_task.R")
+
+# get 1000 depths
+set.seed(222333444)
+depths <- automate_water_task(index = sample(1:50000, 1000), student_id = 222333444, type = "depth")
+
+# separate by north and south hemisphere
+depths_north <- depths[which(depths$lat>0),]
+depths_south <- depths[which(depths$lat<0),]
+
+# restrict sample to 200 (at random)
+depths_north <- depths_north[sample(1:nrow(depths_north), 200), ]
+depths_south <- depths_south[sample(1:nrow(depths_south), 200), ]
+
+# add indicator variable
+depths_north$South <- 0
+depths_south$South <- 1
+
+# combine data
+depths <- rbind(depths_north, depths_south)
+# regression. lm assumes equal variances
+#fit <- lm(alt ~ South, data = depths)
+#summary(fit)
+@	
+
+The \texttt{depths} dataset shown below contains the depths of the ocean in the \texttt{alt} column and whether the sampled location is in the northern or southern hemisphere given by the \texttt{South} column (South=0 is the north and South=1 is the south). There are 200 samples from the north and 200 from the south. 
+
+<<echo=c(1,2), eval=TRUE>>=
+head(depths)
+dim(depths)
+@
+
+<<echo=FALSE, eval=TRUE>>=
+fit <- lm(alt ~ 1, data = depths)
+summary(fit)
+@
+
+\begin{enumerate}\compresslist
+	\item A linear regression output is shown. What type of regression is this?
+	\item What is the sample size? 
+	\item What is the parameter of interest?
+	\item How many determinants are there for the parameter of interest?
+	\item Give the regression equation in terms of population parameters. Define each of the parameters in your model.
+		\item Provide the \texttt{R} code used to fit the regression equation.
+	\item What does the \texttt{Estimate} for \texttt{(Intercept)} represent? Would it be possible to calculate this value without running a regression? If yes, how?
+	\item How is the \texttt{Std. Error} calculated?
+	\item Show how the \texttt{t value} was calculated. State the implied hypothesis test. 
+	\item Show how the \texttt{p-value} was calculated.
+	\item Calculate a 95\% confidence interval for the parameter of interest. State the assumptions you used to calculate this CI.
+\end{enumerate}
+
+
+
+\clearpage
+
+\section{Mean depth of the ocean in northern and southern hemisphere}
+
+<<echo=FALSE, results='hide', fig.asp=0.32>>=
+pacman::p_load(ggplot2)
+pacman::p_load(cowplot)
+theme_set(theme_cowplot())
+pacman::p_load(mosaic)
+ggformula::gf_jitter(alt ~ South, data = depths, width = 0.05)
+@
+
+
+<<echo=3, eval=TRUE, size='footnotesize'>>=
+fit <- lm(alt ~ South, data = depths)
+summary(fit)
+t.test(alt ~ South, data = depths, var.equal = TRUE)
+@
+
+
+\begin{enumerate}\compresslist
+	\item A linear regression output is shown. What is the parameter of interest?
+	\item How many determinants are there for the parameter of interest?
+	\item Give the regression equation in terms of population parameters. Define each of the parameters in your model.
+	\item Provide the \texttt{R} code used to fit the regression equation.
+	\item What does the \texttt{Estimate} for \texttt{South} represent? Would it be possible to calculate this value without running a regression? If yes, how?
+	\item Show how the \texttt{t value} for \texttt{South} was calculated. State the implied hypothesis test. 
+	\item Show how the \texttt{p-value} was calculated. Interpret this p-value in the context of the problem. 
+	\item Calculate a 95\% confidence interval for the parameter of interest. State the assumptions you used to calculate this CI.
+\end{enumerate}
+
+
+\clearpage
+
+\section{Ratio depth of the ocean in northern and southern hemisphere}
+
+<<eval=TRUE, echo=FALSE>>=
+# note: we are now using glm
+fit <- glm(alt ~ South, data = depths, family = gaussian(link=log))
+summary(fit)
+@
+
+
+\begin{enumerate}\compresslist
+	\item A linear regression output is shown. What is the parameter of interest?
+	\item Give the regression equation in terms of population parameters. Define each of the parameters in your model.
+	\item Provide the \texttt{R} code used to fit the regression equation.
+	\item What does the \texttt{Estimate} for \texttt{South} represent? Would it be possible to calculate this value without running a regression? If yes, how?
+	\item State the implied hypothesis test. Show how the \texttt{p-value} was calculated. Interpret this p-value in the context of the problem. 
+	\item Calculate a 95\% confidence interval for the \% difference between the depths of the ocean in the South vs the North. 
+	\item Are the depths of the ocean different in the South compared to the North? Explain. 
+\end{enumerate}
+
+
+\clearpage
+
+
+\section{Student drinking}
+
+A professor asked her sophomore students, “How many drinks do you typically have per session” (A drink is defined as one 12-ounce
+beer, one 4-ounce glass of wine, or one 1-ounce shot of liquor.) Some of the students didn’t drink. Below are two fitted regressions based on the responses of the female and male students who did drink. \texttt{gender=1} is male and \texttt{gender=0} is female. 
+
+<<eval=TRUE, echo=FALSE, size='tiny'>>=
+drinks <- read.csv("/home/sahir/git_repositories/epib607/slides/regression/handouts/drinks.csv")
+#str(drinks)
+#table(drinks$gender)
+@
+
+<<eval=TRUE, echo=TRUE, size='footnotesize'>>=
+fit <- lm(drinks ~ gender, data = drinks)
+summary(fit)
+fit <- glm(drinks ~ gender, data = drinks, family = gaussian(link=log))
+summary(fit)
+@
+
+
+\begin{enumerate}\compresslist
+	\item Two linear regression outputs are shown. For each, what is the parameter of interest?
+	\item For each, give the regression equation in terms of population parameters. Define each of the parameters in your model.
+	\item What does the \texttt{Estimate} for \texttt{gender} represent in each regression? Would it be possible to calculate this value without running a regression? If yes, how?
+	\item State the implied hypothesis test. Show how the \texttt{p-value} was calculated. Interpret this p-value in the context of the problem. 
+	\item Calculate a 95\% confidence interval for the \% difference between the number of drinks in males vs females. 
+	\item Are the number of drinks different in males vs. females? Explain. 
+\end{enumerate}
+
+
+\clearpage
+
+\section{Breastfeeding and respiratory infection I}
+
+A total of 189,612 person-years of follow up were accumulated over the course of the study: 151,690
+among infants who were being breastfed and 37,922 among infants not being breastfed. Over the
+course of follow up the investigators identified 514,230 incident cases of respiratory infection among
+breastfeeding infants and 140,312 among non-breastfeeding infants. Calculate the crude incidence rate difference and 95\% CI comparing infants who were not breastfed with those who were.
+
+<<eval=TRUE, echo=c(4,5), size='small'>>=
+cases <- c(514230, 140312)
+PT <- c(151690, 37922)
+not_breastfed <- c(0, 1)
+fit <- glm(cases ~ -1 + PT + PT:not_breastfed, family = poisson(link = identity))
+summary(fit)
+@	
+
+\begin{enumerate}\compresslist
+	\item Give the implied regression equation in terms of population parameters. Define each of the parameters in your model.
+	\item What does the \texttt{Estimate} for \texttt{PT} and \texttt{PT:not\_breastfed} each represent? 
+	\item Explain why there is a \texttt{-1} in the \texttt{glm} formula.
+\end{enumerate}
+
+
+
+\clearpage
+
+
+
+
+\section{Breastfeeding and respiratory infection II}
+
+A total of 189,612 person-years of follow up were accumulated over the course of the study: 151,690
+among infants who were being breastfed and 37,922 among infants not being breastfed. Over the
+course of follow up the investigators identified 514,230 incident cases of respiratory infection among
+breastfeeding infants and 140,312 among non-breastfeeding infants. Calculate the crude incidence rate difference and 95\% CI comparing infants who were not breastfed with those who were. We are interested in calculating the incidence rate ratio and 95\% CI comparing infants who were not breastfed with those who were.
+
+<<eval=FALSE, echo=FALSE, size='small'>>=
+fit <- glm(cases ~ not_breastfed + offset(log(PT)), family = poisson(link = log))
+summary(fit)
+@
+
+
+\begin{enumerate}\compresslist
+	\item What is the parameter of interest?
+	\item Give the regression equation in terms of the population parameters including the parameter of interest. Define each of the parameters in your model.
+	\item How would you fit this model in \texttt{R}? First show what the data looks like, and then provide the \texttt{R} code to fit the regression model given in part 2.
+	\item The fitted regression equation is given by: \[ \widehat{\log(\mu)} = 1.22 + 0.0875 \cdot NBF + \log(PT) \] where $\mu$ is the expected number of cases of respiratory infection, $NBF=1$ if not breastfed and 0 otherwise, and $PT$ is the person time in years. Calculate the fitted values, i.e., the expected number of cases, for both the not breastfed and breastfed group. Do you notice anything in particular about these fitted values? If yes, explain. 
+\end{enumerate}
+
+
+\clearpage
+
+
+\section{Malaria control with bednets}
+
+See the 2018 Lancet article \textit{Efficacy of Olyset Duo, a bednet containing pyriproxyfen and permethrin, versus a permethrin-only net against clinical malaria in an area with highly pyrethroid-resistant vectors in rural Burkina Faso: a cluster-randomised
+	controlled trial} (\texttt{Bednets.pdf} in \texttt{A9} folder of myCourses) by Tiono et. al. exposure=1 is the new bednet, and exposure=0 is the existing bednet. A poisson regression with log link is fitted to the data and provides the following output:
+
+<<eval=TRUE, echo=FALSE, size='small'>>=
+df <- data.frame(month = rep(c(paste0(c("june","july","august","september","october",
+"november","december"),"2014"),
+paste0(c("may"),"2015"),
+paste0(c("june","july","august","september","october",
+"november","december"),"2015")
+), 
+each = 2),
+exposure = rep(c(0,1), 15),
+years = c(79,0,123,0,103,23,79,39,81,63,78,81,80,84,
+89,82,
+59,77,54,99,29,123,0,139,0,166,0,185,0,189),
+cases = c(33,0,454,0,244,43,177,66,212,155,193,170,111,92,
+15,14,42,50,146,223,64,266,0,271,0,337,0,304,0,56)
+)
+
+df <- df[-which(df$years==0),]
+@
+
+
+<<echo=FALSE, eval=TRUE>>=
+fit <- glm(cases ~ exposure + offset(log(years)), 
+data = df, family = poisson(link = log))
+summary(fit)
+@
+
+
+<<echo=FALSE, eval=FALSE>>=
+df$fitted <- exp(coef(fit)[1] + df$exposure * coef(fit)[2]) * df$years
+df$fit2 <- fit$fitted.values
+@
+
+
+\begin{enumerate}\compresslist
+	\item What is the regression equation in terms of population parameters? Define all your parameters. 
+	\item What is the fitted regression equation for the expected counts of malaria cases?
+	\item What is the rate ratio and 95\% CI comparing PPF-treated (exposure=1) to Standard long-lasting insecticidal (exposure=0) nets?
+	\item Do you expect this model to be a good fit for the data in Table 2? Explain why or why not.
+\end{enumerate}
+
+
+\clearpage
+
+
+\section{Population mortality rates in Denmark}
+\small 
+
+\vspace*{-.1in}
+
+We can fit the following simple (multiplicative) rate ratio model to the 
+patterns of mortality rates  for 1980-1984 and  2000-2004. The reference cell is females 70-74,   1980-84. $R$ = rate. $M$ = multiplier.
+
+\begin{tabular}{|l c | l l  l  l  | l l l l | l |}
+	\hline
+	Year  & Age & \multicolumn{3}{c}{Female (F)} & &   \multicolumn{3}{c}{Male (M)} & \\ 
+	\hline
+	& 70-74 &  $R_{F}$ & & & & $R_{F}$ & & $\times M_{M}$  & \\
+	1980- & 75-79 &  $R_{F}$ & $ \times M_{75}$ & &   & $R_{F}$ & $\times M_{75}$ & $\times M_{M}$ & \\
+	1984 & 80-84 & $R_{F}$ & $ \times M_{80}$ &  & &  $R_{F}$ & $ \times M_{80}$ & $ \times M_{M}$ & \\
+	& 85-89 & $R_{F}$ & $ \times M_{85}$ &  & &  $R_{F}$ & $ \times M_{85}$ & $ \times M_{M}$ & \\ 
+	\hline
+	& 70-74 &  $R_{F}$ &  & & $\times M_{20y}$  &  $R_{F}$ & & $  \times M_{M}$  & $\times M_{20y}$\\
+	2000- & 75-79 &  $R_{F} $ & $\times M_{75}$ & & $\times M_{20y}$ &  $R_{F}$ & $ \times M_{75}$ & $ \times M_{M}$& $\times M_{20y}$ \\
+	2004      & 80-84 & $R_{F}$ & $ \times M_{80}$ & & $\times M_{20y}$ &   $R_{F}$ & $ \times M_{80}$ & $ \times M_{M}$ & $\times M_{20y}$ \\
+	& 85-89 & $R_{F}$ & $ \times M_{85}$ & \ \ \ & $\times M_{20y}$&   $R_{F}$ & $\times M_{85}$ & $\times M_{M}$ & $\times M_{20y}$ \\
+	\hline
+\end{tabular}
+
+%The array called `r' in the R code ( which fits additive models to the rates and logs of the rates)can be used to calculate ratios.
+
+<<>>=
+library(dplyr)
+library(tidyr)
+
+pt <- read.table("~/git_repositories/epib607/slides/regression/handouts/denmark_person_time.txt", skip = 1, 
+header = TRUE)
+pt$type <- "PT"
+deaths <- read.table("~/git_repositories/epib607/slides/regression/handouts/denmark_deaths.txt", skip = 1, 
+header = TRUE)
+deaths$type <- "deaths"
+df <- rbind(pt, deaths)
+
+tt <- df %>% 
+gather(key = "group", value = "value", -Year, -Age, -type) %>% 
+spread(type, value) %>% 
+mutate(rate = deaths / PT) %>% 
+gather(key = "measure", value = "value", -Year, -Age, -group) %>% 
+unite(col = "measure", group, measure) %>% 
+spread(measure, value) 
+
+
+# head(tt)
+# str(tt)
+# levels(tt$Year)
+# levels(tt$Age)
+knitr::kable(tt[which(tt$Year %in% c("1980-1984","2000-2004", "2005-2009") & 
+tt$Age %in% c("70-74", "75-79", "80-84", "85-89")),c("Year", "Age", "Female_deaths", "Female_PT", "Female_rate", 
+"Male_deaths", "Male_PT", "Male_rate")], row.names = FALSE)
+@	
+
+%The equation is for the rate in any given age-group in a given gender in a given calendar period:
+\textcolor{white}{text}\newline
+
+\begin{tabular}{c c c c c c c c c}
+	Rate = & $\rule{1cm}{0.15mm}$ & $\times \rule{1cm}{0.15mm}$ & $\times \rule{1cm}{0.15mm}$ & $\times \rule{1cm}{0.15mm}$ & $\times \rule{1cm}{0.15mm}$ & $\times \rule{1cm}{0.15mm}$ \\
+	& &   if  &  if &  if & if & if & \\
+	& &  75-79 & 80-84 & 85-89 & male & 2000-04 \\  \\
+	$\log[Rate] =$ & $\rule{1cm}{0.15mm}$ & $+ \rule{1cm}{0.15mm}$ & $+ \rule{1cm}{0.15mm}$ & $+ \rule{1cm}{0.15mm}$ & $+ \rule{1cm}{0.15mm}$ & $+ \rule{1cm}{0.15mm}$ \\
+	& &   if  &  if &  if & if & if & \\
+	& &  75-79 & 80-84 & 85-89 & male & 2000-04 \\ \\
+	
+	$\log[Rate] =$ &$\rule{1cm}{0.15mm}$& $+  \rule{1cm}{0.15mm}$ & $+   \rule{1cm}{0.15mm}$ & $+   \rule{1cm}{0.15mm}$ & $+   \rule{1cm}{0.15mm} $ & $+ \rule{1cm}{0.15mm}$ \\
+	& &  $\times$  &  $\times$ &  $\times$ & $\times$ & $\times$ & \\
+	& &  $I_{75-79}$ & $I_{80-84}$ & $I_{85-89}$ & $I_{male}$ & $I_{2000-04}$ \\
+\end{tabular}
+
+where each $`I'$ is a (0/1) indicator of the category in question. By using both the 0 and 1 values of each $I$, this 6-parameter equation  produces a fitted value for each of the $4\times2\times2=16$ cells.
+
+%You can also think of $I_{75-79},$  $I_{80-84},$ and  $I_{85-89}$ as 
+%`radio buttons':  at most 1 of them can be `on' at the same time, since there are 4 
+%age levels in all.
+
+
+\begin{enumerate}\compresslist
+	\item How many determinants are there for the mortality rate? How many parameters are required to represent these determinants?
+	\item Estimate the parameters using a calculator, and fill in the blanks in the regression equations. 
+	\item Interpret the estimate for the $M_{80}$ parameter.
+	\item Fill in the blanks: The corresponding regression equation would reparametrize $\rule{1cm}{0.15mm}$ parameters as a function of $\rule{1cm}{0.15mm}$ parameters.
+\end{enumerate}
+
+\clearpage
+
+
+\section{Kidney stone removal procedures 1}
+The 1986 BMJ article \textit{Comparison of treatment of renal calculi by open surgery, percutaneous nephrolithotomy, and extracorporeal shockwave lithotripsy} by Charig et. al, was a study designed to compare different methods of treating kidney stones in order to establish which was the most cost effective and successful. The procedure, either open surgery, or percutaneous nephrolithotomy (PN, a keyhole surgery procedure), was defined to be successful if stones were eliminated or reduced to less than 2 mm after three months. The study collected cases of kidney stones treated at a particular UK hospital during 1972-1985. The counts of successes for the two surgical procedures were:
+
+\begin{table}[h]
+	\centering
+	\begin{tabular}{lcc|c}
+		& Unsuccessful &  Successful & Total\\
+		Open surgery & 77 & 273 & 350 \\
+		PN & 61 & 289 & 350 \\
+		\hline
+		Total & 138 & 562 & 700
+	\end{tabular}
+\end{table}
+
+
+<<echo=FALSE, eval=TRUE>>=
+cases <- c(77, 61)
+controls <- c(273, 289)
+open <- c(1,0)
+df <- as.data.frame(cbind(cases, controls, open))
+
+fit <- glm(cbind(cases,controls) ~ open, data = df,
+family=binomial(link="logit"))
+summary(fit)
+@
+
+\begin{enumerate}\compresslist
+	\item A logistic regression output with logit link is shown. What is the parameter of interest?
+	\item Give the regression equation in terms of population parameters. Define each of the parameters in your model.
+	\item Fill in the blanks: The corresponding regression equation would reparametrize $\rule{1cm}{0.15mm}$ parameters as a function of $\rule{1cm}{0.15mm}$ parameters.
+	\item What should the data look like so that it can be used in a regression routine?
+	\item Provide the \texttt{R} code used to fit the regression equation.
+	\item Provide the fitted regression equation for the log odds. 
+	\item Provide the fitted regression equation for the odds. 
+	\item Provide the fitted regression equation for the risk. 
+	\item What does the \texttt{Estimate} for \texttt{open} represent? Would it be possible to calculate this value without running a regression? If yes, how?
+	\item State the implied hypothesis test for \texttt{open}. Show how the \texttt{p-value} was calculated. Interpret this p-value in the context of the problem. 
+	\item Calculate a 95\% confidence interval for the parameter of interest. 
+	\item What is the risk of unsuccessful surgery in the open surgery group? in the PN group?
+\end{enumerate}
+
+
+
+\clearpage
+
+\section{Kidney stone removal procedures 2}
+Below are the same outcomes tabulated by the size of the kidney stone (smaller than 2cm/at least 2cm in diameter):
+
+\begin{table}[h]
+	\centering
+	\begin{tabular}{lcc|c}
+		$<$ 2cm & Unsuccessful &  Successful & Total\\
+		Open surgery & 6 & 81 & 87 \\
+		PN 			 & 36 & 234 & 270 \\
+		\hline
+		Total 	& 42 & 315 & 357 \\
+		& & &  \\
+		$\geq$ 2cm & Unsuccessful &  Successful & Total\\
+		Open surgery & 71 & 192 & 263 \\
+		PN 			 & 25 & 55 & 80 \\
+		\hline
+		Total 		& 96 & 247 & 343
+	\end{tabular}
+\end{table}
+
+
+<<echo=FALSE, eval=TRUE>>=
+cases <- c(6,36,71,25)
+controls <- c(81,234,192,55)
+open <- c(1,0, 1, 0)
+size <- c(0,0,1,1)
+df <- as.data.frame(cbind(cases, controls, open, size))
+
+fit <- glm(cbind(cases,controls) ~ open + size, data = df,
+family=binomial(link="logit"))
+summary(fit)
+@
+
+
+\begin{enumerate}\compresslist
+	\item A logistic regression output with logit link is shown (open=1 is open surgery and 0 otherwise, size=1 is $\geq 2cm$ and 0 otherwise). Give the regression equation in terms of population parameters. Define each of the parameters in your model.
+	\item Fill in the blanks: The corresponding regression equation would reparametrize $\rule{1cm}{0.15mm}$ parameters as a function of $\rule{1cm}{0.15mm}$ parameters.
+	\item What should the data look like so that it can be used in a regression routine? 
+	\item Provide the \texttt{R} code used to fit the regression equation.
+	\item Provide the fitted regression equation for the log odds. 
+	\item Provide the fitted regression equation for the odds. 
+	\item Provide the fitted regression equation for the risk. 
+	\item Interpret the \texttt{Estimate} for \texttt{open}. 
+	\item Calculate a 95\% confidence interval for the \texttt{open} parameter. 
+	\item What is the risk of unsuccessful surgery in the open surgery group with kidney stones less than 2cm?
+\end{enumerate}
+
+
+\clearpage
+
+\section{Diabetes cohort data 1}
+
+\begin{table}[h]
+	\centering
+	\begin{tabular}{lcc|c}
+		& Dead &  Censored & Total\\
+		Type II & 218 & 326 & 544 \\
+		Type I & 105 & 253 & 323 \\
+		\hline
+		Total & 323 & 579 & 902
+	\end{tabular}
+\end{table}
+
+
+<<echo=FALSE, eval=TRUE>>=
+cases <- c(218, 105)
+controls <- c(326, 253)
+type <- c(1,0)
+df <- as.data.frame(cbind(cases, controls, type))
+
+fit <- glm(cbind(cases,controls) ~ type, data = df,
+family=binomial(link="logit"))
+summary(fit)
+@
+
+\begin{enumerate}\compresslist
+	\item A logistic regression output with logit link is shown. What is the parameter of interest?
+	\item Give the regression equation in terms of population parameters. Define each of the parameters in your model.
+	\item Fill in the blanks: The corresponding regression equation would reparametrize $\rule{1cm}{0.15mm}$ parameters as a function of $\rule{1cm}{0.15mm}$ parameters.
+	\item What should the data look like so that it can be used in a regression routine?
+	\item Provide the \texttt{R} code used to fit the regression equation.
+	\item Provide the fitted regression equation for the log odds. 
+	\item Provide the fitted regression equation for the odds. 
+	\item Provide the fitted regression equation for the risk. 
+	\item What does the \texttt{Estimate} for \texttt{type} represent? Would it be possible to calculate this value without running a regression? If yes, how?
+	\item Calculate a 95\% confidence interval for the parameter of interest. 
+	\item What is the risk of death for males aged 45 living with Type II diabetes? 
+	\item What is the risk of death for females aged 57 living with Type II diabetes? 
+\end{enumerate}
+
+\clearpage
+
+\section{Diabetes cohort data 2}
+
+Below are the same outcomes tabulated by age:
+
+\begin{table}[h]
+	\centering
+	\begin{tabular}{lcc|c}
+		$\leq 40$ & Dead &  Censored & Total\\
+		Type II & 0 & 15 & 15 \\
+		Type I & 1 & 129 & 130 \\
+		\hline
+		Total & 1 & 144 & 145 \\
+		& & & \\
+		$> 40$ & Dead &  Censored & Total\\
+		Type II & 218 & 311 & 529 \\
+		Type I & 104 & 124 & 228 \\
+		\hline
+		Total & 322 & 435 & 757 \\ 
+	\end{tabular}
+\end{table}
+
+
+<<echo=FALSE, eval=TRUE>>=
+dead <- c(0,1,218,104)
+censored <- c(15,129,311,124)
+type <- c(1,0,1,0); age <- c(0,0,1,1)
+df <- as.data.frame(cbind(dead,censored,type,age))
+
+fit <- glm(cbind(dead,censored) ~ type + age, data=df, 
+family=binomial(link="logit"))
+summary(fit)
+@
+
+\begin{enumerate}\compresslist
+	\item A logistic regression output with logit link is shown (type=1 is Type II and 0 otherwise, age=1 is Age $> 40$ and 0 otherwise). Give the regression equation in terms of population parameters. Define each of the parameters in your model.
+	\item Fill in the blanks: The corresponding regression equation would reparametrize $\rule{1cm}{0.15mm}$ parameters as a function of $\rule{1cm}{0.15mm}$ parameters.
+	\item What should the data look like so that it can be used in a regression routine? 
+	\item Provide the \texttt{R} code used to fit the regression equation.
+	\item Provide the fitted regression equation for the log odds. 
+	\item Provide the fitted regression equation for the odds. 
+	\item Provide the fitted regression equation for the risk. 
+	\item Interpret the \texttt{Estimate} for \texttt{type}. 
+	\item Calculate a 95\% confidence interval for the \texttt{type} parameter. 
+	\item What is the risk of death for an individual who is 35 years old with Type II diabetes? Why isnt the risk for this individual equal to 0?
+\end{enumerate}
+
+
+\clearpage
+
+\section{Cesarean section and transmission of HIV}
+
+\vspace{-0.1in}
+
+To evaluate the relation between elective cesarean section and vertical (mother-to-child) transmission of human immunodeficiency virus type 1 (HIV-1), the authors performed a meta-analysis using data on individual patients from 15 prospective cohort studies.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=1.1]{hivtable.pdf}
+\end{figure}
+
+
+<<echo=FALSE, eval=TRUE, message=FALSE, size = 'small'>>=
+ds.for.mh=read.csv("~/git_repositories/epib607/slides/regression/handouts/hiv_Transmission_mantel_haenszel.csv",
+header=TRUE)
+@
+
+\begin{table}[H]
+	\centering
+	\begin{tabular}{lcc|c}
+			     & Exposed  &   Unexposed & Total  \\		
+		Cases    & $a_i$ &  $b_i$ & $M_{1i}$ \\
+		Controls & $c_i$ 	& $d_i$  	& $M_{0i}$ 	\\	
+		\hline
+		Total & $N_{1i}$ & $N_{0i}$ 	& $T_i$
+	\end{tabular}
+\end{table}
+
+
+$OR_{MH} = \frac{\sum_i \frac{a_i d_i}{T_i}}{\sum_i \frac{b_i c_i}{T_i}}$ \\ \ \\
+$RR_{MH} = \frac{\sum_i \frac{a_i N_{0i}}{T_i}}{\sum_i \frac{b_i N_{1i}}{T_i}}$
+
+
+\begin{enumerate}\compresslist
+	\item You only have access to a hand calculator. You are asked to provide a evidence on whether Elective cesarean is protective for HIV vertical transmission or not. Explain what you would do. 
+	\item Several regression outputs are shown below. For each, provide the regression equation in terms of the population parameters being fit. 
+	\item When applicable, explain what the \texttt{Estimate} for \texttt{caesarian} represents. 
+	\item What statement can you make about c-sections and HIV vertical transmission based on these models? Provide statistical evidence to support your answer.  
+\end{enumerate}
+
+\clearpage
+
+<<echo=FALSE, eval=TRUE, message=FALSE, size = 'small'>>=
+# devtools::install_github('droglenc/NCStats')
+library(NCStats)
+ds=read.csv("~/git_repositories/epib607/slides/regression/handouts/hiv_Transmission.csv",header=TRUE)
+ds$n.hivneg= ds$n.pairs - ds$n.hivpos
+ds$propn = round(ds$n.hivpos/ds$n.pairs,3)
+#overall proportion hiv positive
+#round(sum(ds$n.hivpos)/sum(ds$n.pairs),3)
+# intercept-only logit model
+fit0 <- glm(cbind(n.hivpos,n.hivneg) ~ 1, family=binomial(link=logit), data=ds)
+print(summary(fit0), show.call=TRUE, digits=2)
+#checks
+#plogis(fit0$coefficients)
+@
+
+
+<<echo=FALSE, eval=TRUE, message=FALSE, size = 'small'>>=
+fit.cae=glm(cbind(n.hivpos,n.hivneg) ~ caesarian, family=binomial(link=logit), data=ds)
+print(summary(fit.cae), show.call=TRUE, digits=2)
+@
+
+
+
+
+\clearpage
+
+\vspace{-0.3in}
+
+<<echo=FALSE, eval=TRUE, message=FALSE, size = 'small'>>=
+fit.all4 = glm(cbind(n.hivpos,ds$n.hivneg) ~ caesarian + ART1or2 + ART3 + m.advancedHIV + c.LBW,
+family=binomial(link=logit), data=ds)
+print(summary(fit.all4), show.call=TRUE, digits=2)
+@
+
+\vspace{-0.22in}
+
+<<echo=FALSE, eval=TRUE, message=FALSE, size = 'small'>>=
+fit.all4 = glm(cbind(n.hivpos,ds$n.hivneg) ~ caesarian + ART1or2 + ART3 + m.advancedHIV + c.LBW,
+family=binomial(link=log), data=ds)
+print(summary(fit.all4), show.call=TRUE, digits=2)
+@
+
+
+\clearpage
+
+\section{Smoking among women in Whickham, UK}
+Consider the following \textit{age stratified} mortality data (Rothman, Table 1-2) from a study that looked at smoking habits of residents of Whickham, England, in the period 1972-1974 and then tracked the survival over the next 20 years of those who were interviewed. 
+
+
+\begin{table}[h]
+	\centering
+	\begin{tabular}{lcccc}
+		 &  &   \multicolumn{2}{c}{Smoking} &  \\		
+		Age & Vital Status &  Yes & No & Total \\
+		18-24 	& Dead 	& 2  	& 1 	& 3 	\\	
+		 		& Alive & 53  	& 61 	& 114 	\\
+		 		& Risk & 0.04  	& 0.02 	& 0.03 	\\
+		 		\hline
+		25-34 	& Dead 	& 3  	& 5 	& 8 	\\	
+& Alive & 121  	& 152 	& 273 	\\
+& Risk & 0.02  	& 0.03 	& 0.03 \\
+\hline 			
+35-44 	& Dead 	& 14  	& 7 	& 21 	\\	
+& Alive & 95  	& 114 	& 209 	\\
+& Risk & 0.13  	& 0.06 	& 0.09 \\
+\hline
+45-54 	& Dead 	& 27  	& 12 	& 39 	\\	
+& Alive & 103  	& 66 	& 169 	\\
+& Risk & 0.21  	& 0.15 	& 0.19 \\
+		 		\hline
+55-64 	& Dead 	& 51  	& 40 	& 91 	\\	
+& Alive & 64  	& 81 	& 145 	\\
+& Risk & 0.44  	& 0.33 	& 0.39 \\
+		 		\hline
+65-74 	& Dead 	& 29  	& 101 	& 130 	\\	
+& Alive & 7  	& 28 	& 35 	\\
+& Risk & 0.81  	& 0.78 	& 0.79 \\
+		 		\hline
+75+ 	& Dead 	& 13  	& 64 	& 77 	\\	
+& Alive & 0  	& 0 	& 0 	\\
+& Risk & 1.00  	& 1.00 	& 1.00 \\
+\hline
+	\end{tabular}
+\end{table}
+
+
+
+\begin{enumerate}\compresslist
+	\item Calculate the crude odds ratio for smoking vs. not smoking. 
+	\item You are asked to provide evidence on whether smoking affects mortality. Provide a full analysis plan, including a regression model with population parameters, the parameter of interest, what the data should look like to fit in a regression routine and the \texttt{R} code for the regression routine. State concretely what you would provide as evidence. 
+\end{enumerate}
+
+
+
+
+
+
+\end{document}

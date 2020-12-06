@@ -1,0 +1,286 @@
+---
+title: DALITE Q4 - Regression. Solutions.
+
+# Use letters for affiliations
+author:
+  - name: EPIB607 - Inferential Statistics
+    affiliation: a
+#  - name: Second Author
+#    affiliation: a,b
+address:
+  - code: a
+    address: Fall 2020, McGill University
+#  - code: b
+#    address: Department of Neat Tricks, Whereever State University, Someplace, MC, 67890
+
+# For footer text  TODO(fold into template, allow free form two-authors)
+lead_author_surname: Bhatnagar 
+
+# Place DOI URL or CRAN Package URL here
+#doi: "https://sahirbhatnagar.com/EPIB607/"
+
+# Abstract
+abstract: |
+  This DALITE quiz will cover logistic regression.
+
+# Optional: Acknowledgements
+#acknowledgements: |
+#  This template package builds upon, and extends, the work of the excellent
+#  [rticles](https://cran.r-project.org/package=rticles) package, and both packages rely on the
+#  [PNAS LaTeX](http://www.pnas.org/site/authors/latex.xhtml) macros. Both these sources are
+#  gratefully acknowledged as this work would not have been possible without them.  Our extensions
+#  are under the same respective licensing term
+#  ([GPL-3](https://www.gnu.org/licenses/gpl-3.0.en.html) and
+#  [LPPL (>= 1.3)](https://www.latex-project.org/lppl/)).
+
+# Optional: One or more keywords
+keywords:
+  - Two sample proportions
+  - Odds ratio
+  - Logit transformation
+  - Odds
+  - Log odds
+  - Risk calculator
+
+
+# Paper size for the document, values of letterpaper and a4paper
+papersize: letter
+
+# Font size of the document, values of 9pt (default), 10pt, 11pt and 12pt
+fontsize: 9pt
+
+# Optional: Force one-column layout, default is two-column
+one_column: true
+
+# Optional: Enables lineno mode, but only if one_column mode is also true
+#lineno: true
+
+# Optional: Enable one-sided layout, default is two-sided
+#one_sided: true
+
+# Optional: Enable section numbering, default is unnumbered
+numbersections: true
+
+# Optional: Specify the depth of section number, default is 5
+#secnumdepth: 5
+
+# Optional: Skip inserting final break between acknowledgements, default is false
+skip_final_break: true
+
+# Optional: Bibliography 
+bibliography: pinp
+
+# Optional: Enable a 'Draft' watermark on the document
+watermark: false
+
+# Customize footer, eg by referencing the vignette
+#footer_contents: "DALITE Q8 due November 18, 2018 by 11:59pm"
+
+# Produce a pinp document
+output: pinp::pinp
+
+# Required: Vignette metadata for inclusion in a package.
+vignette: >
+  %\VignetteIndexEntry{YourPackage-vignetteentry}
+  %\VignetteKeywords{YourPackage, r, anotherkeyword}
+  %\VignettePackage{Due Nov 7, 2018}
+  %\VignetteEngine{knitr::rmarkdown}
+---
+
+# FINRISK Calculator {-}
+
+There are now several risk calculators derived from epidemiological studies, such as the Framingham Heart Study. See, e.g., https://www.uptodate.com/home/medical-calculators and https://qxmd.com/calculate/. 
+
+Many of the online ones for 10 year risks are based on the proportional hazards model. One  risk equation that is based on logistic regression (see Rothman chapter 12, 2012 or Chapter 10, 2002) is that described in the article Predicting Coronary Heart Disease and Stroke The FINRISK Calculator by Erkki Vartiainen et al. GLOBAL HEART, VOL. 11, NO. 2, 2016 June 2016: 213-216 [article in myCourses] 
+
+By applying the equation in Table 2 of the article for the 10 year risk of coronary heart disease for 55 year old females who don’t smoke, but whose cholesterol is 6, systolic blood pressure is 140, LDL is 0.5, are NOT diabetic, and do not have a family history of MI, one obtains 9.3%.
+
+The same equation applied to females with the same profile, except that they ARE diabetic, yields a 10 year risk of 22.3%. 
+
+Thus, with respect to the No Diabetes (ref. category) vs. Diabetes (index category) contrast, say if the following statement is TRUE or FALSE and explain why in your rationale:
+
+
+# The risk difference is 13% 
+
+a. **TRUE (Correct)**
+b. FALSE
+
+
+## Correct rationales
+
+- When we want to calculate the risk difference we have to subtract the two risks from either group so in this case that would be 22.3% - 9.3%= 13%
+
+
+## Incorrect rationales
+
+
+
+# The odds ratio is 2.4
+
+a. TRUE
+b. **FALSE (Correct)**
+
+
+## Correct rationales
+
+- Estimate for the risk ratio rather than the odds.
+- 2.4 is the risk ratio (when we divide 22.3/9.3) This is not the odds ratio
+
+
+## Incorrect rationales
+
+- You divide the risk of the exposed over the risk of the unexposed to get the odds ratio. In this case 22.3/9.3 = 2.40, answer A) True.
+
+# The risk ratio is 2.8
+
+a. TRUE
+b. **FALSE (Correct)**
+
+
+## Correct rationales
+
+- The odds ratio is 2.8 ((0.223)/(1-0.223)/(0.093/(1-0.093)
+
+
+
+## Incorrect rationales
+
+- (1) Find odds first Odds (no diabetes) = 0.093 / (1 - 0.093) = 0.1025 Odds (diabetes) = 0.223 / (1 - 0.223) = 0.2870 (2) Exponentiate the odds No diabetes: exp(0.1025) = 1.107937 Diabetes: exp(0.2870) = 1.332424 Odds ratio = 1.352424 / 1.107937 = 1.20 Therefore it is false.
+
+
+
+
+# The two risks can be connected via the equation: risk(%) = 22.3 - 13 * Diabetes
+
+
+a. TRUE
+b. **FALSE (Correct)**
+
+
+## Correct rationales
+
+- Since no diabetes is the reference category (X= 0); which is risk(%) = 9.3 + 13*Diabetes
+
+## Incorrect rationales
+
+
+
+
+
+
+
+
+
+
+# The two risks can be connected via the equation: log[risk] = -2.38 + 0.87 * Diabetes
+
+
+
+a. **TRUE (Correct)**
+b. FALSE
+
+
+## Correct rationales
+
+- The regression model: $$\log(risk) = \log(\mu_0) + \log(\theta)*Diabetes$$ 
+Then
+$$\log(\mu_0) = \log(0.093) = -2.38$$ and $$\log(\theta) =\log(risk\,\,ratio) = \log(0.223/.093) = 0.87$$
+
+## Incorrect rationales
+
+
+
+
+
+# The two risks can be connected via the equation: log[risk/(1-risk)] = -2.28 + 1.03 * Diabetes
+
+
+
+
+a. **TRUE (Correct)**
+b. FALSE
+
+
+## Correct rationales
+
+- 
+
+\begin{align*}
+\log[R1/(1-R1)] &= \log [R0/(1-R0)] + \log {[R1/(1-R1)] /[R0/(1-R0)]} \cdot diabetes\\
+\log [R1/(1-R1)] &= \log(9.3/90.7) + \log(2.8) \times diabetes 
+\end{align*}
+
+## Incorrect rationales
+
+
+
+
+
+
+
+
+# The two risks can be connected via the equation: log[risk/(1-risk)] =  1.03 - 2.28 * Diabetes
+
+
+
+
+a. TRUE
+b. **FALSE (Correct)**
+
+
+## Correct rationales
+
+- Coefficients reversed from previous question
+
+## Incorrect rationales
+
+
+
+
+
+# 4 year risk for intermittent claudication I
+
+Using the coefficients in his Table 12.2, Rothman (2012) calculated a 4 year risk for intermittent claudication of 6.7% if the 70-year old man had the example profile, which included normal blood pressure, AND diabetes.
+
+If the profile did NOT include diabetes, but was otherwise unchanged, then (ignoring small rounding errors) the single equation that connects/expresses/summarizes the risks for those without (reference category) and with diabetes (Index category) can be written as (select all that apply and justify your choices in the rationale)
+
+
+a. **%Risk[Diabetes] = 2.7 * (2.5 ^ Diabetes) (Correct)**
+b. **Odds[Diabetes] = (2.7/97.3) * ( ((6.7/93.3)/(2.7/97.3)) ^ Diabetes ) (Correct)**
+c. **Odds[Diabetes] = (2.7/97.3) * (2.59 ^ Diabetes) (Correct)**
+d. **log[ Odds[Diabetes] ] = -3.58 + 0.95 * Diabetes (Correct)**
+e. log[ Risk[Diabetes] ] = -3.58 + 0.95 * Diabetes
+
+
+## Correct rationales
+
+- A, B, C, and D are correct. If diabetes = 1 and no-diabetes = 0, the equation of A would work: 2.7 * (2.5 ^ Diabetes) 2.7 * (2.5 ^ 0) 2.7 (1) = 2.7 = the risk among the unexposed, it's the intercept 2.7 * (2.5 ^ Diabetes) 2.7 * (2.5 ^ 1) 2.7 (1) = 6.7 = the risk among the exposed E is incorrect because when you calculate the log of theta, we get a value that is NOT 0.95.
+- A, B, C, and D are correct A is correct because when diabetes =0, % risk = 2.7, and when diabetes =1, % risk = 6.75% which can be rounded down to 6.7% E is wrong because even though Risk when no diabetes = 0.02717253 ln0.02717253 = 3.60 ln (risk ratio) = ln(6.7/2.7) = 0.909. This is very far off from 0.95 D is correct because: Odds when no diabetes = 0.0279 Ln odds no diabetes = -3.58 Odds (diabetes =1) = 0.0718 , this aligns with the values from B (0.0718) and C(0.0719) for diabetes =1. Ln odds ratio = ln (0.0718/ 0.0279)=0.95
+
+## Incorrect rationales
+
+
+
+
+
+# 4 year risk for intermittent claudication II
+
+Using the coefficients in his Table 12.2, Rothman (2012) calculated a 4 year risk for intermittent claudication of 6.7% if the 70-year old man had the example profile, which included normal blood pressure, AND diabetes.
+
+If we reversed the outcome and worked with an equation for STAYING FREE of intermittent claudication, rather than developing it, the logistic equations would
+
+
+a. **have the same coefficients but all their signs would be reversed (Correct)**
+b. have the same-sign intercept but the other coefficients would have their signs reversed
+c. have the opposite-sign intercept but the same-sign other coefficients
+
+
+## Correct rationales
+
+
+
+- A is correct because we are predicting the opposite effect. B is incorrect because when all other predictors are 0, the risk of developing intermittent claudication cannot be the same as staying free of intermittent claudication. C is incorrect because the slopes for the predictors cannot be the same sign if we are predicting the opposite outcome.
+
+
+## Incorrect rationales
+

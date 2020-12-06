@@ -1,0 +1,410 @@
+\documentclass[letterpaper,9pt,twoside,]{pinp}
+
+%% Some pieces required from the pandoc template
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+
+% Use the lineno option to display guide line numbers if required.
+% Note that the use of elements such as single-column equations
+% may affect the guide line number alignment.
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+
+% pinp change: the geometry package layout settings need to be set here, not in pinp.cls
+\geometry{layoutsize={0.95588\paperwidth,0.98864\paperheight},%
+  layouthoffset=0.02206\paperwidth, layoutvoffset=0.00568\paperheight}
+
+\definecolor{pinpblue}{HTML}{185FAF}  % imagecolorpicker on blue for new R logo
+\definecolor{pnasbluetext}{RGB}{101,0,0} %
+
+
+
+\title{DALITE Q4 - Regression. Solutions.}
+
+\author[a]{EPIB607 - Inferential Statistics}
+
+  \affil[a]{Fall 2020, McGill University}
+
+\setcounter{secnumdepth}{5}
+
+% Please give the surname of the lead author for the running footer
+\leadauthor{Bhatnagar}
+
+% Keywords are not mandatory, but authors are strongly encouraged to provide them. If provided, please include two to five keywords, separated by the pipe symbol, e.g:
+ \keywords{  Two sample proportions |  Odds ratio |  Logit
+transformation |  Odds |  Log odds |  Risk calculator  }  
+
+\begin{abstract}
+This DALITE quiz will cover logistic regression.
+\end{abstract}
+
+\dates{This version was compiled on \today} 
+
+% initially we use doi so keep for backwards compatibility
+% new name is doi_footer
+
+
+\begin{document}
+
+% Optional adjustment to line up main text (after abstract) of first page with line numbers, when using both lineno and twocolumn options.
+% You should only change this length when you've finalised the article contents.
+\verticaladjustment{-2pt}
+
+\maketitle
+\thispagestyle{firststyle}
+\ifthenelse{\boolean{shortarticle}}{\ifthenelse{\boolean{singlecolumn}}{\abscontentformatted}{\abscontent}}{}
+
+% If your first paragraph (i.e. with the \dropcap) contains a list environment (quote, quotation, theorem, definition, enumerate, itemize...), the line after the list may have some extra indentation. If this is the case, add \parshape=0 to the end of the list environment.
+
+
+\hypertarget{finrisk-calculator}{%
+\section*{FINRISK Calculator}\label{finrisk-calculator}}
+\addcontentsline{toc}{section}{FINRISK Calculator}
+
+There are now several risk calculators derived from epidemiological
+studies, such as the Framingham Heart Study. See, e.g.,
+\url{https://www.uptodate.com/home/medical-calculators} and
+\url{https://qxmd.com/calculate/}.
+
+Many of the online ones for 10 year risks are based on the proportional
+hazards model. One risk equation that is based on logistic regression
+(see Rothman chapter 12, 2012 or Chapter 10, 2002) is that described in
+the article Predicting Coronary Heart Disease and Stroke The FINRISK
+Calculator by Erkki Vartiainen et al.~GLOBAL HEART, VOL. 11, NO. 2, 2016
+June 2016: 213-216 {[}article in myCourses{]}
+
+By applying the equation in Table 2 of the article for the 10 year risk
+of coronary heart disease for 55 year old females who don't smoke, but
+whose cholesterol is 6, systolic blood pressure is 140, LDL is 0.5, are
+NOT diabetic, and do not have a family history of MI, one obtains 9.3\%.
+
+The same equation applied to females with the same profile, except that
+they ARE diabetic, yields a 10 year risk of 22.3\%.
+
+Thus, with respect to the No Diabetes (ref. category) vs.~Diabetes
+(index category) contrast, say if the following statement is TRUE or
+FALSE and explain why in your rationale:
+
+\hypertarget{the-risk-difference-is-13}{%
+\section{The risk difference is 13\%}\label{the-risk-difference-is-13}}
+
+\begin{enumerate}
+\def\labelenumi{\alph{enumi}.}
+\tightlist
+\item
+  \textbf{TRUE (Correct)}
+\item
+  FALSE
+\end{enumerate}
+
+\hypertarget{correct-rationales}{%
+\subsection{Correct rationales}\label{correct-rationales}}
+
+\begin{itemize}
+\tightlist
+\item
+  When we want to calculate the risk difference we have to subtract the
+  two risks from either group so in this case that would be 22.3\% -
+  9.3\%= 13\%
+\end{itemize}
+
+\hypertarget{incorrect-rationales}{%
+\subsection{Incorrect rationales}\label{incorrect-rationales}}
+
+\hypertarget{the-odds-ratio-is-2.4}{%
+\section{The odds ratio is 2.4}\label{the-odds-ratio-is-2.4}}
+
+\begin{enumerate}
+\def\labelenumi{\alph{enumi}.}
+\tightlist
+\item
+  TRUE
+\item
+  \textbf{FALSE (Correct)}
+\end{enumerate}
+
+\hypertarget{correct-rationales-1}{%
+\subsection{Correct rationales}\label{correct-rationales-1}}
+
+\begin{itemize}
+\tightlist
+\item
+  Estimate for the risk ratio rather than the odds.
+\item
+  2.4 is the risk ratio (when we divide 22.3/9.3) This is not the odds
+  ratio
+\end{itemize}
+
+\hypertarget{incorrect-rationales-1}{%
+\subsection{Incorrect rationales}\label{incorrect-rationales-1}}
+
+\begin{itemize}
+\tightlist
+\item
+  You divide the risk of the exposed over the risk of the unexposed to
+  get the odds ratio. In this case 22.3/9.3 = 2.40, answer A) True.
+\end{itemize}
+
+\hypertarget{the-risk-ratio-is-2.8}{%
+\section{The risk ratio is 2.8}\label{the-risk-ratio-is-2.8}}
+
+\begin{enumerate}
+\def\labelenumi{\alph{enumi}.}
+\tightlist
+\item
+  TRUE
+\item
+  \textbf{FALSE (Correct)}
+\end{enumerate}
+
+\hypertarget{correct-rationales-2}{%
+\subsection{Correct rationales}\label{correct-rationales-2}}
+
+\begin{itemize}
+\tightlist
+\item
+  The odds ratio is 2.8 ((0.223)/(1-0.223)/(0.093/(1-0.093)
+\end{itemize}
+
+\hypertarget{incorrect-rationales-2}{%
+\subsection{Incorrect rationales}\label{incorrect-rationales-2}}
+
+\begin{itemize}
+\item
+  \begin{enumerate}
+  \def\labelenumi{(\arabic{enumi})}
+  \tightlist
+  \item
+    Find odds first Odds (no diabetes) = 0.093 / (1 - 0.093) = 0.1025
+    Odds (diabetes) = 0.223 / (1 - 0.223) = 0.2870 (2) Exponentiate the
+    odds No diabetes: exp(0.1025) = 1.107937 Diabetes: exp(0.2870) =
+    1.332424 Odds ratio = 1.352424 / 1.107937 = 1.20 Therefore it is
+    false.
+  \end{enumerate}
+\end{itemize}
+
+\hypertarget{the-two-risks-can-be-connected-via-the-equation-risk-22.3---13-diabetes}{%
+\section{The two risks can be connected via the equation: risk(\%) =
+22.3 - 13 *
+Diabetes}\label{the-two-risks-can-be-connected-via-the-equation-risk-22.3---13-diabetes}}
+
+\begin{enumerate}
+\def\labelenumi{\alph{enumi}.}
+\tightlist
+\item
+  TRUE
+\item
+  \textbf{FALSE (Correct)}
+\end{enumerate}
+
+\hypertarget{correct-rationales-3}{%
+\subsection{Correct rationales}\label{correct-rationales-3}}
+
+\begin{itemize}
+\tightlist
+\item
+  Since no diabetes is the reference category (X= 0); which is risk(\%)
+  = 9.3 + 13*Diabetes
+\end{itemize}
+
+\hypertarget{incorrect-rationales-3}{%
+\subsection{Incorrect rationales}\label{incorrect-rationales-3}}
+
+\hypertarget{the-two-risks-can-be-connected-via-the-equation-logrisk--2.38-0.87-diabetes}{%
+\section{The two risks can be connected via the equation: log{[}risk{]}
+= -2.38 + 0.87 *
+Diabetes}\label{the-two-risks-can-be-connected-via-the-equation-logrisk--2.38-0.87-diabetes}}
+
+\begin{enumerate}
+\def\labelenumi{\alph{enumi}.}
+\tightlist
+\item
+  \textbf{TRUE (Correct)}
+\item
+  FALSE
+\end{enumerate}
+
+\hypertarget{correct-rationales-4}{%
+\subsection{Correct rationales}\label{correct-rationales-4}}
+
+\begin{itemize}
+\tightlist
+\item
+  The regression model:
+  \[\log(risk) = \log(\mu_0) + \log(\theta)*Diabetes\] Then
+  \[\log(\mu_0) = \log(0.093) = -2.38\] and
+  \[\log(\theta) =\log(risk\,\,ratio) = \log(0.223/.093) = 0.87\]
+\end{itemize}
+
+\hypertarget{incorrect-rationales-4}{%
+\subsection{Incorrect rationales}\label{incorrect-rationales-4}}
+
+\hypertarget{the-two-risks-can-be-connected-via-the-equation-logrisk1-risk--2.28-1.03-diabetes}{%
+\section{The two risks can be connected via the equation:
+log{[}risk/(1-risk){]} = -2.28 + 1.03 *
+Diabetes}\label{the-two-risks-can-be-connected-via-the-equation-logrisk1-risk--2.28-1.03-diabetes}}
+
+\begin{enumerate}
+\def\labelenumi{\alph{enumi}.}
+\tightlist
+\item
+  \textbf{TRUE (Correct)}
+\item
+  FALSE
+\end{enumerate}
+
+\hypertarget{correct-rationales-5}{%
+\subsection{Correct rationales}\label{correct-rationales-5}}
+
+\begin{itemize}
+\tightlist
+\item
+\end{itemize}
+
+\begin{align*}
+\log[R1/(1-R1)] &= \log [R0/(1-R0)] + \log {[R1/(1-R1)] /[R0/(1-R0)]} \cdot diabetes\\
+\log [R1/(1-R1)] &= \log(9.3/90.7) + \log(2.8) \times diabetes 
+\end{align*}
+
+\hypertarget{incorrect-rationales-5}{%
+\subsection{Incorrect rationales}\label{incorrect-rationales-5}}
+
+\hypertarget{the-two-risks-can-be-connected-via-the-equation-logrisk1-risk-1.03---2.28-diabetes}{%
+\section{The two risks can be connected via the equation:
+log{[}risk/(1-risk){]} = 1.03 - 2.28 *
+Diabetes}\label{the-two-risks-can-be-connected-via-the-equation-logrisk1-risk-1.03---2.28-diabetes}}
+
+\begin{enumerate}
+\def\labelenumi{\alph{enumi}.}
+\tightlist
+\item
+  TRUE
+\item
+  \textbf{FALSE (Correct)}
+\end{enumerate}
+
+\hypertarget{correct-rationales-6}{%
+\subsection{Correct rationales}\label{correct-rationales-6}}
+
+\begin{itemize}
+\tightlist
+\item
+  Coefficients reversed from previous question
+\end{itemize}
+
+\hypertarget{incorrect-rationales-6}{%
+\subsection{Incorrect rationales}\label{incorrect-rationales-6}}
+
+\hypertarget{year-risk-for-intermittent-claudication-i}{%
+\section{4 year risk for intermittent claudication
+I}\label{year-risk-for-intermittent-claudication-i}}
+
+Using the coefficients in his Table 12.2, Rothman (2012) calculated a 4
+year risk for intermittent claudication of 6.7\% if the 70-year old man
+had the example profile, which included normal blood pressure, AND
+diabetes.
+
+If the profile did NOT include diabetes, but was otherwise unchanged,
+then (ignoring small rounding errors) the single equation that
+connects/expresses/summarizes the risks for those without (reference
+category) and with diabetes (Index category) can be written as (select
+all that apply and justify your choices in the rationale)
+
+\begin{enumerate}
+\def\labelenumi{\alph{enumi}.}
+\tightlist
+\item
+  \textbf{\%Risk{[}Diabetes{]} = 2.7 * (2.5 \^{} Diabetes) (Correct)}
+\item
+  \textbf{Odds{[}Diabetes{]} = (2.7/97.3) * ( ((6.7/93.3)/(2.7/97.3))
+  \^{} Diabetes ) (Correct)}
+\item
+  \textbf{Odds{[}Diabetes{]} = (2.7/97.3) * (2.59 \^{} Diabetes)
+  (Correct)}
+\item
+  \textbf{log{[} Odds{[}Diabetes{]} {]} = -3.58 + 0.95 * Diabetes
+  (Correct)}
+\item
+  log{[} Risk{[}Diabetes{]} {]} = -3.58 + 0.95 * Diabetes
+\end{enumerate}
+
+\hypertarget{correct-rationales-7}{%
+\subsection{Correct rationales}\label{correct-rationales-7}}
+
+\begin{itemize}
+\tightlist
+\item
+  A, B, C, and D are correct. If diabetes = 1 and no-diabetes = 0, the
+  equation of A would work: 2.7 * (2.5 \^{} Diabetes) 2.7 * (2.5 \^{} 0)
+  2.7 (1) = 2.7 = the risk among the unexposed, it's the intercept 2.7 *
+  (2.5 \^{} Diabetes) 2.7 * (2.5 \^{} 1) 2.7 (1) = 6.7 = the risk among
+  the exposed E is incorrect because when you calculate the log of
+  theta, we get a value that is NOT 0.95.
+\item
+  A, B, C, and D are correct A is correct because when diabetes =0, \%
+  risk = 2.7, and when diabetes =1, \% risk = 6.75\% which can be
+  rounded down to 6.7\% E is wrong because even though Risk when no
+  diabetes = 0.02717253 ln0.02717253 = 3.60 ln (risk ratio) =
+  ln(6.7/2.7) = 0.909. This is very far off from 0.95 D is correct
+  because: Odds when no diabetes = 0.0279 Ln odds no diabetes = -3.58
+  Odds (diabetes =1) = 0.0718 , this aligns with the values from B
+  (0.0718) and C(0.0719) for diabetes =1. Ln odds ratio = ln (0.0718/
+  0.0279)=0.95
+\end{itemize}
+
+\hypertarget{incorrect-rationales-7}{%
+\subsection{Incorrect rationales}\label{incorrect-rationales-7}}
+
+\hypertarget{year-risk-for-intermittent-claudication-ii}{%
+\section{4 year risk for intermittent claudication
+II}\label{year-risk-for-intermittent-claudication-ii}}
+
+Using the coefficients in his Table 12.2, Rothman (2012) calculated a 4
+year risk for intermittent claudication of 6.7\% if the 70-year old man
+had the example profile, which included normal blood pressure, AND
+diabetes.
+
+If we reversed the outcome and worked with an equation for STAYING FREE
+of intermittent claudication, rather than developing it, the logistic
+equations would
+
+\begin{enumerate}
+\def\labelenumi{\alph{enumi}.}
+\tightlist
+\item
+  \textbf{have the same coefficients but all their signs would be
+  reversed (Correct)}
+\item
+  have the same-sign intercept but the other coefficients would have
+  their signs reversed
+\item
+  have the opposite-sign intercept but the same-sign other coefficients
+\end{enumerate}
+
+\hypertarget{correct-rationales-8}{%
+\subsection{Correct rationales}\label{correct-rationales-8}}
+
+\begin{itemize}
+\tightlist
+\item
+  A is correct because we are predicting the opposite effect. B is
+  incorrect because when all other predictors are 0, the risk of
+  developing intermittent claudication cannot be the same as staying
+  free of intermittent claudication. C is incorrect because the slopes
+  for the predictors cannot be the same sign if we are predicting the
+  opposite outcome.
+\end{itemize}
+
+\hypertarget{incorrect-rationales-8}{%
+\subsection{Incorrect rationales}\label{incorrect-rationales-8}}
+
+%\showmatmethods
+
+
+\bibliography{pinp}
+\bibliographystyle{jss}
+
+
+
+\end{document}

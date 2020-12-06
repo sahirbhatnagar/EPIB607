@@ -1,0 +1,221 @@
+---
+title: "Cesarean section and transmission of HIV"
+output: html_document
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE, message=FALSE, warning=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+if(!requireNamespace("pacman")) install.packages("pacman")
+library(pacman)
+pacman::p_load(tidyverse)
+pacman::p_load(here)
+```
+
+# Cesarean section and transmission of HIV
+
+## Read in the data
+
+```{r}
+ds <- readr::read_csv(here::here("data/hiv_Transmission.csv"))
+ds$n.hivneg <- ds$n.pairs - ds$n.hivpos
+# ds <- ds %>% mutate(n.hivneg = n.pairs - n.hivpos)
+ds$propn <- round(ds$n.hivpos/ds$n.pairs,3)
+
+dplyr::glimpse(ds)
+
+# convert ART to a 1 column variable, 
+# factor the other variables with labels
+ds <- ds %>% 
+  mutate(ART = ifelse(ART1or2 == 0 & ART3 == 0, 0, 
+                      ifelse(ART1or2 == 1, 1, 2))) %>% 
+  mutate(ART = factor(ART, levels = c(0,1,2), labels = c("ART0","ART1or2","ART3"))) %>% 
+  mutate(advancedHIV = factor(m.advancedHIV, levels = 0:1, labels = c("No","Yes")),
+         LBW = factor(c.LBW, levels = 0:1, labels = c("No","Yes")),
+         caesarian = factor(caesarian, levels = 0:1, labels = c("No","Yes")))
+
+dplyr::glimpse(ds)
+
+
+```
+
+## Convert frequency data to individual level data
+
+
+
+```{r}
+# Convert from data frame of counts to data frame of cases.
+# `countcol` is the name of the column containing the counts
+countsToCases <- function(x, countcol = "Freq") {
+    # Get the row indices to pull from x
+    idx <- rep.int(seq_len(nrow(x)), x[[countcol]])
+
+    # Drop count column
+    x[[countcol]] <- NULL
+
+    # Get the rows from x
+    x[idx, ]
+}
+```
+
+```{r}
+ds.indiv <- ds %>% 
+  tidyr::pivot_longer(cols = c(n.hivneg, n.hivpos), names_to = "outcome", values_to = "Freq") %>% 
+  mutate(outcome = factor(outcome, levels = c("n.hivneg","n.hivpos")))
+
+ds.indiv <- countsToCases(ds.indiv, countcol = "Freq") %>% 
+  dplyr::select(outcome, caesarian, ART, advancedHIV, LBW)
+glimpse(ds.indiv)
+dim(ds.indiv)
+
+```
+
+## Table 1
+
+```{r}
+pacman::p_load(gtsummary)
+
+# http://www.danieldsjoberg.com/gtsummary/articles/tbl_summary.html
+
+
+
+ds.indiv %>% 
+  gtsummary::tbl_summary()
+
+
+ds.indiv %>% 
+  gtsummary::tbl_summary(by = outcome)
+
+
+ds.indiv %>% 
+  mutate(age = rnorm(nrow(ds.indiv))) %>% 
+  gtsummary::tbl_summary(by = outcome) %>% 
+  add_p()
+
+```
+
+```{r}
+chisq.test(x = ds.indiv$advancedHIV, y = ds.indiv$outcome)
+chisq.test(table(ds.indiv$advancedHIV, ds.indiv$outcome))
+chisq.test(x = ds.indiv$ART, y = ds.indiv$outcome)
+```
+
+## Intercept only model
+
+```{r}
+# intercept-only logit model
+fit0 <- glm(cbind(n.hivpos,n.hivneg) ~ 1, 
+            family = binomial(link=logit), data=ds)
+summary(fit0)
+
+fit0 <- glm(outcome ~ 1, 
+            family = binomial(link=logit), data=ds.indiv)
+
+# overall proportion hiv positive
+prop.table(table(ds.indiv$outcome))
+
+plogis(coef(fit0))
+plogis(confint(fit0))
+```
+
+```{r}
+# http://www.danieldsjoberg.com/gtsummary/articles/tbl_regression.html
+gtsummary::tbl_regression(fit0, intercept = TRUE)
+gtsummary::tbl_regression(fit0, intercept = TRUE, estimate_fun = plogis)
+
+
+
+```
+
+## Cesarean only
+
+```{r}
+fit1 <- glm(cbind(n.hivpos,n.hivneg) ~ caesarian, 
+            family = binomial(link=logit), data=ds)
+summary(fit1)
+
+fit1 <- glm(outcome ~ caesarian, 
+            family = binomial(link=logit), data=ds.indiv)
+summary(fit1)
+```
+
+```{r}
+# http://www.danieldsjoberg.com/gtsummary/articles/tbl_regression.html
+gtsummary::tbl_regression(fit1, intercept = TRUE, exponentiate = TRUE)
+```
+
+## All covariates logit model
+
+```{r}
+fit2 <- glm(outcome ~  caesarian + ART + advancedHIV + LBW, 
+            family = binomial(link=logit), data=ds.indiv)
+summary(fit2)
+```
+
+```{r}
+gtsummary::tbl_regression(fit2, intercept = TRUE, exponentiate = TRUE)
+gtsummary::tbl_regression(fit2, intercept = TRUE)
+```
+
+### Plot odds ratios
+
+```{r}
+# https://strengejacke.github.io/sjPlot/articles/plot_model_estimates.html
+pacman::p_load(sjPlot)
+sjPlot::plot_model(fit2, 
+                   sort.est = TRUE, 
+                   vline.color = "red",
+                   show.values = TRUE, 
+                   value.offset = .3)
+sjPlot::plot_model(fit2, sort.est = TRUE, 
+                   vline.color = "red", 
+                   transform = NULL)
+```
+
+### Plot Predicted Values
+
+```{r}
+
+ds.indiv <- ds.indiv %>% 
+mutate(lp = predict(fit2, type = "link"),
+       prob.hiv.pos = predict(fit2, type = "response"))
+
+
+
+nrow(ds.indiv)
+
+ds.indiv %>% colnames() %>% dput
+predict(fit2, type = "response", 
+        newdata = data.frame(caesarian = "No", 
+                             ART = "ART1or2", 
+                             advancedHIV = "Yes", 
+                             LBW = "No"))
+
+coef(fit2)
+lp <- -1.608 -0.362 + 0.534
+plogis(lp)
+# b0 + b1 * caesarian + b2 * ART1 
+# 1
+plot(ds.indiv$outcome, predict(fit2, type = "response"))
+
+```
+
+```{r}
+# https://strengejacke.github.io/sjPlot/articles/plot_marginal_effects.html
+plot_model(fit2, type = "pred", terms = "caesarian")
+
+
+# http://pbreheny.github.io/visreg/
+pacman::p_load(visreg)
+visreg(fit2, 
+       xvar = "caesarian", 
+       print.cond=TRUE,
+       trans = plogis)
+
+visreg(fit2, 
+       xvar = "caesarian", 
+       cond = list(advancedHIV = "Yes"),
+       trans = plogis,
+       print.cond = TRUE)
+```
