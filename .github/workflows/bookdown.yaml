@@ -22,10 +22,6 @@ jobs:
 
       - uses: r-lib/actions/setup-tinytex@v1
 
-      - name: Install pandoc
-        run: |
-          brew install pandoc
-
       - name: Cache Renv packages
         uses: actions/cache@v2
         with:
