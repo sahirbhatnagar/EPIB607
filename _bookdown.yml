@@ -1,0 +1,10 @@
+book_filename: "epib607"
+new_session: true
+before_chapter_script: _common.R
+delete_merged_file: true
+language:
+  ui:
+    chapter_name: "Chapter "
+rmd_files:
+  #html: ["index.Rmd", "01-intro.Rmd"]
+  # latex: ["index.Rmd","01-intro.Rmd"]
