@@ -1,0 +1,8 @@
+
+# Contrast: 2 speed parameters {#contrast2Lambdaparas}
+
+
+
+## Estimand, estimator, estimate
+
+

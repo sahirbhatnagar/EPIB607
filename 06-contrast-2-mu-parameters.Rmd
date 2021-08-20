@@ -1,0 +1,5 @@
+# Contrast: 2 mean parameters {#contrast2Muparas}
+
+
+
+## Estimand, estimator, estimate

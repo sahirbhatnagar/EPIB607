@@ -19,6 +19,25 @@ editor_options:
 
 # About
 
+```{r, echo=FALSE}
+if(!requireNamespace("pacman")) install.packages("pacman")
+pacman::p_load(devtools)
+pacman::p_load(dplyr)
+pacman::p_load(tidyr)
+pacman::p_load(knitr)
+pacman::p_load(rmarkdown)
+pacman::p_load(bslib)
+pacman::p_load(downlit)
+pacman::p_load(xml2)
+pacman::p_load(ggplot2)
+pacman::p_load(data.table)
+pacman::p_load(glmnet)
+pacman::p_load(here)
+pacman::p_load(swirl)
+
+```
+
+
 why isnt this working 
 \begin{tabular}{ |p{0.2cm}|p{0.9cm}|p{3cm}|p{3cm}|p{3cm}|  }
 \hline
