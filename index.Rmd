@@ -1,11 +1,11 @@
 --- 
-title: "A Minimal Book Example"
-author: "John Doe"
+title: "EPIB607"
+author: "Bhatnagar and Hanley"
 date: "`r Sys.Date()`"
 site: bookdown::bookdown_site
 documentclass: book
 bibliography: [book.bib, packages.bib]
-# url: your book url like https://bookdown.org/yihui/bookdown
+url: https://sahirbhatnagar.com/EPIB607
 # cover-image: path to the social sharing image like images/cover.jpg
 description: |
   This is a minimal example of using the bookdown package to write a book.
@@ -17,9 +17,14 @@ editor_options:
   chunk_output_type: console
 ---
 
-# About
 
-```{r, echo=FALSE}
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
+```
+
+
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
 if(!requireNamespace("pacman")) install.packages("pacman")
 pacman::p_load(devtools)
 pacman::p_load(dplyr)
@@ -38,143 +43,210 @@ pacman::p_load(mosaic)
 ```
 
 
-why isnt this working 
-\begin{tabular}{ |p{0.2cm}|p{0.9cm}|p{3cm}|p{3cm}|p{3cm}|  }
-\hline
-\multicolumn{5}{|c|}{Part I} \\
-\hline
-Week & Date & Topic &  References & Slides  \\
-\hline
-1 & Sept 2 & Introduction to inferential statistics and motivating examples & \href{http://www.stat.cmu.edu/~ryantibs/papers/sparsitynn.pdf}{Chapter 1}, Rosner Chapter 1, DVB Chapter 3    & 001-parameters.pdf  \\
-\hline
-\rowcolor{grayBackground}
-2 & Sept 7 &  &  &   \\
-\rowcolor{grayBackground}
- & Sept 9 &  &  &   \\
-\hline 
-3 & Sept 14 &  simpson's paradox unravelled (hernan IJE 2011)&  &   \\
- & Sept 16 &  &  &   \\
-\hline
-\rowcolor{grayBackground}
-4 & Sept 21 &  &  &   \\
-\rowcolor{grayBackground}
- & Sept 23 &  &  &   \\
-\hline
-5 & Sept 28 &  &  &   \\
-  & Sept 30 &  &  &   \\
-\hline
-\rowcolor{grayBackground}
-6 & Oct 5 &  &  &   \\
-\rowcolor{grayBackground}
- & Oct 7 &  &  &   \\
-\hline
-7 & Oct 12 &  &  &   \\
- & Oct 14 &  &  &   \\
-\hline
-\rowcolor{grayBackground}
-8 & Oct 19 &  &  &   \\
-\rowcolor{grayBackground}
- & Oct 21 &  &  &   \\
-\hline
-9 & Oct 26 &  &  &   \\
- & Oct 28 &  &  &   \\
-\hline
-\rowcolor{grayBackground}
-10 & Nov 2 &  &  &   \\
-\rowcolor{grayBackground}
- & Nov 4 &  &  &   \\
-\hline
-11 & Nov 9 &  &  &   \\
- & Nov 11 &  &  &   \\
-\hline
-\rowcolor{grayBackground}
-12 & Nov 16 &  &  &   \\
-\rowcolor{grayBackground}
- & Nov 18 &  &  &   \\
-\hline
-13 & Nov 23 &  &  &   \\
- & Nov 25 &  &  &   \\
-\hline
-\rowcolor{grayBackground}
-14 & Nov 30 &  &  &   \\
-\rowcolor{grayBackground}
- & Dec 2 &  &  &   \\
-\hline
-\end{tabular}
+# Preface {-}
 
-This is a _sample_ book written in **Markdown**. You can use anything that Pandoc's Markdown supports; for example, a math equation $a^2 + b^2 = c^2$.
+Welcome to the course website for [EPIB 607 FALL 2021: Inferential Statistics](https://www.mcgill.ca/study/2021-2022/courses/epib-607) at McGill University. 
 
-::: {.rmdnote}
-The `bs4_book` style also includes an `.rmdnote` callout block
-like this one.
 
-```{r collapse=TRUE}
-head(beaver1, n = 5)
+## Objectives {-}
+
+The aim of this course is to provide students with basic principles of statistical inference so that they can:
+
+1. Visualize/Analyze/Interpret data using statistical methods with the `R` statistical software program.
+2. Understand the statistical results in a scientific paper.
+3. Apply statistical methods in their own research.
+4. Use the methods learned in this course as a foundation for more advanced biostatistics courses.
+
+
+## Audience  {-}
+
+The principal audience is researchers in the natural and social sciences who haven't had an introductory course in statistics (or did have one a long time ago). This audience accepts that statistics has penetrated the life sciences pervasively and is required knowledge for both doing research and understanding scientific papers. 
+
+This course is tailored to graduate students in population health sciences in their first year. Concurrently, they take their first courses on epidemiologic methods. The department is known for its emphasis on quantitative methods, and students' ability to carry out their own quantitative work. Since most of the data they will deal with are non-experimental, there is a strong emphasis on multivariable regression. While some students will have had some statistical courses as undergraduates, the courses start at the beginning, and are pitched at the Master's level.
+
+In the last decade, the incoming classes have become more diverse, both in their backgrounds, and in their career plans. Some of those in the recently begun MScPH program plan to be consumers rather than producers of research; previously, the majority of students pursued a thesis-based Masters that involved considerable statistical analyses to produce new statistical evidence.
+
+
+## About these notes  {-}
+
+These notes are a collection of useful links, videos, online resources and papers for an introductory course in statistics. The instructors have found that no single book sufficiently teaches all the topics covered in this course. Part of this is due to advancements in computing which have far outpaced the publication of modern textbooks. Indeed, the computer has replaced many of the calculations that were traditionally taught to be done by hand. We direct the readers to what we think is a good learning resource for a given topic (following the **Flipped Classroom** strategy). We also provide our own commentary and notes when we think its useful.  
+
+
+## Topics/textbooks {-}
+
+For the **first term** course 607, recent choices have been _The Practice of Statistics in the Life Sciences_ by Baldi and Moore, and _Stats_ by de Veaux, Velleman and Bock. Others that have been recommended are the older texts by Pagano and Gauvreau, and by Rosner. Some of us have also drawn on material in _Statistics_ by Freedman, Pisani, Purves and Adkikari, and
+_Statistical Methods in Medical Research_, 4th Edition_ by
+Armitage,Berry, and Matthews.
+
+The newer books have tried to teach the topic more engagingly, by starting with where data come from, and (descriptively) displaying single distributions, or relationships between variables. They and the many others then typically move on to Probability; Random Variables; Sampling Distributions; Confidence intervals and Tests of Hypotheses; Inference about/for a single Mean/Proportion/Rate and a difference of two Means/Proportions/Rates; Chi-square Tests for 2 way frequency tables; Simple Correlation and Regression. Most include a (or point to an online) chapter on Non-Parametric Tests. They typically end with  tables of probability tail areas, and critical values. 
+
+Bradford Hill's  _Principles of Medical Statistics_ followed the same sequence 80 years ago, but in black type in a book that measured 6 inches by 9 inches by 1 inch, and weighed less than a pound. Today's multi-colour texts are 50% longer, 50% wider, and twice as thick, and weigh 5 pounds or more.
+
+The topics to be covered in the **second term** course include multiple regression involving 
+Gaussian, Binomial, and Poisson variation, as well
+as (possibly censored) time-durations -- or their reciprocals, event rates. Here is is more difficult to point to one modern comprehensive textbook.
+There is pressure to add even more topics, such as correlated data, missing data, measurement error etc. top the second statistics course.
+
+## Regression from the outset {-}
+
+It is important to balance the desire to cover more of these regression-based topics with having a good grounding, from the first term, in the basic concepts that underlie all statistical analyses.
+
+The first term _epidemiology_ course deals with proportions and rates (risks and hazards) and -- at the core of epidemiology -- comparisons involving these. Control for confounding is typically via  odds/risk/rate differences/ratios obtained by standardization or Mantel-Haenszel-type summary measures. Teachers are reluctant to spend the time to teach the classical confidence intervals for these, as they are not that intuitive and -- once students have covered multiple regression -- superceded by model-based intervals.    
+
+
+One way to synchronize with epidemiology, is to teach the six separate topics Mean/Proportion/Rate and differences of two Means/Proportions/Rates in a more unified way by embedding all 6 in a regression format right from the outset, to use generalized linear models, and to focus on  all-or-none contrasts, represented by binary 'X' values.  
+
+This would have other benefits. As of now, a lot of time in 607 is spent on 1-sample and 2-sample methods (and chi-square tests) that don't lead anywhere (generalize). Ironically, the first-term concerns with equal and unequal variance tests  are no longer raised, or obsessed about, in the multiple regression framework in second term. 
+
+The teaching/learning of statistical concepts/techiques is greatly enriched by  real-world applications from published reports of  public health and epidemiology research. In 1980, a first course in statistics provided access to 80% of the articles in NEJM articles. This large dividend is no longer the case -- and even less so for journals that report on non-experimental research. The 1-sample and 2-sample methods, and chi-square tests that have been the core of first statistics courses are no longer the techniques that underlie the reported summaries in the abstracts and in the full text. The statistical analysis sections of 
+many of these articles do still start off with descriptive statistics and a perfunctory list of parametric and non-parametric 1 and 2 sample tests, but most then describe the multivariable techniques used to produce the reported summaries. [Laboratory sciences can still get by with t-tests and 'anova's -- and the occasional ancova'; studies involving  intact human  beings in free-living populations can not.]   Thus, if the first statistical course is to to get the same 'understanding' dividend from research articles as the introductory epidemiology course does, that first statistical course needs to teach the techniques that produce the results in the abstracts. Even if it can only go so far, such an approach can promote a regression approach right from week one, and build on it each week, rather than introduce it for the first time at week 9 or 10, when the course is already beginning to wind down, and assignments from other courses are piling up. 
+
+## Parameters first, data later {-}
+
+When many teachers and students think of regression, they imagine  a cloud of points in x-y space, and the least squares fitting of a regression line. They start with thinking about the data. 
+
+A few teachers, when they introduce regression, do so by describing/teaching it as **an equation that connects parameters**,   constructed in such a way that the parameter-constrast of interest is easily and directly visible. Three such teachers are Clayton and Hills 1995, Miettinen1985, and Rothman 2012. In each case, their first chapter on regression is limited to the parameters and to undersatnding what they mean; data only appear in the next chapter.
+
+There is a lot to commend this approach. It reminds epidemiologists -- and even statisticians -- that statistical inference is about parameters. Before addressing  data and data-summaries, we need to specify what the estimands are -- i.e, what parameter(s) is(are) we pursuing.
+
+Fisher, when introducing Likelihood in 1922, was one of the earliest statisticians to distinguish parameters from statistics. he decried 'the obscurity which envelops the theoretical bases of statistical methods' and  ascribed it to two considerations. (**emphasis ours**)
+
+> In the first place, it appears to be widely thought, or rather felt, that in a subject in which all results are liable to greater or smaller errors, precise definition of ideas or concepts is, if not impossible, at least not a practical necessity.  
+
+> In the second place, it has happened that in statistics a purely verbal confusion has hindered the distinct formulation of statistical problems; for **it is customary to apply the same name, mean, standard deviation, correlation coefficient, etc., both to the true value which we should like to know, but can only estimate, and to the particular value at which we happen to arrive by our methods of estimation.** [R. A. Fisher. On the Mathematical Foundations of Theoretical Statistics. Philosophical Transactions of the Royal Society of London. Series A, Containing Papers of a Mathematical or Physical Character, Vol. 222 (1922), pp. 309-368]
+
+It is  easy and tempting to start with data, since the form of the summary statistic is usually easy to write down directly. It can also be used to motivate a definition: for example, we could define an odds ratio by its empirical computational form ad/bc. However, this 'give me the answer first, and the question later' approach comes up short as soon as one asks how statistically stable this estimate is. To derive a standard error or confidence interval, one has to appeal to a sampling distribution. To do this, one needs to identify the random variables involvced, and the parameters that determine/modulate their statistical distributions.
+
+Once students master the big picture (the parameter(s) being pursued), the task of estimating them by fitting these equations to data is considerably simplified, and becomes more generic. In this approach more upfront thinking is devoted to the parameters -- to what Miettinen calls the design of the study object -- with the focus on a pre-specified 'deliverable.'
+
+ 
+
+## Let's switch to "y-bar", and drop  "x-bar" {-}
+
+The prevailing practice, when introducing descriptive statistics, and even  to 1 and two sample procedures, is to use the term x-bar ($\bar{x}$) for an arithmetic mean (one notable execption is de Veaux at al.) This misses the chance to prepare students for regression, where E[Y|X] is the object of interest, and the X-conditional Y's are the random variables. Technically speaking, the X's are not even considered random variables. Elevating the status of the Y's and explaining the  role of the X's, and the impact of the X distributions on precision might also cut down on the practice of checking the normality of the X's, even though the X's are not random variables. They are merely the X locations/profiles at which Y was measured/recorded. When possible, the X distribution should be determined by the investigators, so as to give more precise and less correlated estimates of the  parameters being pursued. Switching from $\bar{x}$ to $\bar{y}$ is a simple yet meaningful step in this direction. JH made this switch about 10 years ago.
+
+## Computing from the outset {-}
+
+In 1980, most calculations in the first part of 607 were by hand calculator.  Computing summary statistics by hand was seen as a way to help students understand the concepts involved, and the absence of automated rapid computation was not considered a drawback. However, 
+doing so did not always help students understand the concept of a standard deviation or a regression slope, since these formulae were designed to minimize the number of keystrokes, rather than to illuminate the construct involved. For example, it was common to rescale and relocate data to cut down on the numbers of digits entered, to group values into bins, and use midpoints and frequencies. It was also common to use the computationally-economical 1-pass-through-the-data formula for the sample variance 
+$$s^2 =   \frac{ \sum y^2 - \frac{(\sum y)^2}{n}}{n-1},$$  
+even though the definitional formula is
+
+$$s^2 = \frac{\sum(y - \bar{y})^2}{n-1}.$$
+
+The latter (definitional) one was considered too long, even though having to first have to compute $\bar{y}$ and then go back and compute (and square) each $y - \bar{y}$ would have helped students to internalize what a sample variance is.  
+
+When spreadsheets arrived in the early 1980s, students could use the built-in mean formula  to  compute and display $\bar{y}$, another formula to compute and display a new column of the deviations from $\bar{y}$, another to compute and display a new column of the squares of these deviations, another to count the number of deviations, and a final formula to arrives at $s^2.$ The understanding comes from coding the definitional formula, and the spreadsheet simply and speedily carries them out, allowing to user to see all of the relevant components, and from noticing if each one looks reasonable.  Ultimately, once students master the concept, they could move on to built-in formulae that hide (or themselves avoid) the intermediate quantities. 
+
+Few teachers actually encouraged the use of spreadsheets, and instead promoted commercial statistical packages such as SAS, SPSS and Stata. Thus, the opportunity to learn to `walk first, run later' afforded by spreadsheets was not fully exploited. 
+
+RStudio is an integrated environment for R, a free software environment for statistical computing and graphics that runs on a wide variety of platforms. Just like spreadsheet software, one can use R not just as a calculator, but as a _programmable_  calculator, and by programming them, learn the concepts before moving on to the built-in functions. There is a large user-community and a tradition of sharing information and ways of doing things. The graphics language contains primitive functions that allow customization, as well as higher-level functions, and is tightly integrated with the statistical routines and data frame functions. R Markdown helps to foster reproducible research. Shiny apps allow interactivity and visualization, a bit like 'what-ifs' with a spreadsheet.
+
+## Learning `R` can be difficult
+
+It takes practice to become comfortable with R. For those less mathematical, it is somewhat more cryptic than, and not quite as intuitive as, other packages. For the last several years, the department has offered a 13 hour course introduction to R in first term. Initially the aim was to prepare students for using it in course 621 in second term, but in the Fall 2018 and 2019 offerings of course 607, computing with R and use of R Studio became mandatory. Just as the epidemiology material in the Fall is shared between 2 courses (601 and 602), the aim will be to also spread the statistics material over 607 and 613, and to integrate the two more tightly. As an example, the material on 'descriptive' (i.e., not model-based) statistics and graphical displays will be covered in 613, while 607 will begin with parameters and models. Rather than treat computing as a separate activity, exercises based on 607 material will be carried out as part of 613 classes/tutorials. The statistical material will be used to motivate the computer tasks.
+
+Classic introductory statistics textbooks were written during a time when computers were still in their infancy. As such, even the newer editions heavily rely on _by-hand_ computations such as looking up tables for tail probabilities. We take a modern approach and introduce computational methods in statistics with the statistical software program `R`.
+
+Learning R can be difficult at first—it's like learning a new language, just like Spanish, French, or Chinese. Hadley Wickham—the chief data scientist at RStudio and the author of some amazing R packages you'll be using like `ggplot2`—[made this wise observation](https://r-posts.com/advice-to-young-and-old-programmers-a-conversation-with-hadley-wickham/):
+
+> It’s easy when you start out programming to get really frustrated and think, “Oh it’s me, I’m really stupid,” or, “I’m not made out to program.” But, that is absolutely not the case. Everyone gets frustrated. I still get frustrated occasionally when writing R code. It’s just a natural part of programming. So, it happens to everyone and gets less and less over time. Don’t blame yourself. Just take a break, do something fun, and then come back and try again later.
+
+
+## Online help for computing related issues {-}
+
+Data science and statistical programming can be difficult. Computers are stupid and little errors in your code can cause hours of headache (even if you've been doing this stuff for years!).
+
+Fortunately there are tons of online resources to help you with this. Two of the most important are [StackOverflow](https://stackoverflow.com/) (a Q&A site with hundreds of thousands of answers to all sorts of programming questions) and [RStudio Community](https://community.rstudio.com/) (a forum specifically designed for people using RStudio and the tidyverse.
+
+If you use Twitter, post R-related questions and content with [#rstats](https://twitter.com/search?q=%23rstats). The community there is exceptionally generous and helpful.
+
+Searching for help with R on Google can sometimes be tricky because the program name is a single letter. Google is generally smart enough to figure out what you mean when you search for "r scatterplot", but if it does struggle, try searching for "rstats" instead (e.g. "rstats scatterplot").
+
+Additionally, we have a class chatroom at [Slack](https://gsuevalf2021.slack.com) where anyone in the class can ask questions and anyone can answer. **I will monitor Slack regularly and will respond quickly.** (It's one of the rare Slack workspaces where I actually have notifications enabled!) Ask questions about the readings, assignments, and project. You'll likely have similar questions as your peers, and you'll likely be able to answer other peoples' questions too.
+
+
+
+## Teaching strategy {-}
+
+This course will follow the **Flipped Classroom** model. Here, students are expected to have engaged with the material before coming to class. This allows the instructor to delegate the delivery of basic content and definitions to textbooks and videos, and enforces the idea that students cannot be simply passive recipients of information. This approach then allows the professor to focus valuable class time on nurturing efficient discussions surrounding the ideas within the content, guiding interactive
+exploration of typical misconceptions, and promoting collaborative problem solving with peers. 
+
+<br>  
+
+<center>
+<iframe width="800" height="450" src="https://www.youtube.com/embed/qdKzSq_t8k8" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+</center>
+
+
+
+
+
+## DataCamp {-}
+
+This class is supported by [DataCamp](https://www.datacamp.com/), the most intuitive learning platform for data science and analytics. Learn any time, anywhere and become an expert in R, Python, SQL, and more. DataCamp’s learn-by-doing methodology combines short expert videos and hands-on-the-keyboard exercises to help learners retain knowledge. DataCamp offers 350+ courses by expert instructors on topics such as importing data, data visualization, and machine learning. They’re constantly expanding their curriculum to keep up with the latest technology trends and to provide the best learning experience for all skill levels. Join over 6 million learners around the world and close your skills gap.
+
+
+
+![](inst/figures/datacampt.png)
+
+<br>  
+
+You will be asked to complete some of the courses in DataCamp for background reading or for assignments. You can sign up for a free account at [this link](https://www.datacamp.com/groups/shared_links/a10245cf1485dc55a1ee21a23d6dfe6ae703fd60). Note: you are required to sign up with a `@mail.mcgill.ca` or `@mcgill.ca` email address. 
+
+## R Code Conventions {-}
+
+We use [`R`](https://cran.r-project.org/) code throughout these notes. When `R` code is displayed[^1] it will be typeset using a `monospace` font with syntax highlighting enabled to ensure the differentiation of functions, variables, and so on. For example, the following adds 1 to 1
+
+[^1]: https://raw.githubusercontent.com/coatless/spm/master/index.Rmd
+
+```{r show-code-style, eval = FALSE}
+a = 1L + 1L
+a
 ```
 
-:::
+Each code segment may contain actual output from `R`. Such output will appear in grey font prefixed by `#>`. For example, the output of the above code segment would look like so:
 
-
-::: {.rmdcaution}
-The `bs4_book` style also includes an `.rmdnote` callout block
-like this one.
-
-```{r collapse=TRUE}
-library(glmnet)
-set.seed(1010)
-n = 1000
-p = 100
-nzc = trunc(p/10)
-x = matrix(rnorm(n * p), n, p)
-beta = rnorm(nzc)
-fx = x[, seq(nzc)] %*% beta
-eps = rnorm(n) * 5
-y = drop(fx + eps)
-px = exp(fx)
-px = px/(1 + px)
-ly = rbinom(n = length(px), prob = px, size = 1)
-set.seed(1011)
-cvob1 = cv.glmnet(x, y)
-plot(cvob1)
-coef(cvob1)
-predict(cvob1, newx = x[1:5, ], s = "lambda.min")
-title("Gaussian Family", line = 2.5)
+```{r show-sample-output, echo = FALSE, eval = TRUE}
+1L + 1L
 ```
 
-:::
 
 
-## Usage 
+## Development {-}
 
-Each **bookdown** chapter is an .Rmd file, and each .Rmd file can contain one (and only one) chapter. A chapter *must* start with a first-level heading: `# A good chapter`, and can contain one (and only one) first-level heading.
+This book is built with [**bookdown**](https://github.com/rstudio/bookdown) and is open source and freely available. This approach encourages contributions, ensures reproducibility and provides access to the material worldwide. The online version of the book is hosted at [sahirbhatnagar.com/EPIB607](https://sahirbhatnagar.com/EPIB607). The entire source code is available at [https://github.com/sahirbhatnagar/EPIB607](https://github.com/sahirbhatnagar/EPIB607).  
 
-Use second-level and higher headings within chapters like: `## A short section` or `### An even shorter section`.
+If you notice any errors, we would be grateful if you would let us know by filing an issue [here](https://github.com/sahirbhatnagar/EPIB607/issues)
+or making a pull request by clicking the `Edit this page` link on the right hand side of this page.
 
-The `index.Rmd` file is required, and is also your first book chapter. It will be the homepage when you render the book.
 
-## Render book
 
-You can render the HTML version of this example book without changing anything:
+<br>
 
-1. Find the **Build** pane in the RStudio IDE, and
+## About the authors {-}
 
-1. Click on **Build Book**, then select your output format, or select "All formats" if you'd like to use multiple formats from the same book source files.
+Sahir Bhatnagar           |  James Hanley
+:-------------------------:|:-------------------------:
+<img src="inst/figures/sahir.png" alt="Drawing" style="height: 200px;"/>  |  <img src="inst/figures/jim.png" alt="Drawing" style="height: 200px;"/>
 
-Or build the book from the R console:
+* Sahir R. Bhatnagar: Assistant Professor of Biostatistics - McGill University, Montreal, Canada.  
+    + Website: <https://sahirbhatnagar.com/>  
+    + GitHub: <https://github.com/sahirbhatnagar>  
+* James A. Hanley: Professor of Biostatistics - McGill University, Montreal, Canada.  
+    + Website: <http://www.medicine.mcgill.ca/epidemiology/hanley/>  
 
-```{r, eval=FALSE}
-bookdown::render_book()
-```
 
-To render this example to PDF as a `bookdown::pdf_book`, you'll need to install XeLaTeX. You are recommended to install TinyTeX (which includes XeLaTeX): <https://yihui.org/tinytex/>.
 
-## Preview book
 
-As you work, you may start a local server to live preview this HTML book. This preview will update as you edit the book when you save individual .Rmd files. You can start the server in a work session by using the RStudio add-in "Preview book", or from the R console:
+## License {-}
 
-```{r eval=FALSE}
-bookdown::serve_book()
-```
+<a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/88x31.png" /></a><br />This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>
+
+
+
+
+
 
 
 ```{r include=FALSE}
@@ -183,3 +255,71 @@ knitr::write_bib(c(
   .packages(), 'bookdown', 'knitr', 'rmarkdown'
 ), 'packages.bib')
 ```
+
+
+
+
+
+# Schedule {-}
+
+```{r include=FALSE}
+pacman::p_load(tidyverse)
+pacman::p_load(calendar)
+pacman::p_load(lubridate)
+pacman::p_load(glue)
+pacman::p_load(rvest)
+pacman::p_load(kableExtra)
+options(kableExtra.html.bsTable = T)
+pacman::p_load(knitr)
+pacman::p_load(formattable)
+
+
+strip_html <- function(s) {
+  html_text(read_html(charToRaw(s)))
+}
+
+```
+
+
+```{r, echo=FALSE}
+
+schedule_raw <- read_csv(here::here("inst","schedule","schedule.csv"), na = c("NA"),
+                         col_types = cols(
+  Week = col_character(),
+  Date = col_character(),
+  Topic = col_character(),
+  Readings = col_character(),
+  Slides = col_character(),
+  Lab = col_character(),
+  Assignment = col_character()
+))
+# schedule_raw$Assignment <- if()cell_spec(schedule_raw$Assignment,
+#                                      color = "white",
+#                                      background = "#E01C3A")
+
+# schedule_raw %>% 
+#   mutate(Assignment = case_when(Assignment != "" ~ cell_spec(Assignment, bold = T, color = "white", background = "ABE35A"),
+#                                 TRUE ~ Assignment)
+#   )
+
+
+schedule_raw <- schedule_raw %>% 
+  mutate(Assignment = case_when(Assignment != "" ~ cell_spec(Assignment, bold = T, background = "ABE35A"),
+                                TRUE ~ Assignment))
+
+schedule_raw %>% 
+  kbl(escape = FALSE) %>% 
+  kable_styling(c("hover"), fixed_thead = T, full_width = T) %>% 
+  row_spec(c(1,4,5,8,9,12,13), background = "#EAEAEA") %>% 
+  column_spec(3, width = "10em") %>% 
+  # add_header_above(c("Introduction to data" = 7), bold = TRUE, align = "l", font_size = "x-large")
+  # pack_rows("", 1, 1) %>% 
+  pack_rows("Introduction to data", 1, 5) %>%
+  pack_rows("", 6, 6) %>% 
+  pack_rows("Statistical inference", 6, 11) %>% 
+  collapse_rows(columns = 1)
+  
+
+```
+
+

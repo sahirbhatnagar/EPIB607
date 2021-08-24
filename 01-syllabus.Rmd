@@ -1,0 +1,309 @@
+# Syllabus {-}
+
+## General Information {-}
+
+-   Course \#: EPIB 607
+
+-   Term and year: Fall 2021
+
+-   Course pre-requisite(s): A first year course in undergraduate
+    differential and integral calculus. Basic understanding of
+    exponentials, logs, histograms, graphs, mean, median, mode, standard
+    deviation. Enrollment in the Epidemiology or Public Health program
+    at McGill University, or with the permission of the instructor.
+    
+-   Course co-requisite: EPIB 613
+
+-   Course schedule: Tuesdays and Thursdays 11:35am - 1:25pm in Education 129.
+
+-   Number of credits: 4
+
+
+## Instructor & TA Information {-}
+
+
+### Instructor Information {-}
+
+
+-   Name and Title: Sahir Rai Bhatnagar, PhD, Assistant Professor
+
+-   E-mail: sahir.bhatnagar@mcgill.ca
+
+-   Office hours: Fridays 8am - 9am 
+
+-   Communication plan: All office hours will be held virtually via Zoom (link posted in myCourses). You are expected to ask questions to your assigned TA first. If your question is not resolved, then please come to my office hours which is the easiest way to ensure that I will respond in a timely manner. Given the large size of the class, email responses will be delayed by upto one week. If you must send an email, please include an informative subject title beginning with
+
+**\[Fall 2021 - EPIB-607-001 - Inferential Statistics\]:**
+
+### TA Information {-}
+
+You are assigned a specific TA based on your last name. Throughout the term, your assigned TA will be the one marking your assignments. You are required to attend the office hours of your TA. In exceptional circumstances only, you can attend the office hours of another TA. All TA office hours will be held virtually (link posted in myCourses).
+
+-   **Chinchin Wang**
+
+    -   <chinchin.wang@mail.mcgill.ca>
+
+    -   Office hours: Tuesdays 2:00pm - 3:00pm
+
+    -   Students with last names beginning with: Aa - En
+
+-   **Mariam El Sheikh**
+
+    -   <mariam.elsheikh@mail.mcgill.ca>
+
+    -   Office hours: Thursdays 1:00pm - 2:00pm
+
+    -   Students with last names beginning with: Er - Lu
+
+-   **Ting Zhang**
+
+    -   <ting.zhang3@mail.mcgill.ca>
+
+    -   Office hours: Fridays 9:00am - 10:00am
+
+    -   Students with last names beginning with: Ma - Sam
+
+-   **Jingyan Fu**
+
+    -   <jingyan.fu@mail.mcgill.ca>
+
+    -   Office hours: Tuesdays 10:00am - 11:00am
+
+    -   Students with last names beginning with: Sar - Zh
+
+
+
+## Course Overview  {-}
+
+
+Introduction to the basic principles of statistical inference used in
+clinical and epidemiologic research. Topics include variability; methods
+of processing and describing data; sampling and sampling distributions;
+inferences regarding means and proportions, non-parametric methods,
+regression and correlation.
+
+
+The principal audience is researchers in the natural and social sciences
+who haven't had an introductory course in statistics (or did have one a
+long time ago). This audience accepts that statistics has penetrated the
+life sciences pervasively and is required knowledge for both doing
+research and understanding scientific papers.
+
+## Instructor Message Regarding Course Delivery {-}
+
+Life absolutely sucks right now. None of us is really okay. **We're all just pretending.**
+
+You most likely know people who have lost their jobs, have tested positive for COVID-19, have been hospitalized, or have even died (I myself know people in all those categories). You all have increased (or possibly decreased) work responsibilities and increased family care responsibilities—you might be caring for extra people (young and/or old!) right now, and you are likely facing uncertain job prospects (or have been laid off!).
+
+**I'm fully committed to making sure that you learn everything you were hoping to learn from this class!** I will make whatever accommodations I can to help you finish your problem sets, do well on your projects, and learn and understand the class material. Under ordinary conditions, I am flexible and lenient with grading and course expectations when students face difficult challenges. Under pandemic conditions, that flexibility and leniency is intensified.
+
+If you tell me you're having trouble, I will not judge you or think less of you. I hope you'll extend me the same grace.
+
+You *never* owe me personal information about your health (mental or physical). You are *always* welcome to talk to me about things that you're going through, though. If I can't help you, I usually know somebody who can.
+
+If you need extra help, or if you need more time with something, or if you feel like you're behind or not understanding everything, **do not suffer in silence!** Talk to me! I will work with you. **I promise.**
+
+I want you to learn lots of things from this class, but I primarily want you to stay healthy, balanced, and grounded during this crisis.
+
+Here are some useful links from Teaching and Learning Services: 
+- [Guidelines for Students on Teaching, Learning, and Assessment](https://www.mcgill.ca/tls/instructors/policies/guidelines-f2021#Students)
+- [Learning Resources](https://www.mcgill.ca/tls/students/learning-resources)
+
+
+## Learning Outcomes {-}
+
+
+The aim of this course is to provide students with basic principles of
+statistical inference so that they can:
+
+-   Visualize/Analyze/Interpret data using statistical methods with the
+    `R` statistical software program.
+
+-   Understand the statistical results in a scientific paper.
+
+-   Apply statistical methods in their own research.
+
+-   Use the methods learned in this course as a foundation for more
+    advanced biostatistics courses.
+
+## Instructional Method {-}
+
+
+**This course will follow the Flipped Classroom model**: Here, students
+are expected to have engaged with the material before coming to class. 
+This allows the instructor to delegate the delivery of basic content and definitions to
+textbooks and videos, and enforces the idea that students cannot be
+simply passive recipients of information. This approach then allows the
+professor to focus valuable class time on nurturing efficient
+discussions surrounding the ideas within the content, guiding
+interactive exploration of typical misconceptions, and promoting
+collaborative problem solving with peers.
+
+**A focus on computation**: Classic introductory statistics textbooks
+were written during a time when computers were still in their infancy.
+As such, even the newer editions heavily rely on by-hand computations
+such as looking up tables for tail probabilities. We take a modern
+approach and introduce computational methods in statistics with the
+statistical software program `R`. Assignments must be submitted in
+`R Markdown` format to ensure reproducible results.
+
+
+## Required Course Materials {-}
+
+
+Course notes
+------------
+
+These are available as a PDF document on myCourses to download. Extra
+material such as `R` code and class schedule will be made available on
+myCourses. You will also be asked to watched the accompanying [Against
+all odds video
+series](https://www.learner.org/courses/againstallodds/unitpages/index.html)
+by Annenberg Learner.
+
+Equipment
+---------
+
+Hand calculators (with square root, log, and exponential function) are
+required. Laptops for in-class exercises can be useful but is not
+required.
+
+Software
+--------
+
+The `R` software package will be introduced and used for in-class
+illustrations. `R` is available under GPL (free) at
+[](http://cran.r-project.org/).\
+It is recommended to use the RStudio interactive development environment
+(IDE) which can be downloaded for free at [](http://www.rstudio.com/).\
+**Note:** to use RStudio, you must first download the `R` software
+package at the link provided above.
+
+Tutorials from DataCamp
+-----------------------
+
+This class is supported by DataCamp, which will allow you to learn `R`
+through a combination of short expert videos and hands-on-the-keyboard
+exercises. You will be asked to complete some of the courses in DataCamp
+for background reading or for assignments. You can sign up for a free
+account at this
+[link](https://www.datacamp.com/groups/shared_links/a10245cf1485dc55a1ee21a23d6dfe6ae703fd60).
+Note: you are required to sign up with a \@mail.mcgill.ca or \@mcgill.ca
+email address.
+
+
+## Course Content {-}
+
+
+Descriptive Statistics
+----------------------
+
+-   Histograms, density plots, measures of center, boxplots, standard
+    deviation
+
+-   Data visualization (aesthetics, visual cues, coordinate systems,
+    scales, facets and layers)
+
+-   Choosing color palettes: Cynthia Brewer palettes, perceptually
+    uniform palettes, color blind friendly palettes.
+
+-   Tidy data
+
+Sampling Distributions
+----------------------
+
+-   Parameters and statistics
+
+-   Standard error of the mean
+
+-   Normal (Gaussian) distribution
+
+-   Central Limit Theorem
+
+-   Confidence intervals
+
+-   Bootstrap for sampling distributions and confidence intervals
+
+One Sample Inference
+--------------------
+
+-   Inference about a population mean
+
+-   P values, power, and sample size considerations
+
+-   Inference about a population proportion
+
+-   Inference about a population rate
+
+Regression
+----------
+
+-   Linear regression for means, difference in means, ratio of means
+
+-   Poisson regression for rates, rate differences, rate ratios
+
+-   Logistic regression for odds ratios and risk ratios
+
+## Evaluation {-}
+
+
+  ----------------------------------------------------------------- -----
+  4 Assignments (submit to myCourses)                                15%
+  6 DALITE Quizzes                                                   15%
+  Group Project due **December 22nd**                                10%
+  Midterm exam (1 two-sided formula sheet) **October 23rd**          25%
+  3-hour Final exam (2 two-sided formula sheets) **December 8th**    35%
+  ----------------------------------------------------------------- -----
+
+The final grade will be the maximum of:\
+
+  ----------------------------------------------------------------------------
+   15% Assignments + 15% DALITE + 10% Group Project + 25% Midterm + 35% Final
+                                       OR
+          15% Assignments + 15% DALITE + 10% Group Project + 60% Final
+  ----------------------------------------------------------------------------
+
+Group project is subject to change due to online format.
+
+FAQ for how to submit an assignment via myCourses available at this
+[link](http://kb.mcgill.ca/kb/?ArticleId=4337&source=Article&c=12&cid=2#tab:homeTab:crumb:8:artId:4337:src:article).
+Extensions for assignments may be granted upon request only. **There is
+no possibility to take the midterm or final exam on alternative dates.**
+The final grade will consist of a letter grade.
+
+
+## McGill Policy Statments {-}
+
+
+### Language of Submission {-}
+
+
+In accord with McGill University's Charter of Students' Rights, students
+in this course have the right to submit in English or in French any
+written work that is to be graded. This does not apply to courses in
+which acquiring proficiency in a language is one of the objectives.
+
+Conformément à la Charte des droits de l'étudiant de l'Université
+McGill, chaque étudiant a le droit de soumettre en français ou en
+anglais tout travail écrit devant être noté (sauf dans le cas des cours
+dont l'un des objets est la maîtrise d'une langue).
+
+### Academic integrity {-}
+
+
+McGill University values academic integrity. Therefore, all students
+must understand the meaning and consequences of cheating, plagiarism and
+other academic offences under the Code of Student Conduct and
+Disciplinary Procedures (see
+[www.mcgill.ca/students/srr/honest/](www.mcgill.ca/students/srr/honest/)
+for more information).
+
+
+L'université McGill attache une haute importance à l'honnêteté
+académique. Il incombe par conséquent à tous les étudiants de comprendre
+ce que l'on entend par tricherie, plagiat et autres infractions
+académiques, ainsi que les conséquences que peuvent avoir de telles
+actions, selon le Code de conduite de l'étudiant et des procédures
+disciplinaires (pour de plus amples renseignements, veuillez consulter
+le site
+[www.mcgill.ca/students/srr/honest/](www.mcgill.ca/students/srr/honest/)).

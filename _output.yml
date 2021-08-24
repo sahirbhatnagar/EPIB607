@@ -1,9 +1,11 @@
 bookdown::bs4_book:
-  css: bs4_style.css
+  css:
+    - templates/bs4_style.css
+    - templates/corrections.css # remove to stop highlighting corre
   theme:
 #    primary: "#096B72"
     # primary: "#0d6efd"
-    primary: "#0059b3"
+    primary: "#0059b3" # need to change this in templates/bs4_style.css
     # heading_font:
     #   google:
     #     family: Bitter
@@ -13,7 +15,7 @@ bookdown::bs4_book:
     #     # arguments to sass::font_google()
     #     family: DM Mono
     #     local: false
-  # repo: https://github.com/sahirbhatnagar/epib607
+  repo: https://github.com/sahirbhatnagar/epib607
 bookdown::pdf_book:
   includes:
     in_header: preamble.tex
