@@ -1,0 +1,672 @@
+--- 
+title: "EPIB607"
+author: "Bhatnagar and Hanley"
+date: "`r Sys.Date()`"
+site: bookdown::bookdown_site
+documentclass: book
+bibliography: [book.bib, packages.bib]
+url: https://sahirbhatnagar.com/EPIB607
+# cover-image: path to the social sharing image like images/cover.jpg
+description: |
+  This is a minimal example of using the bookdown package to write a book.
+  set in the _output.yml file.
+  The HTML output format for this example is bookdown::bs4_book,
+biblio-style: apalike
+csl: chicago-fullnote-bibliography.csl
+editor_options: 
+  chunk_output_type: console
+---
+```{r include=FALSE, cache=FALSE}
+# example R options set globally
+options(width = 60)
+options(bookdown.post.latex = function(x) {
+  # x is the content of the LaTeX output file
+  c('\\PassOptionsToPackage{table}{xcolor}',x)
+})
+# example chunk options set globally
+knitr::opts_chunk$set(
+  comment = "#>",
+  collapse = TRUE
+  )
+
+
+```
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
+```
+
+
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+if(!requireNamespace("pacman")) install.packages("pacman")
+pacman::p_load(devtools)
+pacman::p_load(dplyr)
+pacman::p_load(tidyr)
+pacman::p_load(knitr)
+pacman::p_load(rmarkdown)
+pacman::p_load(bslib)
+pacman::p_load(downlit)
+pacman::p_load(xml2)
+pacman::p_load(ggplot2)
+pacman::p_load(data.table)
+pacman::p_load(glmnet)
+pacman::p_load(here)
+pacman::p_load(swirl)
+pacman::p_load(mosaic)
+# remotes::install_github("data-edu/dataedu")
+library(dataedu)
+```
+
+
+# Preface {-}
+
+Welcome to the course website for [EPIB 607 FALL 2021: Inferential Statistics](https://www.mcgill.ca/study/2021-2022/courses/epib-607) at McGill University. 
+
+
+## Objectives {-}
+
+The aim of this course is to provide students with basic principles of statistical inference so that they can:
+
+1. Visualize/Analyze/Interpret data using statistical methods with the `R` statistical software program.
+2. Understand the statistical results in a scientific paper.
+3. Apply statistical methods in their own research.
+4. Use the methods learned in this course as a foundation for more advanced biostatistics courses.
+
+
+## Audience  {-}
+
+The principal audience is researchers in the natural and social sciences who haven't had an introductory course in statistics (or did have one a long time ago). This audience accepts that statistics has penetrated the life sciences pervasively and is required knowledge for both doing research and understanding scientific papers. 
+
+This course is tailored to graduate students in population health sciences in their first year. Concurrently, they take their first courses on epidemiologic methods. The department is known for its emphasis on quantitative methods, and students' ability to carry out their own quantitative work. Since most of the data they will deal with are non-experimental, there is a strong emphasis on multivariable regression. While some students will have had some statistical courses as undergraduates, the courses start at the beginning, and are pitched at the Master's level.
+
+In the last decade, the incoming classes have become more diverse, both in their backgrounds, and in their career plans. Some of those in the recently begun MScPH program plan to be consumers rather than producers of research; previously, the majority of students pursued a thesis-based Masters that involved considerable statistical analyses to produce new statistical evidence.
+
+
+## About these notes  {-}
+
+These notes are a collection of useful links, videos, online resources and papers for an introductory course in statistics. The instructors have found that no single book sufficiently teaches all the topics covered in this course. Part of this is due to advancements in computing which have far outpaced the publication of modern textbooks. Indeed, the computer has replaced many of the calculations that were traditionally taught to be done by hand. We direct the readers to what we think is a good learning resource for a given topic (following the **Flipped Classroom** strategy). We also provide our own commentary and notes when we think its useful.  
+
+
+## Topics/textbooks {-}
+
+For the **first term** course 607, recent choices have been _The Practice of Statistics in the Life Sciences_ by Baldi and Moore, and _Stats_ by de Veaux, Velleman and Bock. Others that have been recommended are the older texts by Pagano and Gauvreau, and by Rosner. Some of us have also drawn on material in _Statistics_ by Freedman, Pisani, Purves and Adkikari, and
+_Statistical Methods in Medical Research_, 4th Edition_ by
+Armitage,Berry, and Matthews.
+
+The newer books have tried to teach the topic more engagingly, by starting with where data come from, and (descriptively) displaying single distributions, or relationships between variables. They and the many others then typically move on to Probability; Random Variables; Sampling Distributions; Confidence intervals and Tests of Hypotheses; Inference about/for a single Mean/Proportion/Rate and a difference of two Means/Proportions/Rates; Chi-square Tests for 2 way frequency tables; Simple Correlation and Regression. Most include a (or point to an online) chapter on Non-Parametric Tests. They typically end with  tables of probability tail areas, and critical values. 
+
+Bradford Hill's  _Principles of Medical Statistics_ followed the same sequence 80 years ago, but in black type in a book that measured 6 inches by 9 inches by 1 inch, and weighed less than a pound. Today's multi-colour texts are 50% longer, 50% wider, and twice as thick, and weigh 5 pounds or more.
+
+The topics to be covered in the **second term** course include multiple regression involving 
+Gaussian, Binomial, and Poisson variation, as well
+as (possibly censored) time-durations -- or their reciprocals, event rates. Here is is more difficult to point to one modern comprehensive textbook.
+There is pressure to add even more topics, such as correlated data, missing data, measurement error etc. top the second statistics course.
+
+## Regression from the outset {-}
+
+It is important to balance the desire to cover more of these regression-based topics with having a good grounding, from the first term, in the basic concepts that underlie all statistical analyses.
+
+The first term _epidemiology_ course deals with proportions and rates (risks and hazards) and -- at the core of epidemiology -- comparisons involving these. Control for confounding is typically via  odds/risk/rate differences/ratios obtained by standardization or Mantel-Haenszel-type summary measures. Teachers are reluctant to spend the time to teach the classical confidence intervals for these, as they are not that intuitive and -- once students have covered multiple regression -- superceded by model-based intervals.    
+
+
+One way to synchronize with epidemiology, is to teach the six separate topics Mean/Proportion/Rate and differences of two Means/Proportions/Rates in a more unified way by embedding all 6 in a regression format right from the outset, to use generalized linear models, and to focus on  all-or-none contrasts, represented by binary 'X' values.  
+
+This would have other benefits. As of now, a lot of time in 607 is spent on 1-sample and 2-sample methods (and chi-square tests) that don't lead anywhere (generalize). Ironically, the first-term concerns with equal and unequal variance tests  are no longer raised, or obsessed about, in the multiple regression framework in second term. 
+
+The teaching/learning of statistical concepts/techiques is greatly enriched by  real-world applications from published reports of  public health and epidemiology research. In 1980, a first course in statistics provided access to 80% of the articles in NEJM articles. This large dividend is no longer the case -- and even less so for journals that report on non-experimental research. The 1-sample and 2-sample methods, and chi-square tests that have been the core of first statistics courses are no longer the techniques that underlie the reported summaries in the abstracts and in the full text. The statistical analysis sections of 
+many of these articles do still start off with descriptive statistics and a perfunctory list of parametric and non-parametric 1 and 2 sample tests, but most then describe the multivariable techniques used to produce the reported summaries. [Laboratory sciences can still get by with t-tests and 'anova's -- and the occasional ancova'; studies involving  intact human  beings in free-living populations can not.]   Thus, if the first statistical course is to to get the same 'understanding' dividend from research articles as the introductory epidemiology course does, that first statistical course needs to teach the techniques that produce the results in the abstracts. Even if it can only go so far, such an approach can promote a regression approach right from week one, and build on it each week, rather than introduce it for the first time at week 9 or 10, when the course is already beginning to wind down, and assignments from other courses are piling up. 
+
+## Parameters first, data later {-}
+
+When many teachers and students think of regression, they imagine  a cloud of points in x-y space, and the least squares fitting of a regression line. They start with thinking about the data. 
+
+A few teachers, when they introduce regression, do so by describing/teaching it as **an equation that connects parameters**,   constructed in such a way that the parameter-constrast of interest is easily and directly visible. Three such teachers are Clayton and Hills 1995, Miettinen1985, and Rothman 2012. In each case, their first chapter on regression is limited to the parameters and to undersatnding what they mean; data only appear in the next chapter.
+
+There is a lot to commend this approach. It reminds epidemiologists -- and even statisticians -- that statistical inference is about parameters. Before addressing  data and data-summaries, we need to specify what the estimands are -- i.e, what parameter(s) is(are) we pursuing.
+
+Fisher, when introducing Likelihood in 1922, was one of the earliest statisticians to distinguish parameters from statistics. he decried 'the obscurity which envelops the theoretical bases of statistical methods' and  ascribed it to two considerations. (**emphasis ours**)
+
+> In the first place, it appears to be widely thought, or rather felt, that in a subject in which all results are liable to greater or smaller errors, precise definition of ideas or concepts is, if not impossible, at least not a practical necessity.  
+
+> In the second place, it has happened that in statistics a purely verbal confusion has hindered the distinct formulation of statistical problems; for **it is customary to apply the same name, mean, standard deviation, correlation coefficient, etc., both to the true value which we should like to know, but can only estimate, and to the particular value at which we happen to arrive by our methods of estimation.** [R. A. Fisher. On the Mathematical Foundations of Theoretical Statistics. Philosophical Transactions of the Royal Society of London. Series A, Containing Papers of a Mathematical or Physical Character, Vol. 222 (1922), pp. 309-368]
+
+It is  easy and tempting to start with data, since the form of the summary statistic is usually easy to write down directly. It can also be used to motivate a definition: for example, we could define an odds ratio by its empirical computational form ad/bc. However, this 'give me the answer first, and the question later' approach comes up short as soon as one asks how statistically stable this estimate is. To derive a standard error or confidence interval, one has to appeal to a sampling distribution. To do this, one needs to identify the random variables involvced, and the parameters that determine/modulate their statistical distributions.
+
+Once students master the big picture (the parameter(s) being pursued), the task of estimating them by fitting these equations to data is considerably simplified, and becomes more generic. In this approach more upfront thinking is devoted to the parameters -- to what Miettinen calls the design of the study object -- with the focus on a pre-specified 'deliverable.'
+
+ 
+
+## Let's switch to "y-bar", and drop  "x-bar" {-}
+
+The prevailing practice, when introducing descriptive statistics, and even  to 1 and two sample procedures, is to use the term x-bar ($\bar{x}$) for an arithmetic mean (one notable execption is de Veaux at al.) This misses the chance to prepare students for regression, where E[Y|X] is the object of interest, and the X-conditional Y's are the random variables. Technically speaking, the X's are not even considered random variables. Elevating the status of the Y's and explaining the  role of the X's, and the impact of the X distributions on precision might also cut down on the practice of checking the normality of the X's, even though the X's are not random variables. They are merely the X locations/profiles at which Y was measured/recorded. When possible, the X distribution should be determined by the investigators, so as to give more precise and less correlated estimates of the  parameters being pursued. Switching from $\bar{x}$ to $\bar{y}$ is a simple yet meaningful step in this direction. JH made this switch about 10 years ago.
+
+## Computing from the outset {-}
+
+In 1980, most calculations in the first part of 607 were by hand calculator.  Computing summary statistics by hand was seen as a way to help students understand the concepts involved, and the absence of automated rapid computation was not considered a drawback. However, 
+doing so did not always help students understand the concept of a standard deviation or a regression slope, since these formulae were designed to minimize the number of keystrokes, rather than to illuminate the construct involved. For example, it was common to rescale and relocate data to cut down on the numbers of digits entered, to group values into bins, and use midpoints and frequencies. It was also common to use the computationally-economical 1-pass-through-the-data formula for the sample variance 
+$$s^2 =   \frac{ \sum y^2 - \frac{(\sum y)^2}{n}}{n-1},$$  
+even though the definitional formula is
+
+$$s^2 = \frac{\sum(y - \bar{y})^2}{n-1}.$$
+
+The latter (definitional) one was considered too long, even though having to first have to compute $\bar{y}$ and then go back and compute (and square) each $y - \bar{y}$ would have helped students to internalize what a sample variance is.  
+
+When spreadsheets arrived in the early 1980s, students could use the built-in mean formula  to  compute and display $\bar{y}$, another formula to compute and display a new column of the deviations from $\bar{y}$, another to compute and display a new column of the squares of these deviations, another to count the number of deviations, and a final formula to arrives at $s^2.$ The understanding comes from coding the definitional formula, and the spreadsheet simply and speedily carries them out, allowing to user to see all of the relevant components, and from noticing if each one looks reasonable.  Ultimately, once students master the concept, they could move on to built-in formulae that hide (or themselves avoid) the intermediate quantities. 
+
+Few teachers actually encouraged the use of spreadsheets, and instead promoted commercial statistical packages such as SAS, SPSS and Stata. Thus, the opportunity to learn to `walk first, run later' afforded by spreadsheets was not fully exploited. 
+
+RStudio is an integrated environment for R, a free software environment for statistical computing and graphics that runs on a wide variety of platforms. Just like spreadsheet software, one can use R not just as a calculator, but as a _programmable_  calculator, and by programming them, learn the concepts before moving on to the built-in functions. There is a large user-community and a tradition of sharing information and ways of doing things. The graphics language contains primitive functions that allow customization, as well as higher-level functions, and is tightly integrated with the statistical routines and data frame functions. R Markdown helps to foster reproducible research. Shiny apps allow interactivity and visualization, a bit like 'what-ifs' with a spreadsheet.
+
+## Learning `R` can be difficult
+
+It takes practice to become comfortable with R. For those less mathematical, it is somewhat more cryptic than, and not quite as intuitive as, other packages. For the last several years, the department has offered a 13 hour course introduction to R in first term. Initially the aim was to prepare students for using it in course 621 in second term, but in the Fall 2018 and 2019 offerings of course 607, computing with R and use of R Studio became mandatory. Just as the epidemiology material in the Fall is shared between 2 courses (601 and 602), the aim will be to also spread the statistics material over 607 and 613, and to integrate the two more tightly. As an example, the material on 'descriptive' (i.e., not model-based) statistics and graphical displays will be covered in 613, while 607 will begin with parameters and models. Rather than treat computing as a separate activity, exercises based on 607 material will be carried out as part of 613 classes/tutorials. The statistical material will be used to motivate the computer tasks.
+
+Classic introductory statistics textbooks were written during a time when computers were still in their infancy. As such, even the newer editions heavily rely on _by-hand_ computations such as looking up tables for tail probabilities. We take a modern approach and introduce computational methods in statistics with the statistical software program `R`.
+
+Learning R can be difficult at first—it's like learning a new language, just like Spanish, French, or Chinese. Hadley Wickham—the chief data scientist at RStudio and the author of some amazing R packages you'll be using like `ggplot2`—[made this wise observation](https://r-posts.com/advice-to-young-and-old-programmers-a-conversation-with-hadley-wickham/):
+
+> It’s easy when you start out programming to get really frustrated and think, “Oh it’s me, I’m really stupid,” or, “I’m not made out to program.” But, that is absolutely not the case. Everyone gets frustrated. I still get frustrated occasionally when writing R code. It’s just a natural part of programming. So, it happens to everyone and gets less and less over time. Don’t blame yourself. Just take a break, do something fun, and then come back and try again later.
+
+
+## Online help for computing related issues {-}
+
+Data science and statistical programming can be difficult. Computers are stupid and little errors in your code can cause hours of headache (even if you've been doing this stuff for years!).
+
+Fortunately there are tons of online resources to help you with this. Two of the most important are [StackOverflow](https://stackoverflow.com/) (a Q&A site with hundreds of thousands of answers to all sorts of programming questions) and [RStudio Community](https://community.rstudio.com/) (a forum specifically designed for people using RStudio and the tidyverse.
+
+If you use Twitter, post R-related questions and content with [#rstats](https://twitter.com/search?q=%23rstats). The community there is exceptionally generous and helpful.
+
+Searching for help with R on Google can sometimes be tricky because the program name is a single letter. Google is generally smart enough to figure out what you mean when you search for "r scatterplot", but if it does struggle, try searching for "rstats" instead (e.g. "rstats scatterplot").
+
+Additionally, we have a class chatroom at [Slack](https://gsuevalf2021.slack.com) where anyone in the class can ask questions and anyone can answer. **I will monitor Slack regularly and will respond quickly.** (It's one of the rare Slack workspaces where I actually have notifications enabled!) Ask questions about the readings, assignments, and project. You'll likely have similar questions as your peers, and you'll likely be able to answer other peoples' questions too.
+
+
+
+## Teaching strategy {-}
+
+This course will follow the **Flipped Classroom** model. Here, students are expected to have engaged with the material before coming to class. This allows the instructor to delegate the delivery of basic content and definitions to textbooks and videos, and enforces the idea that students cannot be simply passive recipients of information. This approach then allows the professor to focus valuable class time on nurturing efficient discussions surrounding the ideas within the content, guiding interactive
+exploration of typical misconceptions, and promoting collaborative problem solving with peers. 
+
+<br>  
+
+<center>
+<iframe width="800" height="450" src="https://www.youtube.com/embed/qdKzSq_t8k8" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+</center>
+
+
+
+
+
+## DataCamp {-}
+
+This class is supported by [DataCamp](https://www.datacamp.com/), the most intuitive learning platform for data science and analytics. Learn any time, anywhere and become an expert in R, Python, SQL, and more. DataCamp’s learn-by-doing methodology combines short expert videos and hands-on-the-keyboard exercises to help learners retain knowledge. DataCamp offers 350+ courses by expert instructors on topics such as importing data, data visualization, and machine learning. They’re constantly expanding their curriculum to keep up with the latest technology trends and to provide the best learning experience for all skill levels. Join over 6 million learners around the world and close your skills gap.
+
+
+
+![](inst/figures/datacampt.png)
+
+<br>  
+
+You will be asked to complete some of the courses in DataCamp for background reading or for assignments. You can sign up for a free account at [this link](https://www.datacamp.com/groups/shared_links/a10245cf1485dc55a1ee21a23d6dfe6ae703fd60). Note: you are required to sign up with a `@mail.mcgill.ca` or `@mcgill.ca` email address. 
+
+## R Code Conventions {-}
+
+We use [`R`](https://cran.r-project.org/) code throughout these notes. When `R` code is displayed[^1] it will be typeset using a `monospace` font with syntax highlighting enabled to ensure the differentiation of functions, variables, and so on. For example, the following adds 1 to 1
+
+[^1]: https://raw.githubusercontent.com/coatless/spm/master/index.Rmd
+
+```{r show-code-style, eval = FALSE}
+a = 1L + 1L
+a
+```
+
+Each code segment may contain actual output from `R`. Such output will appear in grey font prefixed by `#>`. For example, the output of the above code segment would look like so:
+
+```{r show-sample-output, echo = FALSE, eval = TRUE}
+1L + 1L
+```
+
+
+
+## Development {-}
+
+This book is built with [**bookdown**](https://github.com/rstudio/bookdown) and is open source and freely available. This approach encourages contributions, ensures reproducibility and provides access to the material worldwide. The online version of the book is hosted at [sahirbhatnagar.com/EPIB607](https://sahirbhatnagar.com/EPIB607). The entire source code is available at [https://github.com/sahirbhatnagar/EPIB607](https://github.com/sahirbhatnagar/EPIB607).  
+
+If you notice any errors, we would be grateful if you would let us know by filing an issue [here](https://github.com/sahirbhatnagar/EPIB607/issues)
+or making a pull request by clicking the `Edit this page` link on the right hand side of this page.
+
+
+
+<br>
+
+## About the authors {-}
+
+Sahir Bhatnagar           |  James Hanley
+:-------------------------:|:-------------------------:
+<img src="inst/figures/sahir.png" alt="Drawing" style="height: 200px;"/>  |  <img src="inst/figures/jim.png" alt="Drawing" style="height: 200px;"/>
+
+* Sahir R. Bhatnagar: Assistant Professor of Biostatistics - McGill University, Montreal, Canada.  
+    + Website: <https://sahirbhatnagar.com/>  
+    + GitHub: <https://github.com/sahirbhatnagar>  
+* James A. Hanley: Professor of Biostatistics - McGill University, Montreal, Canada.  
+    + Website: <http://www.medicine.mcgill.ca/epidemiology/hanley/>  
+
+
+
+
+## License {-}
+
+<a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/88x31.png" /></a><br />This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>
+
+
+
+
+
+
+
+```{r include=FALSE}
+# automatically create a bib database for R packages
+knitr::write_bib(c(
+  .packages(), 'bookdown', 'knitr', 'rmarkdown'
+), 'packages.bib')
+```
+
+
+
+
+
+# Schedule {-}
+
+```{r include=FALSE}
+pacman::p_load(tidyverse)
+pacman::p_load(calendar)
+pacman::p_load(lubridate)
+pacman::p_load(glue)
+pacman::p_load(rvest)
+pacman::p_load(kableExtra)
+options(kableExtra.html.bsTable = T)
+pacman::p_load(knitr)
+pacman::p_load(formattable)
+
+
+strip_html <- function(s) {
+  html_text(read_html(charToRaw(s)))
+}
+
+```
+
+
+```{r, echo=FALSE}
+
+schedule_raw <- read_csv(here::here("inst","schedule","schedule.csv"), na = c("NA"),
+                         col_types = cols(
+  Week = col_character(),
+  Date = col_character(),
+  Topic = col_character(),
+  Readings = col_character(),
+  Slides = col_character(),
+  Lab = col_character(),
+  Assignment = col_character()
+))
+# schedule_raw$Assignment <- if()cell_spec(schedule_raw$Assignment,
+#                                      color = "white",
+#                                      background = "#E01C3A")
+
+# schedule_raw %>% 
+#   mutate(Assignment = case_when(Assignment != "" ~ cell_spec(Assignment, bold = T, color = "white", background = "ABE35A"),
+#                                 TRUE ~ Assignment)
+#   )
+
+
+schedule_raw <- schedule_raw %>% 
+  mutate(Assignment = case_when(Assignment != "" ~ cell_spec(Assignment, bold = T, background = "ABE35A"),
+                                TRUE ~ Assignment))
+
+schedule_raw %>% 
+  kbl(escape = FALSE) %>% 
+  kable_styling(c("hover"), fixed_thead = T, full_width = T) %>% 
+  row_spec(c(1,4,5,8,9,12,13), background = "#EAEAEA") %>% 
+  column_spec(3, width = "10em") %>% 
+  # add_header_above(c("Introduction to data" = 7), bold = TRUE, align = "l", font_size = "x-large")
+  # pack_rows("", 1, 1) %>% 
+  pack_rows("Introduction to data", 1, 5) %>%
+  pack_rows("", 6, 6) %>% 
+  pack_rows("Statistical inference", 6, 11) %>% 
+  collapse_rows(columns = 1)
+  
+
+```
+
+
+
+<!--chapter:end:index.Rmd-->
+
+```{r include=FALSE, cache=FALSE}
+# example R options set globally
+options(width = 60)
+options(bookdown.post.latex = function(x) {
+  # x is the content of the LaTeX output file
+  c('\\PassOptionsToPackage{table}{xcolor}',x)
+})
+# example chunk options set globally
+knitr::opts_chunk$set(
+  comment = "#>",
+  collapse = TRUE
+  )
+
+
+```
+# Syllabus {-}
+
+## General Information {-}
+
+-   Course \#: EPIB 607
+
+-   Term and year: Fall 2021
+
+-   Course pre-requisite(s): A first year course in undergraduate
+    differential and integral calculus. Basic understanding of
+    exponentials, logs, histograms, graphs, mean, median, mode, standard
+    deviation. Enrollment in the Epidemiology or Public Health program
+    at McGill University, or with the permission of the instructor.
+    
+-   Course co-requisite: EPIB 613
+
+-   Course schedule: Tuesdays and Thursdays 11:35am - 1:25pm in Education 129.
+
+-   Number of credits: 4
+
+
+## Instructor & TA Information {-}
+
+
+### Instructor Information {-}
+
+
+-   Name and Title: Sahir Rai Bhatnagar, PhD, Assistant Professor
+
+-   E-mail: sahir.bhatnagar@mcgill.ca
+
+-   Office hours: Fridays 8am - 9am 
+
+-   Communication plan: All office hours will be held virtually via Zoom (link posted in myCourses). You are expected to ask questions to your assigned TA first. If your question is not resolved, then please come to my office hours which is the easiest way to ensure that I will respond in a timely manner. Given the large size of the class, email responses will be delayed by upto one week. If you must send an email, please include an informative subject title beginning with
+
+**\[Fall 2021 - EPIB-607-001 - Inferential Statistics\]:**
+
+### TA Information {-}
+
+You are assigned a specific TA based on your last name. Throughout the term, your assigned TA will be the one marking your assignments. You are required to attend the office hours of your TA. In exceptional circumstances only, you can attend the office hours of another TA. All TA office hours will be held virtually (link posted in myCourses).
+
+-   **Chinchin Wang**
+
+    -   <chinchin.wang@mail.mcgill.ca>
+
+    -   Office hours: Tuesdays 2:00pm - 3:00pm
+
+    -   Students with last names beginning with: Aa - En
+
+-   **Mariam El Sheikh**
+
+    -   <mariam.elsheikh@mail.mcgill.ca>
+
+    -   Office hours: Thursdays 1:00pm - 2:00pm
+
+    -   Students with last names beginning with: Er - Lu
+
+-   **Ting Zhang**
+
+    -   <ting.zhang3@mail.mcgill.ca>
+
+    -   Office hours: Fridays 9:00am - 10:00am
+
+    -   Students with last names beginning with: Ma - Sam
+
+-   **Jingyan Fu**
+
+    -   <jingyan.fu@mail.mcgill.ca>
+
+    -   Office hours: Tuesdays 10:00am - 11:00am
+
+    -   Students with last names beginning with: Sar - Zh
+
+
+
+## Course Overview  {-}
+
+
+Introduction to the basic principles of statistical inference used in
+clinical and epidemiologic research. Topics include variability; methods
+of processing and describing data; sampling and sampling distributions;
+inferences regarding means and proportions, non-parametric methods,
+regression and correlation.
+
+
+The principal audience is researchers in the natural and social sciences
+who haven't had an introductory course in statistics (or did have one a
+long time ago). This audience accepts that statistics has penetrated the
+life sciences pervasively and is required knowledge for both doing
+research and understanding scientific papers.
+
+## Instructor Message Regarding Course Delivery {-}
+
+Life absolutely sucks right now. None of us is really okay. **We're all just pretending.**
+
+You most likely know people who have lost their jobs, have tested positive for COVID-19, have been hospitalized, or have even died (I myself know people in all those categories). You all have increased (or possibly decreased) work responsibilities and increased family care responsibilities—you might be caring for extra people (young and/or old!) right now, and you are likely facing uncertain job prospects (or have been laid off!).
+
+**I'm fully committed to making sure that you learn everything you were hoping to learn from this class!** I will make whatever accommodations I can to help you finish your problem sets, do well on your projects, and learn and understand the class material. Under ordinary conditions, I am flexible and lenient with grading and course expectations when students face difficult challenges. Under pandemic conditions, that flexibility and leniency is intensified.
+
+If you tell me you're having trouble, I will not judge you or think less of you. I hope you'll extend me the same grace.
+
+You *never* owe me personal information about your health (mental or physical). You are *always* welcome to talk to me about things that you're going through, though. If I can't help you, I usually know somebody who can.
+
+If you need extra help, or if you need more time with something, or if you feel like you're behind or not understanding everything, **do not suffer in silence!** Talk to me! I will work with you. **I promise.**
+
+I want you to learn lots of things from this class, but I primarily want you to stay healthy, balanced, and grounded during this crisis.
+
+Here are some useful links from Teaching and Learning Services: 
+- [Guidelines for Students on Teaching, Learning, and Assessment](https://www.mcgill.ca/tls/instructors/policies/guidelines-f2021#Students)
+- [Learning Resources](https://www.mcgill.ca/tls/students/learning-resources)
+
+
+## Learning Outcomes {-}
+
+
+The aim of this course is to provide students with basic principles of
+statistical inference so that they can:
+
+-   Visualize/Analyze/Interpret data using statistical methods with the
+    `R` statistical software program.
+
+-   Understand the statistical results in a scientific paper.
+
+-   Apply statistical methods in their own research.
+
+-   Use the methods learned in this course as a foundation for more
+    advanced biostatistics courses.
+
+## Instructional Method {-}
+
+
+**This course will follow the Flipped Classroom model**: Here, students
+are expected to have engaged with the material before coming to class. 
+This allows the instructor to delegate the delivery of basic content and definitions to
+textbooks and videos, and enforces the idea that students cannot be
+simply passive recipients of information. This approach then allows the
+professor to focus valuable class time on nurturing efficient
+discussions surrounding the ideas within the content, guiding
+interactive exploration of typical misconceptions, and promoting
+collaborative problem solving with peers.
+
+**A focus on computation**: Classic introductory statistics textbooks
+were written during a time when computers were still in their infancy.
+As such, even the newer editions heavily rely on by-hand computations
+such as looking up tables for tail probabilities. We take a modern
+approach and introduce computational methods in statistics with the
+statistical software program `R`. Assignments must be submitted in
+`R Markdown` format to ensure reproducible results.
+
+
+## Required Course Materials {-}
+
+
+Course notes
+------------
+
+These are available as a PDF document on myCourses to download. Extra
+material such as `R` code and class schedule will be made available on
+myCourses. You will also be asked to watched the accompanying [Against
+all odds video
+series](https://www.learner.org/courses/againstallodds/unitpages/index.html)
+by Annenberg Learner.
+
+Equipment
+---------
+
+Hand calculators (with square root, log, and exponential function) are
+required. Laptops for in-class exercises can be useful but is not
+required.
+
+Software
+--------
+
+The `R` software package will be introduced and used for in-class
+illustrations. `R` is available under GPL (free) at
+[](http://cran.r-project.org/).\
+It is recommended to use the RStudio interactive development environment
+(IDE) which can be downloaded for free at [](http://www.rstudio.com/).\
+**Note:** to use RStudio, you must first download the `R` software
+package at the link provided above.
+
+Tutorials from DataCamp
+-----------------------
+
+This class is supported by DataCamp, which will allow you to learn `R`
+through a combination of short expert videos and hands-on-the-keyboard
+exercises. You will be asked to complete some of the courses in DataCamp
+for background reading or for assignments. You can sign up for a free
+account at this
+[link](https://www.datacamp.com/groups/shared_links/a10245cf1485dc55a1ee21a23d6dfe6ae703fd60).
+Note: you are required to sign up with a \@mail.mcgill.ca or \@mcgill.ca
+email address.
+
+
+## Course Content {-}
+
+
+Descriptive Statistics
+----------------------
+
+-   Histograms, density plots, measures of center, boxplots, standard
+    deviation
+
+-   Data visualization (aesthetics, visual cues, coordinate systems,
+    scales, facets and layers)
+
+-   Choosing color palettes: Cynthia Brewer palettes, perceptually
+    uniform palettes, color blind friendly palettes.
+
+-   Tidy data
+
+Sampling Distributions
+----------------------
+
+-   Parameters and statistics
+
+-   Standard error of the mean
+
+-   Normal (Gaussian) distribution
+
+-   Central Limit Theorem
+
+-   Confidence intervals
+
+-   Bootstrap for sampling distributions and confidence intervals
+
+One Sample Inference
+--------------------
+
+-   Inference about a population mean
+
+-   P values, power, and sample size considerations
+
+-   Inference about a population proportion
+
+-   Inference about a population rate
+
+Regression
+----------
+
+-   Linear regression for means, difference in means, ratio of means
+
+-   Poisson regression for rates, rate differences, rate ratios
+
+-   Logistic regression for odds ratios and risk ratios
+
+## Evaluation {-}
+
+
+  ----------------------------------------------------------------- -----
+  4 Assignments (submit to myCourses)                                15%
+  6 DALITE Quizzes                                                   15%
+  Group Project due **December 22nd**                                10%
+  Midterm exam (1 two-sided formula sheet) **October 23rd**          25%
+  3-hour Final exam (2 two-sided formula sheets) **December 8th**    35%
+  ----------------------------------------------------------------- -----
+
+The final grade will be the maximum of:\
+
+  ----------------------------------------------------------------------------
+   15% Assignments + 15% DALITE + 10% Group Project + 25% Midterm + 35% Final
+                                       OR
+          15% Assignments + 15% DALITE + 10% Group Project + 60% Final
+  ----------------------------------------------------------------------------
+
+Group project is subject to change due to online format.
+
+FAQ for how to submit an assignment via myCourses available at this
+[link](http://kb.mcgill.ca/kb/?ArticleId=4337&source=Article&c=12&cid=2#tab:homeTab:crumb:8:artId:4337:src:article).
+Extensions for assignments may be granted upon request only. **There is
+no possibility to take the midterm or final exam on alternative dates.**
+The final grade will consist of a letter grade.
+
+
+## McGill Policy Statments {-}
+
+
+### Language of Submission {-}
+
+
+In accord with McGill University's Charter of Students' Rights, students
+in this course have the right to submit in English or in French any
+written work that is to be graded. This does not apply to courses in
+which acquiring proficiency in a language is one of the objectives.
+
+Conformément à la Charte des droits de l'étudiant de l'Université
+McGill, chaque étudiant a le droit de soumettre en français ou en
+anglais tout travail écrit devant être noté (sauf dans le cas des cours
+dont l'un des objets est la maîtrise d'une langue).
+
+### Academic integrity {-}
+
+
+McGill University values academic integrity. Therefore, all students
+must understand the meaning and consequences of cheating, plagiarism and
+other academic offences under the Code of Student Conduct and
+Disciplinary Procedures (see
+[www.mcgill.ca/students/srr/honest/](www.mcgill.ca/students/srr/honest/)
+for more information).
+
+
+L'université McGill attache une haute importance à l'honnêteté
+académique. Il incombe par conséquent à tous les étudiants de comprendre
+ce que l'on entend par tricherie, plagiat et autres infractions
+académiques, ainsi que les conséquences que peuvent avoir de telles
+actions, selon le Code de conduite de l'étudiant et des procédures
+disciplinaires (pour de plus amples renseignements, veuillez consulter
+le site
+[www.mcgill.ca/students/srr/honest/](www.mcgill.ca/students/srr/honest/)).
+
+<!--chapter:end:01-syllabus.Rmd-->
+

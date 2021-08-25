@@ -40,6 +40,8 @@ pacman::p_load(glmnet)
 pacman::p_load(here)
 pacman::p_load(swirl)
 pacman::p_load(mosaic)
+# remotes::install_github("data-edu/dataedu")
+library(dataedu)
 ```
 
 

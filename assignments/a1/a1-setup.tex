@@ -1,0 +1,169 @@
+\documentclass[letterpaper,12pt,twoside,]{pinp}
+
+%% Some pieces required from the pandoc template
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+
+% Use the lineno option to display guide line numbers if required.
+% Note that the use of elements such as single-column equations
+% may affect the guide line number alignment.
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+
+% pinp change: the geometry package layout settings need to be set here, not in pinp.cls
+\geometry{layoutsize={0.95588\paperwidth,0.98864\paperheight},%
+  layouthoffset=0.02206\paperwidth, layoutvoffset=0.00568\paperheight}
+
+\definecolor{pinpblue}{HTML}{185FAF}  % imagecolorpicker on blue for new R logo
+\definecolor{pnasbluetext}{RGB}{101,0,0} %
+
+
+
+\title{Assignment 1 - Setting up the computing environment and
+Introduction to R. Due September 7, 2021.}
+
+\author[a]{EPIB607 - Inferential Statistics}
+
+  \affil[a]{Fall 2021, McGill University}
+
+\setcounter{secnumdepth}{5}
+
+% Please give the surname of the lead author for the running footer
+\leadauthor{A1 Due September 7, 2021}
+
+% Keywords are not mandatory, but authors are strongly encouraged to provide them. If provided, please include two to five keywords, separated by the pipe symbol, e.g:
+ \keywords{  R |  RStudio |  R Markdown |  DataCamp  }  
+
+\begin{abstract}
+
+\end{abstract}
+
+\dates{This version was compiled on \today} 
+
+% initially we use doi so keep for backwards compatibility
+% new name is doi_footer
+
+\pinpfootercontents{Assignment 1 due Sepetember 7, 2021 by 11:59pm}
+
+\begin{document}
+
+% Optional adjustment to line up main text (after abstract) of first page with line numbers, when using both lineno and twocolumn options.
+% You should only change this length when you've finalised the article contents.
+\verticaladjustment{-2pt}
+
+\maketitle
+\thispagestyle{firststyle}
+\ifthenelse{\boolean{shortarticle}}{\ifthenelse{\boolean{singlecolumn}}{\abscontentformatted}{\abscontent}}{}
+
+% If your first paragraph (i.e. with the \dropcap) contains a list environment (quote, quotation, theorem, definition, enumerate, itemize...), the line after the list may have some extra indentation. If this is the case, add \parshape=0 to the end of the list environment.
+
+
+\tableofcontents
+
+\vspace*{1in}
+
+Computing is an essential part of modern statistics. However, before
+doing any data analysis, we must first install the necessary tools. In
+this assignment you will first download R and RStudio and learn about
+what these tools are. Then you will signup for a free DataCamp account
+with your \texttt{mail.mcgill.ca} or \texttt{mcgill.ca} address. After
+this, you will be asked to complete a series of DataCamp courses that
+will guide you through some basic and some more advanced commands. You
+will then be introduced to R Markdown which is a tool for creating
+reproducible reports. All future assignments for this course must be
+submitted in R Markdown format.
+
+\newpage
+
+\hypertarget{marking}{%
+\section{Marking}\label{marking}}
+
+Your progress and completion of these courses will be availble to us
+automatically through the DataCamp website. \textbf{You do not need to
+hand anything in for this Assignment}. You will receive full credits for
+this assignment once we have seen that all tasks have been completed.
+
+\hypertarget{install-r-and-rstudio}{%
+\section{Install R and RStudio}\label{install-r-and-rstudio}}
+
+\href{https://datascienceineducation.com/c05.html}{Chapter 5 of this
+free online book} will guide you through installing both
+\href{https://cran.r-project.org/}{R} and
+\href{https://www.rstudio.com/products/rstudio/download/preview/}{RStudio}.
+RStudio is a software application that facilitates how you interact with
+\texttt{R}.
+
+\hypertarget{sign-up-for-datacamp}{%
+\section{Sign up for DataCamp}\label{sign-up-for-datacamp}}
+
+Sign up for a free DataCamp account at
+\href{https://www.datacamp.com/groups/shared_links/3dae8b789a824d0761a650b316c1d10a25cda8934ccf214aa7cd8366d07ed301}{this
+link}. Note: you are required to sign up with a \texttt{@mail.mcgill.ca}
+or \texttt{@mcgill.ca} email address.
+
+\hypertarget{required-courses-to-complete}{%
+\section{Required Courses to
+Complete}\label{required-courses-to-complete}}
+
+Once you have registered for DataCamp, you will see a series of courses
+that have been assigned. These are required to complete by September 7,
+2021.
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Introduction to \texttt{R}
+\item
+  Introduction to Importing Data in \texttt{R}
+\item
+  Exploratory Data Analysis in \texttt{R}
+\item
+  Introduction to the Tidyverse
+\item
+  Introduction to Data Visualization with \texttt{ggplot2}
+\item
+  Reporting wiht \texttt{R\ Markdown}
+\end{enumerate}
+
+\hypertarget{optional-courses}{%
+\section{Optional Courses}\label{optional-courses}}
+
+The following courses are optional. You may find them helpful in
+strengthening your knowledge of \texttt{R}.
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Working with Data in the Tidyverse
+\item
+  Data manipulation with \texttt{dplyr}
+\item
+  Intermediate Data Visualization with \texttt{ggplot2}
+\item
+  Joining Data with \texttt{dplyr}
+\item
+  Data Cleaning in \texttt{R}
+\end{enumerate}
+
+\hypertarget{interactive-r-learning-environment-with-swirl-optional}{%
+\subsection{Interactive R Learning Environment with Swirl
+(Optional)}\label{interactive-r-learning-environment-with-swirl-optional}}
+
+\texttt{swirl} is a software package for the R programming language that
+turns the R console into an interactive learning environment. Users
+receive immediate feedback as they are guided through self-paced lessons
+in data science and R programming. Students from previous years found
+this to be extremely helpful in their path to learning \texttt{R}.
+Follow \href{https://swirlstats.com/students.html}{instructions on this
+page} for how to get started.
+
+%\showmatmethods
+
+
+
+
+
+\end{document}

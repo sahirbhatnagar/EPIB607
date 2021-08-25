@@ -1,0 +1,148 @@
+---
+title: Assignment 1 - Setting up the computing environment and Introduction to R. Due September 7, 2021.
+
+# Use letters for affiliations
+author:
+  - name: EPIB607 - Inferential Statistics
+    affiliation: a
+#  - name: Second Author
+#    affiliation: a,b
+address:
+  - code: a
+    address: Fall 2021, McGill University
+#  - code: b
+#    address: Department of Neat Tricks, Whereever State University, Someplace, MC, 67890
+
+# For footer text  TODO(fold into template, allow free form two-authors)
+lead_author_surname: A1 Due September 7, 2021
+
+# Place DOI URL or CRAN Package URL here
+#doi: "https://sahirbhatnagar.com/EPIB607/"
+
+# Abstract
+#abstract: |
+  
+
+# Optional: Acknowledgements
+#acknowledgements: |
+#  This template package builds upon, and extends, the work of the excellent
+#  [rticles](https://cran.r-project.org/package=rticles) package, and both packages rely on the
+#  [PNAS LaTeX](http://www.pnas.org/site/authors/latex.xhtml) macros. Both these sources are
+#  gratefully acknowledged as this work would not have been possible without them.  Our extensions
+#  are under the same respective licensing term
+#  ([GPL-3](https://www.gnu.org/licenses/gpl-3.0.en.html) and
+#  [LPPL (>= 1.3)](https://www.latex-project.org/lppl/)).
+
+# Optional: One or more keywords
+keywords:
+  - R
+  - RStudio
+  - R Markdown
+  - DataCamp
+
+# Paper size for the document, values of letterpaper and a4paper
+papersize: letter
+
+# Font size of the document, values of 9pt (default), 10pt, 11pt and 12pt
+fontsize: 12pt
+
+# Optional: Force one-column layout, default is two-column
+one_column: true
+
+#header-includes:
+#   - \usepackage{tikz}
+# Optional: Enables lineno mode, but only if one_column mode is also true
+#lineno: true
+
+# Optional: Enable one-sided layout, default is two-sided
+#one_sided: true
+
+# Optional: Enable section numbering, default is unnumbered
+numbersections: true
+
+# Optional: Specify the depth of section number, default is 5
+#secnumdepth: 5
+
+# Optional: Skip inserting final break between acknowledgements, default is false
+skip_final_break: true
+
+# Optional: Bibliography 
+#bibliography: pinp
+
+#bibliography: references.bib
+#csl: ecology.csl
+
+# Optional: Enable a 'Draft' watermark on the document
+watermark: false
+
+# Customize footer, eg by referencing the vignette
+footer_contents: "Assignment 1 due Sepetember 7, 2021 by 11:59pm"
+
+# Produce a pinp document
+output: pinp::pinp
+
+
+# Required: Vignette metadata for inclusion in a package.
+vignette: >
+  %\VignetteIndexEntry{YourPackage-vignetteentry}
+  %\VignetteKeywords{YourPackage, r, anotherkeyword}
+  %\VignettePackage{Due Sepetember 13, 2019}
+  %\VignetteEngine{knitr::rmarkdown}
+---
+
+\tableofcontents
+
+
+<br><br>
+
+\vspace*{1in}
+
+Computing is an essential part of modern statistics. However, before doing any data analysis, we must first install the necessary tools. In this assignment you will first download R and RStudio and learn about what these tools are. Then you will signup for a free DataCamp account with your `mail.mcgill.ca` or `mcgill.ca` address. After this, you will be asked to complete a series of DataCamp courses that will guide you through some basic and some more advanced commands. You will then be introduced to R Markdown which is a tool for creating reproducible reports. All future assignments for this course must be submitted in R Markdown format. 
+
+\newpage
+
+
+# Marking 
+
+Your progress and completion of these courses will be availble to us automatically through the DataCamp website. **You do not need to hand anything in for this Assignment**. You will receive full credits for this assignment once we have seen that all tasks have been completed.
+
+# Install R and RStudio
+
+[Chapter 5 of this free online book](https://datascienceineducation.com/c05.html) will guide you through installing both [R](https://cran.r-project.org/) and [RStudio](https://www.rstudio.com/products/rstudio/download/preview/). RStudio is a software application that facilitates how you interact with `R`. 
+
+
+# Sign up for DataCamp
+
+Sign up for a free DataCamp account at [this link](https://www.datacamp.com/groups/shared_links/3dae8b789a824d0761a650b316c1d10a25cda8934ccf214aa7cd8366d07ed301). Note: you are required to sign up with a `@mail.mcgill.ca` or `@mcgill.ca` email address.  
+
+
+
+
+# Required Courses to Complete
+
+Once you have registered for DataCamp, you will see a series of courses that have been assigned. These are required to complete by September 7, 2021.
+
+1. Introduction to `R`
+2. Introduction to Importing Data in `R`
+3. Exploratory Data Analysis in `R`
+4. Introduction to the Tidyverse
+5. Introduction to Data Visualization with `ggplot2`
+6. Reporting wiht `R Markdown`
+
+
+# Optional Courses
+
+The following courses are optional. You may find them helpful in strengthening your knowledge of `R`.
+
+1. Working with Data in the Tidyverse
+2. Data manipulation with `dplyr`
+3. Intermediate Data Visualization with `ggplot2`
+4. Joining Data with `dplyr`
+5. Data Cleaning in `R`
+
+
+
+## Interactive R Learning Environment with Swirl (Optional)
+
+`swirl` is a software package for the R programming language that turns the R console into an interactive learning environment. Users receive immediate feedback as they are guided through self-paced lessons in data science and R programming. Students from previous years found this to be extremely helpful in their path to learning `R`. Follow [instructions on this page](https://swirlstats.com/students.html) for how to get started. 
+

@@ -15,7 +15,11 @@ bookdown::bs4_book:
     #     # arguments to sass::font_google()
     #     family: DM Mono
     #     local: false
-  repo: https://github.com/sahirbhatnagar/epib607
+  # repo:
+  #   base: https://mycourses2.mcgill.ca/
+  #   branch: ""
+  #   icon: fas fa-chalkboard
+
 bookdown::pdf_book:
   includes:
     in_header: preamble.tex

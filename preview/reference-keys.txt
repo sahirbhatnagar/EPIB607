@@ -1,0 +1,9 @@
+learning-r-can-be-difficult
+course-notes
+equipment
+software
+tutorials-from-datacamp
+descriptive-statistics
+sampling-distributions
+one-sample-inference
+regression
