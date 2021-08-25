@@ -1,6 +1,6 @@
 --- 
 title: "EPIB607"
-author: "Bhatnagar and Hanley"
+author: "Sahir Bhatnagar and James A Hanley"
 date: "`r Sys.Date()`"
 site: bookdown::bookdown_site
 documentclass: book
@@ -41,7 +41,7 @@ pacman::p_load(here)
 pacman::p_load(swirl)
 pacman::p_load(mosaic)
 # remotes::install_github("data-edu/dataedu")
-library(dataedu)
+# library(dataedu)
 ```
 
 
@@ -144,28 +144,12 @@ Few teachers actually encouraged the use of spreadsheets, and instead promoted c
 
 RStudio is an integrated environment for R, a free software environment for statistical computing and graphics that runs on a wide variety of platforms. Just like spreadsheet software, one can use R not just as a calculator, but as a _programmable_  calculator, and by programming them, learn the concepts before moving on to the built-in functions. There is a large user-community and a tradition of sharing information and ways of doing things. The graphics language contains primitive functions that allow customization, as well as higher-level functions, and is tightly integrated with the statistical routines and data frame functions. R Markdown helps to foster reproducible research. Shiny apps allow interactivity and visualization, a bit like 'what-ifs' with a spreadsheet.
 
-## Learning `R` can be difficult
 
-It takes practice to become comfortable with R. For those less mathematical, it is somewhat more cryptic than, and not quite as intuitive as, other packages. For the last several years, the department has offered a 13 hour course introduction to R in first term. Initially the aim was to prepare students for using it in course 621 in second term, but in the Fall 2018 and 2019 offerings of course 607, computing with R and use of R Studio became mandatory. Just as the epidemiology material in the Fall is shared between 2 courses (601 and 602), the aim will be to also spread the statistics material over 607 and 613, and to integrate the two more tightly. As an example, the material on 'descriptive' (i.e., not model-based) statistics and graphical displays will be covered in 613, while 607 will begin with parameters and models. Rather than treat computing as a separate activity, exercises based on 607 material will be carried out as part of 613 classes/tutorials. The statistical material will be used to motivate the computer tasks.
+## The link between EPIB607 and EPIB613 {-}
+
+It takes practice to become comfortable with R. For those less mathematical, it is somewhat more cryptic than, and not quite as intuitive as, other packages. For the last several years, the department has offered a 13 hour course introduction to R in first term. Initially the aim was to prepare students for using it in course 621 in second term, but in the Fall 2018, 2019 and 2020 offerings of EPIB607, computing with R and use of R Studio became mandatory. Just as the epidemiology material in the Fall is shared between 2 courses (601 and 602), the aim will be to also spread the statistics material over 607 and 613, and to integrate the two more tightly. As an example, the material on 'descriptive' (i.e., not model-based) statistics and graphical displays will be covered in 613, while 607 will begin with parameters and models. Rather than treat computing as a separate activity, exercises based on 607 material will be carried out as part of 613 classes/tutorials. The statistical material will be used to motivate the computer tasks.
 
 Classic introductory statistics textbooks were written during a time when computers were still in their infancy. As such, even the newer editions heavily rely on _by-hand_ computations such as looking up tables for tail probabilities. We take a modern approach and introduce computational methods in statistics with the statistical software program `R`.
-
-Learning R can be difficult at first—it's like learning a new language, just like Spanish, French, or Chinese. Hadley Wickham—the chief data scientist at RStudio and the author of some amazing R packages you'll be using like `ggplot2`—[made this wise observation](https://r-posts.com/advice-to-young-and-old-programmers-a-conversation-with-hadley-wickham/):
-
-> It’s easy when you start out programming to get really frustrated and think, “Oh it’s me, I’m really stupid,” or, “I’m not made out to program.” But, that is absolutely not the case. Everyone gets frustrated. I still get frustrated occasionally when writing R code. It’s just a natural part of programming. So, it happens to everyone and gets less and less over time. Don’t blame yourself. Just take a break, do something fun, and then come back and try again later.
-
-
-## Online help for computing related issues {-}
-
-Data science and statistical programming can be difficult. Computers are stupid and little errors in your code can cause hours of headache (even if you've been doing this stuff for years!).
-
-Fortunately there are tons of online resources to help you with this. Two of the most important are [StackOverflow](https://stackoverflow.com/) (a Q&A site with hundreds of thousands of answers to all sorts of programming questions) and [RStudio Community](https://community.rstudio.com/) (a forum specifically designed for people using RStudio and the tidyverse.
-
-If you use Twitter, post R-related questions and content with [#rstats](https://twitter.com/search?q=%23rstats). The community there is exceptionally generous and helpful.
-
-Searching for help with R on Google can sometimes be tricky because the program name is a single letter. Google is generally smart enough to figure out what you mean when you search for "r scatterplot", but if it does struggle, try searching for "rstats" instead (e.g. "rstats scatterplot").
-
-Additionally, we have a class chatroom at [Slack](https://gsuevalf2021.slack.com) where anyone in the class can ask questions and anyone can answer. **I will monitor Slack regularly and will respond quickly.** (It's one of the rare Slack workspaces where I actually have notifications enabled!) Ask questions about the readings, assignments, and project. You'll likely have similar questions as your peers, and you'll likely be able to answer other peoples' questions too.
 
 
 
@@ -215,6 +199,8 @@ Each code segment may contain actual output from `R`. Such output will appear in
 
 
 
+
+
 ## Development {-}
 
 This book is built with [**bookdown**](https://github.com/rstudio/bookdown) and is open source and freely available. This approach encourages contributions, ensures reproducibility and provides access to the material worldwide. The online version of the book is hosted at [sahirbhatnagar.com/EPIB607](https://sahirbhatnagar.com/EPIB607). The entire source code is available at [https://github.com/sahirbhatnagar/EPIB607](https://github.com/sahirbhatnagar/EPIB607).  
@@ -243,8 +229,7 @@ Sahir Bhatnagar           |  James Hanley
 
 ## License {-}
 
-<a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/88x31.png" /></a><br />This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>
-
+<p xmlns:cc="http://creativecommons.org/ns#" xmlns:dct="http://purl.org/dc/terms/"><a property="dct:title" rel="cc:attributionURL" href="https://sahirbhatnagar.com/EPIB607">EPIB607: Inferential Statistics</a> by <a rel="cc:attributionURL dct:creator" property="cc:attributionName" href="https://sahirbhatnagar.com/">Sahir Bhatnagar and James A Hanley</a> is licensed under <a href="http://creativecommons.org/licenses/by-nc/4.0/?ref=chooser-v1" target="_blank" rel="license noopener noreferrer" style="display:inline-block;">Attribution-NonCommercial 4.0 International<img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/cc.svg?ref=chooser-v1"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/by.svg?ref=chooser-v1"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/nc.svg?ref=chooser-v1"></a></p>
 
 
 

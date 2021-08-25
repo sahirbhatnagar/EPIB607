@@ -9,7 +9,7 @@ editor_options:
 # Getting Started with R and RStudio {#rstudio}
 
 ::: {.rmdnote}
-This section is adapted from the books Data Science in Education Using R [@dataedu] and The Epidemiologist R Handbook [@epir]
+This section is adapted from the books Data Science in Education Using R [@dataedu], The Epidemiologist R Handbook [@epir], and Data Visualization: A practical introduction [@kieran].
 :::
 
 
@@ -131,7 +131,7 @@ However we bring up alternative IDEs---particularly ESS---because RStudio, as of
 
 ### RStudio Layout 
 
-When we open RStudio for the first time, by defaultb RStudio displays four rectangle panes:
+When we open RStudio for the first time, by default RStudio displays four rectangle panes:
 
 ```{r out.width = "100%", fig.align = "center", echo=F}
 knitr::include_graphics(here::here("inst","figures", "RStudio_overview.PNG"))
@@ -143,7 +143,7 @@ If your RStudio displays only one left pane it is because you have no scripts op
 
 
 **The Source Pane**  
-This pane, by default in the upper-left, is a space to edit, run, and save your [scripts](#scripts). Scripts contain the commands you want to run. This pane can also display datasets (data frames) for viewing.  
+This pane, by default in the upper-left, is a space to edit, run, and save your scripts. Scripts contain the commands you want to run. This pane can also display datasets (data frames) for viewing.  
 
 For Stata users, this pane is similar to your Do-file and Data Editor windows.
 
@@ -156,7 +156,7 @@ If you are familiar with Stata, the R Console is like the Command Window and als
 
 
 **The Environment Pane**  
-This pane, by default in the upper-right, is most often used to see brief summaries of [objects](#objects) in the R Environment in the current session. These objects could include imported, modified, or created datasets, parameters you have defined (e.g. a specific epi week for the analysis), or vectors or lists you have defined during analysis (e.g. names of regions). You can click on the arrow next to a data frame name to see its variables.  
+This pane, by default in the upper-right, is most often used to see brief summaries of objects in the R Environment in the current session. These objects could include imported, modified, or created datasets, parameters you have defined, or vectors or lists you have defined during analysis (e.g. names of regions). You can click on the arrow next to a data frame name to see its variables.  
 
 In Stata, this is most similar to the Variables Manager window.
 
@@ -164,7 +164,7 @@ This pane also contains *History* where you can see commands that you can previo
 
 
 **Plots, Viewer, Packages, and Help Pane**  
-The lower-right pane includes several important tabs. Typical plot graphics including maps will display in the Plot pane. Interactive or HTML outputs will display in the Viewer pane. The Help pane can display documentation and help files. The Files pane is a browser which can be used to open or delete files. The Packages pane allows you to see, install, update, delete, load/unload R packages, and see which version of the package you have. To learn more about packages see Section \@ref{packages}.  
+The lower-right pane includes several important tabs. Typical plot graphics including maps will display in the Plot pane. Interactive or HTML outputs will display in the Viewer pane. The Help pane can display documentation and help files. The Files pane is a browser which can be used to open or delete files. The Packages pane allows you to see, install, update, delete, load/unload R packages, and see which version of the package you have. To learn more about packages see Section \@ref(packages).  
 
 This pane contains the Stata equivalents of the Plots Manager and Project Manager windows.
 
@@ -362,6 +362,12 @@ mean(y = 1:5)
 ```
 
 The above errors undoubtedly happen to several students every time I teach this course. There's always a mistake in the filename, or the file doesn't exist in the current working directory, or the function argument is misspelled. This might not makes sense at this point, but please just get in the habit of using the Tab button. A demo is shown in Figure \@ref(fig:tabgif).  
+
+
+```{r, echo=FALSE, fig.cap=c("Tab button on a Mac keyboard", "Tab button on most other keyboards")}
+knitr::include_graphics(here::here("inst","figures","tab_mac.png"))
+knitr::include_graphics(here::here("inst","figures","tab_windows.jpg"))
+```
 :::
 
 Use your Tab key when typing to engage RStudio's auto-complete functionality. This can prevent spelling errors, remind you of function arguments, and easily find file paths. Press Tab while typing to produce a drop-down menu of likely functions and objects, based on what you have typed so far. In Figure \@ref(fig:tabgif), I show three commands which use the Tab functionality. These are the most common use cases.
@@ -398,12 +404,68 @@ Alt + l |Cmd + Option + l|Fold selected code
 Shift + Alt + l|Cmd + Shift + Option+l|Unfold selected code
 
 
+## Resources for learning R and Rstudio
 
-## Exploring R with the {swirl} Package
+You will have many opportunities to formally learn R in [EPIB613](https://www.mcgill.ca/study/2021-2022/courses/epib-613). This course is meant to provide the necessary coding background for EPIB607. This section provides some links to several additional learning resources, and finishes with some thoughts about the difficulty of learning R and
 
-In addition to the Datacamp courses needed to complete A1, you can supplement your learning through [{swirl}](https://swirlstats.com/students.html) (https[]()://swirlstats.com/students.html).  
 
-You can install {swirl} by running the following code:  
+### Help documentation 
+
+Functions, datasets, and other built-in objects in R are documented in its help system. Search the RStudio "Help" tab for documentation on R packages and specific functions. This is within the pane that also contains Files, Plots, and Packages (typically in the lower-right pane). As a shortcut, you can also type the name of a package or function into the R console after a question-mark to open the relevant Help page. Do not include parentheses.  
+
+For example: `?mean`  or `?plot` or `help(plot)`.  
+
+The quality of R's help pages varies somewhat. They tend to be on the terse side. However, they all have essentially the same structure and it is useful to know how to read them. Figure \@ref(fig:help) provides an overview of what to look for. Remember, functions take inputs, perform actions, and return outputs. Something goes in, it gets worked on, and then something comes out. That means you want to know what the function *requires*, what it *does*, and what it *returns*. What it requires is shown in the **Usage** and **Arguments** sections of the help page. The names of all the required and optional arguments are given by name and in the order the function expects them. Some arguments have default values. In the case of the `mean()` function the argument `na.rm` is set to `FALSE` by default. These will be shown in the **Usage** section. If a named argument has no default, you will have to give it a value. Depending on what the argument is, this might be a logical value, a number, a dataset, or any other object.
+
+
+```{r help, echo=FALSE, fig.cap=c("How to read a help page [@kieran]."), out.width='97%'}
+knitr::include_graphics(here::here("inst","figures","help_page.png"))
+```
+
+
+
+### Online Forums
+
+These are community driven forums with hundreds of thousands of users. After looking at the help page, this is the next thing I do to find help.  
+
+1. [StackOverflow](https://stackoverflow.com/) (a Q&A site with hundreds of thousands of answers to all sorts of programming questions)  
+2. [RStudio Community](https://community.rstudio.com/) (a forum specifically designed for people using RStudio and the tidyverse.
+3. Searching for help with R on Google can sometimes be tricky because the program name is a single letter. Google is generally smart enough to figure out what you mean when you search for "r scatterplot", but if it does struggle, try searching for "rstats" instead (e.g. "rstats scatterplot").  
+
+
+
+### Cheatsheets 
+
+There are many PDF "cheatsheets" available on the [RStudio website](https://rstudio.com/resources/cheatsheets/). Of particular interest to this course are:  
+
+* [Base R](http://github.com/rstudio/cheatsheets/raw/master/base-r.pdf)  
+* [RStudio IDE](https://github.com/rstudio/cheatsheets/raw/master/rstudio-ide.pdf)  
+* [Dynamic documents with rmarkdown](https://github.com/rstudio/cheatsheets/raw/master/rmarkdown.pdf)  
+* [Data visualization with ggplot2 cheatsheet](https://github.com/rstudio/cheatsheets/raw/master/data-visualization.pdf)  
+* [Data transformation with dplyr cheatsheet](https://github.com/rstudio/cheatsheets/raw/master/data-transformation.pdf)  
+* [Data import with readr, readxl, and googlesheets4 cheatsheet](https://github.com/rstudio/cheatsheets/raw/master/data-import.pdf)
+* [Data tidying with tidyr cheatsheet](Data tidying with tidyr cheatsheet)  
+
+
+
+### Twitter 
+
+R has a vibrant twitter community where you can learn tips, shortcuts, and news - follow these accounts:  
+
+* R Function A Day [\@rfuntionaday](https://twitter.com/rfunctionaday) is an *incredible* resource  
+* R for Data Science [\@rstats4ds](https://twitter.com/rstats4ds?lang=en)  
+* RStudio [\@RStudio](https://twitter.com/rstudio?lang=en)  
+* RStudio Tips [\@rstudiotips](https://twitter.com/rstudiotips)  
+* R-Bloggers [\@Rbloggers](https://twitter.com/Rbloggers)  
+* R-ladies [\@RLadiesGlobal](https://twitter.com/RLadiesGlobal)  
+* You can post R-related questions and content with [#rstats](https://twitter.com/search?q=%23rstats). The community there is exceptionally generous and helpful.  
+
+
+### Exploring R with the {swirl} Package
+
+In addition to the Datacamp courses needed to complete A1, you can supplement your learning through [{swirl}](https://swirlstats.com/students.html) (https[]()://swirlstats.com/students.html).  Students in previous years have found this helpful. You can install {swirl} by running the following code:  
+
+
 ```{r, eval = FALSE}
 install.packages("swirl")
 ```
@@ -420,82 +482,31 @@ swirl()
 There are multiple courses available on {swirl}, and you can access them by installing them and then running the `swirl()` command in your console.
 
 
+### Free online resources
 
-## Resources for learning {#learning}  
-
-### Resources within RStudio {.unnumbered}  
-
-**Help documentation**  
-
-Search the RStudio "Help" tab for documentation on R packages and specific functions. This is within the pane that also contains Files, Plots, and Packages (typically in the lower-right pane). As a shortcut, you can also type the name of a package or function into the R console after a question-mark to open the relevant Help page. Do not include parentheses.  
-
-For example: `?filter`  or `?diagrammeR`.  
-
-**Interactive tutorials**  
-
-There are several ways to learn R interactively *within* RStudio.  
-
-RStudio itself offers a Tutorial pane that is powered by the [**learnr**](https://blog.rstudio.com/2020/02/25/rstudio-1-3-integrated-tutorials/) R package. Simply install this package and open a tutorial via the new "Tutorial" tab in the upper-right RStudio pane (which also contains Environment and History tabs).  
-
-The R package [**swirl**](https://swirlstats.com/) offers interactive courses in the R Console. Install and load this package, then run the command `swirl()` (empty parentheses) in the R console. You will see prompts appear in the Console. Respond by typing in the Console. It will guide you through a course of your choice.   
-
-
-### Cheatsheets {.unnumbered}
-
-There are many PDF "cheatsheets" available on the [RStudio website](https://rstudio.com/resources/cheatsheets/), for example:  
-
-* Factors with **forcats** package  
-* Dates and times with **lubridate** package  
-* Strings with **stringr** package  
-* iterative opertaions with **purrr** package  
-* Data import  
-* Data transformation cheatsheet with **dplyr** package  
-* R Markdown (to create documents like PDF, Word, Powerpoint...)  
-* Shiny (to build interactive web apps)  
-* Data visualization with **ggplot2** package  
-* Cartography (GIS)  
-* **leaflet** package (interactive maps)  
-* Python with R (**reticulate** package)  
-
-This is an online R resource specifically for [Excel users](https://jules32.github.io/r-for-excel-users/)  
+* [R for Data Science](https://r4ds.had.co.nz/)   
+* [RMarkdown Cookbook](https://bookdown.org/yihui/rmarkdown-cookbook/)  
+* [Hands-On Programming with R](https://rstudio-education.github.io/hopr/)  
+* [Data Visualization with R](https://rkabacoff.github.io/datavis/)  
+* [Fundamentals of Data Visualization](https://clauswilke.com/dataviz/)  
+* [Modern Data Science with R](https://mdsr-book.github.io/mdsr2e/)  
+* [Big Book of R](https://www.bigbookofr.com/)  
+* [Materiales de RStudio en Español](https://www.rstudio.com/collections/espanol/)  
+* [Introduction à R et au tidyverse (Francais)](https://juba.github.io/tidyverse/index.html)   
 
 
 
-### Twitter {.unnumbered}  
-
-R has a vibrant twitter community where you can learn tips, shortcuts, and news - follow these accounts:  
-
-* Follow us! [\@epiRhandbook](https://twitter.com/epirhandbook)  
-* R Function A Day [\@rfuntionaday](https://twitter.com/rfunctionaday) is an *incredible* resource  
-* R for Data Science [\@rstats4ds](https://twitter.com/rstats4ds?lang=en)  
-* RStudio [\@RStudio](https://twitter.com/rstudio?lang=en)  
-* RStudio Tips [\@rstudiotips](https://twitter.com/rstudiotips)  
-* R-Bloggers [\@Rbloggers](https://twitter.com/Rbloggers)  
-* R-ladies [\@RLadiesGlobal](https://twitter.com/RLadiesGlobal)  
-* Hadley Wickham [\@hadleywickham](https://twitter.com/hadleywickham?ref_src=twsrc%5Egoogle%7Ctwcamp%5Eserp%7Ctwgr%5Eauthor)  
-
-
-Also:  
-
-**#epitwitter** and **#rstats**  
+### Learning R can be difficult
 
 
 
-### Free online resources {.unnumbered}  
+Learning R can be difficult at first—it's like learning a new language, just like Spanish, French, or Chinese. Hadley Wickham—the chief data scientist at RStudio and the author of some amazing R packages you'll be using like `ggplot2`—[made this wise observation](https://r-posts.com/advice-to-young-and-old-programmers-a-conversation-with-hadley-wickham/):
 
-A definitive text is the [R for Data Science](https://r4ds.had.co.nz/) book by Garrett Grolemund and Hadley Wickham
-
-The [R4Epis](https://r4epis.netlify.app/) project website aims to "develop standardised data cleaning, analysis and reporting tools to cover common types of outbreaks and population-based surveys that would be conducted in an MSF emergency response setting." You can find R basics training materials, templates for RMarkdown reports on outbreaks and surveys, and tutorials to help you set them up.  
+> It’s easy when you start out programming to get really frustrated and think, “Oh it’s me, I’m really stupid,” or, “I’m not made out to program.” But, that is absolutely not the case. Everyone gets frustrated. I still get frustrated occasionally when writing R code. It’s just a natural part of programming. So, it happens to everyone and gets less and less over time. Don’t blame yourself. Just take a break, do something fun, and then come back and try again later.
 
 
-### Languages other than English {.unnumbered}  
 
-[Materiales de RStudio en Español](https://www.rstudio.com/collections/espanol/)
 
-[Introduction à R et au tidyverse (Francais)](https://juba.github.io/tidyverse/index.html)  
 
-## Conclusion
 
-Congratulations! At this point in the book you've installed R and RStudio, explored the RStudio IDE, and even written some basic code. 
-In Section \@ref(packages), where we'll do a deeper dive into projects, packages, and functions, and how those relate to your future data tasks. We will also introduce help documentation and some skills for when you're working with new or unfamiliar information. 
-If that all sounds familiar to you already, you can jump ahead to a walkthrough of your choosing! 
+
