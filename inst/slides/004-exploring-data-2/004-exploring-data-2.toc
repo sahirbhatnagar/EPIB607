@@ -1,0 +1,4 @@
+\beamer@sectionintoc {1}{Two numerical variables and the correlation coefficient}{3}{0}{1}
+\beamer@sectionintoc {2}{Two categorical variables and contingency tables}{47}{0}{2}
+\beamer@sectionintoc {3}{A numerical variable and a categorical variable}{55}{0}{3}
+\beamer@sectionintoc {4}{Summary}{59}{0}{4}

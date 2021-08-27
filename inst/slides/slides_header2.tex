@@ -1,0 +1,315 @@
+\usepackage{graphicx}
+\usepackage{hyperref, url}
+\hypersetup{colorlinks,citecolor=myorange,filecolor=red,linkcolor=brown,urlcolor=blue}
+
+\usepackage{longtable,booktabs}
+\usepackage{amssymb,amsmath}
+\usepackage{animate}
+\usepackage{subfig}
+\usepackage{tikz}
+\usetikzlibrary{shapes.geometric, arrows,shapes.symbols,decorations.pathreplacing}
+\tikzstyle{startstop} = [rectangle, rounded corners, minimum width=3cm, minimum height=1cm, draw=black, fill=pinkish,text width=3.5cm]
+\tikzstyle{startstop2} = [rectangle, rounded corners, minimum width=3cm, minimum height=1cm, draw=black, fill=background,text width=4.5cm]
+\tikzstyle{startstop3} = [rectangle, rounded corners, minimum width=3cm, minimum height=1cm, draw=black, fill=beige,text width=3.0cm]
+\tikzstyle{startstop4} = [rectangle, rounded corners, minimum width=3cm, minimum height=1cm, draw=black, fill=pinkish,text width=4.5cm]
+\tikzstyle{io} = [trapezium, trapezium left angle=70, trapezium right angle=110, minimum width=2cm, minimum height=1cm, text centered, draw=black, fill=blue!30,text width=1.5cm]
+\tikzstyle{process} = [rectangle, minimum width=1cm, minimum height=1cm, text centered, draw=black, fill=orange!30,text width=2cm]
+\tikzstyle{decision} = [diamond, minimum width=2cm, minimum height=1cm, text centered, draw=black, fill=green!30]
+\tikzstyle{arrow} = [thick,->,>=stealth]
+\tikzstyle{both} = [thick,<->,>=stealth, red]
+
+
+% used for tree of stats tests in 001-introduction
+\tikzstyle{startstopstats} = [rectangle, rounded corners, minimum width=2cm, minimum height=.5cm,text centered, draw=black, fill=red!30]
+\tikzstyle{iostats} = [trapezium, trapezium left angle=70, trapezium right angle=110, minimum width=2cm, minimum height=.5cm, text centered, draw=black, fill=blue!30]
+\tikzstyle{processstats} = [rectangle, minimum width=1.5cm, minimum height=.5cm, text centered, draw=black, fill=orange!30]
+\tikzstyle{processbigstats} = [rectangle, minimum width=1.5cm, minimum height=.5cm, text centered, draw=black, fill=orange!30,text width=1.6cm]
+\tikzstyle{decisionstats} = [rectangle, minimum width=1cm, minimum height=1cm, text centered, draw=black, fill=green!30,text width=1.6cm]
+\tikzstyle{decisionbigstats} = [rectangle, minimum width=1cm, minimum height=1cm, text centered, draw=black, fill=yellow!30,text width=2cm]
+
+\usepackage{pifont}% http://ctan.org/pkg/pifont
+\newcommand{\cmark}{\ding{51}}%
+\newcommand{\xmark}{\ding{55}}%
+
+\usepackage{ulem} % for strikeout
+
+\usepackage{xcolor}
+\usepackage{color, colortbl}
+\definecolor{lightgray}{RGB}{200,200,200}
+\definecolor{palegray}{RGB}{221,221,221}
+\definecolor{myblue}{RGB}{0,89,179}
+\definecolor{myorange}{rgb}{0.776,0.357,0.157}
+\definecolor{gray}{RGB}{110,110,110}
+\definecolor{darkgray}{RGB}{100,100,100}
+\definecolor{lightgray}{RGB}{200,200,200}
+\definecolor{palegray}{RGB}{221,221,221}
+\definecolor{turquoise}{RGB}{81,193,188}
+\definecolor{tomato}{RGB}{255,136,136}
+\definecolor{mandarina}{RGB}{229,169,25}
+\definecolor{foreground}{RGB}{81,141,193}
+\definecolor{background}{RGB}{246,244,240}
+\definecolor{highlight}{RGB}{229,169,25}
+\definecolor{lowlight}{RGB}{200,200,200}
+\definecolor{beige}{RGB}{255,255,240}
+\definecolor{pinkish}{RGB}{255,223,247}
+\definecolor{darktangerine}{rgb}{1.0, 0.66, 0.07}
+\definecolor{deepink}{RGB}{255,20,147}
+%\usepackage{shadethm}
+%\colorlet{shadecolor}{blue!15}
+%\colorlet{shadecolor}{palegray}
+%\setlength{\shadeboxrule}{.4pt}
+
+%\newshadetheorem{thm}{Theorem}
+%\newshadetheorem{defm}{Definition}
+%\newshadetheorem{exm}{Exercise}
+%\newshadetheorem{remarkm}{Remark}
+%\definecolor{shadethmcolor}{HTML}{EDF8FF}
+%\definecolor{shadethmcolor}{RGB}{221,221,221}
+%\definecolor{shaderulecolor}{HTML}{45CFFF}
+%\definecolor{shaderulecolor}{RGB}{0,89,179}
+%\setlength{\shadeboxrule}{.4pt}
+
+
+
+\usepackage{epsfig}
+
+\newcommand{\code}[1]{\texttt{#1}}
+\newcommand{\blue}[1]{\textcolor{blue}{#1}}
+\newcommand{\red}[1]{\textcolor{red}{#1}}
+
+\usepackage{comment}
+
+\makeatletter
+
+\def \iqsssectiontitleheader {}
+
+\newcommand{\iqsssectiontitle}[1]{
+	\def \iqsssectiontitleheader{#1}
+}
+
+\@ifundefined{insertmainframenumber}
+{%
+	% \insertmainframenumber not defined
+	\newcommand{\insertmainframenumber}{\inserttotalframenumber}
+}
+{%
+	% \insertmainframenumber already defined
+}%
+
+
+\AtBeginSection[]{
+	\title{\insertsectionhead}
+	{
+		%\definecolor{white}{RGB}{140,193,250}
+		%\definecolor{white}{RGB}{200,200,200}
+		%\definecolor{white}{RGB}{242,244,247}
+		\definecolor{white}{RGB}{0,89,179}
+		%\definecolor{iqss@orange}{rgb}{1,1,1}
+		\ifnum \insertmainframenumber > \insertframenumber
+		%\setbeamercolor{background canvas}{bg=myblue}
+		%\setbeamercolor{normal text}{fg=black,bg=white}
+		%\setbeamercolor{frametitle}{fg=red}
+		%\setbeamercolor{section in toc}{fg=myblue, bg=white}
+		%\setbeamercolor{subsection in toc}{fg=myblue, bg=white}
+		\frame{
+			\frametitle{\iqsssectiontitleheader}
+			\tableofcontents[currentsection]
+		}
+		\else
+		\frame{
+			\frametitle{Backup Slides}
+			\tableofcontents[sectionstyle=shaded/shaded,subsectionstyle=shaded/shaded/shaded]
+		}
+		\fi
+	}
+}
+\makeatother
+%\graphicspath{{/home/sahir/git_repositories/EPIB607/resources/assets/slides/figure/}}
+
+
+\usepackage{fontspec}
+%\setsansfont{Fira Sans}
+%\setmonofont{Fira Mono}
+%\setsansfont[ItalicFont={Fira Sans Light Italic},BoldFont={Fira Sans},BoldItalicFont={Fira Sans Italic}]{Fira Sans Light}
+%\setmonofont[BoldFont={Fira Mono Medium}]{Fira Mono}
+
+\def\installpath{/usr/local/share/texmf/fonts/opentype/libertinus/}
+\setmainfont{LibertinusSerif}[
+UprightFont    = *-Regular,
+BoldFont       = *-Bold,
+ItalicFont     = *-Italic,
+BoldItalicFont = *-BoldItalic,
+Ligatures      = TeX,
+Extension      = .otf,
+Path           = \installpath/
+]
+
+\setsansfont{LibertinusSerif}[
+UprightFont    = *-Regular,
+BoldFont       = *-Bold,
+ItalicFont     = *-Italic,
+BoldItalicFont = *-BoldItalic,
+Ligatures      = TeX,
+Extension      = .otf,
+Path           = \installpath/
+]
+
+
+%\setmonofont{LibertinusSerif}[
+%UprightFont    = *-Regular,
+%BoldFont       = *-Bold,
+%ItalicFont     = *-Italic,
+%BoldItalicFont = *-BoldItalic,
+%Ligatures      = TeX,
+%Extension      = .otf,
+%Path           = \installpath/
+%]
+
+
+
+
+
+
+\newcommand\Wider[2][3em]{%
+	\makebox[\linewidth][c]{%
+		\begin{minipage}{\dimexpr\textwidth+#1\relax}
+			\raggedright#2
+		\end{minipage}%
+	}%
+}
+
+
+\newcommand {\framedgraphic}[1] {
+	\begin{figure}
+		\centering
+		\includegraphics[width=\textwidth,height=0.9\textheight,keepaspectratio]{#1}
+	\end{figure}
+}
+
+
+\newcommand {\framedgraphiccaption}[2] {
+	\begin{figure}
+		\centering
+		\includegraphics[width=\textwidth,height=0.8\textheight,keepaspectratio]{#1}
+		\caption{#2}
+	\end{figure}
+}
+
+
+
+
+\setbeamercolor{itemize item}{fg=myblue}
+\setbeamercolor{itemize subitem}{fg=myorange}
+%\setbeamertemplate{itemize item}[square]
+\setbeamertemplate{itemize item}[circle]
+\setbeamertemplate{itemize subitem}[triangle]
+\setbeamertemplate{blocks}[rounded][shadow=true]
+\setbeamercolor{block body alerted}{bg=alerted text.fg!10}
+\setbeamercolor{block title alerted}{bg=alerted text.fg!20}
+\setbeamercolor{block body}{bg=structure!10}
+\setbeamercolor{block title}{bg=structure!20}
+\setbeamercolor{block body example}{bg=green!10}
+\setbeamercolor{block title example}{bg=green!20}
+
+
+\makeatletter
+\newenvironment<>{proofs}[1][\proofname]{%
+	\par
+	\def\insertproofname{#1\@addpunct{.}}%
+	\usebeamertemplate{proof begin}#2}
+{\usebeamertemplate{proof end}}
+\newenvironment<>{proofc}{%
+	\setbeamertemplate{proof begin}{\begin{block}{}}
+		\par
+		\usebeamertemplate{proof begin}}
+	{\usebeamertemplate{proof end}}
+	\newenvironment<>{proofe}{%
+		\par
+		\pushQED{\qed}
+		\setbeamertemplate{proof begin}{\begin{block}{}}
+			\usebeamertemplate{proof begin}}
+		{\popQED\usebeamertemplate{proof end}}
+\makeatother
+
+
+\makeatletter
+\newenvironment<>{exams}[1][\proofname]{%
+	\par
+	\def\insertproofname{#1\@addpunct{.}}%
+	\usebeamertemplate{example begin}#2}
+{\usebeamertemplate{example end}}
+\newenvironment<>{examc}{%
+	\setbeamertemplate{exam begin}{\begin{block}{}}
+		\par
+		\usebeamertemplate{exam begin}}
+	{\usebeamertemplate{exam end}}
+	\newenvironment<>{exame}{%
+		\par
+		\pushQED{\qed}
+		\setbeamertemplate{exam begin}{\begin{block}{}}
+			\usebeamertemplate{exam begin}}
+		{\popQED\usebeamertemplate{exam end}}
+		\makeatother
+
+%\definecolor{mycolor}{HTML}{F7F8E0}
+%\declaretheorem[shaded={bgcolor=mandarina}]{theo}
+%\declaretheorem[shaded={bgcolor=mycolor}]{propo}
+%\declaretheorem[shaded={bgcolor=green!80!black!30}]{remark}
+
+%\setbeamertemplate{navigation symbols}{\usebeamercolor[fg]{title in head/foot}\usebeamerfont{title in head/foot}\insertframenumber}
+
+
+%\setbeamertemplate{footline}{}
+
+\beamertemplatenavigationsymbolsempty % toggle off if you want navigation symbols at the bottom
+
+\setbeamertemplate{footline}
+{ \usebeamercolor[fg]{page number in head/foot}%
+	\usebeamerfont{page number in head/foot}%
+	\hspace{1em}\insertsectionhead%
+	\hfill%
+	\insertframenumber\,/\,\hyperlinkappendixstart{\insertmainframenumber}
+	\ifnum \thepage = \insertframeendpage{\small .}\else{\phantom{\small .}}\fi
+	\hspace{1em}
+	\vskip2pt%
+}
+
+%\newtheorem{proposition}[theorem]{Proposition}
+%\newtheorem{exercise}[theorem]{Exercise}
+%\newtheorem{remark}[theorem]{Remark}
+
+
+\usepackage{amsthm}
+\usepackage{thmtools}
+
+\setbeamertemplate{theorems}[ams style] 
+%\setbeamertemplate{theorems}[numbered] 
+%\setbeamertemplate{corollary}[numbered] 
+\newtheorem{proposition}{Proposition}
+\newtheorem{exercise}{Exercise}
+\newtheorem{remark}{Remark}
+\newtheorem{exam}{Example}
+%\newtheorem{proof}{Proof}
+%\newtheorem{corollaries}[theorem]{Corollary}
+\newcommand*{\theorembreak}{\usebeamertemplate{theorem end}\framebreak\usebeamertemplate{theorem begin}}
+
+
+
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+	\setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+
+\newcommand\AddButton{%
+	\setbeamertemplate{background canvas}{%
+		\begin{tikzpicture}[remember picture,overlay]
+		\node[anchor=west] at ([yshift=5pt,xshift=0.1em]current page.south west)
+		{\hyperlink{toc}{\beamergotobutton{back to TOC}}};
+		\end{tikzpicture}%
+	}%
+}
+
+
+\titlegraphic{\hfill\includegraphics[height=1cm]{/home/sahir/git_repositories/EPIB607/slides/mcgill_logo.png}}
+
+
+

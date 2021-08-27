@@ -1,0 +1,2 @@
+\beamer@sectionintoc {1}{Example: Depths of the ocean}{2}{0}{1}
+\beamer@sectionintoc {2}{Bootstrap confidence intervals}{13}{0}{2}

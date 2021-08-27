@@ -1,0 +1,377 @@
+\documentclass[10pt]{beamer}
+
+
+%\input{slides_header.tex}
+\input{/home/sahir/git_repositories/EPIB607/slides/slides_header2.tex}
+\graphicspath{{/home/sahir/git_repositories/EPIB607/slides/figure/}}
+
+%\let\oldShaded\Shaded
+%\let\endoldShaded\endShaded
+%\renewenvironment{Shaded}{\footnotesize\oldShaded}{\endoldShaded}
+
+
+
+\begin{document}
+	
+	<<setup, include=FALSE>>=
+	library(knitr)
+	knitr::opts_chunk$set(cache=FALSE, message = FALSE, tidy = FALSE, warning = FALSE,
+	echo = FALSE, 
+	#fig.width = 8, 
+	#fig.asp = 0.8, 
+	fig.align = 'center', 
+	#out.width = "100%", 
+	size = 'tiny')
+	
+	# the kframe environment does not work with allowframebreaks, so remove it
+	#knit_hooks$set(document = function(x) {
+	#gsub('\\\\(begin|end)\\{kframe\\}', '', x)
+	#})
+	
+	library(tidyverse)
+	library(NCStats)
+	
+	#knitr::opts_chunk$set(background = '#FFFF00')
+	library(tools) #needed for include_graphics2 function
+	source("/home/sahir/git_repositories/EPIB607/resources/assets/slides/bin/include_graphics2.R")
+	@
+	
+	%\title{Introduction to Regression Trees}
+	%\author{Sahir Bhatnagar \inst{1}}
+	%\author[shortname]{Sahir Rai Bhatnagar, PhD Candidate (Biostatistics) }
+	%\institute[shortinst]{Department of Epidemiology, Biostatistics and Occupational Health}
+	
+	\title{002 - Motivating Examples}
+	\author{EPIB 607 - FALL 2020}
+	\institute{
+		Sahir Rai Bhatnagar\\
+		Department of Epidemiology, Biostatistics, and Occupational Health\\
+		McGill University\\
+		
+		\vspace{0.1 in}
+		
+		\texttt{sahir.bhatnagar@mcgill.ca}\\
+		%\texttt{\url{https://sahirbhatnagar.com/EPIB607/}}
+	}
+	
+	\date{slides compiled on \today}
+	
+	\maketitle
+
+\section{Case study 1: Safety and immunogenicity of the ChAdOx1 nCoV-19	vaccine against SARS-CoV-2}
+
+
+\begin{frame}{Early phase COVID-19 vaccine trial\footnote{\tiny\url{https://www.thelancet.com/journals/lancet/article/PIIS0140-6736(20)31604-4/fulltext}}}
+	\centering
+	\includegraphics[scale=0.25]{002-cs1.png}	
+\end{frame}
+
+
+
+
+\begin{frame}{Phase 1/2 trial}
+	\begin{itemize}
+		\item The focus in phase 1/2 trials is looking at what the vaccine does to the body and what the body does with the vaccine in \textit{healthy} individuals
+		\item Adults with no history of laboratory confirmed SARS-CoV-2 infection or of COVID-19-like symptoms were randomly assigned (1:1) to receive \textbf{ChAdOx1 nCoV-19} or \textbf{MenACWY} (Meningococcal) as a single intramuscular injection
+		\item Convalescent plasma samples from adults with PCR-positive SARS-CoV-2 infection were obtained from symptomatic patients admitted to the hospitals to characterize the
+		immunological properties of COVID-19\footnote{\tiny{Convalescent plasma is collected from someone who has recovered from a virus. When a person is infected with a virus, their body starts making antibodies to fight it. It is believed these antibodies could be the key ingredient for a treatment to help others with the same virus.}}
+		\item The enzyme-linked immunosorbent assay (ELISA) technique was used to detect antibodies (i.e. levels of immunity)
+		
+	\end{itemize}
+\end{frame}
+
+
+
+\begin{frame}[fragile,plain]
+	
+	
+<<named-chunk, eval=TRUE, out.width = "75%">>=
+include_graphics2("http://www.biostat.mcgill.ca/hanley/statbook/OxfordCovidVaccine.png")
+@
+
+	\vspace*{0.4cm}
+
+
+\begin{enumerate}
+	\item What levels of immunity are found in patients who have recovered from  COVID-19? (panel B) 
+	\item Relative to these what levels of immunity are found in persons who have received the ChAdOx1 nCoV-19 vaccine? Compare panel A (prime, 28 days) vs panel B.   
+\end{enumerate}
+
+	
+\end{frame}
+
+
+
+\begin{frame}[fragile]{What levels of immunity are found in patients who have recovered from  COVID-19?\footnote{\tiny{Data were (imperfectly) scraped from the Postscript file ``behind'' the pdf file by Dr. Hanley}} }
+
+	
+<<oxforrr, echo = TRUE, size = 'tiny'>>=	
+path <- 
+  "http://www.biostat.mcgill.ca/hanley/statbook/immunogenicityChAdOx1.nCoV-19vaccine.txt"
+ds <- read.table(path)
+head(ds)
+str(ds)
+levels(ds$RefIndexCategory)
+@
+
+\end{frame}
+
+
+
+\begin{frame}[fragile]{What levels of immunity are found in patients who have recovered from  COVID-19?}
+
+
+<<echo=TRUE, out.width="0.6\\linewidth">>=
+natural <- ds[ds$RefIndexCategory=="Convalescent",]
+hist(natural$IgGResponse.log10.ElisaUnits,
+     breaks = 20, col = "lightblue")
+@
+
+\end{frame}
+
+
+\begin{frame}[fragile]{Three different methods of calculating the mean}
+
+\begin{figure}
+\begin{minipage}[h]{0.40\linewidth}
+<<echo=TRUE, out.width="99%", size = "tiny">>=
+summary(natural$IgGResponse.log10.ElisaUnits)
+boxplot(natural$IgGResponse.log10.ElisaUnits,
+        col = "lightblue",
+        ylab = "Immunoglobulin G (IgG) response")
+grid(lty = "dashed")
+@
+
+\end{minipage}
+\hspace{0.4cm}
+\begin{minipage}[h]{0.50\linewidth}
+<<echo=c(1,2,3,5), eval = c(1,2,3,5), size = "tiny">>=
+t.test(natural$IgGResponse.log10.ElisaUnits)
+fit1 <- glm(IgGResponse.log10.ElisaUnits ~ 1, data = natural)
+summary(fit1)
+print(summary(fit1), signif.stars = F)
+confint(fit1)
+@
+\end{minipage}
+\end{figure}
+
+
+\end{frame}
+
+
+
+\begin{frame}[fragile]{Naturally vs. vaccine-induced response levels}
+	
+	
+<<echo=TRUE, fig.cap = '', fig.subcap=c('Violin plot', 'Boxplot'), out.width="0.5\\linewidth", tidy = TRUE>>=
+p1 <- ggplot(data = ds, 
+             mapping = aes(x = RefIndexCategory, y = IgGResponse.log10.ElisaUnits, fill = RefIndexCategory)) + 
+             geom_jitter(alpha = 0.3) + 
+             theme_minimal() + 
+             theme(legend.position = "none")
+p1 + geom_violin() 
+p1 + geom_boxplot() 
+@
+	
+\end{frame}
+
+
+
+\begin{frame}[fragile]{Comparing means using classic methods}
+
+\textbf{1. Numerical summary} \\
+
+<<echo=TRUE,size='tiny'>>=
+by(ds$IgGResponse.log10.ElisaUnits,ds$RefIndexCategory,summary)
+@
+\pause
+
+\vspace*{0.3in}
+
+\textbf{2. Another ``dot'' test} \\
+
+<<echo=TRUE>>=
+t.test(IgGResponse.log10.ElisaUnits ~ RefIndexCategory, data = ds)
+@
+
+\end{frame}
+
+
+
+\begin{frame}[fragile]{Comparing means using regression}
+	
+\textbf{3. Regression} \\
+	
+	<<echo=TRUE,size='tiny'>>=
+	fit2 <- glm(IgGResponse.log10.ElisaUnits ~ RefIndexCategory, data = ds) 
+	print(summary(fit2), signif.star = FALSE)
+	confint(fit2)
+	@
+
+\end{frame}
+
+
+\begin{frame}[fragile]{Fitted regression line}
+	
+	<<echo=TRUE, size = 'tiny', fig.cap = 'The red line is the fitted regression from the previous slide.', out.width = "0.5\\linewidth">>=
+	plot(ds$RefIndexCategory, ds$IgGResponse.log10.ElisaUnits, pch=19, cex=0.5)
+	abline(h = seq(0,4,0.5),col = "lightblue")
+	lines(ds$RefIndexCategory, fit2$fitted.values, col = "red", lwd = 3)
+	@
+	
+\end{frame}
+
+
+
+
+\section{Case study 2: Comparison of Estimated Rates of Coronavirus Disease 2019 (COVID-19) in Border Counties in Iowa Without a Stay-at-Home Order and Border Counties in Illinois With a Stay-at-Home Order}
+
+\begin{frame}{Comparing Iowa and Illinois Cases\footnote{\tiny\url{https://jamanetwork.com/journals/jamanetworkopen/fullarticle/2766229}}}
+	\centering
+	\includegraphics[scale=0.25]{002-masks.png}	
+\end{frame}
+
+
+\begin{frame}[fragile]{Are the difference in curves real? Or just random variation?}
+
+\begin{itemize}
+	\item This study compared COVID-19 cases in border counties in \textcolor{red}{Iowa, which did not issue a stay-at-home order}, with cases in border counties in \textcolor{blue}{Illinois, which did issue a stay-at-home order}.
+\end{itemize}
+
+<<masks, eval=TRUE, out.width = "100%">>=
+include_graphics2("http://www.biostat.mcgill.ca/hanley/statbook/IowaIllinoisBorderFig1.png")
+@
+
+\end{frame}
+
+
+
+
+
+\begin{frame}[fragile]{Freely available county level data from NYTimes\footnote{\tiny{\url{https://github.com/nytimes/covid-19-data}}}}
+	
+<<nyt, echo = TRUE, out.width = "100%", echo = TRUE>>=
+library(covdata) # remotes::install_github("kjhealy/covdata")
+library(dplyr); library(tidyr); library(ggplot2); library(readr)
+
+# get population data from https://covid19.census.gov/datasets/
+pop_county <- read_csv("https://opendata.arcgis.com/datasets/21843f238cbb46b08615fc53e19e0daf_1.csv") %>%
+              dplyr::rename(fips = GEOID, population = B01001_001E, state = State) %>%
+              dplyr::select(state, fips, population)
+
+county_level <- nytcovcounty %>%
+                dplyr::left_join(pop_county, by = c("state","fips")) %>%
+                dplyr::mutate(cases.per.10k = cases/population * 1e4) %>%
+                dplyr::filter(state %in% c("Iowa","Illinois")) %>%
+                dplyr::group_by(county)
+
+pop_state <- pop_county %>% 
+             dplyr::group_by(state) %>% 
+             dplyr::summarise(population = sum(population, na.rm = TRUE))
+             
+state_level <- county_level %>%
+               dplyr::group_by(state, date) %>%
+               dplyr::filter(date >= "2020-03-15") %>% 
+               dplyr::summarise(cases = sum(cases)) %>%
+               dplyr::left_join(pop_state, by = "state") %>% 
+               dplyr::mutate(cases.per.10k = cases / population * 1e4, state = factor(state),
+                             time = as.numeric(date - min(date)) + 1) 
+head(state_level) 
+@
+	
+\end{frame}
+
+
+
+\begin{frame}[fragile]{County level cases for Iowa and Illinois - log10 scale}
+	
+<<nytcases, echo = TRUE, fig.asp = 0.481>>=
+ggplot(data = county_level, mapping = aes(x = date, y = cases, group = county)) +
+  geom_line(size = 0.25, color = "gray20") +
+  scale_x_date(date_breaks = "1 month", date_labels = "%b")+
+  scale_y_log10(labels = scales::label_number_si()) +
+  guides(color = FALSE) + facet_wrap(~ state, ncol = 2) +
+  labs(title = "COVID-19 Cases in Iowa and Illinois by County",
+       x = "Date", y = "No. of cases (log10 scale)", caption = "Data: The New York Times") + 
+  theme_minimal()
+@
+	
+\end{frame}
+
+
+
+
+\begin{frame}[fragile]{County level cases for Iowa and Illinois - per capita}
+	
+	<<nytcapita, echo = TRUE, fig.asp = 0.481>>=
+ggplot(data = county_level, mapping = aes(x = date, y = cases.per.10k, group = county)) +
+  geom_line(size = 0.25, color = "gray20") +
+  scale_x_date(date_breaks = "1 month", date_labels = "%b")+
+  scale_y_continuous(labels = scales::label_number_si()) +
+  guides(color = FALSE) + facet_wrap(~ state, ncol = 2) +
+  labs(title = "COVID-19 Cases in Iowa and Illinois by County",
+       x = "Date", y = "No. of cases per 10 000", caption = "Data: The New York Times") + 
+  theme_minimal()
+	@
+	
+\end{frame}
+
+
+
+\begin{frame}[fragile]{State level cases for Iowa and Illinois - per capita}
+	
+	<<nytcapitastate, echo = TRUE, fig.asp = 0.481>>=
+ggplot(data = state_level, mapping = aes(x = date, y = cases.per.10k, color = state)) +
+  geom_line(size = 1) +
+  scale_x_date(date_breaks = "1 month", date_labels = "%b")+
+  scale_y_continuous(labels = scales::label_number_si()) +
+  labs(title = "COVID-19 Cases in Iowa and Illinois",
+       subtitle = "Cases since March 15, 2020",
+       x = "Date", y = "No. of cases per 10 000", caption = "Data: The New York Times") + 
+  theme_minimal()
+	@
+	
+\end{frame}
+
+
+\begin{frame}[fragile]{Are the findings in the paper reproducible?}
+	
+<<nytcapitastatemodel, echo = TRUE, fig.asp = 0.481>>=
+fit3 <- glm(cases.per.10k ~ state*time, data = state_level)
+summary(fit3)
+@
+	
+\end{frame}
+
+
+\begin{frame}[fragile]{Model-based predictions}
+	
+	<<nytcapitastatemodel2, echo = TRUE, fig.asp = 0.481>>=
+library(ggeffects)
+ggeffects::ggpredict(fit3, terms = "state") %>% 
+  plot()
+	@
+	
+\end{frame}
+
+
+%\begin{frame}[allowframebreaks]
+%\nocite{breiman1984classification}
+%	\nocite{friedman2001elements}
+%	\nocite{james2013introduction}
+%	\nocite{lopez2015arbres}
+%	\frametitle{References}
+%\printbibliography
+%\end{frame}
+
+
+\begin{frame}[fragile]{Session Info}
+	\tiny
+	
+	<<echo=FALSE, comment = NA, size = 'tiny'>>=
+	print(sessionInfo(), locale = FALSE)
+	@
+	
+\end{frame}
+
+\end{document}

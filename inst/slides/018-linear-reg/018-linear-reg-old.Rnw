@@ -1,0 +1,154 @@
+\documentclass[10pt]{beamer}
+
+
+%\input{slides_header.tex}
+\input{/home/sahir/git_repositories/EPIB607/slides/slides_header2.tex}
+\graphicspath{{/home/sahir/git_repositories/EPIB607/slides/figure/}}
+
+%\let\oldShaded\Shaded
+%\let\endoldShaded\endShaded
+%\renewenvironment{Shaded}{\footnotesize\oldShaded}{\endoldShaded}
+
+
+
+
+\begin{document}
+
+<<setup, include=FALSE>>=
+library(knitr)
+knitr::opts_chunk$set(cache=FALSE, message = FALSE, tidy = FALSE, warning = FALSE,
+echo = FALSE, 
+#fig.width = 8, 
+#fig.asp = 0.8, 
+fig.align = 'center', 
+#out.width = "0.50\\linewidth", 
+size = 'tiny')
+
+# the kframe environment does not work with allowframebreaks, so remove it
+#knit_hooks$set(document = function(x) {
+#gsub('\\\\(begin|end)\\{kframe\\}', '', x)
+#})
+
+library(tidyverse)
+library(NCStats)
+options(digits = 2)
+
+
+#knitr::opts_chunk$set(background = '#FFFF00')
+library(tools) #needed for include_graphics2 function
+source("/home/sahir/git_repositories/EPIB607/slides/bin/include_graphics2.R")
+@
+
+%\title{Introduction to Regression Trees}
+%\author{Sahir Bhatnagar \inst{1}}
+%\author[shortname]{Sahir Rai Bhatnagar, PhD Candidate (Biostatistics) }
+%\institute[shortinst]{Department of Epidemiology, Biostatistics and Occupational Health}
+
+\title{018 - Linear Regression}
+\author{EPIB 607 - FALL 2020}
+\institute{
+	Sahir Rai Bhatnagar\\
+	Department of Epidemiology, Biostatistics, and Occupational Health\\
+	McGill University\\
+	
+	\vspace{0.1 in}
+	
+	\texttt{sahir.bhatnagar@mcgill.ca}\\
+	%\texttt{\url{https://sahirbhatnagar.com/EPIB607/}}
+}
+
+\date{slides compiled on \today}
+
+\maketitle
+
+
+
+
+%\begin{frame}[allowframebreaks]
+%\nocite{breiman1984classification}
+%	\nocite{friedman2001elements}
+%	\nocite{james2013introduction}
+%	\nocite{lopez2015arbres}
+%	\frametitle{References}
+%\printbibliography
+%\end{frame}
+
+\section{Mean depth of the ocean}
+
+%\vspace*{-6.5mm}    
+
+\begin{frame}[fragile,plain]
+
+%\vspace{-15mm}
+\small
+\textbf{1. Mean depth of the ocean}
+
+<<eval=TRUE, echo=FALSE, size='scriptsize'>>=
+# load function to get depths
+source("https://raw.githubusercontent.com/sahirbhatnagar/EPIB607/master/labs/003-ocean-depths/automate_water_task.R")
+
+# get 1000 depths
+set.seed(222333444)
+depths <- automate_water_task(index = sample(1:50000, 1000), student_id = 222333444, type = "depth")
+
+# separate by north and south hemisphere
+depths_north <- depths[which(depths$lat>0),]
+depths_south <- depths[which(depths$lat<0),]
+
+# restrict sample to 200 (at random)
+depths_north <- depths_north[sample(1:nrow(depths_north), 200), ]
+depths_south <- depths_south[sample(1:nrow(depths_south), 200), ]
+
+# add indicator variable
+depths_north$South <- 0
+depths_south$South <- 1
+
+# combine data
+depths <- rbind(depths_north, depths_south)
+# regression. lm assumes equal variances
+#fit <- lm(alt ~ South, data = depths)
+#summary(fit)
+@	
+
+
+<<echo=TRUE, eval=TRUE>>=
+head(depths)
+dim(depths)
+fit <- lm(alt ~ 1, data = depths)
+print(summary(fit), signif.stars = F)
+@
+
+\end{frame}
+
+
+
+
+\begin{frame}[fragile]{title}
+<<>>=
+ls()
+@
+\end{frame}
+
+
+\begin{frame}[fragile,plain]
+
+
+<<echo=TRUE, eval=TRUE>>=
+fit <- lm(alt ~ South, data = depths)
+#print(summary(fit), signif.stars = F)
+#stats::t.test(alt ~ South, data = depths, var.equal = TRUE)
+@
+
+\end{frame}	
+
+
+\begin{frame}[fragile]{Session Info}
+	\tiny
+	
+	<<echo=FALSE, comment = NA, size = 'tiny'>>=
+	print(sessionInfo(), locale = FALSE)
+	@
+	
+\end{frame}
+
+\end{document}

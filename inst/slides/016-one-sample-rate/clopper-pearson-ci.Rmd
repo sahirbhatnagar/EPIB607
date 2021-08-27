@@ -1,0 +1,36 @@
+---
+title: "Untitled"
+output: html_document
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+```{r}
+# upper limit --> lower tail needs 2.5%
+manipulate::manipulate(
+  mosaic::xppois(6, lambda = LAMBDA), 
+  LAMBDA = manipulate::slider(0.01, 20, step = 0.01))
+
+
+# lower limit --> upper tail needs 2.5%
+# when lower.tail=FALSE, ppois doesnt include k, i.e., P(Y > k)
+manipulate::manipulate(
+  mosaic::xppois(5, lambda = LAMBDA, lower.tail = FALSE),
+  LAMBDA = manipulate::slider(0.01, 20, step = 0.01))
+```
+
+
+```{r}
+
+library(manipulate)
+manipulate(
+  plot(cars, xlim=c(0,x.max)),  
+  x.max=slider(15,25))
+```
+

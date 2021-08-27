@@ -1,0 +1,210 @@
+---
+title: Logistic Regression in R
+
+# Use letters for affiliations
+author:
+  - name: EPIB607 - Inferential Statistics
+    affiliation: a
+#  - name: Second Author
+#    affiliation: a,b
+address:
+  - code: a
+    address: Fall 2020, McGill University
+#  - code: b
+#    address: Department of Neat Tricks, Whereever State University, Someplace, MC, 67890
+
+# For footer text  TODO(fold into template, allow free form two-authors)
+lead_author_surname: Bhatnagar
+
+# Place DOI URL or CRAN Package URL here
+#doi: "https://sahirbhatnagar.com/EPIB607/"
+
+# Abstract
+#abstract: |
+#  This DALITE quiz will cover regression.
+
+# Optional: Acknowledgements
+#acknowledgements: |
+#  This template package builds upon, and extends, the work of the excellent
+#  [rticles](https://cran.r-project.org/package=rticles) package, and both packages rely on the
+#  [PNAS LaTeX](http://www.pnas.org/site/authors/latex.xhtml) macros. Both these sources are
+#  gratefully acknowledged as this work would not have been possible without them.  Our extensions
+#  are under the same respective licensing term
+#  ([GPL-3](https://www.gnu.org/licenses/gpl-3.0.en.html) and
+#  [LPPL (>= 1.3)](https://www.latex-project.org/lppl/)).
+
+# Optional: One or more keywords
+keywords:
+#  - linear regression
+#  - poisson regression
+#  - logistic regression
+
+# Paper size for the document, values of letterpaper and a4paper
+papersize: letter
+
+# Font size of the document, values of 9pt (default), 10pt, 11pt and 12pt
+fontsize: 12pt
+
+# Optional: Force one-column layout, default is two-column
+one_column: true
+
+# Optional: Enables lineno mode, but only if one_column mode is also true
+#lineno: true
+
+# Optional: Enable one-sided layout, default is two-sided
+#one_sided: true
+
+# Optional: Enable section numbering, default is unnumbered
+numbersections: true
+
+# Optional: Specify the depth of section number, default is 5
+#secnumdepth: 5
+
+# Optional: Skip inserting final break between acknowledgements, default is false
+skip_final_break: true
+
+# Optional: Bibliography 
+bibliography: pinp
+
+# Optional: Enable a 'Draft' watermark on the document
+watermark: false
+
+# Customize footer, eg by referencing the vignette
+#footer_contents: "DALITE Q5 due October , 2019 by 5pm"
+
+# Produce a pinp document
+output: pinp::pinp
+
+# Required: Vignette metadata for inclusion in a package.
+vignette: >
+  %\VignetteIndexEntry{YourPackage-vignetteentry}
+  %\VignetteKeywords{YourPackage, r, anotherkeyword}
+  %\VignettePackage{Due Sepetember 26, 2018}
+  %\VignetteEngine{knitr::rmarkdown}
+---
+
+
+# Fitting a Logistic Regression Model with a Single Predictor
+
+The \textbf{\texttt{glm()}} function is used to fit logistic regression models. It has the following generic structure:
+
+```{r, eval = FALSE}
+glm(y ~ x, data, family = binomial(link = "logit"))
+```
+
+where the first argument specifies the variables used in the model; in this example, the model regresses a response variable \texttt{y} against an explanatory variable \texttt{x}. The second argument is used only when the dataframe name is not already specified in the first argument. Running the function creates an *object* (of class '\texttt{lm}' and '\texttt{glm}') that contains several components, such as the model coefficients. The model coefficients are directly displayed upon running \texttt{glm()}, while other components can be accessed through either the \texttt{\$} notation or specific functions like \texttt{summary()}. The argument \texttt{family = binomial(link = "logit")} is specific to logistic regression; the texttt{glm()} function is capable of running families of general linear models that are not discussed in this course.
+
+The following example shows fitting a linear model that predicts the estimated log odds of death before discharge from resting heart rate, using data from \texttt{icu}.
+
+```{r}
+#load the data
+library(aplore3)
+data("icu")
+
+#fitting logistic model
+glm(sta ~ hra, data = icu, family = binomial(link = "logit"))
+```
+
+To fit a linear model that predicts the estimated log odds of survival to discharge from resting heart rate, it is necessary to relevel the factor \texttt{sta} such that a \texttt{1} corresponds to individuals who survived to discharge. This can be accomplished with \textbf{\texttt{factor()}} and \textbf{\texttt{rev()}}. The \texttt{rev()} function reverses elements. In the example below, applying \texttt{rev)} to a vector {1, 2, 3} produces a vector {3, 2, 1}.
+
+```{r}
+#check levels
+levels(icu$sta)
+
+#relevel survival
+icu$sta = factor(icu$sta, levels = rev(levels(icu$sta)))
+
+#check levels
+levels(icu$sta)
+
+#example of using rev()
+a = c(1, 2, 3)
+rev(a)
+```
+
+The following example shows outputting the model summary, selectively outputting model coefficients from the model fit, and extracting the numeric value of a coefficient.
+
+```{r}
+#name the model
+model.hra = glm(sta ~ hra, data = icu, family = binomial(link = "logit"))
+
+#model summary
+summary(model.hra)
+
+#model summary of coefficients
+summary(model.hra)$coef
+
+#extract value of slope coefficient
+coef(model.hra)[2]
+```
+
+As in linear regression, the \texttt{predict()} function can be used to evaluate the regression equation for specific values of a predictor variable. The following example shows predicting the estimated log odds of survival to discharge for an individual with resting heart rate of 98 bpm.
+
+```{r}
+predict(model.hra, newdata = data.frame(hra = 98))
+```
+
+
+\newpage
+
+# Multiple Logistic Regression
+
+## Working with Several Predictors
+
+The \textbf{\texttt{glm()}} function is used to fit linear models. It has the following generic structure:
+
+```{r, eval = FALSE}
+glm(y ~ x1 + x2, data, family = binomial(link = "logit"))
+```
+
+where the first argument specifies the variables used in the model; in this example, the model regresses a response variable \texttt{y} against two explanatory variables \texttt{x1} and \texttt{x2}. Additional predictor variables can be added to the model formula with the \texttt{+} symbol, and an interaction between two variables is specified with the \texttt{*} symbol.
+
+The following example shows fitting a linear model that predicts the estimated log odds of survival to discharge from age and gender, and a linear model that predicts the estimated log odds of survival to discharge from age, gender, and their interaction.
+
+```{r}
+#fitting model with age and gender
+glm(sta ~ age + gender, data = icu, family = binomial(link = "logit"))
+
+#fitting model with age, gender, and an interaction term
+glm(sta ~ age*gender, data = icu, family = binomial(link = "logit"))
+```
+
+## Calculating AIC
+
+The AIC of a logistic model can be extracted from \texttt{summary()} or computed via the \textbf{\texttt{AIC()}} function.
+
+The following example shows how to output the AIC from the model predicting estimated odds of survival to discharge from resting heart rate.
+
+```{r}
+#use summary()$aic
+summary(model.hra)$aic
+
+#use AIC()
+AIC(model.hra)
+```
+
+
+## Collapsing Factor Levels
+
+The \texttt{factor()} function can also be used to collapse levels of a factor. 
+
+The following example shows the re-defining of the levels of \texttt{loc}; the variable initially has three levels (\texttt{Nothing}, \texttt{Stupor}, and \texttt{Coma}). The levels \texttt{Stupor} and \texttt{Coma} can be combined into a single level \texttt{Unconscious}, while the level \texttt{Nothing} is renamed \texttt{Conscious}. 
+
+```{r}
+#view levels of loc
+levels(icu$loc)
+
+#create the loc.binary variable
+icu$loc.binary = icu$loc
+
+#redefine the factor levels of loc.binary
+levels(icu$loc.binary) = list("Conscious" = "Nothing", 
+                              "Unconscious" = c("Stupor", "Coma"))
+
+#view levels of loc.binary
+levels(icu$loc.binary)
+
+#compare tables
+table(icu$loc); table(icu$loc.binary)
+```
+

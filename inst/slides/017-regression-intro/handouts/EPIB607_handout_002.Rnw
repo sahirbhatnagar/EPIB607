@@ -1,0 +1,150 @@
+\documentclass[landscape,twocolumn,letterpaper,9pt,reqno]{article}
+
+\usepackage{lscape,fancyhdr}
+
+\usepackage{hyperref}
+
+\pagestyle{fancy}
+
+\usepackage{amsmath,epsfig,subfigure,amsthm,amsfonts,epsf,psfrag,rotating,setspace,bm}
+
+\usepackage{verbatim,color} % Allow text colors}
+
+\setlength{\oddsidemargin}{-0.4in}		% default=0in
+\setlength\evensidemargin{-0.4in}
+
+\setlength{\textwidth}{9.8in}		% default=9in
+
+\setlength{\columnsep}{0.5in}		% default=10pt
+
+\setlength{\columnseprule}{0pt}		% default=0pt (no line)
+
+
+\setlength{\textheight}{7.0in}		% default=5.15in
+
+\setlength{\topmargin}{-0.75in}		% default=0.20in
+
+\setlength{\headsep}{0.25in}		% default=0.35in
+
+\setlength{\parskip}{1.2ex}
+
+\setlength{\parindent}{0mm}
+
+\lhead{Course EPIB607: Regression handout 002}
+\rhead{jh,sb \ \ \ v. 2018.11.08}
+
+\begin{document}
+
+<<setup, include=FALSE>>=
+rm(list = ls())
+library(knitr)
+knitr::opts_chunk$set(cache=TRUE, message = FALSE, tidy = FALSE,warning=FALSE, 
+echo = FALSE, fig.width = 8, fig.asp = 0.8, 
+fig.align = 'center', out.width = "100%", size = 'normalsize')
+# the kframe environment does not work with allowframebreaks, so remove it
+knit_hooks$set(document = function(x) {
+	gsub('\\\\(begin|end)\\{kframe\\}', '', x)
+})
+pacman::p_load(knitr)
+# trop <- RSkittleBrewer::RSkittleBrewer("trop")
+# gg_sy <- theme(legend.position = "bottom", axis.text = element_text(size = 20), axis.title = element_text(size = 20), legend.text = element_text(size = 20), legend.title = element_text(size = 20))
+@
+
+
+\section{Mean depth of the ocean}
+
+<<eval=TRUE, echo=FALSE, size='scriptsize'>>=
+# load function to get depths
+source("https://github.com/sahirbhatnagar/EPIB607/raw/master/exercises/water/automate_water_task.R")
+
+# get 1000 depths
+set.seed(222333444)
+depths <- automate_water_task(index = sample(1:50000, 1000), student_id = 222333444, type = "depth")
+
+# separate by north and south hemisphere
+depths_north <- depths[which(depths$lat>0),]
+depths_south <- depths[which(depths$lat<0),]
+
+# restrict sample to 200 (at random)
+depths_north <- depths_north[sample(1:nrow(depths_north), 200), ]
+depths_south <- depths_south[sample(1:nrow(depths_south), 200), ]
+
+# add indicator variable
+depths_north$South <- 0
+depths_south$South <- 1
+
+# combine data
+depths <- rbind(depths_north, depths_south)
+# regression. lm assumes equal variances
+#fit <- lm(alt ~ South, data = depths)
+#summary(fit)
+@	
+
+
+<<echo=TRUE, eval=TRUE>>=
+head(depths)
+dim(depths)
+fit <- lm(alt ~ 1, data = depths)
+summary(fit)
+@
+	
+
+\clearpage
+	
+\section{Mean depth of the ocean in northern and southern hemisphere}
+
+<<echo=FALSE, results='hide', fig.asp=0.32>>=
+pacman::p_load(ggplot2)
+pacman::p_load(cowplot)
+theme_set(theme_cowplot())
+pacman::p_load(mosaic)
+ggformula::gf_jitter(alt ~ South, data = depths, width = 0.05)
+@
+
+
+<<echo=TRUE, eval=TRUE, size='footnotesize'>>=
+fit <- lm(alt ~ South, data = depths)
+summary(fit)
+t.test(alt ~ South, data = depths, var.equal = TRUE)
+@
+
+\clearpage
+
+\section{Ratio depth of the ocean in northern and southern hemisphere}
+
+<<eval=TRUE, echo=TRUE>>=
+# note: we are now using glm
+fit <- glm(alt ~ South, data = depths, family = gaussian(link=log))
+summary(fit)
+@
+
+
+\clearpage
+
+
+\section{Student drinking}
+
+<<eval=TRUE, echo=FALSE, size='tiny'>>=
+drinks <- read.csv("/home/sahir/git_repositories/epib607/slides/regression/handouts/drinks.csv")
+#str(drinks)
+#table(drinks$gender)
+@
+
+<<eval=TRUE, echo=TRUE, size='footnotesize'>>=
+fit <- lm(drinks ~ gender, data = drinks)
+summary(fit)
+fit <- glm(drinks ~ gender, data = drinks, family = gaussian(link=log))
+summary(fit)
+@
+
+
+
+
+
+
+
+
+
+	
+	
+\end{document}	

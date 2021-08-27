@@ -1,0 +1,112 @@
+---
+title: "001 - Introduction to Inferential Statistics"
+subtitle: "EPIB 607 - FALL 2020"
+author: "Sahir Rai Bhatnagar"
+institute: "Department of Epidemiology, Biostatistics, and Occupational Health"
+date: "`r paste('slides compiled on',format(Sys.time(), '%B %d, %Y'))`"
+output: 
+  beamer_presentation:
+    latex_engine: xelatex
+    keep_tex: true
+    includes:
+      in_header: ../slides_header2.tex
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+library(knitr)
+library(tools)
+```
+
+
+# Objectives
+
+
+## Objectives for this course
+
+\begin{enumerate}[<+->]
+
+\item Visualize/Analyze/Interpret data using statistical methods with a computer
+\item Gather data into analysis ready format
+\item Learn regression
+\item Understand the statistical results in a scientific paper
+\item Learn the tools for creating reproducible analyses
+
+\end{enumerate}
+
+
+# Visualize/Analyze/Interpret data using statistical methods with a computer
+
+
+## Data is the new oil\footnote{\scriptsize\url{https://www.economist.com/briefing/2017/05/06/data-is-giving-rise-to-a-new-economy}}
+
+
+```{r, out.width='90%', fig.align='center'}
+knitr::include_graphics(path = "/home/sahir/git_repositories/EPIB607/resources/assets/slides/figure/001-oil.jpg")
+```
+
+
+
+
+## Danger\footnote{\scriptsize\url{https://timoelliott.com/blog/2018/03/data-is-the-new-oil-yes-toxic-if-mishandled.html}}
+
+
+```{r, out.width='90%', fig.align='center'}
+knitr::include_graphics(path = "/home/sahir/git_repositories/EPIB607/resources/assets/slides/figure/001-toxic.jpg")
+```
+
+
+
+## Data science\footnote{\scriptsize\url{https://hbr.org/2012/10/data-scientist-the-sexiest-job-of-the-21st-century}}
+
+
+```{r, out.width='90%', fig.align='center'}
+knitr::include_graphics(path = "/home/sahir/git_repositories/EPIB607/resources/assets/slides/figure/001-hbr.png")
+```
+
+
+
+
+
+## Vaccine
+
+
+```{r, out.width='90%', fig.align='center'}
+knitr::include_graphics(path = "/home/sahir/git_repositories/EPIB607/resources/assets/slides/figure/002-OxfordCovidVaccine.png")
+```
+
+
+## yyy
+
+
+```{r}
+plot(rnorm(10))
+```
+
+## Reg ex
+
+```{r OxfordLevelsNatural, echo=1, size='large'}
+ds=read.table("http://www.biostat.mcgill.ca/hanley/statbook/immunogenicityChAdOx1.nCoV-19vaccine.txt")
+str(ds)
+tail(ds)
+
+# just the naturally induced responses
+
+natural = ds[ds$RefIndexCategory=="Convalescent",]
+str(natural)
+
+hist(natural$IgGResponse.log10.ElisaUnits,breaks=20)
+
+summary(natural$IgGResponse.log10.ElisaUnits,breaks=20)
+
+summary( glm(IgGResponse.log10.ElisaUnits ~ 1,
+             data = natural) )
+```
+
+## gdsgsdgs
+
+```{r OntarioCremations, echo=FALSE,  out.width = '100%'}
+source("~/git_repositories/EPIB607/resources/assets/slides/bin/include_graphics2.R")
+include_graphics2("http://www.biostat.mcgill.ca/hanley/statbook/OntarioCremations.png")
+```
+

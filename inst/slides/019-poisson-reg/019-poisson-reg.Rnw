@@ -1,0 +1,245 @@
+\documentclass[10pt]{beamer}
+
+
+%\input{slides_header.tex}
+\input{/home/sahir/git_repositories/EPIB607/slides/slides_header2.tex}
+\graphicspath{{/home/sahir/git_repositories/EPIB607/slides/figure/}}
+
+%\let\oldShaded\Shaded
+%\let\endoldShaded\endShaded
+%\renewenvironment{Shaded}{\footnotesize\oldShaded}{\endoldShaded}
+
+%\newcommand{\blue}[1]{\textcolor{blue}{#1}}
+%\newcommand{\red}[1]{\textcolor{red}{#1}}
+
+
+\usepackage{xparse}
+\NewDocumentCommand\mylist{>{\SplitList{;}}m}
+{
+	\begin{itemize}
+		\ProcessList{#1}{ \insertitem }
+	\end{itemize}
+}
+\NewDocumentCommand\mynum{>{\SplitList{;}}m}
+{
+	\begin{enumerate}
+		\ProcessList{#1}{ \insertitem }
+	\end{enumerate}
+}
+\newcommand\insertitem[1]{\item #1}
+
+\newcommand\FrameText[1]{%
+	\begin{textblock*}{\paperwidth}(0pt,\textheight)
+		\raggedright #1\hspace{.5em}
+\end{textblock*}}
+
+\begin{document}
+	
+	<<setup, include=FALSE>>=
+	library(knitr)
+	knitr::opts_chunk$set(cache=FALSE, message = FALSE, tidy = FALSE, warning = FALSE,
+	echo = FALSE, 
+	#fig.width = 8, 
+	fig.asp = 0.75, 
+	fig.align = 'center', 
+	#out.width = "0.50\\linewidth", 
+	size = 'tiny')
+	
+	# the kframe environment does not work with allowframebreaks, so remove it
+	#knit_hooks$set(document = function(x) {
+	#gsub('\\\\(begin|end)\\{kframe\\}', '', x)
+	#})
+	
+	library(tidyverse)
+	library(NCStats)
+	options(digits = 5)
+	
+	
+	#knitr::opts_chunk$set(background = '#FFFF00')
+	library(tools) #needed for include_graphics2 function
+	source("/home/sahir/git_repositories/EPIB607/slides/bin/include_graphics2.R")
+	@
+	
+	%\title{Introduction to Regression Trees}
+	%\author{Sahir Bhatnagar \inst{1}}
+	%\author[shortname]{Sahir Rai Bhatnagar, PhD Candidate (Biostatistics) }
+	%\institute[shortinst]{Department of Epidemiology, Biostatistics and Occupational Health}
+	
+	\title{019 - Poisson Regression}
+	\author{EPIB 607 - FALL 2020}
+	\institute{
+		Sahir Rai Bhatnagar\\
+		Department of Epidemiology, Biostatistics, and Occupational Health\\
+		McGill University\\
+		
+		\vspace{0.1 in}
+		
+		\texttt{sahir.bhatnagar@mcgill.ca}\\
+		%\texttt{\url{https://sahirbhatnagar.com/EPIB607/}}
+	}
+	
+	\date{slides compiled on \today}
+	
+	\maketitle
+	
+	%\section{Objectives}
+	
+
+
+
+
+\section{1. Breastfeeding and respiratory infection I}
+\begin{frame}[fragile,plain]
+\vspace*{-.91in}
+%\textbf{3. Ratio depth of ocean depths in north vs south hemisphere}
+\tiny
+A total of 189,612 person-years of follow up were accumulated over the course of the study: 151,690
+among infants who were being breastfed and 37,922 among infants not being breastfed. Over the
+course of follow up the investigators identified 514,230 incident cases of respiratory infection among
+breastfeeding infants and 140,312 among non-breastfeeding infants. Calculate the crude incidence rate difference and 95\% CI comparing infants who were not breastfed with those who were.
+<<eval=TRUE, echo=4:5>>=
+cases <- c(514230, 140312)
+PT <- c(151690, 37922)
+not_breastfed <- c(0, 1)
+fit <- glm(cases ~ -1 + PT + PT:not_breastfed, family = poisson(link = identity))
+print(summary(fit), signif.stars = F)
+@
+
+\end{frame}
+
+
+\section{2. Breastfeeding and respiratory infection II}
+\begin{frame}[fragile,plain]
+	\vspace*{-1.291in}
+	%\textbf{3. Ratio depth of ocean depths in north vs south hemisphere}
+	\tiny
+Calculate the crude incidence rate ratio and 95\% CI comparing infants who were not breastfed with those who were.
+	<<eval=TRUE>>=
+fit <- glm(cases ~ not_breastfed + offset(log(PT)), family = poisson(link = log))
+print(summary(fit), signif.stars = F)
+	@
+	
+\end{frame}
+
+
+
+
+
+\section{3. Malaria control with bednets}
+
+\begin{frame}[fragile,plain]
+		\vspace*{-1.091in}
+\tiny
+See the 2018 Lancet article \textit{Efficacy of Olyset Duo, a bednet containing pyriproxyfen and permethrin, versus a permethrin-only net against clinical malaria in an area with highly pyrethroid-resistant vectors in rural Burkina Faso: a cluster-randomised controlled trial} by Tiono et. al. Reproduce the Rate ratio (95\% CI) in Table 2. Calculate the rate difference and 95\% CI comparing PPF-treated to Standard long-lasting insecticidal nets. Check the goodness of fit. 
+
+<<eval=TRUE, echo=FALSE>>=
+df <- data.frame(month = rep(c(paste0(c("june","july","august","september","october",
+"november","december"),"2014"),
+paste0(c("may"),"2015"),
+paste0(c("june","july","august","september","october",
+"november","december"),"2015")
+), 
+each = 2),
+exposure = rep(c(0,1), 15),
+years = c(79,0,123,0,103,23,79,39,81,63,78,81,80,84,
+89,82,
+59,77,54,99,29,123,0,139,0,166,0,185,0,189),
+cases = c(33,0,454,0,244,43,177,66,212,155,193,170,111,92,
+15,14,42,50,146,223,64,266,0,271,0,337,0,304,0,56)
+)
+
+df <- df[-which(df$years==0),]
+@
+
+
+<<echo=FALSE, eval=TRUE>>=
+fit <- glm(cases ~ exposure + offset(log(years)), 
+data = df, family = poisson(link = log))
+print(summary(fit), signif.stars = F, show.call=TRUE)
+@
+
+\end{frame}
+
+%\section{Bootstrap confidence intervals}
+
+\section{4. Population mortality rates in Denmark}
+
+\begin{frame}[fragile,plain]
+\tiny
+\vspace*{-0.1in}
+We can fit the following simple (multiplicative) rate ratio model to the patterns of mortality rates  for 1980-1984 and  2000-2004. The reference cell is females 70-74, 1980-84. $R$ = rate. $M$ = multiplier.
+
+\begin{tabular}{|l c | l l  l  l  | l l l l | l |}
+	\hline
+	Year  & Age & \multicolumn{3}{c}{Female (F)} & &   \multicolumn{3}{c}{Male (M)} & \\ 
+	\hline
+	& 70-74 &  $R_{F}$ & & & & $R_{F}$ & & $\times M_{M}$  & \\
+	1980- & 75-79 &  $R_{F}$ & $ \times M_{75}$ & &   & $R_{F}$ & $\times M_{75}$ & $\times M_{M}$ & \\
+	1984 & 80-84 & $R_{F}$ & $ \times M_{80}$ &  & &  $R_{F}$ & $ \times M_{80}$ & $ \times M_{M}$ & \\
+	& 85-89 & $R_{F}$ & $ \times M_{85}$ &  & &  $R_{F}$ & $ \times M_{85}$ & $ \times M_{M}$ & \\ 
+	\hline
+	& 70-74 &  $R_{F}$ &  & & $\times M_{20y}$  &  $R_{F}$ & & $  \times M_{M}$  & $\times M_{20y}$\\
+	2000- & 75-79 &  $R_{F} $ & $\times M_{75}$ & & $\times M_{20y}$ &  $R_{F}$ & $ \times M_{75}$ & $ \times M_{M}$& $\times M_{20y}$ \\
+	2004      & 80-84 & $R_{F}$ & $ \times M_{80}$ & & $\times M_{20y}$ &   $R_{F}$ & $ \times M_{80}$ & $ \times M_{M}$ & $\times M_{20y}$ \\
+	& 85-89 & $R_{F}$ & $ \times M_{85}$ & \ \ \ & $\times M_{20y}$&   $R_{F}$ & $\times M_{85}$ & $\times M_{M}$ & $\times M_{20y}$ \\
+	\hline
+\end{tabular}
+
+%The array called `r' in the R code ( which fits additive models to the rates and logs of the rates)can be used to calculate ratios.
+
+<<>>=
+library(dplyr)
+library(tidyr)
+
+pt <- read.table("~/git_repositories/EPIB607/slides/019-poisson-reg/denmark_person_time.txt", skip = 1, 
+header = TRUE)
+pt$type <- "PT"
+deaths <- read.table("~/git_repositories/EPIB607/slides/019-poisson-reg/denmark_deaths.txt", skip = 1, 
+header = TRUE)
+deaths$type <- "deaths"
+df <- rbind(pt, deaths)
+
+tt <- df %>% 
+gather(key = "group", value = "value", -Year, -Age, -type) %>% 
+spread(type, value) %>% 
+mutate(rate = deaths / PT) %>% 
+gather(key = "measure", value = "value", -Year, -Age, -group) %>% 
+unite(col = "measure", group, measure) %>% 
+spread(measure, value) 
+
+
+# head(tt)
+# str(tt)
+# levels(tt$Year)
+# levels(tt$Age)
+knitr::kable(tt[which(tt$Year %in% c("1980-1984","2000-2004", "2005-2009") & 
+tt$Age %in% c("70-74", "75-79", "80-84", "85-89")),c("Year", "Age", "Female_deaths", "Female_PT", "Female_rate", 
+"Male_deaths", "Male_PT", "Male_rate")], row.names = FALSE)
+@	
+
+%The equation is for the rate in any given age-group in a given gender in a given calendar period:
+\textcolor{white}{text}\newline
+
+\begin{tabular}{c c c c c c c c c}
+	Rate = & $\rule{1cm}{0.15mm}$ & $\times \rule{1cm}{0.15mm}$ & $\times \rule{1cm}{0.15mm}$ & $\times \rule{1cm}{0.15mm}$ & $\times \rule{1cm}{0.15mm}$ & $\times \rule{1cm}{0.15mm}$ \\
+	& &   if  &  if &  if & if & if & \\
+	& &  75-79 & 80-84 & 85-89 & male & 2000-04 \\  \\
+	$\log[Rate] =$ & $\rule{1cm}{0.15mm}$ & $+ \rule{1cm}{0.15mm}$ & $+ \rule{1cm}{0.15mm}$ & $+ \rule{1cm}{0.15mm}$ & $+ \rule{1cm}{0.15mm}$ & $+ \rule{1cm}{0.15mm}$ \\
+	& &   if  &  if &  if & if & if & \\
+	& &  75-79 & 80-84 & 85-89 & male & 2000-04 \\ \\
+	
+	$\log[Rate] =$ &$\rule{1cm}{0.15mm}$& $+  \rule{1cm}{0.15mm}$ & $+   \rule{1cm}{0.15mm}$ & $+   \rule{1cm}{0.15mm}$ & $+   \rule{1cm}{0.15mm} $ & $+ \rule{1cm}{0.15mm}$ \\
+	& &  $\times$  &  $\times$ &  $\times$ & $\times$ & $\times$ & \\
+	& &  $I_{75-79}$ & $I_{80-84}$ & $I_{85-89}$ & $I_{male}$ & $I_{2000-04}$ \\
+\end{tabular}
+
+where each $`I'$ is a (0/1) indicator of the category in question. By using both the 0 and 1 values of each $I$, this 6-parameter equation  produces a fitted value for each of the $4\times2\times2=16$ cells.
+
+%You can also think of $I_{75-79},$  $I_{80-84},$ and  $I_{85-89}$ as 
+%`radio buttons':  at most 1 of them can be `on' at the same time, since there are 4 
+%age levels in all.
+\end{frame}
+
+
+
+\end{document}

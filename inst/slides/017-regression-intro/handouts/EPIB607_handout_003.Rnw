@@ -1,0 +1,130 @@
+\documentclass[landscape,twocolumn,letterpaper,9pt,reqno]{article}
+
+\usepackage{lscape,fancyhdr}
+
+\usepackage{hyperref}
+
+\pagestyle{fancy}
+
+\usepackage{amsmath,epsfig,subfigure,amsthm,amsfonts,epsf,psfrag,rotating,setspace,bm}
+
+\usepackage{verbatim,color} % Allow text colors}
+
+\setlength{\oddsidemargin}{-0.4in}		% default=0in
+\setlength\evensidemargin{-0.4in}
+
+\setlength{\textwidth}{9.8in}		% default=9in
+
+\setlength{\columnsep}{0.5in}		% default=10pt
+
+\setlength{\columnseprule}{0pt}		% default=0pt (no line)
+
+
+\setlength{\textheight}{7.0in}		% default=5.15in
+
+\setlength{\topmargin}{-0.75in}		% default=0.20in
+
+\setlength{\headsep}{0.25in}		% default=0.35in
+
+\setlength{\parskip}{1.2ex}
+
+\setlength{\parindent}{0mm}
+
+\lhead{Course EPIB607: Regression handout 003 (Poisson regression)}
+\rhead{jh,sb \ \ \ v. 2018.11.12}
+
+\begin{document}
+
+<<setup, echo=FALSE, message=FALSE, warning=FALSE>>=
+rm(list = ls())
+library(knitr)
+library(mosaic)
+knitr::opts_chunk$set(cache=TRUE, message = FALSE, tidy = FALSE,warning=FALSE, 
+echo = FALSE, fig.width = 8, fig.asp = 0.8, 
+fig.align = 'center', out.width = "100%", size = 'normalsize')
+# the kframe environment does not work with allowframebreaks, so remove it
+knit_hooks$set(document = function(x) {
+	gsub('\\\\(begin|end)\\{kframe\\}', '', x)
+})
+pacman::p_load(knitr)
+# trop <- RSkittleBrewer::RSkittleBrewer("trop")
+# gg_sy <- theme(legend.position = "bottom", axis.text = element_text(size = 20), axis.title = element_text(size = 20), legend.text = element_text(size = 20), legend.title = element_text(size = 20))
+@
+
+
+\section{Breastfeeding and respiratory infection I}
+
+A total of 189,612 person-years of follow up were accumulated over the course of the study: 151,690
+among infants who were being breastfed and 37,922 among infants not being breastfed. Over the
+course of follow up the investigators identified 514,230 incident cases of respiratory infection among
+breastfeeding infants and 140,312 among non-breastfeeding infants. Calculate the crude incidence rate difference and 95\% CI comparing infants who were not breastfed with those who were.
+
+<<eval=TRUE, echo=c(4,5), size='small'>>=
+cases <- c(514230, 140312)
+PT <- c(151690, 37922)
+not_breastfed <- c(0, 1)
+fit <- glm(cases ~ -1 + PT + PT:not_breastfed, family = poisson(link = identity))
+summary(fit)
+@	
+
+
+
+	
+
+\clearpage
+
+
+
+
+\section{Breastfeeding and respiratory infection II}
+
+Calculate the crude incidence rate ratio and 95\% CI comparing infants who were not breastfed with those who were.
+
+<<eval=TRUE, echo=TRUE, size='small'>>=
+fit <- glm(cases ~ not_breastfed + offset(log(PT)), family = poisson(link = log))
+summary(fit)
+@
+
+
+
+
+
+
+
+\section{Malaria control with bednets}
+
+See the 2018 Lancet article \textit{Efficacy of Olyset Duo, a bednet containing pyriproxyfen and permethrin, versus a permethrin-only net against clinical malaria in an area with highly pyrethroid-resistant vectors in rural Burkina Faso: a cluster-randomised
+controlled trial} (\texttt{Bednets.pdf} in \texttt{A9} folder of myCourses) by Tiono et. al. Reproduce the Rate ratio (95\% CI) in Table 2. Calculate the rate difference and 95\% CI comparing PPF-treated to Standard long-lasting insecticidal nets.
+
+<<eval=TRUE, echo=FALSE, size='small'>>=
+df <- data.frame(month = rep(c(paste0(c("june","july","august","september","october",
+"november","december"),"2014"),
+paste0(c("may"),"2015"),
+paste0(c("june","july","august","september","october",
+"november","december"),"2015")
+), 
+each = 2),
+exposure = rep(c(0,1), 15),
+years = c(79,0,123,0,103,23,79,39,81,63,78,81,80,84,
+789,82,
+59,77,54,99,29,123,0,139,0,166,0,185,0,189),
+cases = c(33,0,454,0,244,43,177,66,212,155,193,170,111,92,
+15,14,42,50,146,223,64,266,0,271,0,337,0,304,0,56)
+)
+
+
+df$years <- ifelse(df$years==0, 0.00001, df$years)
+#df_stats(cases ~ exposure, data = df, sum)
+#df_stats(years ~ exposure, data = df, sum)
+@
+
+
+<<echo=FALSE, eval=FALSE>>=
+fit <- glm(cases ~ exposure + offset(log(years)), 
+data = df, family = poisson(link = log))
+summary(fit)
+@
+
+
+
+\end{document}

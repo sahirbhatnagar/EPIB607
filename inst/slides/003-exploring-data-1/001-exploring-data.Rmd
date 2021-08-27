@@ -1,0 +1,572 @@
+---
+title: "Sampling Distributions, the Central Limit Theorem (CLT) and Confidence Intervals"
+author: "Sahir Rai Bhatnagar"
+institute: "EPIB 607\\newline Department of Epidemiology, Biostatistics, and Occupational Health \\newline McGill University\\newline"
+date: "Last compiled on `r format(Sys.time(), '%B %d, %Y')`"
+output: 
+  beamer_presentation:
+     includes:
+       in_header: ../slides_header.tex
+#     fig_width: 3.25
+#     fig_height: 3
+#     fig_caption: false
+     toc: false
+     keep_tex: true
+     latex_engine: "xelatex"
+     highlight: "tango"
+#classoption: "aspectratio=169"
+slide_level: 3
+---  
+
+
+```{r global_options, echo=FALSE}
+pacman::p_load(knitr)
+# knitr::opts_chunk$set(warning=FALSE, message=FALSE)
+knitr::opts_chunk$set(cache=FALSE, message = FALSE, tidy = FALSE,
+                      warning = FALSE, echo = TRUE, 
+                      fig.width = 8,
+                      highlight = TRUE,
+                      fig.asp = 0.8, 
+                      fig.align = 'center', 
+                      out.width = "100%",
+                      size = 'scriptsize'
+                      )
+# the kframe environment does not work with allowframebreaks, so remove it
+knit_hooks$set(document = function(x) {
+gsub('\\\\(begin|end)\\{kframe\\}', '', x)
+})
+# trop <- RSkittleBrewer::RSkittleBrewer("trop")
+# gg_sy <- theme(legend.position = "bottom", axis.text = element_text(size = 20), axis.title = element_text(size = 20), legend.text = element_text(size = 20), legend.title = element_text(size = 20))
+
+def.chunk.hook  <- knitr::knit_hooks$get("chunk")
+knitr::knit_hooks$set(chunk = function(x, options) {
+  x <- def.chunk.hook(x, options)
+  ifelse(options$size != "normalsize", paste0("\n \\", options$size,"\n\n", x, "\n\n \\normalsize"), x)
+})
+```
+
+
+# Data basics
+
+### Hello
+
+
+```{r testing}
+plot(rnorm(10))
+```
+
+
+### Example: Iowa vs. Illinois
+
+```{r, echo=TRUE, eval=TRUE, message=FALSE}
+library(covdata)
+library(dplyr)
+library(ggplot2)
+# library(tidyverse)
+```
+
+
+```{r}
+# drat::addRepo("kjhealy")
+# install.packages("covdata")
+
+# unique(nytcovcounty$state)
+# dim(nytcovcounty)
+
+county_pop <- read.csv("https://raw.githubusercontent.com/simonw/covid-19-datasette/master/us_census_county_populations_2019.csv")
+data("nytcovcounty")
+# county_pop
+
+p1 <- nytcovcounty %>%
+  dplyr::filter(state %in% c("Iowa","Illinois")) %>% 
+  mutate(uniq_name = paste(county, state)) %>% # Can't use FIPS because of how the NYT bundled cities
+  group_by(uniq_name) %>%
+  mutate(days_elapsed = date - min(date)) %>%
+  ggplot(aes(x = days_elapsed, y = cases, group = uniq_name)) + 
+  geom_line(size = 0.25, color = "gray20") + 
+  scale_y_log10(labels = scales::label_number_si()) + 
+  guides(color = FALSE) + 
+  facet_wrap(~ state, ncol = 5) + 
+  labs(title = "COVID-19 Cumulative Recorded Cases by US County",
+       subtitle = paste("New York is bundled into a single area in this data.\nData as of", format(max(nytcovcounty$date), "%A, %B %e, %Y")),
+       x = "Days since first case", y = "Count of Cases (log 10 scale)", 
+       caption = "Data: The New York Times | Graph: @kjhealy") + 
+  theme_minimal()
+
+p1
+
+```
+
+
+
+### Example: the *FAMuSS* study
+
+
+*The Functional SNPs Associated with Muscle Size and Strength* (FAMuSS)
+study and data is introduced in *OI Biostat*, Section 1.2.2.
+
+One goal of the study---examine the association of demographic, physiological and genetic characteristics with muscle strength.
+
+- In simpler terms, study the "sports gene" *ACTN3*.
+
+
+
+### Four rows from *FAMuSS* data matrix
+
+\captionsetup[table]{labelformat=empty}
+
+```{r echo=FALSE}
+if(!requireNamespace("pacman")) install.packages("pacman")
+# devtools::install_github("OI-Biostat/oi_biostat_data", force = TRUE)
+library(oibiostat)
+data(famuss) 
+```  
+
+```{r kable, echo=FALSE}
+library(knitr)
+kable(famuss[c(1,2,3,595),c( "sex", "age", "race", "height", "weight", "actn3.r577x", "ndrm.ch")], digits = 1, caption = "*OI Biostat* Table 1.6", row.names=FALSE)
+```  
+
+###  *FAMuSS* Variables and their descriptions
+
+\begin{center}
+	\begin{tabular}{ll}
+		{\bf Variable} & {\bf Description} \\
+		& \\
+		\texttt{sex} & Sex of the participant \\
+		\texttt{age} & Age in years   \\
+		\texttt{race} & Recorded as African Am (African American),\\
+		   & Caucasian, Asian, Hispanic, Other \\
+		\texttt{height} & Height in inches    \\
+		\texttt{weight} & Weight in pounds  \\
+		\texttt{actn3.r577x} & Genotype at the location r577x in the ACTN3 gene. \\
+		\texttt{ndrm.ch} & Percent change in strength in the non-dominant arm, \\
+		  & comparing strength after to before training \\
+	\end{tabular}
+\end{center}
+	
+### Types of Variables
+
+**Numerical variables** take on numerical values, such that numerical operations (sums, differences, etc.) are reasonable.
+  
+  - Discrete: only take on integer values (e.g., \# of family members)
+  
+  - Continuous: can take on any value within a specified range (e.g., height)
+      
+**Categorical variables** take on values that are names or labels; the possible values are called the variable's *levels*.
+
+  - Ordinal: exists some natural ordering of levels (e.g., education)
+  - Nominal: no natural ordering of levels (e.g., gender)
+
+### Types of variables
+
+![alt data_types](figures/variableTypes.png)  
+
+### Exploring data with simple tools
+
+Techniques for exploring and summarizing data differ for numerical versus categorical variables.
+
+Numerical and graphical summaries are useful for examining variables one at a time, but also for exploring the relationships between variables.
+
+# Numerical data
+
+### Distributions and summary measures
+
+The collection of values for a numerical, continuous variable (e.g., \texttt{weight}) is the *distribution* for that variable.  
+
+Numerical and graphical summaries convey characteristics of a distribution without listing all the values. 
+
+Important characteristics include...
+  
+  - Center: where is the middle of the distribution?
+      - Measures of center: mean, median
+  - Spread: how similar or varied are the values to each other?
+      - Measures of spread: standard deviation, interquartile range
+
+### Measures of center
+
+The *sample mean* of a variable is the sum of all observations divided by the number of observations:
+
+$$\overline{x} = \frac{x_1+x_2+\cdots+x_n}{n}$$  
+where $x_1, x_2, \ldots, x_n$ represent the $n$ observed values in a sample.
+
+The mean weight in \texttt{famuss} is 155.65 pounds:
+
+```{r}
+mean(famuss$weight)
+```
+
+### Measures of center ...
+
+The *median* is the value of the middle observation in a sample.  
+
+If the number of observations is 
+
+- Odd, the median is the middle observation
+- Even, the median is the average of the two middle observations
+
+The median is the $50^{th}$ percentile; 50\% of observations lie below/above the median.
+
+```{r}
+median(famuss$weight)
+```
+
+
+### Measures of spread
+
+The *standard deviation* measures (approximately) the distance between a typical observation and the mean. 
+
+  - An observation's *deviation* is the distance between its value $x$ and the sample mean $\overline{x}$: $x - \overline{x}$.
+
+  - The *sample variance* $s^2$ is the sum of squared deviations divided by the number of observations minus 1.
+$$s^2 = \frac{({x_1 - \overline{x})}^{2}+({x_2 - \overline{x})}^{2}+\cdots+({x_n - \overline{x})}^{2}}{n-1}, $$
+    where $x_1, x_2, \dots, x_n$ represent the $n$ observed values.
+
+  - The *standard deviation* $s$ is the square root of the variance.
+$$s = \sqrt{\frac{({x_1 - \overline{x})}^{2}+({x_2 - \overline{x})}^{2}+\cdots+({x_n - \overline{x})}^{2}}{n-1}}$$
+
+### Measures of Spread: Percentiles/Quartiles
+
+The $p^{th}$ percentile is the observation such that $p\%$ of the remaining observations fall below this observation.
+
+  - The *first quartile ($Q_1$)* is the $25^{th}$ percentile.
+  - The *second quartile ($Q_2$)*, i.e., the median, is the $50^{th}$ percentile.
+  - The *third quartile ($Q_3$)* is the $75^{th}$ percentile.
+    
+The *interquartile range (IQR)* is the distance between the third and first quartiles.
+\[IQR = Q_3 - Q_1 \]
+
+\footnotesize
+
+```{r}
+sd(famuss$weight)
+IQR(famuss$weight)
+```
+
+
+### Robust estimates
+
+The median and IQR are called *robust estimates* because they are less likely to be affected by extreme values than the mean and standard deviation.
+
+For distributions containing extreme observations, the median and IQR provide a more accurate sense of center and spread.
+
+### Histograms
+
+```{r hist_weight,fig.width=4, fig.height = 3}
+hist(famuss$weight)
+```
+
+### Histograms \dots
+
+Histograms show important features of the shape of a distribution:  
+
+- Symmetry, or lack of it (skew)  
+
+- Minimum and maximum values   
+
+- Regions of high frequency (modes)
+
+Histograms not so good for: 
+
+- Displaying median, quartiles 
+
+- Showing subtle skewing
+
+- Identifying extreme values 
+
+### *OI Biostat*, Figure 1.20, frog data
+
+![alt clutch-volume](figures/frogBoxPlot.pdf)
+
+### Boxplots
+
+A boxplot indicates the positions of the first, second, and third quartiles of a distribution in addition to potential **outliers**, observations that are far from the center of a distribution.
+
+- Large outliers: values > $Q_3 + (1.5\times IQR)$ 
+
+- Small outliers: values < $Q_1 - (1.5 \times IQR)$
+
+On a boxplot...
+
+- The rectangle extends from the first quartile to the third quartile, with a line at the second quartile (median).
+
+- Whiskers capture data between $Q_1 - (1.5 \times IQR)$ and $Q_3 + (1.5\times IQR)$ ; whiskers must end at data points.
+
+- Potential outliers shown with dots.
+
+
+# Categorical data
+
+
+### Tables  
+
+A table for a single variable, a *frequency table* or *one-way table*, summarizes the distribution of observations among categories.
+
+Based on the table, describe the distribution of genotype at the location *actn3.r577x* among the study participants.
+
+\small
+
+```{r}
+table(famuss$actn3.r577x)
+```
+
+### Bar plots for categorical data
+
+A bar plot is a common way to display a single categorical variable.
+
+\small
+
+```{r}
+barplot(table(famuss$actn3.r577x))
+```
+
+
+# Relationships between two variables
+
+### Summarizing relationships between two variables
+
+Approaches for summarizing relationships between two variables vary depending on variable types...
+
+- Two numerical variables
+
+- Two categorical variables
+
+- One numerical variable and one categorical variable
+
+### Two numerical variables
+
+Two variables $x$ and $y$ are 
+
+- *positively associated* if $y$ increases as $x$ increases. 
+
+- *negatively associated* if $y$ decreases as $x$ increases.
+
+Height and weight are positively associated.
+
+### Two numerical variables \dots
+
+\small
+
+```{r scatter_height_weight, fig.width=6, fig.height=5}
+plot(famuss$height, famuss$weight,
+     xlab = "Height (in)", ylab = "Weight (lb)", cex = 0.8)  
+```
+
+
+### Two numerical variables \dots
+
+Correlation is a numerical summary that measures the strength of a linear relationship between two variables.
+
+ - Introduced in *OI Biostat* Section 1.6.1; details in Ch. 6.
+ 
+ - The correlation coefficient $r$ takes on values between -1 and 1.
+ 
+ - The closer $r$ is to $\pm 1$, the stronger the linear association.
+
+```{r correlation}
+cor(famuss$height, famuss$weight)
+```
+
+### Two categorical variables
+
+A contingency table summarizes data for two categorical variables.
+
+```{r}
+addmargins(table(famuss$race, famuss$actn3.r577x))
+```
+
+### Two categorical variables \dots
+
+\scriptsize
+
+```{r}
+#row proportions
+addmargins(prop.table(table(famuss$race, famuss$actn3.r577x), 1))
+
+#column proportions
+addmargins(prop.table(table(famuss$race, famuss$actn3.r577x), 2))
+```
+
+
+### Two categorical variables \dots
+
+![alt text](figures/famussSegBarA.pdf)  
+
+*OI Biostat* Figure 1.35a, segmented bar plot
+
+### Two categorical variables \dots
+
+![standardized segmented barplots](figures/famussSegBarStaA.pdf)
+
+*OI Biostat* Figure 1.35b, standardized segmented bar plot
+
+### Two categorical variables \dots
+
+*Relative risk* (RR) is one way of summarizing data presented in a two-way table of study outcome by participant group.
+
+More in Lab 1 \dots
+
+### A numerical variable and a categorical variable
+
+*FAMuSS* was designed to study the relationship between genotype at the location *r577x* in the gene *ACTN3* and muscle strength.
+
+Muscle strength was assessed by the percent change in non-dominant arm strength after resistance training  (\texttt{ndrm.ch}).
+
+What visualization would be a good choice to make this comparison?
+
+### A numerical variable and a categorical variable \dots
+
+\scriptsize
+
+```{r ndrmbox, fig.height=5.0, fig.width = 3}
+boxplot(famuss$ndrm.ch ~ famuss$actn3.r577x)
+```  
+
+
+# Case study: molecular cancer classification 
+
+### The potential value of genomic data in cancer
+
+The majority of cancers are diagnosed by an expert pathologist examining slides of malignant cells.
+
+Can that be done more accurately by characterizing the genetic makeup of the malignancy?
+
+  - This is perhaps the major potential of genomic characterizations of tumors. 
+  
+There are many forms of childhood leukemia.  
+
+  - Acute myeloblastic leukemia (AML) and acute lymphoblastic leukemia (ALL) are the most common.
+  
+  - AML is a cancer of the bone marrow, where white blood cells (lymphocytes) are produced.
+  
+  - ALL is a cancer of the lymphocytes and is designated as B-cell (ALLB) or T-cell (ALLT).
+
+
+### Prognosis of the two cancers 
+
+
+
+The probability that a child diagnosed with ALL is survives at least 5 years after the diagnosis is approximately 90%.
+
+Approximately 65% of children diagnosed with AML survive at least 5 years. 
+
+The diagnosis of leukemia type determines the therapy that will be given to the child, and the successful treatments for ALL and AML are different.
+
+In 1999, Todd Golub from the Dana-Farber and the Broad Institute examined the possibility of classifying leukemia through using a genetic analysis of a blood sample.  
+
+### Analyzing the Golub data
+
+We can re-analyze the Golub data using tools from graphical and numerical summaries.
+
+Our analysis will not be identical to the Golub analysis, but will be similar in spirit.
+
+The tools are straighforward\ldots   
+
+  - Thinking through the problem and assembling the tools is the hard part.
+  
+  - The process is more important than the final recipe.
+  
+
+### Gene expression (details in *OI Biostat*)
+
+\small
+
+- The genetic code stored in DNA contains the information for producing the proteins that determine an organism's phenotype.  
+
+- Genes that are transcriptionally active (i.e. turned "on") are transcribed into messenger RNA (mRNA) that gets translated into proteins. 
+ 
+- Genes can be switched on or off, and expressed at varying levels. Variations in gene expression produce the range of physical, biochemical, and developmental differences in cells and tissues.
+
+- Quantifying the amount of RNA produced in a cell allows for a measure of gene expression. 
+
+- The transcriptome, or expression profile, is the complete set of RNA transcripts produced by the genome in a cell or set of cells. 
+
+### Microarrays (details in *OI Biostat*)
+
+\small
+
+- Microarray technology is based on hybridization between two DNA strands, in which complementary nucleotide sequences specifically pair together. 
+
+- The mRNA from a sample is converted into complementary-DNA (cDNA), labeled with a fluorescent dye, and added to the microarray. 
+
+- When cDNA from the sample encounters complementary DNA probes, the two strands will hybridize, allowing the cDNA to adhere to specific spots on the slide. 
+
+- When the chip is illuminated and scanned, the intensity of fluorescence detected at each spot corresponds to the amount of bound cDNA. 
+
+- DNA microarrays do not directly quantify gene expression levels or quantity of mRNA present in a sample. 
+
+- The fluorescence intensity data only provide a relative measure of gene expression, showing which genes on the chip seem to be more or less active in relation to each other. 
+
+### Microarrays
+
+![fluorescence detection](figures/microarray_schematic.jpg)
+
+
+### The Golub clinical data  
+
+Demographic variables described in *OI Biostat* Table 1.54:
+
+\scriptsize
+
+------------------------------------------------------------------------------
+Variable  Description 
+--------- -------------------------------------------------------------------
+Samples   Sample or chip number. The material from each patient was examined               on a separate chip and experimental run.
+
+BM.PB      Type of patient material.  BM denotes bone marrow; PB denotes a                peripheral blood sample. 
+
+Gender     F for female, M for male.  
+
+Source     Hospital where the patient was treated.
+
+tissue.mf  A variable showing the combination of type of patient material and               sex of the patient.  BM:f denotes bone marrow from a female patient,                   etc.  
+
+cancer     The type of leukemia; aml is acute myeloblastic leukemia, allB is acute          lymphoblastic leukemia which started in B-cells (cells that mature into                plasma cells)  origin, and allT is acute lymphoblastic leukemia with T-cell            origin  (T-cells are a type of white blood cell). 
+
+------------------------------------------------------------------------------
+
+### The Golub expression data
+
+The expression data is contained in the last 7,129 columns. 
+
+Each column is a variable with a name corresponding to the name of the probe on the microarray. 
+
+The expression levels record fluorescence intensity for each gene.
+
+- The intensity levels have no inherent biological meaning.
+
+- Data have been normalized to adjust for variability between the separate arrays used for each patient.
+
+### Selected variables and columns from Golub data  
+
+\captionsetup[table]{labelformat=empty}
+\scriptsize
+```{r Golub_data_table, echo=FALSE}
+library(knitr)
+library(oibiostat)
+data(golub)
+golub.subtable = golub[1:5,]
+kable(golub.subtable[1:5,c("Samples", "Gender", "cancer", "AFFX-BioB-5_at", "AFFX-BioB-M_at", "AFFX-BioB-3_at")],digits=2,caption = "*OI Biostat* Table 1.40",row.names=FALSE)
+```
+
+### Analyzing the Golub leukemia data
+
+We will do an analysis in class using some of the simple but surprisingly powerful ideas behind numerical and graphical summaries.
+
+The goal of the Golub study was to develop a procedure for distinguishing between AML and ALL based only on the gene expression levels of a patient. There are two major issues to be addressed: 
+
+1. Which genes are the most informative for making a prediction?
+
+2. What is a workable strategy for predicting leukemia type from expression data for a specific set of genes?
+
+### Starting small...
+
+\footnotesize
+
+```{r, echo = FALSE}
+data(golub.small)
+golub.small[, 1:5]
+```
+
+
+

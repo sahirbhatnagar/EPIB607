@@ -1,0 +1,49 @@
+\frametitle{Session Info}
+\tiny
+^^I
+\begin{knitrout}\tiny
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{verbatim}
+R version 4.0.2 (2020-06-22)
+Platform: x86_64-pc-linux-gnu (64-bit)
+Running under: Pop!_OS 19.10
+
+Matrix products: default
+BLAS:   /usr/lib/x86_64-linux-gnu/openblas-pthread/libblas.so.3
+LAPACK: /usr/lib/x86_64-linux-gnu/openblas-pthread/liblapack.so.3
+
+attached base packages:
+[1] tools     stats     graphics  grDevices utils     datasets  methods
+[8] base
+
+other attached packages:
+ [1] NCStats_0.4.7   FSA_0.8.30      forcats_0.5.0   stringr_1.4.0
+ [5] dplyr_1.0.2     purrr_0.3.4     readr_1.3.1     tidyr_1.1.2
+ [9] tibble_3.0.3    ggplot2_3.3.2   tidyverse_1.3.0 knitr_1.29
+
+loaded via a namespace (and not attached):
+ [1] nlme_3.1-149       fs_1.5.0           lubridate_1.7.9    httr_1.4.2
+ [5] backports_1.1.9    R6_2.4.1           DBI_1.1.0          colorspace_1.4-1
+ [9] withr_2.2.0        tidyselect_1.1.0   gridExtra_2.3      leaflet_2.0.3
+[13] curl_4.3           compiler_4.0.2     cli_2.0.2          rvest_0.3.6
+[17] xml2_1.3.2         ggdendro_0.1.22    mosaicCore_0.8.0   scales_1.1.1
+[21] digest_0.6.25      minqa_1.2.4        ggformula_0.9.4    foreign_0.8-79
+[25] rio_0.5.16         pkgconfig_2.0.3    htmltools_0.5.0    lme4_1.1-23
+[29] dbplyr_1.4.4       highr_0.8          htmlwidgets_1.5.1  rlang_0.4.7
+[33] readxl_1.3.1       rstudioapi_0.11    farver_2.0.3       generics_0.0.2
+[37] jsonlite_1.7.1     crosstalk_1.1.0.1  zip_2.1.1          car_3.0-9
+[41] magrittr_1.5       mosaicData_0.20.1  Matrix_1.2-18      Rcpp_1.0.5
+[45] munsell_0.5.0      fansi_0.4.1        abind_1.4-5        lifecycle_0.2.0
+[49] stringi_1.5.3      carData_3.0-4      MASS_7.3-53        plyr_1.8.6
+[53] ggstance_0.3.4     grid_4.0.2         blob_1.2.1         ggrepel_0.8.2
+[57] crayon_1.3.4       lattice_0.20-41    haven_2.3.1        splines_4.0.2
+[61] hms_0.5.3          pillar_1.4.6       boot_1.3-25        reprex_0.3.0
+[65] glue_1.4.2         evaluate_0.14      data.table_1.13.0  modelr_0.1.8
+[69] nloptr_1.2.2.2     vctrs_0.3.4        tweenr_1.0.1       cellranger_1.1.0
+[73] gtable_0.3.0       polyclip_1.10-0    assertthat_0.2.1   TeachingDemos_2.12
+[77] xfun_0.17          ggforce_0.3.2      openxlsx_4.1.5     broom_0.7.0
+[81] statmod_1.4.34     mosaic_1.7.0       ellipsis_0.3.1
+\end{verbatim}
+\end{kframe}
+\end{knitrout}
+

@@ -1,0 +1,70 @@
+---
+title: "Coverage probability for Poisson counts"
+output: pdf_document
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
+```
+
+```{r}
+# load packages
+library(plyr)
+library(dplyr)
+library(ggplot2)
+library(mosaic)
+```
+
+# Poisson based Confidence interval
+
+```{r}
+# possion based CI
+set.seed(12345)
+true_lambda <- 6
+sims <- rpois(100, lambda = true_lambda)
+df <- plyr::ldply(sims, function(i){
+  z_ci <- poisson.test(x = i, T = 1)$conf.int
+  c(z_ci,i, dplyr::between(true_lambda, z_ci[1],z_ci[2]))
+}) 
+
+df$trial <- factor(seq_along(df$V1))
+colnames(df) <- c("lower","upper","mean", "covered", "trial")
+df$covered <- factor(df$covered, levels = 0:1, labels = c("no","yes"))
+df$width <- df$upper - df$lower
+
+p <- ggplot(df, aes(mean, trial, colour = covered))
+p + geom_point() +
+  geom_errorbarh(aes(xmax = upper, xmin = lower)) + geom_vline(xintercept = true_lambda) + 
+  theme_bw(base_size = 13L) + labs(caption = sprintf("average CI width is %0.2f", median(df$width)))
+```
+
+
+
+
+# Normal based CI
+
+We see that the coverage rate is not as good for the normal approximation when $\mu = 6$. 
+
+```{r}
+set.seed(12345)
+true_lambda <- 6
+sims <- rpois(100, lambda = true_lambda)
+df <- plyr::ldply(sims, function(i){
+  z_ci <- qnorm(p = c(0.025, 0.975), mean = i, sd = sqrt(i)) 
+  c(z_ci,i, dplyr::between(true_lambda, z_ci[1],z_ci[2]))
+}) 
+
+df$trial <- factor(seq_along(df$V1))
+colnames(df) <- c("lower","upper","mean", "covered", "trial")
+df$covered <- factor(df$covered, levels = 0:1, labels = c("no","yes"))
+df$width <- df$upper - df$lower
+
+p <- ggplot(df, aes(mean, trial, colour = covered))
+p + geom_point() +
+  geom_errorbarh(aes(xmax = upper, xmin = lower)) + geom_vline(xintercept = true_lambda) + 
+  theme_bw(base_size = 13L) + labs(caption = sprintf("average CI width is %0.2f", mean(df$width)))
+
+```
+

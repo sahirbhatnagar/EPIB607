@@ -1,0 +1,87 @@
+\documentclass[10pt]{beamer}
+
+
+%\input{slides_header.tex}
+\input{/home/sahir/git_repositories/EPIB607/slides/slides_header2.tex}
+\graphicspath{{/home/sahir/git_repositories/EPIB607/slides/figure/}}
+
+%\let\oldShaded\Shaded
+%\let\endoldShaded\endShaded
+%\renewenvironment{Shaded}{\footnotesize\oldShaded}{\endoldShaded}
+
+
+
+
+\begin{document}
+
+	<<setup, include=FALSE>>=
+library(knitr)
+knitr::opts_chunk$set(cache=FALSE, message = FALSE, tidy = FALSE, warning = FALSE,
+echo = FALSE, 
+#fig.width = 8, 
+#fig.asp = 0.8, 
+fig.align = 'center', 
+#out.width = "0.50\\linewidth", 
+size = 'tiny')
+
+# the kframe environment does not work with allowframebreaks, so remove it
+#knit_hooks$set(document = function(x) {
+#gsub('\\\\(begin|end)\\{kframe\\}', '', x)
+#})
+
+library(tidyverse)
+library(NCStats)
+options(digits = 2)
+
+
+#knitr::opts_chunk$set(background = '#FFFF00')
+library(tools) #needed for include_graphics2 function
+source("/home/sahir/git_repositories/EPIB607/slides/bin/include_graphics2.R")
+@
+
+%\title{Introduction to Regression Trees}
+%\author{Sahir Bhatnagar \inst{1}}
+%\author[shortname]{Sahir Rai Bhatnagar, PhD Candidate (Biostatistics) }
+%\institute[shortinst]{Department of Epidemiology, Biostatistics and Occupational Health}
+
+	\title{004 - Exploring Data - Part II}
+\author{EPIB 607 - FALL 2020}
+\institute{
+	Sahir Rai Bhatnagar\\
+	Department of Epidemiology, Biostatistics, and Occupational Health\\
+	McGill University\\
+	
+	\vspace{0.1 in}
+	
+	\texttt{sahir.bhatnagar@mcgill.ca}\\
+	%\texttt{\url{https://sahirbhatnagar.com/EPIB607/}}
+}
+
+\date{slides compiled on \today}
+
+\maketitle
+
+\section{Objectives}
+
+
+
+%\begin{frame}[allowframebreaks]
+%\nocite{breiman1984classification}
+%	\nocite{friedman2001elements}
+%	\nocite{james2013introduction}
+%	\nocite{lopez2015arbres}
+%	\frametitle{References}
+%\printbibliography
+%\end{frame}
+
+
+\begin{frame}[fragile]{Session Info}
+	\tiny
+	
+	<<echo=FALSE, comment = NA, size = 'tiny'>>=
+	print(sessionInfo(), locale = FALSE)
+	@
+	
+\end{frame}
+
+\end{document}

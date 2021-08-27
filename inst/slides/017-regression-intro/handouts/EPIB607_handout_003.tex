@@ -1,0 +1,193 @@
+\documentclass[landscape,twocolumn,letterpaper,9pt,reqno]{article}\usepackage[]{graphicx}\usepackage[]{color}
+%% maxwidth is the original width if it is less than linewidth
+%% otherwise use linewidth (to make sure the graphics do not exceed the margin)
+\makeatletter
+\def\maxwidth{ %
+  \ifdim\Gin@nat@width>\linewidth
+    \linewidth
+  \else
+    \Gin@nat@width
+  \fi
+}
+\makeatother
+
+\definecolor{fgcolor}{rgb}{0.345, 0.345, 0.345}
+\newcommand{\hlnum}[1]{\textcolor[rgb]{0.686,0.059,0.569}{#1}}%
+\newcommand{\hlstr}[1]{\textcolor[rgb]{0.192,0.494,0.8}{#1}}%
+\newcommand{\hlcom}[1]{\textcolor[rgb]{0.678,0.584,0.686}{\textit{#1}}}%
+\newcommand{\hlopt}[1]{\textcolor[rgb]{0,0,0}{#1}}%
+\newcommand{\hlstd}[1]{\textcolor[rgb]{0.345,0.345,0.345}{#1}}%
+\newcommand{\hlkwa}[1]{\textcolor[rgb]{0.161,0.373,0.58}{\textbf{#1}}}%
+\newcommand{\hlkwb}[1]{\textcolor[rgb]{0.69,0.353,0.396}{#1}}%
+\newcommand{\hlkwc}[1]{\textcolor[rgb]{0.333,0.667,0.333}{#1}}%
+\newcommand{\hlkwd}[1]{\textcolor[rgb]{0.737,0.353,0.396}{\textbf{#1}}}%
+\let\hlipl\hlkwb
+
+\usepackage{framed}
+\makeatletter
+\newenvironment{kframe}{%
+ \def\at@end@of@kframe{}%
+ \ifinner\ifhmode%
+  \def\at@end@of@kframe{\end{minipage}}%
+  \begin{minipage}{\columnwidth}%
+ \fi\fi%
+ \def\FrameCommand##1{\hskip\@totalleftmargin \hskip-\fboxsep
+ \colorbox{shadecolor}{##1}\hskip-\fboxsep
+     % There is no \\@totalrightmargin, so:
+     \hskip-\linewidth \hskip-\@totalleftmargin \hskip\columnwidth}%
+ \MakeFramed {\advance\hsize-\width
+   \@totalleftmargin\z@ \linewidth\hsize
+   \@setminipage}}%
+ {\par\unskip\endMakeFramed%
+ \at@end@of@kframe}
+\makeatother
+
+\definecolor{shadecolor}{rgb}{.97, .97, .97}
+\definecolor{messagecolor}{rgb}{0, 0, 0}
+\definecolor{warningcolor}{rgb}{1, 0, 1}
+\definecolor{errorcolor}{rgb}{1, 0, 0}
+\newenvironment{knitrout}{}{} % an empty environment to be redefined in TeX
+
+\usepackage{alltt}
+
+\usepackage{lscape,fancyhdr}
+
+\usepackage{hyperref}
+
+\pagestyle{fancy}
+
+\usepackage{amsmath,epsfig,subfigure,amsthm,amsfonts,epsf,psfrag,rotating,setspace,bm}
+
+\usepackage{verbatim,color} % Allow text colors}
+
+\setlength{\oddsidemargin}{-0.4in}		% default=0in
+\setlength\evensidemargin{-0.4in}
+
+\setlength{\textwidth}{9.8in}		% default=9in
+
+\setlength{\columnsep}{0.5in}		% default=10pt
+
+\setlength{\columnseprule}{0pt}		% default=0pt (no line)
+
+
+\setlength{\textheight}{7.0in}		% default=5.15in
+
+\setlength{\topmargin}{-0.75in}		% default=0.20in
+
+\setlength{\headsep}{0.25in}		% default=0.35in
+
+\setlength{\parskip}{1.2ex}
+
+\setlength{\parindent}{0mm}
+
+\lhead{Course EPIB607: Regression handout 003 (Poisson regression)}
+\rhead{jh,sb \ \ \ v. 2018.11.12}
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\begin{document}
+
+
+
+
+\section{Breastfeeding and respiratory infection I}
+
+A total of 189,612 person-years of follow up were accumulated over the course of the study: 151,690
+among infants who were being breastfed and 37,922 among infants not being breastfed. Over the
+course of follow up the investigators identified 514,230 incident cases of respiratory infection among
+breastfeeding infants and 140,312 among non-breastfeeding infants. Calculate the crude incidence rate difference and 95\% CI comparing infants who were not breastfed with those who were.
+
+\begin{knitrout}\small
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}
+\begin{alltt}
+\hlstd{fit} \hlkwb{<-} \hlkwd{glm}\hlstd{(cases} \hlopt{~ -}\hlnum{1} \hlopt{+} \hlstd{PT} \hlopt{+} \hlstd{PT}\hlopt{:}\hlstd{not_breastfed,} \hlkwc{family} \hlstd{=} \hlkwd{poisson}\hlstd{(}\hlkwc{link} \hlstd{= identity))}
+\hlkwd{summary}\hlstd{(fit)}
+\end{alltt}
+\begin{verbatim}
+## 
+## Call:
+## glm(formula = cases ~ -1 + PT + PT:not_breastfed, family = poisson(link = identity))
+## 
+## Deviance Residuals: 
+## [1]  0  0
+## 
+## Coefficients:
+##                  Estimate Std. Error z value Pr(>|z|)    
+## PT               3.390006   0.004727  717.10   <2e-16 ***
+## PT:not_breastfed 0.310010   0.010951   28.31   <2e-16 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## (Dispersion parameter for poisson family taken to be 1)
+## 
+##     Null deviance:        Inf  on 2  degrees of freedom
+## Residual deviance: 1.1195e-10  on 0  degrees of freedom
+## AIC: 32.678
+## 
+## Number of Fisher Scoring iterations: 2
+\end{verbatim}
+
+\end{knitrout}
+
+
+
+	
+
+\clearpage
+
+
+
+
+\section{Breastfeeding and respiratory infection II}
+
+Calculate the crude incidence rate ratio and 95\% CI comparing infants who were not breastfed with those who were.
+
+\begin{knitrout}\small
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}
+\begin{alltt}
+\hlstd{fit} \hlkwb{<-} \hlkwd{glm}\hlstd{(cases} \hlopt{~} \hlstd{not_breastfed} \hlopt{+} \hlkwd{offset}\hlstd{(}\hlkwd{log}\hlstd{(PT)),} \hlkwc{family} \hlstd{=} \hlkwd{poisson}\hlstd{(}\hlkwc{link} \hlstd{= log))}
+\hlkwd{summary}\hlstd{(fit)}
+\end{alltt}
+\begin{verbatim}
+## 
+## Call:
+## glm(formula = cases ~ not_breastfed + offset(log(PT)), family = poisson(link = log))
+## 
+## Deviance Residuals: 
+## [1]  0  0
+## 
+## Coefficients:
+##               Estimate Std. Error z value Pr(>|z|)    
+## (Intercept)   1.220832   0.001395  875.46   <2e-16 ***
+## not_breastfed 0.087505   0.003012   29.05   <2e-16 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## (Dispersion parameter for poisson family taken to be 1)
+## 
+##     Null deviance: 8.3002e+02  on 1  degrees of freedom
+## Residual deviance: 1.1533e-10  on 0  degrees of freedom
+## AIC: 32.678
+## 
+## Number of Fisher Scoring iterations: 2
+\end{verbatim}
+
+\end{knitrout}
+
+
+
+
+
+
+
+\section{Malaria control with bednets}
+
+See the 2018 Lancet article \textit{Efficacy of Olyset Duo, a bednet containing pyriproxyfen and permethrin, versus a permethrin-only net against clinical malaria in an area with highly pyrethroid-resistant vectors in rural Burkina Faso: a cluster-randomised
+controlled trial} (\texttt{Bednets.pdf} in \texttt{A9} folder of myCourses) by Tiono et. al. Reproduce the Rate ratio (95\% CI) in Table 2. Calculate the rate difference and 95\% CI comparing PPF-treated to Standard long-lasting insecticidal nets.
+
+
+
+
+
+
+
+
+\end{document}

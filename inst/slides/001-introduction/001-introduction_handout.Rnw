@@ -1,0 +1,555 @@
+\documentclass[10pt,handout]{beamer}
+
+
+%\input{slides_header.tex}
+\input{/home/sahir/git_repositories/EPIB607/slides/slides_header2.tex}
+\graphicspath{{/home/sahir/git_repositories/EPIB607/slides/figure/}}
+
+%\let\oldShaded\Shaded
+%\let\endoldShaded\endShaded
+%\renewenvironment{Shaded}{\footnotesize\oldShaded}{\endoldShaded}
+
+
+
+\begin{document}
+
+<<setup, include=FALSE>>=
+library(knitr)
+knitr::opts_chunk$set(cache=FALSE, message = FALSE, tidy = FALSE, warning = FALSE,
+						echo = TRUE, fig.width = 8, fig.asp = 0.8, 
+						fig.align = 'center', out.width = "100%", size = 'scriptsize')
+						
+# the kframe environment does not work with allowframebreaks, so remove it
+#knit_hooks$set(document = function(x) {
+#gsub('\\\\(begin|end)\\{kframe\\}', '', x)
+#})
+
+library(tidyverse)
+#knitr::opts_chunk$set(background = '#FFFF00')
+library(tools) #needed for include_graphics2 function
+
+@
+
+%\title{Introduction to Regression Trees}
+%\author{Sahir Bhatnagar \inst{1}}
+%\author[shortname]{Sahir Rai Bhatnagar, PhD Candidate (Biostatistics) }
+%\institute[shortinst]{Department of Epidemiology, Biostatistics and Occupational Health}
+
+\title{001 - Introduction to Inferential Statistics}
+\author{EPIB 607 - FALL 2020}
+\institute{
+	Sahir Rai Bhatnagar\\
+	Department of Epidemiology, Biostatistics, and Occupational Health\\
+	McGill University\\
+	
+	\vspace{0.1 in}
+	
+	\texttt{sahir.bhatnagar@mcgill.ca}\\
+	%\texttt{\url{https://sahirbhatnagar.com/EPIB607/}}
+}
+
+\date{slides compiled on \today}
+
+\maketitle
+
+\section{Objectives}
+
+
+
+
+
+\begin{frame}{Objectives for this course}
+
+\begin{enumerate}[<+->]
+
+\item Visualize/Analyze/Interpret data using statistical methods with a computer
+\item Gather data into analysis ready format
+\item Learn regression
+\item Understand the statistical results in a scientific paper
+\item Learn the tools for creating reproducible analyses
+
+\end{enumerate}
+
+\end{frame}
+
+
+
+\section{Visualize/Analyze/Interpret data using statistical methods with a computer}
+
+
+\begin{frame}{Data is the new oil\footnote{\tiny\url{https://www.economist.com/briefing/2017/05/06/data-is-giving-rise-to-a-new-economy}}}
+	\centering
+	\includegraphics[scale=0.5]{001-oil.jpg}
+
+\end{frame}
+
+
+
+\begin{frame}{Danger\footnote{\tiny\url{https://timoelliott.com/blog/2018/03/data-is-the-new-oil-yes-toxic-if-mishandled.html}}}
+	\centering
+	\includegraphics[scale=0.15]{001-toxic.jpg}	
+\end{frame}
+
+
+\begin{frame}{Data science\footnote{\tiny\url{https://hbr.org/2012/10/data-scientist-the-sexiest-job-of-the-21st-century}}}
+	\centering
+	\includegraphics[scale=0.35]{001-hbr.png}	
+\end{frame}
+
+
+
+\begin{frame}{Why \texttt{R} ?}
+	\Wider[9em]{
+		\begin{figure}
+			\begin{minipage}[h]{0.40\linewidth}
+				\centering
+				\includegraphics[scale=0.3]{001-rjobs.png}
+				\caption{Data as of May 2019 {\tiny \url{http://r4stats.com/articles/popularity/}}}
+				\label{fig:a}
+			\end{minipage}
+			%\hspace{0.5cm}
+			\begin{minipage}[h]{0.40\linewidth}
+				\centering
+				\includegraphics[scale=0.2]{001-dplyr.png}
+				\caption{Popular \texttt{R} packages {\tiny \url{https://stackoverflow.blog/2017/10/10/impressive-growth-r/}}}
+				\label{fig:b}
+			\end{minipage}
+		\end{figure}
+	}
+\end{frame}
+
+
+\begin{frame}{First day in a statistics course}
+\Wider[5em]{
+	\centering
+\includegraphics[scale=0.35]{001-firstday.png}
+}
+\end{frame}
+
+
+\begin{frame}{Second day in a statistics course}
+	\Wider[5em]{
+		\centering
+		\includegraphics[scale=0.25]{001-ztable.jpg}
+	}
+\end{frame}
+
+\section{Gather data into analysis ready format}
+
+\begin{frame}{Tidy data}
+	
+\begin{itemize}
+	\setlength\itemsep{.51em}
+	\item Each variable forms a column.
+	\item Each observation forms a row.
+	\item Each type of observational units forms a table
+	\item Tidy data is ready for regression routines and plotting
+\end{itemize}
+
+
+\framedgraphic{001-tidy.png}
+\end{frame}
+
+
+
+\begin{frame}[fragile]{Example: Does a full moon affect behaviour?}
+	
+	\small
+	\begin{itemize}
+		\item Many people believe that the moon influences the actions of some individuals. 
+		\item A study of dementia patients in nursing homes recorded various types of disruptive behaviors every day for 12 weeks. 
+		\item Days were classified as moon days if they were in a 3-day period centered at the day of the full moon. 
+		\item For each patient, the average number of disruptive behaviors was computed for moon days and for all otherdays. 
+	\end{itemize}
+	
+	<<echo=FALSE, eval=TRUE, message=FALSE, size = 'footnotesize', comment=''>>=
+	df <- read.csv("https://raw.githubusercontent.com/sahirbhatnagar/cleandata/master/data/fullmoon.csv",
+	header = TRUE)
+	set.seed(123)
+	knitr::kable(df[1:7,], row.names = FALSE)
+	@
+	
+	
+	
+\end{frame}
+
+
+\begin{frame}[fragile]{Is it tidy?}
+	
+	<<echo=FALSE, eval=TRUE, message=FALSE, size = 'footnotesize', comment=''>>=
+	df <- read.csv("https://raw.githubusercontent.com/sahirbhatnagar/cleandata/master/data/fullmoon.csv",
+	header = TRUE)
+	set.seed(123)
+	knitr::kable(df[1:3,], row.names = FALSE)
+	@
+	
+	\pause
+	
+	\vspace*{0.4cm}
+	
+	\textcolor{blue}{\textbf{Question: Can I plot the data?}}
+	
+	\pause
+	
+	<<echo=TRUE, eval=TRUE, message=FALSE, size = 'tiny', comment='', fig.asp=0.5>>=
+	plot(df$moon_days, df$other_days, pch = 19)
+	abline(a=0,b=1)
+	@
+\end{frame}
+
+
+\begin{frame}[fragile]{Is it tidy?}
+	
+	<<echo=FALSE, eval=TRUE, message=FALSE, size = 'footnotesize', comment=''>>=
+	df <- read.csv("https://raw.githubusercontent.com/sahirbhatnagar/cleandata/master/data/fullmoon.csv",
+	header = TRUE)
+	set.seed(123)
+	knitr::kable(df[1:5,], row.names = FALSE)
+	@
+	
+	\pause
+	
+	\vspace*{0.4cm}
+	
+	\textcolor{blue}{\textbf{Question: Can I fit a \underline{meaningful} regression model \underline{directly} to the \underline{variables} in the data?}}
+	
+	\pause
+	
+	<<echo=FALSE, eval=TRUE, message=FALSE, size = 'scriptsize'>>=
+	#devtools::install_github('droglenc/NCStats')
+	library(NCStats)
+	fit <- lm(moon_days ~ other_days, data = df)
+	print(summary(fit), show.call=TRUE, digits=2, signif.stars = FALSE)
+	@
+\end{frame}
+
+
+
+
+
+
+\begin{frame}[fragile]{Is it tidy?}
+	
+	<<echo=FALSE, eval=TRUE, message=FALSE, size = 'footnotesize', comment=''>>=
+	
+	df_tidy <- df %>% gather(day_type, mean_behavior,-patient) %>% mutate(patient = factor(patient), day_type = factor(day_type))
+	set.seed(1234)
+	knitr::kable(arrange(df_tidy, patient)[1:10,], row.names = FALSE)
+	@
+	
+	
+\end{frame}
+
+
+\begin{frame}[fragile]{Plotting with tidy data}
+	
+	<<echo=TRUE, eval=FALSE, message=FALSE, size = 'tiny', comment=''>>=
+	ggplot(data = df_tidy, mapping = aes(x = day_type, y = mean_behavior, group = patient)) + geom_line()
+	@
+	
+	<<echo=FALSE, eval=TRUE, message=FALSE, size = 'tiny', comment='', fig.asp=0.67>>=
+	ggplot(data = df_tidy, mapping = aes(x = day_type, y = mean_behavior, group = patient)) + geom_line() + ggpubr::theme_pubr()
+	@
+	
+	
+\end{frame}
+
+
+
+\begin{frame}[fragile]{Regression with tidy data}
+	
+	
+	<<echo=TRUE, eval=TRUE, message=FALSE, size = 'tiny'>>=
+	fit <- lme4::lmer(mean_behavior ~ day_type + (1|patient), data = df_tidy)
+	summary(fit)
+	@
+\end{frame}
+
+
+
+\begin{frame}[fragile]{Not tidy vs. tidy data}
+	
+	
+	%\Wider[4em]{
+	%\centering
+	
+	\includegraphics[scale=0.45]{001-tidy3.pdf}
+	
+	
+	%\framedgraphiccaption{tidy-fullmoon.jpg}{\texttt{text}}
+	%}
+	
+\end{frame}
+
+\begin{frame}[fragile]{Not tidy vs. tidy data}
+	
+	
+	%\Wider[4em]{
+	%\centering
+	
+	\includegraphics[scale=0.45]{001-tidy4.pdf}
+	
+	
+	%\framedgraphiccaption{tidy-fullmoon.jpg}{\texttt{text}}
+	%}
+	
+\end{frame}
+
+
+
+
+
+
+
+\begin{frame}[fragile]{\texttt{tidyr::pivot\_longer()}}
+	
+	
+	%\Wider[4em]{
+	%\centering
+	
+	\includegraphics[scale=0.45]{001-tidy1.pdf}
+	
+	%\pause
+	
+	<<echo=1, eval=FALSE, message=FALSE, size = 'tiny', comment=''>>=
+	tidyr::pivot_longer(data = df, cols = -patient, names_to = "day_type", values_to = "mean_behavior")
+	@
+	
+	%\framedgraphiccaption{tidy-fullmoon.jpg}{\texttt{text}}
+	%}
+	
+\end{frame}
+
+
+
+\section{Learn regression}
+
+
+\begin{frame}{Traditional stats textbook}
+	\Wider[4em]{
+	\centering
+	\includegraphics[scale=0.4]{001-text1.png}
+}
+\end{frame}
+
+\begin{frame}[plain]
+	\hspace*{-1.0cm}\parbox[t]{\textwidth}{
+		\begin{tikzpicture}[node distance=1.4cm]
+		\tikzstyle{every node}=[font=\scriptsize]
+		
+		% 1st level
+		\node (start) [startstopstats] {Parameter};
+		
+		
+		% 2nd level
+		\node (mean) [iostats, below of=start, xshift=-3cm] {Mean $\mu$};
+		\node (prop) [iostats, below of=start, xshift=3cm] {Proportion $p$};
+		
+		% 3rd level
+		\node (ones) [processbigstats, below of=mean, xshift=-2.5cm] {1 sample $H_0:\mu=\mu_0$};
+		\node (match) [processbigstats, below of=mean,xshift=-0.5cm] {Paired \,\,\, $H_0:\mu_1=\mu_2$};
+		\node (twos) [processbigstats, below of=mean, xshift=1.5cm] {Unpaired $H_0:\mu_1=\mu_2$};
+		
+		% 4th level
+		\node (onesd) [decisionstats, below of=ones] {$t$ test};
+		\node (matchd) [decisionstats, below of=match] {$t$ test on difference};
+		\node (twosd) [decisionstats, below of=twos, xshift=-1.0cm, yshift=-1.6cm] {$\sigma_1^2=\sigma_2^2$};
+		\node (twosdd) [decisionstats, below of=twos, xshift=1.0cm, yshift=-1.6cm] {$\sigma_1^2\neq\sigma_2^2$};
+		
+		% 5th level
+		\node (onesdtest) [decisionbigstats, below of=onesd, xshift=.7cm,yshift=-1cm] {$t=\frac{\bar{x}-\mu_0}{s/\sqrt{n}} \sim t_{(n-1)} $};
+		
+		\node (twosdss) [decisionbigstats, below of=twosd,xshift=-.6cm,yshift=-1cm] {$t=\frac{\bar{x}_1-\bar{x}_2}{s_{pooled}\sqrt{ \frac{1}{n_1}+\frac{1}{n_2}  }  } \sim t_{(n_1+n_2-2)}$};
+		
+		\node (twosdsss) [decisionbigstats, below of=twosdd,yshift=-1cm] {$t=\frac{\bar{x}_1-\bar{x}_2}{\sqrt{ \frac{s_1^2}{n_1}+\frac{s_2^2}{n_2}  }  } \sim t_{min(n_1-1,n_2-1)}$};
+		
+		% proportions
+		
+		% 3rd level
+		\node (pones) [processbigstats, below of=prop, xshift=-2.2cm] {1 sample $H_0:p=p_0$ };
+		\node (ptwos) [processbigstats, below of=prop, xshift=-0.1cm] {2 samples, 2 categories $H_0: p_1=p_2, OR=1, RR=1$};
+		\node (ptwoscat) [processbigstats, below of=prop, xshift=2.0cm] {2 samples, multiple categories, $H_0:p_1=p_2$};
+		
+		% 4th level
+		\node (ponesz) [decisionstats, below of=pones] {$z$ test};
+		\node (ptwosz) [decisionstats, below of=ptwos, yshift=-1cm] {$z$ or $\chi^2$ test, 95\% CI for OR/RR, Mantel-Haenszel for pooled OR};
+		\node (ptwoscatt) [decisionstats, below of=ptwoscat, yshift=-.6cm] {$\chi^2$ test};
+		
+		
+		% 5th level
+		\node (ponesztest) [decisionbigstats, below of=ponesz, xshift=1.1cm,yshift=-2.4cm] {$z=\frac{\hat{p}-p_0}{\sqrt{p_0(1-p_0)/n}}, \hat{p}:pooled\,proportion  $};
+		\node (ptwosztest) [decisionbigstats, below of=ptwosz, xshift=1.3cm,yshift=-2cm] {$z=\frac{\hat{p}_1-\hat{p}_2}{\sqrt{\hat{p}(1-\hat{p})\left(\frac{1}{n_1}+\frac{1}{n_2}\right)}  }$};
+		\node (ptwoscattest) [decisionbigstats, below of=ptwoscatt, yshift=-.8cm] {$\chi^2=\sum\frac{(O-E)^2}{E} \sim \chi^2_{(2-1)(c-1)}  $};
+		
+		\draw [arrow] (start) -- (mean);
+		\draw [arrow] (start) -- (prop);
+		\draw [arrow] (mean) -- (ones);
+		\draw [arrow] (mean) -- (match);
+		\draw [arrow] (mean) -- (twos);
+		\draw [arrow] (ones) -- (onesd);
+		\draw [arrow] (match) -- (matchd);
+		\draw [arrow] (twos) -- (twosd);
+		\draw [arrow] (twos) -- (twosdd);
+		
+		\draw [arrow] (onesd) -- (onesdtest);
+		\draw [arrow] (matchd) -- (onesdtest);
+		
+		\draw [arrow] (twosd) -- (twosdss);
+		\draw [arrow] (twosdd) -- (twosdsss);
+		
+		
+		\draw [arrow] (pones) -- (ponesz);
+		\draw [arrow] (ptwos) -- (ptwosz);
+		\draw [arrow] (ptwoscat) -- (ptwoscatt);
+		
+		
+		\draw [arrow] (ponesz) -- (ponesztest);
+		\draw [arrow] (ptwosz) -- (ptwosztest);
+		\draw [arrow] (ptwoscatt) -- (ptwoscattest);
+		
+		
+		\draw [arrow] (prop) -- (pones);
+		\draw [arrow] (prop) -- (ptwos);
+		\draw [arrow] (prop) -- (ptwoscat);
+		
+		
+		
+		%%%%%%%%%%%%
+		
+		\end{tikzpicture}
+		
+	}
+\end{frame}
+
+
+\begin{frame}{This course}
+		\Wider[4em]{
+	\centering
+	\includegraphics[scale=0.4]{001-text2.png}
+}
+\end{frame}
+
+
+\section{Understand the statistical results in a scientific paper}
+
+\begin{frame}{Statistical concepts}
+			\Wider[4em]{
+		\centering
+		\includegraphics[scale=0.5]{001-jama1.png}
+	}
+\footnote{\tiny \url{https://jamanetwork.com/journals/jamanetworkopen/fullarticle/2766229}}
+\end{frame}
+
+
+\begin{frame}{Statistical concepts}
+	\Wider[4em]{
+		\centering
+		\includegraphics[scale=0.5]{001-jama2.png}
+	}
+	\footnote{\tiny \url{https://jamanetwork.com/journals/jamanetworkopen/fullarticle/2766229}}
+\end{frame}
+
+
+
+\section{Learn the tools for creating reproducible analyses}
+
+
+\begin{frame}{Copy paste ad nauseam}
+		\Wider[4em]{
+		\centering
+		\includegraphics[scale=0.35]{001-excel.png}
+	}
+\end{frame}
+
+
+\begin{frame}{Markdown: HTML without knowing HTML}
+	\begin{center}
+		\includegraphics[scale=0.45, keepaspectratio]{001-markdown}
+	\end{center}
+\end{frame}
+
+\begin{frame}{R + Markdown = RMarkdown}
+	\begin{center}
+		\includegraphics[scale=0.36, keepaspectratio]{001-rmarkdown}
+	\end{center}
+\end{frame}
+
+\begin{frame}{What \texttt{rmarkdown} does}
+	\textbf{\code{RMarkdown}} example:
+	
+	\begin{center}
+		\begin{tikzpicture}
+		\scriptsize
+		\node (expr) [startstop] {Report.Rmd (contains both code and markdown)};
+		\node (science) [decision, below of=expr, xshift=0cm, yshift=-2cm] {Report.md};
+		\draw [arrow] (expr) -- node[anchor=east]{\texttt{knitr::knit('Report.Rmd')}} (science);
+		\pause \node (pdf) [io, below of=science, xshift=0cm, yshift=-2cm] {Report.html, Report.pdf, Report.doc};
+		\draw [arrow] (science) -- node[anchor=east]{\texttt{pandoc}} (pdf);
+		\end{tikzpicture}
+	\end{center}
+\end{frame}
+
+
+\begin{frame}\frametitle{Compiling a \texttt{.Rmd} document}
+	
+	\begin{block}{The two steps on previous slide can be executed in one command:}
+		\[ \textrm{\texttt{rmarkdown::render()}} \]
+	\end{block}
+	
+	or in \texttt{RStudio}:
+	\begin{figure}[h!]
+		\centering
+		\includegraphics[scale=0.21, keepaspectratio]{001-rmddrop.png}
+	\end{figure}
+	%\textit{Demonstrate:} Explore \texttt{RStudio}, projects and \texttt{.Rprofile}
+\end{frame}
+
+
+\section{Where does this course fit in my life?}
+
+\begin{frame}{Topics by level of exposure}
+			\Wider[4em]{
+	\centering
+	\includegraphics[scale=0.45]{001-persp1.png}
+}
+\end{frame}
+
+\begin{frame}{First year courses}
+	\Wider[4em]{
+		\centering
+		\includegraphics[scale=0.45]{001-persp2.png}
+	}
+\end{frame}
+
+
+\begin{frame}{My area of research}
+	\Wider[4em]{
+		\centering
+		\includegraphics[scale=0.45]{001-persp3.png}
+	}
+\end{frame}
+
+%\begin{frame}[allowframebreaks]
+%\nocite{breiman1984classification}
+%	\nocite{friedman2001elements}
+%	\nocite{james2013introduction}
+%	\nocite{lopez2015arbres}
+%	\frametitle{References}
+%\printbibliography
+%\end{frame}
+
+
+
+
+
+
+\begin{frame}[fragile]{Session Info}
+	\tiny
+	
+<<echo=FALSE, comment = NA, size = 'tiny'>>=
+print(sessionInfo(), locale = FALSE)
+@
+
+\end{frame}
+
+\end{document}

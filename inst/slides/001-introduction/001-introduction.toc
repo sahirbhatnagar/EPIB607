@@ -1,0 +1,7 @@
+\beamer@sectionintoc {1}{Objectives}{2}{0}{1}
+\beamer@sectionintoc {2}{Visualize/Analyze/Interpret data using statistical methods with a computer}{8}{0}{2}
+\beamer@sectionintoc {3}{Gather data into analysis ready format}{15}{0}{3}
+\beamer@sectionintoc {4}{Learn regression}{30}{0}{4}
+\beamer@sectionintoc {5}{Understand the statistical results in a scientific paper}{34}{0}{5}
+\beamer@sectionintoc {6}{Learn the tools for creating reproducible analyses}{37}{0}{6}
+\beamer@sectionintoc {7}{Where does this course fit in my life?}{44}{0}{7}

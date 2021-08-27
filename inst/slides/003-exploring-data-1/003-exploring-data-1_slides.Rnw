@@ -1,0 +1,1454 @@
+\documentclass[10pt]{beamer}
+
+
+%\input{slides_header.tex}
+\input{/home/sahir/git_repositories/EPIB607/resources/assets/slides/slides_header2.tex}
+\graphicspath{{/home/sahir/git_repositories/EPIB607/resources/assets/slides/figure/}}
+
+%\let\oldShaded\Shaded
+%\let\endoldShaded\endShaded
+%\renewenvironment{Shaded}{\footnotesize\oldShaded}{\endoldShaded}
+
+
+
+\begin{document}
+	
+	<<setup, include=FALSE>>=
+	library(knitr)
+	knitr::opts_chunk$set(cache=FALSE, message = FALSE, tidy = FALSE, warning = FALSE,
+	echo = FALSE, 
+	#fig.width = 8, 
+	#fig.asp = 0.8, 
+	fig.align = 'center', 
+	#out.width = "100%", 
+	size = 'tiny')
+	
+	# the kframe environment does not work with allowframebreaks, so remove it
+	#knit_hooks$set(document = function(x) {
+	#gsub('\\\\(begin|end)\\{kframe\\}', '', x)
+	#})
+	
+	library(tidyverse)
+	library(NCStats)
+	
+	library(oibiostat)
+	data(famuss) 
+	
+	#knitr::opts_chunk$set(background = '#FFFF00')
+	library(tools) #needed for include_graphics2 function
+	source("/home/sahir/git_repositories/EPIB607/resources/assets/slides/bin/include_graphics2.R")
+	@
+	
+	%\title{Introduction to Regression Trees}
+	%\author{Sahir Bhatnagar \inst{1}}
+	%\author[shortname]{Sahir Rai Bhatnagar, PhD Candidate (Biostatistics) }
+	%\institute[shortinst]{Department of Epidemiology, Biostatistics and Occupational Health}
+	
+	\title{003 - Exploring Data - Part I}
+	\author{EPIB 607 - FALL 2020}
+	\institute{
+		Sahir Rai Bhatnagar\\
+		Department of Epidemiology, Biostatistics, and Occupational Health\\
+		McGill University\\
+		
+		\vspace{0.1 in}
+		
+		\texttt{sahir.bhatnagar@mcgill.ca}\\
+		%\texttt{\url{https://sahirbhatnagar.com/EPIB607/}}
+	}
+	
+	\date{slides compiled on \today}
+	
+	\maketitle
+
+\section{What is statistics?}
+
+\begin{frame}{Statistics in a Word}
+
+\begin{itemize}
+	\item Economics is about: \textit{Money (and why it is good).}
+	\item Psychology: \textit{Why we think what we think (we think).}
+	\item Biology: \textit{Life.}
+	\item Anthropology: \textit{Who?}
+	\item History: \textit{What, where, and when?}
+	\item Philosophy: \textit{Why?}
+	\item Engineering: \textit{How?}
+	\item Accounting: \textit{How much?}
+\end{itemize}
+
+\pause 
+\vspace*{0.2in}
+
+\textbf{\textcolor{myblue}{Statistics}} is about: \textit{\textbf{Variation}}
+
+\end{frame}
+
+\begin{frame}{Statistics is about quantifying uncertainty}
+
+
+\begin{itemize}
+	\item Data vary. People are different. We can't see everything, let alone measure
+	it all. 
+	\item Even what we do measure, we measure imperfectly. 
+	\item The data we wind up looking at and basing our decisions on provide, at best, an imperfect
+	picture of the world.
+	 \item This fact lies at the heart of what Statistics is all about.	
+	 \item How to make sense of it is a central challenge of Statistics.
+\end{itemize}
+	
+\end{frame}
+
+
+
+
+\begin{frame}{Sampling from a population}
+
+\begin{figure}
+\centering
+\includegraphics[scale=0.75]{003-sampleRandomHealthPlan.png}
+\caption{Random sampling is the best way to ensure that a sample reflects a population. In a simple random sample, each member of a population has the same chance of being sampled. For example, suppose we want to estimate the proportion of Montrealers who do not have a family doctor. We should randomly sample from different households in Montreal.}
+\end{figure}
+%003-sampleConvenienceHealthPlan.png
+%003-sampleNonResponseHealthPlan
+\end{frame}
+
+
+
+
+\begin{frame}{Selection bias}
+	
+	\begin{figure}
+		\centering
+		\includegraphics[scale=0.75]{003-sampleConvenienceHealthPlan.png}
+		\caption{Instead of sampling from different households, we simply take all individuals from the same household.}
+	\end{figure}
+	%003-sampleConvenienceHealthPlan.png
+	%003-sampleNonResponseHealthPlan
+\end{frame}
+
+
+
+\begin{frame}{The five ``W''s and 1 ``H''}
+	\textbf{Data values, no matter what kind, are useless without their context.}
+	\pause 
+	
+	\begin{itemize}
+		\item \alert{Who:}  Describe the individuals who were sampled (aka observations, subjects, biological samples, participants, experimental units, cases).
+		
+		\item \alert{What:}  Determine what is being measured. The characteristics recorded about each individual are called \textbf{variables}.
+		
+		\pause
+		
+		\item \alert{Why:}  What was the purpose of the survey/experiment/study?
+		
+		\item \alert{When:}  When was the research conducted?
+		
+		\item \alert{Where:}  Where was the research conducted?
+		
+	\pause
+		
+		\item \alert{How:}  Describe how the survey/experiment/study was conducted. Simple random sample (SRS), volunteers, select population, non-representative sample ?
+	\end{itemize}
+	
+\end{frame}
+
+
+
+\section{Data basics}
+
+\begin{frame}{Example: the \emph{FAMuSS} study}
+	\protect\hypertarget{example-the-famuss-study}{}
+	
+\begin{itemize}
+\item The Functional polymorphisms Associated with human Muscle Size and Strength study (FA-
+MuSS) measured a variety of demographic, phenotypic, and genetic characteristics for about 1,300
+participants\footnote{\tiny{Thompson PD, Moyna M, Seip, R, et al., 2004. Functional Polymorphisms Associated with Human Muscle Size and
+		Strength. Medicine and Science in Sports and Exercise 36:1132 - 1139.}}\footnote[,2]{\tiny{see \emph{Harrington 1st edition}, Section 1.2.2, for more details}}. 
+	
+			\pause 
+			
+	\item One goal of the study---examine the association of demographic, physiological and genetic characteristics with muscle strength.
+	
+	\begin{itemize}
+		\tightlist
+		\item
+		In simpler terms, study the ``sports gene'' \emph{ACTN3}.
+	\end{itemize}
+	
+	
+\end{itemize}
+	
+	
+	
+\end{frame}
+
+\begin{frame}[fragile]{Four rows from \emph{FAMuSS} data matrix}
+	\protect\hypertarget{four-rows-from-famuss-data-matrix}{}
+	
+	\captionsetup[table]{labelformat=empty}
+	
+	\scriptsize
+	
+	\normalsize
+	
+	\small
+	
+	<<echo=TRUE, size = 'scriptsize'>>=
+	# devtools::install_github("OI-Biostat/oi_biostat_data")
+	library(oibiostat)
+	data(famuss)
+	famuss %>% 
+	  dplyr::glimpse()	
+	@
+
+	
+	\normalsize
+	
+\end{frame}
+
+\begin{frame}{\emph{FAMuSS} Variables and their descriptions}
+	\protect\hypertarget{famuss-variables-and-their-descriptions}{}
+	
+	\begin{center}
+		\begin{tabular}{ll}
+			{\bf Variable} & {\bf Description} \\
+\hline 
+\texttt{ndrm.ch} & Percent change in strength in the non-dominant arm, \\
+& comparing strength after to before training \\
+\texttt{drm.ch} & Percent change in strength in a participant's dominant arm.\\
+			\texttt{sex} & Sex of the participant \\
+			\texttt{age} & Age in years   \\
+			\texttt{race} & Recorded as African Am (African American),\\
+			& Caucasian, Asian, Hispanic, Other \\
+			\texttt{height} & Height in inches    \\
+			\texttt{weight} & Weight in pounds  \\
+			\texttt{actn3.r577x} & Genotype at the location r577x in the ACTN3 gene. \\
+			\texttt{bmi} & The participant's body mass index 
+		\end{tabular}
+	\end{center}
+	
+\end{frame}
+
+\begin{frame}{Types of Variables}
+	\protect\hypertarget{types-of-variables}{}
+	
+	\textbf{Numerical variables} take on numerical values, such that
+	numerical operations (sums, differences, etc.) are reasonable.
+	
+	\begin{itemize}
+		\item
+		Discrete: only take on integer values (e.g., \# of family members)
+		\item
+		Continuous: can take on any value within a specified range (e.g.,
+		height)
+	\end{itemize}
+	
+	\pause
+	
+	\textbf{Categorical variables} take on values that are names or labels;
+	the possible values are called the variable's \emph{levels}.
+	
+	\begin{itemize}
+		\tightlist
+		\item
+		Ordinal: exists some natural ordering of levels (e.g., education, likert scale)
+		\item
+		Nominal: no natural ordering of levels (e.g., gender)
+	\end{itemize}
+	
+\end{frame}
+
+\begin{frame}{Types of variables}
+	\protect\hypertarget{types-of-variables-1}{}
+	
+	\begin{figure}
+		\centering
+		\includegraphics[scale=0.5]{figures/variableTypes.png}
+		\caption{Types of variables}
+	\end{figure}
+	
+\end{frame}
+
+
+
+\begin{frame}{Exploring data with simple tools}
+	\protect\hypertarget{exploring-data-with-simple-tools}{}
+	
+	\begin{itemize}
+		\item Techniques for exploring and summarizing data differ for numerical
+	versus categorical variables.
+	
+	\item Numerical and graphical summaries are useful for examining variables one
+	at a time, but also for exploring the relationships between variables.
+	\end{itemize}
+	
+\end{frame}
+
+
+\section{Numerical data - single variable}\label{sec:numerical-data}
+
+\begin{frame}{Distributions and summary measures}
+	\protect\hypertarget{distributions-and-summary-measures}{}
+
+\begin{itemize}
+	\item  The collection of values for a numerical, continuous variable (e.g.,
+	\texttt{weight}) is the \alert{distribution} for that variable.
+	
+	\pause 
+	
+\item 	Numerical and graphical summaries convey characteristics of a
+	distribution without listing all the values.
+	
+\item Important characteristics include:
+	
+	\begin{itemize}
+		\tightlist
+		\item
+		Center: where is the middle of the distribution?
+		
+		\begin{itemize}
+			\tightlist
+			\item
+			Measures of center: mean, median
+		\end{itemize}
+	\pause 
+	
+		\item
+		Spread: how similar or varied are the values to each other?
+		
+		\begin{itemize}
+			\tightlist
+			\item
+			Measures of spread: standard deviation, interquartile range
+		\end{itemize}
+	\end{itemize}
+
+\end{itemize}
+	
+\end{frame}
+
+
+
+\begin{frame}[fragile]{Measures of center: mean}
+The \alert{sample mean} of a variable is the sum of all observations divided by the number of observations:
+
+$$\overline{y} = \frac{y_1+y_2+\cdots+y_n}{n}$$  
+where $y_1, y_2, \ldots, y_n$ represent the $n$ observed values in a sample.
+
+The mean weight in \texttt{famuss} is \Sexpr{round(mean(famuss$weight),2)} pounds:
+
+<<mean-famus, echo = TRUE, size = 'scriptsize'>>=
+mean(famuss$weight)
+@
+
+
+\end{frame}
+
+
+\begin{frame}[fragile]{Measures of center: median}
+The \alert{median} is the value of the middle observation in a sample.  
+
+If the number of observations is 
+
+\begin{itemize}
+	\item Odd, the median is the middle observation
+	\item Even, the median is the average of the two middle observations
+\end{itemize}
+
+The median is the $50^{th}$ percentile; 50\% of observations lie below/above the median.
+
+<<median-famus, echo = TRUE, size = 'scriptsize'>>=
+median(famuss$weight)
+quantile(famuss$weight, probs = 0.50) 
+@
+
+\end{frame}
+
+
+
+\begin{frame}[fragile]{Measures of spread}
+	\protect\hypertarget{measures-of-spread}{}
+	
+	The \emph{standard deviation} measures (approximately) the distance
+	between a typical observation and the mean.
+	
+	\begin{itemize}
+		\item
+		An observation's \emph{deviation} is the distance between its value
+		\(y\) and the sample mean \(\overline{y}\): \(y - \overline{y}\).
+		\item
+		The \emph{sample variance} \(s^2\) is the sum of squared deviations
+		divided by the number of observations minus 1.
+		\[s^2 = \frac{({y_1 - \overline{y})}^{2}+({y_2 - \overline{y})}^{2}+\cdots+({y_n - \overline{y})}^{2}}{n-1}, \]
+		where \(y_1, y_2, \dots, y_n\) represent the \(n\) observed values.
+		\item
+		The \emph{standard deviation} \(s\) is the square root of the
+		variance.
+		\[s = \sqrt{\frac{({y_1 - \overline{y})}^{2}+({y_2 - \overline{y})}^{2}+\cdots+({y_n - \overline{y})}^{2}}{n-1}}\]
+	\end{itemize}
+
+<<sd-famus, echo = TRUE, size = 'scriptsize'>>=
+sd(famuss$weight)
+@
+	
+\end{frame}
+
+\begin{frame}[fragile]{Measures of Spread: Percentiles/Quartiles}
+	\protect\hypertarget{measures-of-spread-percentilesquartiles}{}
+	
+	The \(p^{th}\) percentile is the observation such that \(p\%\) of the
+	remaining observations fall below this observation.
+	
+	\begin{itemize}
+		\tightlist
+		\item
+		The \emph{first quartile (\(Q_1\))} is the \(25^{th}\) percentile.
+		\item
+		The \emph{second quartile (\(Q_2\))}, i.e., the median, is the
+		\(50^{th}\) percentile.
+		\item
+		The \emph{third quartile (\(Q_3\))} is the \(75^{th}\) percentile.
+	\end{itemize}
+	
+	The \emph{interquartile range (IQR)} is the distance between the third
+	and first quartiles. \[IQR = Q_3 - Q_1 \]
+	
+	\footnotesize
+	
+	\scriptsize
+	
+<<iqr-famus, echo = TRUE, size = 'scriptsize'>>=
+IQR(famuss$weight)
+diff(quantile(famuss$weight, probs = c(0.25, 0.75)))
+@
+
+					
+	\normalsize
+					
+\end{frame}
+
+
+\begin{frame}{Robust estimates}
+	\protect\hypertarget{robust-estimates}{}
+	
+\begin{itemize}
+	\item 	The median and IQR are called \alert{robust estimates} because they are
+	less likely to be affected by extreme values than the mean and standard
+	deviation.
+	
+	\item For distributions containing extreme observations, the median and IQR
+	provide a more accurate sense of center and spread.
+\end{itemize}
+	
+\end{frame}
+
+\begin{frame}[fragile]{Histograms}
+	\protect\hypertarget{histograms}{}
+	
+	\scriptsize
+	
+<<hist_weight-1, echo=TRUE, size = 'scriptsize', out.width = "0.6\\linewidth">>=
+hist(famuss$weight, breaks = 30, col = 'lightblue')
+abline(v = mean(famuss$weight), lwd = 3, col = "red")
+abline(v = median(famuss$weight), lwd = 3, col = "blue")
+legend("topright", legend = c("mean","median"), col = c("red","blue"), lwd = 3)
+@	
+
+\normalsize
+			
+\end{frame}
+
+\begin{frame}[fragile]{Histograms}
+	\protect\hypertarget{histograms}{}
+	
+	\scriptsize
+	
+	<<hist_weight-2, echo=TRUE, size = 'scriptsize', out.width = "0.6\\linewidth">>=
+	hist(famuss$weight, breaks = 5, col = 'lightblue')
+	abline(v = mean(famuss$weight), lwd = 3, col = "red")
+	abline(v = median(famuss$weight), lwd = 3, col = "blue")
+	legend("topright", legend = c("mean","median"), col = c("red","blue"), lwd = 3)
+	@	
+	
+	\normalsize
+	
+\end{frame}
+
+
+
+\begin{frame}[fragile]{Density plots}
+
+	
+	\scriptsize
+	
+	<<hist_weight-3, echo=TRUE, size = 'scriptsize', out.width = "0.6\\linewidth">>=
+hist(famuss$weight, breaks = 30, col = 'lightblue', probability = TRUE)
+openintro::densityPlot(famuss$weight, add = TRUE, lwd = 5)
+abline(v = mean(famuss$weight), lwd = 3, col = "red")
+abline(v = median(famuss$weight), lwd = 3, col = "blue")
+legend("topright", legend = c("mean","median","density"), 
+       col = c("red","blue","black"), lwd = 3)
+	@	
+	
+	\normalsize
+	
+\end{frame}
+
+
+		
+\begin{frame}{Histograms \dots}
+			\protect\hypertarget{histograms-1}{}
+
+\begin{itemize}
+\item Histograms show important features of the shape of a distribution:
+			
+			\begin{itemize}
+				\item
+				Symmetry, or lack of it (skew)
+				\item
+				Minimum and maximum values
+				\item
+				Regions of high frequency (modes)
+			\end{itemize}
+	\pause		
+		\item 	Histograms not so good for:
+			
+			\begin{itemize}
+				\item
+				Displaying median, quartiles
+				\item
+				Showing subtle skewing
+				\item
+				Identifying extreme values
+			\end{itemize}
+		
+		\pause
+		\item Remember that histograms are sensitive to the number of bins!
+
+\end{itemize}			
+			
+\end{frame}
+
+
+
+
+		
+\begin{frame}[fragile]{Boxplot for \texttt{weight}}
+			\protect\hypertarget{oi-biostat-figure-1.20-frog-data}{}
+			
+<<boxplot, echo = FALSE, out.width = "0.85\\linewidth">>=
+pacman::p_load(openintro)
+d <- famuss$weight
+
+# myPDF("frogBoxPlot.pdf", 6.1, 4,
+#       mar = c(0, 4, 0, 1),
+#       mgp = c(2.8, 0.7, 0))
+boxPlot(d,
+ylab = 'weight (pounds)',
+xlim = c(0.3, 3),
+axes = FALSE,
+ylim = range(d))
+axis(2)
+
+df <- boxplot(d, plot = FALSE)
+
+arrows(2, df$stats[1], 1.4, df$stats[1], length = 0.08)
+text(2, df$stats[1], 'lower whisker', pos = 4)
+
+
+arrows(2, df$stats[2], 1.4, df$stats[2], length = 0.08)
+text(2, df$stats[2],
+expression(Q[1]~~'(first quartile)'), pos = 4)
+
+arrows(2, df$stats[3], 1.4, df$stats[3], length = 0.08)
+text(2, df$stats[3], 'median', pos = 4)
+
+arrows(2, df$stats[4], 1.4, df$stats[4], length = 0.08)
+text(2, df$stats[4],
+expression(Q[3]~~'(third quartile)'), pos = 4)
+
+arrows(2, df$stats[5],
+1.4, df$stats[5], length = 0.08)
+text(2, df$stats[5],
+'upper whisker', pos = 4)
+
+# outliers midpoint
+midpoint <- median(df$out)
+for(i in df$out) {
+arrows(2, midpoint, 1.1, i - 0.2, length = 0.08)
+}
+
+text(2, midpoint, 'outliers', pos = 4)
+
+points(rep(0.4, length(d[d<=df$stats[3]])), d[d<=df$stats[3]],
+cex = 1.3,
+col = COL[1, 3],
+pch = 1)
+points(rep(0.4, length(d[d>df$stats[3]])), d[d>df$stats[3]],
+cex = 1,
+col = COL[4,3],
+pch = "-")
+@
+			
+\end{frame}
+		
+
+\begin{frame}{Boxplots}
+			\protect\hypertarget{boxplots}{}
+			
+			A boxplot indicates the positions of the first, second, and third
+			quartiles of a distribution in addition to potential \textbf{outliers},
+			observations that are far from the center of a distribution.
+			
+			\begin{itemize}
+				\item
+				Large outliers: values \textgreater{} \(Q_3 + (1.5\times IQR)\)
+				\item
+				Small outliers: values \textless{} \(Q_1 - (1.5 \times IQR)\)
+			\end{itemize}
+			
+			On a boxplot\ldots{}
+			
+			\begin{itemize}
+				\item
+				The rectangle extends from the first quartile to the third quartile,
+				with a line at the second quartile (median).
+				\item
+				Whiskers capture data between \(Q_1 - (1.5 \times IQR)\) and
+				\(Q_3 + (1.5\times IQR)\) ; whiskers must end at data points.
+				\item
+				Potential outliers shown with dots.
+			\end{itemize}
+			
+\end{frame}
+
+
+\begin{frame}[fragile]{Boxplots vs. Violin plots}
+	
+<<echo = TRUE, size = 'scriptsize', out.width = "0.45\\linewidth", fig.subcap = c('Boxplot for weight', 'Violin plot for weight')>>=
+p1 <- ggplot(data = famuss, mapping = aes(x = "all", y = weight)) + theme_minimal()
+p1 + geom_boxplot()
+p1 + geom_violin()
+@
+	
+\end{frame}
+
+		
+		\hypertarget{categorical-data}{%
+	\section{Categorical data - single variable}\label{categorical-data}}
+		
+\begin{frame}[fragile]{Tables}
+			\protect\hypertarget{tables}{}
+			
+			A table for a single variable, a \emph{frequency table} or \emph{one-way
+				table}, summarizes the distribution of observations among categories.
+			
+			Based on the table, describe the distribution of genotype at the
+			location \emph{actn3.r577x} among the study participants.
+			
+			\small
+			
+			\scriptsize
+
+<<table-1, echo=TRUE, size = 'scriptsize', out.width="0.5\\linewidth">>=
+table(famuss$actn3.r577x)
+@	
+
+		
+		\normalsize
+					
+\end{frame}
+				
+
+\begin{frame}[fragile]{Bar plots for categorical data}
+					\protect\hypertarget{bar-plots-for-categorical-data}{}
+					
+					A bar plot is a common way to display a single categorical variable.
+					
+					\small
+					
+					\scriptsize
+					
+<<table-2, echo=TRUE, size = 'scriptsize', out.width="0.45\\linewidth", fig.subcap=c('base \\texttt{graphics} package', '\\texttt{sjPlot} package')>>=
+graphics::barplot(table(famuss$actn3.r577x))
+sjPlot::plot_frq(famuss$actn3.r577x)
+@	
+							\normalsize
+							
+\end{frame}
+						
+
+
+\end{document}	
+	
+	\hypertarget{relationships-between-two-variables}{%
+	\section{Relationships between two variables}\label{relationships-between-two-variables}}
+						
+\begin{frame}{Summarizing relationships between two variables}
+							\protect\hypertarget{summarizing-relationships-between-two-variables}{}
+							
+							Approaches for summarizing relationships between two variables vary
+							depending on variable types\ldots{}
+							
+							\begin{itemize}
+								\item
+								Two numerical variables
+								\item
+								Two categorical variables
+								\item
+								One numerical variable and one categorical variable
+							\end{itemize}
+							
+\end{frame}
+						
+						\begin{frame}{Two numerical variables}
+							\protect\hypertarget{two-numerical-variables}{}
+							
+							Two variables \(x\) and \(y\) are
+							
+							\begin{itemize}
+								\item
+								\emph{positively associated} if \(y\) increases as \(x\) increases.
+								\item
+								\emph{negatively associated} if \(y\) decreases as \(x\) increases.
+							\end{itemize}
+							
+							Height and weight are positively associated.
+							
+						\end{frame}
+						
+						\begin{frame}[fragile]{Two numerical variables \dots}
+							\protect\hypertarget{two-numerical-variables-1}{}
+							
+							\small
+							
+							\scriptsize
+							
+							
+<<numerical, echo=TRUE, size = 'scriptsize', out.width="0.45\\linewidth", fig.subcap=c('base \\texttt{graphics} package', '\\texttt{ggplot2} package')>>=
+plot(famuss$height, famuss$weight,
+     xlab = "Height (in)", ylab = "Weight (lb)", cex = 0.8)
+
+ggplot(data = famuss, mapping = aes(x = height, y = weight)) + 
+   geom_point(size = 0.8, pch = 21)
+
+@	
+							
+	\normalsize
+				
+\end{frame}
+
+						
+\begin{frame}[fragile]{Two numerical variables \dots}
+							\protect\hypertarget{two-numerical-variables-2}{}
+							
+					Correlation is a numerical summary that measures the strength of a
+							linear relationship between two variables.
+							
+							\begin{itemize}
+								\item
+								Introduced in \emph{OI Biostat} Section 1.6.1; details in Ch. 6.
+								\item
+								The correlation coefficient \(r\) takes on values between -1 and 1.
+								\item
+								The closer \(r\) is to \(\pm 1\), the stronger the linear association.
+							\end{itemize}
+							
+							\scriptsize
+							
+							<<cor, echo=TRUE, size = 'tiny'>>=
+							cor(famuss$height, famuss$weight)
+							summary(lm(height ~ weight, data = famuss))
+							@	
+							
+						
+							\normalsize
+							
+						\end{frame}
+						
+						\begin{frame}[fragile]{Two categorical variables}
+							\protect\hypertarget{two-categorical-variables}{}
+							
+							A contingency table summarizes data for two categorical variables.
+							
+							\scriptsize
+							
+							<<contt, echo=TRUE, size = 'scriptsize'>>=
+							addmargins(table(famuss$race, famuss$actn3.r577x))
+							@	
+							
+						
+							
+							\normalsize
+							
+						\end{frame}
+						
+						\begin{frame}[fragile]{Two categorical variables \dots}
+							\protect\hypertarget{two-categorical-variables-1}{}
+							
+							\scriptsize
+							
+							\scriptsize
+							
+							<<cont1, echo=TRUE, size = 'scriptsize'>>=
+							#row proportions
+							addmargins(prop.table(table(famuss$race, famuss$actn3.r577x), 1))
+							@	
+							
+							<<cont2, echo=TRUE, size = 'scriptsize'>>=
+							#column proportions
+							addmargins(prop.table(table(famuss$race, famuss$actn3.r577x), 2))
+							@
+							
+							
+							\normalsize
+							
+						\end{frame}
+						
+						\begin{frame}{Two categorical variables \dots}
+							\protect\hypertarget{two-categorical-variables-2}{}
+							
+							\begin{figure}
+								\centering
+								\includegraphics{figures/famussSegBarA.pdf}
+								\caption{alt text}
+							\end{figure}
+							
+							\emph{OI Biostat} Figure 1.35a, segmented bar plot
+							
+						\end{frame}
+						
+						\begin{frame}{Two categorical variables \dots}
+							\protect\hypertarget{two-categorical-variables-3}{}
+							
+							\begin{figure}
+								\centering
+								\includegraphics{figures/famussSegBarStaA.pdf}
+								\caption{standardized segmented barplots}
+							\end{figure}
+							
+							\emph{OI Biostat} Figure 1.35b, standardized segmented bar plot
+							
+						\end{frame}
+						
+						\begin{frame}{Two categorical variables \dots}
+							\protect\hypertarget{two-categorical-variables-4}{}
+							
+							\emph{Relative risk} (RR) is one way of summarizing data presented in a
+							two-way table of study outcome by participant group.
+							
+							More in Lab 1 \dots
+							
+						\end{frame}
+						
+						\begin{frame}{A numerical variable and a categorical variable}
+							\protect\hypertarget{a-numerical-variable-and-a-categorical-variable}{}
+							
+							\emph{FAMuSS} was designed to study the relationship between genotype at
+							the location \emph{r577x} in the gene \emph{ACTN3} and muscle strength.
+							
+							Muscle strength was assessed by the percent change in non-dominant arm
+							strength after resistance training (\texttt{ndrm.ch}).
+							
+							What visualization would be a good choice to make this comparison?
+							
+						\end{frame}
+						
+						\begin{frame}[fragile]{A numerical variable and a categorical variable
+								\dots}
+							\protect\hypertarget{a-numerical-variable-and-a-categorical-variable-1}{}
+							
+							\scriptsize
+							
+							\scriptsize
+							
+							<<box-1, echo=TRUE, size = 'scriptsize'>>=
+							boxplot(famuss$ndrm.ch ~ famuss$actn3.r577x)
+							@	
+							
+							
+							\normalsize
+							
+						\end{frame}
+						
+						\hypertarget{case-study-molecular-cancer-classification}{%
+							\section{Case study: molecular cancer
+								classification}\label{case-study-molecular-cancer-classification}}
+						
+						\begin{frame}{The potential value of genomic data in cancer}
+							\protect\hypertarget{the-potential-value-of-genomic-data-in-cancer}{}
+							
+							The majority of cancers are diagnosed by an expert pathologist examining
+							slides of malignant cells.
+							
+							Can that be done more accurately by characterizing the genetic makeup of
+							the malignancy?
+							
+							\begin{itemize}
+								\tightlist
+								\item
+								This is perhaps the major potential of genomic characterizations of
+								tumors.
+							\end{itemize}
+							
+							There are many forms of childhood leukemia.
+							
+							\begin{itemize}
+								\item
+								Acute myeloblastic leukemia (AML) and acute lymphoblastic leukemia
+								(ALL) are the most common.
+								\item
+								AML is a cancer of the bone marrow, where white blood cells
+								(lymphocytes) are produced.
+								\item
+								ALL is a cancer of the lymphocytes and is designated as B-cell (ALLB)
+								or T-cell (ALLT).
+							\end{itemize}
+							
+						\end{frame}
+						
+						\begin{frame}{Prognosis of the two cancers}
+							\protect\hypertarget{prognosis-of-the-two-cancers}{}
+							
+							The probability that a child diagnosed with ALL is survives at least 5
+							years after the diagnosis is approximately 90\%.
+							
+							Approximately 65\% of children diagnosed with AML survive at least 5
+							years.
+							
+							The diagnosis of leukemia type determines the therapy that will be given
+							to the child, and the successful treatments for ALL and AML are
+							different.
+							
+							In 1999, Todd Golub from the Dana-Farber and the Broad Institute
+							examined the possibility of classifying leukemia through using a genetic
+							analysis of a blood sample.
+							
+						\end{frame}
+						
+						\begin{frame}{Analyzing the Golub data}
+							\protect\hypertarget{analyzing-the-golub-data}{}
+							
+							We can re-analyze the Golub data using tools from graphical and
+							numerical summaries.
+							
+							Our analysis will not be identical to the Golub analysis, but will be
+							similar in spirit.
+							
+							The tools are straighforward\ldots   
+							
+							\begin{itemize}
+								\item
+								Thinking through the problem and assembling the tools is the hard
+								part.
+								\item
+								The process is more important than the final recipe.
+							\end{itemize}
+							
+						\end{frame}
+						
+						\begin{frame}{Gene expression (details in \emph{OI Biostat})}
+							\protect\hypertarget{gene-expression-details-in-oi-biostat}{}
+							
+							\small
+							
+							\begin{itemize}
+								\item
+								The genetic code stored in DNA contains the information for producing
+								the proteins that determine an organism's phenotype.
+								\item
+								Genes that are transcriptionally active (i.e.~turned ``on'') are
+								transcribed into messenger RNA (mRNA) that gets translated into
+								proteins.
+								\item
+								Genes can be switched on or off, and expressed at varying levels.
+								Variations in gene expression produce the range of physical,
+								biochemical, and developmental differences in cells and tissues.
+								\item
+								Quantifying the amount of RNA produced in a cell allows for a measure
+								of gene expression.
+								\item
+								The transcriptome, or expression profile, is the complete set of RNA
+								transcripts produced by the genome in a cell or set of cells.
+							\end{itemize}
+							
+						\end{frame}
+						
+						\begin{frame}{Microarrays (details in \emph{OI Biostat})}
+							\protect\hypertarget{microarrays-details-in-oi-biostat}{}
+							
+							\small
+							
+							\begin{itemize}
+								\item
+								Microarray technology is based on hybridization between two DNA
+								strands, in which complementary nucleotide sequences specifically pair
+								together.
+								\item
+								The mRNA from a sample is converted into complementary-DNA (cDNA),
+								labeled with a fluorescent dye, and added to the microarray.
+								\item
+								When cDNA from the sample encounters complementary DNA probes, the two
+								strands will hybridize, allowing the cDNA to adhere to specific spots
+								on the slide.
+								\item
+								When the chip is illuminated and scanned, the intensity of
+								fluorescence detected at each spot corresponds to the amount of bound
+								cDNA.
+								\item
+								DNA microarrays do not directly quantify gene expression levels or
+								quantity of mRNA present in a sample.
+								\item
+								The fluorescence intensity data only provide a relative measure of
+								gene expression, showing which genes on the chip seem to be more or
+								less active in relation to each other.
+							\end{itemize}
+							
+						\end{frame}
+						
+						\begin{frame}{Microarrays}
+							\protect\hypertarget{microarrays}{}
+							
+							\begin{figure}
+								\centering
+								\includegraphics{figures/microarray_schematic.jpg}
+								\caption{fluorescence detection}
+							\end{figure}
+							
+						\end{frame}
+						
+						\begin{frame}{The Golub clinical data}
+							\protect\hypertarget{the-golub-clinical-data}{}
+							
+							Demographic variables described in \emph{OI Biostat} Table 1.54:
+							
+							\scriptsize
+							
+							\begin{longtable}[]{@{}ll@{}}
+								\toprule
+								\begin{minipage}[b]{0.12\columnwidth}\raggedright
+									Variable\strut
+								\end{minipage} & \begin{minipage}[b]{0.82\columnwidth}\raggedright
+									Description\strut
+								\end{minipage}\tabularnewline
+								\midrule
+								\endhead
+								\begin{minipage}[t]{0.12\columnwidth}\raggedright
+									Samples\strut
+								\end{minipage} & \begin{minipage}[t]{0.82\columnwidth}\raggedright
+									Sample or chip number. The material from each patient was examined on a
+									separate chip and experimental run.\strut
+								\end{minipage}\tabularnewline
+								\begin{minipage}[t]{0.12\columnwidth}\raggedright
+									BM.PB\strut
+								\end{minipage} & \begin{minipage}[t]{0.82\columnwidth}\raggedright
+									Type of patient material. BM denotes bone marrow; PB denotes a
+									peripheral blood sample.\strut
+								\end{minipage}\tabularnewline
+								\begin{minipage}[t]{0.12\columnwidth}\raggedright
+									Gender\strut
+								\end{minipage} & \begin{minipage}[t]{0.82\columnwidth}\raggedright
+									F for female, M for male.\strut
+								\end{minipage}\tabularnewline
+								\begin{minipage}[t]{0.12\columnwidth}\raggedright
+									Source\strut
+								\end{minipage} & \begin{minipage}[t]{0.82\columnwidth}\raggedright
+									Hospital where the patient was treated.\strut
+								\end{minipage}\tabularnewline
+								\begin{minipage}[t]{0.12\columnwidth}\raggedright
+									tissue.mf\strut
+								\end{minipage} & \begin{minipage}[t]{0.82\columnwidth}\raggedright
+									A variable showing the combination of type of patient material and sex
+									of the patient. BM:f denotes bone marrow from a female patient,
+									etc.\strut
+								\end{minipage}\tabularnewline
+								\begin{minipage}[t]{0.12\columnwidth}\raggedright
+									cancer\strut
+								\end{minipage} & \begin{minipage}[t]{0.82\columnwidth}\raggedright
+									The type of leukemia; aml is acute myeloblastic leukemia, allB is acute
+									lymphoblastic leukemia which started in B-cells (cells that mature into
+									plasma cells) origin, and allT is acute lymphoblastic leukemia with
+									T-cell origin (T-cells are a type of white blood cell).\strut
+								\end{minipage}\tabularnewline
+								\bottomrule
+							\end{longtable}
+							
+						\end{frame}
+						
+						\begin{frame}{The Golub expression data}
+							\protect\hypertarget{the-golub-expression-data}{}
+							
+							The expression data is contained in the last 7,129 columns.
+							
+							Each column is a variable with a name corresponding to the name of the
+							probe on the microarray.
+							
+							The expression levels record fluorescence intensity for each gene.
+							
+							\begin{itemize}
+								\item
+								The intensity levels have no inherent biological meaning.
+								\item
+								Data have been normalized to adjust for variability between the
+								separate arrays used for each patient.
+							\end{itemize}
+							
+						\end{frame}
+						
+						\begin{frame}{Selected variables and columns from Golub data}
+							\protect\hypertarget{selected-variables-and-columns-from-golub-data}{}
+							
+							\captionsetup[table]{labelformat=empty}
+							\scriptsize
+							
+							\scriptsize
+							
+							\begin{longtable}[]{@{}rllrrr@{}}
+								\caption{\emph{OI Biostat} Table 1.40}\tabularnewline
+								\toprule
+								Samples & Gender & cancer & AFFX-BioB-5\_at & AFFX-BioB-M\_at &
+								AFFX-BioB-3\_at\tabularnewline
+								\midrule
+								\endfirsthead
+								\toprule
+								Samples & Gender & cancer & AFFX-BioB-5\_at & AFFX-BioB-M\_at &
+								AFFX-BioB-3\_at\tabularnewline
+								\midrule
+								\endhead
+								39 & F & allB & -1363.28 & -1058.59 & -541.47\tabularnewline
+								40 & F & allB & -796.29 & -1167.10 & 7.54\tabularnewline
+								42 & F & allB & -679.14 & -1069.83 & -690.30\tabularnewline
+								47 & M & allB & -1164.40 & -1109.94 & -990.13\tabularnewline
+								48 & F & allB & -1299.65 & -1402.00 & -1077.54\tabularnewline
+								\bottomrule
+							\end{longtable}
+							
+							\normalsize
+							
+						\end{frame}
+						
+						\begin{frame}{Analyzing the Golub leukemia data}
+							\protect\hypertarget{analyzing-the-golub-leukemia-data}{}
+							
+							We will do an analysis in class using some of the simple but
+							surprisingly powerful ideas behind numerical and graphical summaries.
+							
+							The goal of the Golub study was to develop a procedure for
+							distinguishing between AML and ALL based only on the gene expression
+							levels of a patient. There are two major issues to be addressed:
+							
+							\begin{enumerate}
+								\item
+								Which genes are the most informative for making a prediction?
+								\item
+								What is a workable strategy for predicting leukemia type from
+								expression data for a specific set of genes?
+							\end{enumerate}
+							
+						\end{frame}
+						
+						\begin{frame}[fragile]{Starting small\ldots{}}
+							\protect\hypertarget{starting-small}{}
+							
+							\footnotesize
+							
+							\scriptsize
+							
+							\begin{verbatim}
+							##    cancer        A         B        C        D
+							## 69   allB 39307.96 35232.401 41170.76 35792.79
+							## 67   allT 32281.88 41432.024 59328.51 49608.14
+							## 55   allB 47429.94 35568.928 56074.96 42857.78
+							## 56   allB 25533.87 16983.749 28056.75 32693.92
+							## 59   allB 35960.55 24191.746 27637.90 22240.75
+							## 52    aml 46177.95  6189.465 12557.24 34485.41
+							## 53    aml 43790.70 33661.825 38380.30 29758.25
+							## 51    aml 53420.05 26109.245 31427.20 23809.70
+							## 50    aml 41241.59 37589.773 47325.77 30099.36
+							## 54    aml 41300.57 49198.412 66026.10 56248.62
+							\end{verbatim}
+							
+							\normalsize
+							
+						\end{frame}
+						
+\end{document}
+
+
+
+
+
+
+\begin{frame}[fragile]{What levels of immunity are found in patients who have recovered from  COVID-19?\footnote{\tiny{Data were (imperfectly) scraped from the Postscript file ``behind'' the pdf file by Dr. Hanley}} }
+
+	
+<<oxforrr, echo = TRUE, size = 'tiny'>>=	
+path <- 
+  "http://www.biostat.mcgill.ca/hanley/statbook/immunogenicityChAdOx1.nCoV-19vaccine.txt"
+ds <- read.table(path)
+head(ds)
+str(ds)
+levels(ds$RefIndexCategory)
+@
+
+\end{frame}
+
+
+
+\begin{frame}[fragile]{What levels of immunity are found in patients who have recovered from  COVID-19?}
+
+
+<<echo=TRUE, out.width="0.6\\linewidth">>=
+natural <- ds[ds$RefIndexCategory=="Convalescent",]
+hist(natural$IgGResponse.log10.ElisaUnits,
+     breaks = 20, col = "lightblue")
+@
+
+\end{frame}
+
+
+\begin{frame}[fragile]{Three different methods of calculating the mean}
+
+\begin{figure}
+\begin{minipage}[h]{0.40\linewidth}
+<<echo=TRUE, out.width="99%", size = "tiny">>=
+summary(natural$IgGResponse.log10.ElisaUnits)
+boxplot(natural$IgGResponse.log10.ElisaUnits,
+        col = "lightblue",
+        ylab = "Immunoglobulin G (IgG) response")
+grid(lty = "dashed")
+@
+
+\end{minipage}
+\hspace{0.4cm}
+\begin{minipage}[h]{0.50\linewidth}
+<<echo=c(1,2,3,5), eval = c(1,2,3,5), size = "tiny">>=
+t.test(natural$IgGResponse.log10.ElisaUnits)
+fit1 <- glm(IgGResponse.log10.ElisaUnits ~ 1, data = natural)
+summary(fit1)
+print(summary(fit1), signif.stars = F)
+confint(fit1)
+@
+\end{minipage}
+\end{figure}
+
+
+\end{frame}
+
+
+
+\begin{frame}[fragile]{Naturally vs. vaccine-induced response levels}
+	
+	
+<<echo=TRUE, fig.cap = '', fig.subcap=c('Violin plot', 'Boxplot'), out.width="0.5\\linewidth", tidy = TRUE>>=
+p1 <- ggplot(data = ds, 
+             mapping = aes(x = RefIndexCategory, y = IgGResponse.log10.ElisaUnits, fill = RefIndexCategory)) + 
+             geom_jitter(alpha = 0.3) + 
+             theme_minimal() + 
+             theme(legend.position = "none")
+p1 + geom_violin() 
+p1 + geom_boxplot() 
+@
+	
+\end{frame}
+
+
+
+\begin{frame}[fragile]{Comparing means using classic methods}
+
+\textbf{1. Numerical summary} \\
+
+<<echo=TRUE,size='tiny'>>=
+by(ds$IgGResponse.log10.ElisaUnits,ds$RefIndexCategory,summary)
+@
+\pause
+
+\vspace*{0.3in}
+
+\textbf{2. Another ``dot'' test} \\
+
+<<echo=TRUE>>=
+t.test(IgGResponse.log10.ElisaUnits ~ RefIndexCategory, data = ds)
+@
+
+\end{frame}
+
+
+
+\begin{frame}[fragile]{Comparing means using regression}
+	
+\textbf{3. Regression} \\
+	
+	<<echo=TRUE,size='tiny'>>=
+	fit2 <- glm(IgGResponse.log10.ElisaUnits ~ RefIndexCategory, data = ds) 
+	print(summary(fit2), signif.star = FALSE)
+	confint(fit2)
+	@
+
+\end{frame}
+
+
+\begin{frame}[fragile]{Fitted regression line}
+	
+	<<echo=TRUE, size = 'tiny', fig.cap = 'The red line is the fitted regression from the previous slide.', out.width = "0.5\\linewidth">>=
+	plot(ds$RefIndexCategory, ds$IgGResponse.log10.ElisaUnits, pch=19, cex=0.5)
+	abline(h = seq(0,4,0.5),col = "lightblue")
+	lines(ds$RefIndexCategory, fit2$fitted.values, col = "red", lwd = 3)
+	@
+	
+\end{frame}
+
+
+
+
+\section{Case study 2: Comparison of Estimated Rates of Coronavirus Disease 2019 (COVID-19) in Border Counties in Iowa Without a Stay-at-Home Order and Border Counties in Illinois With a Stay-at-Home Order}
+
+\begin{frame}{Comparing Iowa and Illinois Cases\footnote{\tiny\url{https://jamanetwork.com/journals/jamanetworkopen/fullarticle/2766229}}}
+	\centering
+	\includegraphics[scale=0.25]{002-masks.png}	
+\end{frame}
+
+
+\begin{frame}[fragile]{Are the difference in curves real? Or just random variation?}
+
+\begin{itemize}
+	\item This study compared COVID-19 cases in border counties in \textcolor{red}{Iowa, which did not issue a stay-at-home order}, with cases in border counties in \textcolor{blue}{Illinois, which did issue a stay-at-home order}.
+\end{itemize}
+
+<<masks, eval=TRUE, out.width = "100%">>=
+include_graphics2("http://www.biostat.mcgill.ca/hanley/statbook/IowaIllinoisBorderFig1.png")
+@
+
+\end{frame}
+
+
+
+
+
+\begin{frame}[fragile]{Freely available county level data from NYTimes\footnote{\tiny{\url{https://github.com/nytimes/covid-19-data}}}}
+	
+<<nyt, echo = TRUE, out.width = "100%", echo = TRUE>>=
+library(covdata) # remotes::install_github("kjhealy/covdata")
+library(dplyr); library(tidyr); library(ggplot2); library(readr)
+
+# get population data from https://covid19.census.gov/datasets/
+pop_county <- read_csv("https://opendata.arcgis.com/datasets/21843f238cbb46b08615fc53e19e0daf_1.csv") %>%
+              dplyr::rename(fips = GEOID, population = B01001_001E, state = State) %>%
+              dplyr::select(state, fips, population)
+
+county_level <- nytcovcounty %>%
+                dplyr::left_join(pop_county, by = c("state","fips")) %>%
+                dplyr::mutate(cases.per.10k = cases/population * 1e4) %>%
+                dplyr::filter(state %in% c("Iowa","Illinois")) %>%
+                dplyr::group_by(county)
+
+pop_state <- pop_county %>% 
+             dplyr::group_by(state) %>% 
+             dplyr::summarise(population = sum(population, na.rm = TRUE))
+             
+state_level <- county_level %>%
+               dplyr::group_by(state, date) %>%
+               dplyr::filter(date >= "2020-03-15") %>% 
+               dplyr::summarise(cases = sum(cases)) %>%
+               dplyr::left_join(pop_state, by = "state") %>% 
+               dplyr::mutate(cases.per.10k = cases / population * 1e4, state = factor(state),
+                             time = as.numeric(date - min(date)) + 1) 
+head(state_level) 
+@
+	
+\end{frame}
+
+
+
+\begin{frame}[fragile]{County level cases for Iowa and Illinois - log10 scale}
+	
+<<nytcases, echo = TRUE, fig.asp = 0.481>>=
+ggplot(data = county_level, mapping = aes(x = date, y = cases, group = county)) +
+  geom_line(size = 0.25, color = "gray20") +
+  scale_x_date(date_breaks = "1 month", date_labels = "%b")+
+  scale_y_log10(labels = scales::label_number_si()) +
+  guides(color = FALSE) + facet_wrap(~ state, ncol = 2) +
+  labs(title = "COVID-19 Cases in Iowa and Illinois by County",
+       x = "Date", y = "No. of cases (log10 scale)", caption = "Data: The New York Times") + 
+  theme_minimal()
+@
+	
+\end{frame}
+
+
+
+
+\begin{frame}[fragile]{County level cases for Iowa and Illinois - per capita}
+	
+	<<nytcapita, echo = TRUE, fig.asp = 0.481>>=
+ggplot(data = county_level, mapping = aes(x = date, y = cases.per.10k, group = county)) +
+  geom_line(size = 0.25, color = "gray20") +
+  scale_x_date(date_breaks = "1 month", date_labels = "%b")+
+  scale_y_continuous(labels = scales::label_number_si()) +
+  guides(color = FALSE) + facet_wrap(~ state, ncol = 2) +
+  labs(title = "COVID-19 Cases in Iowa and Illinois by County",
+       x = "Date", y = "No. of cases per 10 000", caption = "Data: The New York Times") + 
+  theme_minimal()
+	@
+	
+\end{frame}
+
+
+
+\begin{frame}[fragile]{State level cases for Iowa and Illinois - per capita}
+	
+	<<nytcapitastate, echo = TRUE, fig.asp = 0.481>>=
+ggplot(data = state_level, mapping = aes(x = date, y = cases.per.10k, color = state)) +
+  geom_line(size = 1) +
+  scale_x_date(date_breaks = "1 month", date_labels = "%b")+
+  scale_y_continuous(labels = scales::label_number_si()) +
+  labs(title = "COVID-19 Cases in Iowa and Illinois",
+       subtitle = "Cases since March 15, 2020",
+       x = "Date", y = "No. of cases per 10 000", caption = "Data: The New York Times") + 
+  theme_minimal()
+	@
+	
+\end{frame}
+
+
+\begin{frame}[fragile]{Are the findings in the paper reproducible?}
+	
+<<nytcapitastatemodel, echo = TRUE, fig.asp = 0.481>>=
+fit3 <- glm(cases.per.10k ~ state*time, data = state_level)
+summary(fit3)
+@
+	
+\end{frame}
+
+
+\begin{frame}[fragile]{Model-based predictions}
+	
+	<<nytcapitastatemodel2, echo = TRUE, fig.asp = 0.481>>=
+library(ggeffects)
+ggeffects::ggpredict(fit3, terms = "state") %>% 
+  plot()
+	@
+	
+\end{frame}
+
+
+%\begin{frame}[allowframebreaks]
+%\nocite{breiman1984classification}
+%	\nocite{friedman2001elements}
+%	\nocite{james2013introduction}
+%	\nocite{lopez2015arbres}
+%	\frametitle{References}
+%\printbibliography
+%\end{frame}
+
+
+\begin{frame}[fragile]{Session Info}
+	\tiny
+	
+	<<echo=FALSE, comment = NA, size = 'tiny'>>=
+	print(sessionInfo(), locale = FALSE)
+	@
+	
+\end{frame}
+
+\end{document}

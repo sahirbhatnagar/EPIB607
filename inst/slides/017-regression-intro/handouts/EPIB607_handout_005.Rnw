@@ -1,0 +1,181 @@
+\documentclass[landscape,twocolumn,letterpaper,9pt,reqno]{article}
+
+\usepackage{lscape,fancyhdr}
+
+\usepackage{hyperref}
+
+\pagestyle{fancy}
+
+\usepackage{amsmath,epsfig,subfigure,amsthm,amsfonts,epsf,psfrag,rotating,setspace,bm}
+
+\usepackage{verbatim,color} % Allow text colors}
+
+\setlength{\oddsidemargin}{-0.4in}		% default=0in
+\setlength\evensidemargin{-0.4in}
+
+\setlength{\textwidth}{9.8in}		% default=9in
+
+\setlength{\columnsep}{0.5in}		% default=10pt
+
+\setlength{\columnseprule}{0pt}		% default=0pt (no line)
+
+
+\setlength{\textheight}{7.0in}		% default=5.15in
+
+\setlength{\topmargin}{-0.75in}		% default=0.20in
+
+\setlength{\headsep}{0.25in}		% default=0.35in
+
+\setlength{\parskip}{1.2ex}
+
+\setlength{\parindent}{0mm}
+
+\lhead{Course EPIB607: Regression handout 005 (Logistic regression)}
+\rhead{jh,sb \ \ \ v. 2018.11.19}
+
+\begin{document}
+	
+<<setup, echo=FALSE, message=FALSE, warning=FALSE>>=
+rm(list = ls())
+library(knitr)
+library(mosaic)
+knitr::opts_chunk$set(cache=TRUE, message = FALSE, tidy = FALSE,warning=FALSE, 
+echo = FALSE, fig.width = 8, fig.asp = 0.8, 
+fig.align = 'center', out.width = "100%", size = 'normalsize')
+# the kframe environment does not work with allowframebreaks, so remove it
+knit_hooks$set(document = function(x) {
+gsub('\\\\(begin|end)\\{kframe\\}', '', x)
+})
+pacman::p_load(knitr)
+# trop <- RSkittleBrewer::RSkittleBrewer("trop")
+# gg_sy <- theme(legend.position = "bottom", axis.text = element_text(size = 20), axis.title = element_text(size = 20), legend.text = element_text(size = 20), legend.title = element_text(size = 20))
+@
+
+\section{Kidney stone removal procedures 1}
+The 1986 BMJ article \textit{Comparison of treatment of renal calculi by open surgery, percutaneous nephrolithotomy, and extracorporeal shockwave lithotripsy} by Charig et. al, was a study designed to compare different methods of treating kidney stones in order to establish which was the most cost effective and successful. The procedure, either open surgery, or percutaneous nephrolithotomy (PN, a keyhole surgery procedure), was defined to be successful if stones were eliminated or reduced to less than 2 mm after three months. The study collected cases of kidney stones treated at a particular UK hospital during 1972-1985. The counts of successes for the two surgical procedures were:
+
+\begin{table}[h]
+\centering
+\begin{tabular}{lcc|c}
+	& Unsuccessful &  Successful & Total\\
+Open surgery & 77 & 273 & 350 \\
+PN & 61 & 289 & 350 \\
+\hline
+Total & 138 & 562 & 700
+\end{tabular}
+\end{table}
+
+
+<<echo=FALSE, eval=TRUE>>=
+cases <- c(77, 61)
+controls <- c(273, 289)
+open <- c(1,0)
+df <- as.data.frame(cbind(cases, controls, open))
+
+fit <- glm(cbind(cases,controls) ~ open, data = df,
+family=binomial(link="logit"))
+summary(fit)
+@
+
+\clearpage
+
+\section{Kidney stone removal procedures 2}
+Below are the same outcomes tabulated by the size of the kidney stone (smaller than 2cm/at least 2cm in diameter):
+
+\begin{table}[h]
+	\centering
+	\begin{tabular}{lcc|c}
+		$<$ 2cm & Unsuccessful &  Successful & Total\\
+		Open surgery & 6 & 81 & 87 \\
+		PN 			 & 36 & 234 & 270 \\
+		\hline
+		Total 	& 42 & 315 & 357 \\
+		& & &  \\
+				$\geq$ 2cm & Unsuccessful &  Successful & Total\\
+		Open surgery & 71 & 192 & 263 \\
+		PN 			 & 25 & 55 & 80 \\
+		\hline
+		Total 		& 96 & 247 & 343
+	\end{tabular}
+\end{table}
+
+
+<<echo=FALSE, eval=TRUE>>=
+cases <- c(6,36,71,25)
+controls <- c(81,234,192,55)
+open <- c(1,0, 1, 0)
+size <- c(0,0,1,1)
+df <- as.data.frame(cbind(cases, controls, open, size))
+
+fit <- glm(cbind(cases,controls) ~ open + size, data = df,
+family=binomial(link="logit"))
+summary(fit)
+@
+
+\clearpage
+
+\section{Diabetes cohort data 1}
+
+\begin{table}[h]
+	\centering
+	\begin{tabular}{lcc|c}
+		& Dead &  Censored & Total\\
+		Type II & 218 & 326 & 544 \\
+		Type I & 105 & 253 & 323 \\
+		\hline
+		Total & 323 & 579 & 902
+	\end{tabular}
+\end{table}
+
+
+<<echo=FALSE, eval=TRUE>>=
+cases <- c(218, 105)
+controls <- c(326, 253)
+type <- c(1,0)
+df <- as.data.frame(cbind(cases, controls, type))
+
+fit <- glm(cbind(cases,controls) ~ type, data = df,
+family=binomial(link="logit"))
+summary(fit)
+@
+
+
+
+\clearpage
+
+\section{Diabetes cohort data 2}
+
+Below are the same outcomes tabulated by age:
+
+\begin{table}[h]
+	\centering
+	\begin{tabular}{lcc|c}
+		$\leq 40$ & Dead &  Censored & Total\\
+		Type II & 0 & 15 & 15 \\
+		Type I & 1 & 129 & 130 \\
+		\hline
+		Total & 1 & 144 & 145 \\
+		& & & \\
+		$> 40$ & Dead &  Censored & Total\\
+		Type II & 218 & 311 & 529 \\
+		Type I & 104 & 124 & 228 \\
+				\hline
+		Total & 322 & 435 & 757 \\ 
+	\end{tabular}
+\end{table}
+
+
+<<echo=FALSE, eval=TRUE>>=
+dead <- c(0,1,218,104)
+censored <- c(15,129,311,124)
+type <- c(1,0,1,0); age <- c(0,0,1,1)
+df <- as.data.frame(cbind(dead,censored,type,age))
+
+fit <- glm(cbind(dead,censored) ~ type + age, data=df, 
+family=binomial(link="logit"))
+summary(fit)
+@
+
+
+
+\end{document}

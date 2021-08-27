@@ -1,0 +1,27 @@
+\vspace*{-1.1in}
+\textbf{3. Ratio depth of ocean depths in north vs south hemisphere}
+\begin{knitrout}\tiny
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlcom{# note: we are now using glm}
+\hlstd{fit} \hlkwb{<-} \hlkwd{glm}\hlstd{(alt} \hlopt{~} \hlstd{South,} \hlkwc{data} \hlstd{= depths,} \hlkwc{family} \hlstd{=} \hlkwd{gaussian}\hlstd{(}\hlkwc{link}\hlstd{=log))}
+\hlkwd{print}\hlstd{(}\hlkwd{summary}\hlstd{(fit),} \hlkwc{signif.stars} \hlstd{= F)}
+\end{alltt}
+\begin{verbatim}
+##
+## Coefficients:
+##             Estimate Std. Error t value Pr(>|t|)
+## (Intercept)   8.1671     0.0347  235.41   <2e-16
+## South         0.0581     0.0477    1.22     0.22
+##
+## (Dispersion parameter for gaussian family taken to be 2988040)
+##
+##     Null deviance: 1193681102  on 399  degrees of freedom
+## Residual deviance: 1189239546  on 398  degrees of freedom
+## AIC: 7103
+##
+## Number of Fisher Scoring iterations: 5
+\end{verbatim}
+\end{kframe}
+\end{knitrout}
+
