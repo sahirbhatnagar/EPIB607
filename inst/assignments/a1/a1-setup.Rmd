@@ -1,5 +1,5 @@
 ---
-title: Assignment 1 - Setting up the computing environment and Introduction to R. Due September 7, 2021.
+title: Assignment 1 - Setting up the computing environment and Introduction to R. Due September 6, 2021.
 
 # Use letters for affiliations
 author:
@@ -14,7 +14,7 @@ address:
 #    address: Department of Neat Tricks, Whereever State University, Someplace, MC, 67890
 
 # For footer text  TODO(fold into template, allow free form two-authors)
-lead_author_surname: A1 Due September 7, 2021
+lead_author_surname: A1 Due September 6, 2021
 
 # Place DOI URL or CRAN Package URL here
 #doi: "https://sahirbhatnagar.com/EPIB607/"
@@ -76,7 +76,7 @@ skip_final_break: true
 watermark: false
 
 # Customize footer, eg by referencing the vignette
-footer_contents: "Assignment 1 due Sepetember 7, 2021 by 11:59pm"
+footer_contents: "Assignment 1 due Sepetember 6, 2021 by 11:59pm"
 
 # Produce a pinp document
 output: pinp::pinp
@@ -108,7 +108,14 @@ Your progress and completion of these courses will be availble to us automatical
 
 # Install R and RStudio
 
-[Chapter 5 of this free online book](https://datascienceineducation.com/c05.html) will guide you through installing both [R](https://cran.r-project.org/) and [RStudio](https://www.rstudio.com/products/rstudio/download/preview/). RStudio is a software application that facilitates how you interact with `R`. 
+See this [Chapter](https://sahirbhatnagar.com/EPIB607/install.html) from the course notes, which will guide you through installing both [R](https://cran.r-project.org/) and [RStudio](https://www.rstudio.com/products/rstudio/download/preview/). RStudio is a software application that facilitates how you interact with `R`. 
+
+# Basics of R and RStudio
+
+Read the following two Chapters from the course notes:  
+1. [Basics of R and RStudio](https://sahirbhatnagar.com/EPIB607/basics.html)   
+2. [RStudio Projects](https://sahirbhatnagar.com/EPIB607/projects.html)
+
 
 
 # Sign up for DataCamp
@@ -120,29 +127,17 @@ Sign up for a free DataCamp account at [this link](https://www.datacamp.com/grou
 
 # Required Courses to Complete
 
-Once you have registered for DataCamp, you will see a series of courses that have been assigned. These are required to complete by September 7, 2021.
+Once you have registered for DataCamp, you will see a series of courses that have been assigned. These are required to complete by September 6, 2021.
 
 1. Introduction to `R`
-2. Introduction to Importing Data in `R`
-3. Exploratory Data Analysis in `R`
-4. Introduction to the Tidyverse
-5. Introduction to Data Visualization with `ggplot2`
-6. Reporting wiht `R Markdown`
-
-
-# Optional Courses
-
-The following courses are optional. You may find them helpful in strengthening your knowledge of `R`.
-
-1. Working with Data in the Tidyverse
-2. Data manipulation with `dplyr`
-3. Intermediate Data Visualization with `ggplot2`
-4. Joining Data with `dplyr`
-5. Data Cleaning in `R`
+2. Reporting with `R Markdown`
 
 
 
-## Interactive R Learning Environment with Swirl (Optional)
+
+
+
+# Interactive R Learning Environment with Swirl (Optional)
 
 `swirl` is a software package for the R programming language that turns the R console into an interactive learning environment. Users receive immediate feedback as they are guided through self-paced lessons in data science and R programming. Students from previous years found this to be extremely helpful in their path to learning `R`. Follow [instructions on this page](https://swirlstats.com/students.html) for how to get started. 
 

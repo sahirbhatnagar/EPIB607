@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020/Debian) (preloaded format=pdflatex 2021.2.10)  24 AUG 2021 10:10
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020/Debian) (preloaded format=pdflatex 2021.2.10)  27 AUG 2021 14:05
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1529,7 +1529,7 @@ LaTeX Font Info:    Font shape `T1/phv/b/n' will be
 [1
 
 {/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}]
-Overfull \hbox (16.17036pt too wide) in paragraph at lines 100--104
+Overfull \hbox (16.17036pt too wide) in paragraph at lines 109--113
 \T1/mdbch/m/n/12 (-20) Sign up for a free Dat-a-Camp ac-count at [][]this link[
 ][]. Note: you are re-quired to sign up with a \T1/lmtt/m/n/12 @mail.mcgill.ca
  []
@@ -1537,21 +1537,21 @@ Overfull \hbox (16.17036pt too wide) in paragraph at lines 100--104
 
 AED: lastpage setting LastPage
 [2]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 169.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 169.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 149.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 149.
 (./a1-setup.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 169.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 169.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 149.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 149.
 Package rerunfilecheck Info: File `a1-setup.out' has not changed.
-(rerunfilecheck)             Checksum: C4F1533FD4AB87EF6070113DE34769B6;374.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 169.
+(rerunfilecheck)             Checksum: 42B11322EB9EE26E76EE243CF5625434;367.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 149.
  ) 
 Here is how much of TeX's memory you used:
- 27239 strings out of 482778
- 488045 string characters out of 5955219
- 799860 words of memory out of 5000000
- 41885 multiletter control sequences out of 15000+600000
- 608581 words of font info for 151 fonts, out of 8000000 for 9000
+ 27226 strings out of 482778
+ 487934 string characters out of 5955219
+ 798860 words of memory out of 5000000
+ 41882 multiletter control sequences out of 15000+600000
+ 607484 words of font info for 150 fonts, out of 8000000 for 9000
  59 hyphenation exceptions out of 8191
  68i,11n,64p,451b,435s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/share/texmf/fonts/enc/dvips/lm/lm-ec.enc}{/usr/share/texlive/texmf-dist
@@ -1561,10 +1561,10 @@ a.pfb></usr/share/texlive/texmf-dist/fonts/type1/bitstrea/charter/bchr8a.pfb></
 usr/share/texmf/fonts/type1/public/lm/lmssbx10.pfb></usr/share/texmf/fonts/type
 1/public/lm/lmtt12.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/helvetic/
 uhvb8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/helvetic/uhvr8a.pfb>
-Output written on a1-setup.pdf (2 pages, 96408 bytes).
+Output written on a1-setup.pdf (2 pages, 97906 bytes).
 PDF statistics:
- 106 PDF objects out of 1000 (max. 8388607)
- 95 compressed objects within 1 object stream
- 26 named destinations out of 1000 (max. 500000)
+ 97 PDF objects out of 1000 (max. 8388607)
+ 86 compressed objects within 1 object stream
+ 17 named destinations out of 1000 (max. 500000)
  25661 words of extra memory for PDF output out of 29859 (max. 10000000)
 
