@@ -1,4 +1,4 @@
-# Functions {#functions}
+# Functions {#functionsHOP}
 
 
 ::: {.rmdnote}
@@ -9,7 +9,7 @@ This section is reproduced R for Data Science [@grolemund2018].
 ## Introduction
 
 A function is a reusable piece of code that allows us to consistently repeat a programming task. Functions in R can be identified by a word followed by a set of parentheses, like so: `word()`.
-More often than not, the word is a verb, such as `filter()`, suggesting that we're about to perform an action. Indeed, functions act like verbs: they tell R what to do with our data. 
+More often than not, the word is a verb, such as `dplyr::filter()`, suggesting that we're about to perform an action. Indeed, functions act like verbs: they tell R what to do with our data. 
 
 The word (or set of words) represents the name of the function, and the parentheses are where we can provide arguments to a function, if arguments are needed for the function to run. 
 Many functions in R packages do not _require_ arguments, and they will use a set of default arguments unless you provide something different from the default.

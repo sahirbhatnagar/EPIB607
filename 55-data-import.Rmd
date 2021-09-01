@@ -1,5 +1,9 @@
 # Data Import and Export {#import}
 
+::: {.rmdnote}
+This section is adapted from The Epidemiologist R Handbook [@epir]
+:::
+
 In this page we describe ways to locate, import, and export files:  
 
 * Use of the **rio** package to flexibly `import()` and `export()` many types of files  

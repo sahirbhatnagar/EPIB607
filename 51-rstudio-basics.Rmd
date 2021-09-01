@@ -1,5 +1,9 @@
 # Basics of R and Rstudio {#basics}
 
+::: {.rmdnote}
+This section is adapted from the books Data Science in Education Using R [@dataedu]
+:::
+
 ## RStudio Layout and Customization: Getting to Know R through RStudio
 
 Now that we've installed both R and RStudio, we will be accessing R _through_ RStudio. 
@@ -441,9 +445,9 @@ The next four Chapters are designed to give you the skills and knowledge necessa
 Please note that these Chapters are not intended to be a full and complete introduction to programming with R nor to using R for data science. The Datacamp courses you will need to complete for A1 as well as EPIB613 will provide you with the tools to program for data science related tasks. The point of these Chapters is to establish good programming habits before you even start coding. I have gathered these resources here as a succinct reference of what I find to be the most useful to be successful in this course. The four core concepts are:
 
 1. [Projects][RStudio Projects]  
-2. [Functions][Functions]
+2. [Functions](#functionsHOP)
 3. [Packages][Packages]  
-4. [Importing data][Importing data]  
+4. [Importing data](#import)
   
 
 
