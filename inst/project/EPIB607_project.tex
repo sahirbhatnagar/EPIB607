@@ -1,0 +1,131 @@
+\documentclass[letterpaper,12pt,twoside,]{pinp}
+
+%% Some pieces required from the pandoc template
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+
+% Use the lineno option to display guide line numbers if required.
+% Note that the use of elements such as single-column equations
+% may affect the guide line number alignment.
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+
+% pinp change: the geometry package layout settings need to be set here, not in pinp.cls
+\geometry{layoutsize={0.95588\paperwidth,0.98864\paperheight},%
+  layouthoffset=0.02206\paperwidth, layoutvoffset=0.00568\paperheight}
+
+\definecolor{pinpblue}{HTML}{185FAF}  % imagecolorpicker on blue for new R logo
+\definecolor{pnasbluetext}{RGB}{101,0,0} %
+
+
+
+\title{Final Project}
+
+\author[a]{EPIB607 - Inferential Statistics}
+
+  \affil[a]{Fall 2021, McGill University}
+
+\setcounter{secnumdepth}{5}
+
+% Please give the surname of the lead author for the running footer
+\leadauthor{Bhatnagar}
+
+% Keywords are not mandatory, but authors are strongly encouraged to provide them. If provided, please include two to five keywords, separated by the pipe symbol, e.g:
+ \keywords{  Final project  }  
+
+\begin{abstract}
+Final project instructions. Due date December 22, 2021.
+\end{abstract}
+
+\dates{This version was compiled on \today} 
+
+% initially we use doi so keep for backwards compatibility
+% new name is doi_footer
+
+\pinpfootercontents{Final Project}
+
+\begin{document}
+
+% Optional adjustment to line up main text (after abstract) of first page with line numbers, when using both lineno and twocolumn options.
+% You should only change this length when you've finalised the article contents.
+\verticaladjustment{-2pt}
+
+\maketitle
+\thispagestyle{firststyle}
+\ifthenelse{\boolean{shortarticle}}{\ifthenelse{\boolean{singlecolumn}}{\abscontentformatted}{\abscontent}}{}
+
+% If your first paragraph (i.e. with the \dropcap) contains a list environment (quote, quotation, theorem, definition, enumerate, itemize...), the line after the list may have some extra indentation. If this is the case, add \parshape=0 to the end of the list environment.
+
+
+\hypertarget{final-project}{%
+\section{Final Project}\label{final-project}}
+
+The objective of the group project is to construct an exercise and
+solutions suitable for testing or demonstrating understanding of basic
+principles of biostatistics as discussed in this course.
+
+\vspace*{.3in}
+
+Exercises must be based on (i) one to two articles in a scientific
+journal or perhaps in the lay press or (ii) a
+\textit{publicly available} dataset. The data must not be taken from an
+RA project, but must be freely available on the web or another public
+source. The article or data should concern some health problem amenable
+to statistical investigation. The narrative of the exercise should be
+clear and concise. The exercise should comprise 5-7 questions requiring
+altogether about three hours for completion. The questions may cover any
+part of this course. You must also produce a separate set of model
+answers; these should be equally short and to the point.
+
+\vspace*{.15in}
+
+The group project will be evaluated using the following criteria (for a
+total of 10 points):
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  The choice of subject and ingenuity (2.0 points)\\
+\item
+  Testing of important biostatistical principles (2.5 points)\\
+\item
+  Exercises that are clear, concise, and creative. It's better to have
+  one question that tests several concepts together, vs.~several
+  questions that have no link with each other (2.5 points)\\
+\item
+  Quality of solutions (2.0 points)\\
+\item
+  Is the report reproducible (1.0 points)
+\end{enumerate}
+
+\vspace*{.1in}
+
+\textbf{Projects should be done in groups of 2 to 4 people}. Examples
+final projects prepared by students in previous years have been posted
+on MyCourses. All projects must be uploaded to myCourses. One submission
+per group.
+
+The upload should consist of the following:\\
+1. One \texttt{.Rmd} file containing the questions and solutions. This
+must be fully reproducible using the techniques discussed in this class,
+i.e., I should be able to download your submission, open the
+\texttt{.Rmd} file, and compile it without error. Be aware of file paths
+and hard coded solutions.\\
+2. One compiled \texttt{.pdf} or \texttt{.html} file of the Rmarkdown
+document\\
+3. Any article(s) on which the questions are based\\
+4. Any data-sets used in the questions, in text or CSV format. If the
+dataset is publicly available then a link to the dataset or the R
+package is sufficient.
+
+%\showmatmethods
+
+
+\bibliography{pinp}
+\bibliographystyle{jss}
+
+
+
+\end{document}

@@ -1,0 +1,125 @@
+---
+title: Final Project
+
+# Use letters for affiliations
+author:
+  - name: EPIB607 - Inferential Statistics
+    affiliation: a
+#  - name: Second Author
+#    affiliation: a,b
+address:
+  - code: a
+    address: Fall 2021, McGill University
+#  - code: b
+#    address: Department of Neat Tricks, Whereever State University, Someplace, MC, 67890
+
+# For footer text  TODO(fold into template, allow free form two-authors)
+lead_author_surname: Bhatnagar 
+
+# Place DOI URL or CRAN Package URL here
+#doi: "https://sahirbhatnagar.com/EPIB607/"
+
+# Abstract
+abstract: |
+  Final project instructions. Due date December 22, 2021.
+
+# Optional: Acknowledgements
+#acknowledgements: |
+#  This template package builds upon, and extends, the work of the excellent
+#  [rticles](https://cran.r-project.org/package=rticles) package, and both packages rely on the
+#  [PNAS LaTeX](http://www.pnas.org/site/authors/latex.xhtml) macros. Both these sources are
+#  gratefully acknowledged as this work would not have been possible without them.  Our extensions
+#  are under the same respective licensing term
+#  ([GPL-3](https://www.gnu.org/licenses/gpl-3.0.en.html) and
+#  [LPPL (>= 1.3)](https://www.latex-project.org/lppl/)).
+
+# Optional: One or more keywords
+keywords:
+  - Final project
+
+
+# Paper size for the document, values of letterpaper and a4paper
+papersize: letter
+
+# Font size of the document, values of 9pt (default), 10pt, 11pt and 12pt
+fontsize: 12pt
+
+# Optional: Force one-column layout, default is two-column
+one_column: true
+
+# Optional: Enables lineno mode, but only if one_column mode is also true
+#lineno: true
+
+# Optional: Enable one-sided layout, default is two-sided
+#one_sided: true
+
+# Optional: Enable section numbering, default is unnumbered
+numbersections: true
+
+# Optional: Specify the depth of section number, default is 5
+#secnumdepth: 5
+
+# Optional: Skip inserting final break between acknowledgements, default is false
+skip_final_break: true
+
+# Optional: Bibliography 
+bibliography: pinp
+
+# Optional: Enable a 'Draft' watermark on the document
+watermark: false
+
+# Customize footer, eg by referencing the vignette
+footer_contents: "Final Project"
+
+# Produce a pinp document
+output: pinp::pinp
+
+# Required: Vignette metadata for inclusion in a package.
+vignette: >
+  %\VignetteIndexEntry{YourPackage-vignetteentry}
+  %\VignetteKeywords{YourPackage, r, anotherkeyword}
+  %\VignettePackage{Due December 10, 2019}
+  %\VignetteEngine{knitr::rmarkdown}
+---
+
+# Final Project
+
+The objective of the group project is to construct an exercise and solutions suitable for testing or demonstrating understanding of basic principles of biostatistics as discussed in this course.
+
+\vspace*{.3in}
+
+Exercises must be based on (i) one to two articles in a scientific journal or perhaps in the lay press
+or (ii) a \textit{publicly available} dataset. The data must not be taken from an RA project, but must be
+freely available on the web or another public source. The article or data should concern some health
+problem amenable to statistical investigation. The narrative of the exercise should be clear and concise.
+The exercise should comprise 5-7 questions requiring altogether about three hours for completion. The
+questions may cover any part of this course. You must also produce a separate set of model answers;
+these should be equally short and to the point. 
+
+
+\vspace*{.15in}
+
+The group project will be evaluated using the following criteria (for a total of 10 points):
+
+1. The choice of subject and ingenuity (2.0 points)  
+2. Testing of important biostatistical principles (2.5 points)  
+3. Exercises that are clear, concise, and creative. It's better to have one question that tests several concepts together, vs. several questions that have no link with each other (2.5 points)  
+4. Quality of solutions (2.0 points)  
+5. Is the report reproducible (1.0 points)  
+
+
+\vspace*{.1in}
+
+**Projects should be done in groups of 2 to 4 people**.
+Examples final projects prepared by students in previous years have been posted on MyCourses.
+All projects must be uploaded to myCourses. One submission per group.
+
+The upload should consist of the following:  
+    1. One `.Rmd` file containing the questions and solutions. This must be fully reproducible using the techniques discussed in this class, i.e., I should be able to download your submission, open the `.Rmd` file, and compile it without error. Be aware of file paths and hard coded solutions.  
+    2. One compiled `.pdf` or `.html` file of the Rmarkdown document  
+    3. Any article(s) on which the questions are based  
+    4. Any data-sets used in the questions, in text or CSV format. If the dataset is publicly available then a link to the dataset or the R package is sufficient.  
+
+
+
+
