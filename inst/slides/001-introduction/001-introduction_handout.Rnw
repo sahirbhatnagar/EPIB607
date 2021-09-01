@@ -13,7 +13,7 @@
 
 \begin{document}
 
-<<setup, include=FALSE>>=
+<<setup, include=FALSE, message=FALSE, warning=FALSE>>=
 library(knitr)
 knitr::opts_chunk$set(cache=FALSE, message = FALSE, tidy = FALSE, warning = FALSE,
 						echo = TRUE, fig.width = 8, fig.asp = 0.8, 
@@ -27,7 +27,11 @@ knitr::opts_chunk$set(cache=FALSE, message = FALSE, tidy = FALSE, warning = FALS
 library(tidyverse)
 #knitr::opts_chunk$set(background = '#FFFF00')
 library(tools) #needed for include_graphics2 function
-
+if (!requireNamespace("pacman")) install.packages("pacman")
+pacman::p_load(ggpubr)
+pacman::p_load(here)
+source(here::here("inst","slides","bin","include_graphics2.R"))
+knitr::knit_hooks$set(purl = hook_purl)
 @
 
 %\title{Introduction to Regression Trees}
@@ -36,7 +40,7 @@ library(tools) #needed for include_graphics2 function
 %\institute[shortinst]{Department of Epidemiology, Biostatistics and Occupational Health}
 
 \title{001 - Introduction to Inferential Statistics}
-\author{EPIB 607 - FALL 2020}
+\author{EPIB 607}
 \institute{
 	Sahir Rai Bhatnagar\\
 	Department of Epidemiology, Biostatistics, and Occupational Health\\

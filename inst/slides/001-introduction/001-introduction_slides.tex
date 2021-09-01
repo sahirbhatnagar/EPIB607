@@ -69,7 +69,7 @@
 %\institute[shortinst]{Department of Epidemiology, Biostatistics and Occupational Health}
 
 \title{001 - Introduction to Inferential Statistics}
-\author{EPIB 607 - FALL 2020}
+\author{EPIB 607}
 \institute{
 	Sahir Rai Bhatnagar\\
 	Department of Epidemiology, Biostatistics, and Occupational Health\\
@@ -217,7 +217,6 @@ patient & moon\_days & other\_days\\
 \hline
 \end{tabular}
 
-
 \end{knitrout}
 	
 	
@@ -241,7 +240,6 @@ patient & moon\_days & other\_days\\
 \hline
 \end{tabular}
 
-
 \end{knitrout}
 	
 	\pause
@@ -263,7 +261,6 @@ patient & moon\_days & other\_days\\
 {\centering \includegraphics[width=1\linewidth]{figure/unnamed-chunk-3-1} 
 
 }
-
 
 
 \end{knitrout}
@@ -289,7 +286,6 @@ patient & moon\_days & other\_days\\
 5 & 3.33 & 1.26\\
 \hline
 \end{tabular}
-
 
 \end{knitrout}
 	
@@ -354,7 +350,6 @@ patient & day\_type & mean\_behavior\\
 \hline
 \end{tabular}
 
-
 \end{knitrout}
 	
 	
@@ -372,10 +367,13 @@ patient & day\_type & mean\_behavior\\
 \end{knitrout}
 	
 \begin{knitrout}\tiny
-\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}
+
+{\centering \includegraphics[width=1\linewidth]{figure/unnamed-chunk-8-1} 
+
+}
 
 
-{\ttfamily\noindent\bfseries\color{errorcolor}{Error in loadNamespace(name): there is no package called 'ggpubr'}}\end{kframe}
 \end{knitrout}
 	
 	
@@ -712,43 +710,46 @@ patient & day\_type & mean\_behavior\\
 \begin{verbatim}
 R version 4.0.2 (2020-06-22)
 Platform: x86_64-pc-linux-gnu (64-bit)
-Running under: Pop!_OS 19.10
+Running under: Pop!_OS 20.10
 
 Matrix products: default
 BLAS:   /usr/lib/x86_64-linux-gnu/openblas-pthread/libblas.so.3
-LAPACK: /usr/lib/x86_64-linux-gnu/openblas-pthread/liblapack.so.3
+LAPACK: /usr/lib/x86_64-linux-gnu/openblas-pthread/libopenblasp-r0.3.10.so
 
 attached base packages:
 [1] tools     stats     graphics  grDevices utils     datasets  methods  
 [8] base     
 
 other attached packages:
- [1] NCStats_0.4.7   FSA_0.8.30      forcats_0.5.0   stringr_1.4.0  
- [5] dplyr_1.0.2     purrr_0.3.4     readr_1.3.1     tidyr_1.1.2    
- [9] tibble_3.0.3    ggplot2_3.3.2   tidyverse_1.3.0 knitr_1.29     
+ [1] NCStats_0.4.7   FSA_0.8.30      here_0.1        ggpubr_0.4.0   
+ [5] forcats_0.5.1   stringr_1.4.0   dplyr_1.0.7     purrr_0.3.4    
+ [9] readr_1.4.0     tidyr_1.1.3     tibble_3.1.3    ggplot2_3.3.5  
+[13] tidyverse_1.3.0 knitr_1.33     
 
 loaded via a namespace (and not attached):
  [1] nlme_3.1-149       fs_1.5.0           lubridate_1.7.9    httr_1.4.2        
- [5] backports_1.1.9    R6_2.4.1           DBI_1.1.0          colorspace_1.4-1  
- [9] withr_2.2.0        tidyselect_1.1.0   gridExtra_2.3      leaflet_2.0.3     
-[13] curl_4.3           compiler_4.0.2     cli_2.0.2          rvest_0.3.6       
-[17] xml2_1.3.2         ggdendro_0.1.22    mosaicCore_0.8.0   scales_1.1.1      
-[21] digest_0.6.25      minqa_1.2.4        ggformula_0.9.4    foreign_0.8-79    
-[25] rio_0.5.16         pkgconfig_2.0.3    htmltools_0.5.0    lme4_1.1-23       
-[29] dbplyr_1.4.4       highr_0.8          htmlwidgets_1.5.1  rlang_0.4.7       
-[33] readxl_1.3.1       rstudioapi_0.11    farver_2.0.3       generics_0.0.2    
-[37] jsonlite_1.7.1     crosstalk_1.1.0.1  zip_2.1.1          car_3.0-9         
-[41] magrittr_1.5       mosaicData_0.20.1  Matrix_1.2-18      Rcpp_1.0.5        
-[45] munsell_0.5.0      fansi_0.4.1        abind_1.4-5        lifecycle_0.2.0   
-[49] stringi_1.5.3      carData_3.0-4      MASS_7.3-53        plyr_1.8.6        
-[53] ggstance_0.3.4     grid_4.0.2         blob_1.2.1         ggrepel_0.8.2     
-[57] crayon_1.3.4       lattice_0.20-41    haven_2.3.1        splines_4.0.2     
-[61] hms_0.5.3          pillar_1.4.6       boot_1.3-25        reprex_0.3.0      
-[65] glue_1.4.2         evaluate_0.14      data.table_1.13.0  modelr_0.1.8      
-[69] nloptr_1.2.2.2     vctrs_0.3.4        tweenr_1.0.1       cellranger_1.1.0  
-[73] gtable_0.3.0       polyclip_1.10-0    assertthat_0.2.1   TeachingDemos_2.12
-[77] xfun_0.17          ggforce_0.3.2      openxlsx_4.1.5     broom_0.7.0       
-[81] statmod_1.4.34     mosaic_1.7.0       ellipsis_0.3.1    
+ [5] rprojroot_2.0.2    backports_1.2.1    utf8_1.2.2         R6_2.5.1          
+ [9] DBI_1.1.1          colorspace_2.0-2   withr_2.4.2        gridExtra_2.3     
+[13] tidyselect_1.1.1   leaflet_2.0.3      curl_4.3.2         compiler_4.0.2    
+[17] cli_3.0.1          rvest_1.0.0        pacman_0.5.1       xml2_1.3.2        
+[21] ggdendro_0.1.22    labeling_0.4.2     mosaicCore_0.8.0   scales_1.1.1      
+[25] digest_0.6.27      minqa_1.2.4        ggformula_0.9.4    foreign_0.8-80    
+[29] rio_0.5.16         htmltools_0.5.1.1  pkgconfig_2.0.3    lme4_1.1-23       
+[33] dbplyr_1.4.4       highr_0.9          htmlwidgets_1.5.3  rlang_0.4.11      
+[37] readxl_1.3.1       rstudioapi_0.13    farver_2.1.0       generics_0.1.0    
+[41] jsonlite_1.7.2     crosstalk_1.1.1    zip_2.2.0          car_3.0-9         
+[45] magrittr_2.0.1     mosaicData_0.20.1  Matrix_1.2-18      Rcpp_1.0.7        
+[49] munsell_0.5.0      fansi_0.5.0        abind_1.4-5        lifecycle_1.0.0   
+[53] stringi_1.7.3      carData_3.0-4      MASS_7.3-53        plyr_1.8.6        
+[57] ggstance_0.3.4     grid_4.0.2         blob_1.2.1         ggrepel_0.8.2     
+[61] crayon_1.4.1       lattice_0.20-41    haven_2.3.1        splines_4.0.2     
+[65] hms_1.0.0          pillar_1.6.2       boot_1.3-25        ggsignif_0.6.0    
+[69] reprex_0.3.0       glue_1.4.2         evaluate_0.14      data.table_1.14.0 
+[73] modelr_0.1.8       nloptr_1.2.2.2     vctrs_0.3.8        tweenr_1.0.1      
+[77] cellranger_1.1.0   gtable_0.3.0       polyclip_1.10-0    assertthat_0.2.1  
+[81] TeachingDemos_2.12 xfun_0.25          ggforce_0.3.2      openxlsx_4.1.5    
+[85] broom_0.7.2        rstatix_0.6.0      statmod_1.4.34     mosaic_1.7.0      
+[89] ellipsis_0.3.2    
 \end{verbatim}
 \end{kframe}
 \end{knitrout}

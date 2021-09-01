@@ -52,8 +52,8 @@
 
 
 %\input{slides_header.tex}
-\input{/home/sahir/git_repositories/EPIB607/resources/assets/slides/slides_header2.tex}
-\graphicspath{{/home/sahir/git_repositories/EPIB607/resources/assets/slides/figure/}}
+\input{/home/sahir/git_repositories/EPIB607/slides/slides_header2.tex}
+\graphicspath{{/home/sahir/git_repositories/EPIB607/slides/figure/}}
 
 %\let\oldShaded\Shaded
 %\let\endoldShaded\endShaded
@@ -69,10 +69,13 @@
 	%\institute[shortinst]{Department of Epidemiology, Biostatistics and Occupational Health}
 	
 	\title{004 - Exploring Data - Part II}
-	\author{EPIB 607 - FALL 2020}
+	\author{EPIB 607}
+%\title{Descriptive Statistics Part II}
+%\author{Lecture 6}
 	\institute{
 		Sahir Rai Bhatnagar\\
-		Department of Epidemiology, Biostatistics, and Occupational Health\\
+%		Department of Epidemiology, Biostatistics, and Occupational Health\\
+Department of Radiology
 		McGill University\\
 		
 		\vspace{0.1 in}
@@ -137,7 +140,6 @@
 }
 
 
-
 \end{knitrout}
 	
 	\normalsize
@@ -190,7 +192,6 @@
 }
 
 
-
 \end{knitrout}
 	
 \end{frame}
@@ -204,7 +205,6 @@
 {\centering \includegraphics[width=\maxwidth]{figure/unnamed-chunk-2-1} 
 
 }
-
 
 
 \end{knitrout}
@@ -223,7 +223,6 @@
 }
 
 
-
 \end{knitrout}
 	
 \end{frame}
@@ -237,7 +236,6 @@
 {\centering \includegraphics[width=\maxwidth]{figure/unnamed-chunk-4-1} 
 
 }
-
 
 
 \end{knitrout}
@@ -435,7 +433,6 @@ Lets create a pseudo population from the 595 observations by sampling \textbf{wi
 }
 
 
-
 \end{knitrout}
 	\end{minipage}
 \end{figure}
@@ -467,7 +464,6 @@ Lets create a pseudo population from the 595 observations by sampling \textbf{wi
 
 \caption[(a) A scatterplot showing height versus weight from the 500 individuals in the sample from NHANES]{(a) A scatterplot showing height versus weight from the 500 individuals in the sample from NHANES. One participant 163.9 cm tall (about 5 ft, 4 in) and weighing 144.6 kg (about 319 lb) is highlighted. (b) A scatterplot showing height versus BMI from the 500 individuals in the sample from NHANES. The same individual highlighted in (a) is marked here, with BMI 53.83. Fitted regression lines are shown in red with correlation coefficient $r$. BMI = weight/height$^2$ $\times 703$.}\label{fig:unnamed-chunk-6}
 \end{figure}
-
 
 \end{knitrout}
 	
@@ -531,7 +527,6 @@ Lets create a pseudo population from the 595 observations by sampling \textbf{wi
 \caption[All four panels have the exact same linear correlation coefficient]{All four panels have the exact same linear correlation coefficient}\label{fig:unnamed-chunk-7}
 \end{figure}
 
-
 \end{knitrout}
 
 
@@ -585,7 +580,6 @@ Lets create a pseudo population from the 595 observations by sampling \textbf{wi
 
 \caption{(a) per capita income vs. life expectancy (b) log per capita income vs. life expectancy. Fitted regression line in red with correlation coefficient $r$.\footnote{\tiny{The World Development Indicators (WDI) is a database of country-level variables (i.e., indicators) recording outcomes for a variety of topics, including economics, health, mortality, fertility, and education}}}\label{fig:004-nyt}
 \end{figure}
-
 
 \end{knitrout}
 	
@@ -801,7 +795,6 @@ A contingency table summarizes data for two categorical variables:
 }
 
 
-
 \end{knitrout}
 \end{minipage}
 \end{figure}
@@ -839,7 +832,6 @@ A contingency table summarizes data for two categorical variables:
 }
 
 
-
 \end{knitrout}
 
 \end{frame}
@@ -867,7 +859,6 @@ Given a contingency table, the frequency distribution of one of the variables is
 \includegraphics[width=0.45\linewidth]{figure/unnamed-chunk-10-2} 
 
 }
-
 
 
 \end{knitrout}
@@ -907,7 +898,6 @@ Given a contingency table, the frequency distribution of one of the variables is
 }
 
 
-
 \end{knitrout}
 	
 \end{frame}
@@ -928,7 +918,6 @@ Given a contingency table, the frequency distribution of one of the variables is
 {\centering \includegraphics[width=\maxwidth]{figure/mosaic-2-1} 
 
 }
-
 
 
 \end{knitrout}
@@ -975,7 +964,6 @@ Given a contingency table, the frequency distribution of one of the variables is
 {\centering \includegraphics[width=\maxwidth]{figure/box-1-1} 
 
 }
-
 
 
 \end{knitrout}
@@ -1057,51 +1045,66 @@ Given a contingency table, the frequency distribution of one of the variables is
 \begin{knitrout}\tiny
 \definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
 \begin{verbatim}
-R version 3.6.2 (2019-12-12)
+R version 4.0.2 (2020-06-22)
 Platform: x86_64-pc-linux-gnu (64-bit)
-Running under: Pop!_OS 19.10
+Running under: Pop!_OS 20.10
 
 Matrix products: default
-BLAS:   /usr/lib/x86_64-linux-gnu/openblas/libblas.so.3
-LAPACK: /usr/lib/x86_64-linux-gnu/libopenblasp-r0.3.7.so
+BLAS:   /usr/lib/x86_64-linux-gnu/openblas-pthread/libblas.so.3
+LAPACK: /usr/lib/x86_64-linux-gnu/openblas-pthread/libopenblasp-r0.3.10.so
 
 attached base packages:
 [1] tools     stats     graphics  grDevices utils     datasets  methods  
 [8] base     
 
 other attached packages:
- [1] ggmosaic_0.3.0      cowplot_1.0.0       openintro_2.0.0    
+ [1] ggmosaic_0.3.3      cowplot_1.1.0       openintro_2.0.0    
  [4] usdata_0.1.0        cherryblossom_0.1.0 airports_0.1.0     
- [7] oibiostat_0.2.0     NCStats_0.4.7       FSA_0.8.30         
-[10] forcats_0.5.0       stringr_1.4.0       dplyr_1.0.2        
-[13] purrr_0.3.4         readr_1.3.1         tidyr_1.1.2        
-[16] tibble_3.0.3        ggplot2_3.3.2.9000  tidyverse_1.3.0    
-[19] knitr_1.29         
+ [7] oibiostat_0.2.0     here_0.1            NCStats_0.4.7      
+[10] FSA_0.8.30          forcats_0.5.1       stringr_1.4.0      
+[13] dplyr_1.0.7         purrr_0.3.4         readr_1.4.0        
+[16] tidyr_1.1.3         tibble_3.1.3        ggplot2_3.3.5      
+[19] tidyverse_1.3.0     knitr_1.33         
 
 loaded via a namespace (and not attached):
- [1] nlme_3.1-143       fs_1.3.2           lubridate_1.7.4    RColorBrewer_1.1-2
- [5] insight_0.8.1      httr_1.4.1         backports_1.1.9    R6_2.4.1          
- [9] sjlabelled_1.1.3   lazyeval_0.2.2     DBI_1.1.0          colorspace_1.4-1  
-[13] withr_2.2.0        tidyselect_1.1.0   emmeans_1.4.5      compiler_3.6.2    
-[17] performance_0.4.4  cli_2.0.2          rvest_0.3.5        pacman_0.5.1      
-[21] xml2_1.3.0         plotly_4.9.2       sandwich_2.5-1     labeling_0.3      
-[25] bayestestR_0.5.2   scales_1.1.1       mvtnorm_1.0-12     digest_0.6.25     
-[29] minqa_1.2.4        htmltools_0.5.0    pkgconfig_2.0.3    lme4_1.1-21       
-[33] dbplyr_1.4.2       highr_0.8          htmlwidgets_1.5.1  rlang_0.4.7       
-[37] readxl_1.3.1       rstudioapi_0.11    farver_2.0.3       generics_0.0.2    
-[41] zoo_1.8-7          jsonlite_1.7.0     sjPlot_2.8.3       magrittr_1.5      
-[45] parameters_0.5.0   Matrix_1.2-18      Rcpp_1.0.4.6       munsell_0.5.0     
-[49] fansi_0.4.1        lifecycle_0.2.0    stringi_1.4.6      multcomp_1.4-12   
-[53] snakecase_0.11.0   MASS_7.3-51.5      plyr_1.8.6         grid_3.6.2        
-[57] sjmisc_2.8.3       crayon_1.3.4       lattice_0.20-38    ggeffects_0.14.1  
-[61] haven_2.3.1        splines_3.6.2      sjstats_0.17.9     hms_0.5.3         
-[65] pillar_1.4.6       boot_1.3-24        estimability_1.3   effectsize_0.2.0  
-[69] codetools_0.2-16   reprex_0.3.0       glue_1.4.2         evaluate_0.14     
-[73] data.table_1.12.8  modelr_0.1.5       vctrs_0.3.4        nloptr_1.2.2.1    
-[77] cellranger_1.1.0   gtable_0.3.0       productplots_0.1.1 assertthat_0.2.1  
-[81] TeachingDemos_2.12 xfun_0.16          xtable_1.8-4       broom_0.7.0       
-[85] coda_0.19-3        viridisLite_0.3.0  survival_3.1-8     TH.data_1.0-10    
-[89] ellipsis_0.3.1    
+  [1] readxl_1.3.1       backports_1.2.1    plyr_1.8.6        
+  [4] lazyeval_0.2.2     splines_4.0.2      crosstalk_1.1.1   
+  [7] leaflet_2.0.3      TH.data_1.0-10     digest_0.6.27     
+ [10] htmltools_0.5.1.1  productplots_0.1.1 fansi_0.5.0       
+ [13] magrittr_2.0.1     mosaicData_0.20.1  mosaicCore_0.8.0  
+ [16] openxlsx_4.1.5     modelr_0.1.8       sandwich_2.5-1    
+ [19] colorspace_2.0-2   blob_1.2.1         rvest_1.0.0       
+ [22] ggrepel_0.8.2      haven_2.3.1        xfun_0.25         
+ [25] crayon_1.4.1       jsonlite_1.7.2     lme4_1.1-23       
+ [28] survival_3.2-3     zoo_1.8-8          glue_1.4.2        
+ [31] polyclip_1.10-0    gtable_0.3.0       emmeans_1.5.1     
+ [34] sjstats_0.18.0     sjmisc_2.8.5       car_3.0-9         
+ [37] ggformula_0.9.4    abind_1.4-5        scales_1.1.1      
+ [40] mvtnorm_1.1-1      DBI_1.1.1          mosaic_1.7.0      
+ [43] ggeffects_0.16.0   Rcpp_1.0.7         viridisLite_0.4.0 
+ [46] xtable_1.8-4       performance_0.5.0  ggstance_0.3.4    
+ [49] foreign_0.8-80     htmlwidgets_1.5.3  httr_1.4.2        
+ [52] RColorBrewer_1.1-2 ellipsis_0.3.2     pkgconfig_2.0.3   
+ [55] farver_2.1.0       dbplyr_1.4.4       utf8_1.2.2        
+ [58] tidyselect_1.1.1   labeling_0.4.2     rlang_0.4.11      
+ [61] effectsize_0.3.3   munsell_0.5.0      TeachingDemos_2.12
+ [64] cellranger_1.1.0   cli_3.0.1          generics_0.1.0    
+ [67] pacman_0.5.1       sjlabelled_1.1.7   broom_0.7.2       
+ [70] evaluate_0.14      ggdendro_0.1.22    fs_1.5.0          
+ [73] zip_2.2.0          nlme_3.1-149       xml2_1.3.2        
+ [76] compiler_4.0.2     rstudioapi_0.13    plotly_4.9.3      
+ [79] curl_4.3.2         reprex_0.3.0       statmod_1.4.34    
+ [82] tweenr_1.0.1       stringi_1.7.3      highr_0.9         
+ [85] parameters_0.8.6   lattice_0.20-41    Matrix_1.2-18     
+ [88] nloptr_1.2.2.2     vctrs_0.3.8        pillar_1.6.2      
+ [91] lifecycle_1.0.0    estimability_1.3   data.table_1.14.0 
+ [94] insight_0.9.6      R6_2.5.1           gridExtra_2.3     
+ [97] rio_0.5.16         codetools_0.2-16   boot_1.3-25       
+[100] MASS_7.3-53        assertthat_0.2.1   rprojroot_2.0.2   
+[103] withr_2.4.2        multcomp_1.4-13    bayestestR_0.7.2  
+[106] hms_1.0.0          grid_4.0.2         sjPlot_2.8.5      
+[109] coda_0.19-4        minqa_1.2.4        snakecase_0.11.0  
+[112] carData_3.0-4      ggforce_0.3.2      lubridate_1.7.9   
 \end{verbatim}
 \end{kframe}
 \end{knitrout}

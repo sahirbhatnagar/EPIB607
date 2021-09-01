@@ -13,7 +13,7 @@
 
 \begin{document}
 	
-	<<setup, include=FALSE>>=
+	<<setup, include=FALSE, message = FALSE, tidy = FALSE, warning = FALSE>>=
 	library(knitr)
 	knitr::opts_chunk$set(cache=FALSE, message = FALSE, tidy = FALSE, warning = FALSE,
 	echo = FALSE, 
@@ -27,13 +27,15 @@
 	#knit_hooks$set(document = function(x) {
 	#gsub('\\\\(begin|end)\\{kframe\\}', '', x)
 	#})
-	
-	library(tidyverse)
+	if (!requireNamespace("pacman")) install.packages("pacman")
+	pacman::p_load(tidyverse)
 	library(NCStats)
 	
 	#knitr::opts_chunk$set(background = '#FFFF00')
 	library(tools) #needed for include_graphics2 function
-	source("/home/sahir/git_repositories/EPIB607/resources/assets/slides/bin/include_graphics2.R")
+	pacman::p_load(here)
+	source(here::here("inst","slides","bin","include_graphics2.R"))
+	knitr::knit_hooks$set(purl = hook_purl)
 	@
 	
 	%\title{Introduction to Regression Trees}
@@ -42,7 +44,7 @@
 	%\institute[shortinst]{Department of Epidemiology, Biostatistics and Occupational Health}
 	
 	\title{002 - Motivating Examples}
-	\author{EPIB 607 - FALL 2020}
+	\author{EPIB 607}
 	\institute{
 		Sahir Rai Bhatnagar\\
 		Department of Epidemiology, Biostatistics, and Occupational Health\\
@@ -109,6 +111,7 @@ include_graphics2("http://www.biostat.mcgill.ca/hanley/statbook/OxfordCovidVacci
 path <- 
   "http://www.biostat.mcgill.ca/hanley/statbook/immunogenicityChAdOx1.nCoV-19vaccine.txt"
 ds <- read.table(path)
+ds$RefIndexCategory <- factor(ds$RefIndexCategory)
 head(ds)
 str(ds)
 levels(ds$RefIndexCategory)
@@ -182,7 +185,7 @@ p1 + geom_boxplot()
 \textbf{1. Numerical summary} \\
 
 <<echo=TRUE,size='tiny'>>=
-by(ds$IgGResponse.log10.ElisaUnits,ds$RefIndexCategory,summary)
+base::by(ds$IgGResponse.log10.ElisaUnits,ds$RefIndexCategory,summary)
 @
 \pause
 
@@ -191,7 +194,7 @@ by(ds$IgGResponse.log10.ElisaUnits,ds$RefIndexCategory,summary)
 \textbf{2. Another ``dot'' test} \\
 
 <<echo=TRUE>>=
-t.test(IgGResponse.log10.ElisaUnits ~ RefIndexCategory, data = ds)
+stats::t.test(IgGResponse.log10.ElisaUnits ~ RefIndexCategory, data = ds)
 @
 
 \end{frame}
@@ -263,7 +266,9 @@ county_level <- nytcovcounty %>%
                 dplyr::left_join(pop_county, by = c("state","fips")) %>%
                 dplyr::mutate(cases.per.10k = cases/population * 1e4) %>%
                 dplyr::filter(state %in% c("Iowa","Illinois")) %>%
-                dplyr::group_by(county)
+                dplyr::group_by(county) %>%
+                dplyr::filter(date >= "2020-03-15") %>%
+                dplyr::filter(date <= "2020-09-01")
 
 pop_state <- pop_county %>% 
              dplyr::group_by(state) %>% 
@@ -272,6 +277,7 @@ pop_state <- pop_county %>%
 state_level <- county_level %>%
                dplyr::group_by(state, date) %>%
                dplyr::filter(date >= "2020-03-15") %>% 
+               dplyr::filter(date <= "2020-09-01") %>%
                dplyr::summarise(cases = sum(cases)) %>%
                dplyr::left_join(pop_state, by = "state") %>% 
                dplyr::mutate(cases.per.10k = cases / population * 1e4, state = factor(state),
@@ -347,7 +353,7 @@ summary(fit3)
 \begin{frame}[fragile]{Model-based predictions}
 	
 	<<nytcapitastatemodel2, echo = TRUE, fig.asp = 0.481>>=
-library(ggeffects)
+pacman::p_load(ggeffects)
 ggeffects::ggpredict(fit3, terms = "state") %>% 
   plot()
 	@

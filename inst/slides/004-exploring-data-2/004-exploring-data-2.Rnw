@@ -35,7 +35,9 @@
 	
 	#knitr::opts_chunk$set(background = '#FFFF00')
 	library(tools) #needed for include_graphics2 function
-	source("/home/sahir/git_repositories/EPIB607/slides/bin/include_graphics2.R")
+	pacman::p_load(here)
+	source(here::here("inst","slides","bin","include_graphics2.R"))
+	knitr::knit_hooks$set(purl = hook_purl)
 	@
 	
 	%\title{Introduction to Regression Trees}
@@ -43,10 +45,10 @@
 	%\author[shortname]{Sahir Rai Bhatnagar, PhD Candidate (Biostatistics) }
 	%\institute[shortinst]{Department of Epidemiology, Biostatistics and Occupational Health}
 	
-%	\title{004 - Exploring Data - Part II}
-%	\author{EPIB 607 - FALL 2020}
-\title{Descriptive Statistics Part II}
-\author{Lecture 6}
+	\title{004 - Exploring Data - Part II}
+	\author{EPIB 607}
+%\title{Descriptive Statistics Part II}
+%\author{Lecture 6}
 	\institute{
 		Sahir Rai Bhatnagar\\
 %		Department of Epidemiology, Biostatistics, and Occupational Health\\

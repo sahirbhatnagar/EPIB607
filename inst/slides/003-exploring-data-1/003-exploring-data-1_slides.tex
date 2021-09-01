@@ -52,8 +52,8 @@
 
 
 %\input{slides_header.tex}
-\input{/home/sahir/git_repositories/EPIB607/resources/assets/slides/slides_header2.tex}
-\graphicspath{{/home/sahir/git_repositories/EPIB607/resources/assets/slides/figure/}}
+\input{/home/sahir/git_repositories/EPIB607/slides/slides_header2.tex}
+\graphicspath{{/home/sahir/git_repositories/EPIB607/slides/figure/}}
 
 %\let\oldShaded\Shaded
 %\let\endoldShaded\endShaded
@@ -69,7 +69,7 @@
 	%\institute[shortinst]{Department of Epidemiology, Biostatistics and Occupational Health}
 	
 	\title{003 - Exploring Data - Part I}
-	\author{EPIB 607 - FALL 2020}
+	\author{EPIB 607}
 	\institute{
 		Sahir Rai Bhatnagar\\
 		Department of Epidemiology, Biostatistics, and Occupational Health\\
@@ -229,15 +229,15 @@ participants\footnote{\tiny{Thompson PD, Moyna M, Seip, R, et al., 2004. Functio
 \begin{verbatim}
 ## Rows: 595
 ## Columns: 9
-## $ ndrm.ch     <dbl> 40.0, 25.0, 40.0, 125.0, 40.0, 75.0, 100.0, 57.1, 33.3,...
-## $ drm.ch      <dbl> 40.0, 0.0, 0.0, 0.0, 20.0, 0.0, 0.0, -14.3, 0.0, 0.0, 2...
-## $ sex         <fct> Female, Male, Female, Female, Female, Female, Female, F...
-## $ age         <int> 27, 36, 24, 40, 32, 24, 30, 28, 27, 30, 20, 23, 24, 34,...
-## $ race        <fct> Caucasian, Caucasian, Caucasian, Caucasian, Caucasian, ...
-## $ height      <dbl> 65.0, 71.7, 65.0, 68.0, 61.0, 62.2, 65.0, 68.0, 68.2, 6...
-## $ weight      <dbl> 199, 189, 134, 171, 118, 120, 134, 162, 189, 120, 131, ...
-## $ actn3.r577x <fct> CC, CT, CT, CT, CC, CT, TT, CT, CC, CT, CT, CT, TT, CT,...
-## $ bmi         <dbl> 33.112, 25.845, 22.296, 25.998, 22.293, 21.805, 22.296,...
+## $ ndrm.ch     <dbl> 40.0, 25.0, 40.0, 125.0, 40.0, 75.0, 100.0, 57.1, 33.3, 20~
+## $ drm.ch      <dbl> 40.0, 0.0, 0.0, 0.0, 20.0, 0.0, 0.0, -14.3, 0.0, 0.0, 25.0~
+## $ sex         <fct> Female, Male, Female, Female, Female, Female, Female, Fema~
+## $ age         <int> 27, 36, 24, 40, 32, 24, 30, 28, 27, 30, 20, 23, 24, 34, 31~
+## $ race        <fct> Caucasian, Caucasian, Caucasian, Caucasian, Caucasian, His~
+## $ height      <dbl> 65.0, 71.7, 65.0, 68.0, 61.0, 62.2, 65.0, 68.0, 68.2, 62.2~
+## $ weight      <dbl> 199, 189, 134, 171, 118, 120, 134, 162, 189, 120, 131, 108~
+## $ actn3.r577x <fct> CC, CT, CT, CT, CC, CT, TT, CT, CC, CT, CT, CT, TT, CT, CC~
+## $ bmi         <dbl> 33.112, 25.845, 22.296, 25.998, 22.293, 21.805, 22.296, 24~
 \end{verbatim}
 \end{kframe}
 \end{knitrout}
@@ -543,7 +543,6 @@ The median is the $50^{th}$ percentile; 50\% of observations lie below/above the
 }
 
 
-
 \end{knitrout}
 
 \normalsize
@@ -568,7 +567,6 @@ The median is the $50^{th}$ percentile; 50\% of observations lie below/above the
 {\centering \includegraphics[width=0.6\linewidth]{figure/hist_weight-2-1} 
 
 }
-
 
 
 \end{knitrout}
@@ -599,7 +597,6 @@ The median is the $50^{th}$ percentile; 50\% of observations lie below/above the
 {\centering \includegraphics[width=0.6\linewidth]{figure/hist_weight-3-1} 
 
 }
-
 
 
 \end{knitrout}
@@ -658,7 +655,6 @@ The median is the $50^{th}$ percentile; 50\% of observations lie below/above the
 }
 
 
-
 \end{knitrout}
 			
 \end{frame}
@@ -709,7 +705,6 @@ The median is the $50^{th}$ percentile; 50\% of observations lie below/above the
 \includegraphics[width=0.45\linewidth]{figure/unnamed-chunk-2-2} 
 
 }
-
 
 
 \end{knitrout}
@@ -773,7 +768,6 @@ The median is the $50^{th}$ percentile; 50\% of observations lie below/above the
 \includegraphics[width=0.45\linewidth]{figure/table-2-2} 
 
 }
-
 
 
 \end{knitrout}
@@ -844,7 +838,6 @@ The median is the $50^{th}$ percentile; 50\% of observations lie below/above the
 \includegraphics[width=0.45\linewidth]{figure/numerical-2} 
 
 }
-
 
 
 \end{knitrout}
@@ -1050,7 +1043,6 @@ The median is the $50^{th}$ percentile; 50\% of observations lie below/above the
 {\centering \includegraphics[width=\maxwidth]{figure/box-1-1} 
 
 }
-
 
 
 \end{knitrout}
@@ -1393,14 +1385,14 @@ The median is the $50^{th}$ percentile; 50\% of observations lie below/above the
 \end{alltt}
 \begin{verbatim}
 ## 'data.frame':	307 obs. of  2 variables:
-##  $ RefIndexCategory            : Factor w/ 2 levels "Convalescent",..: 1 1 1 1 1 1 1 1 1 1 ...
+##  $ RefIndexCategory            : chr  "Convalescent" "Convalescent" "Convalescent" "Convalescent" ...
 ##  $ IgGResponse.log10.ElisaUnits: num  2.56 2.74 2.79 3.32 3.15 2.35 2.72 2.95 2.42 2.64 ...
 \end{verbatim}
 \begin{alltt}
 \hlkwd{levels}\hlstd{(ds}\hlopt{$}\hlstd{RefIndexCategory)}
 \end{alltt}
 \begin{verbatim}
-## [1] "Convalescent"             "Day28PostChAdOx1 nCoV-19"
+## NULL
 \end{verbatim}
 \end{kframe}
 \end{knitrout}
@@ -1424,7 +1416,6 @@ The median is the $50^{th}$ percentile; 50\% of observations lie below/above the
 {\centering \includegraphics[width=0.6\linewidth]{figure/unnamed-chunk-3-1} 
 
 }
-
 
 
 \end{knitrout}
@@ -1456,7 +1447,6 @@ The median is the $50^{th}$ percentile; 50\% of observations lie below/above the
 {\centering \includegraphics[width=0.99\linewidth]{figure/unnamed-chunk-4-1} 
 
 }
-
 
 
 \end{knitrout}
@@ -1536,7 +1526,6 @@ The median is the $50^{th}$ percentile; 50\% of observations lie below/above the
 
 \end{figure}
 
-
 \end{knitrout}
 	
 \end{frame}
@@ -1574,17 +1563,9 @@ The median is the $50^{th}$ percentile; 50\% of observations lie below/above the
 \begin{alltt}
 \hlkwd{t.test}\hlstd{(IgGResponse.log10.ElisaUnits} \hlopt{~} \hlstd{RefIndexCategory,} \hlkwc{data} \hlstd{= ds)}
 \end{alltt}
-\begin{verbatim}
-## Welch Two Sample t-test with IgGResponse.log10.ElisaUnits by RefIndexCategory 
-## t = 13.1047, df = 284.781, p-value < 2.2e-16
-## alternative hypothesis: true difference in means is not equal to 0 
-## 95 percent confidence interval:
-##  0.4510720 0.6105238 
-## sample estimates:
-##             mean in group Convalescent mean in group Day28PostChAdOx1 nCoV-19 
-##                               2.577333                               2.046535
-\end{verbatim}
-\end{kframe}
+
+
+{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error in mosaic\_formula\_q(formula, groups = groups, max.slots = 2, envir = if (is.environment(data)) data else environment(formula)): Invalid formula specification. \ Too many slots (3>2).}}\end{kframe}
 \end{knitrout}
 
 \end{frame}
@@ -1636,10 +1617,10 @@ The median is the $50^{th}$ percentile; 50\% of observations lie below/above the
 \definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
 \begin{alltt}
 \hlkwd{plot}\hlstd{(ds}\hlopt{$}\hlstd{RefIndexCategory, ds}\hlopt{$}\hlstd{IgGResponse.log10.ElisaUnits,} \hlkwc{pch}\hlstd{=}\hlnum{19}\hlstd{,} \hlkwc{cex}\hlstd{=}\hlnum{0.5}\hlstd{)}
-\hlkwd{abline}\hlstd{(}\hlkwc{h} \hlstd{=} \hlkwd{seq}\hlstd{(}\hlnum{0}\hlstd{,}\hlnum{4}\hlstd{,}\hlnum{0.5}\hlstd{),}\hlkwc{col} \hlstd{=} \hlstr{"lightblue"}\hlstd{)}
-\hlkwd{lines}\hlstd{(ds}\hlopt{$}\hlstd{RefIndexCategory, fit2}\hlopt{$}\hlstd{fitted.values,} \hlkwc{col} \hlstd{=} \hlstr{"red"}\hlstd{,} \hlkwc{lwd} \hlstd{=} \hlnum{3}\hlstd{)}
 \end{alltt}
-\end{kframe}\begin{figure}
+
+
+{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error in plot.window(...): need finite 'xlim' values}}\end{kframe}\begin{figure}
 
 {\centering \includegraphics[width=0.5\linewidth]{figure/unnamed-chunk-10-1} 
 
@@ -1648,7 +1629,11 @@ The median is the $50^{th}$ percentile; 50\% of observations lie below/above the
 \caption[The red line is the fitted regression from the previous slide]{The red line is the fitted regression from the previous slide.}\label{fig:unnamed-chunk-10}
 \end{figure}
 
-
+\begin{kframe}\begin{alltt}
+\hlkwd{abline}\hlstd{(}\hlkwc{h} \hlstd{=} \hlkwd{seq}\hlstd{(}\hlnum{0}\hlstd{,}\hlnum{4}\hlstd{,}\hlnum{0.5}\hlstd{),}\hlkwc{col} \hlstd{=} \hlstr{"lightblue"}\hlstd{)}
+\hlkwd{lines}\hlstd{(ds}\hlopt{$}\hlstd{RefIndexCategory, fit2}\hlopt{$}\hlstd{fitted.values,} \hlkwc{col} \hlstd{=} \hlstr{"red"}\hlstd{,} \hlkwc{lwd} \hlstd{=} \hlnum{3}\hlstd{)}
+\end{alltt}
+\end{kframe}
 \end{knitrout}
 	
 \end{frame}
@@ -1676,7 +1661,6 @@ The median is the $50^{th}$ percentile; 50\% of observations lie below/above the
 {\centering \includegraphics[width=1\linewidth]{downloadFigs4latex_003-exploring-data-1_slides/masks} 
 
 }
-
 
 
 \end{knitrout}
@@ -1759,7 +1743,6 @@ The median is the $50^{th}$ percentile; 50\% of observations lie below/above the
 }
 
 
-
 \end{knitrout}
 	
 \end{frame}
@@ -1786,7 +1769,6 @@ The median is the $50^{th}$ percentile; 50\% of observations lie below/above the
 {\centering \includegraphics[width=\maxwidth]{figure/nytcapita-1} 
 
 }
-
 
 
 \end{knitrout}
@@ -1816,7 +1798,6 @@ The median is the $50^{th}$ percentile; 50\% of observations lie below/above the
 }
 
 
-
 \end{knitrout}
 	
 \end{frame}
@@ -1833,19 +1814,19 @@ The median is the $50^{th}$ percentile; 50\% of observations lie below/above the
 \begin{verbatim}
 ## 
 ## Coefficients:
-##                 Estimate Std. Error t value Pr(>|t|)    
-## (Intercept)     -7.07540    1.22153  -5.792 1.66e-08 ***
-## stateIowa      -17.88124    1.72751 -10.351  < 2e-16 ***
-## time             1.10890    0.01300  85.300  < 2e-16 ***
-## stateIowa:time   0.06078    0.01838   3.306  0.00105 ** 
+##                  Estimate Std. Error t value Pr(>|t|)    
+## (Intercept)    -142.10981    9.86847 -14.400  < 2e-16 ***
+## stateIowa       -13.71844   13.95612  -0.983    0.326    
+## time              2.69285    0.03190  84.404  < 2e-16 ***
+## stateIowa:time    0.33126    0.04512   7.342 4.17e-13 ***
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
-## (Dispersion parameter for gaussian family taken to be 59.87398)
+## (Dispersion parameter for gaussian family taken to be 12988.97)
 ## 
-##     Null deviance: 953056  on 323  degrees of freedom
-## Residual deviance:  19160  on 320  degrees of freedom
-## AIC: 2251.3
+##     Null deviance: 224587838  on 1069  degrees of freedom
+## Residual deviance:  13846245  on 1066  degrees of freedom
+## AIC: 13177
 ## 
 ## Number of Fisher Scoring iterations: 2
 \end{verbatim}
@@ -1871,7 +1852,6 @@ The median is the $50^{th}$ percentile; 50\% of observations lie below/above the
 }
 
 
-
 \end{knitrout}
 	
 \end{frame}
@@ -1893,49 +1873,65 @@ The median is the $50^{th}$ percentile; 50\% of observations lie below/above the
 \begin{knitrout}\tiny
 \definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
 \begin{verbatim}
-R version 3.6.2 (2019-12-12)
+R version 4.0.2 (2020-06-22)
 Platform: x86_64-pc-linux-gnu (64-bit)
-Running under: Pop!_OS 19.10
+Running under: Pop!_OS 20.10
 
 Matrix products: default
-BLAS:   /usr/lib/x86_64-linux-gnu/openblas/libblas.so.3
-LAPACK: /usr/lib/x86_64-linux-gnu/libopenblasp-r0.3.7.so
+BLAS:   /usr/lib/x86_64-linux-gnu/openblas-pthread/libblas.so.3
+LAPACK: /usr/lib/x86_64-linux-gnu/openblas-pthread/libopenblasp-r0.3.10.so
 
 attached base packages:
 [1] tools     stats     graphics  grDevices utils     datasets  methods  
 [8] base     
 
 other attached packages:
- [1] ggeffects_0.14.1    covdata_0.4.4       openintro_2.0.0    
+ [1] ggeffects_0.16.0    covdata_0.8         openintro_2.0.0    
  [4] usdata_0.1.0        cherryblossom_0.1.0 airports_0.1.0     
- [7] oibiostat_0.2.0     NCStats_0.4.7       FSA_0.8.30         
-[10] forcats_0.5.0       stringr_1.4.0       dplyr_1.0.2        
-[13] purrr_0.3.4         readr_1.3.1         tidyr_1.1.2        
-[16] tibble_3.0.3        ggplot2_3.3.2.9000  tidyverse_1.3.0    
-[19] knitr_1.29         
+ [7] here_0.1            oibiostat_0.2.0     NCStats_0.4.7      
+[10] FSA_0.8.30          forcats_0.5.1       stringr_1.4.0      
+[13] dplyr_1.0.7         purrr_0.3.4         readr_1.4.0        
+[16] tidyr_1.1.3         tibble_3.1.3        ggplot2_3.3.5      
+[19] tidyverse_1.3.0     knitr_1.33         
 
 loaded via a namespace (and not attached):
- [1] nlme_3.1-143       fs_1.3.2           lubridate_1.7.4    insight_0.8.1     
- [5] httr_1.4.1         backports_1.1.9    utf8_1.1.4         R6_2.4.1          
- [9] sjlabelled_1.1.3   DBI_1.1.0          colorspace_1.4-1   withr_2.2.0       
-[13] tidyselect_1.1.0   emmeans_1.4.5      curl_4.3           compiler_3.6.2    
-[17] performance_0.4.4  cli_2.0.2          rvest_0.3.5        formatR_1.7       
-[21] pacman_0.5.1       xml2_1.3.0         sandwich_2.5-1     labeling_0.3      
-[25] bayestestR_0.5.2   scales_1.1.1       mvtnorm_1.0-12     digest_0.6.25     
-[29] minqa_1.2.4        pkgconfig_2.0.3    lme4_1.1-21        dbplyr_1.4.2      
-[33] highr_0.8          rlang_0.4.7        readxl_1.3.1       rstudioapi_0.11   
-[37] farver_2.0.3       generics_0.0.2     zoo_1.8-7          jsonlite_1.7.0    
-[41] sjPlot_2.8.3       magrittr_1.5       parameters_0.5.0   Matrix_1.2-18     
-[45] Rcpp_1.0.4.6       munsell_0.5.0      fansi_0.4.1        lifecycle_0.2.0   
-[49] stringi_1.4.6      multcomp_1.4-12    snakecase_0.11.0   MASS_7.3-51.5     
-[53] plyr_1.8.6         grid_3.6.2         sjmisc_2.8.3       crayon_1.3.4      
-[57] lattice_0.20-38    haven_2.3.1        splines_3.6.2      sjstats_0.17.9    
-[61] hms_0.5.3          pillar_1.4.6       boot_1.3-24        estimability_1.3  
-[65] effectsize_0.2.0   codetools_0.2-16   reprex_0.3.0       glue_1.4.2        
-[69] evaluate_0.14      modelr_0.1.5       nloptr_1.2.2.1     vctrs_0.3.4       
-[73] cellranger_1.1.0   gtable_0.3.0       assertthat_0.2.1   TeachingDemos_2.12
-[77] xfun_0.16          xtable_1.8-4       broom_0.7.0        coda_0.19-3       
-[81] survival_3.1-8     TH.data_1.0-10     ellipsis_0.3.1    
+  [1] minqa_1.2.4        TH.data_1.0-10     colorspace_2.0-2  
+  [4] ellipsis_0.3.2     rio_0.5.16         leaflet_2.0.3     
+  [7] sjlabelled_1.1.7   rprojroot_2.0.2    snakecase_0.11.0  
+ [10] estimability_1.3   ggstance_0.3.4     parameters_0.8.6  
+ [13] ggdendro_0.1.22    fs_1.5.0           rstudioapi_0.13   
+ [16] farver_2.1.0       ggrepel_0.8.2      mvtnorm_1.1-1     
+ [19] fansi_0.5.0        lubridate_1.7.9    xml2_1.3.2        
+ [22] codetools_0.2-16   mosaic_1.7.0       splines_4.0.2     
+ [25] sjmisc_2.8.5       polyclip_1.10-0    jsonlite_1.7.2    
+ [28] nloptr_1.2.2.2     broom_0.7.2        dbplyr_1.4.4      
+ [31] ggforce_0.3.2      effectsize_0.3.3   compiler_4.0.2    
+ [34] httr_1.4.2         sjstats_0.18.0     emmeans_1.5.1     
+ [37] backports_1.2.1    assertthat_0.2.1   Matrix_1.2-18     
+ [40] cli_3.0.1          formatR_1.8        tweenr_1.0.1      
+ [43] htmltools_0.5.1.1  coda_0.19-4        gtable_0.3.0      
+ [46] glue_1.4.2         Rcpp_1.0.7         carData_3.0-4     
+ [49] cellranger_1.1.0   vctrs_0.3.8        sjPlot_2.8.5      
+ [52] nlme_3.1-149       crosstalk_1.1.1    insight_0.9.6     
+ [55] xfun_0.25          lme4_1.1-23        openxlsx_4.1.5    
+ [58] rvest_1.0.0        lifecycle_1.0.0    mosaicCore_0.8.0  
+ [61] pacman_0.5.1       statmod_1.4.34     zoo_1.8-8         
+ [64] MASS_7.3-53        scales_1.1.1       hms_1.0.0         
+ [67] sandwich_2.5-1     curl_4.3.2         mosaicData_0.20.1 
+ [70] gridExtra_2.3      TeachingDemos_2.12 stringi_1.7.3     
+ [73] highr_0.9          bayestestR_0.7.2   boot_1.3-25       
+ [76] zip_2.2.0          rlang_0.4.11       pkgconfig_2.0.3   
+ [79] evaluate_0.14      lattice_0.20-41    htmlwidgets_1.5.3 
+ [82] labeling_0.4.2     tidyselect_1.1.1   ggformula_0.9.4   
+ [85] plyr_1.8.6         magrittr_2.0.1     R6_2.5.1          
+ [88] generics_0.1.0     multcomp_1.4-13    DBI_1.1.1         
+ [91] pillar_1.6.2       haven_2.3.1        foreign_0.8-80    
+ [94] withr_2.4.2        survival_3.2-3     abind_1.4-5       
+ [97] performance_0.5.0  modelr_0.1.8       crayon_1.4.1      
+[100] car_3.0-9          utf8_1.2.2         grid_4.0.2        
+[103] readxl_1.3.1       data.table_1.14.0  blob_1.2.1        
+[106] reprex_0.3.0       digest_0.6.27      xtable_1.8-4      
+[109] munsell_0.5.0     
 \end{verbatim}
 \end{kframe}
 \end{knitrout}
