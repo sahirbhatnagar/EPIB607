@@ -1,0 +1,174 @@
+---
+output: html_document
+editor_options: 
+  chunk_output_type: console
+---
+
+# (PART) Descriptive Statistics {-}
+
+
+# Introduction to Data {#introdata}
+
+::: {.rmdnote}
+This section is adapted from the Introduction to Statistics for the Life and Biomedical Sciences [@vu]
+:::
+
+**Packages used in this Section**
+
+```{r eval=TRUE, echo=TRUE, warning=FALSE, message=FALSE}
+pacman::p_load(
+  openintro,
+  oibiostat, # devtools::install_github("OI-Biostat/oi_biostat_data")
+  ggplot2,
+  ggpubr,
+  DT,
+  kableExtra
+)
+```
+
+
+## Case Study: preventing peanut allergies {#leapCaseStudy}
+
+The proportion of young children in Western countries with peanut allergies has doubled in the last 10 years. Previous research suggests that exposing infants to peanut-based foods, rather than excluding such foods from their diets, may be an effective strategy for preventing the development of peanut allergies. The "Learning Early about Peanut Allergy" (LEAP) study was conducted to investigate whether early exposure to peanut products reduces the probability that a child will develop peanut allergies (*Du Toit, George, et al. Randomized trial of peanut consumption in infants at risk for peanut allergy. New England Journal of Medicine 372.9 (2015): 803-813*).
+
+The study team enrolled children in the United Kingdom between 2006 and 2009, selecting 640 infants with eczema, egg allergy, or both. Each child was randomly assigned to either the peanut consumption (treatment) group or the peanut avoidance (control) group. Children in the treatment group were fed at least 6 grams of peanut protein daily until 5 years of age, while children in the control group avoided consuming peanut protein until 5 years of age.
+
+At 5 years of age, each child was tested for peanut allergy using an oral food challenge (OFC): 5 grams of peanut protein in a single dose. A child was recorded as passing the oral food challenge if no allergic reaction was detected, and failing the oral food challenge if an allergic reaction occurred. These children had previously been tested for peanut allergy through a skin test, conducted at the time of study entry; the main analysis presented in the paper was based on data from 530 children with an earlier negative skin test. Although a total of 542 children had an earlier negative skin test, data collection did not occur for 12 children.
+
+Individual-level data from the study are shown in Figure \@ref(fig:leapStudyResultsDF). Each row represents a participant and shows the participant's study ID number, treatment group assignment, and OFC outcome. The data are available as from the `oibiostat` R package.
+
+```{r leapStudyResultsDF, echo=FALSE, fig.cap='Individual-level LEAP results'}
+data(LEAP)
+DT::datatable(LEAP[,c("participant.ID", "treatment.group", "overall.V60.outcome")])
+```
+ 
+
+The data can be organized in the form of a two-way summary table; Table \@ref(tab:leapStudyResults) shows the results categorized by treatment group and OFC outcome. 
+
+```{r leapStudyResults, echo=FALSE}
+out.table <- addmargins(table(LEAP$treatment.group, LEAP$overall.V60.outcome)) 
+kableExtra::kbl(out.table, 
+                caption = 'Summary of LEAP results, organized by treatment group (either peanut avoidance or consumption) and result of the oral food challenge at 5 years of age (either pass or fail)') %>% 
+  kableExtra::kable_styling()
+```
+
+The summary table makes it easier to identify patterns in the data. Recall that the question of interest is whether children in the peanut consumption group are more or less likely to develop peanut allergies than those in the peanut avoidance group. In the avoidance group, the proportion of children failing the OFC is $36/263 = 0.137$ (13.7\%); in the consumption group, the proportion of children failing the OFC is $5/267 = 0.019$ (1.9\%).  Figure \@ref(fig:leapBarPlot) shows a graphical method of displaying the study results, using either the number of individuals per category from Table \@ref(tab:leapStudyResults) or the proportion of individuals with a specific OFC outcome in a group. 
+
+
+```{r leapBarPlot, fig.show='hold', fig.cap='(top) A bar plot displaying the number of individuals who failed or passed the OFC in each treatment group. (bottom) A bar plot displaying the proportions of individuals in each group that failed or passed the OFC.', echo=TRUE}
+ggplot(data = LEAP, aes(x = treatment.group, fill = overall.V60.outcome)) + 
+  geom_bar(position = position_stack(reverse = TRUE)) +
+ theme(legend.position = "top") + ggpubr::theme_pubr() + scale_fill_openintro()
+
+ggplot(data = LEAP, aes(x = treatment.group, fill = overall.V60.outcome)) + 
+  geom_bar(position = position_fill(reverse = TRUE)) +
+ theme(legend.position = "top") + ggpubr::theme_pubr() + scale_fill_openintro()
+```
+
+
+The proportion of participants failing the OFC is 11.8\% higher in the peanut avoidance group than the peanut consumption group. Another way to summarize the data is to compute the ratio of the two proportions (0.137/0.019 = 7.31), and conclude that the proportion of participants failing the OFC in the avoidance group is more than 7 times as large as in the consumption group; i.e., the risk of failing the OFC was more than 7 times as great for participants in the avoidance group relative to the consumption group.
+
+Based on the results of the study, it seems that early exposure to peanut products may be an effective strategy for reducing the chances of developing peanut allergies later in life. It is important to note that this study was conducted in the United Kingdom at a single site of pediatric care; it is not clear that these results can be generalized to other countries or cultures.
+
+The results also raise an important statistical issue: does the study provide definitive evidence that peanut consumption is beneficial? In other words, is the 11.8\% difference between the two groups larger than one would expect by chance variation alone? The material on inference in later chapters will provide the statistical tools to evaluate this question.
+
+
+## Data basics {#dataBasics}
+
+
+Effective organization and description of data is a first step in most
+analyses. This section introduces a structure for organizing data and
+basic terminology used to describe data.
+
+### Observations, variables, and data matrices {#frogDataExample}
+
+In evolutionary biology, parental investment refers to the amount of time, energy, or other resources devoted towards raising offspring. This section introduces the `frog` dataset, which originates from a 2013 study about maternal investment in a frog species (*Chen, W., et al. Maternal investment increases with altitude in a frog on the Tibetan Plateau. Journal of evolutionary biology 26.12 (2013): 2710-2715.*) Reproduction is a costly process for female frogs, necessitating a trade-off between individual egg size and total number of eggs produced. Researchers were interested in investigating how maternal investment varies with altitude and collected measurements on egg clutches found at breeding ponds across 11 study sites; for 5 sites, the body size of individual female frogs was also recorded.
+
+```{r frogDF, echo=FALSE, fig.cap='Data matrix for the frog dataset.'}
+data(frog) # from oibiostat package
+DT::datatable(frog[c(1,2,3,150), ])
+```
+     
+
+Figure \@ref(fig:frogDF) displays rows 1, 2, 3, and 150 of the data from the 431 clutches
+observed as part of the study. The `frog` dataset is available from the `oibiostat` R package. Each row in the table corresponds to a single clutch, indicating where the clutch was collected (`altitude` and `latitude`), `egg.size`, `clutch.size`, `clutch.volume`, and `body.size` of the mother when available. "NA" corresponds to a missing value, indicating that information on an individual female was not collected for that particular clutch. The recorded characteristics are referred to as **variables**; in this table, each column represents a variable.
+
+  **variable**   **description**
+  -------------- ------------------------------------------------------
+    `altitude`             Altitude of the study site in meters above sea level
+    `latitude`             Latitude of the study site measured in degrees
+    `egg.size`             Average diameter of an individual egg to the 0.01 mm
+    `clutch.size`          Estimated number of eggs in clutch
+    `clutch.volume`           Volume of egg clutch in mm
+    `body.size`            Length of mother frog in cm
+
+
+It is important to check the definitions of variables, as they are not always obvious. For example, why has `clutch.size` not been recorded as whole numbers? For a given clutch, researchers counted approximately 5 grams' worth of eggs and then estimated the total number of eggs based on the mass of the entire clutch. Definitions of the variables are given in the Table above.
+
+
+The data in Figure \@ref(fig:frogDF) are organized as a **data matrix**. Each row of a data matrix corresponds to an observational unit, and each column corresponds to a variable. A piece of the data matrix for the LEAP study introduced in Section \@ref(leapCaseStudy) is shown in Figure \@ref(fig:leapStudyResultsDF); the rows are study participants and three variables are shown for each participant. Data matrices are a convenient way to record and store data. If the data are collected for another individual, another row can easily be added; similarly, another column can be added for a new variable.
+
+### Types of variables {#variableTypes}
+
+The Functional polymorphisms Associated with human Muscle Size and Strength study (FAMuSS) measured a variety of demographic, phenotypic, and genetic characteristics for about 1,300 participants (*Thompson PD, Moyna M, Seip, R, et al., 2004.  Functional Polymorphisms Associated with Human Muscle Size and Strength.  Medicine and Science in Sports and Exercise 36:1132 - 1139.*) Data from the study have been used in a number of subsequent studies, such as one examining the relationship between muscle strength and genotype at a location on the ACTN3 gene (*Clarkson P, et al., Journal of Applied Physiology 99: 154-163, 2005.*) 
+
+The `famuss` dataset is a subset of the data for 595 participants (*The subset is from Foulkes, Andrea S. Applied statistical genetics with R: for population-based association studies. Springer Science & Business Media, 2009. The full version of the data is available at http://people.umass.edu/foulkes/asg/data.html*). The `famuss` dataset is shown in Figure \@ref{fig:famussDF}, and the variables are described in the Table below.
+
+```{r famussDF, echo=FALSE, fig.cap='Data matrix for the famuss dataset.'}
+data(famuss) # from oibiostat package
+DT::datatable(famuss[,c( "sex", "age", "race", "height", "weight", "actn3.r577x", "ndrm.ch")])
+```
+
+  **variable**   **description**
+  -------------- -------------------------------------------------------------------------------------------------
+  `sex`               Sex of the participant
+  `age`               Age in years
+  `race`               Race, recorded as `African Am` (African American), `Caucasian`, `Asian`, `Hispanic` or `Other`
+  `height`               Height in inches
+  `weight`               Weight in pounds
+  `actn3.r577x`               Genotype at the location r577x in the ACTN3 gene.
+  `ndrm.ch`               Percent change in strength in the non-dominant arm, comparing strength after to before training
+
+
+
+The variables `age`, `height`, `weight`, and `ndrm.ch` are **numerical variables**. They take on numerical values, and it is reasonable to add, subtract, or take averages with these values. In contrast, a variable reporting telephone numbers would not be classified as numerical, since sums, differences, and averages in this context have no meaning. Age measured in years is said to be **discrete**, since it can only take on numerical values with jumps; i.e., positive integer values. Percent change in strength in the non-dominant arm (`ndrm.ch`) is **continuous**, and can take on any value within a specified range.
+
+
+
+The variables `sex`, `race`, and `actn3.r577x` are **categorical variables**, which take on values that are names or labels. The possible values of a categorical variable are called the variable's **levels**. For example, the levels of `actn3.r577x` are the three possible genotypes at this particular locus: CC, CT, or TT.  Categorical variables without a natural ordering are called **nominal categorical variables**; `sex`, `race`, and `actn3.r577x` are all nominal categorical variables. Categorical variables with levels that have a natural ordering are referred to as **ordinal categorical variables**. For example, age of the participants grouped into 5-year intervals (15-20, 21-25, 26-30, etc.) is an ordinal categorical variable.  
+
+::: {.rmdnote}
+Categorical variables are sometimes called factor variables.
+:::
+
+
+
+```{r variableTypesFig, fig.cap='Breakdown of variables into their respective types.', echo=FALSE}
+knitr::include_graphics(here::here("inst/figures/","ch_intro_to_data_oi_biostat/figures/variables/variableTypes.png"))
+```
+
+
+\begin{figure}
+\centering
+\includegraphics[width=0.75\textwidth]{ch_intro_to_data_oi_biostat/figures/variables/variableTypes.png}
+\caption{Breakdown of variables into their respective types.}
+\label{variableTypesFig}
+\end{figure}
+
+
+
+
+### Relationships between variables {#variableRelations}
+
+
+Many studies are motivated by a researcher examining how two or more variables are related. For example, do the values of one variable increase as the values of another decrease? Do the values of one variable tend to differ by the levels of another variable?
+
+One study used the `famuss` data to investigate whether ACTN3 genotype at a particular location (residue 577) is associated with change in muscle strength. The ACTN3 gene codes for a protein involved in muscle function. A common mutation in the gene at a specific location changes the cytosine (C) nucleotide to a thymine (T) nucleotide; individuals with the TT genotype are unable to produce any ACTN3 protein. 
+
+Researchers hypothesized that genotype at this location might influence muscle function. As a measure of muscle function, they recorded the percent change in non-dominant arm strength after strength training; this variable, `ndrm.ch`, is the **response variable** in the study. A response variable is defined by the particular research question a study seeks to address, and measures the outcome of interest in the study. A study will typically examine whether the values of a response variable differ as values of an **explanatory variable** change, and if so, how the two variables are related. A given study may examine several explanatory variables for a single response variable. The explanatory variable examined in relation to `ndrm.ch` in the study is `actn3.r557x`, ACTN3 genotype at location 577. 
+
+
+::: {.rmdnote}
+Response variables are sometimes called dependent variables and explanatory variables are often called independent variables or predictors.
+:::
+

@@ -1,0 +1,111 @@
+---
+title: Assignment 2 - dplyr and ggplot2 packages for data management and visualization. Due September 13, 2021.
+
+# Use letters for affiliations
+author:
+  - name: EPIB607 - Inferential Statistics
+    affiliation: a
+#  - name: Second Author
+#    affiliation: a,b
+address:
+  - code: a
+    address: Fall 2021, McGill University
+#  - code: b
+#    address: Department of Neat Tricks, Whereever State University, Someplace, MC, 67890
+
+# For footer text  TODO(fold into template, allow free form two-authors)
+lead_author_surname: A2 Due September 13, 2021
+
+# Place DOI URL or CRAN Package URL here
+#doi: "https://sahirbhatnagar.com/EPIB607/"
+
+# Abstract
+#abstract: |
+  
+
+# Optional: Acknowledgements
+#acknowledgements: |
+#  This template package builds upon, and extends, the work of the excellent
+#  [rticles](https://cran.r-project.org/package=rticles) package, and both packages rely on the
+#  [PNAS LaTeX](http://www.pnas.org/site/authors/latex.xhtml) macros. Both these sources are
+#  gratefully acknowledged as this work would not have been possible without them.  Our extensions
+#  are under the same respective licensing term
+#  ([GPL-3](https://www.gnu.org/licenses/gpl-3.0.en.html) and
+#  [LPPL (>= 1.3)](https://www.latex-project.org/lppl/)).
+
+# Optional: One or more keywords
+keywords:
+  - tidyverse
+  - dplyr
+  - ggplot2
+  - DataCamp
+
+# Paper size for the document, values of letterpaper and a4paper
+papersize: letter
+
+# Font size of the document, values of 9pt (default), 10pt, 11pt and 12pt
+fontsize: 12pt
+
+# Optional: Force one-column layout, default is two-column
+one_column: true
+
+#header-includes:
+#   - \usepackage{tikz}
+# Optional: Enables lineno mode, but only if one_column mode is also true
+#lineno: true
+
+# Optional: Enable one-sided layout, default is two-sided
+#one_sided: true
+
+# Optional: Enable section numbering, default is unnumbered
+numbersections: true
+
+# Optional: Specify the depth of section number, default is 5
+#secnumdepth: 5
+
+# Optional: Skip inserting final break between acknowledgements, default is false
+skip_final_break: true
+
+# Optional: Bibliography 
+#bibliography: pinp
+
+#bibliography: references.bib
+#csl: ecology.csl
+
+# Optional: Enable a 'Draft' watermark on the document
+watermark: false
+
+# Customize footer, eg by referencing the vignette
+footer_contents: "Assignment 2 due Sepetember 13, 2021 by 11:59pm"
+
+# Produce a pinp document
+output: pinp::pinp
+
+
+# Required: Vignette metadata for inclusion in a package.
+vignette: >
+  %\VignetteIndexEntry{YourPackage-vignetteentry}
+  %\VignetteKeywords{YourPackage, r, anotherkeyword}
+  %\VignettePackage{Due Sepetember 13, 2019}
+  %\VignetteEngine{knitr::rmarkdown}
+---
+
+\tableofcontents
+
+
+<br><br>
+
+\vspace*{1in}
+
+# Marking 
+
+Your progress and completion of these courses will be availble to us automatically through the DataCamp website. **You do not need to hand anything in for this Assignment**. You will receive full credits for this assignment once we have seen that all tasks have been completed.
+
+# Required DataCamp Courses to Complete
+
+1. Introduction to the Tidyverse  
+2. Data Manipulation with dplyr  
+
+
+
+

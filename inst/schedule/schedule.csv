@@ -1,30 +1,30 @@
 Week,Date,Topic,Readings,Slides,Lab,Assignment
-1,Sep 02,Introduction to statistical inference and motivating examples,[AA0 Unit 1](https://www.learner.org/series/against-all-odds-inside-statistics/what-is-statistics/),"[001](https://github.com/sahirbhatnagar/EPIB607/blob/master/inst/slides/001-introduction/001-introduction_handout.pdf), [002](https://github.com/sahirbhatnagar/EPIB607/blob/master/inst/slides/002-motivating-examples/002-motivating-examples_handout.pdf)",,
+1,Sep 02,Introduction to statistical inference and motivating examples,[AA0 Unit 1](https://www.learner.org/series/against-all-odds-inside-statistics/what-is-statistics/),"[001](https://github.com/sahirbhatnagar/EPIB607/blob/master/inst/slides/001-introduction/001-introduction_handout.pdf), [002](https://github.com/sahirbhatnagar/EPIB607/blob/master/inst/slides/002-motivating-examples/002-motivating-examples_handout.pdf)",001-getting-started,
 2,Sep 07,Exploring data,,,,[A1 due Sep 6](https://github.com/sahirbhatnagar/EPIB607/raw/master/inst/assignments/a1/a1-setup.pdf)
- ,Sep 09,Data graphics,,,,
-3,Sep 14,Correlation,,,,
+ ,Sep 09,Data visualization,,,002-data-basics,
+3,Sep 14,Correlations,,,,[A2 due Sep 13](https://github.com/sahirbhatnagar/EPIB607/raw/master/inst/assignments/a2/a2-tidyverse.pdf)
  ,Sep 16,Statistical parameters,,,,
-4,Sep 21,Sampling distributions,,,,
+4,Sep 21,Sampling distributions,,,003-ocean-depths,
  ,Sep 23,Central limit theorem,,,,
-5,Sep 28,Confidence intervals,,,,
+5,Sep 28,Confidence intervals,,,004-pnorm-qnorm,A3 due Sep 27
  ,Sep 30,p-values,,,,
 6,Oct 05,Bootstrap,,,,
  ,Oct 07,One sample mean,,,,
-7,Oct 12,p-values,,,,
+7,Oct 12,p-values,,,,A4 due Oct 11
  ,Oct 14,Power,,,,
-8,Oct 19,One sample proportion,,,,
- ,Oct 21,One sample rate,,,,
-9,Oct 26,Midterm review,,,,
- ,Oct 28,Midterm,,,,
+8,Oct 19,Midterm review,,,,A5 due Oct 18
+ ,Oct 21,Midterm,,,,
+9,Oct 26,One sample proportion,,,005-one-sample-prop,A6 due Oct 25
+ ,Oct 28,One sample rate,,,006-one-sample-rate,
 10,Nov 02,Introduction to regression,,,,
  ,Nov 04,Linear regression 1,,,,
 11,Nov 09,Linear regression 2,,,,
  ,Nov 11,Poisson regression 1,,,,
-12,Nov 16,Poisson regression 2,,,,
- ,Nov 18,Logistic regression 1,,,,
+12,Nov 16,Poisson regression 2,,,,A7 due Nov 15
+ ,Nov 18,Logistic regression 1,,,007-logistic-reg,
 13,Nov 23,Logistic regression 2,,,,
  ,Nov 25,Other topics in regression,,,,
-14,Nov 30,Contingency tables,,,,
+14,Nov 30,Contingency tables,,,008-contingency-tables,A8 due Nov 30
 ,Dec 02,Final review,,,,
 ,Dec 09,Final,,,,
 ,Dec 22,Group project,,,,[Group project due](https://github.com/sahirbhatnagar/EPIB607/blob/master/inst/project/EPIB607_project.pdf)

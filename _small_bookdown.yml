@@ -19,7 +19,7 @@ rmd_files: [
   "index.Rmd",                          # DO NOT CHANGE - objectives, how to read, authors, acknowledgements
 
   # SELECT PAGES
-  "01-syllabus.Rmd"         # DO NOT CHANGE - start of new section
+  "02-intro-data.Rmd"         # DO NOT CHANGE - start of new section
   # "new_pages/transition_to_R.Rmd",             # *****  !!! CHANGE THIS TO THE PAGE YOU WANT TO PRINT !!! ******
 
 
