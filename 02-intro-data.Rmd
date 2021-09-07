@@ -29,7 +29,7 @@ pacman::p_load(
 
 ## Case Study: preventing peanut allergies {#leapCaseStudy}
 
-The proportion of young children in Western countries with peanut allergies has doubled in the last 10 years. Previous research suggests that exposing infants to peanut-based foods, rather than excluding such foods from their diets, may be an effective strategy for preventing the development of peanut allergies. The "Learning Early about Peanut Allergy" (LEAP) study was conducted to investigate whether early exposure to peanut products reduces the probability that a child will develop peanut allergies (*Du Toit, George, et al. Randomized trial of peanut consumption in infants at risk for peanut allergy. New England Journal of Medicine 372.9 (2015): 803-813*).
+The proportion of young children in Western countries with peanut allergies has doubled in the last 10 years. Previous research suggests that exposing infants to peanut-based foods, rather than excluding such foods from their diets, may be an effective strategy for preventing the development of peanut allergies. The *Learning Early about Peanut Allergy (LEAP)* study was conducted to investigate whether early exposure to peanut products reduces the probability that a child will develop peanut allergies [@du2015randomized].
 
 The study team enrolled children in the United Kingdom between 2006 and 2009, selecting 640 infants with eczema, egg allergy, or both. Each child was randomly assigned to either the peanut consumption (treatment) group or the peanut avoidance (control) group. Children in the treatment group were fed at least 6 grams of peanut protein daily until 5 years of age, while children in the control group avoided consuming peanut protein until 5 years of age.
 
@@ -37,13 +37,25 @@ At 5 years of age, each child was tested for peanut allergy using an oral food c
 
 Individual-level data from the study are shown in Figure \@ref(fig:leapStudyResultsDF). Each row represents a participant and shows the participant's study ID number, treatment group assignment, and OFC outcome. The data are available as from the `oibiostat` R package.
 
+```{r, echo=TRUE, eval=FALSE}
+data(LEAP)
+```
+
+
 ```{r leapStudyResultsDF, echo=FALSE, fig.cap='Individual-level LEAP results'}
 data(LEAP)
 DT::datatable(LEAP[,c("participant.ID", "treatment.group", "overall.V60.outcome")])
 ```
- 
 
+
+<br><br>
+ 
 The data can be organized in the form of a two-way summary table; Table \@ref(tab:leapStudyResults) shows the results categorized by treatment group and OFC outcome. 
+
+```{r, echo=TRUE, eval=FALSE}
+stats::addmargins(base::table(LEAP$treatment.group, LEAP$overall.V60.outcome)) 
+```
+
 
 ```{r leapStudyResults, echo=FALSE}
 out.table <- addmargins(table(LEAP$treatment.group, LEAP$overall.V60.outcome)) 
@@ -52,17 +64,21 @@ kableExtra::kbl(out.table,
   kableExtra::kable_styling()
 ```
 
-The summary table makes it easier to identify patterns in the data. Recall that the question of interest is whether children in the peanut consumption group are more or less likely to develop peanut allergies than those in the peanut avoidance group. In the avoidance group, the proportion of children failing the OFC is $36/263 = 0.137$ (13.7\%); in the consumption group, the proportion of children failing the OFC is $5/267 = 0.019$ (1.9\%).  Figure \@ref(fig:leapBarPlot) shows a graphical method of displaying the study results, using either the number of individuals per category from Table \@ref(tab:leapStudyResults) or the proportion of individuals with a specific OFC outcome in a group. 
+<br><br>
+
+The summary Table \@ref(tab:leapStudyResults) makes it easier to identify patterns in the data. Recall that the question of interest is whether children in the peanut consumption group are more or less likely to develop peanut allergies than those in the peanut avoidance group. In the avoidance group, the proportion of children failing the OFC is $36/263 = 0.137$ (13.7\%); in the consumption group, the proportion of children failing the OFC is $5/267 = 0.019$ (1.9\%).  Figure \@ref(fig:leapBarPlot) shows a graphical method of displaying the study results, using either the number of individuals per category from Table \@ref(tab:leapStudyResults) or the proportion of individuals with a specific OFC outcome in a group. 
 
 
 ```{r leapBarPlot, fig.show='hold', fig.cap='(top) A bar plot displaying the number of individuals who failed or passed the OFC in each treatment group. (bottom) A bar plot displaying the proportions of individuals in each group that failed or passed the OFC.', echo=TRUE}
 ggplot(data = LEAP, aes(x = treatment.group, fill = overall.V60.outcome)) + 
   geom_bar(position = position_stack(reverse = TRUE)) +
- theme(legend.position = "top") + ggpubr::theme_pubr() + scale_fill_openintro()
+ theme(legend.position = "top") + ggpubr::theme_pubr() + 
+  scale_fill_openintro()
 
 ggplot(data = LEAP, aes(x = treatment.group, fill = overall.V60.outcome)) + 
   geom_bar(position = position_fill(reverse = TRUE)) +
- theme(legend.position = "top") + ggpubr::theme_pubr() + scale_fill_openintro()
+ theme(legend.position = "top") + ggpubr::theme_pubr() + 
+  scale_fill_openintro()
 ```
 
 
@@ -82,52 +98,61 @@ basic terminology used to describe data.
 
 ### Observations, variables, and data matrices {#frogDataExample}
 
-In evolutionary biology, parental investment refers to the amount of time, energy, or other resources devoted towards raising offspring. This section introduces the `frog` dataset, which originates from a 2013 study about maternal investment in a frog species (*Chen, W., et al. Maternal investment increases with altitude in a frog on the Tibetan Plateau. Journal of evolutionary biology 26.12 (2013): 2710-2715.*) Reproduction is a costly process for female frogs, necessitating a trade-off between individual egg size and total number of eggs produced. Researchers were interested in investigating how maternal investment varies with altitude and collected measurements on egg clutches found at breeding ponds across 11 study sites; for 5 sites, the body size of individual female frogs was also recorded.
+In evolutionary biology, parental investment refers to the amount of time, energy, or other resources devoted towards raising offspring. This section introduces the `frog` dataset, which originates from a 2013 study about maternal investment in a frog species [@chen2013maternal]. Reproduction is a costly process for female frogs, necessitating a trade-off between individual egg size and total number of eggs produced. Researchers were interested in investigating how maternal investment varies with altitude and collected measurements on egg clutches found at breeding ponds across 11 study sites; for 5 sites, the body size of individual female frogs was also recorded.
 
 ```{r frogDF, echo=FALSE, fig.cap='Data matrix for the frog dataset.'}
 data(frog) # from oibiostat package
-DT::datatable(frog[c(1,2,3,150), ])
+DT::datatable(frog[c(1,2,3,150), ]) %>% 
+  DT::formatRound(columns = c("clutch.size","body.size","clutch.volume","egg.size"))
 ```
      
 
 Figure \@ref(fig:frogDF) displays rows 1, 2, 3, and 150 of the data from the 431 clutches
-observed as part of the study. The `frog` dataset is available from the `oibiostat` R package. Each row in the table corresponds to a single clutch, indicating where the clutch was collected (`altitude` and `latitude`), `egg.size`, `clutch.size`, `clutch.volume`, and `body.size` of the mother when available. "NA" corresponds to a missing value, indicating that information on an individual female was not collected for that particular clutch. The recorded characteristics are referred to as **variables**; in this table, each column represents a variable.
+observed as part of the study. The `frog` dataset is available from the `oibiostat` R package. Each row in the table corresponds to a single clutch, indicating where the clutch was collected (`altitude` and `latitude`), `egg.size`, `clutch.size`, `clutch.volume`, and `body.size` of the mother when available. An empty cell corresponds to a missing value, indicating that information on an individual female was not collected for that particular clutch. The recorded characteristics are referred to as **variables**; in this table, each column represents a variable.
 
-  **variable**   **description**
-  -------------- ------------------------------------------------------
-    `altitude`             Altitude of the study site in meters above sea level
-    `latitude`             Latitude of the study site measured in degrees
-    `egg.size`             Average diameter of an individual egg to the 0.01 mm
-    `clutch.size`          Estimated number of eggs in clutch
-    `clutch.volume`           Volume of egg clutch in mm
-    `body.size`            Length of mother frog in cm
+**variable**   **description**
+-------------- ------------------------------------------------------
+`altitude`             Altitude of the study site in meters above sea level
+`latitude`             Latitude of the study site measured in degrees
+`egg.size`             Average diameter of an individual egg to the 0.01 mm
+`clutch.size`          Estimated number of eggs in clutch
+`clutch.volume`        Volume of egg clutch in mm
+`body.size`            Length of mother frog in cm
 
 
 It is important to check the definitions of variables, as they are not always obvious. For example, why has `clutch.size` not been recorded as whole numbers? For a given clutch, researchers counted approximately 5 grams' worth of eggs and then estimated the total number of eggs based on the mass of the entire clutch. Definitions of the variables are given in the Table above.
 
 
-The data in Figure \@ref(fig:frogDF) are organized as a **data matrix**. Each row of a data matrix corresponds to an observational unit, and each column corresponds to a variable. A piece of the data matrix for the LEAP study introduced in Section \@ref(leapCaseStudy) is shown in Figure \@ref(fig:leapStudyResultsDF); the rows are study participants and three variables are shown for each participant. Data matrices are a convenient way to record and store data. If the data are collected for another individual, another row can easily be added; similarly, another column can be added for a new variable.
+The data in Figure \@ref(fig:frogDF) form a **data frame** and, in this example, are organized in **tidy format**. Each row of a tidy data frame corresponds to an observational unit, and each column corresponds to a variable. A piece of the data frame for the LEAP study introduced in Section \@ref(leapCaseStudy) is shown in Figure \@ref(fig:leapStudyResultsDF); the rows are study participants and three variables are shown for each participant. Tidy data frames are a convenient way to record and store data. If the data are collected for another individual, another row can easily be added; similarly, another column can be added for a new variable.
 
 ### Types of variables {#variableTypes}
 
-The Functional polymorphisms Associated with human Muscle Size and Strength study (FAMuSS) measured a variety of demographic, phenotypic, and genetic characteristics for about 1,300 participants (*Thompson PD, Moyna M, Seip, R, et al., 2004.  Functional Polymorphisms Associated with Human Muscle Size and Strength.  Medicine and Science in Sports and Exercise 36:1132 - 1139.*) Data from the study have been used in a number of subsequent studies, such as one examining the relationship between muscle strength and genotype at a location on the ACTN3 gene (*Clarkson P, et al., Journal of Applied Physiology 99: 154-163, 2005.*) 
+The Functional polymorphisms Associated with human Muscle Size and Strength study (FAMuSS) measured a variety of demographic, phenotypic, and genetic characteristics for about 1,300 participants [@thompson2004functional]. Data from the study have been used in a number of subsequent studies, such as one examining the relationship between muscle strength and genotype at a location on the ACTN3 gene [@clarkson2005actn3]. 
 
-The `famuss` dataset is a subset of the data for 595 participants (*The subset is from Foulkes, Andrea S. Applied statistical genetics with R: for population-based association studies. Springer Science & Business Media, 2009. The full version of the data is available at http://people.umass.edu/foulkes/asg/data.html*). The `famuss` dataset is shown in Figure \@ref{fig:famussDF}, and the variables are described in the Table below.
+The `famuss` dataset is a subset of the data for 595 participants [@foulkes2009genetic]. The `famuss` dataset from the `oibiostat` package is shown in Figure \@ref(fig:famussDF), and the variables are described in the Table below.
+
+```{r, echo=TRUE, eval=FALSE}
+data("famuss")
+```
+
 
 ```{r famussDF, echo=FALSE, fig.cap='Data matrix for the famuss dataset.'}
 data(famuss) # from oibiostat package
 DT::datatable(famuss[,c( "sex", "age", "race", "height", "weight", "actn3.r577x", "ndrm.ch")])
 ```
 
-  **variable**   **description**
-  -------------- -------------------------------------------------------------------------------------------------
-  `sex`               Sex of the participant
-  `age`               Age in years
-  `race`               Race, recorded as `African Am` (African American), `Caucasian`, `Asian`, `Hispanic` or `Other`
-  `height`               Height in inches
-  `weight`               Weight in pounds
-  `actn3.r577x`               Genotype at the location r577x in the ACTN3 gene.
-  `ndrm.ch`               Percent change in strength in the non-dominant arm, comparing strength after to before training
+
+<br>
+
+**variable**   **description**
+-------------- -------------------------------------------------------------------------------------------------
+`sex`             Sex of the participant
+`age`             Age in years
+`race`            Race, recorded as `African Am` (African American), `Caucasian`, `Asian`, `Hispanic` or `Other`
+`height`          Height in inches
+`weight`          Weight in pounds
+`actn3.r577x`     Genotype at the location r577x in the ACTN3 gene.
+`ndrm.ch`         Percent change in strength in the non-dominant arm, comparing strength after to before training
 
 
 
@@ -148,12 +173,7 @@ knitr::include_graphics(here::here("inst/figures/","ch_intro_to_data_oi_biostat/
 ```
 
 
-\begin{figure}
-\centering
-\includegraphics[width=0.75\textwidth]{ch_intro_to_data_oi_biostat/figures/variables/variableTypes.png}
-\caption{Breakdown of variables into their respective types.}
-\label{variableTypesFig}
-\end{figure}
+
 
 
 
@@ -171,4 +191,565 @@ Researchers hypothesized that genotype at this location might influence muscle f
 ::: {.rmdnote}
 Response variables are sometimes called dependent variables and explanatory variables are often called independent variables or predictors.
 :::
+
+
+## Data collection principles
+
+The first step in research is to identify questions to investigate. A clearly articulated research question is essential for selecting subjects to be studied, identifying relevant variables, and determining how data should be collected.
+
+### Populations and samples
+
+Consider the following research questions:  
+
+1. Do bluefin tuna from the Atlantic Ocean have particularly high levels of mercury, such that they are unsafe for human consumption?  
+2. For infants predisposed to developing a peanut allergy, is there evidence that introducing peanut products early in life is an effective strategy for reducing the risk of developing a peanut allergy?  
+3. Does a recently developed drug designed to treat glioblastoma, a form of brain cancer, appear more effective at inducing tumor shrinkage than the drug currently on the market?  
+
+Each of these questions refers to a specific target **population**. For example, in the first question, the target population consists of all bluefin tuna from the Atlantic Ocean; each individual bluefin tuna represents a case. It is almost always either too expensive or logistically impossible to collect data for every case in a population. As a result, nearly all research is based on information obtained about a sample from the population. A **sample** represents a small fraction of the population. Researchers interested in evaluating the mercury content of bluefin tuna from the Atlantic Ocean could collect a sample of 500 bluefin tuna (or some other quantity), measure the mercury content, and use the observed information to formulate an answer to the research question. 
+
+
+### Anecdotal evidence
+
+
+Anecdotal evidence typically refers to unusual observations that are easily recalled because of their striking characteristics. Physicians may be more likely to remember the characteristics of a single patient with an unusually good response to a drug instead of the many patients who did not respond.  The dangers of drawing general conclusions from anecdotal information are obvious; no single observation should be used to draw conclusions about a population.
+
+While it is incorrect to generalize from individual observations, unusual observations can sometimes be valuable.  E.C. Heyde was a general practitioner from Vancouver who noticed that a few of his elderly patients with aortic-valve stenosis (an abnormal narrowing) caused by an accumulation of calcium had also suffered massive gastrointestinal bleeding. In 1958, he published his observation [@heyde1958gastrointestinal]. Further research led to the identification of the underlying cause of the association, now called Heyde's Syndrome [@greenstein1986colonic]. 
+
+An anecdotal observation can never be the basis for a conclusion, but may well inspire the design of a more systematic study that could be definitive.  
+
+
+### Sampling from a population
+
+Sampling from a population, when done correctly, provides reliable information about the characteristics of a large population. The US Centers for Disease Control (US CDC) conducts several surveys to obtain information about the US population, including the Behavior Risk Factor Surveillance System (BRFSS) (https://www.cdc.gov/brfss/index.html). The BRFSS was established in 1984 to collect data about health-related risk behaviors, and now collects data from more than 400,000 telephone interviews conducted each year. The CDC conducts similar surveys for diabetes, health care access, and immunization. Likewise, the World Health Organization (WHO) conducts the World Health Survey in partnership  with approximately 70 countries to learn about the health of adult populations and the health systems in those countries (http://www.who.int/healthinfo/survey/en/).
+
+The general principle of sampling is straightforward: a sample from a population is useful for learning about a population only when the sample is representative of the population. In other words, the characteristics of the sample should correspond to the characteristics of the population. 
+
+Suppose that the quality improvement team at an integrated health care system, such as Harvard Pilgrim Health Care, is interested in learning about how members of the health plan perceive the quality of the services offered under the plan. A common pitfall in conducting a survey is to use a convenience sample, in which individuals who are easily accessible are more likely to be included in the sample than other individuals. If a sample were collected by approaching plan members visiting an outpatient clinic during a particular week, the sample would fail to enroll generally healthy members who typically do not use outpatient services or schedule routine physical examinations; this method would produce an unrepresentative sample (Figure \@ref(fig:sampleConvenienceHealthPlan)). 
+
+
+```{r sampleConvenienceHealthPlan, fig.cap='Instead of sampling from all members equally, approaching members visiting a clinic during a particular week disproportionately selects members who frequently use outpatient services.', echo=FALSE}
+knitr::include_graphics(here::here("inst/figures/","ch_intro_to_data_oi_biostat/figures","/sampleHealthPlan/sampleConvenienceHealthPlan.png"))
+```
+
+
+
+Random sampling is the best way to ensure that a sample reflects a population. In a **simple random sample (SRS)**, each member of a population has the same chance of being sampled. One way to achieve a simple random sample of the health plan members is to randomly select a certain number of names from the complete membership roster, and contact those individuals for an interview (Figure \@ref(fig:sampleRandomHealthPlan)). 
+
+
+```{r sampleRandomHealthPlan, fig.cap='Five members are randomly selected from the population to be interviewed.', echo=FALSE}
+knitr::include_graphics(here::here("inst/figures/","ch_intro_to_data_oi_biostat/figures","/sampleHealthPlan/sampleRandomHealthPlan.png"))
+```
+
+
+Even when a simple random sample is taken, it is not guaranteed that the sample is representative of the population. If the **non-response** rate for a survey is high, that may be indicative of a biased sample. Perhaps a majority of participants did not respond to the survey because only a certain group within the population is being reached; for example, if questions assume that participants are fluent in English, then a high non-response rate would be expected if the population largely consists of individuals who are not fluent in English 
+(Figure \@ref(fig:sampleNonResponseHealthPlan)). Such **non-response bias** can skew results; generalizing from an unrepresentative sample may likely lead to incorrect conclusions about a population. 
+
+
+```{r sampleNonResponseHealthPlan, fig.cap='Surveys may only reach a certain group within the population, which leads to non-response bias. For example, a survey written in English may only result in responses from health plan members fluent in English.', echo=FALSE}
+knitr::include_graphics(here::here("inst/figures/","ch_intro_to_data_oi_biostat/figures","/sampleHealthPlan/sampleNonResponseHealthPlan.png"))
+```
+
+
+
+
+### Sampling methods
+
+Almost all statistical methods are based on the notion of implied randomness. If data are not sampled from a population at random, these statistical methods -- calculating estimates and errors associated with estimates -- are not reliable. Four random sampling methods are discussed in this section: simple, stratified, cluster, and multistage sampling.
+
+In a **simple random sample**, each case in the population has an equal chance of being included in the sample (Figure \@ref(fig:simplestratified)). Under simple random sampling, each case is sampled independently of the other cases; i.e., knowing that a certain case is included in the sample provides no information about which other cases have also been sampled. 
+
+In **stratified sampling**, the population is first divided into groups called **strata** before cases are selected within each stratum (typically through simple random sampling) (Figure \@ref(fig:simplestratified)). The strata are chosen such that similar cases are grouped together. Stratified sampling is especially useful when the cases in each stratum are very similar with respect to the outcome of interest, but cases between strata might be quite different. 
+
+Suppose that the health care provider has facilities in different cities. If the range of services offered differ by city, but all locations in a given city will offer similar services, it would be effective for the quality improvement team to use stratified sampling to identify participants for their study, where each city represents a stratum and plan members are randomly sampled from each city.
+
+```{r simplestratified, fig.cap='Examples of simple random and stratified sampling. In the top panel, simple random sampling is used to randomly select 18 cases (circled orange dots) out of the total population (all dots). The bottom panel illustrates stratified sampling: cases are grouped into six strata, then simple random sampling is employed within each stratum.', echo=FALSE}
+# knitr::include_graphics(here::here("inst/figures/","ch_intro_to_data_oi_biostat/figures","/samplingMethodsFigure/simple_stratified"))
+
+source(here::here("inst/figures/ch_intro_to_data_oi_biostat/figures/samplingMethodsFigure/","SamplingMethodsFunctions.R"))
+data(COL)
+set.seed(4)
+N <- 108
+n <- 18
+colSamp <- COL[4]
+PCH <- rep(c(1, 3, 20)[3], 3)
+
+col <- rep(COL[1], N)
+pch <- PCH[match(col, COL)]
+set.seed(4)
+par(mar = rep(0.5,4), mfrow = c(2,1))
+BuildSRS()
+BuildStratified()
+```
+
+
+In a **cluster sample**, the population is first divided into many groups, called **clusters**. Then, a fixed number of clusters is sampled and all observations from each of those clusters are included in the sample (Figure \@ref(fig:clustermultistage), top panel). A **multistage sample** is similar to a cluster sample, but rather than keeping all observations in each cluster, a random sample is collected within each selected cluster (Figure \@ref(fig:clustermultistage), bottom panel).
+
+
+
+```{r clustermultistage, fig.cap='Examples of cluster cluster sampling and multistage sampling. The top panel illustrates cluster sampling: data are binned into nine clusters, three of which are sampled, and all observations within these clusters are sampled. The bottom panel illustrates multistage sampling, which differs from cluster sampling in that only a subset from each of the three selected clusters are sampled.', echo=FALSE}
+
+source(here::here("inst/figures/ch_intro_to_data_oi_biostat/figures/samplingMethodsFigure/","SamplingMethodsFunctions.R"))
+data(COL)
+set.seed(4)
+N <- 108
+n <- 18
+colSamp <- COL[4]
+PCH <- rep(c(1, 3, 20)[3], 3)
+
+col <- rep(COL[1], N)
+pch <- PCH[match(col, COL)]
+set.seed(4)
+par(mar = rep(0.5,4), mfrow = c(2,1))
+BuildCluster()
+BuildMultistage()
+```
+
+
+
+Unlike with stratified sampling, cluster and multistage sampling are most helpful when there is high case-to-case variability within a cluster, but the clusters themselves are similar to one another. For example, if neighborhoods in a city represent clusters, cluster and multistage sampling work best when the population within each neighborhood is very diverse, but neighborhoods are relatively similar.
+
+Applying stratified, cluster, or multistage sampling can often be more economical than only drawing random samples. However, analysis of data collected using such methods is more complicated than when using data from a simple random sample; this text will only discuss analysis methods for simple random samples. 
+
+
+
+### Introducing experiments and observational studies
+
+The two primary types of study designs used to collect data are experiments and observational studies.
+
+In an **experiment**, researchers directly influence how data arise, such as by assigning groups of individuals to different treatments and assessing how the outcome varies across treatment groups. The LEAP study is an example of an experiment with two groups, an experimental group that received the intervention (peanut consumption) and a control group that received a standard approach (peanut avoidance). In studies assessing effectiveness of a new drug, individuals in the control group typically receive a **placebo**, an inert substance with the appearance of the experimental intervention. The study is designed such that on average, the only difference between the individuals in the treatment groups is whether or not they consumed peanut protein. This allows for observed differences in experimental outcome to be directly attributed to the intervention and constitute evidence of a causal relationship between intervention and outcome. 
+
+In an **observational study**, researchers merely observe and record data, without interfering with how the data arise. For example, to investigate why certain diseases develop, researchers might collect data by conducting surveys, reviewing medical records, or following a **cohort** of many similar individuals. Observational studies can provide evidence of an association between variables, but cannot by themselves show a causal connection. However, there are many instances where randomized experiments are unethical, such as to explore whether lead exposure in young children is associated with cognitive impairment. 
+
+### Experiments
+
+Experimental design is based on three principles: control, randomization, and replication.
+
+**Control**: When selecting participants for a study, researchers work to **control** for extraneous variables and choose a sample of participants that is representative of the population of interest. For example, participation in a study might be restricted to individuals who have a condition that suggests they may benefit from the intervention being tested. Infants enrolled in the LEAP study were required to be between 4 and 11 months of age, with severe eczema and/or allergies to eggs.  
+
+**Randomization**: Randomly assigning patients to treatment groups ensures that groups are balanced with respect to both variables that can and cannot be controlled. For example, randomization in the LEAP study ensures that the proportion of males to females is approximately the same in both groups. Additionally, perhaps some infants were more susceptible to peanut allergy because of an undetected genetic condition; under randomization, it is reasonable to assume that such infants were present in equal numbers in both groups. Randomization allows differences in outcome between the groups to be reasonably attributed to the treatment rather than inherent variability in patient characteristics, since the treatment represents the only systematic difference between the two groups.  
+	
+In situations where researchers suspect that variables other than the intervention may influence the response, individuals can be first grouped into **blocks** according to a certain attribute and then randomized to treatment group within each block; this technique is referred to as **blocking** or **stratification**. The team behind the LEAP study stratified infants into two cohorts based on whether or not the child developed a red, swollen mark (a wheal) after a skin test at the time of enrollment; afterwards, infants were randomized between peanut consumption and avoidance groups. Figure \@ref(fig:leapBlocking) illustrates the blocking scheme used in the study.  
+
+**Replication**: The results of a study conducted on a larger number of cases are generally more reliable than smaller studies; observations made from a large sample are more likely to be representative of the population of interest. In a single study, **replication** is accomplished by collecting a sufficiently large sample. The LEAP study randomized a total of 640 infants.
+
+
+Randomized experiments are an essential tool in research. The US Food and Drug Administration typically requires that a new drug can only be marketed after two independently conducted randomized trials confirm its safety and efficacy; the European Medicines Agency has a similar policy. Large randomized experiments in medicine have provided the basis for major public health initiatives. In 1954, approximately 750,000 children participated in a randomized study comparing polio vaccine with a placebo [@meier1972biggest]. In the United States, the results of the study quickly led to the widespread and successful use of the vaccine for polio prevention.
+
+
+```{r leapBlocking, fig.cap='A simplified schematic of the blocking scheme used in the LEAP study, depicting 640 patients that underwent randomization. Patients are first divided into blocks based on response to the initial skin test, then each block is randomized between the avoidance and consumption groups. This strategy ensures an even representation of patients in each group who had positive and negative skin tests.', echo=FALSE}
+knitr::include_graphics(here::here("inst/figures/","ch_intro_to_data_oi_biostat/figures","/leapBlocking/leapBlocking.png"))
+```
+
+
+### Observational studies
+
+In observational studies, researchers simply observe selected potential explanatory and response variables. Participants who differ in important explanatory variables may also differ in other ways that influence response; as a result, it is not advisable to make causal conclusions about the relationship between explanatory and response variables based on observational data. For example, while observational studies of obesity have shown that obese individuals tend to die sooner than individuals with normal weight, it would be misleading to conclude that obesity causes shorter life expectancy. Instead, underlying factors are probably involved; obese individuals typically exhibit other health behaviors that influence life expectancy, such as reduced exercise or unhealthy diet.
+
+Suppose that an observational study tracked sunscreen use and incidence of skin cancer, and found that the more sunscreen a person uses, the more likely they are to have skin cancer. These results do not mean that sunscreen causes skin cancer. One important piece of missing information is sun exposure -- if someone is often exposed to sun, they are both more likely to use sunscreen and to contract skin cancer (Figure \@ref(fig:confounding)). Sun exposure is a **confounding variable**: a variable associated with both the explanatory and response variables (also called a **lurking variable**, **confounding factor**, or a **confounder**). There is no guarantee that all confounding variables can be examined or measured; as a result, it is not advisable to draw causal conclusions from observational studies. 
+
+```{r confounding, fig.cap='Confounding triangle example.', echo=FALSE}
+knitr::include_graphics(here::here("inst/figures/","ch_intro_to_data_oi_biostat/figures","/variables/confoundingVariable.png"))
+```
+
+
+Confounding is not limited to observational studies. For example, consider a randomized study comparing two treatments (varenicline and buproprion) against a placebo as therapies for aiding smoking cessation [@jorenby2006efficacy]. At the beginning of the study, participants were randomized into groups: 352 to varenicline, 329 to buproprion, and 344 to placebo. Not all participants successfully completed the assigned therapy: 259, 225, and 215 patients in each group did so, respectively. If an analysis were based only on the participants who completed therapy, this could introduce confounding; it is possible that there are underlying differences between individuals who complete the therapy and those who do not. Including all randomized participants in the final analysis maintains the original randomization scheme and controls for differences between the groups. This strategy, commonly used for analyzing clinical trial data, is referred to as an intention-to-treat analysis.
+
+Observational studies may reveal interesting patterns or associations that can be further investigated with follow-up experiments. Several observational studies based on dietary data from different countries showed a strong association between dietary fat and breast cancer in women. These observations led to the launch of the Women's Health Initiative (WHI), a large randomized trial sponsored by the US National Institutes of Health (NIH).  In the WHI, women were randomized to standard versus low fat diets, and the previously observed association was not confirmed.  
+
+Observational studies can be either prospective or retrospective. A **prospective study** identifies participants and collects information at scheduled times or as events unfold. For example, in the [Nurses' Health Study](https://nurseshealthstudy.org/), researchers recruited registered nurses beginning in 1976 and collected data through administering biennial surveys; data from the study have been used to investigate risk factors for major chronic diseases in women. **Retrospective studies** collect data after events have taken place, such as from medical records. Some datasets may contain both retrospectively- and prospectively-collected variables. The Cancer Care Outcomes Research and Surveillance Consortium (CanCORS) enrolled participants with lung or colorectal cancer, collected information about diagnosis, treatment, and previous health behavior, but also maintained contact with participants to gather data about long-term outcomes [@ayanian2004understanding]. 
+
+
+
+## Numerical data
+
+This section discusses techniques for exploring and summarizing numerical variables, using the `frog` data from the parental investment study introduced in Section \@ref(dataBasics).
+
+### Measures of center: mean and median
+
+The **mean**, sometimes called the average, is a measure of center for a **distribution** of data. To find the average clutch volume for the observed egg clutches, add all the clutch volumes and divide by the total number of clutches. For computational convenience, the volumes are rounded to the first~decimal.
+
+$$
+\overline{y} = \frac{177.8 + 257.0 + \cdots + 933.3}{431} = 882.5\ \textrm{mm}^{3}.
+$$
+The sample mean is often labeled $\overline{y}$, to distinguish it from $\mu$, the mean of the entire population from which the sample is drawn. The letter $y$ is being used as a generic placeholder for the variable of interest, `clutch.volume`.
+
+::: {.definition name="Mean"}
+The sample mean of a numerical variable is the sum of the values of all observations divided by the number of observations:
+$$\overline{y} = \frac{y_1+y_2+\cdots+y_n}{n},$$
+where $y_1, y_2, \dots, y_n$ represent the $n$ observed values.
+:::
+
+
+
+The **median** is another measure of center; it is the middle number in a distribution after the values have been ordered from smallest to largest. If the distribution contains an even number of observations, the median is the average of the middle two observations. There are 431 clutches in the dataset, so the median is the clutch volume of the $216^{th}$ observation in the sorted values of `clutch.volume`: $831.8\ \textrm{mm}^{3}$.
+
+
+
+### Measures of spread: standard deviation and interquartile range
+
+The spread of a distribution refers to how similar or varied the values in the distribution are to each other; i.e., whether the values are tightly clustered or spread over a wide range.  
+
+The standard deviation for a set of data describes the typical distance between an observation and the mean. The distance of a single observation from the mean is its **deviation**. Below are the deviations for the $1^{st}$, $2^{nd}$, $3^{rd}$, and $431^{st}$ observations in the `clutch.volume` variable.
+
+\begin{align*}
+y_1-\overline{y} &= 177.8 - 882.5 = -704.7 \hspace{5mm}\text{ } \\
+y_2-\overline{y} &= 257.0 - 882.5 = -625.5 \\
+y_3-\overline{y} &= 151.4 - 882.5 = -731.1 \\
+&\ \vdots \\
+y_{431}-\overline{y} &= 933.2 - 882.5 = 50.7
+\end{align*}
+
+
+The sample **variance**, the average of the squares of these deviations, is denoted by $s^2$:
+
+\begin{align*}
+s^2 &= \frac{(-704.7)^2 + (-625.5)^2 + (-731.1)^2 + \cdots + (50.7)^2}{431-1} \\
+&= \frac{496,602.09 + 391,250.25 + 534,507.21 + \cdots + 2570.49}{430} \\
+&= 143,680.9.
+\end{align*}
+
+The denominator is $n-1$ rather than $n$; this mathematical nuance accounts for the fact that sample mean has been used to estimate the population mean in the calculation. Details on the statistical theory can be found in more advanced texts. 
+
+The sample **standard deviation** $s$ is the square root of the variance:
+$$s=\sqrt{143,680.9} = 379.05 \textrm{mm}^{3}.$$
+
+Like the mean, the population values for variance and standard deviation are denoted by Greek letters:
+$\sigma_{}^2$ for the variance and $\sigma$ for the standard deviation.
+
+
+::: {.definition name="Standard Deviation"}
+The sample standard deviation of a numerical variable is computed as the square root of the variance, which is the sum of squared deviations divided by the number of observations minus 1.
+\begin{eqnarray}
+s = \sqrt{\frac{({y_1 - \overline{y})}^{2}+({y_2 - \overline{y})}^{2}+\cdots+({y_n - \overline{y})}^{2}}{n-1}},
+\label{SDEquation}
+\end{eqnarray}
+where $y_1, y_2, \dots, y_n$ represent the $n$ observed values.
+:::
+
+Variability can also be measured using the **interquartile range** (IQR). The IQR for a distribution is the difference between the first and third quartiles: $Q_3 - Q_1$. The first quartile ($Q_1$) is equivalent to the 25$^{th}$ percentile; i.e., 25% of the data fall below this value. The third quartile ($Q_3$) is equivalent to the 75$^{th}$ percentile. By definition, the median represents the second quartile, with half the values falling below it and half falling above. The IQR for `clutch.volume` is $1096.0 - 609.6 = 486.4\ \textrm{mm}^{3}$.  
+
+Measures of center and spread are ways to summarize a distribution numerically. Using numerical summaries allows for a distribution to be efficiently described with only a few numbers. Numerical summaries are also known as summary statistics. For example, the calculations for `clutch.volume` indicate that the typical egg clutch has volume of about 880 mm$^3$, while the middle $50\%$ of egg clutches have volumes between approximately $600\ \textrm{mm}^{3}$ and $1100.0\ \textrm{mm}^{3}$.
+
+
+### Robust estimates
+
+Figure \@ref(fig:frogClutchVolDotPlot) shows the values of `clutch.volume` as points on a single axis. There are a few values that seem extreme relative to the other observations: the four largest values, which appear distinct from the rest of the distribution. How do these extreme values affect the value of the numerical summaries?
+
+```{r frogClutchVolDotPlot, echo=FALSE, fig.cap='Dot plot of clutch volumes from the `frog` from the `oibiostat` package data.'}
+data(COL)
+data(frog)
+
+par(mar = c(3.6, 1, 0, 1),
+      mgp = c(2.5, 0.7, 0),
+      tcl = -0.4)
+# frog$clutch.volume
+d <- frog$clutch.volume
+dotPlot(d,
+        xlab = 'Clutch Volumes',
+        ylab = '',
+        pch = 20,
+        col = COL[1, 2],
+        cex = 1.5,
+        ylim = c(0.95, 1.05),
+        axes = FALSE)
+axis(1, at = seq(0, 3000, 100))
+M <- mean(d)
+polygon(M + c(-75, 75, 0) * 1.5,
+        c(0.95, 0.95, 0.98),
+        border = COL[4],
+        col = COL[4])
+```
+
+
+
+Figure \@ref(fig:frogRobustOrNotTable) shows the summary statistics calculated under two scenarios, one with and one without the four largest observations. For these data, the median does not change, while the IQR differs by only about 6 $\textrm{mm}^{3}$. In contrast, the mean and standard deviation are much more affected, particularly the standard deviation.
+
+```{r frogRobustOrNotTable, fig.cap='A comparison of how the median, IQR, mean ($\\overline{y}$), and standard deviation ($s$) change when extreme observations are present.', echo=FALSE}
+knitr::include_graphics(here::here("inst/figures/","ch_intro_to_data_oi_biostat/figures","/frogClutchVolDotPlot/frogmedian.png"))
+```
+
+
+The median and IQR are referred to as **robust estimates** because extreme observations have little effect on their values. For distributions that contain extreme values, the median and IQR will provide a more accurate sense of the center and spread than the mean and standard deviation. 
+
+
+### Visualizing distributions of data: histograms and boxplots
+
+Graphs show important features of a distribution that are not evident from numerical summaries, such as asymmetry or extreme values. While dot plots show the exact value of each observation, histograms and boxplots graphically summarize distributions.
+
+In a **histogram**, observations are grouped into bins and plotted as bars. Figure \@ref(fig:frogBinnedClutchVolTable) shows the number of clutches with volume between 0 and 200 $\textrm{mm}^{3}$, 200 and 400 $\textrm{mm}^{3}$, etc. up until 2,600 and 2,800 $\textrm{mm}^{3}$. Note: By default in `R`, the bins are left-open and right-closed; i.e., the intervals are of the form (a, b]. Thus, an observation with value 200 would fall into the 0-200 bin instead of the 200-400 bin.} These binned counts are plotted in Figure \@ref(fig:frogHist).
+
+
+```{r frogBinnedClutchVolTable, fig.cap='The counts for the binned \var{clutch.volume} data.', echo=FALSE}
+knitr::include_graphics(here::here("inst/figures/","ch_intro_to_data_oi_biostat/figures","/frogClutchVolDotPlot/frogbin.png"))
+```
+
+
+```{r frogHist, echo=FALSE, fig.cap='A histogram of `clutch.volume`.'}
+data(COL)
+
+H <- hist(frog$clutch.volume,
+          breaks = 14,
+          plot = FALSE)
+counts <- rbind(H$counts)
+from   <- head(H$breaks, -1)
+to     <- tail(H$breaks, -1)
+colnames(counts) <- paste(from, 'to', to)
+# require(xtable)
+# xtable(counts)
+
+par(  mar = c(3.5, 3.5, 0.5, 1),
+      mgp = c(2.4, 0.7, 0))
+histPlot(frog$clutch.volume,
+         breaks = 14,
+         xlab = 'Clutch Volume',
+         ylab = "Frequency",
+         ylim = c(0, 100),
+         col = COL[1],
+         border = COL[5])
+
+```
+
+
+
+Histograms provide a view of the **data density**. Higher bars indicate more frequent observations, while lower bars represent relatively rare observations. Figure \@ref(fig:frogHist) shows that most of the egg clutches have volumes between 500-1,000 mm$^3$, and there are many more clutches with volumes smaller than 1,000 mm$^{3}$ than clutches with larger volumes. 
+
+Histograms show the **shape** of a distribution. The tails of a **symmetric** distribution are roughly equal, with data trailing off from the center roughly equally in both directions. Asymmetry arises when one tail of the distribution is longer than the other. A distribution is said to be **right skewed** when data trail off to the right, and **left skewed** when data trail off to the left. Other ways to describe data that are skewed to the right/left: skewed to the right/left or skewed to the positive/negative end. Figure \@ref(fig:frogHist) shows that the distribution of clutch volume is right skewed; most clutches have relatively small volumes, and only a few clutches have high volumes. 
+
+
+A **mode** is represented by a prominent peak in the distribution. Another definition of mode, which is not typically used in statistics, is the value with the most occurrences. It is common that a dataset contains no observations with the same value, which makes this other definition impractical for many datasets. Figure \@ref(fig:singleBiMultiModalPlots) shows histograms that have one, two, or three major peaks. Such distributions are called **unimodal**, **bimodal**, and **multimodal**, respectively. Any distribution with more than two prominent peaks is called multimodal. Note that the less prominent peak in the unimodal distribution was not counted since it only differs from its neighboring bins by a few observations. Prominent is a subjective term, but it is usually clear in a histogram where the major peaks are.  
+
+
+```{r singleBiMultiModalPlots, echo=FALSE, fig.cap='From left to right: unimodal, bimodal, and multimodal distributions.'}
+data(COL)
+
+set.seed(51)
+x1 <- rchisq(65, 6)
+x2 <- c(rchisq(22, 5.8),
+        rnorm(40, 16.5, 2))
+x3 <- c(rchisq(20, 3),
+        rnorm(35, 12),
+        rnorm(42, 18, 1.5))
+
+par(mfrow=c(1, 3),
+    mar=c(1.9, 2, 1, 2),
+    mgp=c(2.4, 0.7, 0))
+
+HistPlot1 <- function(x, COL = COL) {
+  histPlot(x, axes=FALSE, xlab='', ylab='', col=COL[1])
+}
+
+HistPlot1(x1, COL)
+axis(1)
+axis(2)
+
+HistPlot1(x2, COL)
+axis(1)
+axis(2)
+
+HistPlot1(x3, COL)
+axis(1)
+axis(2)
+```
+
+
+A **boxplot** indicates the positions of the first, second, and third quartiles of a distribution in addition to extreme observations. Boxplots are also known as box-and-whisker plots. Figure \@ref(fig:frogBoxPlot) shows a boxplot of `clutch.volume` alongside a vertical dot plot.
+
+```{r frogBoxPlot, echo=FALSE, fig.cap='A boxplot and dot plot of `clutch.volume`. The horizontal dashes indicate the bottom 50% of the data and the open circles represent the top 50%.'}
+data(COL)
+d   <- frog$clutch.volume
+
+par(  mar = c(0, 4, 0, 1),
+      mgp = c(2.8, 0.7, 0))
+boxPlot(d,
+        ylab = 'Clutch Volume',
+        xlim = c(0.3, 3),
+        axes = FALSE,
+        ylim = range(d))
+axis(2)
+
+arrows(2,min(d), 1.4, min(d) - 5, length = 0.08)
+text(2, min(d), 'lower whisker', pos = 4)
+
+q1 <- quantile(d, 0.25)
+arrows(2, q1, 1.4, q1, length = 0.08)
+text(2, q1,
+     expression(Q[1]~~'(first quartile)'), pos = 4)
+
+m <- median(d)
+arrows(2, m, 1.4, m, length = 0.08)
+text(2, m, 'median (second quartile)', pos = 4)
+
+q3 <- quantile(d, 0.75)
+arrows(2, q3, 1.4, q3, length = 0.08)
+text(2, q3,
+     expression(Q[3]~~'(third quartile)'), pos = 4)
+
+arrows(2, rev(sort(d))[11],
+       1.4, rev(sort(d))[11], length = 0.08)
+text(2, rev(sort(d))[11],
+     'upper whisker', pos = 4)
+
+#y <- quantile(d, 0.75) + 1.5 * IQR(d)
+#arrows(2, y, 1.4, y, length = 0.08)
+#lines(c(0.72, 1.28), rep(y, 2),
+      #lty = 3, col = '#00000066')
+#text(2, y,
+     #'max whisker reach', pos = 4)
+
+m <- rev(tail(sort(d), 9))
+s <- m[1] - 0.4 * sd(m)
+arrows(2, s - 200, 1.1, m[1] - 0.2, length = 0.08)
+arrows(2, s - 200, 1.1, m[2] + 0.3, length = 0.08)
+arrows(2, s - 200, 1.1, m[3] + 0.35, length = 0.08)
+arrows(2, s - 200, 1.1, m[4] + 0.4, length = 0.08)
+arrows(2, s - 200, 1.1, m[5] + 0.45, length = 0.08)
+arrows(2, s - 200, 1.1, m[6] + 0.5, length = 0.08)
+#arrows(2, s - 200, 1.1, m[7] + 0.55, length = 0.08)
+arrows(2, s - 200, 1.1, m[8] + 0.6, length = 0.08)
+arrows(2, s - 200, 1.1, m[9] + 0.7, length = 0.08)
+text(2, s - 200, 'outliers', pos = 4)
+
+points(rep(0.4, 215), rev(sort(d))[1:215],
+       cex = rep(1.3, 431),
+       col = rep(COL[1, 3], 431),
+       pch = rep(1, 431))
+points(rep(0.4, 215), sort(d)[1:215],
+       cex = rep(1, 215),
+       col = rep(COL[4,3], 215),
+       pch = rep("-", 215))
+```
+
+
+
+In a boxplot, the interquartile range is represented by a rectangle extending from the first quartile to the third quartile, and the rectangle is split by the median (second quartile). Extending outwards from the box, the **whiskers** capture the data that fall between $Q_1 - 1.5\times IQR$ and $Q_3 + 1.5\times IQR$. The whiskers must end at data points; the values given by adding or subtracting $1.5\times IQR$ define the maximum reach of the whiskers. For example, with the `clutch.volume` variable, $Q_3 + 1.5 \times IQR = 1,096.5 + 1.5\times 486.4 = 1,826.1\ \textrm {mm}^{3}$. However, there was no clutch with volume 1,826.1\ $\textrm {mm}^{3}$; thus, the upper whisker extends to 1,819.7 $\textrm {mm}^{3}$, the largest observation that is smaller than $Q_3 + 1.5\times IQR$.
+
+Any observation that lies beyond the whiskers is shown with a dot; these observations are called outliers. An **outlier** is a value that appears extreme relative to the rest of the data. For the `clutch.volume` variable, there are several large outliers and no small outliers, indicating the presence of some unusually large egg clutches.
+
+The high outliers in Figure \@ref(fig:frogBoxPlot) reflect the right-skewed nature of the data. The right skew is also observable from the position of the median relative to the first and third quartiles; the median is slightly closer to the first quartile. In a symmetric distribution, the median will be halfway between the first and third quartiles.
+
+
+### Transforming data
+
+
+When working with strongly skewed data, it can be useful to apply a **transformation**, and rescale the data using a function. A natural log transformation is commonly used to clarify the features of a variable when there are many values clustered near zero and all observations are positive.
+
+
+```{r incomeHistReg, echo=FALSE, fig.cap='Histogram of per capita income.'}
+data(wdi.2011)
+data(COL)
+
+par(  mar = c(3.5, 3.5, 0.5, 1),
+      mgp = c(2.4, 0.7, 0))
+histPlot(wdi.2011$gdp.per.capita,
+         breaks = 9,
+         col = COL[1],
+         border = COL[5], xlab = "Income (USD)", ylab = "Frequency",
+         axes = FALSE)
+AxisInDollars(1, pretty(wdi.2011$gdp.per.capita))
+axis(2, ylim = c(1, 120))
+
+```
+
+
+```{r incomeHistLog, fig.cap='Histogram of the log-transformed per capita income.', echo=FALSE}
+
+par(  mar = c(3.5, 3.5, 0.5, 1),
+      mgp = c(2.4, 0.7, 0))
+histPlot(wdi.2011$log.gdp.per.capita,
+         breaks = 12,
+         xlab = 'Income (log USD)',
+         ylab = "Frequency",
+         ylim = c(0, 30),
+         col = COL[1],
+         border = COL[5])
+```
+
+
+For example, income data are often skewed right; there are typically large clusters of low to moderate income, with a few large incomes that are outliers. Figure \@ref(fig:incomeHistReg) shows a histogram of average yearly per capita income measured in US dollars for 165 countries in 2011. The data are available as `wdi.2011` in the `R` package `oibiostat`. The data are heavily right skewed, with the majority of countries having average yearly per capita income lower than $10,000. Once the data are log-transformed, the distribution becomes roughly symmetric (Figure \@ref(fig:incomeHistLog)). In statistics, the natural logarithm is usually written $\log$. In other settings it is sometimes written as  $\ln$. 
+
+For symmetric distributions, the mean and standard deviation are particularly informative summaries. If a distribution is symmetric, approximately 70% of the data are within one standard deviation of the mean and 95% of the data are within two standard deviations of the mean; this guideline is known as the **empirical rule**.
+
+:::{.example}
+On the log-transformed scale, mean $\log$ income is 8.50, with standard deviation 1.54. Apply the empirical rule to describe the distribution of average yearly per capita income among the 165 countries.  
+
+According to the empirical rule, the middle 70% of the data are within one standard deviation of the mean, in the range (8.50 - 1.54, 8.50 + 1.54) = (6.96, 10.04) log(USD). 95% of the data are within two standard deviations of the mean, in the range (8.50 - 2(1.54), 8.50 + 2(1.54)) = (5.42, 11.58) log(USD). 	
+
+Undo the log transformation. The middle 70% of the data are within the range 
+$$ (e^{6.96}, e^{10.04}) = (1054, 22925)$$. The middle 95% of the data are within the range 
+$$(e^{5.42}, e^{11.58}) = (226, 106937).$$	
+:::
+
+Functions other than the natural log can also be used to transform data, such as the square root and inverse.  
+
+
+
+## Categorical data
+
+This section introduces tables and plots for summarizing categorical data, using the `famuss` dataset introduced in Section \@ref(variableTypes). 
+
+A table for a single variable is called a **frequency table**. Figure \@ref(fig:famussFrequencyTable) is a frequency table for the \var{actn3.r577x} variable, showing the distribution of genotype at location r577x on the ACTN3 gene for the FAMuSS study participants.
+
+In a \term{relative frequency table} like Figure~\ref{famussRelFrequencyTable}, the proportions per each category are shown instead of the counts.
+
+
+```{r famussFrequencyTable, fig.cap='A frequency table for the actn3.r577x variable.', echo=FALSE}
+data(famuss); 
+a = addmargins(table(famuss$actn3.r577x)); 
+genotype.table = matrix(a, ncol=4, byrow=T); 
+colnames(genotype.table) = c("CC", "CT", "TT", "Sum"); 
+rownames(genotype.table) = "Counts"; 
+kbl(genotype.table) %>% 
+  kable_styling()
+```
+
+
+
+```{r famussRelFrequencyTable, echo=FALSE, fig.cap='A relative frequency table for the actn3.r577x variable.'}
+data(famuss); 
+a = addmargins(prop.table(table(famuss$actn3.r577x))); 
+genotype.table = matrix(a, ncol=4, byrow=T); 
+colnames(genotype.table) = c("CC", "CT", "TT", "Sum"); 
+rownames(genotype.table) = "Proportions"; 
+kbl(genotype.table) %>% 
+  kable_styling()
+```
+
+
+A bar plot is a common way to display a single categorical variable. The left panel of Figure \@ref(fig:famussBarPlot) shows a **bar plot** of the counts per genotype for the `actn3.r577x` variable. The plot in the right panel shows the proportion of observations that are in each level (i.e. in each genotype).
+
+
+```{r famussBarPlot, fig.cap='Two bar plots of `actn3.r577x`. The left panel shows the counts, and the right panel shows the proportions for each genotype.', echo=FALSE}
+#data(famuss)
+data(COL)
+
+par(  mar = c(3.6, 4.5, 1, 1.5),
+      mgp = c(3.4, 0.7, 0),
+      mfrow = 1:2)
+t <- table(famuss$actn3.r577x)
+barplot(t,
+        axes = TRUE,
+        xlab = '',
+        ylab = 'count',
+        main = '',
+        ylim = c(0,300),
+        col = COL[1])
+abline(h = 0)
+mtext("genotype", 1, 2)
+
+par(mar = c(3.6, 4.7, 1, 1))
+barplot(t / sum(t),
+        axes = FALSE,
+        xlab = 'genotype',
+        ylab = '',
+        main = '',
+        ylim = c(0, 300) / sum(t),
+        col = COL[1])
+at <- seq(0, 0.5, 0.25)
+axis(2, at)
+par(las = 0)
+mtext('proportion', side = 2, line = 3)
+mtext("genotype", 1, 2)
+abline(h = 0)
+```
+
 

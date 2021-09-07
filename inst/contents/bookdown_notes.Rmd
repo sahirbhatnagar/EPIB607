@@ -1,0 +1,48 @@
+This is a _sample_ book written in **Markdown**. You can use anything that Pandoc's Markdown supports; for example, a math equation $a^2 + b^2 = c^2$.
+
+::: {.rmdnote}
+The `bs4_book` style also includes an `.rmdnote` callout block
+like this one.
+
+```{r collapse=TRUE}
+head(beaver1, n = 5)
+```
+
+:::
+
+
+::: {.rmdcaution}
+The `bs4_book` style also includes an `.rmdnote` callout block
+like this one.
+:::
+
+
+Available blocks are: .rmdnote, .rmdcaution, .rmdimportant, .rmdtip, and .rmdwarning
+
+.6 Cross-references
+We have explained how cross-references work for equations (Section 2.2.1), theorems (Section 2.2.2), figures (Section 2.4), and tables (Section 2.5). In fact, you can also reference sections using the same syntax \@ref(label), where label is the section ID. By default, Pandoc will generate an ID for all section headers, e.g., a section # Hello World will have an ID hello-world. We recommend you to manually assign an ID to a section header to make sure you do not forget to update the reference label after you change the section header. To assign an ID to a section header, simply add {#id} to the end of the section header. Further attributes of section headers can be set using standard Pandoc syntax.
+
+When a referenced label cannot be found, you will see two question marks like ??, as well as a warning message in the R console when rendering the book.
+
+You can also create text-based links using explicit or automatic section IDs or even the actual section header text.
+
+If you are happy with the section header as the link text, use it inside a single set of square brackets:
+[Section header text]: example “A single document” via [A single document]
+There are two ways to specify custom link text:
+[link text][Section header text], e.g., “non-English books” via [non-English books][Internationalization]
+[link text](#ID), e.g., “Table stuff” via [Table stuff](#tables)
+The Pandoc documentation provides more details on automatic section IDs and implicit header references.
+
+Cross-references still work even when we refer to an item that is not on the current page of the PDF or HTML output. For example, see Equation (2.1) and Figure 2.4.
+
+https://bookdown.org/yihui/bookdown/markdown-extensions-by-bookdown.html
+::: {.theorem}
+This is a `theorem` environment that can contain **any**
+_Markdown_ syntax.
+:::
+
+::: {.theorem name="Pythagorean theorem"}
+For a right triangle, if $c$ denotes the length of the hypotenuse
+and $a$ and $b$ denote the lengths of the other two sides, we have
+$$a^2 + b^2 = c^2$$
+:::

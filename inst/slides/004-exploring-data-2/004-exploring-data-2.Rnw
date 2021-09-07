@@ -150,7 +150,7 @@ Department of Radiology
 
 \begin{frame}[fragile]{Plot of weight vs. height in \texttt{famuss} dataset}
 	
-	<<echo=FALSE, fig.asp = 0.681>>=
+	<<fam-plot, echo=FALSE, fig.asp = 0.681>>=
 	library(oibiostat)
 	library(openintro)
 	data("COL")
@@ -173,8 +173,9 @@ Department of Radiology
 	col = COL[1, 3],
 	type = "n",
 	bty = "n",
-	xlab = "height Z-scores",
-	ylab = "weight Z-scores")
+	xlab = "height (inches)",
+	ylab = "weight (pounds)")
+	
 	points(zx,
 	zy,
 	pch = 19,
@@ -191,7 +192,7 @@ Department of Radiology
 
 \begin{frame}[fragile]{Plot of Z-scores weight vs. Z-scores height in \texttt{famuss} dataset}
 
-<<echo=FALSE, fig.asp = 0.681>>=
+<<zfam-plot, echo=FALSE, fig.asp = 0.681>>=
 library(oibiostat)
 library(openintro)
 data("COL")

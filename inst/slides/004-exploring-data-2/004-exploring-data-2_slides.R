@@ -33,7 +33,7 @@ plot(famuss$height, famuss$weight, xlab = "Height (in)", ylab = "Weight (lb)")
 ggplot(data = famuss, mapping = aes(x = height, y = weight)) + 
   geom_point(size = 0.8, pch = 21)
 
-## ----echo=FALSE, fig.asp = 0.681----------------------------------------------
+## ----fam-plot, echo=FALSE, fig.asp = 0.681------------------------------------
 library(oibiostat)
 library(openintro)
 data("COL")
@@ -56,8 +56,9 @@ cex = 1.3,
 col = COL[1, 3],
 type = "n",
 bty = "n",
-xlab = "height Z-scores",
-ylab = "weight Z-scores")
+xlab = "height (inches)",
+ylab = "weight (pounds)")
+
 points(zx,
 zy,
 pch = 19,
@@ -68,7 +69,7 @@ zy,
 cex = 1.3,
 col = COL[5])
 
-## ----echo=FALSE, fig.asp = 0.681----------------------------------------------
+## ----zfam-plot, echo=FALSE, fig.asp = 0.681-----------------------------------
 library(oibiostat)
 library(openintro)
 data("COL")
