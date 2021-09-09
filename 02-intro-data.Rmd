@@ -689,7 +689,7 @@ This section introduces tables and plots for summarizing categorical data, using
 
 A table for a single variable is called a **frequency table**. Figure \@ref(fig:famussFrequencyTable) is a frequency table for the \var{actn3.r577x} variable, showing the distribution of genotype at location r577x on the ACTN3 gene for the FAMuSS study participants.
 
-In a \term{relative frequency table} like Figure~\ref{famussRelFrequencyTable}, the proportions per each category are shown instead of the counts.
+In a **relative frequency table** like Figure \@ref(fig:famussRelFrequencyTable}, the proportions per each category are shown instead of the counts.
 
 
 ```{r famussFrequencyTable, fig.cap='A frequency table for the actn3.r577x variable.', echo=FALSE}
@@ -751,5 +751,619 @@ mtext('proportion', side = 2, line = 3)
 mtext("genotype", 1, 2)
 abline(h = 0)
 ```
+
+
+## Relationships between two variables
+
+This section introduces numerical and graphical methods for exploring and summarizing relationships between two variables. Approaches vary depending on whether the two variables are both numerical, both categorical, or whether one is numerical and one is categorical.
+
+### Two numerical variables
+
+#### Scatterplots
+
+In the frog parental investment study, researchers used clutch volume as a primary variable of interest rather than egg size because clutch volume represents both the eggs and the protective gelatinous matrix surrounding the eggs. The larger the clutch volume, the higher the energy required to produce it; thus, higher clutch volume is indicative of increased maternal investment. Previous research has reported that larger body size allows females to produce larger clutches; is this idea supported by the `frog` data?
+
+A **scatterplot** provides a case-by-case view of the relationship between two numerical variables. Figure \@ref(fig:frogClutchVolBodySize) shows clutch volume plotted against body size, with clutch volume on the $y$-axis and body size on the $x$-axis. Each point represents a single case. For this example, each case is one egg clutch for which both volume and body size (of the female that produced the clutch) have been recorded.
+
+```{r frogClutchVolBodySize, echo=FALSE, fig.cap='A scatterplot showing `clutch.volume` (vertical axis) vs. `body.size` (horizontal axis). '}
+data(frog)
+data(COL)
+frog.altitude <- frog
+
+par(  mar = c(3, 4.5, 0.5, 1.2),
+      mgp = c(2.8, 0.5, 0))
+plot(frog.altitude$body.size,
+     frog.altitude$clutch.volume,
+     pch = 19,
+     cex = 1.3,
+     col = COL[1, 3],
+     xlab = "Female Body Size",
+     ylab = expression("Clutch Volume" ~ (mm^3)))
+points(frog.altitude$body.size,
+       frog.altitude$clutch.volume,
+       cex = 1.3,
+       col = COL[1])
+mtext("Female Body Size (cm)", 1, 1.9)
+```
+
+
+The plot shows a discernible pattern, which suggests an **association**, or relationship,  between clutch volume and body size; the points tend to lie in a straight line, which is indicative of a **linear association**. Two variables are **positively associated** if increasing values of one tend to occur with increasing values of the other; two variables are **negatively associated** if increasing values of one variable occurs with decreasing values of the other. If there is no evident relationship between two variables, they are said to be **uncorrelated** or **independent**.
+
+As expected, clutch volume and body size are positively associated; larger frogs tend to produce egg clutches with larger volumes. These observations suggest that larger females are capable of investing more energy into offspring production relative to smaller females.
+
+
+The National Health and Nutrition Examination Survey (NHANES) consists of a set of surveys and measurements conducted by the US CDC to assess the health and nutritional status of adults and children in the United States. The following example uses data from a sample of 500 adults (individuals ages 21 and older) from the **NHANES** dataset. The sample is available as `nhanes.samp.adult.500` in the `oibiostat` package.
+
+:::{.example}
+Body mass index (BMI) is a measure of weight commonly used by health agencies to assess whether someone is overweight, and is calculated from height and weight. Describe the relationships shown in Figure \@ref(fig:nhanesHeightWeightBmi). Why is it helpful to use BMI as a measure of obesity, rather than weight?
+$$BMI = \dfrac{weight_{kg}}{height^{2}_m} = \dfrac{weight_{lb}}{height^{2}_{in}} \times 703$$
+
+Figure \@ref(fig:nhanesHeightWeight)	shows a positive association between height and weight; taller individuals tend to be heavier. Figure \@ref(fig:nhanesHeightBMI) shows that height and BMI do not seem to be associated; the range of BMI values observed is roughly consistent across height. 
+
+Weight itself is not a good measure of whether someone is overweight; instead, it is more reasonable to consider whether someone's weight is unusual relative to other individuals of a comparable height. An individual weighing 200 pounds who is 6 ft tall is not necessarily an unhealthy weight; however, someone who weighs 200 pounds and is 5 ft tall is likely overweight. It is not reasonable to classify individuals as overweight or obese based only on weight.
+
+BMI acts as a relative measure of weight that accounts for height. Specifically, BMI is used as an estimate of body fat. According to US National Institutes of Health (US NIH) and the World Health Organization (WHO), a BMI between 25.0 - 29.9 is considered overweight and a BMI over 30 is considered obese.
+:::
+
+```{r nhanesHeightWeight, echo=FALSE, fig.cap='A scatterplot showing height versus weight from the 500 individuals in the sample from `NHANES`. One participant 163.9 cm tall (about 5 ft, 4 in) and weighing 144.6 kg (about 319 lb) is highlighted.'}
+data(COL)
+data(nhanes.samp.adult.500)
+
+par(  mar = c(3, 4.5, 0.5, 1.2),
+      mgp = c(2.8, 0.5, 0))
+plot(nhanes.samp.adult.500$Height,
+     nhanes.samp.adult.500$Weight,
+     pch = 19,
+     cex = 1.3,
+     col = COL[1, 3],
+     xlab = "",
+     ylab = "Weight (kg)")
+points(nhanes.samp.adult.500$Height,
+       nhanes.samp.adult.500$Weight,
+       cex = 1.3,
+       col = COL[1])
+mtext("Height (cm)", 1, 1.9)
+
+t1 <- nhanes.samp.adult.500$Height[480]
+t2 <- nhanes.samp.adult.500$Weight[480]
+lines(c(t1, t1), c(-10, t2),
+      lty = 2,
+      col = COL[4])
+lines(c(-10, t1), c(t2, t2),
+      lty = 2,
+      col = COL[4])
+points(t1, t2,
+       pch = 19,
+       cex = 1.3,
+       col = COL[4, 3],)
+```
+
+
+
+```{r nhanesHeightBMI, fig.cap='A scatterplot showing height versus BMI from the 500 individuals in the sample from `NHANES`. The same individual highlighted in Figure \\@ref(fig:nhanesHeightWeight) is marked here, with BMI 53.83.', echo=FALSE}
+
+par(  mar = c(3, 4.5, 0.5, 1.2),
+      mgp = c(2.8, 0.5, 0))
+plot(nhanes.samp.adult.500$Height,
+     nhanes.samp.adult.500$BMI,
+     pch = 19,
+     cex = 1.3,
+     col = COL[1, 3],
+     xlab = "",
+     ylab = "BMI")
+points(nhanes.samp.adult.500$Height,
+       nhanes.samp.adult.500$BMI,
+       cex = 1.3,
+       col = COL[1])
+mtext("Height (cm)", 1, 1.9)
+
+t1 <- nhanes.samp.adult.500$Height[480]
+t2 <- nhanes.samp.adult.500$BMI[480]
+lines(c(t1, t1), c(-10, t2),
+      lty = 2,
+      col = COL[4])
+lines(c(-10, t1), c(t2, t2),
+      lty = 2,
+      col = COL[4])
+points(t1, t2,
+       pch = 19,
+       cex = 1.3,
+       col = COL[4, 3],)
+```
+
+
+:::{.example}
+Figure \@ref(fig:incomeLifeExpectancy) is a scatterplot of life expectancy versus annual per capita income for 165 countries in 2011. Life expectancy is measured as the expected lifespan for children born in 2011 and income is adjusted for purchasing power in a country. Describe the relationship between life expectancy and annual per capita income; do they seem to be linearly associated?
+
+Life expectancy and annual per capita income are positively associated; higher per capita income is associated with longer life expectancy. However, the two variables are not linearly associated. When income is low, small increases in per capita income are associated with relatively large increases in life expectancy. However, once per capita income exceeds approximately $20,000 per year, increases in income are associated with smaller gains in life expectancy. 
+
+In a linear association, change in the $y$-variable for every unit of the $x$-variable is consistent across the range of the $x$-variable; for example, a linear association would be present if an increase in income of $10,000 corresponded to an increase in life expectancy of 5 years, across the range of income.
+:::
+
+```{r incomeLifeExpectancy, echo=FALSE, fig.cap='A scatterplot of life expectancy (years) versus annual per capita income (US dollars) in the `wdi.2011` dataset from the oibiostat package.'}
+
+data("wdi.2011")
+data(COL)
+
+par(  mar = c(3, 4.5, 0.5, 1.2),
+      mgp = c(2.8, 0.5, 0))
+plot(wdi.2011$gdp.per.capita, wdi.2011$life.expect,
+     pch = 19,
+     cex = 1.3,
+     col = COL[1, 3],
+     ylab = "Life Expectancy (years)",
+     xlab = "Per Capita Income (USD)",
+     axes = FALSE)
+points(wdi.2011$gdp.per.capita, wdi.2011$life.expect,
+       cex = 1.3,
+       col = COL[1])
+AxisInDollars(1, pretty(wdi.2011$gdp.per.capita))
+axis(2)
+
+```
+
+
+
+#### Correlation
+
+Correlation is a numerical summary statistic that measures the strength of a linear relationship between two variables. It is denoted by $r$, which takes on values between -1 and 1.
+
+If the paired values of two variables lie exactly on a line, $r = \pm 1$; the closer the correlation coefficient is to $\pm 1$, the stronger the linear association. When two variables are positively associated, with paired values that tend to lie on a line with positive slope, $r > 0$. If two variables are negatively associated, $r < 0$. A value of $r$ that is 0 or approximately 0 indicates no apparent association between two variables.If paired values lie perfectly on either a horizontal or vertical line, there is no association and $r$ is mathematically undefined.
+
+The correlation coefficient quantifies the strength of a linear trend. Prior to calculating a correlation, it is advisable to confirm that the data exhibit a linear relationship. Although it is mathematically possible to calculate correlation for any set of paired observations, such as the life expectancy versus income data in Figure \@ref(fig:incomeLifeExpectancy), correlation cannot be used to assess the strength of a nonlinear relationship.
+
+
+```{r posNegCorPlots, fig.cap='Scatterplots and their correlation coefficients. The first row shows positive associations and the second row shows negative associations. From left to right, strength of the linear association between $x$ and $y$ increases.', echo=FALSE}
+
+data(COL)
+data(possum)
+CorrelationPlot <- function(x, y, ...) {
+  plot(x, y,
+       axes = FALSE,
+       pch = 20,
+       col = COL[1, 2],
+       cex = 1.351,
+       xlab = '',
+       ...)
+  box()
+  mtext(paste('R =', format(c(round(cor(x,y), 2), 0.01))[1]),
+        side = 1,
+        line = 1,
+        cex = 1.1)
+}
+
+set.seed(1)
+
+n <- 50
+
+par(  mfrow = c(2, 4),
+      mar = c(2.7, rep(0.5, 3)),
+      mgp = c(1, 0, 0))
+
+
+# _____ Line 1 _____ #
+x <- c(runif(n[1] - 2, 0, 4), 2, 2.1)
+y <- 0.8 * x + rnorm(n[1], sd = 5)
+CorrelationPlot(x, y, xlim = c(-0.2, 4.2), ylim = c(-9, 17))
+
+CorrelationPlot(possum$total_l, possum$head_l)
+
+x <- c(runif(n[1] - 2, 0, 4), 2, 2.1)
+y <- 2 * x + rnorm(n[1], sd = 0.5)
+CorrelationPlot(x, y, xlim = c(-0.2, 4.2), ylim = c(-2, 9.6))
+
+x <- runif(n[1])
+y <- x
+y[y < -2] <- -1.5
+CorrelationPlot(x, y, xlim = c(-0.03, 1.03), ylim = c(-.1, 1.1))
+
+
+# _____ Line 2 _____ #
+par(mar = c(2.1,0.5,1.1,0.5))
+
+x <- c(runif(n[1]-2, 0, 4), 2, 2.1)
+y <- -0.5 * x + rnorm(n[1], sd = 5)
+CorrelationPlot(x, y, xlim = c(-0.2, 4.2), ylim = c(-17, 14))
+
+x <- runif(n[1], -4.8, 4.8)
+y <- -x + rnorm(n[1], sd = 3)
+CorrelationPlot(x, y, xlim = c(-5.2, 5.2), ylim = c(-12, 10))
+
+x <- runif(n[1])
+y <- -9 * x + rnorm(n[1])
+CorrelationPlot(x, y, xlim = c(-0.03, 1.03), ylim = c(-10, 2))
+
+x <- runif(n[1])
+y <- -x
+y[y < -2] <- -1.5
+CorrelationPlot(x, y, xlim = c(-0.03, 1.03), ylim = c(-1.2, .2))
+
+```
+
+
+::: {.definition name="Correlation"}
+The correlation between two variables $x$ and $y$ is given by:
+$$r =  \frac{1}{n-1}\sum^{n}_{i=1}
+\left(\frac{x_{i}-\overline{x}}
+{s_{x}}\right)\left(\frac{y_{i}-\overline{y}}{s_{y}}\right),$$
+where $(x_1,y_1), (x_2,y_2), \ldots, (x_n, y_n)$ are the $n$ paired values of $x$ and $y$, and $s_x$ and $s_y$ are the sample standard deviations of the $x$ and $y$ variables, respectively.
+:::
+
+
+:::{.example}
+Calculate the correlation coefficient of $x$ and $y$, plotted in Figure \@ref(fig:corCalcSimple). Calculate the mean and standard deviation for $x$ and $y$: $\overline{x} = 2$, $\overline{y} = 3$, $s_x = 1$, and $s_y = 2.65$. 
+
+\begin{align*}
+r &=  \frac{1}{n-1}\sum^{n}_{i=1}
+\left(\frac{x_{i}-\overline{x}}
+{s_{x}}\right)\left(\frac{y_{i}-\overline{y}}{s_{y}}\right) \\
+&= \frac{1}{3 - 1} \left[\left(\frac{1 - 2}
+{1}\right)\left(\frac{5 - 3}{2.65}\right) + \left(\frac{2 - 2}
+{1}\right)\left(\frac{4 - 3}{2.65}\right) + \left(\frac{3 - 2}
+{1}\right)\left(\frac{0 - 3}{2.65}\right)  \right] \\
+&= -0.94.
+\end{align*}
+
+The correlation is -0.94, which reflects the negative association visible from the scatterplot in Figure \@ref(fig:corCalcSimple).
+:::
+
+
+```{r corCalcSimple, echo=FALSE, fig.cap='A scatterplot showing three points: (1, 5), (2, 4), and (3, 0)'}
+
+x = c(1, 2, 3)
+y = c(5, 4, 0)
+
+# plot(x,y)
+
+par(  mar = c(3.5, 4, 0.5, 1.2),
+      mgp = c(2, 0.5, 0))
+plot(x, y,
+     pch = 19,
+     cex = 1.3,
+     col = COL[1, 3],
+     ylab = "y",
+     xlab = "x",
+     xlim = range(x) + c(-1, 1) * .1 * diff(range(x)),
+     ylim = range(y) + c(-1, 1) * .1 * diff(range(y)))
+points(x, y,
+       cex = 1.3,
+       col = COL[1])
+
+```
+
+
+
+:::{.example}
+Is it appropriate to use correlation as a numerical summary for the relationship between life expectancy and income after a log transformation is applied to both variables? Refer to Figure \@ref(fig:incomeLifeExpectancyLog).
+	
+Figure \@ref(fig:incomeLifeExpectancyLog) shows an approximately linear relationship; a correlation coefficient is a reasonable numerical summary of the relationship. As calculated from statistical software, $r = 0.79$, which is indicative of a strong linear relationship.
+:::
+
+
+```{r incomeLifeExpectancyLog, fig.cap='A scatterplot showing `log(income)` (horizontal axis) vs.  `log(life.expectancy)` (vertical axis).', echo=FALSE}
+data("wdi.2011")
+data(COL)
+
+par(  mar = c(3, 4.5, 0.5, 1.2),
+      mgp = c(2.8, 0.5, 0))
+plot(log(wdi.2011$gdp.per.capita), log(wdi.2011$life.expect),
+     pch = 19,
+     cex = 1.3,
+     col = COL[1, 3],
+     ylab = "Life Expectancy (log years)")
+points(log(wdi.2011$gdp.per.capita), log(wdi.2011$life.expect),
+       cex = 1.3,
+       col = COL[1])
+mtext("Per Capita Income (log USD)", 1, 1.9)
+```
+
+
+
+
+### Two categorical variables
+
+#### Contingency tables
+
+A **contingency table** summarizes data for two categorical variables, with each value in the table representing the number of times a particular combination of outcomes occurs. Contingency tables are also known as **two-way tables**. Table \@ref(tab:famussContingencyTable) summarizes the relationship between race and genotype in the `famuss` data.
+
+The **row totals** provide the total counts across each row and the **column totals** are the total counts for each column; collectively, these are the **marginal totals**.
+
+
+```{r famussContingencyTable, echo=FALSE}
+data(famuss); 
+genotype.by.race.table = addmargins(table(famuss$race, famuss$actn3.r577x)); 
+
+kbl(genotype.by.race.table, 
+    caption = "A contingency table for race and actn3.r577x.") %>% 
+  kable_styling()
+```
+
+
+Like relative frequency tables for the distribution of one categorical variable, contingency tables can also be converted to show proportions. Since there are two variables, it is necessary to specify whether the proportions are calculated according to the row variable or the column variable. 
+
+Table \@ref(tab:famussRowPropTable) shows the row proportions for Table \@ref(tab:famussContingencyTable); these proportions indicate how genotypes are distributed within each race. For example, the value of 0.593 in the upper left corner indicates that of the African Americans in the study, 59.3% have the CC genotype.
+
+
+
+```{r famussRowPropTable, echo=FALSE}
+data(famuss); 
+famuss.race = table(famuss$race, famuss$actn3.r577x); 
+famuss.race.row.prop = prop.table(famuss.race, 1); 
+
+ 
+kbl(famuss.race.row.prop, 
+    caption = "A contingency table with row proportions for the race and actn3.r577x variables.") %>% 
+  kable_styling()
+```
+
+
+
+Table \@ref(tab:famussColPropTable) shows the column proportions for Table \@ref(fig:famussContingencyTable); these proportions indicate the distribution of races within each genotype category. For example, the value of 0.092 indicates that of the CC individuals in the study, 9.2% are African American. 
+
+\begin{tabular}{rrrr}
+		\hline
+		& CC & CT & TT \\ 
+		\hline
+		African Am & 0.092 & 0.023 & 0.031 \\ 
+		Asian & 0.121 & 0.069 & 0.099 \\ 
+		Caucasian & 0.723 & 0.828 & 0.783 \\ 
+		Hispanic & 0.023 & 0.038 & 0.056 \\ 
+		Other & 0.040 & 0.042 & 0.031 \\ 
+		Sum & 1.000 & 1.000 & 1.000 \\
+		\hline
+	\end{tabular}
+\caption{A contingency table with column proportions for the \resp{race} and \resp{actn3.r577x} variables.} 
+\label{famussColPropTable}
+
+%library(xtable); data(famuss); famuss.race = table(famuss$race, famuss$actn3.r577x); famuss.race.col.prop = prop.table(famuss.race, 2); xtable(famuss.race.col.prop, digits = 3, caption = "A contingency table with column proportions for the race and actn3.r577x variables.")
+
+::: {.example}
+For African Americans in the study, CC is the most common genotype and TT is the least common genotype. Does this pattern hold for the other races in the study? Do the observations from the study suggest that distribution of genotypes at r577x vary between populations? 
+
+The pattern holds for Asians, but not for other races. For the Caucasian individuals sampled in the study, CT is the most common genotype at 46.3%. CC is the most common genotype for Asians, but in this population, genotypes are more evenly distributed: 38.2% of Asians sampled are CC, 32.7% are CT, and 29.1% are TT. The distribution of genotypes at r577x seems to vary by population.
+:::
+
+
+%JV: tables with work shown in below comment block
+
+\begin{comment}
+
+% latex table generated in R 3.0.2 by xtable 1.7-4 package
+% Fri Aug 07 11:46:57 2015
+\begin{figure}[ht]
+	\centering
+	\begin{tabular}{rrrrr}
+		\hline
+		& CC & CT & TT & Sum \\ 
+		\hline
+		African Am & $16/27=0.593$ & $6/27=0.222$ & $5/27=0.185$ & $27/27=1.00$ \\ 
+		Asian & $21/55=0.382$ & $18/55=0.327$ & $16/55=0.291$ & $55/55=1.00$ \\ 
+		Caucasian & $125/467=0.267$ & $216/467=0.463$ & $126/467=0.270$ & $467/467=1.00$ \\ 
+		Hispanic & $4/23=0.174$ & $10/23=0.435$ & $9/23=0.391$ & $23/23=1.00$ \\ 
+		Other & $7/23=0.304$ & $11/23=0.478$ & $5/23=0.217$ & $23/23=1.00$ \\ 
+		Sum & $173/595=0.291$ & $261/595=0.438$ & $161/595=0.271$ & $595/595=1.00$ \\ 
+		\hline
+	\end{tabular}
+	\caption{A contingency table with row proportions for the \var{race} and \var{actn3.r577x} variables.} 
+	\label{famussRowPropTable}
+\end{figure}
+%library(xtable); data(famuss); row.prop.table = table(famuss$race, famuss$actn3.r577x)[1:5,]; row.prop.table / rep(rowSums(row.prop.table), 3); rowSums(row.prop.table); xtable(genotype.by.race.table, digits = 0, caption = "A contingency table with row proportions for the race and actn3.r577x variables.", label = "famussRowPropTable"); 173/595; 261/595; 161/595
+
+% latex table generated in R 3.0.2 by xtable 1.7-4 package
+% Fri Aug 07 12:13:27 2015
+\begin{figure}[ht]
+	\centering
+	\begin{tabular}{rrrrr}
+		\hline
+		& CC & CT & TT & Sum \\ 
+		\hline
+		African Am & $16/173=0.092$ & $6/261=0.037$ & $5/161=0.191$ & $27/595=0.045$ \\ 
+		Asian & $21/173=0.080$ & $18/261=0.104$ & $16/161=0.993$ & $55/595=0.092$ \\ 
+		Caucasian & $125/173=0.776$ & $216/261=0.828$ & $126/161=0.728$ & $467/595=0.785$ \\ 
+		Hispanic & $4/173=0.023$ & $10/261=0.062$ & $9/161=0.034$ & $23/595=0.038$ \\ 
+		Other & $7/173=0.027$ & $11/261=0.063$ & $5/161=0.031$ & $23/595=0.038$ \\ 
+		Sum & $173/173=1.000$ & $261/261=1.000$ & $161/161=1.000$ & $595/595=1.000$ \\ 
+		\hline
+	\end{tabular}
+	\caption{A contingency table with column proportions for the \var{race} and \var{actn3.r577x} variables.} 
+	\label{famussColPropTable}
+\end{figure}
+%library(xtable); data(famuss); col.prop.table = table(famuss$race, famuss$actn3.r577x)[1:5,]; col.prop.table / rep(colSums(col.prop.table), 3); colSums(col.prop.table); xtable(genotype.by.race.table, digits = 0, caption = "A contingency table with column proportions for the race and actn3.r577x variables.", label = "famussColPropTable"); 27/595; 55/595; 467/595; 23/595; 23/595
+
+\end{comment}
+
+
+\begin{exercisewrap}
+\begin{nexercise}
+As shown in Figure \@ref(fig:famussColPropTable}, 72.3\% of CC individuals in the study are Caucasian. Do these data suggest that in the general population, people of CC genotype are highly likely to be Caucasian?\footnotemark{}
+\end{nexercise}
+\end{exercisewrap}
+\footnotetext{No, this is not a reasonable conclusion to draw from the data. The high proportion of Caucasians among CC individuals primarily reflects the large number of Caucasians sampled in the study -- 78.5\% of the people sampled are Caucasian. The uneven representation of different races is one limitation of the \data{famuss} data.}
+
+
+\textD{\newpage}
+
+
+\subsubsection{Segmented bar plots}
+
+A \termsub{segmented bar plot}{bar plot!segmented bar plot} is a way of visualizing the information from a contingency table. Figure \@ref(fig:famussSegBarPlotA} graphically displays the data from Figure \@ref(fig:famussContingencyTable}; each bar represents a level of \var{actn3.r577x} and is divided by the levels of \var{race}. Figure \@ref(fig:famussSegBarStaA} uses the row proportions to create a standardized segmented bar plot. 
+
+
+\begin{figure}[h]
+	\centering
+	\subfigure[]{
+		\includegraphics[width=0.485\textwidth]{ch_intro_to_data_oi_biostat/figures/famussSegBar/famussSegBarA}
+		\label{famussSegBarA}
+	}
+	\subfigure[]{
+		\includegraphics[width=0.485\textwidth]{ch_intro_to_data_oi_biostat/figures/famussSegBar/famussSegBarStaA} 
+		\label{famussSegBarStaA}		
+	}
+	\caption{\subref{famussSegBarA} Segmented bar plot for individuals by genotype, with bars divided by race. \subref{famussSegBarStaA} Standardized version of Figure~\subref{famussSegBarA}.}
+	\label{famussSegBarPlotA}
+\end{figure}
+
+Alternatively, the data can be organized as shown in Figure \@ref(fig:famussSegBarPlotB}, with each bar representing a level of \var{race}. The standardized plot is particularly useful in this case, presenting the distribution of genotypes within each race more clearly than in Figure \@ref(fig:famussSegBarB}.
+
+\begin{figure}[h]
+	\centering
+	\subfigure[]{
+		\includegraphics[width=0.485\textwidth]{ch_intro_to_data_oi_biostat/figures/famussSegBar/famussSegBarB} 
+		\label{famussSegBarB}
+	}
+	\subfigure[]{
+		\includegraphics[width=0.485\textwidth]{ch_intro_to_data_oi_biostat/figures/famussSegBar/famussSegBarStaB} 
+		\label{famussSegBarStaB}	
+	}
+	\caption{\subref{famussSegBarB} Segmented bar plot for individuals by race, with bars divided by genotype. \subref{famussSegBarStaB} Standardized version of Figure~\subref{famussSegBarB}.}
+	\label{famussSegBarPlotB}
+\end{figure}
+
+
+\textD{\newpage}
+
+
+\subsubsection{Two-by-two tables: relative risk}
+\label{TwoWayTablesRelativeRisk}
+
+The results from medical studies are often presented in **two-by-two tables} (2 $\times$ 2 tables), contingency tables for categorical variables that have two levels. One of the variables defines two groups of participants, while the other represents the two possible outcomes. Figure \@ref(fig:TwoByTwoTable} shows a hypothetical two-by-two table of outcome by group.
+
+\begin{figure}[h]
+	\centering
+	\begin{tabular}{r|rrr}
+		\hline
+		& Outcome A & Outcome B & Sum\\ 
+		\hline
+		Group 1 & $a$ & $b$ & $a + b$ \\ 
+		Group 2 & $c$ & $d$ & $c + d$ \\
+		Sum & $a + c$ & $b + d$ & $a + b + c + d = n$ \\
+		\hline
+	\end{tabular}	
+	\caption{A hypothetical two-by-two table of outcome by group.}
+	\label{TwoByTwoTable} 
+\end{figure}
+
+In the LEAP study, participants are divided into two groups based on treatment (peanut avoidance versus peanut consumption), while the outcome variable records whether an individual passed or failed the oral food challenge (OFC). The results of the LEAP study as shown in Figure \@ref(fig:leapStudyResults} are in the form of a 2 $\times$ 2 table; the table is reproduced below as Figure \@ref(fig:leapStudyResultsRR}.
+
+A statistic called the **relative risk} (RR) can be used to summarize the data in a 2 $\times$ 2 table; the relative risk is a measure of the risk of a certain event occurring in one group relative to the risk of the event occurring in another group.\footnote{Chapter~\ref{inferenceForCategoricalData} discusses another numerical summary for 2 $\times$ 2 tables, the **odds ratio}.}  
+
+
+% latex table generated in R 3.1.1 by xtable 1.7-4 package
+% Thu Jul 16 07:12:04 2015
+\begin{figure}[ht]
+	\centering
+	\begin{tabular}{rrrr}
+		\hline
+		& FAIL OFC & PASS OFC & Sum \\ 
+		\hline
+		Peanut Avoidance & 36 & 227 & 263 \\ 
+		Peanut Consumption & 5 & 262 & 267 \\ 
+		Sum & 41 & 489 & 530 \\ 
+		\hline
+	\end{tabular}
+	\caption{Results of the LEAP study, described in Section~\ref{leapCaseStudy}.}
+	\label{leapStudyResultsRR}
+\end{figure}
+%library(xtable); outcome.table = addmargins(table(LEAP$treatment.group, LEAP$overall.V60.outcome)); xtable(outcome.table, digits = 0, caption = "LEAP Study Results", caption  = "leapStudyResults")
+
+The question of interest in the LEAP study is whether the risk of developing peanut allergy (i.e., failing the OFC) differs between the peanut avoidance and consumption groups. The relative risk of failing the OFC equals the ratio of the proportion of individuals in the avoidance group who failed the OFC to the proportion of individuals in the consumption group who failed the OFC.
+
+\begin{examplewrap}
+\begin{nexample}{Using the results from the LEAP study, calculate and interpret the relative risk of failing the oral food challenge, comparing individuals in the avoidance group to individuals in the consumption group.}
+	
+\[RR_{\textrm{failing OFC}} = \dfrac{\textrm{proportion in avoidance group who failed OFC}}{\textrm{proportion in consumption group who failed OFC}} = \dfrac{36/263}{5/267} = 7.31. \]
+
+The relative risk is 7.31. The risk of failing the oral food challenge was more than 7 times greater for participants in the peanut avoidance group than for those in the peanut consumption group.
+\end{nexample}
+\end{examplewrap}
+
+\textD{\newpage}
+
+\begin{examplewrap}
+\begin{nexample}{An observational study is conducted to assess the association between smoking and cardiovascular disease (CVD), in which researchers identified a cohort of individuals and categorized them according to smoking and disease status. If the relative risk of CVD is calculated as the ratio of the proportion of smokers with CVD to the proportion of non-smokers with CVD, interpret the results of the study if the relative risk equals 1, is less than 1, or greater than 1.}
+	
+A relative risk of 1 indicates that the risk of CVD is equal for smokers and non-smokers.
+
+A relative risk less than 1 indicates that smokers are at a lower risk of CVD than non-smokers; i.e., the proportion of individuals with CVD among smokers is lower than the proportion among non-smokers.
+	
+A relative risk greater than 1 indicates that smokers are at a higher risk of CVD than non-smokers; i.e., the proportion of individuals with CVD among smokers is higher than the proportion among non-smokers.
+	
+\label{smokingStenosisRR}	
+\end{nexample}
+\end{examplewrap}
+
+\begin{exercisewrap}
+\begin{nexercise}
+For the study described in Example~\ref{smokingStenosisRR}, suppose that of the 231 individuals, 111 are smokers. 40 smokers and 32 non-smokers have cardiovascular disease. Calculate and interpret the relative risk of CVD.\footnotemark{}
+\end{nexercise}
+\end{exercisewrap}
+\footnotetext{The relative risk of CVD, comparing smokers to non-smokers, is $(40/111)/(32/120) = 1.35$. Smoking is associated with a 35\% increase in the probability of CVD; in other words, the risk of CVD is 35\% greater in smokers compared to non-smokers.}
+
+Relative risk relies on the assumption that the observed proportions of an event occurring in each group are representative of the risk, or incidence, of the event occurring within the populations from which the groups are sampled. For example, in the LEAP data, the relative risk assumes that the proportions $33/263$ and $5/267$ are estimates of the proportion of individuals who would fail the OFC among the larger population of infants who avoid or consume peanut products. 
+
+%JV: Not sure if this section is clear enough when case-control terminology is avoided.
+
+\begin{examplewrap}
+\begin{nexample}{Suppose another study to examine the association between smoking and cardiovascular disease is conducted, but researchers use a different study design than described in Example~\ref{smokingStenosisRR}. For the new study, 90 individuals with CVD and 110 individuals without CVD are recruited. 40 of the individuals with CVD are smokers, and 80 of the individuals without CVD are non-smokers. Should relative risk be used to summarize the observations from the new study?}
+	
+Relative risk should not be calculated for these observations. Since the number of individuals with and without CVD is fixed by the study design, the proportion of individuals with CVD within a certain group (smokers or non-smokers) as calculated from the data is not a measure of CVD risk for that population.
+\end{nexample}
+\end{examplewrap}
+
+\textD{\newpage}
+
+\begin{exercisewrap}
+\begin{nexercise}
+For a study examining the association between tea consumption and esophageal carcinoma, researchers recruited 300 patients with carcinoma and 571 without carcinoma and administered a questionnaire about tea drinking habits.\footnotemark{} Of the 47 individuals who reported that they regularly drink green tea, 17 had carcinoma. Of the 824 individuals who reported that they never, or very rarely, drink green tea, 283 had carcinoma. Evaluate whether the proportions $17/47$ and $283/824$ are representative of the incidence rate of carcinoma among individuals who drink green tea regularly and those who do not.\footnotemark{}
+\end{nexercise}
+\end{exercisewrap}
+\addtocounter{footnote}{-1}%
+\footnotetext{Tea drinking habits and oesophageal cancer in a high risk area in northern Iran: population based case­control study, Islami F, et al., BMJ (2009), doi \url{10.1136/bmj.b929}}%
+\addtocounter{footnote}{1}%
+\footnotetext{The proportions calculated from the study data should not be used as estimates of the incidence rate of esophageal carcinoma among individuals who drink green tea regularly and those who do not, since the study selected participants based on carcinoma status.}
+
+\begin{onebox}{Relative risk}%	
+		The relative risk of Outcome A in the hypothetical two-by-two table (Figure \@ref(fig:TwoByTwoTable}) can be calculated using either Group 1 or Group 2 as the reference group:
+		\[RR_{\textrm{A, comparing Group 1 to Group 2}} = \dfrac{a/(a+b)}{c/(c+d)} \]
+		\[RR_{\textrm{A, comparing Group 2 to Group 1}} = \dfrac{c/(c+d)}{a/(a+b)} \]
+		
+		The relative risk should only be calculated for data where the proportions $a/(a+b)$ and $c/(c+d)$ represent the incidence of Outcome A within the populations from which Groups 1 and 2 are sampled.
+\end{onebox}
+
+\subsection{A numerical variable and a categorical variable}
+\label{comparingAcrossGroups}
+
+Methods for comparing numerical data across groups are based on the approaches introduced in Section~\ref{numericalData}. \termsub{Side-by-side boxplots}{side-by-side boxplots} and \termsub{hollow histograms}{histogram} are useful for directly comparing how the distribution of a numerical variable differs by category. 
+
+\index{data!famuss|(}
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.8\textwidth]{ch_intro_to_data_oi_biostat/figures/famussGenoMuscFunc/famussGenoMuscFunc}
+	\caption{Side-by-side boxplot and hollow histograms for \var{ndrm.ch}, split by levels of \var{actn3.r577x}.}
+	\label{famussGenoMuscFunc}
+\end{figure}
+
+Recall the question introduced in Section~\ref{variableRelations}: is ACTN3 genotype associated with variation in muscle function? Figure \@ref(fig:famussGenoMuscFunc} visually shows the relationship between muscle function (measured as percent change in non-dominant arm strength) and ACTN3 genotype in the \data{famuss} data with side-by-side boxplots and hollow histograms. The hollow histograms highlight how the shapes of the distributions of \var{ndrm.ch} for each genotype are essentially similar, although the distribution for the CC genotype has less right skewing. The side-by-side boxplots are especially useful for comparing center and spread, and reveal that the T allele appears to be associated with greater muscle function; median percent change in non-dominant arm strength increases across the levels from CC to TT. 
+
+\index{data!famuss|)}
+
+\index{data!frog|(}
+
+\begin{exercisewrap}
+\begin{nexercise}
+Using Figure \@ref(fig:frogClutchVolAlt}, assess how maternal investment varies with altitude.\footnotemark{}
+\end{nexercise}
+\end{exercisewrap}
+\footnotetext{As a general rule, clutches found at higher altitudes have greater volume; median clutch volume tends to increase as altitude increases. This suggests that increased altitude is associated with a higher level of maternal investment.}
+	
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.9\textwidth]{ch_intro_to_data_oi_biostat/figures/frogClutchVolAlt/frogClutchVolAlt}
+	\caption{Side-by-side boxplot comparing the distribution of \var{clutch.volume} for different altitudes.}
+	\label{frogClutchVolAlt}
+\end{figure} 
+
+\index{data!frog|)}
 
 
