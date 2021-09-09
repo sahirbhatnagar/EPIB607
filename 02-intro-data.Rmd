@@ -1089,9 +1089,7 @@ Table \@ref(tab:famussRowPropTable) shows the row proportions for Table \@ref(ta
 data(famuss); 
 famuss.race = table(famuss$race, famuss$actn3.r577x); 
 famuss.race.row.prop = prop.table(famuss.race, 1); 
-
- 
-kbl(famuss.race.row.prop, 
+kbl(cbind(famuss.race.row.prop,Sum = apply(famuss.race.row.prop, 1, sum)), 
     caption = "A contingency table with row proportions for the race and actn3.r577x variables.") %>% 
   kable_styling()
 ```
@@ -1100,22 +1098,17 @@ kbl(famuss.race.row.prop,
 
 Table \@ref(tab:famussColPropTable) shows the column proportions for Table \@ref(fig:famussContingencyTable); these proportions indicate the distribution of races within each genotype category. For example, the value of 0.092 indicates that of the CC individuals in the study, 9.2% are African American. 
 
-\begin{tabular}{rrrr}
-		\hline
-		& CC & CT & TT \\ 
-		\hline
-		African Am & 0.092 & 0.023 & 0.031 \\ 
-		Asian & 0.121 & 0.069 & 0.099 \\ 
-		Caucasian & 0.723 & 0.828 & 0.783 \\ 
-		Hispanic & 0.023 & 0.038 & 0.056 \\ 
-		Other & 0.040 & 0.042 & 0.031 \\ 
-		Sum & 1.000 & 1.000 & 1.000 \\
-		\hline
-	\end{tabular}
-\caption{A contingency table with column proportions for the \resp{race} and \resp{actn3.r577x} variables.} 
-\label{famussColPropTable}
+```{r famussColPropTable, echo=FALSE}
+data(famuss); 
+famuss.race = table(famuss$race, famuss$actn3.r577x); 
+famuss.race.col.prop = prop.table(famuss.race, 2); 
+kbl(rbind(famuss.race.col.prop, Sum = apply(famuss.race.col.prop, 2, sum)), 
+       digits = 3, 
+       caption = "A contingency table with column proportions for the `race` and `actn3.r577x` variables.") %>% 
+  kable_styling()
+```
 
-%library(xtable); data(famuss); famuss.race = table(famuss$race, famuss$actn3.r577x); famuss.race.col.prop = prop.table(famuss.race, 2); xtable(famuss.race.col.prop, digits = 3, caption = "A contingency table with column proportions for the race and actn3.r577x variables.")
+
 
 ::: {.example}
 For African Americans in the study, CC is the most common genotype and TT is the least common genotype. Does this pattern hold for the other races in the study? Do the observations from the study suggest that distribution of genotypes at r577x vary between populations? 
@@ -1124,246 +1117,79 @@ The pattern holds for Asians, but not for other races. For the Caucasian individ
 :::
 
 
-%JV: tables with work shown in below comment block
-
-\begin{comment}
-
-% latex table generated in R 3.0.2 by xtable 1.7-4 package
-% Fri Aug 07 11:46:57 2015
-\begin{figure}[ht]
-	\centering
-	\begin{tabular}{rrrrr}
-		\hline
-		& CC & CT & TT & Sum \\ 
-		\hline
-		African Am & $16/27=0.593$ & $6/27=0.222$ & $5/27=0.185$ & $27/27=1.00$ \\ 
-		Asian & $21/55=0.382$ & $18/55=0.327$ & $16/55=0.291$ & $55/55=1.00$ \\ 
-		Caucasian & $125/467=0.267$ & $216/467=0.463$ & $126/467=0.270$ & $467/467=1.00$ \\ 
-		Hispanic & $4/23=0.174$ & $10/23=0.435$ & $9/23=0.391$ & $23/23=1.00$ \\ 
-		Other & $7/23=0.304$ & $11/23=0.478$ & $5/23=0.217$ & $23/23=1.00$ \\ 
-		Sum & $173/595=0.291$ & $261/595=0.438$ & $161/595=0.271$ & $595/595=1.00$ \\ 
-		\hline
-	\end{tabular}
-	\caption{A contingency table with row proportions for the \var{race} and \var{actn3.r577x} variables.} 
-	\label{famussRowPropTable}
-\end{figure}
-%library(xtable); data(famuss); row.prop.table = table(famuss$race, famuss$actn3.r577x)[1:5,]; row.prop.table / rep(rowSums(row.prop.table), 3); rowSums(row.prop.table); xtable(genotype.by.race.table, digits = 0, caption = "A contingency table with row proportions for the race and actn3.r577x variables.", label = "famussRowPropTable"); 173/595; 261/595; 161/595
-
-% latex table generated in R 3.0.2 by xtable 1.7-4 package
-% Fri Aug 07 12:13:27 2015
-\begin{figure}[ht]
-	\centering
-	\begin{tabular}{rrrrr}
-		\hline
-		& CC & CT & TT & Sum \\ 
-		\hline
-		African Am & $16/173=0.092$ & $6/261=0.037$ & $5/161=0.191$ & $27/595=0.045$ \\ 
-		Asian & $21/173=0.080$ & $18/261=0.104$ & $16/161=0.993$ & $55/595=0.092$ \\ 
-		Caucasian & $125/173=0.776$ & $216/261=0.828$ & $126/161=0.728$ & $467/595=0.785$ \\ 
-		Hispanic & $4/173=0.023$ & $10/261=0.062$ & $9/161=0.034$ & $23/595=0.038$ \\ 
-		Other & $7/173=0.027$ & $11/261=0.063$ & $5/161=0.031$ & $23/595=0.038$ \\ 
-		Sum & $173/173=1.000$ & $261/261=1.000$ & $161/161=1.000$ & $595/595=1.000$ \\ 
-		\hline
-	\end{tabular}
-	\caption{A contingency table with column proportions for the \var{race} and \var{actn3.r577x} variables.} 
-	\label{famussColPropTable}
-\end{figure}
-%library(xtable); data(famuss); col.prop.table = table(famuss$race, famuss$actn3.r577x)[1:5,]; col.prop.table / rep(colSums(col.prop.table), 3); colSums(col.prop.table); xtable(genotype.by.race.table, digits = 0, caption = "A contingency table with column proportions for the race and actn3.r577x variables.", label = "famussColPropTable"); 27/595; 55/595; 467/595; 23/595; 23/595
-
-\end{comment}
 
 
-\begin{exercisewrap}
-\begin{nexercise}
-As shown in Figure \@ref(fig:famussColPropTable}, 72.3\% of CC individuals in the study are Caucasian. Do these data suggest that in the general population, people of CC genotype are highly likely to be Caucasian?\footnotemark{}
-\end{nexercise}
-\end{exercisewrap}
-\footnotetext{No, this is not a reasonable conclusion to draw from the data. The high proportion of Caucasians among CC individuals primarily reflects the large number of Caucasians sampled in the study -- 78.5\% of the people sampled are Caucasian. The uneven representation of different races is one limitation of the \data{famuss} data.}
+::: {.exercise}
+As shown in Table \@ref(tab:famussColPropTable), 72.3% of CC individuals in the study are Caucasian. Do these data suggest that in the general population, people of CC genotype are highly likely to be Caucasian?
+
+No, this is not a reasonable conclusion to draw from the data. The high proportion of Caucasians among CC individuals primarily reflects the large number of Caucasians sampled in the study -- 78.5% of the people sampled are Caucasian. The uneven representation of different races is one limitation of the `famuss` data.
+:::
 
 
-\textD{\newpage}
+#### Segmented bar plots
+
+A **segmented bar plot** is a way of visualizing the information from a contingency table. Figure \@ref(fig:famussSegBarPlotA) graphically displays the data from Table \@ref(tab:famussContingencyTable); each bar represents a level of `actn3.r577x` and is divided by the levels of `race`. Figure \@ref(fig:famussSegBarStaA) uses the row proportions to create a standardized segmented bar plot. 
 
 
-\subsubsection{Segmented bar plots}
+```{r famussSegBarA, fig.cap='Segmented bar plot for individuals by genotype, with bars divided by race', echo=FALSE}
+# library(openintro)
+#data(famuss)
+data(COL)
 
-A \termsub{segmented bar plot}{bar plot!segmented bar plot} is a way of visualizing the information from a contingency table. Figure \@ref(fig:famussSegBarPlotA} graphically displays the data from Figure \@ref(fig:famussContingencyTable}; each bar represents a level of \var{actn3.r577x} and is divided by the levels of \var{race}. Figure \@ref(fig:famussSegBarStaA} uses the row proportions to create a standardized segmented bar plot. 
+## genotypes as columns
 
+# table(famuss$actn3.r577x, famuss$race)
+genotype.race = matrix(table(famuss$actn3.r577x, famuss$race), ncol=3, byrow=T)
+colnames(genotype.race)=c("CC", "CT", "TT")
+rownames(genotype.race)=c("African Am", "Asian", "Caucasian", "Hispanic", "Other")
 
-\begin{figure}[h]
-	\centering
-	\subfigure[]{
-		\includegraphics[width=0.485\textwidth]{ch_intro_to_data_oi_biostat/figures/famussSegBar/famussSegBarA}
-		\label{famussSegBarA}
-	}
-	\subfigure[]{
-		\includegraphics[width=0.485\textwidth]{ch_intro_to_data_oi_biostat/figures/famussSegBar/famussSegBarStaA} 
-		\label{famussSegBarStaA}		
-	}
-	\caption{\subref{famussSegBarA} Segmented bar plot for individuals by genotype, with bars divided by race. \subref{famussSegBarStaA} Standardized version of Figure~\subref{famussSegBarA}.}
-	\label{famussSegBarPlotA}
-\end{figure}
+prop.genotype.race <- prop.table(genotype.race, 2)
 
-Alternatively, the data can be organized as shown in Figure \@ref(fig:famussSegBarPlotB}, with each bar representing a level of \var{race}. The standardized plot is particularly useful in this case, presenting the distribution of genotypes within each race more clearly than in Figure \@ref(fig:famussSegBarB}.
-
-\begin{figure}[h]
-	\centering
-	\subfigure[]{
-		\includegraphics[width=0.485\textwidth]{ch_intro_to_data_oi_biostat/figures/famussSegBar/famussSegBarB} 
-		\label{famussSegBarB}
-	}
-	\subfigure[]{
-		\includegraphics[width=0.485\textwidth]{ch_intro_to_data_oi_biostat/figures/famussSegBar/famussSegBarStaB} 
-		\label{famussSegBarStaB}	
-	}
-	\caption{\subref{famussSegBarB} Segmented bar plot for individuals by race, with bars divided by genotype. \subref{famussSegBarStaB} Standardized version of Figure~\subref{famussSegBarB}.}
-	\label{famussSegBarPlotB}
-\end{figure}
+#seg bar
+par(  mar = c(2, 5, 0.5, 0.5),
+      mgp = c(2.2, 0.6, 0))
+barplot(genotype.race, col=COL[c(7, 4, 1, 2, 3)], ylim=c(0,300), width=2)
+legend("topright", inset=c(.05, 0), fill=COL[c(7, 4, 1, 2, 3)], legend=rownames(genotype.race))
+```
 
 
-\textD{\newpage}
+
+```{r famussSegBarStaA, fig.cap='Standardized version of Figure \\@ref(fig:famussSegBarA)', echo=FALSE}
+#sta seg bar
+par(mar=c(2.5, 2.5, 0.5, 7), xpd=TRUE)
+barplot(prop.genotype.race, col=COL[c(7, 4, 1, 2, 3)], ylim=c(0, 1), width=2)
+legend("topright", inset=c(-.32, 0),fill=COL[c(7, 4, 1, 2, 3)], legend=rownames(genotype.race))
+```
 
 
-\subsubsection{Two-by-two tables: relative risk}
-\label{TwoWayTablesRelativeRisk}
-
-The results from medical studies are often presented in **two-by-two tables} (2 $\times$ 2 tables), contingency tables for categorical variables that have two levels. One of the variables defines two groups of participants, while the other represents the two possible outcomes. Figure \@ref(fig:TwoByTwoTable} shows a hypothetical two-by-two table of outcome by group.
-
-\begin{figure}[h]
-	\centering
-	\begin{tabular}{r|rrr}
-		\hline
-		& Outcome A & Outcome B & Sum\\ 
-		\hline
-		Group 1 & $a$ & $b$ & $a + b$ \\ 
-		Group 2 & $c$ & $d$ & $c + d$ \\
-		Sum & $a + c$ & $b + d$ & $a + b + c + d = n$ \\
-		\hline
-	\end{tabular}	
-	\caption{A hypothetical two-by-two table of outcome by group.}
-	\label{TwoByTwoTable} 
-\end{figure}
-
-In the LEAP study, participants are divided into two groups based on treatment (peanut avoidance versus peanut consumption), while the outcome variable records whether an individual passed or failed the oral food challenge (OFC). The results of the LEAP study as shown in Figure \@ref(fig:leapStudyResults} are in the form of a 2 $\times$ 2 table; the table is reproduced below as Figure \@ref(fig:leapStudyResultsRR}.
-
-A statistic called the **relative risk} (RR) can be used to summarize the data in a 2 $\times$ 2 table; the relative risk is a measure of the risk of a certain event occurring in one group relative to the risk of the event occurring in another group.\footnote{Chapter~\ref{inferenceForCategoricalData} discusses another numerical summary for 2 $\times$ 2 tables, the **odds ratio}.}  
+Alternatively, the data can be organized as shown in Figure \@ref(fig:famussSegBarPlotB), with each bar representing a level of `race`. The standardized plot is particularly useful in this case, presenting the distribution of genotypes within each race more clearly than in Figure \@ref(fig:famussSegBarB).
 
 
-% latex table generated in R 3.1.1 by xtable 1.7-4 package
-% Thu Jul 16 07:12:04 2015
-\begin{figure}[ht]
-	\centering
-	\begin{tabular}{rrrr}
-		\hline
-		& FAIL OFC & PASS OFC & Sum \\ 
-		\hline
-		Peanut Avoidance & 36 & 227 & 263 \\ 
-		Peanut Consumption & 5 & 262 & 267 \\ 
-		Sum & 41 & 489 & 530 \\ 
-		\hline
-	\end{tabular}
-	\caption{Results of the LEAP study, described in Section~\ref{leapCaseStudy}.}
-	\label{leapStudyResultsRR}
-\end{figure}
-%library(xtable); outcome.table = addmargins(table(LEAP$treatment.group, LEAP$overall.V60.outcome)); xtable(outcome.table, digits = 0, caption = "LEAP Study Results", caption  = "leapStudyResults")
+```{r famussSegBarB, fig.cap='Segmented bar plot for individuals by race, with bars divided by genotype', echo=FALSE}
+## races as columns
 
-The question of interest in the LEAP study is whether the risk of developing peanut allergy (i.e., failing the OFC) differs between the peanut avoidance and consumption groups. The relative risk of failing the OFC equals the ratio of the proportion of individuals in the avoidance group who failed the OFC to the proportion of individuals in the consumption group who failed the OFC.
+race.genotype = matrix(table(famuss$race, famuss$actn3.r577x), ncol=5, byrow=T)
+colnames(race.genotype)=c("African Am", "Asian", "Caucasian", "Hispanic", "Other")
+rownames(race.genotype)=c("CC", "CT", "TT")
 
-\begin{examplewrap}
-\begin{nexample}{Using the results from the LEAP study, calculate and interpret the relative risk of failing the oral food challenge, comparing individuals in the avoidance group to individuals in the consumption group.}
-	
-\[RR_{\textrm{failing OFC}} = \dfrac{\textrm{proportion in avoidance group who failed OFC}}{\textrm{proportion in consumption group who failed OFC}} = \dfrac{36/263}{5/267} = 7.31. \]
+prop.race.genotype <- prop.table(race.genotype, 2)
 
-The relative risk is 7.31. The risk of failing the oral food challenge was more than 7 times greater for participants in the peanut avoidance group than for those in the peanut consumption group.
-\end{nexample}
-\end{examplewrap}
+#seg bar
+par(  mar = c(2, 5, 0.5, 0.5),
+      mgp = c(2.2, 0.6, 0))
+barplot(race.genotype, col=COL[c(1, 2, 3)], ylim=c(0,500), width=2)
+legend("topright", inset=c(.1, 0), fill=COL[c(1, 2, 3)], legend=rownames(race.genotype))
+```
 
-\textD{\newpage}
 
-\begin{examplewrap}
-\begin{nexample}{An observational study is conducted to assess the association between smoking and cardiovascular disease (CVD), in which researchers identified a cohort of individuals and categorized them according to smoking and disease status. If the relative risk of CVD is calculated as the ratio of the proportion of smokers with CVD to the proportion of non-smokers with CVD, interpret the results of the study if the relative risk equals 1, is less than 1, or greater than 1.}
-	
-A relative risk of 1 indicates that the risk of CVD is equal for smokers and non-smokers.
+```{r famussSegBarStaB, fig.cap='Standardized version of Figure \\@ref(fig:famussSegBarB)', echo=FALSE}
+#sta seg bar
+par(mar=c(2.5, 2.5, 0.5, 5), xpd=TRUE)
+barplot(prop.race.genotype, col=COL[c(1,2,3)], ylim=c(0, 1), width=2)
+legend("topright", inset=c(-.15, 0), fill=COL[c(1,2,3)], legend=rownames(race.genotype))
+```
 
-A relative risk less than 1 indicates that smokers are at a lower risk of CVD than non-smokers; i.e., the proportion of individuals with CVD among smokers is lower than the proportion among non-smokers.
-	
-A relative risk greater than 1 indicates that smokers are at a higher risk of CVD than non-smokers; i.e., the proportion of individuals with CVD among smokers is higher than the proportion among non-smokers.
-	
-\label{smokingStenosisRR}	
-\end{nexample}
-\end{examplewrap}
 
-\begin{exercisewrap}
-\begin{nexercise}
-For the study described in Example~\ref{smokingStenosisRR}, suppose that of the 231 individuals, 111 are smokers. 40 smokers and 32 non-smokers have cardiovascular disease. Calculate and interpret the relative risk of CVD.\footnotemark{}
-\end{nexercise}
-\end{exercisewrap}
-\footnotetext{The relative risk of CVD, comparing smokers to non-smokers, is $(40/111)/(32/120) = 1.35$. Smoking is associated with a 35\% increase in the probability of CVD; in other words, the risk of CVD is 35\% greater in smokers compared to non-smokers.}
 
-Relative risk relies on the assumption that the observed proportions of an event occurring in each group are representative of the risk, or incidence, of the event occurring within the populations from which the groups are sampled. For example, in the LEAP data, the relative risk assumes that the proportions $33/263$ and $5/267$ are estimates of the proportion of individuals who would fail the OFC among the larger population of infants who avoid or consume peanut products. 
-
-%JV: Not sure if this section is clear enough when case-control terminology is avoided.
-
-\begin{examplewrap}
-\begin{nexample}{Suppose another study to examine the association between smoking and cardiovascular disease is conducted, but researchers use a different study design than described in Example~\ref{smokingStenosisRR}. For the new study, 90 individuals with CVD and 110 individuals without CVD are recruited. 40 of the individuals with CVD are smokers, and 80 of the individuals without CVD are non-smokers. Should relative risk be used to summarize the observations from the new study?}
-	
-Relative risk should not be calculated for these observations. Since the number of individuals with and without CVD is fixed by the study design, the proportion of individuals with CVD within a certain group (smokers or non-smokers) as calculated from the data is not a measure of CVD risk for that population.
-\end{nexample}
-\end{examplewrap}
-
-\textD{\newpage}
-
-\begin{exercisewrap}
-\begin{nexercise}
-For a study examining the association between tea consumption and esophageal carcinoma, researchers recruited 300 patients with carcinoma and 571 without carcinoma and administered a questionnaire about tea drinking habits.\footnotemark{} Of the 47 individuals who reported that they regularly drink green tea, 17 had carcinoma. Of the 824 individuals who reported that they never, or very rarely, drink green tea, 283 had carcinoma. Evaluate whether the proportions $17/47$ and $283/824$ are representative of the incidence rate of carcinoma among individuals who drink green tea regularly and those who do not.\footnotemark{}
-\end{nexercise}
-\end{exercisewrap}
-\addtocounter{footnote}{-1}%
-\footnotetext{Tea drinking habits and oesophageal cancer in a high risk area in northern Iran: population based case­control study, Islami F, et al., BMJ (2009), doi \url{10.1136/bmj.b929}}%
-\addtocounter{footnote}{1}%
-\footnotetext{The proportions calculated from the study data should not be used as estimates of the incidence rate of esophageal carcinoma among individuals who drink green tea regularly and those who do not, since the study selected participants based on carcinoma status.}
-
-\begin{onebox}{Relative risk}%	
-		The relative risk of Outcome A in the hypothetical two-by-two table (Figure \@ref(fig:TwoByTwoTable}) can be calculated using either Group 1 or Group 2 as the reference group:
-		\[RR_{\textrm{A, comparing Group 1 to Group 2}} = \dfrac{a/(a+b)}{c/(c+d)} \]
-		\[RR_{\textrm{A, comparing Group 2 to Group 1}} = \dfrac{c/(c+d)}{a/(a+b)} \]
-		
-		The relative risk should only be calculated for data where the proportions $a/(a+b)$ and $c/(c+d)$ represent the incidence of Outcome A within the populations from which Groups 1 and 2 are sampled.
-\end{onebox}
-
-\subsection{A numerical variable and a categorical variable}
-\label{comparingAcrossGroups}
-
-Methods for comparing numerical data across groups are based on the approaches introduced in Section~\ref{numericalData}. \termsub{Side-by-side boxplots}{side-by-side boxplots} and \termsub{hollow histograms}{histogram} are useful for directly comparing how the distribution of a numerical variable differs by category. 
-
-\index{data!famuss|(}
-
-\begin{figure}[h]
-	\centering
-	\includegraphics[width=0.8\textwidth]{ch_intro_to_data_oi_biostat/figures/famussGenoMuscFunc/famussGenoMuscFunc}
-	\caption{Side-by-side boxplot and hollow histograms for \var{ndrm.ch}, split by levels of \var{actn3.r577x}.}
-	\label{famussGenoMuscFunc}
-\end{figure}
-
-Recall the question introduced in Section~\ref{variableRelations}: is ACTN3 genotype associated with variation in muscle function? Figure \@ref(fig:famussGenoMuscFunc} visually shows the relationship between muscle function (measured as percent change in non-dominant arm strength) and ACTN3 genotype in the \data{famuss} data with side-by-side boxplots and hollow histograms. The hollow histograms highlight how the shapes of the distributions of \var{ndrm.ch} for each genotype are essentially similar, although the distribution for the CC genotype has less right skewing. The side-by-side boxplots are especially useful for comparing center and spread, and reveal that the T allele appears to be associated with greater muscle function; median percent change in non-dominant arm strength increases across the levels from CC to TT. 
-
-\index{data!famuss|)}
-
-\index{data!frog|(}
-
-\begin{exercisewrap}
-\begin{nexercise}
-Using Figure \@ref(fig:frogClutchVolAlt}, assess how maternal investment varies with altitude.\footnotemark{}
-\end{nexercise}
-\end{exercisewrap}
-\footnotetext{As a general rule, clutches found at higher altitudes have greater volume; median clutch volume tends to increase as altitude increases. This suggests that increased altitude is associated with a higher level of maternal investment.}
-	
-\begin{figure}[h]
-	\centering
-	\includegraphics[width=0.9\textwidth]{ch_intro_to_data_oi_biostat/figures/frogClutchVolAlt/frogClutchVolAlt}
-	\caption{Side-by-side boxplot comparing the distribution of \var{clutch.volume} for different altitudes.}
-	\label{frogClutchVolAlt}
-\end{figure} 
-
-\index{data!frog|)}
 
 

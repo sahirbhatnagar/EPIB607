@@ -3,7 +3,7 @@
 
 %\input{slides_header.tex}
 \input{/home/sahir/git_repositories/EPIB607/slides/slides_header2.tex}
-\graphicspath{{/home/sahir/git_repositories/EPIB607/slides/figure/}}
+\graphicspath{{/home/sahir/git_repositories/epib607/inst/slides/figure/}}
 
 %\let\oldShaded\Shaded
 %\let\endoldShaded\endShaded
@@ -16,27 +16,29 @@
 	
 	<<setup, include=FALSE>>=
 	library(knitr)
-	knitr::opts_chunk$set(cache=FALSE, message = FALSE, tidy = FALSE, warning = FALSE,
-	echo = FALSE, 
-	#fig.width = 8, 
-	#fig.asp = 0.8, 
-	fig.align = 'center', 
-	#out.width = "0.50\\linewidth", 
-	size = 'tiny')
-	
-	# the kframe environment does not work with allowframebreaks, so remove it
-	#knit_hooks$set(document = function(x) {
-	#gsub('\\\\(begin|end)\\{kframe\\}', '', x)
-	#})
-	
-	library(tidyverse)
-	library(NCStats)
-	options(digits = 2)
-	
-	
-	#knitr::opts_chunk$set(background = '#FFFF00')
-	library(tools) #needed for include_graphics2 function
-	source("/home/sahir/git_repositories/EPIB607/resources/assets/slides/bin/include_graphics2.R")
+knitr::opts_chunk$set(cache=FALSE, message = FALSE, tidy = FALSE, warning = FALSE,
+echo = FALSE, 
+#fig.width = 8, 
+#fig.asp = 0.8, 
+fig.align = 'center', 
+#out.width = "0.50\\linewidth", 
+size = 'tiny')
+
+# the kframe environment does not work with allowframebreaks, so remove it
+#knit_hooks$set(document = function(x) {
+#gsub('\\\\(begin|end)\\{kframe\\}', '', x)
+#})
+
+library(tidyverse)
+library(NCStats)
+options(digits = 2)
+
+
+#knitr::opts_chunk$set(background = '#FFFF00')
+library(tools) #needed for include_graphics2 function
+pacman::p_load(here)
+source(here::here("inst","slides","bin","include_graphics2.R"))
+knitr::knit_hooks$set(purl = hook_purl)
 	@
 	
 	%\title{Introduction to Regression Trees}
@@ -45,7 +47,7 @@
 	%\institute[shortinst]{Department of Epidemiology, Biostatistics and Occupational Health}
 	
 	\title{005 - Data Graphics}
-	\author{EPIB 607 - FALL 2020}
+	\author{EPIB 607}
 	\institute{
 		Sahir Rai Bhatnagar\\
 		Department of Epidemiology, Biostatistics, and Occupational Health\\
