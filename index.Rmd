@@ -50,6 +50,7 @@ pacman::p_load(lubridate)
 pacman::p_load(ggrepel)
 pacman::p_load(sf)
 pacman::p_load(colorspace)
+pacman::p_load(extrafont)
 
 if(!requireNamespace("oibiostat"))
   remotes::install_github("OI-Biostat/oi_biostat_data")
