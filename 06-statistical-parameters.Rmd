@@ -1,4 +1,4 @@
-# (PART) Part I {-}
+# (PART) Sampling Distributions {-}
 
 # Statistical Parameters {#paras} 
 

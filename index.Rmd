@@ -25,7 +25,7 @@ knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
 
 
 ```{r, echo=FALSE, message=FALSE, warning=FALSE}
-if(!requireNamespace("pacman")) install.packages("pacman")
+if(!requireNamespace("pacman")) install.packages("pacman") else library(pacman)
 pacman::p_load(devtools)
 pacman::p_load(dplyr)
 pacman::p_load(tidyr)

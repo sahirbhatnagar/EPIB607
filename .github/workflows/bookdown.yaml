@@ -38,7 +38,7 @@ jobs:
 
       - name: Install packages
         run: |
-          R -e 'install.packages("renv")' -e 'install.packages(c("bookdown","bslib","downlit","xml2"))'
+          R -e 'install.packages("renv")' -e 'install.packages(c("pacman","bookdown","bslib","downlit","xml2"))'
           R -e 'renv::restore()'
 
       - name: Build site
