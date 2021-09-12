@@ -26,7 +26,7 @@ knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
 
 ```{r, echo=FALSE, message=FALSE, warning=FALSE}
 if(!requireNamespace("pacman")) install.packages("pacman") else library(pacman)
-pacman::p_load(devtools)
+pacman::p_load(remotes)
 pacman::p_load(dplyr)
 pacman::p_load(tidyr)
 pacman::p_load(knitr)
@@ -52,15 +52,15 @@ pacman::p_load(sf)
 pacman::p_load(colorspace)
 
 if(!requireNamespace("oibiostat"))
-  devtools::install_github("OI-Biostat/oi_biostat_data")
+  remotes::install_github("OI-Biostat/oi_biostat_data")
 if(!requireNamespace("openintro"))
-  devtools::install_github("OpenIntroStat/openintro")
+  remotes::install_github("OpenIntroStat/openintro")
 if(!requireNamespace("cowplot"))
-  devtools::install_github("wilkelab/cowplot") 
+  remotes::install_github("wilkelab/cowplot") 
 if(!requireNamespace("colorblindr"))
-  devtools::install_github("clauswilke/colorblindr") 
+  remotes::install_github("clauswilke/colorblindr") 
 if(!requireNamespace("dviz.supp"))
-  devtools::install_github("clauswilke/dviz.supp") 
+  remotes::install_github("clauswilke/dviz.supp") 
 
 ```
 
