@@ -1,7 +1,7 @@
 # Basics of R and Rstudio {#basics}
 
 ::: {.rmdnote}
-This section is adapted from the books Data Science in Education Using R [@dataedu]
+This section is adapted from the book Data Science in Education Using R [@dataedu]
 :::
 
 ## RStudio Layout and Customization: Getting to Know R through RStudio
