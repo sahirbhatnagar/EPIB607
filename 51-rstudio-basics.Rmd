@@ -63,7 +63,7 @@ This pane also contains *History* where you can see commands that you can previo
 
 
 **Plots, Viewer, Packages, and Help Pane**  
-The lower-right pane includes several important tabs. Typical plot graphics including maps will display in the Plot pane. Interactive or HTML outputs will display in the Viewer pane. The Help pane can display documentation and help files. The Files pane is a browser which can be used to open or delete files. The Packages pane allows you to see, install, update, delete, load/unload R packages, and see which version of the package you have. To learn more about packages see Section \@ref(skills).  
+The lower-right pane includes several important tabs. Typical plot graphics including maps will display in the Plot pane. Interactive or HTML outputs will display in the Viewer pane. The Help pane can display documentation and help files. The Files pane is a browser which can be used to open or delete files. The Packages pane allows you to see, install, update, delete, load/unload R packages, and see which version of the package you have. To learn more about packages see Section \@ref(packages).  
 
 This pane contains the Stata equivalents of the Plots Manager and Project Manager windows.
 

@@ -687,7 +687,7 @@ Functions other than the natural log can also be used to transform data, such as
 
 This section introduces tables and plots for summarizing categorical data, using the `famuss` dataset introduced in Section \@ref(variableTypes). 
 
-A table for a single variable is called a **frequency table**. Figure \@ref(fig:famussFrequencyTable) is a frequency table for the \var{actn3.r577x} variable, showing the distribution of genotype at location r577x on the ACTN3 gene for the FAMuSS study participants.
+A table for a single variable is called a **frequency table**. Table \@ref(tab:famussFrequencyTable) is a frequency table for the \var{actn3.r577x} variable, showing the distribution of genotype at location r577x on the ACTN3 gene for the FAMuSS study participants.
 
 In a **relative frequency table** like Figure \@ref(fig:famussRelFrequencyTable}, the proportions per each category are shown instead of the counts.
 
@@ -698,7 +698,7 @@ a = addmargins(table(famuss$actn3.r577x));
 genotype.table = matrix(a, ncol=4, byrow=T); 
 colnames(genotype.table) = c("CC", "CT", "TT", "Sum"); 
 rownames(genotype.table) = "Counts"; 
-kbl(genotype.table) %>% 
+kbl(genotype.table, label="famussFrequencyTable") %>% 
   kable_styling()
 ```
 
@@ -795,7 +795,7 @@ As expected, clutch volume and body size are positively associated; larger frogs
 The National Health and Nutrition Examination Survey (NHANES) consists of a set of surveys and measurements conducted by the US CDC to assess the health and nutritional status of adults and children in the United States. The following example uses data from a sample of 500 adults (individuals ages 21 and older) from the **NHANES** dataset. The sample is available as `nhanes.samp.adult.500` in the `oibiostat` package.
 
 :::{.example}
-Body mass index (BMI) is a measure of weight commonly used by health agencies to assess whether someone is overweight, and is calculated from height and weight. Describe the relationships shown in Figure \@ref(fig:nhanesHeightWeightBmi). Why is it helpful to use BMI as a measure of obesity, rather than weight?
+Body mass index (BMI) is a measure of weight commonly used by health agencies to assess whether someone is overweight, and is calculated from height and weight. Describe the relationships shown in Figures \@ref(fig:nhanesHeightWeight) and \@ref(fig:nhanesHeightBMI). Why is it helpful to use BMI as a measure of obesity, rather than weight?
 $$BMI = \dfrac{weight_{kg}}{height^{2}_m} = \dfrac{weight_{lb}}{height^{2}_{in}} \times 703$$
 
 Figure \@ref(fig:nhanesHeightWeight)	shows a positive association between height and weight; taller individuals tend to be heavier. Figure \@ref(fig:nhanesHeightBMI) shows that height and BMI do not seem to be associated; the range of BMI values observed is roughly consistent across height. 
@@ -1096,7 +1096,7 @@ kbl(cbind(famuss.race.row.prop,Sum = apply(famuss.race.row.prop, 1, sum)),
 
 
 
-Table \@ref(tab:famussColPropTable) shows the column proportions for Table \@ref(fig:famussContingencyTable); these proportions indicate the distribution of races within each genotype category. For example, the value of 0.092 indicates that of the CC individuals in the study, 9.2% are African American. 
+Table \@ref(tab:famussColPropTable) shows the column proportions for Table \@ref(tab:famussContingencyTable); these proportions indicate the distribution of races within each genotype category. For example, the value of 0.092 indicates that of the CC individuals in the study, 9.2% are African American. 
 
 ```{r famussColPropTable, echo=FALSE}
 data(famuss); 
@@ -1128,7 +1128,7 @@ No, this is not a reasonable conclusion to draw from the data. The high proporti
 
 #### Segmented bar plots
 
-A **segmented bar plot** is a way of visualizing the information from a contingency table. Figure \@ref(fig:famussSegBarPlotA) graphically displays the data from Table \@ref(tab:famussContingencyTable); each bar represents a level of `actn3.r577x` and is divided by the levels of `race`. Figure \@ref(fig:famussSegBarStaA) uses the row proportions to create a standardized segmented bar plot. 
+A **segmented bar plot** is a way of visualizing the information from a contingency table. Figures \@ref(fig:famussSegBarA) and \@ref(fig:famussSegBarStaA) graphically displays the data from Table \@ref(tab:famussContingencyTable); each bar represents a level of `actn3.r577x` and is divided by the levels of `race`. Figure \@ref(fig:famussSegBarStaA) uses the row proportions to create a standardized segmented bar plot. 
 
 
 ```{r famussSegBarA, fig.cap='Segmented bar plot for individuals by genotype, with bars divided by race', echo=FALSE}
@@ -1162,7 +1162,7 @@ legend("topright", inset=c(-.32, 0),fill=COL[c(7, 4, 1, 2, 3)], legend=rownames(
 ```
 
 
-Alternatively, the data can be organized as shown in Figure \@ref(fig:famussSegBarPlotB), with each bar representing a level of `race`. The standardized plot is particularly useful in this case, presenting the distribution of genotypes within each race more clearly than in Figure \@ref(fig:famussSegBarB).
+Alternatively, the data can be organized as shown in Figures \@ref(fig:famussSegBarB) and \@ref(fig:famussSegBarStaB), with each bar representing a level of `race`. The standardized plot is particularly useful in this case, presenting the distribution of genotypes within each race more clearly than in Figure \@ref(fig:famussSegBarB).
 
 
 ```{r famussSegBarB, fig.cap='Segmented bar plot for individuals by race, with bars divided by genotype', echo=FALSE}
