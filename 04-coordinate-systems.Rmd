@@ -64,9 +64,9 @@ ggplot(df_points, aes(x, y)) +
                linetype = 2) +
   geom_point(size = 3, color = "#0072B2") +
   geom_text(aes(label = label, vjust = vjust, hjust = hjust),
-            size = 12/.pt, family = dviz_font_family) +
+            size = 12/.pt) +
   geom_text(data = df_labels, aes(label = label, hjust = hjust, vjust = vjust),
-            size = 12/.pt, family = dviz_font_family) +
+            size = 12/.pt) +
   coord_fixed(xlim = c(-2.2, 3.2), ylim = c(-2.2, 2.2), expand = FALSE) +
   xlab("x axis") +
   ylab("y axis") +
@@ -152,7 +152,6 @@ tempsplot_F <- ggplot(temps_wide_label, aes(x = `San Diego`, y = `Houston`)) +
   geom_text_repel(
     aes(label = label), point.padding = .4, color = "black",
     min.segment.length = 0, size = 12/.pt,
-    family = dviz_font_family,
     nudge_x = (9/5)*temps_wide_label$nudge_x,
     nudge_y = (9/5)*temps_wide_label$nudge_y
   ) +
@@ -176,7 +175,6 @@ tempsplot_C <- ggplot(temps_wide_label, aes(x = F2C(`San Diego`), y = F2C(`Houst
   geom_text_repel(
     aes(label = label), point.padding = .4, color = "black",
     min.segment.length = 0, size = 12/.pt,
-    family = dviz_font_family,
     nudge_x = temps_wide_label$nudge_x,
     nudge_y = temps_wide_label$nudge_y
   ) +
@@ -274,7 +272,7 @@ ggplot(tx_counties, aes(x = index, y = popratio)) +
   geom_hline(yintercept = 1, linetype = 2, color = "grey40") +
   geom_point(size = 0.5, color = "#0072B2") +
   geom_text_repel(aes(label = label), point.padding = .4, color = "black",
-                  min.segment.length = 0, family = dviz_font_family) +
+                  min.segment.length = 0) +
   scale_y_log10(breaks = c(.01, .1, 1, 10, 100),
                 name = "population number / median",
                 labels = label_log10) +
@@ -292,7 +290,7 @@ ggplot(tx_counties, aes(x = index, y = popratio)) +
 counties_lin <- ggplot(tx_counties, aes(x = index, y = popratio)) +
   geom_point(size = 0.5, color = "#0072B2") +
   geom_text_repel(aes(label = label_large), point.padding = .4, color = "black",
-                  min.segment.length = 0, family = dviz_font_family) +
+                  min.segment.length = 0) +
   scale_y_continuous(name = "population number / median") +
   scale_x_continuous(limits = c(.5, nrow(tx_counties) + .5), expand = c(0, 0),
                      breaks = NULL, #c(1, 50*(1:5)),
