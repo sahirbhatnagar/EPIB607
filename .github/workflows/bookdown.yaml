@@ -4,7 +4,7 @@ on:
       - main
       - master
 
-name: bookdown
+name: epib6o7 website
 
 jobs:
   build:
@@ -36,10 +36,19 @@ jobs:
           key: bookdown-${{ hashFiles('**/*Rmd') }}
           restore-keys: bookdown-
 
+      - name: install fonts and font system deps
+        run: |
+          brew install pkg-config
+          brew install harfbuzz fribidi
+          brew tap homebrew/cask-fonts
+          brew install --cask font-ibm-plex
+          brew install --cask font-roboto
+          brew install --cask font-roboto-slab
+          brew install --cask font-roboto-mono
+
       - name: Install packages
         run: |
-          R -e 'install.packages("renv")' -e 'install.packages(c("pacman","remotes","bookdown","bslib","downlit","xml2","extrafont"))'
-          R -e 'extrafont::font_import(prompt = FALSE)'
+          R -e 'install.packages("renv")' -e 'install.packages(c("pacman","remotes","bookdown","bslib","downlit","xml2"))'
           R -e 'renv::restore()'
 
       - name: Build site
