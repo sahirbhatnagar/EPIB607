@@ -160,7 +160,7 @@ scale_num <- ggplot(df, aes(x)) +
   geom_point(size = 3, color = "#0072B2", y = 1) + 
   scale_y_continuous(limits = c(0.8, 1.2), expand = c(0, 0), breaks = 1, label = "position  ") +
   scale_x_continuous(limits = c(.7, 4.4), breaks = 1:5, labels = c("1", "2", "3", "4", "5"), name = NULL, position = "top") +
-  theme_dviz_grid() +
+  theme_dviz_grid_2() +
   theme(axis.ticks.length = grid::unit(0, "pt"),
         axis.text = element_text(size = 14),
         axis.title.y = element_blank(),
