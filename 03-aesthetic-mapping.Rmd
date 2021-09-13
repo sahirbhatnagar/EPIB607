@@ -42,8 +42,8 @@ aes_pos <- ggdraw() +
                                  yend = c(0.5, 1)),
                 aes(x = x, y = y, xend = xend, yend = yend),
                 arrow = arrow(length = grid::unit(12, "pt")), size = .75) +
-  draw_text("y", .5, 1, size = 12, vjust = 1, hjust = 2.5, family = dviz_font_family) +
-  draw_text("x", 1, .5, size = 12, vjust = 2, hjust = 1, family = dviz_font_family) + 
+  draw_text("y", .5, 1, size = 12, vjust = 1, hjust = 2.5) +
+  draw_text("x", 1, .5, size = 12, vjust = 2, hjust = 1) + 
   coord_cartesian(xlim = c(-.2, 1.2), ylim = c(-.2, 1.2))
 
 aes_color <- ggdraw() +

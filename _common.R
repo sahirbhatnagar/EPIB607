@@ -7,19 +7,21 @@ options(bookdown.post.latex = function(x) {
 # example chunk options set globally
 knitr::opts_chunk$set(
   comment = "#>",
-  collapse = TRUE
+  collapse = TRUE,
+  warning = FALSE,
+  message = FALSE
   )
 
-if(!requireNamespace("oibiostat"))
-  remotes::install_github("OI-Biostat/oi_biostat_data")
-if(!requireNamespace("openintro"))
-  remotes::install_github("OpenIntroStat/openintro")
-if(!requireNamespace("cowplot"))
-  remotes::install_github("wilkelab/cowplot")
-if(!requireNamespace("colorblindr"))
-  remotes::install_github("clauswilke/colorblindr")
-if(!requireNamespace("dviz.supp"))
-  remotes::install_github("clauswilke/dviz.supp")
+# if(!requireNamespace("oibiostat"))
+#   remotes::install_github("OI-Biostat/oi_biostat_data")
+# if(!requireNamespace("openintro"))
+#   remotes::install_github("OpenIntroStat/openintro")
+# if(!requireNamespace("cowplot"))
+#   remotes::install_github("wilkelab/cowplot")
+# if(!requireNamespace("colorblindr"))
+#   remotes::install_github("clauswilke/colorblindr")
+# if(!requireNamespace("dviz.supp"))
+#   remotes::install_github("clauswilke/dviz.supp")
 
 
 theme_dviz_grid_2 <- function (font_size = 14, line_size = 0.5,
