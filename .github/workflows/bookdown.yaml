@@ -39,7 +39,7 @@ jobs:
       - name: Install packages
         run: |
           R -e 'install.packages("renv")' -e 'install.packages(c("pacman","remotes","bookdown","bslib","downlit","xml2","extrafont"))'
-          R -e 'extrafont::font_import()'
+          R -e 'extrafont::font_import(prompt = FALSE)'
           R -e 'renv::restore()'
 
       - name: Build site
