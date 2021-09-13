@@ -70,7 +70,7 @@ ggplot(df_points, aes(x, y)) +
   coord_fixed(xlim = c(-2.2, 3.2), ylim = c(-2.2, 2.2), expand = FALSE) +
   xlab("x axis") +
   ylab("y axis") +
-  theme_dviz_grid() +
+  theme_dviz_grid_2() +
   theme(axis.ticks.length = grid::unit(0, "pt"))
 ```
 
@@ -130,7 +130,7 @@ temp_plot <- ggplot(temps_wide_label, aes(x = date, y = `Houston`)) +
                labels = c("Jan", "Apr", "Jul", "Oct", "Jan"), expand = c(2/366, 0)) + 
   scale_y_continuous(limits = c(50, 90),
                      name = "temperature (°F)") +
-  theme_dviz_grid(12) +
+  theme_dviz_grid_2(12) +
   theme(plot.margin = margin(3, 5, 3, 1.5))
 
 plot_grid(
@@ -164,7 +164,7 @@ tempsplot_F <- ggplot(temps_wide_label, aes(x = `San Diego`, y = `Houston`)) +
   scale_x_continuous(breaks = c(10*(5:8))) +
   xlab("temperature in San Diego (°F)") +
   ylab("temperature in Houston (°F)") +
-  theme_dviz_grid() +
+  theme_dviz_grid_2() +
   theme(plot.margin = margin(3, 1.5, 3, 1.5))
 
 # Fahrenheit to Celsius conversion
@@ -188,7 +188,7 @@ tempsplot_C <- ggplot(temps_wide_label, aes(x = F2C(`San Diego`), y = F2C(`Houst
   scale_x_continuous(breaks = c(5*(2:6))) +
   xlab("temperature in San Diego (°C)") +
   ylab("temperature in Houston (°C)") +
-  theme_dviz_grid() +
+  theme_dviz_grid_2() +
   theme(plot.margin = margin(3, 1.5, 3, 1.5))
 
 
@@ -215,7 +215,7 @@ df <- data.frame(x = c(1, 3.16, 10, 31.6, 100))
 xaxis_lin <- ggplot(df, aes(x, y = 1)) + 
   geom_point(size = 3, color = "#0072B2") + 
   scale_y_continuous(limits = c(0.8, 1.2), expand = c(0, 0), breaks = 1) +
-  theme_dviz_grid(14, rel_large = 1) +
+  theme_dviz_grid_2(14, rel_large = 1) +
   theme(axis.ticks.length = grid::unit(0, "pt"),
         axis.text.y = element_blank(),
         axis.title.y = element_blank(),
@@ -226,7 +226,7 @@ xaxis_lin <- ggplot(df, aes(x, y = 1)) +
 xaxis_log <- ggplot(df, aes(log10(x), y = 1)) + 
   geom_point(size = 3, color = "#0072B2") + 
   scale_y_continuous(limits = c(0.8, 1.2), expand = c(0, 0), breaks = 1) +
-  theme_dviz_grid(14, rel_large = 1) +
+  theme_dviz_grid_2(14, rel_large = 1) +
   theme(axis.ticks.length = grid::unit(0, "pt"),
         axis.text.y = element_blank(),
         axis.title.y = element_blank(),
@@ -281,7 +281,7 @@ ggplot(tx_counties, aes(x = index, y = popratio)) +
   scale_x_continuous(limits = c(.5, nrow(tx_counties) + .5), expand = c(0, 0),
                      breaks = NULL, #c(1, 50*(1:5)),
                      name = "Texas counties, from most to least populous") +
-  theme_dviz_hgrid() +
+  theme_dviz_hgrid_2() +
   theme(axis.line = element_blank(),
         plot.margin = margin(3, 7, 3, 1.5))
 ```
@@ -297,7 +297,7 @@ counties_lin <- ggplot(tx_counties, aes(x = index, y = popratio)) +
   scale_x_continuous(limits = c(.5, nrow(tx_counties) + .5), expand = c(0, 0),
                      breaks = NULL, #c(1, 50*(1:5)),
                      name = "Texas counties, from most to least populous") +
-  theme_dviz_hgrid() +
+  theme_dviz_hgrid_2() +
   theme(axis.line = element_blank(),
         plot.margin = margin(3, 7, 3, 1.5))
 
@@ -316,7 +316,7 @@ df <- data.frame(x = c(0, 1, 4, 9, 16, 25, 36, 49))
 xaxis_lin <- ggplot(df, aes(x, y = 1)) + 
   geom_point(size = 3, color = "#0072B2") + 
   scale_y_continuous(limits = c(0.8, 1.2), expand = c(0, 0), breaks = 1) +
-  theme_dviz_grid(14, rel_large = 1) +
+  theme_dviz_grid_2(14, rel_large = 1) +
   theme(axis.ticks.length = grid::unit(0, "pt"),
         axis.text.y = element_blank(),
         axis.title.y = element_blank(),
@@ -327,7 +327,7 @@ xaxis_lin <- ggplot(df, aes(x, y = 1)) +
 xaxis_sqrt <- ggplot(df, aes(sqrt(x), y = 1)) + 
   geom_point(size = 3, color = "#0072B2") + 
   scale_y_continuous(limits = c(0.8, 1.2), expand = c(0, 0), breaks = 1) +
-  theme_dviz_grid(14, rel_large = 1) +
+  theme_dviz_grid_2(14, rel_large = 1) +
   theme(axis.ticks.length = grid::unit(0, "pt"),
         axis.text.y = element_blank(),
         axis.title.y = element_blank(),
@@ -376,7 +376,7 @@ areas_base <- ggplot(northeast_areas, aes(x = state_abr, y = area)) +
   geom_col(fill = "#56B4E9") +
   ylab("area (square miles)") +
   xlab("state") +
-  theme_dviz_hgrid() +
+  theme_dviz_hgrid_2() +
   theme(plot.margin = margin(3, 1.5, 3, 1.5))
 
 p1 <- areas_base + scale_y_sqrt(limits = c(0, 55000), breaks = c(0, 1000, 5000, 10000*(1:5)), 

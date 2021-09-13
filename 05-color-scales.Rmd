@@ -89,7 +89,7 @@ ggplot(popgrowth_df, aes(x = state, y = 100*popgrowth, fill = region)) +
   ) +
   scale_fill_manual(values = region_colors) +
   coord_flip() + 
-  theme_dviz_vgrid(12, rel_small = 1) +
+  theme_dviz_vgrid_2(12, rel_small = 1) +
   theme(axis.title.y = element_blank(),
         axis.line.y = element_blank(),
         axis.ticks.length = unit(0, "pt"),
@@ -143,7 +143,7 @@ texas_income %>% st_transform(crs = texas_crs) %>%
   ggplot(aes(fill = estimate)) + 
   geom_sf(color = "white") + 
   coord_sf(xlim = texas_xlim, datum = NA) +
-  theme_dviz_map() + 
+  theme_dviz_map_2() + 
   scale_fill_distiller(
     palette = "Blues", type = 'seq', na.value = "grey60", direction = 1,
     name = "annual median income (USD)",
@@ -197,7 +197,7 @@ texas_race %>% st_sf() %>%
   ggplot(aes(fill = pct)) +
   geom_sf(color = "white") +
   coord_sf(xlim = texas_xlim, datum = NA) + 
-  theme_dviz_map() +
+  theme_dviz_map_2() + 
   scale_fill_continuous_divergingx(
     palette = "Earth",
     mid = 50,
@@ -282,7 +282,7 @@ ggplot(popgrowth_hilight, aes(x = state, y = 100*popgrowth, fill = region)) +
     breaks = c("West", "South", "Midwest", "Northeast")
   ) +
   coord_flip() + 
-  theme_dviz_vgrid(12, rel_small = 1) +
+  theme_dviz_vgrid_2(12, rel_small = 1) +
   theme(
     text = element_text(color = "gray30"),
     axis.text.x = element_text(color = "gray30"),
@@ -325,7 +325,7 @@ ggplot(male_Aus, aes(x=height, y=pcBfat, shape=sport, color = sport, fill = spor
   scale_fill_manual(values = fills) +
   xlab("height (cm)") +
   ylab("% body fat") +
-  theme_dviz_grid()
+  theme_dviz_grid_2()
 ```
 
 
@@ -369,7 +369,7 @@ A discrete qualitative scale applied to a fill aesthetic corresponds to the func
 ggplot(iris, aes(x = Sepal.Length, fill = Species)) + 
   geom_density(alpha = 0.6) +
   colorspace::scale_fill_discrete_qualitative() + 
-  dviz.supp::theme_dviz_grid()
+  cowplot::theme_minimal_hgrid()
 ```
 
 Similarly, a color aesthetic for a discrete qualitative scale corresponds to the function `colorspace::scale_color_discrete_qualitative()`:
@@ -379,7 +379,7 @@ Similarly, a color aesthetic for a discrete qualitative scale corresponds to the
 ggplot(iris, aes(x = Sepal.Length, y = Sepal.Width, color = Species)) + 
   geom_point() +
   colorspace::scale_color_discrete_qualitative(palette = "Set 2") + 
-  dviz.supp::theme_dviz_grid()
+  cowplot::theme_minimal_grid()
 ```
 
 
@@ -390,7 +390,7 @@ A continuous sequential scale applied to a color aesthetic corresponds to the fu
 ggplot(iris, aes(x = Species, y = Sepal.Width, color = Sepal.Length)) + 
   geom_jitter(width = 0.2) +
   colorspace::scale_color_continuous_sequential(palette = "Heat") + 
-  dviz.supp::theme_dviz_grid()
+  cowplot::theme_minimal_hgrid()
 ```
 
 
