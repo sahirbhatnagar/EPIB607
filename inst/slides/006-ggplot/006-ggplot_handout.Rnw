@@ -1,0 +1,573 @@
+\documentclass[10pt,handout]{beamer}
+
+
+%\input{slides_header.tex}
+\input{/home/sahir/git_repositories/EPIB607/slides/slides_header2.tex}
+\graphicspath{{/home/sahir/git_repositories/epib607/inst/slides/figure/}}
+
+%\let\oldShaded\Shaded
+%\let\endoldShaded\endShaded
+%\renewenvironment{Shaded}{\footnotesize\oldShaded}{\endoldShaded}
+
+
+
+
+\begin{document}
+	
+<<setup, include=FALSE>>=
+library(knitr)
+knitr::opts_chunk$set(cache=FALSE, message = FALSE, tidy = FALSE, warning = FALSE,
+	echo = FALSE, 
+	#fig.width = 8, 
+	#fig.asp = 0.8, 
+	fig.align = 'center', 
+	#out.width = "0.50\\linewidth", 
+	size = 'tiny')
+
+# the kframe environment does not work with allowframebreaks, so remove it
+#knit_hooks$set(document = function(x) {
+#gsub('\\\\(begin|end)\\{kframe\\}', '', x)
+#})
+
+library(tidyverse)
+library(NCStats)
+options(digits = 2)
+
+
+#knitr::opts_chunk$set(background = '#FFFF00')
+library(tools) #needed for include_graphics2 function
+
+pacman::p_load(here)
+
+source(here::here("inst","slides","bin","include_graphics2.R"))
+
+knitr::knit_hooks$set(purl = hook_purl)
+
+pacman::p_load(
+gapminder,
+here,
+socviz, 
+tidyverse,
+kableExtra,
+DT
+)
+
+theme_set(cowplot::theme_cowplot())
+@
+	
+	%\title{Introduction to Regression Trees}
+	%\author{Sahir Bhatnagar \inst{1}}
+	%\author[shortname]{Sahir Rai Bhatnagar, PhD Candidate (Biostatistics) }
+	%\institute[shortinst]{Department of Epidemiology, Biostatistics and Occupational Health}
+	
+	\title{006 - \texttt{ggplot2} package for plots}
+	\author{EPIB 607}
+	\institute{
+		Sahir Rai Bhatnagar\\
+		Department of Epidemiology, Biostatistics, and Occupational Health\\
+		McGill University\\
+		
+		\vspace{0.1 in}
+		
+		\texttt{sahir.bhatnagar@mcgill.ca}\\
+		\texttt{\url{https://sahirbhatnagar.com/EPIB607/ggplot2-package-for-plots.html}}
+	}
+	
+	\date{slides compiled on \today}
+	
+	\maketitle
+	
+	\begin{frame}{Objective}
+	\begin{itemize}
+		\item Understand the how to map data onto aesthetics with ggplot2
+		\item Use \texttt{ggplot2} core functions to produce a series of scatterplots
+	\end{itemize}
+	\end{frame}
+
+\begin{frame}{Commonly Used Aesthetics}
+	\centering
+	\includegraphics[scale=0.4]{005-3.png}
+\end{frame}
+
+\section{How ggplot2 works}
+	
+		\begin{frame}{ggplot2 to make plots}
+		\begin{itemize}
+			\item ggplot provides you with a set of	tools to map data 
+			\begin{enumerate}
+				\item to visual elements on your plot
+				\item to specify the kind of plot you want, and 
+				\item then subsquently to control the fine details of how it will be displayed.
+			\end{enumerate}
+		\end{itemize}
+	\end{frame}
+
+
+\begin{frame}{Aesthetic mappings}
+\begin{columns}
+		\begin{column}{0.5\textwidth}  %%<--- here
+		\begin{center}
+			\includegraphics[scale=0.35]{ggplotflow1.png}
+		\end{center}
+	\end{column}
+	\begin{column}{0.5\textwidth}
+	\begin{itemize}
+	\item The code you write specifies the connections between the variables in your data,
+	and the colors, points, and shapes you see on the screen. 
+	\item In ggplot, these logical connections between your data and the plot elements are
+	called \textit{aesthetic mappings} or just \textit{aesthetics}. 
+	\item You begin every plot by telling the \texttt{ggplot()} function what your data is, and then how the
+	variables in this data logically map onto the plot's aesthetics. 
+\end{itemize}
+	\end{column}
+\end{columns}
+	
+\end{frame}
+
+
+
+
+\begin{frame}{Geometry}
+	\begin{columns}
+		\begin{column}{0.5\textwidth}  %%<--- here
+			\begin{center}
+				\includegraphics[scale=0.4]{ggplotflow2.png}
+			\end{center}
+		\end{column}
+		\begin{column}{0.5\textwidth}
+			\begin{itemize}
+				\item Then you take the result and say what general sort of plot you want, such
+				as a scatterplot, a boxplot, or a bar chart. In \texttt{ggplot}, the overall
+				type of plot is called a \texttt{geom}. 
+				\item Each geom has a function that creates it. For example, \texttt{geom\_point()} makes scatterplots, \texttt{geom\_bar()} makes barplots, \texttt{geom\_boxplot()} makes boxplots, and so on. 
+				\item You combine these two pieces, the \code{ggplot()} object and the \code{geom}, by literally
+				adding them together in an expression, using the ``+'' symbol.
+			\end{itemize}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+
+\begin{frame}{Customization}
+	\begin{columns}
+		\begin{column}{0.5\textwidth}  %%<--- here
+			\begin{center}
+				\includegraphics[scale=0.4]{ggplotflow3.png}
+			\end{center}
+		\end{column}
+		\begin{column}{0.5\textwidth}
+			\begin{itemize}
+				\item At this point, ggplot will have enough information to be able to draw
+				a plot for you. ggplot will use a set of defaults that try to be sensible about what gets drawn. 
+				\item But more often, you will want to specify exactly what you want, including
+				information about the scales, the labels of legends and axes, and
+				other guides that help people to read the plot. 
+				\item Each component has it own function, you provide arguments to it
+				specifying what to do, and you literally add it to the sequence of
+				instructions. 
+				\item In this way you systematically build your plot piece by
+				piece.
+			\end{itemize}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+
+
+\begin{frame}{Customization}
+	\centering
+	\includegraphics[scale=0.4]{ggplotflow4.png}
+\end{frame}
+
+
+	
+\section{Tidy data}
+
+	
+\begin{frame}[fragile]{Gapminder dataset in format 1}
+
+<<echo=TRUE, size = 'tiny'>>=
+library(gapminder)
+gapminder::gapminder %>% 
+  dplyr::select(country, year, lifeExp) %>% 
+  tidyr::pivot_wider(names_from = "year", values_from = "lifeExp") %>% 
+  dplyr::slice_head(n = 10) %>% 
+  knitr::kable(caption = "Life Expectancy data from gapminder dataset for 
+  the first 10 countries.", digits = 0, booktabs=TRUE)
+@
+
+\end{frame}
+
+
+\begin{frame}[fragile]{Gapminder dataset in format 2}
+	
+	<<echo=TRUE, size = 'tiny'>>=
+	gapminder::gapminder %>% 
+	  	dplyr::select(country, year, lifeExp) %>% 
+		dplyr::filter(country %in% c("Afghanistan","Albania")) %>%
+		knitr::kable(caption = "gapminder dataset for Afghanistan and Albania", digits = 0, booktabs=TRUE)
+	@
+	
+\end{frame}
+
+
+\begin{frame}{Tidy data is usually not compact}
+	\begin{itemize}
+		\item If you compare the two previous tables, it is clear that a tidy table does not present data in its most compact form. \item In fact, it is usually not how you would choose to present your data if you wanted to just show people the numbers. \item Neither is untidy data “messy” or the “wrong” way to lay out data in some generic sense. 
+		\item It's just that, even if its long-form shape makes tables larger, tidy data is much more straightforward to work with when it comes to specifying the mappings that you need to coherently describe plots.
+	\end{itemize}
+\end{frame}
+
+
+\section{Mappings link data to things you see}
+
+\begin{frame}{Mappings}
+	\begin{itemize}
+		\item It’s useful to think of a recipe or template that we start from each time we want to make a plot:
+	\end{itemize}
+\vspace*{0.5in}
+\centering
+\includegraphics[scale=0.6]{ch-03-ggplot-formula-schematic.png}
+\end{frame}
+
+
+
+\begin{frame}[fragile]{Gapminder example - the data}
+	
+	\begin{itemize}
+		\item Let’s say we want to plot Life Expectancy against per capita GDP for all country-years in the data. 
+		\item  We’ll do this by creating an object that has some of the necessary information in it, and build it up from there. \item First, we must tell the \code{ggplot()} function what data we are using:
+	\end{itemize}
+	
+	<<echo=TRUE, size = 'normalsize'>>=
+	library(ggplot2)
+	library(cowplot) 
+	ggplot2::theme_set(cowplot::theme_cowplot())
+	p <- ggplot(data = gapminder)
+	@
+	
+\end{frame}
+
+\begin{frame}[fragile]{Gapminder example - mappings}
+	
+	\begin{itemize}
+		\item At this point ggplot knows our data, but not what the mapping. 
+		\item That is, we need to tell it which variables in the data should be represented by which visual elements in the plot. \item It also doesn’t know what sort of plot we want. 
+		\item In ggplot, mappings are specified using the \code{aes()} function. Like this:
+	\end{itemize}
+	
+<<echo=TRUE, size = 'normalsize'>>=
+p <- ggplot(data = gapminder,
+            mapping = aes(x = gdpPercap,
+			  y = lifeExp))
+@
+	
+\end{frame}
+
+
+
+\begin{frame}[fragile]{Gapminder example}
+	
+	\begin{itemize}
+		\item What happens if we just type \code{p} at the console at this point and hit return?
+	\end{itemize}
+
+\pause 
+	
+	<<echo=TRUE,  fig.asp=0.681>>=
+	p
+	@
+	
+\end{frame}
+
+
+
+\begin{frame}[fragile]{Gapminder example - scatterplot}
+	
+	\begin{itemize}
+		\item We need to add a \code{layer} to the plot. This means picking a \code{geom\_} function.
+	\end{itemize}
+	
+
+	<<echo=TRUE, fig.asp=0.681>>=
+	p + geom_point()
+	@
+	
+\end{frame}
+
+
+
+\section{Build your plots layer by layer}
+
+
+\begin{frame}{Five steps to build a plot}
+	
+\begin{enumerate}
+	\item Tell the \code{ggplot} function what our data is. The \code{data = …} step.  
+\pause	\item  Tell \code{ggplot} \textit{what} relationships we want to see. The \code{mapping = aes(…)} step. For convenience we will put the results of the first two steps in an object called \code{p}.  
+\pause	\item  Tell \code{ggplot} \textit{how} we want to see the relationships in our data, i.e. choose a geom.  
+\pause	\item  Layer on geoms as needed, by adding them to the \code{p} object one at a time.  
+\pause	\item  Use some additional functions to adjust scales, labels, tick marks, titles using the \code{scale\_,} family, \code{labs()} and \code{guides()} functions. We'll learn more about some of these functions shortly.  
+\end{enumerate}
+\end{frame}
+
+
+\begin{frame}[fragile]{Add a GAM smoother}
+	\begin{columns}
+		\begin{column}{0.5\textwidth}  %%<--- here
+			<<echo=TRUE, fig.asp=0.681, message=TRUE>>=
+			p <- ggplot(data = gapminder,
+			            mapping = aes(x = gdpPercap,
+			                          y=lifeExp))
+			p + geom_smooth()
+			@
+		\end{column}
+		\begin{column}{0.5\textwidth}
+			\begin{itemize}
+					\item The coordinate system used in plots is most often cartesian, i.e., a plane defined by an x axis and a y axis. This is	what ggplot assumes, unless you tell it otherwise. \pause 
+				\item Usually in R, functions cannot simply be added to objects. Rather, they take objects as inputs and produce objects as outputs.
+				\item But the objects created by \code{ggplot()} are special. This makes it easier to assemble plots one piece at a time, and to inspect how they look at every step. 
+			\end{itemize}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+
+
+
+
+
+
+\begin{frame}[fragile]{Add a linear smoother with data points}
+	\begin{columns}
+		\begin{column}{0.5\textwidth}  %%<--- here
+			<<echo=TRUE, fig.asp=0.681, message=TRUE>>=
+			p <- ggplot(data = gapminder,
+			mapping = aes(x = gdpPercap,
+			y=lifeExp))
+			p + geom_point() + geom_smooth(method = "lm") 
+			@
+		\end{column}\pause 
+		\begin{column}{0.5\textwidth}
+			\begin{itemize}
+				\item We did not have to tell \code{geom\_point()} or \code{geom\_smooth()}
+				where their data was coming from, or what mappings they should use.
+\pause	\item 			They \textit{inherit} this information from the original \code{p} object. 
+	\item As we'll see later, it’s possible to give geoms separate instructions that they
+				will follow instead. But in the absence of any other information, the
+				geoms will look for the instructions it needs in the \code{ggplot()}
+				function, or the object created by it.
+			\end{itemize}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+
+
+
+
+\begin{frame}[fragile]{Change scales}
+	\begin{columns}
+		\begin{column}{0.5\textwidth}  %%<--- here
+			<<echo=TRUE, fig.asp=0.681, message=TRUE>>=
+p <- ggplot(data = gapminder,
+	mapping = aes(x = gdpPercap,
+		y=lifeExp))
+p + geom_point() +
+	geom_smooth(method = "gam") +
+	scale_x_log10()
+			@
+		\end{column}\pause 
+		\begin{column}{0.5\textwidth}
+			\begin{itemize}
+				\item The data is quite bunched up against the left side. 
+				\item Gross Domestic Product per capita is not normally distributed across our country years. 
+				\item The x-axis scale would probably look better if it were transformed from a linear scale to a log scale. For this we can use a function called \code{scale\_x\_log10()}. 
+				\item As you might expect this function scales the x-axis of a plot to a log 10 basis. 
+			\end{itemize}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+
+
+
+\begin{frame}[fragile]{Formatting labels with the \texttt{scales} package}
+<<echo=TRUE, fig.asp=0.651>>=
+library(scales)
+p <- ggplot(data = gapminder, mapping = aes(x = gdpPercap, y=lifeExp))
+p + geom_point() +
+	geom_smooth(method = "gam") +
+	scale_x_log10(labels = scales::dollar)
+@
+
+\end{frame}
+
+
+
+\section{Mapping aesthetics vs setting them}
+
+
+\begin{frame}[fragile]{Color aesthetic}
+\begin{itemize}
+	\item An \textit{aesthetic mapping} specifies that a variable will be expressed by one of the available visual elements, such as size, or color, or shape, and so on. As we've seen, we map variables to aesthetics like this: 
+	<<echo=TRUE, fig.asp=0.651, size='normalsize'>>=
+	p <-  ggplot(data = gapminder,
+			mapping = aes(x = gdpPercap,
+					y = lifeExp,
+					color = continent))
+	@
+	\pause
+	\item This code does \textit{not} give a direct instruction like ``color the points purple''. \pause
+	\item Instead it says, ``the variable continent will map onto the color aesthetic''. 
+\end{itemize}
+	
+\end{frame}
+
+
+\begin{frame}[fragile]{Misunderstanding of an aesthetic}
+	\begin{itemize}
+		\item If we want to turn all the points in the figure purple, we do \textit{not} do it through the mapping function. Look at what happens when we try:
+		<<echo=TRUE, fig.asp=0.621>>=
+		p <- ggplot(data = gapminder,
+					mapping = aes(x = gdpPercap,
+					y = lifeExp,
+					color = "purple"))
+		p + geom_point() +
+			geom_smooth(method = "loess") +
+			scale_x_log10()
+		@
+	\end{itemize}
+	
+\end{frame}
+
+
+
+
+\begin{frame}[fragile]{The correct way of specifying point colors}
+<<echo=TRUE, fig.asp=0.621>>=
+p <- ggplot(data = gapminder,
+			mapping = aes(x = gdpPercap,
+					y = lifeExp))
+p + geom_point(color = "purple") +
+	geom_smooth(method = "loess") +
+	scale_x_log10()
+@
+\end{frame}
+
+
+
+\begin{frame}[fragile]{\code{geom\_} functions can take many other arguments that will affect how the plot looks}
+	<<echo=TRUE, fig.asp=0.601>>=
+p <- ggplot(data = gapminder,
+			mapping = aes(x = gdpPercap,
+						y = lifeExp)) 
+p + geom_point(alpha = 0.3) +
+	geom_smooth(color = "orange", se = FALSE, size = 8, method = "lm") +
+	scale_x_log10()
+	@
+\end{frame}
+
+
+
+\begin{frame}[fragile]{Add lables and change themes}
+	<<echo=TRUE, fig.asp=0.501>>=
+p <- ggplot(data = gapminder, mapping = aes(x = gdpPercap, y=lifeExp))
+p + geom_point(alpha = 0.3) + geom_smooth(method = "gam") +
+    scale_x_log10(labels = scales::dollar) +
+    ggthemes::theme_stata() + 
+    labs(x = "GDP Per Capita", y = "Life Expectancy in Years",
+		title = "Economic Growth and Life Expectancy",
+		subtitle = "Data points are country-years",
+		caption = "Source: Gapminder.")
+	@
+\end{frame}
+
+
+
+
+\begin{frame}[fragile]{Smooth lines for each continent}
+	\begin{itemize}
+		\item Along with \code{x} and \code{y}, the \code{color} aesthetic mapping is set in the call to \code{ggplot} that we used to create the \code{p} object
+		<<echo=TRUE, fig.asp=0.621>>=
+p <- ggplot(data = gapminder,
+            mapping = aes(x = gdpPercap,
+            y = lifeExp,
+            color = continent))
+p + geom_point() +
+	geom_smooth(method = "loess") +
+	scale_x_log10()
+		@
+	\end{itemize}
+	
+\end{frame}
+
+
+\begin{frame}[fragile]{Standard errors bars with matching color}
+	<<echo=TRUE, fig.asp=0.501>>=
+p <- ggplot(data = gapminder,
+			mapping = aes(x = gdpPercap,
+			y = lifeExp,
+			color = continent,
+			fill = continent))
+p + geom_point() +
+	geom_smooth(method = "loess") +
+	scale_x_log10()
+@
+\end{frame}
+
+
+
+
+
+
+\section{Aesthetics can be mapped per geom}
+
+\begin{frame}[fragile]{Specify different mapping for each geom}
+	\small
+	\begin{itemize}
+		\item Perhaps five separate smoothers is too many, and we just want one line. But we still would like to have the points color-coded by continent. By default, geoms inherit their mappings from the \code{ggplot()} function \pause
+		\item We can change this by mapping the aesthetics we want only the \code{geom\_} functions that we want them to apply to.\pause
+<<echo=TRUE, fig.asp=0.521>>=
+p <- ggplot(data = gapminder, mapping = aes(x = gdpPercap, y = lifeExp))
+p + geom_point(mapping = aes(color = continent)) +
+	geom_smooth(method = "loess") +
+	scale_x_log10()
+@
+\end{itemize}
+	
+\end{frame}
+
+
+\begin{frame}{A closer look at the legends}
+	\centering
+	\includegraphics[scale=1]{ch-03-legends-combined.png}
+\end{frame}
+
+
+\begin{frame}[fragile]{Mapping a continuous variable to color}
+<<echo=TRUE, fig.asp=0.651>>=
+p <- ggplot(data = gapminder,
+            mapping = aes(x = gdpPercap,
+                          y = lifeExp))
+p + geom_point(mapping = aes(color = log(pop))) +
+                 scale_x_log10()    
+		@
+
+	
+\end{frame}
+
+
+	\begin{frame}[fragile]{Session Info}
+	\tiny
+	
+	<<echo=FALSE, comment = NA, size = 'tiny'>>=
+	print(sessionInfo(), locale = FALSE)
+	@
+	
+\end{frame}
+
+\end{document}
+
+
+

@@ -126,7 +126,7 @@ knitr::knit_hooks$set(purl = hook_purl)
 	\includegraphics[scale=0.4]{005-2.png}
 \end{frame}
 
-	\begin{frame}{Commonly Used Visual Cues}
+	\begin{frame}{Commonly Used Aesthetics}
 	\centering
 	\includegraphics[scale=0.4]{005-3.png}
 \end{frame}
