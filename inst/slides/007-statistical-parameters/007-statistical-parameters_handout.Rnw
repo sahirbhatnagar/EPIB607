@@ -2,8 +2,8 @@
 
 
 %\input{slides_header.tex}
-\input{/home/sahir/git_repositories/EPIB607/resources/assets/slides/slides_header2.tex}
-\graphicspath{{/home/sahir/git_repositories/EPIB607/resources/assets/slides/figure/}}
+\input{/home/sahir/git_repositories/EPIB607/slides/slides_header2.tex}
+\graphicspath{{/home/sahir/git_repositories/EPIB607/slides/figure/}}
 
 %\let\oldShaded\Shaded
 %\let\endoldShaded\endShaded
@@ -36,7 +36,23 @@ options(digits = 2)
 
 #knitr::opts_chunk$set(background = '#FFFF00')
 library(tools) #needed for include_graphics2 function
-source("/home/sahir/git_repositories/EPIB607/resources/assets/slides/bin/include_graphics2.R")
+
+pacman::p_load(here)
+
+source(here::here("inst","slides","bin","include_graphics2.R"))
+
+knitr::knit_hooks$set(purl = hook_purl)
+
+pacman::p_load(
+gapminder,
+here,
+socviz, 
+tidyverse,
+kableExtra,
+DT
+)
+
+theme_set(cowplot::theme_cowplot())
 @
 
 %\title{Introduction to Regression Trees}
@@ -44,8 +60,8 @@ source("/home/sahir/git_repositories/EPIB607/resources/assets/slides/bin/include
 %\author[shortname]{Sahir Rai Bhatnagar, PhD Candidate (Biostatistics) }
 %\institute[shortinst]{Department of Epidemiology, Biostatistics and Occupational Health}
 
-	\title{006 - Statistical Parameters}
-\author{EPIB 607 - FALL 2020}
+\title{007 - Statistical Parameters}
+\author{EPIB 607}
 \institute{
 	Sahir Rai Bhatnagar\\
 	Department of Epidemiology, Biostatistics, and Occupational Health\\
@@ -54,7 +70,7 @@ source("/home/sahir/git_repositories/EPIB607/resources/assets/slides/bin/include
 	\vspace{0.1 in}
 	
 	\texttt{sahir.bhatnagar@mcgill.ca}\\
-	%\texttt{\url{https://sahirbhatnagar.com/EPIB607/}}
+	\texttt{\url{https://sahirbhatnagar.com/EPIB607/paras.html}}
 }
 
 \date{slides compiled on \today}
