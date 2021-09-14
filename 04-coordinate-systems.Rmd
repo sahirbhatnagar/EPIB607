@@ -286,7 +286,7 @@ ggplot(tx_counties, aes(x = index, y = popratio)) +
 
 (ref:texas-counties-pop-ratio-lin) Population sizes of Texas counties relative to their median value. By displaying a ratio on a linear scale, we have overemphasized ratios > 1 and have obscured ratios < 1. As a general rule, ratios should not be displayed on a linear scale. Data source: 2010 Decennial U.S. Census.
 
-```{r texas-counties-pop-ratio-lin, fig.width = 5*6/4.2, fig.asp = 0.6, fig.cap = '(ref:texas-counties-pop-ratio-lin)', echo=FALSE}
+```{r texas-counties-pop-ratio-lin, fig.cap = '(ref:texas-counties-pop-ratio-lin)', echo=FALSE}
 counties_lin <- ggplot(tx_counties, aes(x = index, y = popratio)) +
   geom_point(size = 0.5, color = "#0072B2") +
   geom_text_repel(aes(label = label_large), point.padding = .4, color = "black",

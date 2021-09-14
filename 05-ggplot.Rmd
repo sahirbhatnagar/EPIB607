@@ -1,0 +1,619 @@
+---
+output: html_document
+editor_options: 
+  chunk_output_type: console
+---
+
+
+# `ggplot2` package for plots
+
+::: {.rmdnote}
+This section is adapted from the book Data Visualization: A practical introduction [@healy]
+:::
+
+
+**Packages used in this Section**
+
+```{r setup, include=FALSE, echo=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r eval=TRUE, echo=TRUE, warning=FALSE, message=FALSE}
+pacman::p_load(
+  gapminder,
+  here,
+  socviz, 
+  tidyverse,
+  kableExtra,
+  DT
+)
+
+theme_set(cowplot::theme_cowplot())
+```
+
+
+This Section will teach you how to use ggplot’s core functions to produce a series of scatterplots. From one point of view, we will proceed slowly and carefully, taking our time to understand the logic behind the commands that you type. The reason for this is that the central activity of visualizing data with ggplot more or less always involves the same sequence of steps. So it is worth learning what they are.
+
+From another point of view, though, we will move fast. Once you have the basic sequence down, and understand how it is that ggplot assembles the pieces of a plot in to a final image, then you will find that analytically and aesthetically sophisticated plots come within your reach very quickly. By the end of this Section, for example, we will have learned how to produce a small-multiple plot of time series data for a large number of countries, with a smoothed regression line in each panel. So in another sense we will have moved quite fast.
+
+
+## How ggplot2 works
+
+As we saw in Section \@ref(aesthetic-mapping), visualization involves representing your data
+data using lines or shapes or colors and so on. There is some
+structured relationship, some <em>mapping</em>, between the variables in your
+data and their representation in the plot displayed on your screen or
+on the page. We also saw that not all mappings make sense for all
+types of variables, and (independently of this), some representations
+are harder to interpret than others. ggplot provides you with a set of
+tools to map data to visual elements on your plot, to specify the kind
+of plot you want, and then subsquently to control the fine details of
+how it will be displayed. Figure \@ref(fig:ggplot-flow) shows a
+schematic outline of the process starting from data, at the top, down
+to a finished plot at the bottom. 
+
+```{r ggplot-flow, echo=FALSE, fig.cap='Overview of constructing a figure with ggplot.'}
+knitr::include_graphics(here::here("inst/figures", "ch-03-ggplot-flow-vertical.png"))
+```
+
+
+The most important thing to get used to with ggplot is the way you use
+it to think about the logical structure of your plot. The code you
+write specifies the connections between the variables in your data,
+and the colors, points, and shapes you see on the screen. In ggplot,
+these logical connections between your data and the plot elements are
+called <em>aesthetic mappings</em> or just <em>aesthetics</em>. You begin every plot
+by telling the <code>ggplot()</code> function what your data is, and then how the
+variables in this data logically map onto the plot’s aesthetics. Then
+you take the result and say what general sort of plot you want, such
+as a scatterplot, a boxplot, or a bar chart. In ggplot, the overall
+type of plot is called a <em>geom</em>. Each geom has a function that creates
+it. For example, <code>geom_point()</code> makes scatterplots, <code>geom_bar()</code> makes
+barplots, <code>geom_boxplot()</code> makes boxplots, and so on. You combine
+these two pieces, the <code>ggplot()</code> object and the <code>geom</code>, by literally
+adding them together in an expression, using the “<code>+</code>” symbol.
+
+At this point, ggplot will have enough information to be able to draw
+a plot for you. The rest is just details about exactly what you want
+to see. If you don’t specify anything further, ggplot will use a set
+of defaults that try to be sensible about what gets drawn. But more
+often, you will want to specify exactly what you want, including
+information about the scales, the labels of legends and axes, and
+other guides that help people to read the plot. These additional
+pieces are added to the plot in the same way as the <code>geom_</code> function
+was. Each component has it own function, you provide arguments to it
+specifying what to do, and you literally add it to the sequence of
+instructions. In this way you systematically build your plot piece by
+piece.
+
+In this chapter we will go through the main steps of this process. We
+will proceed by example, repeatedly building a series of plots. As
+noted earlier, I <em>strongly</em> encourage you go through this exercise
+manually, typing (rather than copying-and-pasting) the code yourself.
+This may seem a bit tedious, but it is <em>by far</em> the most effective way
+to get used to what is happening, and to get a feel for R’s syntax.
+While you’ll inevitably make some errors, you will also quickly find
+yourself becoming able to diagnose your own errors, as well as having
+a better grasp of the higher-level structure of plots. You should open
+the RMarkdown file for your notes, remember to load the `tidyverse`
+library and write the code out in chunks, interspersing your own notes and comments as you go.
+
+
+## Tidy Data
+
+The tidyverse tools we will be using want to see your data in a
+particular sort of shape, generally referred to as **tidy data** [@wickham2014]. 
+Social scientists will likely be familiar with the
+distinction between <em>wide format</em> and <em>long format</em> data. In a long
+format table, every variable is a column, and every observation is a
+row. In a wide format table, some variables are spread out across
+columns. For example, Table \@ref(tab:gaptab1) shows part of a table
+of life expectancy over time for a series of countries. 
+
+```{r gaptab1, echo=FALSE}
+gapminder::gapminder %>% 
+  dplyr::select(country, year, lifeExp) %>% 
+  tidyr::pivot_wider(names_from = "year", values_from = "lifeExp") %>% 
+  dplyr::slice_head(n = 10) %>% 
+  kbl(caption = "Life Expectancy data from gapminder dataset in wide 
+      format for the first 10 countries.",
+      digits = 0) %>% 
+  kable_styling()
+```
+
+<br>
+
+This is in wide format, because one of the variables, year, is spread across
+the columns of the table.
+
+
+By contrast, Table \@ref(tab:gaptab2) shows the beginning of the same
+data in long format. The tidy data that ggplot wants is in this long
+form. 
+
+
+```{r gaptab2, echo=FALSE}
+gapminder::gapminder %>% 
+  dplyr::select(country, year, lifeExp) %>% 
+  dplyr::slice_sample(n = 10) %>% 
+  kbl(caption = "Life Expectancy data from gapminder dataset in long format for a random sample of countries.",
+      digits = 0) %>% 
+  kable_styling()
+```
+
+
+In a related bit of terminology, in this table the <code>year</code>
+variable is sometimes called a <em>key</em> and the <code>lifeExp</code> variable is the
+<em>value</em> taken by that key for any particular row. These terms are
+useful when converting tables from wide to long format. I am speaking
+fairly loosely here. Underneath these terms there is a worked-out
+theory of the forms that tabular data can be stored in, but right now
+we don’t need to know those additional details. 
+
+If you compare Tables \@ref(tab:gaptab1) and \@ref(tab:gaptab2), it is clear that a tidy table does not present data in its most compact form. In fact, it is usually not how you would choose to present your data if you wanted to just show people the numbers. Neither is untidy data “messy” or the “wrong” way to lay out data in some generic sense. It’s just that, even if its long-form shape makes tables larger, tidy data is much more straightforward to work with when it comes to specifying the mappings that you need to coherently describe plots.
+
+
+## Mappings link data to things you see
+
+It’s useful to think of a recipe or template that we start from each
+time we want to make a plot. This is shown in Figure \@ref(fig:ch-03-ggplot-formula-schematic). 
+
+```{r ch-03-ggplot-formula-schematic, echo=FALSE, fig.cap='ggplot formula schematic.'}
+knitr::include_graphics(here::here("inst/figures","ch-03-ggplot-formula-schematic.png"))
+```
+
+
+We start with just one object of our own, our data, which should be in a shape that ggplot understands.
+Usually this will be a <em>data frame</em> or some augmented version of it,
+like a <em>tibble</em>. We tell the core <code>ggplot</code> function what our data is.
+In this book, we will do this by creating an object named <code>p</code> which
+will contain the core information for our plot. (The name <code>p</code> is just
+a convenience.) Then we choose a plot type, or <em>geom</em> and add it to
+<code>p</code>. From there, we add more features to the plot as needed, such as
+additional elements, adjusted scales, a title, or other
+labels as needed.
+
+
+We’ll use the gapminder data to make our first plots. Make sure the library containing the data is loaded.
+
+```{r 03-make-a-plot-2, echo=TRUE, eval=FALSE}
+library(gapminder)
+data(gapminder)
+```
+
+```{r, echo=FALSE, eval=TRUE}
+gapminder %>% 
+  DT::datatable()
+```
+
+<br>
+
+Let’s say we want to plot Life Expectancy against per capita GDP for all country-years in the data. We’ll do this by creating an object that has some of the necessary information in it, and build it up from there. First, we must tell the `ggplot()` function what data we are using.
+
+```{r 03-make-a-plot-3}
+p <- ggplot(data = gapminder)
+```
+
+At this point ggplot knows our data, but not what the mapping. That is, we need to tell it which variables in the data should be represented by which visual elements in the plot. It also doesn’t know what sort of plot we want. In ggplot, mappings are specified using the `aes()` function. Like this:
+
+```{r 03-make-a-plot-4}
+p <- ggplot(data = gapminder,
+            mapping = aes(x = gdpPercap,
+                          y = lifeExp))
+```
+
+
+Here we've given the <code>ggplot()</code> function two arguments instead of one: <code>data</code> and <code>mapping</code>. The <code>data</code> argument tells ggplot where to find the variables it is about to use. This saves us from having to tediously dig out the name of each variable in full. Instead, any mentions of variables will be looked for here first.
+
+Next, the mapping. The <code>mapping</code> argument is not a data object, nor is
+it a character string. Instead, it’s a function. (Remember, functions
+can be nested inside other functions.) The arguments we give to the
+<code>aes</code> function are a sequence of definitions that <code>ggplot</code> will use
+later. Here they say, “The variable on the x-axis is going to be
+<code>gdpPercap</code>, and the variable on the y-axis is going to be <code>lifeExp</code>.”
+The <code>aes()</code> function does not say where variables with those names are
+to be found. That’s because <code>ggplot()</code> is going to assume things with
+that name are in the object given to the <code>data</code> argument.
+
+The <code>mapping = aes(...)</code> argument <em>links variables</em> to <em>things you
+will see</em> on the plot. The <code>x</code> and <code>y</code> values are the most obvious
+ones. Other aesthetic mappings can include, for example, color, shape,
+size, and line type (whether a line is solid or dashed, or some other
+pattern). We’ll see examples in a minute. A mapping does not directly
+say what particular, e.g., colors or shapes will be on the plot.
+Rather they say which <em>variables</em> in the data will be <em>represented</em> by
+visual elements like a color, a shape, or a point on the plot area.
+
+What happens if we just type <code>p</code> at the console at this point and hit
+return?
+
+```{r 03-make-a-plot-5, fig.cap='This empty plot has no geoms.', fig.width=6, fig.height=5}
+p
+```
+
+The <code>p</code> object has been created by the <code>ggplot()</code> function, and already has information in it about the mappings we want, together with a lot of other information added by default. (If you want to see just how much information is in the <code>p</code> object already, try asking for <code>str(p)</code>.) However, we haven’t given it any instructions get about what sort of plot to draw. We need to add a <em>layer</em> to the plot. This means picking a <code>geom_</code> function. We will use <code>geom_point()</code>. It knows how to take <code>x</code> and <code>y</code> values and plot them in a scatterplot.
+
+
+```{r 03-make-a-plot-6, fig.cap='A scatterplot of Life Expectancy vs GDP', fig.width=6, fig.height=5}
+p + geom_point() 
+```
+
+
+## Build your plots layer by layer
+
+From now on, not much will change conceptually
+about what we are doing. It will be more a question of learning in
+greater detail about how to tell ggplot what to do. We will learn more
+about the different geoms (or types of plot) available, and find out
+about the functions that control the coordinate system, scales,
+guiding elements (like labels and tick marks), and thematic features
+of plots. This will allow us to make much more sophisticated plots
+surprisingly fast. Conceptually, however, we will always be doing the
+same thing. We will start with a table of data that has been tidied,
+and then we will:  
+
+1. Tell the <code>ggplot()</code> function what our data is. The <code>data = …</code> step.  
+2. Tell <code>ggplot()</code> <em>what</em> relationships we want to see. The <code>mapping = aes(…)</code> step. For convenience we will put the results of the first two steps in an object called <code>p</code>.  
+3. Tell <code>ggplot</code> <em>how</em> we want to see the relationships in our data, i.e. choose a geom.  
+4. Layer on geoms as needed, by adding them to the <code>p</code> object one at a time.  
+5. Use some additional functions to adjust scales, labels, tick marks, titles using the <code>scale_,</code> family, <code>labs()</code> and <code>guides()</code> functions. We’ll learn more about some of these functions shortly.  
+
+
+<br>
+
+To begin with we will let ggplot use its defaults for many of these
+elements. The coordinate system used in plots is most often cartesian,
+for example. It is a plane defined by an x axis and a y axis. This is
+what ggplot assumes, unless you tell it otherwise. But we will quickly start making some adjustments.
+Bear in mind once again that the process of adding layers to the plot really is <em>additive</em>. In effect we create one big object that is a nested list of instructions for how to draw each piece of the plot. Usually in R, functions cannot simply be added to objects. Rather, they take objects as inputs and produce objects as outputs.
+But the objects created by `ggplot()` are special. This makes it easier to assemble plots one piece at a time, and to inspect how they look at every step. For example, let’s try a different <code>geom_</code> function with our plot.
+
+```{r 03-make-a-plot-7, fig.cap='Life Expectancy vs GDP, using a smoother.', fig.width=6, fig.height=5}
+p <- ggplot(data = gapminder,
+            mapping = aes(x = gdpPercap,
+                          y=lifeExp))
+p + geom_smooth()
+```
+
+You can see right away that some of these geoms do a lot more than simply put points on a grid. Here <code>geom_smooth()</code> has calculated a smoothed line for us and shaded in a ribbon showing the standard error for the line. If we want to see the data points and the line together, we simply add <code>geom_point()</code> back in:
+
+```{r 03-make-a-plot-8, fig.cap='Life Expectancy vs GDP, showing both points and a GAM smoother.', fig.width=6, fig.height=5, message=TRUE}
+p <- ggplot(data = gapminder,
+            mapping = aes(x = gdpPercap,
+                          y=lifeExp))
+p + geom_point() + geom_smooth() 
+```
+
+
+The console message R tells you the <code>geom_smooth()</code> function is using a <code>method</code> called <code>gam</code>, which in this case means it has fit a generalized additive model. This suggests that maybe there are other methods that <code>geom_smooth()</code> understands, and which we might tell it to use instead. Instructions are given to functions via their arguments, so we can try adding <code>method = &quot;lm&quot;</code> (for “linear model”) as an argument to <code>geom_smooth()</code>:
+
+
+```{r 03-make-a-plot-9, fig.cap='Life Expectancy vs GDP, points and an ill-advised linear fit.', fig.width=6, fig.height=5, message=TRUE}
+p <- ggplot(data = gapminder,
+            mapping = aes(x = gdpPercap,
+                          y=lifeExp))
+p + geom_point() + geom_smooth(method = "lm") 
+```
+
+
+We did not have to tell <code>geom_point()</code> or <code>geom_smooth()</code>
+where their data was coming from, or what mappings they should use.
+They <em>inherit</em> this information from the original <code>p</code> object. As we’ll
+see later, it’s possible to give geoms separate instructions that they
+will follow instead. But in the absence of any other information, the
+geoms will look for the instructions it needs in the <code>ggplot()</code>
+function, or the object created by it.
+
+In our plot, the data is quite bunched up against the left side. Gross Domestic Product per capita is not normally distributed across our country years. The x-axis scale would probably look better if it were transformed from a linear scale to a log scale. For this we can use a function called <code>scale_x_log10()</code>. As you might expect this function scales the x-axis of a plot to a log 10 basis. To use it we just add it to the plot:
+
+```{r 03-make-a-plot-10, fig.cap='Life Expectancy vs GDP scatterplot, with a GAM smoother and a log scale on the x-axis.', fig.width=6, fig.height=5}
+p <- ggplot(data = gapminder,
+            mapping = aes(x = gdpPercap,
+                          y=lifeExp))
+p + geom_point() +
+    geom_smooth(method = "gam") +
+    scale_x_log10()
+```
+
+The x-axis transformation repositions the points, and also changes the shape the smoothed line. (We switched back to <code>gam</code> from <code>lm</code>.) While <code>ggplot()</code> and its associated functions have not made any changes to our underlying data frame, the scale transformation is applied to the data before the smoother is layered on to the plot. There are a variety of scale transformations that you can use in just this way. Each is named for the transformation you want to apply, and the axis you want to applying it to. In this case we use <code>scale_x_log10()</code>.
+
+
+At this point, if our goal was just to show a plot of Life Expectancy vs GDP using sensible scales and adding a smoother, we would be thinking about polishing up the plot with nicer axis labels and a title. Perhaps we might also want to replace the scientific notation on the x-axis with the dollar value it actually represents. We can do both of these things quite easily. Let’s take care of the scale first. The labels on the tick-marks can be controlled through the <code>scale_</code> functions. While it’s possible to roll your own function to label axes (or just supply your labels manually, as we will see later), there’s also a handy <code>scales</code> library that contains some useful pre-made formatting functions. We can either load the whole library with <code>library(scales)</code> or, more conveniently, just grab the specific formatter we want from that library. Here it’s the <code>dollar()</code> function. To grab a function directly from a library we have not loaded, we use the syntax <code>package_name::function_name</code>. So, we can do this:
+
+```{r 03-make-a-plot-11, fig.cap='Life Expectancy vs GDP scatterplot, with a GAM smoother and a log scale on the x-axis, with better labels on the tick marks.', fig.width=6, fig.height=5}
+p <- ggplot(data = gapminder, mapping = aes(x = gdpPercap, y=lifeExp))
+p + geom_point() +
+    geom_smooth(method = "gam") +
+    scale_x_log10(labels = scales::dollar)
+```
+
+Remember two things about scale transformations: First, you can directly transform
+your x or y axis by adding something like <code>scale_x_log10()</code> or
+<code>scale_y_log10()</code> to your plot. When you do so, the x or y axis will
+be transformed and, by default, the tick marks on the axis will be
+labeled using scientific notation. Second, you can give these <code>scale_</code>
+functions a <code>labels</code> argument that reformats the text printed
+underneath the tick marks on the axes. Inside the <code>scale_x_log10()</code>
+function try <code>labels=scales::comma</code>, for example. For more details on scale transformations, see Section \@ref(nonlinear-axes).
+
+
+## Mapping aesthetics vs setting them
+
+<p>An <em>aesthetic mapping</em> specifies that a variable will be expressed by one of the available visual elements, such as size, or color, or shape, and so on. As we’ve seen, we map variables to aesthetics like this:</p>
+
+```{r}
+p <-  ggplot(data = gapminder,
+             mapping = aes(x = gdpPercap,
+                            y = lifeExp,
+                            color = continent))
+```
+
+
+
+<p>This code does <em>not</em> give a direct instruction like “color the points purple”. Instead it says, “the property ‘color’ will represent the variable <code>continent</code>”, or “color will map <code>continent</code>”. If we want to turn all the points in the figure purple, we do <em>not</em> do it through the mapping function. Look at what happens when we try:</p>
+
+
+```{r 03-make-a-plot-12, fig.cap='What has gone wrong here?', fig.width=6, fig.height=5}
+p <- ggplot(data = gapminder,
+            mapping = aes(x = gdpPercap,
+                          y = lifeExp,
+                          color = "purple"))
+p + geom_point() +
+    geom_smooth(method = "loess") +
+    scale_x_log10()
+```
+
+
+What has happened here? Why is there a legend saying “purple”? And why have the points all turned pinkish-red instead of purple? Remember, an aesthetic is a mapping of variables in your data to properties you can see on the graph. The <code>aes()</code> function is where that mapping is specified, and the function is trying to do its job. It wants to map a variable to the color aesthetic, so it assumes you are giving it a variable. We have only given it one word, though—“purple”. Still, <code>aes()</code> will do its best to treat that word as though it were a variable. A variable should have as many observations as there are rows in the data, so <code>aes()</code> falls back on R’s recycling rules for making vectors of different lengths match up.
+
+<p>In effect, this creates a new categorical variable for your data. The string “purple” is recycled for every row of your data. Now you have a new column. Every element in it has the same value, “purple”. Then ggplot plots the results on the graph as you’ve asked it to, by mapping it to the <code>color</code> aesthetic. It dutifully makes a legend for this new variable. By default, ggplot displays the points falling into the category “purple” (which is all of them) using its default first-category hue ... which is red.</p>
+
+<p>The <code>aes()</code> function is for mappings only. Do not use it to change properties to a particular value. If we want to <em>set</em> a property, we do it in the <code>geom_</code> we are using, and <em>outside</em> the <code>mapping = aes(...)</code> step. Try this:</p>
+
+
+```{r 03-make-a-plot-13, fig.cap='Setting the color attribute of the points directly.', fig.width=6, fig.height=5}
+p <- ggplot(data = gapminder,
+            mapping = aes(x = gdpPercap,
+                          y = lifeExp))
+p + geom_point(color = "purple") +
+    geom_smooth(method = "loess") +
+    scale_x_log10()
+```
+
+
+<p>The <code>geom_point()</code> function can take a <code>color</code> argument directly, and R knows what color “purple” is. This is not part of the aesthetic mapping that defines the basic structure of the graphic. From the point of view of the grammar or logic of the graph, the fact that the points are colored purple has no significance. The color purple is not representing or mapping a variable or feature of the data in the relevant way.</p>
+
+
+```{r 03-make-a-plot-14, fig.cap='Setting some other arguments.', fig.width=6, fig.height=5, fig.margin=TRUE}
+p <- ggplot(data = gapminder,
+            mapping = aes(x = gdpPercap,
+                          y = lifeExp)) 
+p + geom_point(alpha = 0.3) +
+    geom_smooth(color = "orange", se = FALSE, size = 8, method = "lm") +
+    scale_x_log10()
+```
+
+
+The various <code>geom_</code> functions can take many other arguments that will affect how the plot looks, but that do not involve mapping variables to aesthetic elements. Thus, those arguments will never go inside the <code>aes()</code> function. Some of the things we will want to set, like color or size, have the same name as mappable elements. Others, like the <code>method</code> or <code>se</code> arguments in <code>geom_smooth()</code> affect other aspects of the plot. In the code for Figure \@ref(fig:03-make-a-plot-14), the <code>geom_smooth()</code> call sets the line color to orange and sets its size (i.e., thickness) to 8, an unreasonably large value. We also turn off the <code>se</code> option by switching it from its default value of <code>TRUE</code> to <code>FALSE</code>. The result is that the standard error ribbon is not shown.
+
+
+Meanwhile in the <code>geom_smooth()</code> call we set the <code>alpha</code> argument to 0.3. It’s also possible to map a continuous variable directly to the alpha property, much like one might map a continuous variable to a single-color gradient. However, this is generally not an effective way of precisely conveying variation in quantity. Like color, size, and shape, “alpha” is an aesthetic property that points (and some other plot elements) have, and to which variables can be mapped. It controls how transparent the object will appear when drawn. It’s measured on a scale of zero to one. An object with an alpha of zero will be completely transparent. Setting it to zero will make any other mappings the object might have, such as color or size, invisible as well. An object with an alpha of one will be completely opaque. Choosing an intermediate value can be useful when there is a lot of overlapping data to plot, as it makes it easier to see where the bulk of the observations are located.
+
+
+
+```{r 03-make-a-plot-15, fig.cap='A more polished plot of Life Expectancy vs GDP.', fig.width=6, fig.height=5.25}
+p <- ggplot(data = gapminder, mapping = aes(x = gdpPercap, y=lifeExp))
+p + geom_point(alpha = 0.3) + geom_smooth(method = "gam") +
+    scale_x_log10(labels = scales::dollar) +
+    labs(x = "GDP Per Capita", y = "Life Expectancy in Years",
+         title = "Economic Growth and Life Expectancy",
+         subtitle = "Data points are country-years",
+         caption = "Source: Gapminder.")
+```
+
+
+We can now make a reasonably polished plot. We set the <code>alpha</code> of the points to a low value, make nicer x- and y-axis labels, and add a title, subtitle, and caption. As you can see in the code above, in addition to <code>x</code>, <code>y</code>, and any other aesthetic mappings in your plot (such as <code>size</code>, <code>fill</code>, or <code>color</code>), the <code>labs()</code> function can also set the text for <code>title</code>, <code>subtitle</code>, and <code>caption</code>. It controls the <em>main labels</em> of scales. The appearance of things like axis tick marks are the responsibility of various <code>scale_</code> functions, such as the <code>scale_x_log10()</code> function used here. We will learn more about what can be done with <code>scale_</code> functions soon.
+
+Are there any variables in our data that can sensibly be mapped to the <code>color</code> aesthetic? Consider <code>continent</code>. In Figure \@ref(fig:03-make-a-plot-16) the individual data points have been colored by <code>continent</code>, and a legend with a key to the colors has automatically been added to the plot. In addition, instead of one smoothing line we now have five. There is one for each unique value of the <code>continent</code> variable. This is a consequence of the way aesthetic mappings are inherited. Along with <code>x</code> and <code>y</code>, the <code>color</code> aesthetic mapping is set in the call to <code>ggplot()</code> that we used to create the <code>p</code> object. Unless told otherwise, all geoms layered on top of the original plot object will inherit that object’s mappings. In this case we get both our points and smoothers colored by continent.
+
+
+
+```{r 03-make-a-plot-16, fig.cap='Mapping the continent variable to the color aesthetic.', fig.width=6.5, fig.height=5}
+p <- ggplot(data = gapminder,
+            mapping = aes(x = gdpPercap,
+                          y = lifeExp,
+                          color = continent))
+p + geom_point() +
+    geom_smooth(method = "loess") +
+    scale_x_log10()
+```
+
+
+If it is what we want, then we might also consider shading the standard error ribbon of each line to match its dominant color. The color of the standard error ribbon is controlled by the <code>fill</code> aesthetic. Whereas the <code>color</code> aesthetic affects the appearance of lines and points, <code>fill</code> is for the filled areas of bars, polygons and, in this case, the interior of the smoother’s standard error ribbon.
+
+
+```{r 03-make-a-plot-17, fig.cap='Mapping the continent variable to the color aesthetic, and correcting the error bars using the fill aesthetic.', fig.width=6.5, fig.height=5}
+p <- ggplot(data = gapminder,
+            mapping = aes(x = gdpPercap,
+                          y = lifeExp,
+                          color = continent,
+                          fill = continent))
+p + geom_point() +
+    geom_smooth(method = "loess") +
+    scale_x_log10()
+```
+
+
+<p>Making sure that color and fill aesthetics match up consistently in
+this way improves the overall look of the plot. In order to make it
+happen we just need to specify that the mappings are to the same
+variable in each case.</p>
+
+
+
+## Aesthetics can be mapped per geom
+
+Perhaps five separate smoothers is too many, and we just want one line. But we still would like to have the points color-coded by continent. By default, geoms inherit their mappings from the <code>ggplot()</code> function. We can change this by mapping the aesthetics we want only the <code>geom_</code> functions that we want them to apply to. We use the same <code>mapping = aes(...)</code> expression as in the initial call to <code>ggplot()</code>, but now use it in the <code>geom_</code> functions as well, specifying only the mappings we want to apply to each one. Mappings specified only in the initial <code>ggplot()</code> function—here, <code>x</code> and <code>y</code>—will carry through to all subsequent geoms.
+
+
+
+```{r 03-make-a-plot-18, fig.cap='Mapping aesthetics on a per-geom basis. Here color is mapped to continent for the points but not the smoother.', fig.width=6.5, fig.height=5}
+p <- ggplot(data = gapminder, mapping = aes(x = gdpPercap, y = lifeExp))
+p + geom_point(mapping = aes(color = continent)) +
+    geom_smooth(method = "loess") +
+    scale_x_log10()
+```
+
+
+It’s possible to map continuous variables to the <code>color</code> aesthetic, too. For example, we can map the log of each country-year’s population (<code>pop</code>) to <code>color</code>. (We can take the log of population right in the <code>aes()</code> statement, using the <code>log()</code> function. R will evaluate this for us quite happily.) When we do this, ggplot produces a gradient scale. It is continuous, but marked at intervals in the legend. Depending on the circumstances, mapping quantities like population to a continuous color gradient may be more or less effective than cutting the variable into categorical bins running, e.g., from low to high. In general it is always worth looking at the data in its continuous form first rather than cutting or binning it into categories.
+
+
+
+```{r 03-make-a-plot-19, fig.cap='Mapping a continuous variable to color.', out.width="100%", fig.width=6.5, fig.height=5}
+p <- ggplot(data = gapminder,
+            mapping = aes(x = gdpPercap,
+                          y = lifeExp))
+p + geom_point(mapping = aes(color = log(pop))) +
+    scale_x_log10()    
+```
+
+
+Finally, it is worth paying a little more attention to the way that ggplot draws its scales. Because every mapped variable has a scale, we can learn a lot about how a plot has been constructed, and what mappings it contains, by seeing what the legends look like. For example, take a closer look at the legends produced in Figures \@ref(fig:03-make-a-plot-17) and \@ref(fig:03-make-a-plot-18).
+
+
+```{r legends-combined, echo=FALSE, fig.cap='Guides and legends faithfully reflect the mappings they represent.'}
+knitr::include_graphics(here::here("inst/figures","ch-03-legends-combined.png"))
+```
+
+In the legend for the first figure, (left side of Figure \@ref(fig:legends-combined)), we see several visual elements. The key for each continent shows a dot, a line, and a shaded background. The key for the second figure, shown on the right, has only a dot for each continent, with no shaded background or line. If you look again at the code for Figures \@ref(fig:03-make-a-plot-17) and \@ref(fig:03-make-a-plot-18), you will see that in the first case we mapped the <code>continent</code> variable to both <code>color</code> and <code>fill</code>. We then drew the figure with <code>geom_point()</code> and fitted a line for each continent with <code>geom_smooth()</code>. Points have <code>color</code> but the smoother understands both <code>color</code> (for the line itself) and <code>fill</code> (for the shaded standard error ribbon). Each of these elements is represented in the legend: the point color, the line color, and the ribbon fill. In the second figure, we decided to simplify things by having only the points be colored by <code>continent</code>. Then we drew just a single smoother for the whole graph. Thus, in the legend for that figure, the colored line and the shaded box are both absent. We only see a legend for the mapping of <code>color</code> to <code>continent</code> in <code>geom_point()</code>. Meanwhile on the graph itself the line drawn by <code>geom_smooth()</code> is set by default to a bright blue, different from anything on the scale, and its shaded error ribbon is set by default to gray. Small details like this are not accidents. They are a direct consequence of ggplot’s grammatical way of thinking about the relationship between the data behind the plot and the visual elements that represent it.
+
+
+
+## Save your work
+
+<p>Now that you have started to make your own plots, you may be wondering how to save them, and perhaps also how to control their size and format. If you are working in an RMarkdown document then the plots you make will be embedded in it, as we have already seen. You can set the default size of plots within your <code>.Rmd</code> document by setting an option in your first code chunk. This one tells R to make 8x5 figures:</p>
+
+
+
+```{r knitopt, echo = TRUE, eval = FALSE}
+knitr::opts_chunk$set(fig.width=6, fig.height=5) 
+```
+
+
+
+::: {.rmdnote}
+When knitting an RMarkdown file, figures will be automatically saved as individual files in a `figures` folder. The name of the file will default to the name of the code chunk. Hence why it's important to label your code chunks. Otherwise, the file will be named `unnamed-figure-1`.
+:::
+
+
+<p>Because you will be making plots of different sizes and shapes, sometimes you will want to control the size of particular plots, without changing the default. To do this, you can add the same options to any particular chunk inside the curly braces at the beginning. Remember, each chunk opens with three backticks and then a pair of braces containing the language name (for us always <code>r</code>) and an optional label:</p>
+
+<p class="sourceCode" ><pre class="sourceCode markdown"><code class="sourceCode markdown"><a class="sourceLine" id="cb90-1" data-line-number="1">```{r gdp-vs-income}</a>
+<a class="sourceLine" id="cb90-2" data-line-number="2">p + geom_point()</a>
+<a class="sourceLine" id="cb90-3" data-line-number="3">```</a></code></pre></p>
+
+
+<p>You can follow the label with a comma and provide a series of options if needed. They will apply only to that chunk. To make a figure twelve inches wide and nine inches high we say e.g. <code>{r example, fig.width = 12, fig.height = 9}</code> in the braces section.</p>
+<p>You will often need to save your figures individually, as they will
+end up being dropped into slides or published in papers that are not
+produced using RMarkdown. Saving a figure to a file can be done in
+several different ways. When working with <code>ggplot</code>, the easiest way is
+to use the `ggplot2::ggsave` function. To save the most recently displayed
+figure, we provide the name we want to save it under:</p>
+
+
+```{r 03-make-a-plot-20, echo=TRUE, eval=FALSE}
+ggplot2::ggsave(filename = "figures/my_figure.png") # png output for HTML
+ggplot2::ggsave(filename = "figures/my_figure.pdf") # pdf output for LaTeX documents
+```
+
+<p>Remember that, for convenience, you do not need to write <code>filename =</code> as long as the name of the file is the first argument you give <code>ggsave()</code>. You can also pass plot objects to <code>ggsave()</code>. For example, we can put our recent plot into an object called <code>p_out</code> and then tell <code>ggave()</code> that we want to save that object.</p>
+
+
+```{r, eval=FALSE}
+p_out <- p + geom_point() +
+    geom_smooth(method = "loess") +
+    scale_x_log10()
+
+ggsave("my_figure.pdf", plot = p_out)
+```
+
+
+<p>When saving your work, it is sensible to have a subfolder (or more
+than one, depending on the project) where you save only figures. You
+should also take care to name your saved figures in a sensible way.
+<code>fig_1.pdf</code> or <code>my_figure.pdf</code> are not good names. Figure names should
+be compact but descriptive, and consistent between figures within a
+project. In addition, although it really shouldn’t be the case in this
+day and age, it is also wise to play it safe and avoid file names
+containing characters likely to make your code choke in future. These
+include apostrophes, backticks, spaces, forward and back slashes, and
+quotes.</p>
+
+
+<p>Treat the project folder as the home base of your work for the paper or work you are doing, and put your data and figures in subfolders within the project folder. To begin with, using your file manager, create a folder named “figures” inside your project folder. When saving figures, use the <code>here</code> package to make it easier to work with files and subfolders while not having to type in full file paths. Load the library in the setup chunk of your RMarkdown document. When you do, it tells you where “here” is for the current project. You will see a message saying something like this, with your file path and user name instead of mine:</p>
+
+```{r}
+here::here()
+```
+
+<p>You can then use the <code>here()</code> function to make loading and saving your
+work more straightforward and safer. Assuming a folder named “figures” exists in your project folder, you can do this:</p>
+<p class="sourceCode" ><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb95-1" data-line-number="1"><span class="kw">ggsave</span>(<span class="kw">here</span>(<span class="st">&quot;figures&quot;</span>, <span class="st">&quot;lifexp_vs_gdp_gradient.pdf&quot;</span>), <span class="dt">plot =</span> p_out)</a></code></pre></p>
+<p>This saves <code>p_out</code> as a file called <code>lifeexp_vs_gdp_gradient.pdf</code> in the <code>figures</code> directory <em>here</em>, i.e. in your current project folder.</p>
+<p>You can save your figure in a variety of different formats, depending
+on your needs (and also, to a lesser extent, on your particular
+computer system). The most important distinction to bear in mind is
+between <em>vector</em> formats and <em>raster</em> formats. A file with a <em>vector</em>
+format, like PDF or SVG, is stored as a set of instructions about
+lines, shapes, colors, and their relationships. The viewing software
+(such as Adobe Acrobat or Apple’s Preview application for PDFs) then
+interprets those instructions and displays the figure. Representing
+the figure this way allows it to be easily resized without becoming
+distorted. The underlying language of the PDF format is Postscript,
+which is also the language of modern typesetting and printing. This
+makes a vector-based format like PDF the best choice for submission to
+journals.</p>
+
+<p>A <em>raster</em> based format, on the other hand, stores images essentially
+as a grid of pixels of a pre-defined size with information about the
+location, color, brightness, and so on of each pixel in the grid. This
+makes for more efficient storage, especially when used in conjunction
+with compression methods that take advantage of redundancy in images
+in order to save space. Formats like JPG are compressed raster
+formats. A PNG file is a raster image format that supports lossless
+compression. For graphs containing an awful lot of data, PNG files
+will tend to be much smaller than the corresponding PDF. However,
+raster formats cannot be easily resized. In particular they cannot be
+expanded in size without becoming pixelated or grainy. Formats like
+JPG and PNG are the standard way that images are displayed on the web.
+The more recent SVG format is vector-based format but also
+nevertheless supported by many web browsers.</p>
+<p>In general you should save your work in several different formats.
+When you save in different formats and in different sizes you may need
+to experiment with the scaling of the plot and the size of the fonts
+in order to get a good result. The <code>scale</code> argument to <code>ggsave()</code> can
+help you here (you can try out different values, like <code>scale=1.3</code>,
+<code>scale=5</code>, and so on). You can also use <code>ggave()</code> to explicitly set
+the height and width of your plot in the units that you choose.</p>
+<p class="sourceCode" ><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb96-1" data-line-number="1"><span class="kw">ggsave</span>(<span class="kw">here</span>(<span class="st">&quot;figures&quot;</span>, <span class="st">&quot;lifexp_vs_gdp_gradient.pdf&quot;</span>),</a>
+<a class="sourceLine" id="cb96-2" data-line-number="2">       <span class="dt">plot =</span> p_out, <span class="dt">height =</span> <span class="dv">8</span>, <span class="dt">width =</span> <span class="dv">10</span>, <span class="dt">units =</span> <span class="st">&quot;in&quot;</span>)</a></code></pre></p>
+<p>Now that you know how to do that, let’s get back to making more graphs.</p>
+
+
+## Next steps
+
+<p>Start by playing around with the <code>gapminder</code> data a little more. You can try each of these explorations with <code>geom_point()</code> and then with <code>geom_smooth()</code>, or both together.</p>
+<ul>
+<li>What happens when you put the <code>geom_smooth()</code> function before <code>geom_point()</code> instead of after it? What does this tell you about how the plot is drawn? Think about how this might be useful when drawing plots.</li>
+<li>Change the mappings in the <code>aes()</code> function so that you plot Life Expectancy against population (<code>pop</code>) rather than per capita GDP. What does that look like? What does it tell you about the unit of observation in the dataset?</li>
+<li>Try some alternative scale mappings. Besides <code>scale_x_log10()</code> you can try <code>scale_x_sqrt()</code> and <code>scale_x_reverse()</code>. There are corresponding functions for y-axis transformations. Just write <code>y</code> instead of <code>x</code>. Experiment with them to see what sort of effect they have on the plot, and whether they make any sense to use.</li>
+<li>What happens if you map <code>color</code> to <code>year</code> instead of <code>continent</code>? Is the result what you expected? Think about what class of object <code>year</code> is. Remember you can get a quick look at the top of the data, which includes some shorthand information on the class of each variable, by typing <code>gapminder</code>.</li>
+<li>Instead of mapping <code>color = year</code>, what happens if you try <code>color = factor(year)</code>?</li>
+<li>As you look at these different scatterplots, think about Figure \@ref(fig:03-make-a-plot-15) a little more critically. We worked it up to the point where it was reasonably polished, but is it really the best way to display this country-year data? What are we gaining and losing by ignoring the temporal and country-level structure of the data? How could we do better? Sketch out what an alternative visualization might look like.</li>
+</ul>
+<p>As you begin to experiment, remember two things. First, it’s always worth trying something, even if you’re not sure what’s going to happen. Don’t be afraid of the console. The nice thing about making your graphics through code is that you won’t break anything you can’t reproduce. If something doesn’t work, you can figure out what happened, fix things, and re-run the code to make the graph again.</p>
+<p>Second, remember that the main flow of action in ggplot is always the same. You start with a table of data, you map the variables you want to display to aesthetics like position, color, or shape, and you choose one or more geoms to draw the graph. In your code this gets accomplished by making an object with the basic information about data and mappings, and then adding or layering additional information as needed. Once you get used to this way of thinking about your plots, especially the aesthetic mapping part, then drawing them becomes easier. Instead of having to think about how to draw particular shapes or colors on the screen, the many <code>geom_</code> functions take care of that for you. In the same way, learning new geoms is easier once you think of them as ways to display aesthetic mappings that you specify. Most of the learning curve with ggplot involves getting used to this way of thinking about your data and its representation in a plot.</p>
+
+
+

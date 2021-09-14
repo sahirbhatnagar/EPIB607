@@ -685,32 +685,35 @@ Functions other than the natural log can also be used to transform data, such as
 
 ## Categorical data
 
-This section introduces tables and plots for summarizing categorical data, using the `famuss` dataset introduced in Section \@ref(variableTypes). 
+This section introduces tables and plots for summarizing categorical data, using the `famuss` dataset from the `oibiostat` package. 
 
 A table for a single variable is called a **frequency table**. Table \@ref(tab:famussFrequencyTable) is a frequency table for the \var{actn3.r577x} variable, showing the distribution of genotype at location r577x on the ACTN3 gene for the FAMuSS study participants.
 
-In a **relative frequency table** like Figure \@ref(fig:famussRelFrequencyTable}, the proportions per each category are shown instead of the counts.
+In a **relative frequency table** like Table \@ref(tab:famussRelFrequencyTable}, the proportions per each category are shown instead of the counts.
 
 
-```{r famussFrequencyTable, fig.cap='A frequency table for the actn3.r577x variable.', echo=FALSE}
+```{r famussFrequencyTable, echo=FALSE}
 data(famuss); 
 a = addmargins(table(famuss$actn3.r577x)); 
 genotype.table = matrix(a, ncol=4, byrow=T); 
 colnames(genotype.table) = c("CC", "CT", "TT", "Sum"); 
 rownames(genotype.table) = "Counts"; 
-kbl(genotype.table, label="famussFrequencyTable") %>% 
+kbl(genotype.table, 
+    caption = 'A frequency table for the actn3.r577x variable.') %>% 
   kable_styling()
 ```
 
 
 
-```{r famussRelFrequencyTable, echo=FALSE, fig.cap='A relative frequency table for the actn3.r577x variable.'}
+```{r famussRelFrequencyTable, echo=FALSE}
 data(famuss); 
 a = addmargins(prop.table(table(famuss$actn3.r577x))); 
 genotype.table = matrix(a, ncol=4, byrow=T); 
 colnames(genotype.table) = c("CC", "CT", "TT", "Sum"); 
 rownames(genotype.table) = "Proportions"; 
-kbl(genotype.table) %>% 
+kbl(genotype.table, 
+    caption = 'A relative frequency table for the actn3.r577x variable.',
+    digits = 3) %>% 
   kable_styling()
 ```
 
