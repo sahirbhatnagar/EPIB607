@@ -1,4 +1,54 @@
-\documentclass[10pt]{beamer}
+\documentclass[10pt,handout]{beamer}\usepackage[]{graphicx}\usepackage[]{color}
+% maxwidth is the original width if it is less than linewidth
+% otherwise use linewidth (to make sure the graphics do not exceed the margin)
+\makeatletter
+\def\maxwidth{ %
+  \ifdim\Gin@nat@width>\linewidth
+    \linewidth
+  \else
+    \Gin@nat@width
+  \fi
+}
+\makeatother
+
+\definecolor{fgcolor}{rgb}{0.345, 0.345, 0.345}
+\newcommand{\hlnum}[1]{\textcolor[rgb]{0.686,0.059,0.569}{#1}}%
+\newcommand{\hlstr}[1]{\textcolor[rgb]{0.192,0.494,0.8}{#1}}%
+\newcommand{\hlcom}[1]{\textcolor[rgb]{0.678,0.584,0.686}{\textit{#1}}}%
+\newcommand{\hlopt}[1]{\textcolor[rgb]{0,0,0}{#1}}%
+\newcommand{\hlstd}[1]{\textcolor[rgb]{0.345,0.345,0.345}{#1}}%
+\newcommand{\hlkwa}[1]{\textcolor[rgb]{0.161,0.373,0.58}{\textbf{#1}}}%
+\newcommand{\hlkwb}[1]{\textcolor[rgb]{0.69,0.353,0.396}{#1}}%
+\newcommand{\hlkwc}[1]{\textcolor[rgb]{0.333,0.667,0.333}{#1}}%
+\newcommand{\hlkwd}[1]{\textcolor[rgb]{0.737,0.353,0.396}{\textbf{#1}}}%
+\let\hlipl\hlkwb
+
+\usepackage{framed}
+\makeatletter
+\newenvironment{kframe}{%
+ \def\at@end@of@kframe{}%
+ \ifinner\ifhmode%
+  \def\at@end@of@kframe{\end{minipage}}%
+  \begin{minipage}{\columnwidth}%
+ \fi\fi%
+ \def\FrameCommand##1{\hskip\@totalleftmargin \hskip-\fboxsep
+ \colorbox{shadecolor}{##1}\hskip-\fboxsep
+     % There is no \\@totalrightmargin, so:
+     \hskip-\linewidth \hskip-\@totalleftmargin \hskip\columnwidth}%
+ \MakeFramed {\advance\hsize-\width
+   \@totalleftmargin\z@ \linewidth\hsize
+   \@setminipage}}%
+ {\par\unskip\endMakeFramed%
+ \at@end@of@kframe}
+\makeatother
+
+\definecolor{shadecolor}{rgb}{.97, .97, .97}
+\definecolor{messagecolor}{rgb}{0, 0, 0}
+\definecolor{warningcolor}{rgb}{1, 0, 1}
+\definecolor{errorcolor}{rgb}{1, 0, 0}
+\newenvironment{knitrout}{}{} % an empty environment to be redefined in TeX
+
+\usepackage{alltt}
 
 
 %\input{slides_header.tex}
@@ -12,50 +62,10 @@
 \newcommand{\Var}{\operatorname{Var}}
 \newcommand{\Expec}{\operatorname{E}}
 \newcommand{\Prob}{\operatorname{P}}
-
-
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
 \begin{document}
 
-<<setup, include=FALSE>>=
-library(knitr)
-knitr::opts_chunk$set(cache=FALSE, message = FALSE, tidy = FALSE, warning = FALSE,
-echo = FALSE, 
-#fig.width = 8, 
-#fig.asp = 0.8, 
-fig.align = 'center', 
-#out.width = "0.50\\linewidth", 
-size = 'tiny')
 
-# the kframe environment does not work with allowframebreaks, so remove it
-#knit_hooks$set(document = function(x) {
-#gsub('\\\\(begin|end)\\{kframe\\}', '', x)
-#})
-
-library(tidyverse)
-library(NCStats)
-#options(digits = )
-
-
-#knitr::opts_chunk$set(background = '#FFFF00')
-library(tools) #needed for include_graphics2 function
-
-pacman::p_load(here)
-
-source(here::here("inst","slides","bin","include_graphics2.R"))
-
-knitr::knit_hooks$set(purl = hook_purl)
-
-pacman::p_load(
-gapminder,
-here,
-socviz, 
-tidyverse,
-kableExtra,
-DT
-)
-
-theme_set(cowplot::theme_cowplot())
-@
 
 %\title{Introduction to Regression Trees}
 %\author{Sahir Bhatnagar \inst{1}}
@@ -121,74 +131,17 @@ theme_set(cowplot::theme_cowplot())
 \begin{frame}[fragile]{Variability in Data}
 	\begin{columns}
 		\begin{column}{0.5\textwidth}  %%<--- here
-			<<echo=FALSE, fig.asp=0.681, message=FALSE, fig.cap='A boxplot and dot plot of \\texttt{clutch.volume} in the \\texttt{frog} dataset from the \\texttt{oibiostat} package. The horizontal dashes indicate the bottom 50\\% of the data and the open circles represent the top 50\\%.'>>=
-library(oibiostat)
-library(openintro)
-data(COL)
-data(frog)
+\begin{knitrout}\tiny
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{figure}
 
-d   <- frog$clutch.volume
+{\centering \includegraphics[width=\maxwidth]{figure/unnamed-chunk-1-1} 
 
-par(  mar = c(0, 4, 0, 1),
-mgp = c(2.8, 0.7, 0))
-boxPlot(d,
-ylab = 'Clutch Volume',
-xlim = c(0.3, 3),
-axes = FALSE,
-ylim = range(d))
-axis(2)
+}
 
-arrows(2,min(d), 1.4, min(d) - 5, length = 0.08)
-text(2, min(d), 'lower whisker', pos = 4)
+\caption{A boxplot and dot plot of \texttt{clutch.volume} in the \texttt{frog} dataset from the \texttt{oibiostat} package. The horizontal dashes indicate the bottom 50\% of the data and the open circles represent the top 50\%.}\label{fig:unnamed-chunk-1}
+\end{figure}
 
-q1 <- quantile(d, 0.25)
-arrows(2, q1, 1.4, q1, length = 0.08)
-text(2, q1,
-expression(Q[1]~~'(first quartile)'), pos = 4)
-
-m <- median(d)
-arrows(2, m, 1.4, m, length = 0.08)
-text(2, m, 'median (second quartile)', pos = 4)
-
-q3 <- quantile(d, 0.75)
-arrows(2, q3, 1.4, q3, length = 0.08)
-text(2, q3,
-expression(Q[3]~~'(third quartile)'), pos = 4)
-
-arrows(2, rev(sort(d))[11],
-1.4, rev(sort(d))[11], length = 0.08)
-text(2, rev(sort(d))[11],
-'upper whisker', pos = 4)
-
-#y <- quantile(d, 0.75) + 1.5 * IQR(d)
-#arrows(2, y, 1.4, y, length = 0.08)
-#lines(c(0.72, 1.28), rep(y, 2),
-#lty = 3, col = '#00000066')
-#text(2, y,
-#'max whisker reach', pos = 4)
-
-m <- rev(tail(sort(d), 9))
-s <- m[1] - 0.4 * sd(m)
-arrows(2, s - 200, 1.1, m[1] - 0.2, length = 0.08)
-arrows(2, s - 200, 1.1, m[2] + 0.3, length = 0.08)
-arrows(2, s - 200, 1.1, m[3] + 0.35, length = 0.08)
-arrows(2, s - 200, 1.1, m[4] + 0.4, length = 0.08)
-arrows(2, s - 200, 1.1, m[5] + 0.45, length = 0.08)
-arrows(2, s - 200, 1.1, m[6] + 0.5, length = 0.08)
-#arrows(2, s - 200, 1.1, m[7] + 0.55, length = 0.08)
-arrows(2, s - 200, 1.1, m[8] + 0.6, length = 0.08)
-arrows(2, s - 200, 1.1, m[9] + 0.7, length = 0.08)
-text(2, s - 200, 'outliers', pos = 4)
-
-points(rep(0.4, 215), rev(sort(d))[1:215],
-cex = rep(1.3, 431),
-col = rep(COL[1, 3], 431),
-pch = rep(1, 431))
-points(rep(0.4, 215), sort(d)[1:215],
-cex = rep(1, 215),
-col = rep(COL[4,3], 215),
-pch = rep("-", 215))
-			@
+\end{knitrout}
 		\end{column}
 		\begin{column}{0.5\textwidth}
 			\begin{itemize}
@@ -306,49 +259,102 @@ pch = rep("-", 215))
 
 \begin{frame}[fragile]{Sample of heights}
 
-<<echo=TRUE, size = 'scriptsize'>>=
-library(dplyr)
-library(rio)
+\begin{knitrout}\scriptsize
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlkwd{library}\hlstd{(dplyr)}
+\hlkwd{library}\hlstd{(rio)}
 
-heights_sample <- rio::import(
-                   here::here("inst/data/heights_sample.csv"))
-heights_sample <- heights_sample %>% 
-                    dplyr::mutate(sex = factor(sex))
+\hlstd{heights_sample} \hlkwb{<-} \hlstd{rio}\hlopt{::}\hlkwd{import}\hlstd{(}
+                   \hlstd{here}\hlopt{::}\hlkwd{here}\hlstd{(}\hlstr{"inst/data/heights_sample.csv"}\hlstd{))}
+\hlstd{heights_sample} \hlkwb{<-} \hlstd{heights_sample} \hlopt{%>%}
+                    \hlstd{dplyr}\hlopt{::}\hlkwd{mutate}\hlstd{(}\hlkwc{sex} \hlstd{=} \hlkwd{factor}\hlstd{(sex))}
 
-summary(heights_sample)
-
-heights_sample %>%
-   dplyr::glimpse()
-@
+\hlkwd{summary}\hlstd{(heights_sample)}
+\end{alltt}
+\begin{verbatim}
+##        id              sex         height     
+##  Min.   :1538611   FEMALE:54   Min.   :117.0  
+##  1st Qu.:3339583   MALE  :46   1st Qu.:158.0  
+##  Median :5105620               Median :171.0  
+##  Mean   :5412367               Mean   :170.1  
+##  3rd Qu.:7622236               3rd Qu.:180.2  
+##  Max.   :9878130               Max.   :208.0
+\end{verbatim}
+\begin{alltt}
+\hlstd{heights_sample} \hlopt{%>%}
+   \hlstd{dplyr}\hlopt{::}\hlkwd{glimpse}\hlstd{()}
+\end{alltt}
+\begin{verbatim}
+## Rows: 100
+## Columns: 3
+## $ id     <int> 5696379, 3019088, 2038883, 1920587, 6006813, 4055945, 9263269, ~
+## $ sex    <fct> FEMALE, MALE, MALE, FEMALE, MALE, FEMALE, FEMALE, FEMALE, MALE,~
+## $ height <int> 182, 168, 172, 154, 174, 176, 193, 156, 157, 186, 143, 182, 194~
+\end{verbatim}
+\end{kframe}
+\end{knitrout}
 
 \end{frame}
 
 
 \begin{frame}[fragile]{Population of heights}
 	
-	<<echo=TRUE, size = 'scriptsize'>>=
-heights_population <- rio::import(
-                 here::here("inst/data/heights_population.csv"))
-heights_population <- heights_population %>% 
-                    dplyr::mutate(sex = factor(sex))
-                    
-summary(heights_population)
-heights_population %>%
-   dplyr::glimpse()
-	@
+\begin{knitrout}\scriptsize
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlstd{heights_population} \hlkwb{<-} \hlstd{rio}\hlopt{::}\hlkwd{import}\hlstd{(}
+                 \hlstd{here}\hlopt{::}\hlkwd{here}\hlstd{(}\hlstr{"inst/data/heights_population.csv"}\hlstd{))}
+\hlstd{heights_population} \hlkwb{<-} \hlstd{heights_population} \hlopt{%>%}
+                    \hlstd{dplyr}\hlopt{::}\hlkwd{mutate}\hlstd{(}\hlkwc{sex} \hlstd{=} \hlkwd{factor}\hlstd{(sex))}
+
+\hlkwd{summary}\hlstd{(heights_population)}
+\end{alltt}
+\begin{verbatim}
+##        id              sex            height   
+##  Min.   :1000082   FEMALE:48888   Min.   :117  
+##  1st Qu.:3254220   MALE  :51112   1st Qu.:162  
+##  Median :5502618                  Median :170  
+##  Mean   :5502428                  Mean   :170  
+##  3rd Qu.:7757518                  3rd Qu.:178  
+##  Max.   :9999937                  Max.   :217
+\end{verbatim}
+\begin{alltt}
+\hlstd{heights_population} \hlopt{%>%}
+   \hlstd{dplyr}\hlopt{::}\hlkwd{glimpse}\hlstd{()}
+\end{alltt}
+\begin{verbatim}
+## Rows: 100,000
+## Columns: 3
+## $ id     <int> 5696379, 3019088, 2038883, 1920587, 6006813, 4055945, 9263269, ~
+## $ sex    <fct> FEMALE, MALE, MALE, FEMALE, MALE, FEMALE, FEMALE, FEMALE, MALE,~
+## $ height <int> 182, 168, 172, 154, 174, 176, 193, 156, 157, 186, 143, 182, 194~
+\end{verbatim}
+\end{kframe}
+\end{knitrout}
 	
 \end{frame}
 
 
 \begin{frame}[fragile]{Distribution of population of heights}
 	
-	<<echo=TRUE, size = 'scriptsize', fig.asp = 0.621>>=
-library(ggplot2); library(cowplot)
-ggplot2::theme_set(cowplot::theme_cowplot())
-p <- ggplot(data = heights_population, 
-             mapping = aes(x = height))
-p + geom_bar()
-	@
+\begin{knitrout}\scriptsize
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlkwd{library}\hlstd{(ggplot2);} \hlkwd{library}\hlstd{(cowplot)}
+\hlstd{ggplot2}\hlopt{::}\hlkwd{theme_set}\hlstd{(cowplot}\hlopt{::}\hlkwd{theme_cowplot}\hlstd{())}
+\hlstd{p} \hlkwb{<-} \hlkwd{ggplot}\hlstd{(}\hlkwc{data} \hlstd{= heights_population,}
+             \hlkwc{mapping} \hlstd{=} \hlkwd{aes}\hlstd{(}\hlkwc{x} \hlstd{= height))}
+\hlstd{p} \hlopt{+} \hlkwd{geom_bar}\hlstd{()}
+\end{alltt}
+\end{kframe}
+
+{\centering \includegraphics[width=\maxwidth]{figure/unnamed-chunk-4-1} 
+
+}
+
+
+\end{knitrout}
 	
 \end{frame}
 
@@ -398,10 +404,17 @@ $$
 		
 		\item In \texttt{R}:
 		
-		<<echo=TRUE, size = 'scriptsize'>>=
-		N <- nrow(heights_population)
-		var(heights_population$height) * (N - 1) / N
-		@
+\begin{knitrout}\scriptsize
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlstd{N} \hlkwb{<-} \hlkwd{nrow}\hlstd{(heights_population)}
+\hlkwd{var}\hlstd{(heights_population}\hlopt{$}\hlstd{height)} \hlopt{*} \hlstd{(N} \hlopt{-} \hlnum{1}\hlstd{)} \hlopt{/} \hlstd{N}
+\end{alltt}
+\begin{verbatim}
+## [1] 126.1576
+\end{verbatim}
+\end{kframe}
+\end{knitrout}
 		
 		\item The standard deviation of the population, yet another parameter, is
 		denoted by $\sigma$ and is equal to the square root of the variance. 
@@ -428,24 +441,48 @@ $$
 		\item As an example, consider taking a sample of size $n=1$ from the population (a single
 		person) and measuring his/her height. We will apply the function \texttt{dplyr::sample\_n} to sample one row from the data frame:
 		
-		<<echo = TRUE>>=
-		heights_population %>% 
-		   dplyr::sample_n(size = 1)
-		@
+\begin{knitrout}\tiny
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlstd{heights_population} \hlopt{%>%}
+   \hlstd{dplyr}\hlopt{::}\hlkwd{sample_n}\hlstd{(}\hlkwc{size} \hlstd{=} \hlnum{1}\hlstd{)}
+\end{alltt}
+\begin{verbatim}
+##        id  sex height
+## 1 6790102 MALE    193
+\end{verbatim}
+\end{kframe}
+\end{knitrout}
 		
 		\item Let us run the function again:
 		
-		<<echo = TRUE>>=
-heights_population %>% 
-dplyr::sample_n(size = 1)
-@
+\begin{knitrout}\tiny
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlstd{heights_population} \hlopt{%>%}
+\hlstd{dplyr}\hlopt{::}\hlkwd{sample_n}\hlstd{(}\hlkwc{size} \hlstd{=} \hlnum{1}\hlstd{)}
+\end{alltt}
+\begin{verbatim}
+##        id    sex height
+## 1 4396832 FEMALE    156
+\end{verbatim}
+\end{kframe}
+\end{knitrout}
 
 \item And again
 
-		<<echo = TRUE>>=
-heights_population %>% 
-dplyr::sample_n(size = 1)
-@
+\begin{knitrout}\tiny
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlstd{heights_population} \hlopt{%>%}
+\hlstd{dplyr}\hlopt{::}\hlkwd{sample_n}\hlstd{(}\hlkwc{size} \hlstd{=} \hlnum{1}\hlstd{)}
+\end{alltt}
+\begin{verbatim}
+##        id  sex height
+## 1 2439277 MALE    196
+\end{verbatim}
+\end{kframe}
+\end{knitrout}
 		
 		
 	\end{itemize}
@@ -537,11 +574,18 @@ dplyr::sample_n(size = 1)
 		
 		\item In \texttt{R}:
 		
-		<<echo = TRUE, size = 'normalsize'>>=
-		Y <- heights_population$height
-		
-		mean(abs(Y-170) <= 10)
-		@
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlstd{Y} \hlkwb{<-} \hlstd{heights_population}\hlopt{$}\hlstd{height}
+
+\hlkwd{mean}\hlstd{(}\hlkwd{abs}\hlstd{(Y}\hlopt{-}\hlnum{170}\hlstd{)} \hlopt{<=} \hlnum{10}\hlstd{)}
+\end{alltt}
+\begin{verbatim}
+## [1] 0.64541
+\end{verbatim}
+\end{kframe}
+\end{knitrout}
 		
 	\end{itemize}
 	
@@ -556,30 +600,55 @@ dplyr::sample_n(size = 1)
 		\item Let us produce a small example that will help us explain the computation
 		of the probability. We start by forming a sequence with 10 numbers:
 				
-		<<echo = TRUE, size = 'normalsize'>>=
-		Y <- c(6.3, 6.9, 6.6, 3.4, 5.5, 4.3, 6.5, 4.7, 6.1, 5.3)
-		@
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlstd{Y} \hlkwb{<-} \hlkwd{c}\hlstd{(}\hlnum{6.3}\hlstd{,} \hlnum{6.9}\hlstd{,} \hlnum{6.6}\hlstd{,} \hlnum{3.4}\hlstd{,} \hlnum{5.5}\hlstd{,} \hlnum{4.3}\hlstd{,} \hlnum{6.5}\hlstd{,} \hlnum{4.7}\hlstd{,} \hlnum{6.1}\hlstd{,} \hlnum{5.3}\hlstd{)}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
 		
 		The goal is to compute the proportion of numbers that are in the range
 		$[4,6]$ (or, equivalently, $\{|Y-5| \leq 1\}$).
 		
 		\item 
 		
-<<echo = TRUE, size = 'normalsize'>>=
-abs(Y-5)
-@
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlkwd{abs}\hlstd{(Y}\hlopt{-}\hlnum{5}\hlstd{)}
+\end{alltt}
+\begin{verbatim}
+##  [1] 1.3 1.9 1.6 1.6 0.5 0.7 1.5 0.3 1.1 0.3
+\end{verbatim}
+\end{kframe}
+\end{knitrout}
 
 \item 
 
-<<echo = TRUE, size = 'normalsize'>>=
-abs(Y - 5) <= 1
-@
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlkwd{abs}\hlstd{(Y} \hlopt{-} \hlnum{5}\hlstd{)} \hlopt{<=} \hlnum{1}
+\end{alltt}
+\begin{verbatim}
+##  [1] FALSE FALSE FALSE FALSE  TRUE  TRUE FALSE  TRUE FALSE  TRUE
+\end{verbatim}
+\end{kframe}
+\end{knitrout}
 
 
 \item 		
-<<echo = TRUE, size = 'normalsize'>>=
-mean(abs(Y - 5) <= 1)
-@
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlkwd{mean}\hlstd{(}\hlkwd{abs}\hlstd{(Y} \hlopt{-} \hlnum{5}\hlstd{)} \hlopt{<=} \hlnum{1}\hlstd{)}
+\end{alltt}
+\begin{verbatim}
+## [1] 0.4
+\end{verbatim}
+\end{kframe}
+\end{knitrout}
 		
 	\end{itemize}
 	
@@ -600,13 +669,20 @@ mean(abs(Y - 5) <= 1)
 		
 		\item Consider the following probability distribution:
 		
-		<<echo=FALSE, size = 'small'>>=
-		tab1 = data.frame(Value=c(0,1,2,3),Probability=c(.5,.25,.15,.1),Cum.Prob=c(.5,.75,.9,1))
-		knitr::kable(
-		tab1, 
-		booktabs = TRUE
-		)
-		@
+\begin{knitrout}\small
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}
+\begin{tabular}{rrr}
+\toprule
+Value & Probability & Cum.Prob\\
+\midrule
+0 & 0.50 & 0.50\\
+1 & 0.25 & 0.75\\
+2 & 0.15 & 0.90\\
+3 & 0.10 & 1.00\\
+\bottomrule
+\end{tabular}
+
+\end{knitrout}
 		
 		\item What is $\Prob(Y=0)$, the probability that $Y$ is equal to 0?:
 		
@@ -723,9 +799,56 @@ mean(abs(Y - 5) <= 1)
 	\begin{frame}[fragile]{Session Info}
 	\tiny
 	
-	<<echo=FALSE, comment = NA, size = 'tiny'>>=
-	print(sessionInfo(), locale = FALSE)
-	@
+\begin{knitrout}\tiny
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{verbatim}
+R version 4.0.4 (2021-02-15)
+Platform: x86_64-pc-linux-gnu (64-bit)
+Running under: Pop!_OS 21.04
+
+Matrix products: default
+BLAS:   /usr/lib/x86_64-linux-gnu/openblas-pthread/libblas.so.3
+LAPACK: /usr/lib/x86_64-linux-gnu/openblas-pthread/libopenblasp-r0.3.13.so
+
+attached base packages:
+[1] tools     stats     graphics  grDevices utils     datasets  methods  
+[8] base     
+
+other attached packages:
+ [1] cowplot_1.1.0       rio_0.5.16          openintro_2.2.0    
+ [4] usdata_0.1.0        cherryblossom_0.1.0 airports_0.1.0     
+ [7] oibiostat_0.2.0     DT_0.16             kableExtra_1.2.1   
+[10] socviz_1.2          gapminder_0.3.0     here_0.1           
+[13] NCStats_0.4.7       FSA_0.8.30          forcats_0.5.1      
+[16] stringr_1.4.0       dplyr_1.0.7         purrr_0.3.4        
+[19] readr_1.4.0         tidyr_1.1.3         tibble_3.1.3       
+[22] ggplot2_3.3.5       tidyverse_1.3.0     knitr_1.33         
+
+loaded via a namespace (and not attached):
+ [1] fs_1.5.0           lubridate_1.7.9    webshot_0.5.2      httr_1.4.2        
+ [5] rprojroot_2.0.2    backports_1.2.1    utf8_1.2.2         R6_2.5.1          
+ [9] DBI_1.1.1          colorspace_2.0-2   withr_2.4.2        tidyselect_1.1.1  
+[13] gridExtra_2.3      leaflet_2.0.3      curl_4.3.2         compiler_4.0.4    
+[17] cli_3.0.1          rvest_1.0.0        pacman_0.5.1       xml2_1.3.2        
+[21] ggdendro_0.1.22    labeling_0.4.2     mosaicCore_0.8.0   scales_1.1.1      
+[25] digest_0.6.27      ggformula_0.9.4    foreign_0.8-81     rmarkdown_2.9.7   
+[29] pkgconfig_2.0.3    htmltools_0.5.2    highr_0.9          dbplyr_1.4.4      
+[33] fastmap_1.1.0      htmlwidgets_1.5.3  rlang_0.4.11       readxl_1.3.1      
+[37] rstudioapi_0.13    farver_2.1.0       generics_0.1.0     jsonlite_1.7.2    
+[41] crosstalk_1.1.1    zip_2.2.0          car_3.0-9          magrittr_2.0.1    
+[45] mosaicData_0.20.1  Matrix_1.3-2       Rcpp_1.0.7         munsell_0.5.0     
+[49] fansi_0.5.0        abind_1.4-5        lifecycle_1.0.0    stringi_1.7.3     
+[53] carData_3.0-4      MASS_7.3-53.1      plyr_1.8.6         ggstance_0.3.4    
+[57] grid_4.0.4         blob_1.2.1         ggrepel_0.8.2      crayon_1.4.1      
+[61] lattice_0.20-41    haven_2.3.1        splines_4.0.4      hms_1.0.0         
+[65] pillar_1.6.2       reprex_0.3.0       glue_1.4.2         evaluate_0.14     
+[69] data.table_1.14.0  modelr_0.1.8       vctrs_0.3.8        tweenr_1.0.1      
+[73] cellranger_1.1.0   gtable_0.3.0       polyclip_1.10-0    assertthat_0.2.1  
+[77] TeachingDemos_2.12 xfun_0.25          ggforce_0.3.2      openxlsx_4.1.5    
+[81] broom_0.7.2        viridisLite_0.4.0  mosaic_1.7.0       ellipsis_0.3.2    
+\end{verbatim}
+\end{kframe}
+\end{knitrout}
 	
 \end{frame}
 
@@ -922,136 +1045,15 @@ of the mean depth of the ocean in the Northern hemisphere (reference category) a
 
 \begin{frame}[fragile,plain]
 
-<<eval=T, echo=F, fig.align="center", fig.height=7, fig.width=9, warning=FALSE, message=F>>=
-	plot3 = function(row){
-		par(mfrow=c(1,3),mar = c(0,0,0,0.5) )
-		TOP="Mean Ocean\ndepth (Km)"
-		x=c(0.225,0.775);; dx=0.025
-		mu = c(3.6,4.5)
-		
-		LABEL=c("North", "South")
-		delta.mu = mu[2]-mu[1]
-		
-		PARA = t(matrix( c( toString(mu[1]),
-		toString(mu[2]),
-		toString(mu[1]), 
-		paste( toString(mu[1]), " + ",
-		toString(delta.mu),sep=""),
-		rep(paste(toString(mu[1]),
-		" + ",toString(delta.mu),
-		" if South",sep=""),2)
-		),2,3) )
-		
-		PARA.S = c( expression(mu[North]), 
-		expression(mu[South]),
-		expression(mu[North]),
-		expression(mu[North] + Delta * mu),
-		expression(mu[S] == paste(mu[0] + Delta * mu ,
-		" ",textstyle(x)," S")),
-		expression(mu[S] == paste(mu[0] + Delta * mu ,
-		" ",textstyle(x)," S")),
-		
-		expression(mu[North]), 
-		expression(mu[South]),
-		expression(mu[North]),
-		expression(mu[North] %*% Delta * mu),
-		
-		expression(mu[S] == paste(mu[0] %*% Delta * mu ,
-		" ",textstyle(x)," S")),
-		expression(mu[S] == paste(mu[0] %*% Delta * mu ,
-		" ",textstyle(x)," S"))
-		
-		)
-		
-		PARA.R = c( toString(mu[1]),
-		toString(mu[2]),
-		toString(mu[1]),
-		expression(3.6 %*% frac(4.5, 3.6) ),
-		rep(expression(
-		paste(3.6 %*% frac(4.5, 3.6)," if South")
-		), 2)
-		)
-		
-		PARA.RS = c(  expression(mu[North]), 
-		expression(mu[South]),
-		expression(mu[North]),
-		expression(mu[North] %*% frac(mu[South], mu[North]) ),
-		rep(expression(mu[S] == mu[0]
-		%*% Ratio^s), 2)
-		)
-		
-		SRT=38 
-		
-		dy= 1
-		for(co in 1:3){
-			plot(x,mu,yaxt="n",xlim=c(0,1),
-			ylim=c(-0.2,ceiling(mu[2])))
-			text(0, ceiling(mu[2]),
-			c("(a)","(b)","(c)")[co],
-			adj=c(0,0), cex=2)
-			
-			rect(x-dx,0,x+dx,mu,
-			col="lightblue",border=NA)
-			if(co>=2){
-				points(x[2],mu[1],cex=1)
-				polygon( c(x,x[2]), c(mu[1],mu),
-				col=NA,border="grey50",lwd=0.75)
-			}
-			
-			if(co==1){
-				arrows(x[1]-0.1,0,
-				x[1]-0.1,ceiling(mu[2]),
-				length=0.07,angle=30)
-				text(x[1]-0.15, mean(mu),
-				"Mean Depth of Oceans (Km)",
-				adj=c(1.25,0), srt=90, cex=2.0)
-			}
-			for( y in seq(0,ceiling(mu[2]),dy)){
-				segments(x[1], y, x[2],y, col="grey50",lty="dotted")
-				if (co == 1 & y %in% c(0,1,2,3,5) ) text(x[1]-dx, y,toString(y),
-				adj=c(1,0.5),cex=1.5)
-				if(co == 3 & y %in% c(0,1,2,3,4)  ) text(x[2]+dx, y,toString(y), 
-				adj=c(0,0.5), cex=1.5)
-				
-			} 
-			text(0.5,1.05*ceiling(mu[2]),TOP,adj=c(0.5,0),cex=1.2,font=2) 
-			points(x,mu,pch=19,cex=0.75)
-			for(j in 1:2){
-				txt = PARA[co,j]
-				if(row==2) txt = PARA.S[(co-1)*2+j]
-				if(row==3) txt = PARA.R[(co-1)*2+j]
-				if(row==4) txt = PARA.RS[(co-1)*2+j]
-				
-				xx = x[j]  - 0.00*(j==1) + 0.00*(j==2)
-				if(co==3) xx = mean(x)
-				
-				yy = mu[j] + 0.15 + 0.05*(row >= 3)
-				if(co==3) yy =  mean(mu) +  0.15 + 
-				0.15*(row >= 3)
-				
-				text(xx, yy, txt,  adj=c(0.6, 0.5),
-				cex=1.75,srt=SRT) 
-				
-				if(row==4 & co==3 & j==1) text(
-				mean(x), 2.5,
-				expression(Ratio == frac(mu[South], mu[North] ) ),
-				cex=1.75)
-				
-				LAB = LABEL[j]
-				if(row %in% c(2,4) & co == 3 ) LAB=c("0","1")[j]
-				text(x[j],-0.15,LAB, adj=c(0.5,1),
-				cex=1.5)
-				if(row %in% c(2,4) & co == 3 & j==1 ) text( 
-				mean(x),-0.25,"S", adj=c(0.5,1),cex=1.5)
-				
-			} 
-		}
-	}
-	
-	
-	plot3(1)
-	
-@
+\begin{knitrout}\tiny
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}
+
+{\centering \includegraphics[width=\maxwidth]{figure/unnamed-chunk-16-1} 
+
+}
+
+
+\end{knitrout}
 \end{frame}
 
 
@@ -1083,9 +1085,15 @@ of the mean depth of the ocean in the Northern hemisphere (reference category) a
 
 
 \begin{frame}[fragile,plain]
-<<eval=T, echo=F, fig.align="center", fig.height=7, fig.width=9, warning=FALSE, message=F>>=
-plot3(2)
-@
+\begin{knitrout}\tiny
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}
+
+{\centering \includegraphics[width=\maxwidth]{figure/unnamed-chunk-17-1} 
+
+}
+
+
+\end{knitrout}
 \end{frame}
 
 
@@ -1106,9 +1114,15 @@ oceans in the Northern hemisphere (reference category) and 4.5Km in the oceans o
 
 
 \begin{frame}[fragile,plain]
-	<<eval=T, echo=F, fig.align="center", fig.height=7, fig.width=9, warning=FALSE, message=F>>=
-	plot3(3)
-	@
+\begin{knitrout}\tiny
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}
+
+{\centering \includegraphics[width=\maxwidth]{figure/unnamed-chunk-18-1} 
+
+}
+
+
+\end{knitrout}
 \end{frame}
 
 
@@ -1133,9 +1147,15 @@ oceans in the Northern hemisphere (reference category) and 4.5Km in the oceans o
 
 
 \begin{frame}[fragile,plain]
-	<<eval=T, echo=F, fig.align="center", fig.height=7, fig.width=9, warning=FALSE, message=F>>=
-			plot3(4)
-	@
+\begin{knitrout}\tiny
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}
+
+{\centering \includegraphics[width=\maxwidth]{figure/unnamed-chunk-19-1} 
+
+}
+
+
+\end{knitrout}
 \end{frame}
 
 
@@ -1185,83 +1205,15 @@ oceans in the Northern hemisphere (reference category) and 4.5Km in the oceans o
 
 
 \begin{frame}[fragile,plain]
-	<<eval=T, echo=F, fig.align="center", fig.height=7, fig.width=9, warning=FALSE, message=F>>=
-	expit = function(x) exp(x)/(1+exp(x)) # antilogit
-	
-	par(mfrow=c(1,1),mar = rep(0.01,4))
-	
-	plot(c(-0.75,4),c(1,4.5),col="white",axes=FALSE,frame=FALSE)
-	
-	
-	segments(0.5,1:4,4,1:4,col="blue",lwd=2)
-	segments(1:4,1,1:4,4,col="blue",lwd=2)
-	
-	CEX=1.25
-	
-	x=0.5
-	dy=0.2
-	dx=0.25
-	for(row in 3:1) {
-	if(row==3) {txt = expression(mu);TXT="MEAN"}
-	if(row==2) {txt = expression(pi);TXT="PROPORTION"}
-	if(row==1) {txt = expression(lambda);TXT="RATE"}
-	text(x-0.1,row+.5,txt,cex=2*CEX,adj=c(0,.5))
-	text(x-0.25-0.05,row+.5,TXT,adj=c(1,0.5),cex=CEX)
-	if(row==1)text(x-0.25-0.05,row+.35,"(Number of events
-	per unit time)",
-	adj=c(1,1),cex=0.8*CEX)
-	arrows(x+dx, row+dy, x+dx,row+1-dy,angle=30,
-	length=0.07-0.07*(row==2),code=2+(row==3))
-	if(row<3) text(x+dx,row+dy,"0",adj=c(1.5,0.5))
-	if(row==2)text(x+dx,row+1-dy,"1",adj=c(1.5,0.5))
-	}
-	
-	dy=0.2
-	text( 2+0.5,4.45, "Number of Parameters",cex=1.75,adj=c(0.5,1))
-	
-	text( 0,4.3, "Parameter\nGenre", cex=1.75,adj=c(0.5,0))
-	arrows(0,4.25,0,3.9,length=0.07,angle=35,lwd=2)
-	for(col in 1:3) {
-	x=col+0.5; 
-	text(col+0.5, 4.15, c("1","2","?")[col],
-	adj=c(0.5,1),cex=1.5)
-	if(col==1) dx=0.05
-	if(col==2) dx=0.3
-	for(row in 3:1){
-	segments(col+0.5-dx,row+dy,col+0.5+dx,row+dy)
-	if(col>1)text(col+0.5-dx,row+dy,"0",adj=c(0.5,1.75))
-	if(col==2) text(col+0.5+dx,row+dy,"1",adj=c(0.5,1.75))
-	if(col==3) {
-	xx=seq(col+0.5-dx,col+0.5+dx,dx/10)
-	segments(xx,row+dy,xx,row+dy-0.03)       
-	}
-	txt=expression(X)
-	if(col==1) txt = expression(X %==% 1)
-	text(col+0.5,row+dy/3,txt,font=2)
-	if(col==1) { m= (2/3)*(1-2*dy)
-	points(col+0.5,row+dy+m,pch=19,cex=0.6)
-	}
-	if(col==2) { m= ((1:2)/3)*(1-2*dy)
-	points(col+0.5+c(-dx,dx),row+dy+m,pch=19,cex=0.6)
-	}
-	if(col==3) { m= ((3:12)/14)*(1-2*dy)
-	xx=seq(-dx,dx,length.out=10)
-	points(col+0.5+xx,row+dy+m,pch=19,cex=0.6-0.3*(row<3))
-	if(row==2){
-	logit = seq(-3,3,length.out=10)
-	m=expit(logit)*(1-2*dy)
-	points(col+0.5+xx,row+dy+m,pch=19,cex=0.6)
-	}
-	if(row==1){
-	log.rate = seq(-1.7,0.1,length.out=10)
-	m=exp(log.rate)*(1-2*dy)
-	points(col+0.5+xx,row+dy+m,pch=19,cex=0.6)
-	}
-	}
-	} 
-	}
-	
-	@
+\begin{knitrout}\tiny
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}
+
+{\centering \includegraphics[width=\maxwidth]{figure/unnamed-chunk-20-1} 
+
+}
+
+
+\end{knitrout}
 \end{frame}
 
 
