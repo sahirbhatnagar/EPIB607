@@ -6,7 +6,7 @@ Week,Date,Topic,Readings,Slides,Lab,Assignment
  ,Sep 16,Statistical parameters,[Section 6](https://sahirbhatnagar.com/EPIB607/paras.html),[007](https://github.com/sahirbhatnagar/EPIB607/blob/master/inst/slides/007-statistical-parameters/007-statistical-parameters_handout.pdf),,
 4,Sep 21,Probability,[Section 7](https://sahirbhatnagar.com/EPIB607/ChapProbability.html),[008](https://github.com/sahirbhatnagar/EPIB607/blob/master/inst/slides/008-probability/008-probability_handout.pdf),,
  ,Sep 23,Central limit theorem,,,,
-5,Sep 28,Confidence intervals,,,004-pnorm-qnorm,A3 due Sep 27
+5,Sep 28,Confidence intervals,,,004-pnorm-qnorm,A3 due Oct 3
  ,Sep 30,p-values,,,,
 6,Oct 05,Bootstrap,,,,
  ,Oct 07,One sample mean,,,,

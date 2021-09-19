@@ -1,0 +1,88 @@
+---
+title: "A3: Insert Assignment Name Here"
+subtitle: "EPIB 607 - FALL 2021"
+author: "your name and McGill ID"
+institute: "Department of Epidemiology, Biostatistics, and Occupational Health, McGill University"
+date: "`r paste('compiled on',format(Sys.time(), '%B %d, %Y'))`"
+output:
+  pdf_document:
+    toc: false
+    number_sections: true
+    toc_depth: 4
+    keep_md: false
+fontsize: 12pt
+editor_options: 
+  chunk_output_type: console
+---
+
+
+```{r include = FALSE}
+## ---- Setup ------------------------------------------------------------------
+# set default chunk options here
+knitr::opts_chunk$set(
+  echo = FALSE,          # don't show code
+  warning = FALSE,       # don't show warnings
+  message = FALSE,       # don't show messages (less serious warnings)
+  cache = FALSE,         # set to TRUE to save results from last compilation
+  fig.align = "center",   # center figures
+  fig.asp = 1          # fig.aspect ratio
+)
+```
+
+
+# Mask mandates in Kansas
+
+## (a) {-}
+
+
+## (b) {-}
+
+## (c) {-}
+
+
+## (d) {-}
+
+```{r}
+## ---- Question-1 ------------------------------------------------------------
+```
+
+
+\newpage
+
+# Are Covid cases decreasing over time in Georgia?
+
+```{r}
+## ---- Question-2 ------------------------------------------------------------
+
+```
+
+\newpage
+
+# Food in America
+
+```{r}
+## ---- Question-3 ------------------------------------------------------------
+
+```
+
+\newpage
+
+
+# Geometries in ggplot2
+
+
+```{r}
+## ---- Question-4 ------------------------------------------------------------
+
+```
+
+
+\newpage
+
+
+# Code {-}
+
+```{r all-code, ref.label=knitr::all_labels(), echo = TRUE, eval = FALSE}
+
+```
+

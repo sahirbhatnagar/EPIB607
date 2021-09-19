@@ -1,0 +1,7 @@
+base
+covdata
+dplyr
+tidyr
+ggplot2
+readr
+zoo

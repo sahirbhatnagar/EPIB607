@@ -1,0 +1,866 @@
+---
+title: Assignment 3 - Data Visualization. Due October 3, 11:59pm 2021
+author:
+  - name: EPIB607 - Inferential Statistics
+    affiliation: a
+#  - name: Second Author
+#    affiliation: a,b
+address:
+  - code: a
+    address: Fall 2021, McGill University
+#  - code: b
+#    address: Department of Neat Tricks, Whereever State University, Someplace, MC, 67890
+lead_author_surname: EPIB607
+#doi: "https://sahirbhatnagar.com/EPIB607/"
+abstract: |
+  All questions are to be answered in an R Markdown document using the provided template and compiled to a pdf document. You are free to choose any function from any package to complete the assignment. Concise answers will be rewarded. Be brief and to the point. Each question is worth 25 points. Label your graphs appropriately with proper titles and axis labels. Justify your answers. You may compile your reoport to pdf or to HTML. If you compile to HTML, then you must print the resulting HTML to pdf. Please submit the compiled pdf report to Crowdmark. You must also submit your code to Crowdmark. If you use the template, the code from your assignment will automatically appear at the end. Upload this code to Q5 in Crowdmark. You can upload a single pdf to Crowdmark, and then select the pages for a given question. See https://crowdmark.com/help/ for details.  
+# Optional: Acknowledgements
+#acknowledgements: |
+#  [rticles](https://cran.r-project.org/package=rticles) package, and both packages rely on the
+#  [PNAS LaTeX](http://www.pnas.org/site/authors/latex.xhtml) macros. Both these sources are
+#  ([GPL-3](https://www.gnu.org/licenses/gpl-3.0.en.html) and
+#  [LPPL (>= 1.3)](https://www.latex-project.org/lppl/)).
+# Optional: One or more keywords
+#keywords:
+papersize: letter
+fontsize: 12pt
+# Optional: Force one-column layout, default is two-column
+one_column: true
+# Optional: Enables lineno mode, but only if one_column mode is also true
+#lineno: true
+# Optional: Enable one-sided layout, default is two-sided
+#one_sided: true
+# Optional: Enable section numbering, default is unnumbered
+numbersections: true
+# Optional: Specify the depth of section number, default is 5
+#secnumdepth: 5
+# Optional: Skip inserting final break between acknowledgements, default is false
+skip_final_break: true
+# Optional: Bibliography 
+bibliography: pinp
+# Optional: Enable a 'Draft' watermark on the document
+watermark: false
+footer_contents: "Assignment 3"
+output: 
+  pinp::pinp:
+    extra_dependencies: "subfig"
+    highlight: espresso
+    # latex_engine: xelatex
+# Required: Vignette metadata for inclusion in a package.
+vignette: >
+  %\VignetteIndexEntry{YourPackage-vignetteentry}
+  %\VignetteKeywords{YourPackage, r, anotherkeyword}
+  %\VignettePackage{assignment}
+  %\VignetteEngine{knitr::rmarkdown}
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r include = FALSE}
+## ---- Setup ------------------------------------------------------------------
+knitr::opts_chunk$set(
+  echo = TRUE,          # don't show code
+  eval = FALSE,
+  tidy = FALSE,
+  comment = "",
+  warning = FALSE,       # don't show warnings
+  message = FALSE,       # don't show messages (less serious warnings)
+  cache = FALSE,         # set to TRUE to save results from last compilation
+  fig.align = "center",   # center figures
+  fig.asp = 1#,          # fig.aspect ratio
+  # fig.width = 10        # fig width
+)
+```
+
+
+# Template {-}
+
+Please use the `.Rmd` template for Assignment 3 which is available on myCourses.
+
+
+# (25 points) Mask mandates in Kansas
+
+This question is based on the article [_Kansas began requiring masks, then virus cases dropped. Weeks later, ‘the data is solid’_](https://www.kansas.com/news/politics-government/article244959870.html). In a short press conference, Dr. Lee Norman presents a figure which is reproduced here in Figure \ref{fig:fig1}. 
+
+a) (5 points) What does this graph make it appear is happening? What would your conclusion be about the importance of a mask mandate?  
+b) (5 points) Provide the column names of the tidy dataset that would have been used to create Figure \ref{fig:fig1}. For each column, name the aesthetic its being mapped onto.  
+c) (10 points) Using the data from Figure \ref{fig:fig1}, create an alternative visualization and interpret the graph. Be sure to label your axes and provide a descriptive title.  
+d) (5 points) Comment on the differences between Figure \ref{fig:fig1} and the graph you created in part b). Does the conclusion you described from part a) still hold ?  
+
+```{r fig1, eval=TRUE, out.width="0.99\\textwidth", echo=FALSE, fig.cap='Kansas COVID-19 7-Day rolling average of cases per 100k.', fig.pos='H'}
+knitr::include_graphics(here::here("inst/assignments","a3/fig1.jpeg"))
+```
+
+
+\newpage
+
+# (25 points) Are Covid cases decreasing over time in Georgia?
+
+This question is based on the data presented by the [Georgia Department of Public Health](https://www.ajc.com/news/state--regional-govt--politics/just-cuckoo-state-latest-data-mishap-causes-critics-cry-foul/182PpUvUX9XEF8vO11NVGO/) and shown in Figure \ref{fig:fig2}:
+
+a) (5 points) List the mappings of variables onto visual cues. What does this graph make it appear is happening?  Is this a good visualization - why or why not?  
+b) (10 points) The data in the file `georgiaCounties.csv` contains daily COVID19 data for the 5 counties of interest in Georgia. In addition to `date`, `state`, `county`, `population`, `daily_cases` and `daily_deaths` you are given `cases` which represents the cumulative number of cases, `deaths` represents the cumulative number of deaths, and `fips` which is the [Federal Information Processing System](https://transition.fcc.gov/oet/info/maps/census/fips/fips.txt) codes for counties.  The data can be read into `R` using the code shown below. Using this data, create an alternative version of Figure \ref{fig:fig2} and interpret the graph. Be sure to label your axes and provide a descriptive title.  
+
+```{r, eval=FALSE, echo=TRUE}
+georgia <- readr::read_csv(here::here("georgiaCounties.csv"),
+                           col_types = c("Dfffddddd"))
+```
+
+c) (5 points) Comment on the differences between Figure \ref{fig:fig2} and the graph you created in part b). Does the conclusion you described from part a) still hold ?  
+d) (5 points) Plot the data for a longer time horizon and comment on any patterns you see. Contrast this with Figure \ref{fig:fig2} and the figure you created in part b.
+
+
+
+```{r fig2, eval=TRUE, out.width="0.99\\textwidth", echo=FALSE, fig.cap='Georgia Department of Public Health Figure.'}
+knitr::include_graphics(here::here("inst/assignments","a3/fig2.png"))
+```
+
+
+\newpage
+
+```{r nyt, message=FALSE, warning=FALSE, eval=FALSE, echo=FALSE}
+library(covdata) # remotes::install_github("kjhealy/covdata")
+library(dplyr); library(tidyr); library(ggplot2); library(readr)
+
+# get population data from https://covid19.census.gov/datasets/
+pop_county <- read_csv("https://opendata.arcgis.com/datasets/21843f238cbb46b08615fc53e19e0daf_1.csv") %>%
+              dplyr::rename(fips = GEOID, population = B01001_001E, state = State) %>%
+              dplyr::select(state, fips, population)
+
+county_level <- nytcovcounty %>%
+  dplyr::left_join(pop_county, by = c("state","fips")) %>%
+  dplyr::mutate(cases.per.10k = cases/population * 1e4) %>%
+  dplyr::filter(state %in% c("Georgia")) %>%
+  dplyr::group_by(county) %>% 
+  dplyr::filter(county %in% c("Cobb","DeKalb","Fulton","Gwinnett","Hall")) %>% 
+  mutate(across(cases:deaths, ~.x - lag(.x, order_by = date), 
+                .names = "daily_{col}")) %>% 
+  dplyr::select(date, state, county, fips, cases, deaths, population, daily_cases, daily_deaths)
+
+rio::export(county_level, file = here::here("inst/assignments/a3/georgiaCounties.csv"))  
+
+```
+
+
+
+\newpage
+
+# (25 points) Food in America
+
+Vox published a list of [Charts that explain food in America](http://www.vox.com/a/explain-food-america). There are 40 maps, charts, and graphs that show where our food and drink comes from and how we eat it.
+
+a) (20 points, 10 for best and 10 for least favorite) Pick your best and least favorite graphic, and briefly explain why using the taxonomy we learned in class (Sections [2](https://sahirbhatnagar.com/EPIB607/aesthetic-mapping.html), [3](https://sahirbhatnagar.com/EPIB607/coordinate-systems-axes.html) and [5](https://sahirbhatnagar.com/EPIB607/color-basics.html)) (e.g. visual cues being used, one-to-one mapping, appropriate use of coordinate systems and color scales). Provide a link to each figure. For example, this link: [Figure 18](https://www.vox.com/a/explain-food-america#list-21) was created using the following code: ```[Figure 18](https://www.vox.com/a/explain-food-america#list-21)```
+b) (5 points) For either of the two graphs you chose in part a), **describe** an alternative version and explain its advantages over the original. You do not need to actually create the figure.  
+
+
+\newpage
+
+
+# (25 points) Geometries in ggplot2
+
+a) (5 points) In Figure [4.6](https://sahirbhatnagar.com/EPIB607/ggplot2-package-for-plots.html#fig:03-make-a-plot-8) of the course website notes, we plotted life expectancy vs. GDP per capita from the gapminder data with point and smooth geometries. What happens when you put the `geom_smooth()` function before `geom_point()` instead of after it? What does this tell you about how the plot is drawn? Think about how this might be useful when drawing plots.  
+
+b) (2.5 points) What happens if you map `color` to `year` instead of `continent`? Explain this behavior.  
+
+c) (2.5 points) Instead of mapping `color = year`, what happens if you try `color = factor(year)`? Explain this behavior.  
+
+d) (5 points) The `Oxboys` dataset, from the `nlme` package records the heights (`height`) and centered ages (`age`) of 26 boys (`Subject`), measured on nine occasions (`Occasion`). Figure \ref{fig:ggplot} is a line plot of height vs. age. Is this an appropriate visualization of the data? If yes, interpret the figure. If no, explain what is wrong. Create an alternative visualization by modifying the code below and interpret this graph. 
+
+```{r ggplot, eval=TRUE, echo=TRUE, fig.cap='Height vs age for the Oxboys data.', fig.pos='H'}
+data(Oxboys, package = "nlme")
+p <- ggplot(data = Oxboys, aes(x = age, y = height))
+p + geom_line()
+```
+
+e) (10 points, 5 each) Figure \ref{fig:gg2} illustrates the difference between mapping continuous and discrete
+    colours to a line and code is given below to reproduce these plots. 
+      i) Explain the purpose of the `aes(group = 1)` code.  
+      ii) What's the difference between `aes(group = 1)` and `aes(group = 2)`? Why?  
+
+```{r gg2, echo=TRUE, eval=TRUE, fig.subcap=c('Discrete example.', 'Continuous example'), fig.cap='Difference between mapping continuous and discrete colours to a line'}
+df <- data.frame(x = 1:3, y = 1:3, colour = c(1,3,5))
+
+ggplot(df, aes(x, y, colour = factor(colour))) + 
+  geom_line(aes(group = 1), size = 2) +
+  geom_point(size = 5) + labs(title = "Discrete example")
+
+ggplot(df, aes(x, y, colour = colour)) + 
+  geom_line(aes(group = 1), size = 2) +
+  geom_point(size = 5) + labs(title = "Continuous example")
+```
+
+
+
+
+
+```{r, eval=TRUE, echo=FALSE}
+knitr::knit_exit()
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Draw a boxplot of `hwy` for each value of `cyl`, without turning
+    `cyl` into a factor. What extra aesthetic do you need to set?
+    
+1.  Modify the following plot so that you get one boxplot per integer value 
+    of `displ`.
+    
+    ```{r, eval = FALSE}
+    ggplot(mpg, aes(displ, cty)) + 
+      geom_boxplot()
+    ```
+
+1.  When illustrating the difference between mapping continuous and discrete
+    colours to a line, the discrete example needed `aes(group = 1)`. Why?
+    What happens if that is omitted? What's the difference between
+    `aes(group = 1)` and `aes(group = 2)`? Why?
+
+1.  How many bars are in each of the following plots?
+
+    ```{r, eval = FALSE}
+    ggplot(mpg, aes(drv)) + 
+      geom_bar()
+
+    ggplot(mpg, aes(drv, fill = hwy, group = hwy)) + 
+      geom_bar()
+    
+    library(dplyr)  
+    mpg2 <- mpg %>% arrange(hwy) %>% mutate(id = seq_along(hwy)) 
+    ggplot(mpg2, aes(drv, fill = hwy, group = id)) + 
+      geom_bar()
+    ```
+    
+    (Hint: try adding an outline around each bar with `colour = "white"`)
+
+1.  Install the babynames package. It contains data about the popularity of
+    babynames in the US. Run the following code and fix the resulting graph.
+    Why does this graph make me unhappy?
+    
+    ```{r, eval = FALSE}
+    pacman::p_load(babynames)
+    hadley <- dplyr::filter(babynames, name == "Hadley")
+    ggplot(hadley, aes(year, n)) + 
+      geom_line()
+    ```
+
+
+
+
+
+
+# (25 points) Find an article of your choice
+
+
+
+   a) (2 points) Consider Figure 3 Panel B: What visual cues (or aesthetics) are being used? Briefly describe the main takeaways from the entire Figure 3.
+   b) (3 points) Do you think Figure 3 is a good graphic in terms of conveying its message clearly? Is there anything you would have done differently? Explain.
+   c) (2 points) Consider the data introduced in class which contains immunity levels (Immunoglobulin G (IgG)) from the convalescent group and the vaccine groups post 28 days. Note that the IgG levels in the dataset below are given on the log10 scale. Calculate the median IgG levels (ELISA units) on the log10 scale for each group.
+
+```{r}
+path <-
+"http://www.biostat.mcgill.ca/hanley/statbook/immunogenicityChAdOx1.nCoV-19vaccine.txt"
+ds <- read.table(path)
+head(ds)
+str(ds)
+```
+
+  e) (1 point) Are you able to calculate a correlation of IgG levels between groups? If not, explain why not? If yes, interpret the correlation.
+  d) (4 points) From the medians alone, is there enough evidence to conclude that the median IgG levels in the convalescent group are higher than the median IgG levels in the vaccine group (post 28 days)? Explain.
+  e) (7 points) Use the Boostrap to asses if there is enough evidence to suggest that the median IgG levels in the convalescent group are higher than the median IgG levels in the vaccine group (post 28 days). _Hint: resample the data with replacement separately in each group B=1000 times. For each of the B datasets, calculate the median IgG level and take the difference in medians between the two groups. Plot the differences in a histogram and calculate the 2.5 and 97.5 percentiles._
+f) (6 points) The dataset, shown below and available on myCourses, was extracted (approximately) from Figure 3 Panel A for the ChAdOx1 nCoV-19 (prime) group only. The `time` column represents the days since vaccination, and `igg_response` are the IgG levels on the original scale. Create an appropriate figure which shows the immunity levels as a function of time. You are free to choose the plot type; the choice of plot should be guided by the message you are trying to convey. Be sure to label your axes, show units, include a title and choose an appropriate color palette. Briefly interpret the plot. 
+
+```{r, echo=FALSE}
+# used https://automeris.io/WebPlotDigitizer/ and added points manually 
+baseline <- data.frame(
+  igg_response = c(c(930.373764946167,267.80141819995,
+                        241.40290425373,170.807872875122,79.7979529026922,67.12347734837,
+                        16.2522150784376,9.84175119960358,7.99708326746758,
+                        6.27722063262316,5.75716586808537,5.10066298865338,4.51902264411753,
+                        5.01319848124264,4.6780835948744,4.00370808725758,
+                        3.54715603579413,3.8675767843433,2.64350951331367,1.83837684369447,
+                        1.60081335364161,1.3939489076937,1.37004592589734,
+                        1.34655282464653,1.23499370427408,1.05696150597477,1.03883707437091),
+                        rep(1, 129-27)
+),
+time = 0
+)
+
+day7 <- data.frame(igg_response = c(824.2811024052,
+                         583.23118434818,9.50711880769064,6.61153931101317,
+                         5.28019656667643,3.73607412348515,3.25328148447015,
+                         2.88230230633024,2.46680009447018,2.42450020999956,
+                         2.50983797855772,1.83837684369447,1.93628701010993,1.87045072340832,
+                         1.60081335364161,1.6571589208288,1.57336312771132,
+                         1.4681892735877,1.34655282464653,1.19300230570313,
+                         1.05696150597477,0.969394428236816,0.969394428236816,
+                         0.969394428236816,1.05696150597477,1.05696150597477,
+                         1.13267702661199,1.32346257544319,1.3939489076937,
+                         1.00351525735337,0.952771568357416,1.23499370427408,
+                         1.3939489076937,1.68607111914966,1.80685295642202,
+                         1.80685295642202,1.80685295642202,1.80685295642202,
+                         1.5198667269087,1.4681892735877,1.3939489076937,
+                         1.37004592589734),
+        time = 7
+        )
+
+
+day14 <- data.frame(igg_response = c(5.56141471099916,
+                          12.9795628856213,21.4338529152941,22.1882835281895,
+                          26.377948132585,23.7777429644002,28.2675345223545,
+                          29.7730359752974,36.0124074923294,36.0124074923294,
+                          36.0124074923294,46.6797058244033,46.6797058244033,
+                          46.6797058244033,57.4472011143562,61.5624358858564,
+                          71.9318729291772,84.0479144245175,93.2389390641974,
+                          93.2389390641974,91.640108109302,120.857408597946,
+                          112.778511083595,108.943894443235,118.784985124082,
+                          105.239659775799,134.073720125928,129.515038571347,
+                          146.184831486696,167.878915110979,186.237243878952,
+                          258.695820292381,282.064261812341,286.985393862048,
+                          318.368561954616,282.064261812341,507.863374893524,
+                          838.662208770648,1106.04999636357,1014.41603858351,
+                          946.60585377396,196.156058731026,26.377948132585,
+                          55.4939212632689),
+          time = 14
+         )
+
+day28 <- data.frame(igg_response = c(13.4364186651963,
+                          14.9057526262643,17.7203058160499,26.377948132585,
+                          34.7879386134385,39.2654706362424,42.0782557144904,
+                          6568.75375180586,5067.65483305879,3977.79870649798,
+                          3345.99662847973,1185.28197487183,1144.98084001297,
+                          1032.11440010984,1032.11440010984,1087.08381131688,
+                          810.146598567126,868.181513893972,946.60585377396,
+                          838.662208770648,796.254468596615,810.146598567126,
+                          946.60585377396,883.328544026521,743.027626140177,
+                          583.23118434818,625.010996124823,625.010996124823,
+                          573.230125983989,563.400562510826,465.787943216806,
+                          465.787943216806,465.787943216806,434.651638870024,
+                          419.872915590592,365.615011098106,353.183623309319,
+                          307.543615130005,371.993840296135,427.198374152554,
+                          365.615011098106,323.92308957817,329.574526195915,
+                          312.909281561387,282.064261812341,307.543615130005,
+                          318.368561954616,263.2092467158,237.26340588753,237.26340588753,
+                          229.196140274398,189.486496598219,189.486496598219,
+                          186.237243878952,162.17081278488,162.17081278488,
+                          165.000182160479,148.735295890758,134.073720125928,
+                          134.073720125928,141.214356331446,143.678101615433,
+                          143.678101615433,173.787931717555,
+                          179.90493440287,203.060376689931,203.060376689931,
+                          229.196140274398,183.043708286884,156.656793391375,
+                          120.857408597946,101.661373923958,101.661373923958,
+                          103.435044371323,105.239659775799,125.111358142241,
+                          107.07576002932,134.073720125928,148.735295890758,
+                          148.735295890758,153.970493728566,153.970493728566,
+                          170.807872875122,170.807872875122,167.878915110979,
+                          159.38996051368,141.214356331446,84.0479144245175,
+                          88.5242247720954,78.4296036001516,77.0847183057172,
+                          77.0847183057172,74.463737227917,71.9318729291772,
+                          68.2945703948427,65.9724658239799,58.4494736488256,
+                          50.8963645028993,60.5067832889803,55.4939212632689,
+                          55.4939212632689,47.4941195148417,43.5593298066617,
+                          65.9724658239799,71.9318729291772,74.463737227917,
+                          85.5142855370006,64.841191470273,98.2047544635204,
+                          108.943894443235,105.239659775799,136.412883821803,
+                          186.237243878952,217.60662274994,213.875175267432,
+                          217.60662274994,267.80141819995,217.60662274994,
+                          176.819983190976,151.330257857324,122.965989327296,
+                          103.435044371323,103.435044371323,199.578363496483,
+                          192.792438532886,210.20771343085,122.965989327296),
+                    time = 28
+         )
+day56 <- data.frame(igg_response = c(1.03883707437091,
+                          24.614674022423,27.7828120483911,31.9058297497889,
+                          42.0782557144904,41.3567114923064,42.0782557144904,
+                          50.0236102236721,67.12347734837,68.2945703948427,
+                          78.4296036001516,77.0847183057172,90.0686933868086,
+                          88.5242247720954,107.07576002932,120.857408597946,
+                          120.857408597946,122.965989327296,136.412883821803,
+                          143.678101615433,125.111358142241,179.90493440287,
+                          221.403172226158,625.010996124823,499.154699175126,
+                          419.872915590592,365.615011098106,307.543615130005,
+                          263.2092467158,267.80141819995,307.543615130005,263.2092467158,
+                          267.80141819995,189.486496598219,210.20771343085,
+                          221.403172226158,199.578363496483,183.043708286884,
+                          173.787931717555,138.792858549034,183.043708286884,
+                          179.90493440287,192.792438532886),
+                    time = 56
+         )
+
+
+library(tidyverse)
+DT <- bind_rows(baseline,day7,day14,day28, day56) %>% 
+  dplyr::select(time, igg_response)
+# write.csv(DT, file = "~/git_repositories/EPIB607/resources/assets/assignments/a1/prime_igg_response.csv", quote = FALSE, row.names = FALSE)
+# DT <- DT %>% mutate(time.f = factor(time))
+#ggplot(DT, aes(x=time.f, y = igg_response, fill = time.f)) + geom_boxplot() + scale_y_log10() + geom_jitter()
+```
+
+```{r eval=FALSE, echo=TRUE}
+DT <- read.csv("prime_igg_response.csv")
+```
+
+```{r}
+head(DT)
+```
+
+
+\newpage
+
+
+# (25 points) COVID-19 Cases Comparison Between Counties With and Without Stay-at-Home Orders
+
+This question is based on the JAMA Network Open article _Comparison of Estimated Rates of Coronavirus Disease 2019 (COVID-19) in Border Counties in Iowa Without a Stay-at-Home Order and Border Counties in Illinois With a Stay-at-Home Order_ by Lyu and Wehby (2020) and available in myCourses. The county and state level cumulative incidence of cases data is provided in the code below. Note: you need to install the `covdata` package (which is not on CRAN) using `remotes::install_github("kjhealy/covdata")`. 
+
+```{r}
+# remotes::install_github("kjhealy/covdata")
+library(covdata) 
+library(dplyr); library(tidyr); library(ggplot2); library(readr)
+# get population data from https://covid19.census.gov/datasets/
+f <- "https://opendata.arcgis.com/datasets/21843f238cbb46b08615fc53e19e0daf_1.csv"
+pop_county <- read_csv(file = f) %>%
+  dplyr::rename(fips = GEOID, population = B01001_001E, state = State) %>%
+  dplyr::select(state, fips, population)
+
+county_level <- nytcovcounty %>%
+  dplyr::left_join(pop_county, by = c("state","fips")) %>%
+  dplyr::mutate(cases.per.10k = cases/population * 1e4) %>%
+  dplyr::filter(state %in% c("Iowa","Illinois")) %>%
+  dplyr::group_by(county)
+
+pop_state <- pop_county %>%
+  dplyr::group_by(state) %>%
+  dplyr::summarise(population = sum(population, na.rm = TRUE))
+
+state_level <- county_level %>%
+  dplyr::group_by(state, date) %>%
+  dplyr::filter(date >= "2020-03-15") %>%
+  dplyr::summarise(cases = sum(cases)) %>%
+  dplyr::left_join(pop_state, by = "state") %>%
+  dplyr::mutate(cases.per.10k = cases / population * 1e4, state = factor(state),
+                time = as.numeric(date - min(date)) + 1)
+```
+
+
+```{r}
+head(county_level)
+head(state_level)
+```
+
+
+a) (6 points) Using the county level dataset provided, reproduce Figure 1 of the paper. Does your Figure agree with theirs? Would county level curves have been more appropriate to show instead of the state totals?
+b) (5 points) Plot the cumulative incidence curves per 10000 people from March 21 until the most recent day for which you have data, for each of the counties used in the paper. Interpret the plot and discuss if the county level plots still agree with the overall conclusion of the paper. 
+b) (4 points) Case counts are inherently tied to testing capacity. Death from COVID19 doesn't have this issue, although there are other biases such as misclassification and under reporting. Plot the same graph as in part (b) but for deaths and interpret the plot.
+d) (10 points) Illinois (Democrat-controlled legislature) is surrounded by states with [Republican-controlled legislatures (Iowa, Missouri, Kentucky, Indianna, Wisconsin)](https://www.ncsl.org/research/about-state-legislatures/partisan-composition.aspx#). Do the data suggest there is a correlation between COVID-19 cases (or deaths) and which party has legislative control? Explain and justify using summary statistics and/or figures. Do not overcomplicate this analysis, i.e., feel free to make simplifying assumptions about testing. 
+
+
+\newpage
+
+
+# (25 points) Age-structures of Populations, then and now
+
+The 1911 census of Ireland was taken on April 2nd 1911 and was released to the public in 1961. Follow [this link](http://www.census.nationalarchives.ie/help/about19011911census.html) for further details on the census. James Hanley (JH) has scrapped the data for Dublin, collected the age-frequency distribtion by gender and provided you with a three column .csv file on myCourses called `age_sex_frequencies_ireland.csv` which looks like this:
+
+```{r, echo=TRUE, eval=FALSE}
+cens <- read.csv("age_sex_frequencies_ireland.csv")
+```
+
+
+```{r, echo=2}
+cens <- read.csv("~/git_repositories/EPIB607/resources/assets/assignments/a1/data/age_sex_frequencies_ireland.csv")
+head(cens)
+```
+
+The `Age` column represents the age in 1911. The `Freq` column gives the frequency of the number of people for a given age and `Gender`. Note that `Age` is an interval; for example, `Age=0` actually represents individuals who are between the ages of 0 and 1, `Age=1` are individuals between ages 1 and 2, and so on. 
+
+  a) (6 points) What was the earliest year of birth for (i) males and (ii) females ?
+  b) (8 points) Create a suitable visualization of this data and then comment on any patterns you see and give reasons for these patterns. Your choice should leverage all the information provided in the data and be influenced by the message that you are trying to convey. Be sure to include an informative title and figure caption. 
+  c) (8 points) Calculate the mean age, the standard deviation (SD), and the quartiles: $Q_{25}, Q_{50} (median), Q_{75}$ separately for males and females.
+  d) (3 points) The original census cards have been scanned are available online. [This one in particular](http://www.census.nationalarchives.ie/reels/nai000230598/) is quite famous. Why?
+
+
+
+
+\newpage
+
+
+
+
+
+# (25 points) Flint Blood Lead Levels
+
+Lead in the environment is persistent, bio-accumulative, and toxic. Chronic exposure to lead in children is associated with many negative health outcomes even when the Blood Lead Levels (BLLs) are measured as low as 1.0-10.0 µg/dL. An analysis of childhood exposure to lead is described in the article _Blood Lead Levels of Children in Flint, Michigan: 2006-2016_ by Gomez et al. (2018) available on myCourses.  
+
+  a) (2 points) Summarize the main findings of the study in 280 characters or less. 
+    
+  b) (5 points) Does Figure 1 do a good job of conveying its message? Explain why or why not.
+    
+  c) (6 points) Consider the information presented in Figure 1 and think about the dataset which would have been used to generate the plot. What are the rows and what are the columns? What is the dimension of the dataset? Are the data in tidy format?
+    
+
+  d) (6 points) From the graph, extract the yearly BLL percentages $\geq$ 5.0 $\mu$g/dL, in children 5 years and younger, for Flint and Michigan. You may read directly off the graph or try using a [WebPlotDigitizer](https://automeris.io/WebPlotDigitizer/). Calculate the yearly change from baseline (2006) percentages separately for each group. Is there evidence to suggest that the change from baselines are different for Flint vs. Michigan? Support your answer with summary statistics and/or a plot. 
+
+  e) (6 points) Figure 2 shows the geometric mean BLL levels over time for children residing within Flint boundaries. Recreate the plot and add the simple linear regression line. Calculate the correlation coeffecient $r$ and compare it with the linear regression output. Do the results agree?
+    
+
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+## ---- Question-3 ------------------------------------------------------------
+
+# library(ggplot2)
+# library(ggformula)
+
+#this is me creating a dataframe based on Figure 3. "cat_freq" is approximate.
+year <- c(rep(c(2012:2016), 7))
+bll_cat <- c(rep("<0.5", 5), 
+             rep("0.5-1.0", 5), 
+             rep("1.1-2.0", 5), 
+             rep("2.1-3.0", 5),
+             rep("3.1-4.0", 5), 
+             rep("4.1-5.0", 5),
+             rep(">5.0", 5))
+cat_freq <- c(2.0, 4.5, 6.0, 4.5, 6.0, 28.5, 37.0, 35.0, 35.0, 
+              44.5, 45.0, 38.0, 33.0, 42.0, 36.0, 14.0, 12.0, 
+              9.0, 12.5, 7.0, 5.0, 4.5, 3.0, 3.0, 2.5, 2.5, 2.5, 
+              2.0, 2.0, 1.0, 3.0, 2.0, 3.0, 3.5, 2.5)
+
+bll_df <- data.frame(year, bll_cat, cat_freq)
+
+#not sure where you'd want to save this csv. I've attached the csv in the email as well.
+#An option would be to show the dataframe in the assignment and have the students create the dataframe themselves. Or if they've already had a couple of data entry questions, they could be just given the csv
+# write.csv(bll_df, "flint_bll_freqencies.csv")
+```
+
+```{r, echo = FALSE, eval=FALSE}
+head(bll_df, n= 4)
+str(bll_df)
+levels(bll_df$bll_cat)
+```
+
+
+
+
+
+
+```{r, echo=FALSE}
+knitr::knit_exit()
+```
+
+
+
+
+# Physicochemical properties and phenolic content of honey from different floral origins and from rural versus urban landscapes
+
+a) (5 points) Comment on figure 2a and explain what is wrong with it.
+
+
+b) (10 points) Which visual cues are being used in Figure 2b? Re-plot Figure 2b. You can make changes to the aesthetics or reproduce it. You do not need to reproduce the error bars or the sample size (n). Be sure to include labels and a title.
+
+```{r, echo=FALSE, eval=FALSE}
+
+## ---- Question-4 ------------------------------------------------------------
+
+library(ggformula)
+
+honey_types <- c("Kenyan acacia dark","Kenyan acacia light","Romanian acacia",
+                 "Blend EU and Non-EU","Manuka","Heather","Ivy","Oil seed rape",
+                 "Rural multi-floral honey","Urban multi-floral honey")
+tpc <- c(84,68,11,24,62,68,34,20,20,28)
+group <- c(rep("International",5),rep("Irish",5))
+honey_dt <- cbind.data.frame(honey_types,tpc,group)
+honey_dt$honey_types <- factor(honey_dt$honey_types,
+                               levels = honey_dt$honey_types)
+
+ggformula::gf_bar(honey_dt, gformula = tpc ~ honey_types, fill = ~group, stat = "identity") + coord_flip()
+
+ggplot(honey_dt, aes(x= honey_types, y=tpc,fill = group)) + 
+  geom_bar(stat="identity") + 
+  coord_flip() + 
+  labs(title="Mean total phenolic content of different Irish and International honey types ",  x = "", y = "Total Phenolic Content (mg GAE / 100g honey)") +
+  theme_minimal() + 
+  scale_fill_brewer(palette = "Paired")
+```
+
+c) (5 points) Which visual cues are being used in Figure 4? Is this an effective visualization? Is there a better way to represent the data? (you may take inspiration from https://serialmentor.com/dataviz/directory-of-visualizations.html or  http://r-statistics.co/Top50-Ggplot2-Visualizations-MasterList-R-Code.html#3.%20Ranking)
+
+
+
+d) (5 points) List errors in Table 1 and Figure 4 and what could have been improved.
+
+
+
+
+
+
+
+
+
+
+
+# Age-structures of Populations, then and now
+
+The 1911 census of Ireland was taken on April 2nd 1911 and was released to the public in 1961. Follow [this link](http://www.census.nationalarchives.ie/help/about19011911census.html) for further details on the census. James Hanley (JH) has scrapped the data for Dublin, collected the age-frequency distribtion by gender and provided you with a [three column .csv file](https://github.com/sahirbhatnagar/EPIB607/raw/master/data/age_sex_frequencies_ireland.csv) which looks like this:
+
+```{r, echo=TRUE}
+cens <- read.csv("https://github.com/sahirbhatnagar/EPIB607/raw/master/data/age_sex_frequencies_ireland.csv")
+head(cens)
+```
+
+The `Age` column represents the age in 1911. The `Freq` column gives the frequency of the number of people for a given age and `Gender`.
+
+  a) What was the ealiest year of birth for (i) males and (ii) females ?
+  b) Create a suitable visulaization of this data and then comment on any patterns you see and give reasons for these patterns. Your choice should leverage all the information provided in the data and be influeced by the message that you are trying to convey. Be sure to include an informative title and figure caption. 
+  c) Calculate the mean age, the standard deviation (SD), and the quartiles: $Q_{25}, Q_{50} (median), Q_{75}$ separately for males and females.
+  d) The orignial census cards have been scanned are available online. [This one in particular](http://www.census.nationalarchives.ie/reels/nai000230598/) is quite famous. Why?
+
+
+```{r, eval=FALSE, echo=FALSE}
+dat <- read.table("~/git_repositories/epib607/data/age_sex_frequencies_ireland.txt", header = TRUE)
+library(dplyr)
+dat <- dat %>% mutate(Male = case_when(Male == 1 ~ "Male", Male == 0 ~ "Female"))
+colnames(dat) <- c("Gender", "Age", "Freq")
+write.csv(dat, file = "data/age_sex_frequencies_ireland.csv", quote = FALSE, row.names = FALSE)
+
+
+library(rmarkdown)
+draft("mypaper.Rmd", template="pdf", package="pinp", edit=TRUE)
+
+```
+
+
+
+
+# Number of Authors
+
+Fletcher et al. (1979, NEJM 301:180-183) studied the characteristics of 612 randomly selected articles published in the NEJM, JAMA, and the Lancet since 1946. Two characteristics examined were the number of authors per article and the number of students studied in each article:
+
+```{r, echo=FALSE, eval=TRUE}
+knitr::kable(as.data.frame(rbind(c("1946", "151","2.0 (1.4)","25"),
+                                 c("1956", "149","2.3 (1.6)","36"),
+                                 c("1966", "157","2.8 (1.2)","16"),
+                                 c("1976", "155","4.9 (7.3)","30"))),
+             col.names = c("Year","No. articles studied", "No. Authors Mean (SD)","No. subjects Median"),
+             booktabs = TRUE)
+```
+
+
+  a) Why report median number of subjects (instead of average)?
+  b) In 1976, can the standard deviation of 7.3 really be larger than the mean of 4.9? Explain. 
+  c) In light of (a) and (b), how would you present the data in this table?
+
+
+# Cancer Deaths in the US
+
+The American Cancer Society (ACS) recently published age-adjusted cancer death rates by cancer site and gender at this [link](https://www.cancer.org/research/cancer-facts-statistics/all-cancer-facts-figures/cancer-facts-figures-2017.html).
+
+  a) In the figure [Trends in Age-adjusted Cancer Death Rates by Site, Males, US, 1930-2014 (PDF)](https://www.cancer.org/content/dam/cancer-org/research/cancer-facts-and-statistics/annual-cancer-facts-and-figures/2017/trends-in-age-adjusted-cancer-death-rates-by-site-males-us-1930-2014.pdf) list the scales being used and the variable that has been mapped onto them. 
+  b) Briefly comment on what you like about the figure, and what could have been improved (e.g. aesthetics, labels, use of color) 
+  c) The data used to make the figures has also been provided on the ACS website in Excel spreasheets: [[males]](https://www.cancer.org/content/dam/cancer-org/research/cancer-facts-and-statistics/annual-cancer-facts-and-figures/2017/age-adjusted-cancer-death-rates-males-1930-2014.xlsx), [[females]](https://www.cancer.org/content/dam/cancer-org/research/cancer-facts-and-statistics/annual-cancer-facts-and-figures/2017/age-adjusted-cancer-death-rates-females-1930-2014.xlsx). Once you have downloaded the spreadsheets, the following code can be used to combine both datasets:
+
+```{r, message=FALSE, warning=FALSE}
+library(dplyr)
+males <- readxl::read_xlsx("~/Downloads/age-adjusted-cancer-death-rates-males-1930-2014.xlsx", 
+                           skip = 1, n_max = 85) %>% mutate(Gender = "Male")  
+females <- readxl::read_xlsx("~/Downloads/age-adjusted-cancer-death-rates-females-1930-2014.xlsx", 
+                             skip = 1, n_max = 85) %>% mutate(Gender = "Female")
+cancer_rates <- dplyr::bind_rows(list(females,males))
+head(cancer_rates)
+```
+
+In order to make the data ready for plotting, we need to _melt_ it first:
+
+```{r}
+library(tidyr)
+cancer_rates_melt <- tidyr::gather(cancer_rates, key = "Site", value = "Rate", -Year, -Gender)
+head(cancer_rates_melt, n = 10)
+```
+
+Plot the data using a graph of your choice with the goal of comparing males vs. females. (you might consider using the function `gf_line` from the `ggformula` package). Briefly comment on your comparison. Be sure to include an informative title and figure caption.  
+
+```{r, echo=FALSE, eval=FALSE}
+gf_line(Rate ~ Year | Gender, data = cancer_rates_melt, color = ~ Site)
+
+gf_boxplot(Rate ~ Site | Gender, data = cancer_rates_melt)
+
+```
+
+
+
+# Does breast-feeding weaken bones?
+
+Breast-feeding mothers secrete calcium into their milk. Some of the calcium may come from their bones, so mothers may lose bone mineral content. Researchers compared 47 breast-feeding women with 22 women of similar age who were neither pregnant nor lactating. They measured the percent change in the mineral content of the women's spines over three months. The data can be read into R:
+
+```{r, echo=TRUE}
+boneloss <- read.csv("https://github.com/sahirbhatnagar/EPIB607/raw/master/data/boneloss.csv")
+head(boneloss)
+```
+
+A negative value of `mineral_loss` indicates a loss in mineral content. Do the data show distinctly greater bone mineral loss among the breast-feeding women? Use descriptive statistics, plots and/or tables to justify your conclusion.  
+
+
+
+```{r, eval=FALSE, echo=FALSE}
+dat <- read.table("~/git_repositories/epib607/data/boneloss.txt", header = FALSE)
+library(dplyr)
+dat <- dat %>% mutate(V1 = case_when(V1 == 1 ~ "Other", V1 == 2 ~ "Breast-feeding"))
+colnames(dat) <- c("type", "mineral_loss")
+write.csv(dat, file = "data/boneloss.csv", quote = FALSE, row.names = FALSE)
+
+gf_boxplot(mineral_loss ~ type , data = dat, fill =~ type)
+library(rmarkdown)
+draft("mypaper.Rmd", template="pdf", package="pinp", edit=TRUE)
+
+```
+
+
+
+# Food in America
+
+Vox published a list of [Charts that explain food in America](http://www.vox.com/a/explain-food-america). There are 40 maps, charts, and graphs that show where our food and drink comes from and how we eat it.
+
+Pick your best and least favorite graphic, and briefly explain why using the taxonomy we learned in [class](https://docs.google.com/presentation/d/1wXgcTzcRKl_leGRfNZjWWPkjwJSTlZSXBCl-fFuLEaE/edit?usp=sharing) and provide a link to the figure. For example, this link: [Figure 18](https://www.vox.com/a/explain-food-america#list-21) was created using the following code: ```[Figure 18](https://www.vox.com/a/explain-food-america#list-21)```
+
+
+<!-- 
+We support several options via the YAML header
+
+- Setting a DOI or URL footer, for example for the CRAN package URL,
+  which is placed in the bottom-left footer of the title page and even pages;
+- Setting a footer label, for example _YourPackage Vignette_ stating
+  your package, which is placed in the bottom-right footer on odd
+  pages;
+- Setting a free-form author field used on the inside footer;
+- Optional _Draft_ watermarking;
+
+
+
+## References 
+
+Here we differ from PNAS and suggest natbib. References will appear in
+author-year form. Use `\citet{}`, `\citep{}`, etc as usual.
+
+We default to the `jss.bst` style. To switch to a different bibliography
+style, please use `biblio-style: style` in the YAML header.
+
+
+## Inline R Code 
+
+The PNAS sample included a fixed PNG image here, but this document prefers
+to show the results and embedding of _R_ code. 
+
+```{r figex, fig.width=3, fig.height=3, cache=TRUE, echo=TRUE, fig.cap="Narrow ggplot2 figure"}
+library(ggplot2)
+ggplot(mtcars, aes(wt, mpg)) +
+    geom_point(size=3, aes(colour=factor(cyl))) +
+    theme(legend.position="none")
+```
+
+Here we use a standard knitr bloc with explicit options for
+
+- figure width and height (`fig.width`, `fig.height`), both set to three inches;
+- whether the code is shown (`echo=TRUE`); and
+- the caption (`fig.cap`) as shown above.
+
+
+## Digital Figures 
+
+Markdown, Pandoc and LaTeX support `.eps` and `.pdf` files.
+
+Figures and Tables should be labelled and referenced in the standard way
+using the `\label{}` and `\ref{}` commands.
+
+The R examples above show how to insert a column-wide
+figure. To insert a figure wider than one column, please use the
+`\begin{figure*}...\end{figure*}` environment. 
+
+One (roundabout) way of doing this is to _not_ actually plot a figure, but to
+save it in a file as the following segment shows:
+
+```{r densityPlot, echo=TRUE}
+library(ggplot2)
+p <- ggplot(data = midwest,
+            mapping = aes(x = area,
+                          fill = state,
+                          color = state)) +
+    geom_density(alpha = 0.3)
+## save to file
+suppressMessages(ggsave("densities.pdf", p))
+```
+
+This file is then included via standard LaTeX commands.
+
+\begin{figure*}
+  \begin{center}
+    \includegraphics[width=0.66\textwidth, height=3.5in]{densities} 
+  \end{center}
+  \caption{Wide ggplot2 figure}\label{fig}
+\end{figure*}
+
+
+## Typeset Code (But Do Not Run It) 
+
+We can also just show code.
+
+```r
+xx <- faithful[,"eruptions"]
+fit <- density(xx)
+plot(fit)
+```
+
+This simply used a pandoc bloc started and ended by three backticks,
+with `r` as the language choice.  Similarly, _many_ other languages
+can be typeset directly simply by relying on pandoc.
+
+
+## Single column equations 
+
+Authors may use 1- or 2-column equations in their article, according to
+their preference.
+
+To allow an equation to span both columns, options are to use the
+`\begin{figure*}...\end{figure*}` environment mentioned above for
+figures, or to use the `\begin{widetext}...\end{widetext}` environment
+as shown in equation \ref{eqn:example} below.
+
+Please note that this option may run into problems with floats and
+footnotes, as mentioned in the [cuted package
+documentation](http://texdoc.net/pkg/cuted). In the case of problems
+with footnotes, it may be possible to correct the situation using
+commands `\footnotemark` and `\footnotetext`.
+
+\begin{equation}
+  \begin{aligned}
+(x+y)^3&=(x+y)(x+y)^2\\
+       &=(x+y)(x^2+2xy+y^2) \\
+       &=x^3+3x^2y+3xy^3+x^3. 
+       \label{eqn:example} 
+  \end{aligned}
+\end{equation}
+
+
+pandoc writes all tables using longtable, which fails in 2-column mode
+
+  Species                    CBS     CV     G3
+  ----------------------- ------ ------ ------
+  1\. Acetaldehyde           0.0    0.0    0.0
+  2\. Vinyl alcohol          9.1    9.6   13.5
+  3\. Hydroxyethylidene     50.8   51.2   54.0
+
+  : Comparison of the fitted potential energy surfaces and ab initio
+  benchmark electronic energy calculations
+
+-->
+
