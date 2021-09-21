@@ -661,7 +661,7 @@ mean(abs(Y - 5) <= 1)
 		given in terms of the equation:
 		
 		$$\bar y = \frac{\sum_{i=1}^n y_i}{n} = \sum_y \big(y \times (f_y/n)\big)\;,$$
-		where $f_y/n$ represents the frequency of $y$ in the data. 
+		where $f_y$ represents the frequency of $y$ in the data. 
 		
 
 		
@@ -679,7 +679,7 @@ mean(abs(Y - 5) <= 1)
 		given in terms of the equation:
 		
 		$$\bar y = \frac{\sum_{i=1}^n y_i}{n} = \sum_y \big(y \times (f_y/n)\big)\;,$$
-		where $f_y/n$ represents the frequency of $y$ in the data. 
+		where $f_y$ represents the frequency of $y$ in the data. 
 		
 		\item The expectation of a random variable is computed in the spirit of the
 		second formulation, and is define via the equation:

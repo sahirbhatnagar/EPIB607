@@ -448,8 +448,8 @@ $$
    \hlstd{dplyr}\hlopt{::}\hlkwd{sample_n}\hlstd{(}\hlkwc{size} \hlstd{=} \hlnum{1}\hlstd{)}
 \end{alltt}
 \begin{verbatim}
-##        id  sex height
-## 1 9959885 MALE    175
+##        id    sex height
+## 1 5666624 FEMALE    155
 \end{verbatim}
 \end{kframe}
 \end{knitrout}
@@ -464,7 +464,7 @@ $$
 \end{alltt}
 \begin{verbatim}
 ##        id    sex height
-## 1 2398051 FEMALE    139
+## 1 1459275 FEMALE    149
 \end{verbatim}
 \end{kframe}
 \end{knitrout}
@@ -478,8 +478,8 @@ $$
 \hlstd{dplyr}\hlopt{::}\hlkwd{sample_n}\hlstd{(}\hlkwc{size} \hlstd{=} \hlnum{1}\hlstd{)}
 \end{alltt}
 \begin{verbatim}
-##        id  sex height
-## 1 3452779 MALE    160
+##        id    sex height
+## 1 1136592 FEMALE    159
 \end{verbatim}
 \end{kframe}
 \end{knitrout}
@@ -737,7 +737,7 @@ Value & Probability & Cum.Prob\\
 		given in terms of the equation:
 		
 		$$\bar y = \frac{\sum_{i=1}^n y_i}{n} = \sum_y \big(y \times (f_y/n)\big)\;,$$
-		where $f_y/n$ represents the frequency of $y$ in the data. 
+		where $f_y$ represents the frequency of $y$ in the data. 
 		
 
 		
@@ -755,7 +755,7 @@ Value & Probability & Cum.Prob\\
 		given in terms of the equation:
 		
 		$$\bar y = \frac{\sum_{i=1}^n y_i}{n} = \sum_y \big(y \times (f_y/n)\big)\;,$$
-		where $f_y/n$ represents the frequency of $y$ in the data. 
+		where $f_y$ represents the frequency of $y$ in the data. 
 		
 		\item The expectation of a random variable is computed in the spirit of the
 		second formulation, and is define via the equation:
