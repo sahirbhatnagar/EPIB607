@@ -246,7 +246,7 @@ It, and its positive square root, called the _standard deviation_ of $Y$, or SD(
 * In **French**, the Standard Deviation is called [**écart type**](https://fr.wikipedia.org/wiki/Écart_type).  
 This [French->English dictionary](http://www.french-linguistics.co.uk/dictionary/type.html) translates (the noun) `écart` as space, gap, distance between objects, interval, gap between dates, difference between numbers. The adjective `type` translates as typical, standard. This adjective better describes the meaning than 'standard' does. See here for the **history of the term** [`standard` deviation](https://en.wikipedia.org/wiki/Standard_deviation#History). 
 
-In Figure \@red(fig:ecart), graphically and numerically illustrated, are three (of the many) ways to measure the variability of a random variable.
+In Figure \@ref(fig:ecart), graphically and numerically illustrated, are three (of the many) ways to measure the variability of a random variable.
 
 ```{r ecart,eval=T, echo=F, fig.align="center", warning=FALSE, message=F, fig.cap="6 symmetrically distributed random variables, and 3  ways of measuring their spreads about a common mean. [After Mosteller, Rourke and Thomas. Probability with statistical applications 2nd Ed, p205] "}
 
