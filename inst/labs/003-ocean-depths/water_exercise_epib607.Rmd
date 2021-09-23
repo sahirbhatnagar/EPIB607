@@ -221,7 +221,7 @@ cat(paste("index.n.",toString(n)," <- c(",
 3. Load a function into your `R` session that JH and SB created to automate the process using the following command:
 
 ```{r, echo=TRUE, eval=TRUE}
-source("https://github.com/sahirbhatnagar/EPIB607/raw/master/labs/003-ocean-depths/automate_water_task.R")
+source("https://github.com/sahirbhatnagar/epib607/raw/master/inst/labs/003-ocean-depths/automate_water_task.R")
 ```
 
 4. Now that the function `automate_water_task` has been loaded into your environment, you can use it to automatically determine which of the locations in your sample of 20 are on water. This function requires the unique index vector shown in Step 2 above as input and returns a binary vector of length 20 (1 for water, 0 for land). You can call the function as follows in `R`:
