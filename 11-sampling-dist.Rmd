@@ -5,7 +5,7 @@ editor_options:
 ---
 # The Sampling Distribution {#ChapSampDist}
 
-```{r}
+```{r, echo=FALSE}
 library(dplyr)
 ```
 

@@ -59,7 +59,7 @@ is more likely to obtain its value in the vicinity of the expectation.
 Values much larger or much smaller than the expectation are
 substantially less likely.
 
-```{r Normal1, fig.cap='The Normal(2,9) Distribution', echo=FALSE, message=FALSE,warning=FALSE, fig.align = "center"}
+```{r Normal1, fig.cap='The Normal(2,3) Distribution', echo=FALSE, message=FALSE,warning=FALSE, fig.align = "center"}
 x.c = seq(-10,12,.1)
 plot(c(0,x.c),c(0,dnorm(x.c,2,3)), type="l", ylab="Density",xlab="y")
 x.c = seq(0,5,.1)
