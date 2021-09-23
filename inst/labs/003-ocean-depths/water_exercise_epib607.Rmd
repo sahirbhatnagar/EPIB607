@@ -19,7 +19,7 @@ address:
     address: Fall 2021, McGill University
 #  - code: b
 #    address: Department of Neat Tricks, Whereever State University, Someplace, MC, 67890
-lead_author_surname: Bhatnagar
+lead_author_surname: EPIB607
 abstract: |
   This in-class exercise will introduce you to sampling distributions for means and proportions.  
   
@@ -220,9 +220,16 @@ cat(paste("index.n.",toString(n)," <- c(",
 
 3. Load a function into your `R` session that JH and SB created to automate the process using the following command:
 
-```{r, echo=TRUE, eval=TRUE}
+```{r, echo=TRUE, eval=FALSE}
+source("https://github.com/sahirbhatnagar/epib607/raw/master/inst/
+         labs/003-ocean-depths/automate_water_task.R")
+```
+
+```{r, echo=FALSE, eval=TRUE}
 source("https://github.com/sahirbhatnagar/epib607/raw/master/inst/labs/003-ocean-depths/automate_water_task.R")
 ```
+
+
 
 4. Now that the function `automate_water_task` has been loaded into your environment, you can use it to automatically determine which of the locations in your sample of 20 are on water. This function requires the unique index vector shown in Step 2 above as input and returns a binary vector of length 20 (1 for water, 0 for land). You can call the function as follows in `R`:
 
@@ -263,7 +270,8 @@ depths.n.5 <- automate_water_task(index = index.n.5, student_id = 222333444, typ
 The `alt` column gives the depth in meters:
 
 ```{r, echo=FALSE}
-knitr::kable(depths.n.5)
+kableExtra::kbl(depths.n.5, booktabs = TRUE) %>% 
+  kableExtra::kable_styling()
 ```
 
 3. Repeat step 2 for a sample of 20 using the `index.n.20` vector specified above. 
@@ -285,7 +293,7 @@ It is now time to plot the sampling distributions of the proportions and means. 
 water_results <- read.csv("~/git_repositories/epib607/slides/sampling_dist/EPIB607_FALL2020_water_exercise - water.csv", as.is=TRUE)
 water_results <- read.csv("~/Downloads/EPIB607_FALL2020_water_exercise - sample.sheet.csv", as.is = TRUE)
 # read in the results from the Google sheet 
-water_results <- read.csv("EPIB607_FALL2020_water_exercise - water.csv", as.is=TRUE)
+water_results <- read.csv("EPIB607_FALL2021_water_exercise - water.csv", as.is=TRUE)
 water_results <- water_results[,1:6]
 water_results <- water_results[complete.cases(water_results), ]
 

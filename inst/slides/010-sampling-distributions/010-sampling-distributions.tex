@@ -1,4 +1,54 @@
-\documentclass[10pt]{beamer}
+\documentclass[10pt]{beamer}\usepackage[]{graphicx}\usepackage[]{color}
+% maxwidth is the original width if it is less than linewidth
+% otherwise use linewidth (to make sure the graphics do not exceed the margin)
+\makeatletter
+\def\maxwidth{ %
+  \ifdim\Gin@nat@width>\linewidth
+    \linewidth
+  \else
+    \Gin@nat@width
+  \fi
+}
+\makeatother
+
+\definecolor{fgcolor}{rgb}{0.345, 0.345, 0.345}
+\newcommand{\hlnum}[1]{\textcolor[rgb]{0.686,0.059,0.569}{#1}}%
+\newcommand{\hlstr}[1]{\textcolor[rgb]{0.192,0.494,0.8}{#1}}%
+\newcommand{\hlcom}[1]{\textcolor[rgb]{0.678,0.584,0.686}{\textit{#1}}}%
+\newcommand{\hlopt}[1]{\textcolor[rgb]{0,0,0}{#1}}%
+\newcommand{\hlstd}[1]{\textcolor[rgb]{0.345,0.345,0.345}{#1}}%
+\newcommand{\hlkwa}[1]{\textcolor[rgb]{0.161,0.373,0.58}{\textbf{#1}}}%
+\newcommand{\hlkwb}[1]{\textcolor[rgb]{0.69,0.353,0.396}{#1}}%
+\newcommand{\hlkwc}[1]{\textcolor[rgb]{0.333,0.667,0.333}{#1}}%
+\newcommand{\hlkwd}[1]{\textcolor[rgb]{0.737,0.353,0.396}{\textbf{#1}}}%
+\let\hlipl\hlkwb
+
+\usepackage{framed}
+\makeatletter
+\newenvironment{kframe}{%
+ \def\at@end@of@kframe{}%
+ \ifinner\ifhmode%
+  \def\at@end@of@kframe{\end{minipage}}%
+  \begin{minipage}{\columnwidth}%
+ \fi\fi%
+ \def\FrameCommand##1{\hskip\@totalleftmargin \hskip-\fboxsep
+ \colorbox{shadecolor}{##1}\hskip-\fboxsep
+     % There is no \\@totalrightmargin, so:
+     \hskip-\linewidth \hskip-\@totalleftmargin \hskip\columnwidth}%
+ \MakeFramed {\advance\hsize-\width
+   \@totalleftmargin\z@ \linewidth\hsize
+   \@setminipage}}%
+ {\par\unskip\endMakeFramed%
+ \at@end@of@kframe}
+\makeatother
+
+\definecolor{shadecolor}{rgb}{.97, .97, .97}
+\definecolor{messagecolor}{rgb}{0, 0, 0}
+\definecolor{warningcolor}{rgb}{1, 0, 1}
+\definecolor{errorcolor}{rgb}{1, 0, 0}
+\newenvironment{knitrout}{}{} % an empty environment to be redefined in TeX
+
+\usepackage{alltt}
 
 
 %\input{slides_header.tex}
@@ -9,43 +59,21 @@
 %\let\endoldShaded\endShaded
 %\renewenvironment{Shaded}{\footnotesize\oldShaded}{\endoldShaded}
 
-
-
-
+\newcommand{\Var}{\operatorname{Var}}
+\newcommand{\Expec}{\operatorname{E}}
+\newcommand{\Prob}{\operatorname{P}}
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
 \begin{document}
-
-<<setup, include=FALSE>>=
-library(knitr)
-knitr::opts_chunk$set(cache=FALSE, message = FALSE, tidy = FALSE, warning = FALSE,
-echo = FALSE, 
-#fig.width = 8, 
-#fig.asp = 0.8, 
-fig.align = 'center', 
-#out.width = "0.50\\linewidth", 
-size = 'tiny')
-
-# the kframe environment does not work with allowframebreaks, so remove it
-#knit_hooks$set(document = function(x) {
-#gsub('\\\\(begin|end)\\{kframe\\}', '', x)
-#})
-
-library(tidyverse)
-library(NCStats)
-options(digits = 2)
-
-
-#knitr::opts_chunk$set(background = '#FFFF00')
-library(tools) #needed for include_graphics2 function
-source("/home/sahir/git_repositories/EPIB607/slides/bin/include_graphics2.R")
-@
+	
+	
 
 %\title{Introduction to Regression Trees}
 %\author{Sahir Bhatnagar \inst{1}}
 %\author[shortname]{Sahir Rai Bhatnagar, PhD Candidate (Biostatistics) }
 %\institute[shortinst]{Department of Epidemiology, Biostatistics and Occupational Health}
 
-	\title{007 - Sampling Distributions}
-\author{EPIB 607 - FALL 2020}
+	\title{010 - Sampling Distributions}
+\author{EPIB 607}
 \institute{
 	Sahir Rai Bhatnagar\\
 	Department of Epidemiology, Biostatistics, and Occupational Health\\
@@ -243,19 +271,24 @@ source("/home/sahir/git_repositories/EPIB607/slides/bin/include_graphics2.R")
 \begin{frame}[fragile]{Sampling distribution of correlations\footnote{\tiny{from 004-exploring-data-2}}}
 	\small 
 	Lets create a pseudo population from the 595 observations by sampling \textbf{with replacement}, and calculate the correlation. Lets repeat this process 1000 times: 
-	<<cor-hist, echo = c(1,2),fig.asp = 0.381>>=
-	library(oibiostat); data("famuss"); B <- 1000; N <- 595
-	R <- replicate(B, {
-	  dplyr::sample_n(famuss, size = N, replace = TRUE) %>% 
-	  dplyr::summarize(r = cor(height, weight)) %>% 
-	  dplyr::pull(r)
-	})
-	hist(R, breaks = 20, col = "lightblue", xlab = "", 
-    main = "Distribution of samples of size 595")
-			abline(v = mean(R), col = "red", lwd = 2)
-			abline(v = quantile(R, probs = c(0.025, 0.975)), col = "blue", 
-			lty = 2, lwd = 2)
-			@
+\begin{knitrout}\tiny
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlkwd{library}\hlstd{(oibiostat);} \hlkwd{data}\hlstd{(}\hlstr{"famuss"}\hlstd{); B} \hlkwb{<-} \hlnum{1000}\hlstd{; N} \hlkwb{<-} \hlnum{595}
+\hlstd{R} \hlkwb{<-} \hlkwd{replicate}\hlstd{(B, \{}
+  \hlstd{dplyr}\hlopt{::}\hlkwd{sample_n}\hlstd{(famuss,} \hlkwc{size} \hlstd{= N,} \hlkwc{replace} \hlstd{=} \hlnum{TRUE}\hlstd{)} \hlopt{%>%}
+  \hlstd{dplyr}\hlopt{::}\hlkwd{summarize}\hlstd{(}\hlkwc{r} \hlstd{=} \hlkwd{cor}\hlstd{(height, weight))} \hlopt{%>%}
+  \hlstd{dplyr}\hlopt{::}\hlkwd{pull}\hlstd{(r)}
+\hlstd{\})}
+\end{alltt}
+\end{kframe}
+
+{\centering \includegraphics[width=\maxwidth]{figure/cor-hist-1} 
+
+}
+
+
+\end{knitrout}
 \end{frame}
 
 
@@ -295,36 +328,18 @@ source("/home/sahir/git_repositories/EPIB607/slides/bin/include_graphics2.R")
 
 \begin{frame}[fragile]{Sampling distribution: proportion covered by water}
 	
-	<<read-data,echo=FALSE, eval=TRUE>>=
-	water_results <- read.csv("EPIB607_FALL2018_water_exercise - water.csv", as.is=TRUE)
-	water_results <- water_results[,1:6]
-	water_results <- water_results[complete.cases(water_results), ]
-	# count the number of students who provided a mean and proportion
-	N.r <- nrow(water_results)
-	@
+
 	
 	
-	<<echo=FALSE, fig.asp = 0.681>>=
-	par(mfrow=c(2,1), mai = c(0.45,0.45,0.45,0.1))
-	plot(table(water_results[,"PropnW.5.locations"]), 
-	xlim = c(0,1),
-	xlab = "Students' Estimates of Proportion Covered by Water",
-	main = "n = 5", 
-	ylim = c(0, N.r/1.5), 
-	ylab = "Frequency")
-	abline(v=0.71, col = "#009E73", lty = 2)
-	text(0.72, 40, expression(mu))
-	text(0.76, 41, "=0.71")
-	plot(table(water_results[,"PropnW.20.locations"]), 
-	xlim = c(0,1),
-	xlab = "Students' Estimates of Proportion Covered by Water",
-	main = "n = 20", 
-	ylim = c(0, N.r/1.5), 
-	ylab = "Frequency")
-	abline(v=0.71, col = "#009E73", lty = 2)
-	text(0.72, 40, expression(mu))
-	text(0.76, 41, "=0.71")
-	@
+\begin{knitrout}\tiny
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}
+
+{\centering \includegraphics[width=\maxwidth]{figure/unnamed-chunk-1-1} 
+
+}
+
+
+\end{knitrout}
 	
 \end{frame}
 
@@ -332,29 +347,18 @@ source("/home/sahir/git_repositories/EPIB607/slides/bin/include_graphics2.R")
 
 \begin{frame}[fragile]{Sampling distribution: proportion covered by water}
 	
-	<<echo=FALSE, eval=TRUE, message = FALSE, warning = FALSE, fig.asp = 0.581>>=
-	library(mosaic)
-	library(tidyr)
-	
-	# first 'melt' the data to get it in plotting form
-	m.melt <- water_results %>% tidyr::gather(key = "type", value = "value", -X., -student)
-	
-	# subset for means
-	m.melt.means <- subset(m.melt, type %in% c("Mean.20.depths","Mean.5.depths"))
-	
-	# plot for means
-	#gf_density(~ value, data = m.melt.means, fill = ~ type) + theme_bw()
-	
-	# subset for proportions
-	m.melt.props <- subset(m.melt, type %in% c("PropnW.20.locations","PropnW.5.locations"))
-	
-	@
+
 	
 	
-	<<echo=FALSE, fig.asp = 0.581>>=
-	# plot for proportions
-	gf_histogram(~ value, data = m.melt.props, fill = ~ type, position = "dodge") + theme_bw()
-	@
+\begin{knitrout}\tiny
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}
+
+{\centering \includegraphics[width=\maxwidth]{figure/unnamed-chunk-3-1} 
+
+}
+
+
+\end{knitrout}
 	
 \end{frame}
 
@@ -363,28 +367,15 @@ source("/home/sahir/git_repositories/EPIB607/slides/bin/include_graphics2.R")
 \begin{frame}[fragile]{Sampling distribution: mean depth of the ocean}
 	
 	
-	<<echo=FALSE, fig.asp = 0.681>>=
-	d.BREAKS <- seq(1000,6000,500)
-	par(mfrow=c(2,1), mai = c(0.45,0.45,0.45,0.1))
-	hist(water_results[,"Mean.5.depths"], 
-	xlim = c(0,6000),
-	ylim = c(0, N.r/1.5), 
-	breaks = d.BREAKS,
-	xlab = "Students' Estimates of Mean Ocean Depth (m)",
-	main = "n = 5")
-	abline(v=3700, col = "#009E73", lty = 2)
-	text(3800, 45, expression(mu))
-	text(4100, 46, "=3700m")
-	hist(water_results[,"Mean.20.depths"], 
-	xlim = c(0,6000),
-	ylim = c(0, N.r/1.5), 
-	breaks = d.BREAKS,
-	xlab = "Students' Estimates of Mean Ocean Depth (m)",
-	main = "n = 20")
-	abline(v=3700, col = "#009E73", lty = 2)
-	text(3800, 45, expression(mu))
-	text(4100, 46, "=3700m")
-	@
+\begin{knitrout}\tiny
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}
+
+{\centering \includegraphics[width=\maxwidth]{figure/unnamed-chunk-4-1} 
+
+}
+
+
+\end{knitrout}
 	
 \end{frame}
 
@@ -393,10 +384,15 @@ source("/home/sahir/git_repositories/EPIB607/slides/bin/include_graphics2.R")
 \begin{frame}[fragile]{Sampling distribution: mean depth of the ocean}
 	
 	
-	<<echo=FALSE, fig.asp = 0.681>>=
-	# plot for means
-	gf_density(~ value, data = m.melt.means, fill = ~ type) + theme_bw()
-	@
+\begin{knitrout}\tiny
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}
+
+{\centering \includegraphics[width=\maxwidth]{figure/unnamed-chunk-5-1} 
+
+}
+
+
+\end{knitrout}
 	
 \end{frame}
 
@@ -406,13 +402,7 @@ source("/home/sahir/git_repositories/EPIB607/slides/bin/include_graphics2.R")
 %\begin{frame}[fragile]{Emulating the ``population''}
 
 
-<<echo=FALSE, eval=FALSE>>=
-allLocations <- read.csv("~/git_repositories/epib607/data/earth-locations-20180914.csv")
-allLocations$water  = 1*(allLocations$alt < 0)
-plot(allLocations$lon[allLocations$water==1],
-allLocations$lat[allLocations$water==1],
-col="#0072B2",cex=0.02, xlab = "longitude", ylab = "latitude")
-@
+
 
 %\end{frame}
 
@@ -421,13 +411,7 @@ col="#0072B2",cex=0.02, xlab = "longitude", ylab = "latitude")
 %\begin{frame}[fragile]{Emulating the ``population''}
 
 
-<<echo=FALSE, eval=FALSE>>=
-ew=allLocations$lon[allLocations$water==1]
-ns=allLocations$lat[allLocations$water==1]
-plot(ew*cos(pi*ns/180),
-allLocations$lat[allLocations$water==1],
-col="#0072B2",cex=0.02, xlab = "longitude", ylab = "latitude")
-@
+
 
 %\end{frame}
 
@@ -457,6 +441,8 @@ any one estimate has 0\% confidence
 \end{frame}
 \end{comment}
 
+
+\end{document}
 
 \section{Normal Curves and Calculations}
 
@@ -574,11 +560,22 @@ any one estimate has 0\% confidence
 	%		\end{center}
 	%	\end{figure}
 	
-	<<probs, fig.width = 2, fig.asp = 0.618, results='hide', fig.align = 'center', out.width = "55%">>=
-	library(mosaic)
-	xpnorm(130, 100,13)
-	xpnorm(2.31)
-	@
+\begin{knitrout}\tiny
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}
+
+{\centering \includegraphics[width=0.55\linewidth]{figure/probs-1} 
+
+}
+
+
+
+
+{\centering \includegraphics[width=0.55\linewidth]{figure/probs-2} 
+
+}
+
+
+\end{knitrout}
 	
 \end{frame} 
 
@@ -672,15 +669,36 @@ any one estimate has 0\% confidence
 \begin{frame}[fragile]{For probabilities we use $pnorm$}
 	
 	
-	<<probs2, echo = TRUE, fig.width = 3, fig.asp = 0.618, fig.align = 'center', out.width = "60%">>=
-	stats::pnorm(q = 130, mean = 100, sd = 13)
-	@
+\begin{knitrout}\tiny
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlstd{stats}\hlopt{::}\hlkwd{pnorm}\hlstd{(}\hlkwc{q} \hlstd{=} \hlnum{130}\hlstd{,} \hlkwc{mean} \hlstd{=} \hlnum{100}\hlstd{,} \hlkwc{sd} \hlstd{=} \hlnum{13}\hlstd{)}
+\end{alltt}
+\begin{verbatim}
+## [1] 0.9894919
+\end{verbatim}
+\end{kframe}
+\end{knitrout}
 	
 	\pause 
 	
-	<<probs3, echo = TRUE, fig.width = 3, fig.asp = 0.618, fig.align = 'center', out.width = "60%">>=
-	mosaic::xpnorm(q = 130, mean = 100, sd = 13)
-	@
+\begin{knitrout}\tiny
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlstd{mosaic}\hlopt{::}\hlkwd{xpnorm}\hlstd{(}\hlkwc{q} \hlstd{=} \hlnum{130}\hlstd{,} \hlkwc{mean} \hlstd{=} \hlnum{100}\hlstd{,} \hlkwc{sd} \hlstd{=} \hlnum{13}\hlstd{)}
+\end{alltt}
+\end{kframe}
+
+{\centering \includegraphics[width=0.6\linewidth]{figure/probs3-1} 
+
+}
+
+
+\begin{kframe}\begin{verbatim}
+## [1] 0.9894919
+\end{verbatim}
+\end{kframe}
+\end{knitrout}
 	
 	\pause 
 	
@@ -697,15 +715,36 @@ any one estimate has 0\% confidence
 	
 	
 	
-	<<probs4, echo = TRUE, fig.width = 3, fig.asp = 0.618, fig.align = 'center', out.width = "60%">>=
-	stats::qnorm(p = 0.0104, mean = 100, sd = 13)
-	@
+\begin{knitrout}\tiny
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlstd{stats}\hlopt{::}\hlkwd{qnorm}\hlstd{(}\hlkwc{p} \hlstd{=} \hlnum{0.0104}\hlstd{,} \hlkwc{mean} \hlstd{=} \hlnum{100}\hlstd{,} \hlkwc{sd} \hlstd{=} \hlnum{13}\hlstd{)}
+\end{alltt}
+\begin{verbatim}
+## [1] 69.94926
+\end{verbatim}
+\end{kframe}
+\end{knitrout}
 	
 	\pause 
 	
-	<<probs5, echo = TRUE, fig.width = 3, fig.asp = 0.618, fig.align = 'center', out.width = "60%">>=
-	mosaic::xqnorm(p = 0.0104, mean = 100, sd = 13)
-	@
+\begin{knitrout}\tiny
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlstd{mosaic}\hlopt{::}\hlkwd{xqnorm}\hlstd{(}\hlkwc{p} \hlstd{=} \hlnum{0.0104}\hlstd{,} \hlkwc{mean} \hlstd{=} \hlnum{100}\hlstd{,} \hlkwc{sd} \hlstd{=} \hlnum{13}\hlstd{)}
+\end{alltt}
+\end{kframe}
+
+{\centering \includegraphics[width=0.6\linewidth]{figure/probs5-1} 
+
+}
+
+
+\begin{kframe}\begin{verbatim}
+## [1] 69.94926
+\end{verbatim}
+\end{kframe}
+\end{knitrout}
 	
 	\pause 
 	
@@ -738,17 +777,38 @@ any one estimate has 0\% confidence
 	
 	
 	
-	<<probs6, echo = TRUE, fig.width = 3, fig.asp = 0.618, fig.align = 'center', out.width = "60%">>=
-	# lower.tail = TRUE is the default
-	stats::pnorm(q = -2.31, mean = 0, sd = 1, lower.tail = TRUE) +
-	stats::pnorm(q = 2.31, mean = 0, sd = 1, lower.tail = FALSE)
-	@
+\begin{knitrout}\tiny
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlcom{# lower.tail = TRUE is the default}
+\hlstd{stats}\hlopt{::}\hlkwd{pnorm}\hlstd{(}\hlkwc{q} \hlstd{=} \hlopt{-}\hlnum{2.31}\hlstd{,} \hlkwc{mean} \hlstd{=} \hlnum{0}\hlstd{,} \hlkwc{sd} \hlstd{=} \hlnum{1}\hlstd{,} \hlkwc{lower.tail} \hlstd{=} \hlnum{TRUE}\hlstd{)} \hlopt{+}
+\hlstd{stats}\hlopt{::}\hlkwd{pnorm}\hlstd{(}\hlkwc{q} \hlstd{=} \hlnum{2.31}\hlstd{,} \hlkwc{mean} \hlstd{=} \hlnum{0}\hlstd{,} \hlkwc{sd} \hlstd{=} \hlnum{1}\hlstd{,} \hlkwc{lower.tail} \hlstd{=} \hlnum{FALSE}\hlstd{)}
+\end{alltt}
+\begin{verbatim}
+## [1] 0.02088815
+\end{verbatim}
+\end{kframe}
+\end{knitrout}
 	
 	\pause 
 	
-	<<probs7, echo = TRUE, fig.width = 4, fig.asp = 0.618, fig.align = 'center', out.width = "60%">>=
-	mosaic::xpnorm(q = c(-2.31,2.31), mean = 0, sd = 1)
-	@
+\begin{knitrout}\tiny
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlstd{mosaic}\hlopt{::}\hlkwd{xpnorm}\hlstd{(}\hlkwc{q} \hlstd{=} \hlkwd{c}\hlstd{(}\hlopt{-}\hlnum{2.31}\hlstd{,}\hlnum{2.31}\hlstd{),} \hlkwc{mean} \hlstd{=} \hlnum{0}\hlstd{,} \hlkwc{sd} \hlstd{=} \hlnum{1}\hlstd{)}
+\end{alltt}
+\end{kframe}
+
+{\centering \includegraphics[width=0.6\linewidth]{figure/probs7-1} 
+
+}
+
+
+\begin{kframe}\begin{verbatim}
+## [1] 0.01044408 0.98955592
+\end{verbatim}
+\end{kframe}
+\end{knitrout}
 	
 	
 \end{frame}
@@ -762,9 +822,23 @@ any one estimate has 0\% confidence
 	\begin{itemize}
 		\item \textcolor{blue}{Ask yourself:} What $Z$ value corresponds to a probability of 0.75? Should you use \texttt{pnorm} or \texttt{qnorm}? \pause
 		
-		<<probs8, echo = TRUE, fig.width = 4, fig.asp = 0.618, fig.align = 'center', out.width = "60%">>=
-		mosaic::xqnorm(p = 0.75, mean = 100, sd = 13)
-		@		
+\begin{knitrout}\tiny
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlstd{mosaic}\hlopt{::}\hlkwd{xqnorm}\hlstd{(}\hlkwc{p} \hlstd{=} \hlnum{0.75}\hlstd{,} \hlkwc{mean} \hlstd{=} \hlnum{100}\hlstd{,} \hlkwc{sd} \hlstd{=} \hlnum{13}\hlstd{)}
+\end{alltt}
+\end{kframe}
+
+{\centering \includegraphics[width=0.6\linewidth]{figure/probs8-1} 
+
+}
+
+
+\begin{kframe}\begin{verbatim}
+## [1] 108.7684
+\end{verbatim}
+\end{kframe}
+\end{knitrout}
 		
 		\item[]
 	\end{itemize} This tells us that 75\% of the IQ scores fall below 108.8. 
@@ -784,21 +858,25 @@ any one estimate has 0\% confidence
 
 \begin{frame}[fragile]{Demo of Empirical Rule}
 	
-	<<echo = TRUE, eval = FALSE>>=
-	pacman::p_load(mosaic)
-	pacman::p_load(manipulate)
-	
-	mNorm <- function(mean = 0, sd = 1) {
-	lo <- mean - 5 * sd
-	hi <- mean + 5 * sd
-	manipulate(
-	xpnorm(c(A,B), mean, sd, verbose = FALSE, invisible = TRUE),
-	A = slider(lo, hi, initial = mean - sd),
-	B = slider(lo, hi, initial = mean + sd)
-	)
-	}
-	mNorm(mean = 0, sd = 1)
-	@
+\begin{knitrout}\tiny
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlstd{pacman}\hlopt{::}\hlkwd{p_load}\hlstd{(mosaic)}
+\hlstd{pacman}\hlopt{::}\hlkwd{p_load}\hlstd{(manipulate)}
+
+\hlstd{mNorm} \hlkwb{<-} \hlkwa{function}\hlstd{(}\hlkwc{mean} \hlstd{=} \hlnum{0}\hlstd{,} \hlkwc{sd} \hlstd{=} \hlnum{1}\hlstd{) \{}
+\hlstd{lo} \hlkwb{<-} \hlstd{mean} \hlopt{-} \hlnum{5} \hlopt{*} \hlstd{sd}
+\hlstd{hi} \hlkwb{<-} \hlstd{mean} \hlopt{+} \hlnum{5} \hlopt{*} \hlstd{sd}
+\hlkwd{manipulate}\hlstd{(}
+\hlkwd{xpnorm}\hlstd{(}\hlkwd{c}\hlstd{(A,B), mean, sd,} \hlkwc{verbose} \hlstd{=} \hlnum{FALSE}\hlstd{,} \hlkwc{invisible} \hlstd{=} \hlnum{TRUE}\hlstd{),}
+\hlkwc{A} \hlstd{=} \hlkwd{slider}\hlstd{(lo, hi,} \hlkwc{initial} \hlstd{= mean} \hlopt{-} \hlstd{sd),}
+\hlkwc{B} \hlstd{=} \hlkwd{slider}\hlstd{(lo, hi,} \hlkwc{initial} \hlstd{= mean} \hlopt{+} \hlstd{sd)}
+\hlstd{)}
+\hlstd{\}}
+\hlkwd{mNorm}\hlstd{(}\hlkwc{mean} \hlstd{=} \hlnum{0}\hlstd{,} \hlkwc{sd} \hlstd{=} \hlnum{1}\hlstd{)}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
 \end{frame}
 
 
@@ -1077,9 +1155,53 @@ correction is correct to 4 decimal places.}
 \begin{frame}[fragile]{Session Info}
 	\tiny
 	
-	<<echo=FALSE, comment = NA, size = 'tiny'>>=
-	print(sessionInfo(), locale = FALSE)
-	@
+\begin{knitrout}\tiny
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{verbatim}
+R version 4.0.4 (2021-02-15)
+Platform: x86_64-pc-linux-gnu (64-bit)
+Running under: Pop!_OS 21.04
+
+Matrix products: default
+BLAS:   /usr/lib/x86_64-linux-gnu/openblas-pthread/libblas.so.3
+LAPACK: /usr/lib/x86_64-linux-gnu/openblas-pthread/libopenblasp-r0.3.13.so
+
+attached base packages:
+[1] tools     stats     graphics  grDevices utils     datasets  methods  
+[8] base     
+
+other attached packages:
+ [1] oibiostat_0.2.0   DT_0.16           mosaic_1.7.0      Matrix_1.3-2     
+ [5] mosaicData_0.20.1 ggformula_0.9.4   ggstance_0.3.4    lattice_0.20-41  
+ [9] kableExtra_1.2.1  socviz_1.2        gapminder_0.3.0   here_0.1         
+[13] NCStats_0.4.7     FSA_0.8.30        forcats_0.5.1     stringr_1.4.0    
+[17] dplyr_1.0.7       purrr_0.3.4       readr_1.4.0       tidyr_1.1.3      
+[21] tibble_3.1.3      ggplot2_3.3.5     tidyverse_1.3.0   knitr_1.33       
+
+loaded via a namespace (and not attached):
+ [1] fs_1.5.0           lubridate_1.7.9    webshot_0.5.2      httr_1.4.2        
+ [5] rprojroot_2.0.2    backports_1.2.1    utf8_1.2.2         R6_2.5.1          
+ [9] DBI_1.1.1          colorspace_2.0-2   withr_2.4.2        tidyselect_1.1.1  
+[13] gridExtra_2.3      leaflet_2.0.3      curl_4.3.2         compiler_4.0.4    
+[17] cli_3.0.1          rvest_1.0.0        pacman_0.5.1       xml2_1.3.2        
+[21] ggdendro_0.1.22    labeling_0.4.2     mosaicCore_0.8.0   scales_1.1.1      
+[25] digest_0.6.27      foreign_0.8-81     rmarkdown_2.9.7    rio_0.5.16        
+[29] pkgconfig_2.0.3    htmltools_0.5.2    highr_0.9          dbplyr_1.4.4      
+[33] fastmap_1.1.0      htmlwidgets_1.5.3  rlang_0.4.11       readxl_1.3.1      
+[37] rstudioapi_0.13    farver_2.1.0       generics_0.1.0     jsonlite_1.7.2    
+[41] crosstalk_1.1.1    zip_2.2.0          car_3.0-9          magrittr_2.0.1    
+[45] Rcpp_1.0.7         munsell_0.5.0      fansi_0.5.0        abind_1.4-5       
+[49] lifecycle_1.0.0    stringi_1.7.3      carData_3.0-4      MASS_7.3-53.1     
+[53] plyr_1.8.6         grid_4.0.4         blob_1.2.1         ggrepel_0.8.2     
+[57] crayon_1.4.1       cowplot_1.1.0      haven_2.3.1        splines_4.0.4     
+[61] hms_1.0.0          pillar_1.6.2       reprex_0.3.0       glue_1.4.2        
+[65] evaluate_0.14      data.table_1.14.0  modelr_0.1.8       vctrs_0.3.8       
+[69] tweenr_1.0.1       cellranger_1.1.0   gtable_0.3.0       polyclip_1.10-0   
+[73] assertthat_0.2.1   TeachingDemos_2.12 xfun_0.25          ggforce_0.3.2     
+[77] openxlsx_4.1.5     broom_0.7.2        viridisLite_0.4.0  ellipsis_0.3.2    
+\end{verbatim}
+\end{kframe}
+\end{knitrout}
 	
 \end{frame}
 
@@ -1168,86 +1290,7 @@ correction is correct to 4 decimal places.}
 
 
 
-<<echo=FALSE, fig.show="hold", eval=FALSE>>=
-depthsOfWater = allLocations[allLocations$water==1,]
-depthsOfWater$depth = -depthsOfWater$alt
-par(mar = c(4,4,1,0.1))
-for (panel in 1){
 
-# depths
-
-if(panel==1) y = round(depthsOfWater$depth/100)
-if(panel==2) y = round(heightsOfLand$alt/100)
-
-f = table(y) 
-#str(f)
-x=as.numeric(dimnames(f)[[1]])
-Y=0:max(x) ;  
-FREQ=approx(x,f,Y)$y
-#plot(Y,FREQ,type="l")
-
-#( n.bins=length(FREQ) )
-
-max.Y = max(Y); 
-
-max.X = max.Y
-if (panel==2) max.X =25
-
-M = 1.05*max(f)
-
-FREQ[1+Y] =  FREQ/sum(FREQ)
-
-AVE = sum(Y*FREQ)
-SD = sqrt(sum( FREQ*(Y-AVE)^2 ) )
-
-already = FREQ
-
-max.n = 16; show=c(1,2,3,4,5,5,6,7,8,9,16)
-
-YLIM=sqrt(max.n/(panel^2.5))*max(FREQ)*c(-0.11,0.75)
-
-XLAB=c("OCEAN DEPTH","LAND ELEVATION")
-plot(Y,already,pch=19,lwd=1,col="white",
-type="l",ylim=YLIM, xlim=c(0,max.X),
-ylab="Density", xlab=XLAB[panel] )
-polygon(c(0,Y),c(0,FREQ),
-col=c("lightblue","bisque","grey98")[panel],
-border="grey10",lwd=1)
-for(n in 2:max.n){
-f = outer(already,FREQ)
-f[1:5,1:5]
-ff = sapply(split(f, col(f) + row(f)), sum)
-ff[1:5]
-ave = (0:(n* max.Y))/n
-if( n %in% show ){
-lines(ave,ff*n,col=n,lwd=4.5-4*(n-1)/n)
-
-text(1.5*AVE,max(ff*n),
-paste("means of samples of size",toString(n)),
-adj=c(0,0.5),col=n,cex=0.65)
-} 
-already=as.numeric(ff)
-}
-segments(AVE,0, AVE, 1.1*max(FREQ),lty="dotted")
-text(AVE,  0.35*YLIM[1],toString(round(AVE,0)), adj=c(0.5,1),
-cex=0.85 )
-txt= "Ocean Depths
-(units = 100m)"
-if(panel==2) txt="Land Elevations
-(units = 100m)"
-text(AVE+5,0.7*YLIM[1],txt,
-col="lightblue",adj=c(0,0.5),font=2)
-text(0.85*AVE,0.35*YLIM[1],expression(mu), adj=c(0.5,1.25),
-cex=0.95 )
-text(AVE,  0.99*YLIM[1], toString(round(SD,0)), adj=c(0.5,0),
-cex=0.85 )
-text(0.85*AVE,0.99*YLIM[1],expression(sigma), adj=c(0.5,0),
-cex=0.95 )
-for(a in AVE+(-20:20)) segments(a,0,a,0.1*YLIM[1])
-for(a in AVE+c(-20,-15,-10,-5,0,5,10,15,20)) segments(a,0,a,0.2*YLIM[1])
-
-}
-@
 
 %\end{frame}
 
@@ -1493,15 +1536,19 @@ for(a in AVE+c(-20,-15,-10,-5,0,5,10,15,20)) segments(a,0,a,0.2*YLIM[1])
 		\item Enter your results in the \href{https://docs.google.com/spreadsheets/d/1Mnxeq9nQcTdQycZ7S_62fYFiNC5_a3fibsyodzfwO58/edit?usp=sharing}{Google sheet} 
 		\item Plot the CIs for each student using the following code:
 		
-		<<eval=FALSE, echo = TRUE>>=
-		plot(dt$Mean.5.depths, 1:nrow(dt), pch=20, 
-		xlim=range(pretty(c(dt$lower.mean.5.66, dt$upper.mean.5.66))),
-		xlab='Depth of ocean (m)', ylab='Student (sample)', 
-		las=1, cex.axis=0.8, cex=1.5)
-		abline(v = 3700, lty = 2, col = "red", lwd = 2)
-		segments(x0 = dt$lower.mean.5.66, x1=dt$upper.mean.5.66, 
-		y0 = 1:nrow(dt), lend=1)
-		@
+\begin{knitrout}\tiny
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlkwd{plot}\hlstd{(dt}\hlopt{$}\hlstd{Mean.5.depths,} \hlnum{1}\hlopt{:}\hlkwd{nrow}\hlstd{(dt),} \hlkwc{pch}\hlstd{=}\hlnum{20}\hlstd{,}
+\hlkwc{xlim}\hlstd{=}\hlkwd{range}\hlstd{(}\hlkwd{pretty}\hlstd{(}\hlkwd{c}\hlstd{(dt}\hlopt{$}\hlstd{lower.mean.5.66, dt}\hlopt{$}\hlstd{upper.mean.5.66))),}
+\hlkwc{xlab}\hlstd{=}\hlstr{'Depth of ocean (m)'}\hlstd{,} \hlkwc{ylab}\hlstd{=}\hlstr{'Student (sample)'}\hlstd{,}
+\hlkwc{las}\hlstd{=}\hlnum{1}\hlstd{,} \hlkwc{cex.axis}\hlstd{=}\hlnum{0.8}\hlstd{,} \hlkwc{cex}\hlstd{=}\hlnum{1.5}\hlstd{)}
+\hlkwd{abline}\hlstd{(}\hlkwc{v} \hlstd{=} \hlnum{3700}\hlstd{,} \hlkwc{lty} \hlstd{=} \hlnum{2}\hlstd{,} \hlkwc{col} \hlstd{=} \hlstr{"red"}\hlstd{,} \hlkwc{lwd} \hlstd{=} \hlnum{2}\hlstd{)}
+\hlkwd{segments}\hlstd{(}\hlkwc{x0} \hlstd{= dt}\hlopt{$}\hlstd{lower.mean.5.66,} \hlkwc{x1}\hlstd{=dt}\hlopt{$}\hlstd{upper.mean.5.66,}
+\hlkwc{y0} \hlstd{=} \hlnum{1}\hlopt{:}\hlkwd{nrow}\hlstd{(dt),} \hlkwc{lend}\hlstd{=}\hlnum{1}\hlstd{)}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
 		
 	\end{enumerate}
 	%\end{exm}
