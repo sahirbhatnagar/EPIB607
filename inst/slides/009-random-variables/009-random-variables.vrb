@@ -1,0 +1,51 @@
+\frametitle{Session Info}
+\tiny
+^^I
+\begin{knitrout}\tiny
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{verbatim}
+R version 4.0.4 (2021-02-15)
+Platform: x86_64-pc-linux-gnu (64-bit)
+Running under: Pop!_OS 21.04
+
+Matrix products: default
+BLAS:   /usr/lib/x86_64-linux-gnu/openblas-pthread/libblas.so.3
+LAPACK: /usr/lib/x86_64-linux-gnu/openblas-pthread/libopenblasp-r0.3.13.so
+
+attached base packages:
+[1] tools     stats     graphics  grDevices utils     datasets  methods
+[8] base
+
+other attached packages:
+ [1] DT_0.16           mosaic_1.7.0      Matrix_1.3-2      mosaicData_0.20.1
+ [5] ggformula_0.9.4   ggstance_0.3.4    lattice_0.20-41   kableExtra_1.2.1
+ [9] socviz_1.2        gapminder_0.3.0   here_0.1          NCStats_0.4.7
+[13] FSA_0.8.30        forcats_0.5.1     stringr_1.4.0     dplyr_1.0.7
+[17] purrr_0.3.4       readr_1.4.0       tidyr_1.1.3       tibble_3.1.3
+[21] ggplot2_3.3.5     tidyverse_1.3.0   knitr_1.33
+
+loaded via a namespace (and not attached):
+ [1] fs_1.5.0           lubridate_1.7.9    webshot_0.5.2      httr_1.4.2
+ [5] rprojroot_2.0.2    backports_1.2.1    utf8_1.2.2         R6_2.5.1
+ [9] DBI_1.1.1          colorspace_2.0-2   withr_2.4.2        tidyselect_1.1.1
+[13] gridExtra_2.3      leaflet_2.0.3      curl_4.3.2         compiler_4.0.4
+[17] cli_3.0.1          rvest_1.0.0        pacman_0.5.1       xml2_1.3.2
+[21] ggdendro_0.1.22    labeling_0.4.2     mosaicCore_0.8.0   scales_1.1.1
+[25] digest_0.6.27      foreign_0.8-81     rmarkdown_2.9.7    rio_0.5.16
+[29] pkgconfig_2.0.3    htmltools_0.5.2    highr_0.9          dbplyr_1.4.4
+[33] fastmap_1.1.0      htmlwidgets_1.5.3  rlang_0.4.11       readxl_1.3.1
+[37] rstudioapi_0.13    farver_2.1.0       generics_0.1.0     jsonlite_1.7.2
+[41] crosstalk_1.1.1    zip_2.2.0          car_3.0-9          magrittr_2.0.1
+[45] Rcpp_1.0.7         munsell_0.5.0      fansi_0.5.0        abind_1.4-5
+[49] lifecycle_1.0.0    stringi_1.7.3      carData_3.0-4      MASS_7.3-53.1
+[53] plyr_1.8.6         grid_4.0.4         blob_1.2.1         ggrepel_0.8.2
+[57] crayon_1.4.1       cowplot_1.1.0      haven_2.3.1        splines_4.0.4
+[61] hms_1.0.0          pillar_1.6.2       reprex_0.3.0       glue_1.4.2
+[65] evaluate_0.14      data.table_1.14.0  modelr_0.1.8       vctrs_0.3.8
+[69] tweenr_1.0.1       cellranger_1.1.0   gtable_0.3.0       polyclip_1.10-0
+[73] assertthat_0.2.1   TeachingDemos_2.12 xfun_0.25          ggforce_0.3.2
+[77] openxlsx_4.1.5     broom_0.7.2        viridisLite_0.4.0  ellipsis_0.3.2
+\end{verbatim}
+\end{kframe}
+\end{knitrout}
+^^I

@@ -117,7 +117,7 @@ This expected value will exist provided that $\int_{-\infty}^\infty |y| \cdot f(
 
 The expectation acts as a mean for a variable that has a conception repetition or an infinite sample size. The expected value of a random variable will usually be in terms of population parameters. We present some examples of where the expected value of a random variable is a quantity of interest.
 
-:::{.example}
+::: {.example}
 Suppose, for example, that the death rate in any year is 1 out of every 1000 people,
 and that another 2 out of 1000 suffer some kind of disability. Then we can display the
 probability model for this insurance policy in a table like this:
@@ -233,7 +233,7 @@ $g(Y) = (Y - \mu)^2$, the **squared deviation from the mean**
 ### Definitions
 
 :::{.definition name="Variance"}
-The variance of the random variable $Y$ is given by $$\Expec[(Y - \mu)^2]$$. 
+The variance of the random variable $Y$ is given by $$\Expec[(Y - \mu)^2].$$ 
 It is usually shortened to Var($Y$) or even to V($Y$).
 
 It, and its positive square root, called the _standard deviation_ of $Y$, or SD($Y$), are two of the most commonly used measures of variability or spread or uncertainty.
@@ -368,7 +368,7 @@ $$Var[ RV + constant ] = Var[RV]$$
 
    + $Y$ = Ocean Depth at a randomly chosen location, measured in metres. If the origin is the ocean floor, all depths will be positive; if it is the surface of the ocean, they will all be negative. The spread, the SD and the Variance stay the same, but the shapes of the distributions are mirror images of each other. 
 
-   + $Y$ = diameter of a randomly chosen sphere; $g(Y)$ = Volume of sphere = $\frac{\pi}{6}  Y^3.$  This one is more complicated -- as you might have guessed from just trying to compute the expectation. The fact that the scaling is different at different values of $Y$ complicates matters. There is an appr0ximate formula, that depends on the scaling at some 'representative' value of $Y$, typically the mean or mode. For more on this, see the examples in this [expository piece](http://www.medicine.mcgill.ca/epidemiology/hanley/Reprints/jh_dt_tas_2006.pdf).  
+   + $Y$ = diameter of a randomly chosen sphere; $g(Y)$ = Volume of sphere = $\frac{\pi}{6}  Y^3.$  This one is more complicated -- as you might have guessed from just trying to compute the expectation. The fact that the scaling is different at different values of $Y$ complicates matters. There is an approximate formula, that depends on the scaling at some 'representative' value of $Y$, typically the mean or mode. For more on this, see the examples in this [expository piece](http://www.medicine.mcgill.ca/epidemiology/hanley/Reprints/jh_dt_tas_2006.pdf).  
 
    + $Y$ = fuel consumption, in liters/100km, of  a randomly selected make of car; $g(Y)$ =  Km per liter (reciprocal). There is no exact closed form, but the approximation works well because the values are well away from zero, and not too spread out.
 
@@ -703,33 +703,33 @@ $$ SD\bigg(\frac{RV_1 +RV_2}{2}\bigg) = \frac{SD(RV_1+RV_2)}{2} = \frac{5}{2}.$$
 **SPECIAL CASE** (quite common) where **SDs are identical**:
 
 Up to now, to keep things general, we used $n$ non-identical -- but independent -- random variables. If we
-consider the Variance and the sum of $n$ IDENTICAL -- and independent -- random variables,  so the the $n$ Variances (each abbreviated to Var) are all equal, the laws simplify
+consider the Variance and the sum of $n$ IDENTICAL -- and independent -- random variables,  so the $n$ Variances (each abbreviated to Var) are all equal, the laws simplify
 
 First, since the variances add, we have that
 
-$$ Variance(RV_1 + RV_2 + \dots + RV_n) = Var_1 + Var_2 + \dots + Var_n = n \times \ each \ Var.$$
+$$ \Var(RV_1 + RV_2 + \dots + RV_n) = \Var_1 + \Var_2 + \dots + \Var_n = n \times \ each \ \Var.$$
 
 and so, taking square roots,
 
-$$ SD( \ RV_1 + RV_2 + \dots + RV_n \ ) = \sqrt{ \ n \times \ each \ Var} = \sqrt{n} \ \times \ each \ SD$$
+$$ SD( \ RV_1 + RV_2 + \dots + RV_n \ ) = \sqrt{ \ n \times \ each \ \Var} = \sqrt{n} \ \times \ each \ SD$$
 
 When we go from **sum** of $n$ IDENTICAL independent RVs to a **mean** of $n$ IDENTICAL RVs, we go to a scale that is (1/n)-th the spread of the sum scale. So, again, just as when we went from the larger degrees F scale to the smaller degrees C scale, we have
 
 $$ SD\bigg(\frac{RV_1 + RV_2 + \dots + RV_n}{n}\bigg) = \frac{\sqrt{n} \ \times \ each \ SD}{n} = \frac{common \ SD}{\sqrt{n}} .$$
 Sometimes, we will need to work with variances. When we do, we use this law: 
 
-$$ VAR\bigg(\frac{RV_1 + RV_2 + \dots + RV_n}{n}\bigg) = \frac{common \ VAR}{n} .$$
+$$ \Var\bigg(\frac{RV_1 + RV_2 + \dots + RV_n}{n}\bigg) = \frac{common \ \Var}{n} .$$
 
 
 
 :::{.example name="Lengths of words in a book"}
 The number of dashes in of each row in the first panel of Figure \@ref(fig:bookA) is the number of letters in a randomly selected word from the book: dashes are for better visibility. The words (rows) are sorted by length, form shortest to longest.  One cannot judge the full distribution just from this limited set, but (even though shape doesn't matter much in the big scheme of things) you get a sense of its shape. In the entire  book, the mean word length is about 4.5 letters, and the SD is
-2.4 letters. (The fact that the distance between the minimum word length (1 letter) and the mean word length is less than 2 SDs hints that the full distribution has a longe right tail.) 
+2.4 letters. (The fact that the distance between the minimum word length (1 letter) and the mean word length is less than 2 SDs hints that the full distribution has a long right tail.) 
 
-In each row in the coloured panels, some  4 (or 9) randomly sampled words are (like Galton's peas) pushed right up against each other, without spaces, and shown in  a mono-spaced font, so that where the 'line' ends indicates the total number of letters in the 4 (9) words. Since this small number of rows (possibilies) is too small to give a good sense of the sampling distribution, the smooth purple histograms were calculated exactly. 
+In each row in the colored panels, some  4 (or 9) randomly sampled words are (like Galton's peas) pushed right up against each other, without spaces, and shown in  a mono-spaced font, so that where the 'line' ends indicates the total number of letters in the 4 (9) words. Since this small number of rows (possibilities) is too small to give a good sense of the sampling distribution, the smooth purple histograms were calculated exactly. 
 :::
 
-```{r bookA,eval=T, echo=F, fig.align="center", fig.height=12, fig.width = 7, warning=FALSE, message=F, fig.cap="Illustrations of SD's of Sums and Means of n = 1, 4 and 9 independent and identically distributed random variables. Each RV is the length of a randomly selected word from a certain book. [Below, we will compare the mean word length in this book with the mean in abook by a competitor]. The distributions in purple were computed theoretically, using convolutions. Each row shows 1 'realization' of each of the  n random variables, with each word in a different color. The rows are sorted according to the values of the total [or mean] numbers of letters (chars) in the sample of n words. In the panels where n is 4 or 9, the leftmost n-1 characters of the n concatenated words are cropped, but the total/mean length  is correct. The top panel lists the 'per word' variation of all of the words in the book, and its SD, sometimes called the 'unit' variability. You can also think of the length of each unit as the mean of a sample of size n = 1. The second panel shows that to reduce the sampling variation (the SD) of the mean by half, one needs to quadruple the n. The third panel shows that to reduce the sampling variation (the SD) to 1/3, one needs to multiply the n by 9. Note, in passing, that at $n$ = 9, via the Central Limit Theorem, and the fact that the original distribution is 'CLT friendly' (the mode is not at either extreme, and the tails don't extend indefinitely), the shape of the sampling distribution is already close to Gaussian."}
+```{r bookA,eval=T, echo=F, fig.align="center", fig.height=12, fig.width = 7, warning=FALSE, message=F, fig.cap="Illustrations of SD's of Sums and Means of n = 1, 4 and 9 independent and identically distributed random variables. Each RV is the length of a randomly selected word from a certain book. [Below, we will compare the mean word length in this book with the mean in a book by a competitor]. The distributions in purple were computed theoretically, using convolutions. Each row shows 1 'realization' of each of the  n random variables, with each word in a different color. The rows are sorted according to the values of the total [or mean] numbers of letters (chars) in the sample of n words. In the panels where n is 4 or 9, the leftmost n-1 characters of the n concatenated words are cropped, but the total/mean length  is correct. The top panel lists the 'per word' variation of all of the words in the book, and its SD, sometimes called the 'unit' variability. You can also think of the length of each unit as the mean of a sample of size n = 1. The second panel shows that to reduce the sampling variation (the SD) of the mean by half, one needs to quadruple the n. The third panel shows that to reduce the sampling variation (the SD) to 1/3, one needs to multiply the n by 9. Note, in passing, that at $n$ = 9, via the Central Limit Theorem, and the fact that the original distribution is 'CLT friendly' (the mode is not at either extreme, and the tails don't extend indefinitely), the shape of the sampling distribution is already close to Gaussian."}
 
 ds = read.table(
 "http://www.biostat.mcgill.ca/hanley/statbook/WH.txt.words.txt",
@@ -751,6 +751,7 @@ Fr = table(Y)[1: L.max]
 Fr = Fr/sum(Fr)
 
 to.show = c(1,4,9)
+# to.show = c(1)
 Max.n   = max(to.show)
 
 P = c(0.025,0.975)

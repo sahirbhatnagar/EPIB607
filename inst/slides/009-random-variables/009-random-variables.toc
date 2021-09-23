@@ -1,0 +1,5 @@
+\beamer@sectionintoc {1}{Random Variables}{2}{0}{1}
+\beamer@sectionintoc {2}{Expected Value of a function of a RV}{13}{0}{2}
+\beamer@sectionintoc {3}{Variance and SD of a function of a RV}{28}{0}{3}
+\beamer@sectionintoc {4}{Sums, means, differences of random variables}{33}{0}{4}
+\beamer@sectionintoc {5}{Linear combinations of random variables (regression slopes)}{43}{0}{5}
