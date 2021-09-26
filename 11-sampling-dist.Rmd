@@ -366,9 +366,8 @@ expression results in the computation of the relative frequency of
 `TRUE`s, which corresponds to the probability of the event of interest.
 
 ```{example, exsampdist1}
-A poll for the determination of the support in the
-population for a candidate was describe in
-Example \@ref(exm:exrvar1). The proportion in the population of
+Consider a poll for the determination of the support in the
+population for a candidate. The proportion in the population of
 supporters was denoted by $p$. A sample of size $n=300$ was considered
 in order to estimate the size of $p$. We identified that the
 distribution of $X$, the number of supporters in the sample, is
@@ -445,14 +444,12 @@ is $\sqrt{2.5} = 1.581139$). Observe that the expectation of the sample
 average that we got from the simulation is essentially equal to 5 and
 the standard deviation is 0.1982219.
 
-One may prove mathematically that the expectation of the sample mean is
+In Section \@ref(randomVariables), we proved mathematically that the expectation of the sample mean is
 equal to the theoretical expectation of its components:
 
 $$\Expec(\bar Y) = \Expec(Y)\;.$$ The results of the simulation for the
 expectation of the sample average are consistent with the mathematical
-statement. The mathematical theory of probability may also be used in
-order to prove that the variance of the sample average is equal to the
-variance of each of the components, divided by the sample size:
+statement. In Section \@ref(randomVariables), we also proved that the variance of the sample average is equal to the variance of each of the components, divided by the sample size:
 
 $$\Var(\bar Y) = \Var(Y)/n\;,$$ here $n$ is the number of observations
 in the sample. Specifically, in the Binomial example we get that
@@ -472,7 +469,7 @@ the statistic, “`Y.bar`" in the current case. The second argument is a
 number between 0 and 1, or a sequence of such numbers:
 
 ```{r}
-quantile(Y.bar,c(0.025,0.975))
+quantile(x = Y.bar, probs = c(0.025,0.975))
 ```
 
 We used the sequence “`c(0.025,0.975)`" as the input to the second
@@ -497,8 +494,7 @@ under the title: *The Central Limit Theorem*.
 
 ```{example, exsampdist3}
 The distribution of the number of events of radio
-active decay in a second was modeled in Example \@ref(exm:exrvar3)
-according to the Poisson distribution. A quantity of interest is
+active decay in a second can be modeled according to the Poisson distribution. A quantity of interest is
 $\lambda$, the expectation of that Poisson distribution. This quantity
 may be estimated by measuring the total number of decays over a period
 of time and dividing the outcome by the number of seconds in that period
@@ -698,7 +694,7 @@ var(exp.1000)
 Which is in agreement with the decrease proposed by the theory,
 
 However, when one examines the densities of the sample averages in
-Figure \@reF(fig:SampDist9) one may see a clear distinction between the
+Figure \@ref(fig:SampDist9) one may see a clear distinction between the
 sampling distribution of the average for a sample of size 10 and the
 normal distribution (compare the *red* curve to the *black* curve. The
 match between the *green* curve that corresponds to a sample of size
@@ -740,74 +736,10 @@ may be bad for samples that are not large enough. When the sample is
 small a careless application of the Central Limit Theorem may produce
 misleading conclusions.
 
-## Exercises {#SampDistEx}
-
-```{exercise, label="ex1sampdist"}
-The file “`heights_population.csv`" contains information associated
-to the blood pressure of an imaginary population of size 100,000. The
-variables in this file are:
-
-id:
-
-:   A numerical variable. A 7 digits number that serves as a unique
-    identifier of the subject.
-
-sex:
-
-:   A factor variable. The sex of each subject. The values are either
-    “`MALE`" or “`FEMALE`".
-
-age:
-
-:   A numerical variable. The age of each subject.
-
-bmi:
-
-:   A numerical variable. The body mass index of each subject.
-
-systolic:
-
-:   A numerical variable. The systolic blood pressure of each subject.
-
-diastolic:
-
-:   A numerical variable. The diastolic blood pressure of each subject.
-
-group:
-
-:   A factor variable. The blood pressure category of each subject. The
-    values are “`NORMAL`" both the systolic blood pressure is within its
-    normal range (between 90 and 139) and the diastolic blood pressure
-    is within its normal range (between 60 and 89). The value is
-    “`HIGH`" if either measurements of blood pressure are above their
-    normal upper limits and it is “`LOW`" if either measurements are
-    below their normal lower limits.
-
-Our goal in this question is to investigate the sampling distribution of
-the sample average of the variable “`bmi`". We assume a sample of size
-$n=150$.
-
-1.  Compute the population average of the variable “`bmi`".
-
-2.  Compute the population standard deviation of the variable “`bmi`".
-
-3.  Compute the expectation of the sampling distribution for the sample
-    average of the variable.
-
-4.  Compute the standard deviation of the sampling distribution for the
-    sample average of the variable.
-
-5.  Identify, using simulations, the central region that contains 80% of
-    the sampling distribution of the sample average.
-
-6.  Identify, using the Central Limit Theorem, an approximation of the
-    central region that contains 80% of the sampling distribution of the
-    sample average.
-
-```
+## Exercises 
 
 
-```{exercise}
+:::{.exercise}
 A subatomic particle hits a linear detector at random
 locations. The length of the detector is 10 nm and the hits are
 uniformly distributed. The location of 25 random hits, measured from a
@@ -825,8 +757,8 @@ location computed.
 4.  The central region that contains 99% of the distribution of the
     average is of the form $5 \pm c$. Use the Central Limit Theorem in
     order to approximate the value of c.
+:::
 
-```
 
 
 ## Summary

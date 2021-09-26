@@ -81,7 +81,7 @@ between the probability $\Prob(Y \leq 5)$, the area to the left of 5,
 and the probability $\Prob(Y \leq 0)$, the area to the left of 0:
 
 ```{r}
-pnorm(5,2,3) - pnorm(0,2,3)
+pnorm(q = 5, mean = 2, sd = 3) - pnorm(q = 0, mean = 2, sd = 3)
 ```
 
 The difference is the indicated area that corresponds to the probability
@@ -107,10 +107,10 @@ variable about the expectation.
 
 ```{r Normal2, fig.cap='The Normal Distribution for Various Values of $\\mu$ and $\\sigma$', echo=FALSE, message=FALSE,warning=FALSE, fig.align = "center"}
 x.coord = seq(-10,10,.1)
-plot(c(0,x.coord), c(0,dnorm(x.coord,0,1)), ylab ="Density", lty=1, xlab="y",ylim=c(0, .8), type="l")
-lines(c(0,x.coord)-.03, c(0,dnorm(x.coord,2,3)), col=2)
-lines(c(0,x.coord)+.03, c(0,dnorm(x.coord,-3,sqrt(.25))), col=3)
-legend(4, .8, c("N(0,1)", "N(2,3)", "N(-3,0.50)"), col = c(1, 2, 3), lty = c(1, 1, 1))
+plot(c(0,x.coord), c(0,dnorm(x.coord,0,1)), ylab ="Density", lty=1, xlab="y",ylim=c(0, .8), type="l", lwd = 3)
+lines(c(0,x.coord)-.03, c(0,dnorm(x.coord,2,3)), col=2, lwd = 3)
+lines(c(0,x.coord)+.03, c(0,dnorm(x.coord,-3,sqrt(.25))), col=3, lwd = 3)
+legend(4, .8, c("N(0,1)", "N(2,3)", "N(-3,0.50)"), col = c(1, 2, 3), lty = c(1, 1, 1), lwd = 3)
 ```
 
 ```{example, exnormal1}
@@ -189,26 +189,20 @@ computation by the application of the same function to the standardized
 values:
 
 ```{r}
-pnorm((5-2)/3) - pnorm((0-2)/3)
+pnorm(q = (5-2)/3) - pnorm(q = (0-2)/3)
 ```
 
 The value that is being computed, the area under the graph for the
 standard Normal distribution, is presented in Figure \@ref(fig:Normal3).
 Recall that 3 arguments where specified in the previous application of
-the function “`pnorm`": the $x$ value, the expectation, and the standard
+the function `pnorm`: the $x$ value, the expectation, and the standard
 deviation. In the given application we did not specify the last two
 arguments, only the first one. (Notice that the output of the expression
-“`(5-2)/3`" is a single number and, likewise, the output of the
-expression “`(0-2)/3`" is also a single number.)
-
-Most `R` function have many arguments that enables flexible application
-in a wide range of settings. For convenience, however, default values
-are set to most of these arguments. These default values are used unless
-an alternative value for the argument is set when the function is
-called. The default value of the second argument of the function
-“`pnorm`" that specifies the expectation is “`mean=0`", and the default
+`(5-2)/3` is a single number and, likewise, the output of the
+expression `(0-2)/3` is also a single number.) Most `R` function have many arguments that enables flexible application in a wide range of settings. For convenience, however, default values are set to most of these arguments. These default values are used unless an alternative value for the argument is set when the function is called. The default value of the second argument of the function
+`pnorm` that specifies the expectation is `mean=0`, and the default
 value of the third argument that specifies the standard deviation is
-“`sd=1`". Therefore, if no other value is set for these arguments the
+`sd=1`. Therefore, if no other value is set for these arguments the
 function computes the cumulative distribution function of the standard
 Normal distribution.
 
@@ -236,7 +230,7 @@ equal to the probability $p$ is called the $p$-*percentile* of the
 distribution. Here we seek the 2.5%-percentile and the 97.5%-percentile
 of the standard Normal distribution.
 
-```{r Normal4, fig.cap='Central 95$\\%$ of the Standard Normal Distribution',echo=FALSE, message=FALSE, warning=FALSE, out.width = '60%', fig.align = "center"}
+```{r Normal4, fig.cap='Central 95$\\%$ of the Standard Normal Distribution',echo=FALSE, message=FALSE, warning=FALSE, fig.align = "center"}
 v1 <- c(-4,-1.96,0,1.96,4)
 z0 = expression(paste("z" [0], " = -1.96"))
 z1 = expression(paste("z" [1], " = 1.96"))
@@ -335,7 +329,7 @@ In Figure \@ref(fig:pqfunction), the values of the **p** function are shown on t
 
 The **q** function (in blue) goes into the opposite direction. You enter at some proportion on the vertical axis, and exit with a value of the characteristic (a quantile) on the horizontal axis. In our plot, the proportions on the vertical axis are  equally-spaced. Percentiles and quartiles are a very specific sets of quantiles: they are obtained by finding the values that divide the distribution into 100 or into 4.  
 
-```{r pqfunction,eval=T, echo=F, fig.align="center", warning=FALSE, message=F}
+```{r pqfunction,eval=T, echo=F, fig.align="center", fig.cap = 'p and q functions visual representation.', warning=FALSE, message=F}
 
 SHAPE = 5; SCALE=1.4
 values.of.characteristic = seq(0,25,1)
@@ -518,7 +512,7 @@ a given value, we get that the probability in the range between 1940 and
 2060 is equal to
 
 ```{r}
-pbinom(2060,4000,0.5) - pbinom(1939,4000,0.5)
+pbinom(q = 2060, size = 4000, prob = 0.5) - pbinom(q = 1939, size = 4000, prob = 0.5)
 ```
 
 This is an exact computation. The Normal approximation produces an
@@ -534,7 +528,7 @@ is $\Expec(Y) = 4,000 \times 0.5 = 2,000$ and the variance is
 $\Var(Y) = 4,000 \times 0.5 \times 0.5 = 1,000$, with the standard
 deviation being the square root of the variance. Repeating the same
 computation that we conducted for the Binomial random variable, but this
-time with the function “`pnorm`" that is used for the computation of the
+time with the function `pnorm` that is used for the computation of the
 Normal cumulative probability, we get:
 
 ```{r}
@@ -805,7 +799,7 @@ Poisson Approximation of the Binomial:
     the same expectation as the Binomial.
 
 
-[^6_1]: If $Y \sim \mbox{Normal}(\mu,\sigma^2)$ then the density of $Y$ is
+[^6_1]: If $Y \sim \mbox{Normal}(\mu,\sigma)$ then the density of $Y$ is
     given by the formula
     $f(y) = \exp\{-\frac{(y-\mu)^2}{2 \sigma^2}\}/\sqrt{2 \pi \sigma^2}$,
     for all $y$.
