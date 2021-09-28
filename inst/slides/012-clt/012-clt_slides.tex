@@ -1,0 +1,669 @@
+\documentclass[10pt]{beamer}\usepackage[]{graphicx}\usepackage[]{color}
+% maxwidth is the original width if it is less than linewidth
+% otherwise use linewidth (to make sure the graphics do not exceed the margin)
+\makeatletter
+\def\maxwidth{ %
+  \ifdim\Gin@nat@width>\linewidth
+    \linewidth
+  \else
+    \Gin@nat@width
+  \fi
+}
+\makeatother
+
+\definecolor{fgcolor}{rgb}{0.345, 0.345, 0.345}
+\newcommand{\hlnum}[1]{\textcolor[rgb]{0.686,0.059,0.569}{#1}}%
+\newcommand{\hlstr}[1]{\textcolor[rgb]{0.192,0.494,0.8}{#1}}%
+\newcommand{\hlcom}[1]{\textcolor[rgb]{0.678,0.584,0.686}{\textit{#1}}}%
+\newcommand{\hlopt}[1]{\textcolor[rgb]{0,0,0}{#1}}%
+\newcommand{\hlstd}[1]{\textcolor[rgb]{0.345,0.345,0.345}{#1}}%
+\newcommand{\hlkwa}[1]{\textcolor[rgb]{0.161,0.373,0.58}{\textbf{#1}}}%
+\newcommand{\hlkwb}[1]{\textcolor[rgb]{0.69,0.353,0.396}{#1}}%
+\newcommand{\hlkwc}[1]{\textcolor[rgb]{0.333,0.667,0.333}{#1}}%
+\newcommand{\hlkwd}[1]{\textcolor[rgb]{0.737,0.353,0.396}{\textbf{#1}}}%
+\let\hlipl\hlkwb
+
+\usepackage{framed}
+\makeatletter
+\newenvironment{kframe}{%
+ \def\at@end@of@kframe{}%
+ \ifinner\ifhmode%
+  \def\at@end@of@kframe{\end{minipage}}%
+  \begin{minipage}{\columnwidth}%
+ \fi\fi%
+ \def\FrameCommand##1{\hskip\@totalleftmargin \hskip-\fboxsep
+ \colorbox{shadecolor}{##1}\hskip-\fboxsep
+     % There is no \\@totalrightmargin, so:
+     \hskip-\linewidth \hskip-\@totalleftmargin \hskip\columnwidth}%
+ \MakeFramed {\advance\hsize-\width
+   \@totalleftmargin\z@ \linewidth\hsize
+   \@setminipage}}%
+ {\par\unskip\endMakeFramed%
+ \at@end@of@kframe}
+\makeatother
+
+\definecolor{shadecolor}{rgb}{.97, .97, .97}
+\definecolor{messagecolor}{rgb}{0, 0, 0}
+\definecolor{warningcolor}{rgb}{1, 0, 1}
+\definecolor{errorcolor}{rgb}{1, 0, 0}
+\newenvironment{knitrout}{}{} % an empty environment to be redefined in TeX
+
+\usepackage{alltt}
+
+
+%\input{slides_header.tex}
+\input{/home/sahir/git_repositories/EPIB607/slides/slides_header2.tex}
+\graphicspath{{/home/sahir/git_repositories/EPIB607/slides/figure/}}
+%\newtheorem*{remark}{Remark}
+
+%\let\oldShaded\Shaded
+%\let\endoldShaded\endShaded
+%\renewenvironment{Shaded}{\footnotesize\oldShaded}{\endoldShaded}
+
+\newcommand{\Var}{\operatorname{Var}}
+\newcommand{\Expec}{\operatorname{E}}
+\newcommand{\Prob}{\operatorname{P}}
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\begin{document}
+	
+	
+	
+	%\title{Introduction to Regression Trees}
+	%\author{Sahir Bhatnagar \inst{1}}
+	%\author[shortname]{Sahir Rai Bhatnagar, PhD Candidate (Biostatistics) }
+	%\institute[shortinst]{Department of Epidemiology, Biostatistics and Occupational Health}
+	
+	\title{012 - Central Limit Theorem}
+	\author{EPIB 607}
+	\institute{
+		Sahir Rai Bhatnagar\\
+		Department of Epidemiology, Biostatistics, and Occupational Health\\
+		McGill University\\
+		
+		\vspace{0.1 in}
+		
+		\texttt{sahir.bhatnagar@mcgill.ca}\\
+		%\texttt{\url{https://sahirbhatnagar.com/EPIB607/}}
+	}
+	
+	\date{slides compiled on \today}
+	
+	\maketitle
+
+\section{Statistical Concepts and Prinicples}
+
+
+\begin{frame}{Standard deviation and variance of a random variable $Y$}
+	\begin{itemize}
+		\tightlist
+		\item $Y \sim$ unknown\_distribution$(\mu, \sigma)$
+		\item Standard Deviation \(\sigma,\) and Variance \(\sigma^2\), of a random variable \(Y\) with mean \(\mu\).
+	\end{itemize}
+
+\begin{align*}
+Var[Y] &= \sigma^2 = \textrm{mean of } (Y - \mu)^2 \\
+SD[Y] &= \sigma \\
+Var[Y \pm a \ constant] &= Var[Y] \\
+SD[Y \pm a \ constant] &= \sigma \\
+Var[Y \times a \ constant] &= constant^2 \ \times \ Var[Y] \\
+SD[Y \times a \ constant] &= |constant| \times \sigma
+\end{align*}	
+
+
+\end{frame}
+
+
+
+\begin{frame}{Rules for Variances and SDs of \emph{sums} and \emph{means} of \(n\) \emph{independent} random variables}
+
+$\underline{Sums}$
+
+
+\begin{align*}
+Var[ Y_1 + Y_2 + \dots + Y_n] &= \sigma^2 + \sigma^2 + \dots + \sigma^2 = n \times \sigma^2 \\
+SD[ Y_1 + Y_2 + \dots + Y_n]  &= \sqrt{n} \times \sigma
+\end{align*}
+
+
+\pause
+
+
+$\underline{Means}$
+	
+
+\begin{align*}
+	Var\bigg[\frac{Y_1 + Y_2 + \dots + Y_n}{n}\bigg] &=  \frac{1}{n} \times \sigma^2 \\
+	SD\bigg[\frac{Y_1 + Y_2 + \dots + Y_n}{n}\bigg] &=  \sqrt{\frac{1}{n}} \times \sigma
+\end{align*}
+
+
+\end{frame}
+
+
+
+\begin{frame}[fragile]{Age-distribution of the entire population of Dublin\footnote{\tiny{\url{http://www.census.nationalarchives.ie/help/about19011911census.html}}}}
+\begin{knitrout}\tiny
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}
+
+{\centering \includegraphics[width=\maxwidth]{figure/unnamed-chunk-1-1} 
+
+}
+
+
+\end{knitrout}
+
+\end{frame}
+
+
+
+
+
+
+\begin{frame}[fragile]{Distribution of 10000 Bootstrap samples of size 2}
+\begin{knitrout}\tiny
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{verbatim}
+## [1] Ages of sampled persons in first 2 samples of size 2
+##      [,1] [,2]
+## [1,]   42   47
+## [2,]   28   10
+\end{verbatim}
+\end{kframe}
+
+{\centering \includegraphics[width=\maxwidth]{figure/unnamed-chunk-2-1} 
+
+}
+
+
+\end{knitrout}
+	
+\end{frame}
+
+
+
+
+
+\begin{frame}[fragile]{Distribution of 10000 Bootstrap samples of size 4}
+\begin{knitrout}\tiny
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{verbatim}
+## [1] Ages of sampled persons in first 2 samples of size 4
+##      [,1] [,2] [,3] [,4]
+## [1,]    8   26   20    0
+## [2,]   19   17   46   15
+\end{verbatim}
+\end{kframe}
+
+{\centering \includegraphics[width=\maxwidth]{figure/unnamed-chunk-3-1} 
+
+}
+
+
+\end{knitrout}
+	
+\end{frame}
+
+
+
+
+\begin{frame}[fragile]{Distribution of 10000 Bootstrap samples of size 10}
+\begin{knitrout}\tiny
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{verbatim}
+## [1] Ages of sampled persons in first 2 samples of size 10
+##      [,1] [,2] [,3] [,4] [,5] [,6] [,7] [,8] [,9] [,10]
+## [1,]   15    0    6   36   24   38   16   20   50     8
+## [2,]    9    6   43   19   24   13    3   45    3    21
+\end{verbatim}
+\end{kframe}
+
+{\centering \includegraphics[width=\maxwidth]{figure/unnamed-chunk-4-1} 
+
+}
+
+
+\end{knitrout}
+	
+\end{frame}
+
+
+
+
+\begin{frame}[fragile]{Distribution of 10000 Bootstrap samples of size 16}
+\begin{knitrout}\tiny
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}
+
+{\centering \includegraphics[width=\maxwidth]{figure/unnamed-chunk-5-1} 
+
+}
+
+
+\end{knitrout}
+	
+\end{frame}
+
+
+\begin{frame}[fragile]{Distribution of 10000 Bootstrap samples of size 64}
+\begin{knitrout}\tiny
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}
+
+{\centering \includegraphics[width=\maxwidth]{figure/unnamed-chunk-6-1} 
+
+}
+
+
+\end{knitrout}
+	
+\end{frame}
+
+
+
+
+
+
+
+
+\section{Central Limit Theorem}
+
+
+
+\frame{\frametitle{Properties of the sample mean: The Central Limit Theorem (CLT)} 
+	
+	The sampling distribution of $\overline{Y}$ is Normal if $Y$ is Normal. What probability
+	distribution does the sample mean follow if $Y$ is not Normal? \pause
+	
+	
+	
+	\vspace{0.5in}
+	
+	
+	
+	\textcolor{blue}{As sample size increases, the distribution of
+		$\overline{Y}$ becomes closer to a Normal distribution, no matter
+		what the distribution of sampled variable $Y$!} \\ \ \\
+	(This is true as long as the distribution has a finite variance.) }
+
+\frame{\frametitle{The Central Limit Theorem (CLT)} 
+	
+	\begin{itemize}
+		\item The sampling distribution of $\bar{y}$ is, for a large enough $n$, close to Gaussian in shape no matter what the shape of the distribution of individual $Y$ values. 
+		\item This phenomenon is referred to as the CENTRAL LIMIT THEOREM 
+		\item The CLT applied also to a \underline{sample proportion}, \underline{slope}, \underline{correlation}, or any other statistic created by \underline{aggregation of individual observations}
+	\end{itemize}
+	
+	\begin{theorem}[Central Limit Theorem]
+		\begin{center}
+			if $Y \sim ???(\mu_Y, \sigma_Y)$, then \\ \ \\
+			$\bar{y} \sim \mathcal{N}(\mu_Y, \sigma_Y / \sqrt{n})$
+		\end{center}
+	\end{theorem}
+	
+	\vspace{1.25cm}
+	%pause
+}
+
+
+\begin{frame}{Standard error (SE) of a sample statistic}
+	\begin{itemize}
+		\item Recall: When we are talking about the variability of a
+		\textbf{statistic}, we use the term \textbf{standard error} (not
+		standard deviation). The standard error of the sample mean is $\sigma/\sqrt{n}$.
+	\end{itemize}
+	\pause
+	
+	\begin{remark}[SE vs. SD]
+		\begin{center}
+			In quantifying the instability of the sample mean ($\bar{y}$) statistic,
+			we talk of SE of the mean (SEM) \\ \ \\
+			SE($\bar{y}$) describes how far $\bar{y}$ could (typically) deviate from $\mu$; \\ \ \\
+			SD($y$) describes how far an individual $y$ (typically) deviates from $\mu$ (or from $\bar{y}$).
+		\end{center}
+	\end{remark}	
+	
+	
+\end{frame}
+
+\frame{\frametitle{CLT in action: Binomial(n = 5,p = 0.8) distribution}
+	\begin{figure}
+		\begin{center}
+			\epsfig{figure=CLT1.eps,width=3.3in,height=3.3in}
+		\end{center}
+	\end{figure}
+} \frame{\frametitle{CLT in action: Uniform(a = 0, b = 1) distribution}
+	\begin{figure}
+		\begin{center}
+			\epsfig{figure=CLT2.eps,width=3.3in,height=3.3in}
+		\end{center}
+	\end{figure}
+} \frame{\frametitle{CLT in action: Exponential($\lambda = 1$) distribution}
+	\begin{figure}
+		\begin{center}
+			\epsfig{figure=CLT3.eps,width=3.3in,height=3.3in}
+		\end{center}
+	\end{figure}
+}
+
+
+
+
+
+
+%\end{frame}
+
+\begin{frame}[fragile]{CLT in action: Depths of the ocean}
+	\includegraphics<1>[width=\textwidth,height=0.8\textheight,keepaspectratio]{ocean1.png}
+	\includegraphics<2>[width=\textwidth,height=0.8\textheight,keepaspectratio]{ocean2.png}
+	\includegraphics<3>[width=\textwidth,height=0.8\textheight,keepaspectratio]{ocean3.png}
+	\includegraphics<4>[width=\textwidth,height=0.8\textheight,keepaspectratio]{ocean4.png}
+	\includegraphics<5>[width=\textwidth,height=0.8\textheight,keepaspectratio]{ocean5.png}
+	\includegraphics<6>[width=\textwidth,height=0.8\textheight,keepaspectratio]{ocean6.png}
+	\includegraphics<7>[width=\textwidth,height=0.8\textheight,keepaspectratio]{ocean7.png}
+	\includegraphics<8>[width=\textwidth,height=0.8\textheight,keepaspectratio]{ocean8.png}
+	\includegraphics<9>[width=\textwidth,height=0.8\textheight,keepaspectratio]{ocean9.png}
+	\includegraphics<10>[width=\textwidth,height=0.8\textheight,keepaspectratio]{ocean10.png}
+	\includegraphics<11>[width=\textwidth,height=0.8\textheight,keepaspectratio]{ocean17.png}
+	\includegraphics<12>[width=\textwidth,height=0.8\textheight,keepaspectratio]{oceanAll.png}
+	%\includegraphics<3>{C}
+\end{frame}
+
+\begin{frame}[fragile]{How long does it take for the CLT to 'kick in'?}
+	\begin{itemize}
+		\item How \textit{fast} or slowly the CLT will \textcolor{blue}{kick in} is a function of how symmetric, or how asymmetric and \textcolor{blue}{CLT-unfriendly}, the distribution of $Y$ (the depths of the ocean) is
+	\end{itemize}
+	
+	
+	\includegraphics[width=\textwidth,height=0.8\textheight,keepaspectratio]{oceanAll.png}
+	%\includegraphics<3>{C}
+\end{frame}
+
+
+
+\begin{frame}[fragile]{Quadruple the work, half the benefit}
+	
+	\framedgraphiccaption{ROOToceanAll.png}{When the sample size increases from 4 to 16, the spread of the sampling distribution for the mean is reduced by a half, i.e., the range is cut in half. This is known as the curse of the $\sqrt{n}$}
+\end{frame}
+
+	\begin{frame}[fragile]{Session Info}
+	\tiny
+	
+\begin{knitrout}\tiny
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{verbatim}
+R version 4.0.4 (2021-02-15)
+Platform: x86_64-pc-linux-gnu (64-bit)
+Running under: Pop!_OS 21.04
+
+Matrix products: default
+BLAS:   /usr/lib/x86_64-linux-gnu/openblas-pthread/libblas.so.3
+LAPACK: /usr/lib/x86_64-linux-gnu/openblas-pthread/libopenblasp-r0.3.13.so
+
+attached base packages:
+[1] tools     stats     graphics  grDevices utils     datasets  methods  
+[8] base     
+
+other attached packages:
+ [1] DT_0.16           mosaic_1.7.0      Matrix_1.3-2      mosaicData_0.20.1
+ [5] ggformula_0.9.4   ggstance_0.3.4    lattice_0.20-41   kableExtra_1.2.1 
+ [9] socviz_1.2        gapminder_0.3.0   here_0.1          NCStats_0.4.7    
+[13] FSA_0.8.30        forcats_0.5.1     stringr_1.4.0     dplyr_1.0.7      
+[17] purrr_0.3.4       readr_1.4.0       tidyr_1.1.3       tibble_3.1.3     
+[21] ggplot2_3.3.5     tidyverse_1.3.0   knitr_1.33       
+
+loaded via a namespace (and not attached):
+ [1] fs_1.5.0           lubridate_1.7.9    webshot_0.5.2      httr_1.4.2        
+ [5] rprojroot_2.0.2    backports_1.2.1    utf8_1.2.2         R6_2.5.1          
+ [9] DBI_1.1.1          colorspace_2.0-2   withr_2.4.2        tidyselect_1.1.1  
+[13] gridExtra_2.3      leaflet_2.0.3      curl_4.3.2         compiler_4.0.4    
+[17] cli_3.0.1          rvest_1.0.0        pacman_0.5.1       xml2_1.3.2        
+[21] ggdendro_0.1.22    mosaicCore_0.8.0   scales_1.1.1       digest_0.6.27     
+[25] foreign_0.8-81     rmarkdown_2.9.7    rio_0.5.16         pkgconfig_2.0.3   
+[29] htmltools_0.5.2    highr_0.9          dbplyr_1.4.4       fastmap_1.1.0     
+[33] htmlwidgets_1.5.3  rlang_0.4.11       readxl_1.3.1       rstudioapi_0.13   
+[37] farver_2.1.0       generics_0.1.0     jsonlite_1.7.2     crosstalk_1.1.1   
+[41] zip_2.2.0          car_3.0-9          magrittr_2.0.1     Rcpp_1.0.7        
+[45] munsell_0.5.0      fansi_0.5.0        abind_1.4-5        lifecycle_1.0.0   
+[49] stringi_1.7.3      carData_3.0-4      MASS_7.3-53.1      plyr_1.8.6        
+[53] grid_4.0.4         blob_1.2.1         ggrepel_0.8.2      crayon_1.4.1      
+[57] cowplot_1.1.0      haven_2.3.1        splines_4.0.4      hms_1.0.0         
+[61] pillar_1.6.2       reprex_0.3.0       glue_1.4.2         evaluate_0.14     
+[65] data.table_1.14.0  modelr_0.1.8       vctrs_0.3.8        tweenr_1.0.1      
+[69] cellranger_1.1.0   gtable_0.3.0       polyclip_1.10-0    assertthat_0.2.1  
+[73] TeachingDemos_2.12 xfun_0.25          ggforce_0.3.2      openxlsx_4.1.5    
+[77] broom_0.7.2        viridisLite_0.4.0  ellipsis_0.3.2    
+\end{verbatim}
+\end{kframe}
+\end{knitrout}
+	
+\end{frame}
+
+\end{document}
+
+\section{Confidence Intervals}
+
+
+\begin{frame}{Key takeaways and next steps}
+	\begin{enumerate}
+		\setlength\itemsep{2em}
+		\item We've been exclusively talking about point estimates \pause
+		\item How confident are we about these point estimates? \pause
+		\item \textcolor{blue}{Thought experiment}: Estimate the average temperature in Montreal in August over the past 100 years. \pause  
+		\item We're going into stat territory now. 
+	\end{enumerate}
+\end{frame}
+
+
+\begin{frame}{Confidence Interval}
+	
+	\begin{defm}[Confidence Interval]
+		A level $C$ confidence interval for a parameter has two parts:
+		\begin{enumerate}
+			\item An interval calculated from the data, \underline{usually} of the form $$\textrm{estimate} \pm \textrm{margin of error}$$ where the estimate is a sample statistic and the margin of error represents the accuracy of our guess for the parameter.
+			\item A confidence level $C$, which gives the probability that the interval will capture the true parameter value in \textit{different possible samples}. That is, the confidence level is the success rate for the method
+		\end{enumerate}
+	\end{defm}
+	
+	%\framedgraphic{6899rule.png}
+	
+\end{frame}
+
+\frame{\frametitle{Confidence Interval: A simulation study}
+	
+	\vspace*{-0.1in}
+	
+	\begin{figure}
+		\begin{center}
+			\epsfig{figure=CIplots.eps,width=3.2in,height=2.7in}
+			\caption{\small{True parameter value is 2 (red line). Each horizontal black line represents a 95\% CI from a sample and contains the true parameter value. The blue CIs do not contain the true parameter value. 95\% of all samples give an interval that contains the population parameter.}}
+		\end{center}
+	\end{figure}
+}
+
+
+
+
+
+\begin{frame}{Confidence Intervals: we only get one shot}
+	\begin{itemize}
+		\setlength\itemsep{2em}
+		\item In practice, we don't take many simple random samples (``repeated'' samples) to estimate the population parameter $\theta$. \pause 
+		\item Because the method has a 95\% success rate, all we need is one simple random sample to compute one CI. 
+	\end{itemize}
+\end{frame}
+
+\begin{frame}{Interpreting a frequentist confidence interval}
+	\begin{itemize}
+		\setlength\itemsep{1em}
+		\item The confidence level is the success rate of the method that produces the interval. \pause
+		\item We don't know whether the 95\% confidence interval from a \underline{particular
+			sample} is one of the 95\% that capture $\theta$ (the unknown population parameter), or one of the unlucky 5\% that miss. \pause
+		\item To say that we are 95\% confident that the unknown value of $\theta$
+		lies between $U$ and $L$ is shorthand for ``We got these numbers using a
+		method that gives correct results 95\% of the time.''
+	\end{itemize}
+\end{frame}
+
+%\frame{\frametitle{Inference for a single population mean} So to
+%perform inference, we want an estimator that is unbiased for the
+%parameter of interest and that has a relatively small spread (low
+%variability or high efficiency). \\ \ \\
+%Examples - estimating the population mean $\mu$:
+%\begin{itemize}
+%\item What is the bias (if any) of $\frac{1}{n}\sum^n_{i=1}(x_i + 1)$?
+%\item[] \item What is the bias (if any) of $\frac{1}{n}\sum^n_{i=1}x_i + \frac{1}{n}$?
+%\item[] \item Which of the two estimators above would you prefer?
+%\end{itemize}
+%}
+
+
+\begin{frame}{More about a frequentist confidence interval}
+	
+	\begin{itemize}
+		\item The confidence level of 95\% has to say something about the sampling procedure: \pause
+		
+		\begin{itemize}
+			\item The confidence interval depends on the sample. If the sample had come out differently, the confidence interval would have been different. \pause
+			\item With some samples, the interval 'estimate $\pm$ margin of error' does trap the population parameter (the word statisticians use is cover). But with other samples, the interval fails to cover.
+		\end{itemize}
+		\pause
+		\item It's like buying a used car. Sometimes you get a lemon – a confidence interval which doesn't cover the parameter.
+		
+		\framedgraphiccaption{lemon.jpg}{3 confidence intervals 'chasing' (taking a shot at) the population parameter $P$}
+	\end{itemize}
+\end{frame}
+
+
+\begin{frame}{More about a frequentist confidence interval}
+	\begin{itemize}
+		\setlength\itemsep{2em}
+		\item In the frequentist approach, $\theta$ is regarded as a fixed (but unknowable) constant, such as the exact speed of light to an infinite number of digits, or the exact mean depth of the ocean at a given point in time. \pause
+		
+		\item It doesn't ``fall'' or ``vary around'' any particular values; in contrast you can think of the statistic $\hat{\theta}$ ``falling'' or ``varying around'' the fixed (but unknowable) value of $\theta$
+	\end{itemize}
+\end{frame}
+
+
+\begin{frame}{Polling companies}
+	\begin{itemize}
+		\setlength\itemsep{2em}
+		\item Polling companies who say ``polls of this size are accurate to within so many percentage points 19 times out of 20'' are being statistically correct $\to$ they emphasize the \textbf{procedure} rather than what has happened in this specific instance. \pause 
+		\item Polling companies (or reporters) who say ``this poll is accurate .. 19
+		times out of 20'' are talking statistical nonsense -- this specific poll is either right or wrong. On average 19 polls out of 20 are ``correct''. But this
+		poll cannot be right on average 19 times out of 20.
+	\end{itemize}
+\end{frame}
+
+\frame{\frametitle{Example: Inference for a single population mean} We begin
+	with the (unrealistic) assumption that the population variance is
+	known.
+	\begin{itemize}
+		\item Then the true variance of the sample mean is known!
+		\item We can use \texttt{mosaic::xpnorm(q = c(-1.96, 1.96))} to find that there is a 95\% chance that a $\mathcal{N}$(0,1) random variable lies within 1.96 
+		standard errors of the population mean of the distribution. So then:
+		\[ P\left(-1.96 \le \frac{\bar{y}-\mu}{\sigma/\sqrt{n}} \le
+		1.96\right) = 0.95 \]
+		\item[]
+	\end{itemize}
+	What does allow us to learn about $\mu$? }
+
+\frame{\frametitle{Example: Inference for a single population mean} We can
+	use this probability statement about the standardized version of
+	$\bar{y}$ to place bounds on where we think the true mean lies
+	by examining the probability that $\bar{y}$ is within
+	1.96$\frac{\sigma}{\sqrt{n}}$ of $\mu$. \\ \ \\
+	
+	$P\left(-1.96 \le \frac{\bar{y}-\mu}{\sigma/\sqrt{n}} \le
+	1.96\right)$\\
+	\[\begin{array}{ccl} \qquad & = & P\left(-1.96\frac{\sigma}{\sqrt{n}}
+	\le \bar{y}-\mu \le +1.96\frac{\sigma}{\sqrt{n}}\right)\\
+	\pause
+	& = & P\left(-\bar{y}-1.96\frac{\sigma}{\sqrt{n}} \le
+	-\mu \le -\bar{y}+1.96\frac{\sigma}{\sqrt{n}}\right)\\ \pause
+	& = & P\left(\bar{y}+1.96\frac{\sigma}{\sqrt{n}} \ge
+	\mu \ge \bar{y}-1.96\frac{\sigma}{\sqrt{n}}\right)\\ \pause
+	& = & P\left(\bar{y}-1.96\frac{\sigma}{\sqrt{n}} \le \mu
+	\le \bar{y}+1.96\frac{\sigma}{\sqrt{n}}\right)\\
+	& = & 0.95\\
+	& & \\
+	\end{array}\]
+	
+	We call the interval
+	$\left(\bar{y}-1.96\frac{\sigma}{\sqrt{n}},
+	\bar{y}+1.96\frac{\sigma}{\sqrt{n}}\right)$ a \textbf{95\%
+		confidence interval} for $\mu$. }
+
+\frame{\frametitle{Example: Inference for a single population mean} So what does the CI allow us
+	to learn about $\mu$?? \pause
+	
+	\begin{itemize}
+		\setlength\itemsep{.5em}
+		\item In classical (frequentist) statistics, we assume that the population
+		mean, $\mu$ is a \textbf{fixed} but unknown value.
+		\item With this view, it doesn't make sense to think of $\mu$ as
+		having a distribution. Therefore we can't make probability statements about $\mu$. \pause
+		\item What about the CI? It is made up of the sample mean
+		and other fixed numbers (1.96, the square root of the known sample
+		size $n$, and the known standard deviation, $\sigma$).
+		\item \textcolor{blue}{\textbf{The CI is a random quantity.}}
+		\item Remember: a random quantity is one in which the outcome is not
+		known ahead of time. We don't know the lower and upper limits of the
+		CI before the sample has been collected since we don't yet know the
+		value of the random quantity $\bar{x}$.
+	\end{itemize}
+	
+}
+
+\frame{\frametitle{Example: Inference for a single population mean} So what
+	does the CI allow us to learn about $\mu$??
+	\begin{itemize}
+		\setlength\itemsep{2em}
+		\item It tells us that if we repeated this procedure again and again
+		(collecting a sample mean, and constructing a 95\% CI), 95\% of the
+		time, the CI would \textit{cover} $\mu$. \pause 
+		\item That is, with 95\% probability, the \textit{procedure}
+		will include the true value of $\mu$. Note that we are making \underline{a probability statement about the CI}, not about the parameter. \pause
+		\item Unfortunately, \textcolor{blue}{we do not know whether the true value of $\mu$ is
+			contained in the CI in the particular experiment that we have
+			performed.}
+	\end{itemize}
+}
+
+
+\begin{frame}{Interactive visualization of CIs}
+	\Large\href{http://rpsychologist.com/d3/CI/}{http://rpsychologist.com/d3/CI/}
+\end{frame}
+
+
+
+\begin{frame}[fragile]{Exercise: How deep is the ocean?}
+	%\begin{exm}[Confidence intervals in many samples]
+	\begin{enumerate}
+		\item For your samples of $n=5$ and $n=20$ of depths of the ocean, calculate the
+		\begin{enumerate}
+			\item sample mean ($\bar{y}$)
+			\item standard error of the sample mean ($SE_{\bar{y}}$)
+		\end{enumerate}
+		\item Calculate the 68\%, 95\% and 99\% confidence intervals (CI) for both samples of $n=5$ and $n=20$.
+		\item Enter your results in the \href{https://docs.google.com/spreadsheets/d/1Mnxeq9nQcTdQycZ7S_62fYFiNC5_a3fibsyodzfwO58/edit?usp=sharing}{Google sheet} 
+		\item Plot the CIs for each student using the following code:
+		
+\begin{knitrout}\tiny
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlkwd{plot}\hlstd{(dt}\hlopt{$}\hlstd{Mean.5.depths,} \hlnum{1}\hlopt{:}\hlkwd{nrow}\hlstd{(dt),} \hlkwc{pch}\hlstd{=}\hlnum{20}\hlstd{,}
+\hlkwc{xlim}\hlstd{=}\hlkwd{range}\hlstd{(}\hlkwd{pretty}\hlstd{(}\hlkwd{c}\hlstd{(dt}\hlopt{$}\hlstd{lower.mean.5.66, dt}\hlopt{$}\hlstd{upper.mean.5.66))),}
+\hlkwc{xlab}\hlstd{=}\hlstr{'Depth of ocean (m)'}\hlstd{,} \hlkwc{ylab}\hlstd{=}\hlstr{'Student (sample)'}\hlstd{,}
+\hlkwc{las}\hlstd{=}\hlnum{1}\hlstd{,} \hlkwc{cex.axis}\hlstd{=}\hlnum{0.8}\hlstd{,} \hlkwc{cex}\hlstd{=}\hlnum{1.5}\hlstd{)}
+\hlkwd{abline}\hlstd{(}\hlkwc{v} \hlstd{=} \hlnum{3700}\hlstd{,} \hlkwc{lty} \hlstd{=} \hlnum{2}\hlstd{,} \hlkwc{col} \hlstd{=} \hlstr{"red"}\hlstd{,} \hlkwc{lwd} \hlstd{=} \hlnum{2}\hlstd{)}
+\hlkwd{segments}\hlstd{(}\hlkwc{x0} \hlstd{= dt}\hlopt{$}\hlstd{lower.mean.5.66,} \hlkwc{x1}\hlstd{=dt}\hlopt{$}\hlstd{upper.mean.5.66,}
+\hlkwc{y0} \hlstd{=} \hlnum{1}\hlopt{:}\hlkwd{nrow}\hlstd{(dt),} \hlkwc{lend}\hlstd{=}\hlnum{1}\hlstd{)}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
+		
+	\end{enumerate}
+	%\end{exm}
+\end{frame}
+
+\end{document}
+
+
