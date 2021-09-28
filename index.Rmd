@@ -321,8 +321,10 @@ schedule_raw <- schedule_raw %>%
 schedule_raw %>% 
   kbl(escape = FALSE) %>% 
   kable_styling(c("hover"), fixed_thead = T, full_width = T) %>% 
-  row_spec(c(1,4,5,8,9,12,13), background = "#EAEAEA") %>% 
+  row_spec(c(1,4,5,8,9,12,13,14, 17,18, 21,22, 25, 26,29), background = "#EAEAEA") %>% 
   column_spec(3, width = "10em") %>% 
+  column_spec(4, width = "10em") %>% 
+  column_spec(7, width = "10em") %>% 
   # add_header_above(c("Introduction to data" = 7), bold = TRUE, align = "l", font_size = "x-large")
   # pack_rows("", 1, 1) %>% 
   pack_rows("Descriptive Statistics", 1, 4) %>%
