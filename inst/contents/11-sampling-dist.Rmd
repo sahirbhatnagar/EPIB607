@@ -38,7 +38,7 @@ end of this chapter, the student should be able to:
 
 ## The Sampling Distribution {#the-sampling-distribution}
 
-In Chapter \@ref(ChapProbability) the concept of a random variable was
+In Chapter \@ref(ChapProbability) the concept of a random variable was
 introduced. As part of the introduction we used an example that involved
 the selection of a random person from the population and the measuring
 of his/her height. Prior to the action of selection, the height of that
@@ -133,9 +133,9 @@ of measurements from a theoretical model.
 Consider taking a sample from a population. Let us use again for the
 illustration the `heights_population.csv` file that contains the population data and can
 be obtained [here](https://github.com/sahirbhatnagar/EPIB607/blob/master/inst/data/heights_sample.csv>) like we did in
-Chapter \@ref(ChapProbability). The data frame produced from the file
+Chapter \@ref(ChapProbability). The data frame produced from the file
 contains the sex and hight of the 100,000 members of some imaginary
-population. Recall that in Chapter \@ref(ChapProbability) we applied the
+population. Recall that in Chapter \@ref(ChapProbability) we applied the
 function `sample` to randomly sample the height of a single subject
 from the population. Let us apply the same function again, but this time
 in order to sample the heights of 100 subjects:
@@ -217,7 +217,7 @@ second it was within the range of 1 centimeter. Can we say, prior to
 taking the sample, what is the probability of falling within 1
 centimeter of the population mean?
 
-Chapter \@ref(ChapProbability) discussed the random variable that emerges by
+Chapter \@ref(ChapProbability) discussed the random variable that emerges by
 randomly sampling a single number from the population presented by the
 sequence `heights_population$height`. The distribution of the random variable
 resulted from the assignment of the probability 1/100,000 to each one of
@@ -314,12 +314,12 @@ values are changed and the sequence “`Y.bar`" contains 100,000
 evaluations of the sample average. The last line, which is outside the
 curly brackets and is evaluated after the “`for`" loop ends, produces an
 histogram of the averages that were simulated. The histogram is
-presented in the lower panel of Figure \@ref(fig:SampDist6).
+presented in the lower panel of Figure \@ref(fig:SampDist6).
 
 Compare the distribution of the sample average to the distribution of
 the heights in the population that was presented first in
-Figure \@ref(fig:Prob1) and is currently presented in the upper
-panel of Figure \@ref(fig:SampDist6). Observe that both distributions are
+Figure \@ref(fig:Prob1) and is currently presented in the upper
+panel of Figure \@ref(fig:SampDist6). Observe that both distributions are
 centered at about 170 centimeters. Notice, however, that the range of
 values of the sample average lies essentially between 166 and 174
 centimeters, whereas the range of the distribution of heights themselves
@@ -428,7 +428,7 @@ sd(Y.bar)
 ```
 
 The histogram of the sample average is presented in the lower panel of
-Figure \@ref(fig:SampDist7). Compare it to the distribution of a single
+Figure \@ref(fig:SampDist7). Compare it to the distribution of a single
 Binomial random variable that appears in the upper panel. Notice, once
 more, that the center of the two distributions coincide but the spread
 of the sample average is smaller. The sample space of a single Binomial
@@ -628,7 +628,7 @@ the sample average converges (after standardization) to the standard
 Normal distribution.
 
 Let us examine the Central Normal Theorem in the context of the example
-of the Uniform measurement. In Figure \@ref(fig:SampDist8) you may find
+of the Uniform measurement. In Figure \@ref(fig:SampDist8) you may find
 the (approximated) density of the standardized average for the three
 sample sizes based on the simulation that we carried out previously (as
 *red*, *green*, and *blue* lines). Along side with these densities you
@@ -694,7 +694,7 @@ var(exp.1000)
 Which is in agreement with the decrease proposed by the theory,
 
 However, when one examines the densities of the sample averages in
-Figure \@ref(fig:SampDist9) one may see a clear distinction between the
+Figure \@ref(fig:SampDist9) one may see a clear distinction between the
 sampling distribution of the average for a sample of size 10 and the
 normal distribution (compare the *red* curve to the *black* curve. The
 match between the *green* curve that corresponds to a sample of size
@@ -722,7 +722,7 @@ distribution with the same expectation and the same standard deviation
 as the sample average.
 
 An example of such computation was conducted in
-Subsection \@ref(subsec:theoreticalmdls) where the central interval that
+Subsection \@ref(subsec:theoreticalmdls) where the central interval that
 contains 95% of the sampling distribution of a Binomial average was
 required. The 2.5%- and the 97.5%-percentiles of the Normal distribution
 with the same expectation and variance as the sample average produced
@@ -738,6 +738,7 @@ misleading conclusions.
 
 ## Exercises 
 
+
 :::{.exercise}
 A subatomic particle hits a linear detector at random
 locations. The length of the detector is 10 nm and the hits are
@@ -747,31 +748,15 @@ location computed.
 
 1.  What is the expectation of the average location?
 
-Answer: For a uniformly distributed sample Y, E($\bar{Y}$) = E(Y) = $\frac{1}{2} \times$ 10 = 5 
-
 2.  What is the standard deviation of the average location?
-
-Answer: Var($\bar{Y}$) = $\frac{1}{n}$Var(Y) = $\frac{1}{25} \times \frac{1}{12}10^2$ = $\frac{1}{3}$ 
-
-sd($\bar{Y}$) = $\sqrt{Var(\bar{Y})}$ = 0.5774 
 
 3.  Use the Central Limit Theorem in order to approximate the
     probability the average location is in the left-most third of the
     linear detector.
 
-Answer: P($\bar{Y} \leq \frac{1}{3}$) = P($\frac{\bar{Y}-E(Y)}{\sqrt{Var(Y)/n}} \leq \frac{10/3-E(Y)}{\sqrt{Var(Y)/n}}$) = P($z \leq \frac{10/3-E(Y)}{sd(\bar{Y})}$) = pnorm((10/3-5)/0.5774) = 0.0019
-
 4.  The central region that contains 99% of the distribution of the
     average is of the form $5 \pm c$. Use the Central Limit Theorem in
     order to approximate the value of c.
-    
-Answer: Find $y_0, y_1$ such that P($y_0 < \bar{Y} < y_1$) = 0.99  
-
-With the Central Limit Theorem, the distribution of $\bar{Y}$ is approximately N(E(Y),sd($\bar{Y}$))  
-
-Thus, $y_1$ = qnorm(0.995,5,0.5774) = 6.487, $y_0$ = qnorm(0.005,5,0.5774) = 3.513, 
-
-c = $y_1$ - 5 = 1.487 
 :::
 
 
