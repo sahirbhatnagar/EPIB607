@@ -2,6 +2,7 @@
 output: html_document
 editor_options: 
   chunk_output_type: console
+  
 ---
 
 # Random Variables {#randomVariables}
@@ -1204,6 +1205,12 @@ cbind(possible.earnings,probability)
    + Compute the 'risk',  the SD as a percentage of the mean, as do investors ranking how risky various stocks are.
    + In statistics, and especially in applied statistics, what is the name for the SD as a percentage of the mean?
 
+\textbf{Ans:} 
+   + Let $X$ be the possible earnings $\mathbb{E}(X) = \sum_{i=1}^6 x_i\cdot\mathbb{P}(X=x_i) = 309.741$
+   + (a) By definition: $Var(X)=\sum_{i=1}^6 \big(x_i-\mathbb{E}(X)\big)^2\cdot\mathbb{P}(X=x_i) = 3806716$, and thus the SD is $sd(X)=\sqrt{Var(X)} = 1951.081$
+   \hspace{0.5cm} (b) By shortcut: $Var(X)=\mathbb{E}(X^2) - \mathbb{E}(X)^2=\sum_{i=1}^6x_i^2\cdot\mathbb{P}(X=x_i) - \mathbb{E}(X)^2=3806716$, the same as (a). 
+   + The risk $=\frac{sd(X)}{\mathbb{E}(X)}\approx 629.91\%$ which indicating a very high risk.
+   + In statistics, it is called the coefficient of variation (CV).
 3. **Errors caused by rounding**. Suppose one has to analyze a large number of 3 digit numbers. To make the job easier, one rounds each number to the nearest 10, e.g.,  
 `460 <-- 460 461 462 463 464 ; 465 466 467 468 469 --> 470.`  
 If the ending numbers of the unrounded data were uniformly distributed (each ending digit has a probability of 1/10), calculate:
@@ -1212,23 +1219,130 @@ If the ending numbers of the unrounded data were uniformly distributed (each end
    + the square root of the average squared error per (rounded)
 number ['root mean squared error', or 'RMSE' for short]
 
-
+\textbf{Ans:} 
+  + If the ending numbers of the unrounded data were uniformly distributed from 0 to 9, denote the error of rounding by $X$, then $X\sim Unif(\{-4,-3,cdots,4,5\})$ (i.e. each error value with probability 1/10).
+  $\mathbb{E}(X)=\sum_{i=1}^{10} x_i\cdot\mathbb{P}(X=x_i) = 0.5$, the rounding on average makes an observation larger by 0.2. 
+  + The average absolute error $\mathbb{E}(|X|)=\sum_{i=1}^{10} |x_i|\cdot\mathbb{P}(X=x_i) = 2.5$ 
+  + RMSE = $\sqrt{\sum_{i=1}^{10}(x_i)^2/10}\approx 2.91$
 4. **Correcting for guessing** on multiple choice exams.  
 Suppose one wishes to estimate via a multiple choice examination [with $k$ answers to choose from for each question], what proportion $\pi$ of questions a student **knows** the answer to (excuse the dangling preposition!). Imagine that $\pi$ refers to the N (>> n)   questions in the much larger bank of questions from which the $n$ exam questions are randomly selecetd. 
 
    + Show that the simple proportion $p$ of correctly answered questions gives a biased (over) estimate of $\pi$ if the student simply randomly guesses among the $k$ answers on questions where (s)he doesn't know the answer. Do this by calculating the expected value of p (i.e. the average mark per question) when each answer is marked 1 if correct and 0 if not. (_Hint_: a tree diagram may help).
    + One can 'de-bias' the estimate by giving each correct answer a mark of 1 and each incorrect  answer a negative mark. What negative mark (penalty) will provide an unbiased estimate of $\pi$? Begin by finding the expected mark per question, then set it to $\pi$ and solve for the penalty. (_Hint_: If you prefer, use concrete values of $\pi$ and $k$ to see what penalty is needed.)
    
+\textbf{Ans:} 
+    + Let $X_i$ be 1 if the student knows the answer to $i^{th}$ question, and 0 otherwise. Let $Y_i$ be the mark he get for question $i$. For a question this student don't know the answer to, he randomly guesses, and $\mathbb{P}(Y_i=1|X_i=0) = \frac{1}{k}$. For a question this student know the answer to, he answer it correctly with $\mathbb{P}(Y_i=1|X_i=1)=1$. Hence, the expected proportion of correctly answered question is:
+    $\mathbb{E}(p)=\mathbb{P}(Y_i=1)=\mathbb{P}(Y_i=1|X_i=0)\cdot\mathbb{P}(X_i=0) + \mathbb{P}(Y_i=1|X_i=1)\cdot\mathbb{P}(X_i=1) = \frac{1}{k}\cdot (1-\pi) + 1*\pi>\pi$
+  Hence it will always be a biased estimates (over-estimated) of $\pi$.
+  If you are drawing a tree diagram, split the first node by whether this student knows the answer, then split the second level nodes by whether he answer it correctly.
+    + Now, $Y_i=1$ if the answer is correct and $Y_i=b$ ($b$ is negative in this case) if the answer is wrong. The expected mark this student gets is:
+    $\mathbb{E}(Y_i)=1\cdot\mathbb{P}(Y_i=1)+b\cdot\mathbb{P}(Y_i=b)$
+   We have the probability $\mathbb{P}(Y_i=1)=\frac{1-\pi}{k}+\pi$ from part (1), and since they student can only give correct or wrong answer, $\mathbb{P}(Y_i=b)=\mathbb{P}(\text{wrong answer})=1-\frac{1-\pi+k\pi}{k}=\frac{(k-1)(1-\pi)}{k}$
+   Now plug in to $\mathbb{E}(Y_i)$ and set it equals to $\pi$, we have: $b=\frac{1}{1-k}$ (note that for multiple choices, $k>1$, so $b$ is negative.)
+   
+   
+   
 5. Half the purchases of eggs in a market are for 6 eggs and half are for 12. What percentage of purchases are for a quantity that is more than 1 SD from the mean? less than 1 SD?
 
-6. Half the people in a population have 2 organs of a certain type and half have none. What is the standard deviation of the number of organs a randomly selecetd person has? 
+\textbf{Ans:} Let $X$ be the number of eggs purchase $\mathbb{E}(X)=6*\frac{1}{2} + 12*\frac{1}{2} = 9$. The standard deviation is $sd(X)=\sqrt{Var(X)} = \sqrt{\underbrace{\mathbb{E}(X^2)}_{=6^2*\frac{1}{2} + 12^2*\frac{1}{2}}-\mathbb{E}(X)^2}=3$ 
 
+Both 6 eggs and 12 eggs purchase are considered to be within 1 SD from the mean ($9\pm 3$). Hence, 0\% of the purchases are more than 1 SD from the mean and 100\% are within 1 SD.
+
+6. Half the people in a population have 2 organs of a certain type and half have none. What is the standard deviation of the number of organs a randomly selected person has? 
+\textbf{Ans:} Let $X$ be the number of organs for one person. The chance of a randomly selected person having two organs is 1/2 and the chance of him having 0 organs is 1/2.
+$$sd(X)=\sqrt{Var(X)}=\sqrt{\mathbb{E}(X^2)-\mathbb{E}(X)^2} =1$$
 7. Verify the variances displayed in the above Figure showing the distribution of a random variable, before and after measurement errors are added to it.  Then subtract the smaller variance from the larger one to estimate the error variance. Finally show, by a separate calculation, why your answer 'fits' with the details of how the error-containing variable was constructed.  
+
+% do not understand what the question is asking about
+
 
 8. Consider children of parents who both carry a single copy of the CF gene. (In the absence of ..) How many of their offspring will have 0, 1 or 2 copies? 
 
+\textbf{Ans:}Denote the CF gene to be 'A' and the normal gene to be 'a'. Then the offspring can have 4 genotypes, each of the same probability (1/4): 
+\begin{itemize}
+\item 'AA' (getting two copies of CF, each from one parent), 
+\item 'Aa' (getting one copy of CF from father, and one copy of normal from mother)
+\item 'aA' (getting one copy of normal from father, and one copy of CF from mother)
+\item 'aa' (getting two copies normal, each from one parent)
+\end{itemize}
+
+Hence 1/4 of their offsprings carry 0 copy, 1/2 carry 1 copy and 1/4 carry 2 copies.
+
 9. Half of a large number of orders were placed on Tuesday and half on Thursday. The combined orders were all jumbled together and shipped in 3 equal sized shipments on Monday Wednesday and Friday of the following week, arriving the same day they shipped. Calculate  the mean and standard deviation of the number of days between ordering and arrival. Use a probability tree to depict the randomness, and to show the calculations.
 
+
+\textbf{Ans:} Let $X$ be the shipping time (in days). Tuesday orders can arrive at next Mon ($X=6$), Wed ($X=8$) and Fri($X=10$) with equal probability (1/3). Similarly, Thursday orders can arrive at next Mon ($X=4$), Wed($X=6$) and Fri($X=8$) with equal probability. The probability tree can be drawn:
+
+```{tikz, ThreeStateDiagram, fig.cap="Probabiity Tree of the Shipping Time", fig.align="center"}
+
+\usetikzlibrary{trees}
+
+
+\tikzstyle{level 1}=[level distance=3.5cm, sibling distance=5cm]
+\tikzstyle{level 2}=[level distance=3.5cm, sibling distance=2cm]
+
+% Define styles for bags and leafs
+\tikzstyle{bag} = [text width=4em, text centered]
+\tikzstyle{end} = [circle, minimum width=3pt,fill, inner sep=0pt]
+
+\begin{tikzpicture}[grow=right, sloped]
+\node[bag] {Large Orders}
+    child {
+        node[bag] {Thur.}        
+            child {
+                node[end, label=right:
+                    {arrive Fri. $X=8$}] {}
+                edge from parent
+                node[above] {prob}
+                node[below]  {1/3}
+            }
+            child {
+                node[end, label=right:
+                    {arrive Wed. $X=6$}] {}
+                edge from parent
+                node[above] {prob}
+                node[below]  {1/3}
+            }
+            child {
+                node[end, label=right:
+                    {arrive Mon. $X=4$}] {}
+                edge from parent
+                node[above] {prob}
+                node[below]  {1/3}
+            }
+            edge from parent 
+            node[above] {prob}
+            node[below]  {1/2}
+    }
+    child {
+        node[bag] {Tue.}        
+        child {
+                node[end, label=right:
+                    {arrive Fri. $X=10$}] {}
+                edge from parent
+                node[above] {prob}
+                node[below]  {1/3}
+            }
+            child {
+                node[end, label=right:
+                    {arrive Wed. $X=8$}] {}
+                edge from parent
+                node[above] {prob}
+                node[below]  {1/3}
+            }
+            child {
+                node[end, label=right:
+                    {arrive Mon. $X=6$}] {}
+                edge from parent
+                node[above] {prob}
+                node[below]  {1/3}
+            }
+        edge from parent         
+            node[above] {prob}
+            node[below]  {1/2}
+    };
+\end{tikzpicture}
+```
 
 10. Refer to the example where the student tries to estimate the scaling factor between degrees C and degrees F.
    + What if the student took the F readings at two C values that are 10 C (rather than 5 C) apart?, i.e. at 12.5 C and 22.5 C?
@@ -1237,26 +1351,36 @@ Suppose one wishes to estimate via a multiple choice examination [with $k$ answe
    +If you were limited to $n$ C values, how would you decide where to place them?
    + What if, rather than $0.5^2$, the 'errors' in F had a variance of $1^2$ or $2^2$?
 
+
+\textbf{Ans:}
+    + If the two readings are at 12.5 and 22.5 in Celsius, the true Fahrenheit readings are 54.5 and 72.5. Due to the rounding, there are 4 possibilities in the displayed Fahrenheit: (54,72), (54,73), (55,72), and (55,73). The estimates of the scaling factor $\beta$ are 1.8, 1.9, 1.7, and 1.8, respectively, each with probability 1/4. $\mathbb{E}(\hat{\beta})=1.8$
+    + $Var[\hat{\beta}] = \frac{1}{4}\Big((1.8-1.8)^2+(1.9-1.8)^2+(1.7-1.8)^2+(1.8-1.8)^2\Big)=0.005$, only 1/4 of the variance in previous example. The SE is approximately 0.07, half of the SE in previous example.
+    + ? With more than two readings, you can estimate $\beta$ from each pair of readings and take the average. There are $2^4=16$ combinations of the 4 readings in Fahrenheit. In each combination, you need to calculate the estimated $\beta$ 6 times from 6 pairs (\#1,\#2), (\#1,\#3), (\#1, \#4), (\#2, \#3), (\#2, \#4) and (\#3, \#4).  Theoretically, the more readings you have, the smaller variance of the estimates is.
+    + With a larger variance in the measurement error, the estimated slope will have a larger variance as $Var[\hat{\beta}] \propto Var(e) $ where $e$ is the measurement error.
+    
+    
+    
 11. Random Variable: Are the following DISCRETE or CONTINUOUS?
 
-* _How long_ you have to wait for bus / elevator / surgery/ download to complete
-* the _blood group_ of n = 1 randomly selected person
-* _how many tries_ before pass a course
-* _how many_ of n = 20 randomly selected persons will return questionnaire in pilot study
-* _length of song_ on a CD
-* _mean cholesterol level_ in sample of n = 30 randomly selected persons
-* _how hot_ it is going to be today
-* _how much_ snow we will get next winter
-* _time_ someone called (on answering machine)
-* _value of test-statistic_ if 2 populations sampled from have the same mean
-* _how much_ ice McDonalds puts in soft drink 
-* _how many_ calories in hamburger 
-* _how many_ numbers you get correct in 6/49? 
-* _where_ roulette wheel stops
-* _how many_ "wrong number" calls received
-* _how many_ keys you have to try before get the right one 
-* _how much_ water consumed by 100 homes
+* _How long_ you have to wait for bus / elevator / surgery/ download to complete \textbf{CONTINUOUS}
+* the _blood group_ of n = 1 randomly selected person \textbf{DISCRETE}
+* _how many tries_ before pass a course \textbf{DISCRETE}
+* _how many_ of n = 20 randomly selected persons will return questionnaire in pilot study \textbf{DISCRETE}
+* _length of song_ on a CD \textbf{CONTINUOUS}
+* _mean cholesterol level_ in sample of n = 30 randomly selected persons \textbf{CONTINUOUS}
+* _how hot_ it is going to be today \textbf{CONTINUOUS}
+* _how much_ snow we will get next winter \textbf{CONTINUOUS}
+* _time_ someone called (on answering machine) \textbf{CONTINUOUS}
+* _value of test-statistic_ if 2 populations sampled from have the same mean \textbf{CONTINUOUS}
+* _how much_ ice McDonalds puts in soft drink \textbf{CONTINUOUS (in grams)}
+* _how many_ calories in hamburger \textbf{CONTINUOUS}
+* _how many_ numbers you get correct in 6/49?  \textbf{DISCRETE}
+* _where_ roulette wheel stops \textbf{DISCRETE}
+* _how many_ "wrong number" calls received  \textbf{DISCRETE}
+* _how many_ keys you have to try before get the right one  \textbf{DISCRETE}
+* _how much_ water consumed by 100 homes \textbf{CONTINUOUS}
 
+Note: we only consider the  most commonly used measurement in each example.
 
 ## Summary 
 
