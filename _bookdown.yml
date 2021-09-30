@@ -6,5 +6,5 @@ language:
   ui:
     chapter_name: "Chapter "
 rmd_files:
-  #html: ["index.Rmd", "01-intro.Rmd"]
+  # html: ["index.Rmd", "01-intro.Rmd"]
   # latex: ["index.Rmd","01-intro.Rmd"]
