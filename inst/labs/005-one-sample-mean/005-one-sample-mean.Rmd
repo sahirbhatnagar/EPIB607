@@ -90,7 +90,8 @@ library(tidyr)
 If we increase our food intake, we generally gain weight. Nutrition scientists can calculate the amount of weight gain that would be associated with a given increase in calories. In one study, 16 nonobese adults, aged 25 to 36 years, were fed 1000 calories per day in excess of the calories needed to maintain a stable body weight. The subjects maintained this diet for 8 weeks, so they consumed a total of 56,000 extra calories. According to theory, 3500 extra calories will translate into a weight gain of 1 pound. Therfore we expect each of these subjects to gain 56,000/3500=16 pounds (lb). Here are the weights (given in the `weightgain.csv` file) before and after the 8-week period expressed in kilograms (kg):
 
 ```{r, eval=FALSE, echo=TRUE}
-weight <- read.csv("weightgain.csv")
+weight <- read.csv(here::here("inst/labs/005-one-sample-mean/weightgain.csv"))
+
 ```
 
 <br>
