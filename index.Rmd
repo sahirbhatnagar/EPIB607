@@ -53,6 +53,8 @@ pacman::p_load(sf)
 pacman::p_load(colorspace)
 pacman::p_load(extrafont)
 pacman::p_load(shape)
+pacman::p_load(gghighlight)
+pacman::p_load(infer)
 
 if(!requireNamespace("oibiostat"))
   remotes::install_github("OI-Biostat/oi_biostat_data")
@@ -324,7 +326,7 @@ schedule_raw %>%
   row_spec(c(1,4,5,8,9,12,13,14, 17,18, 21,22, 25, 26,29), background = "#EAEAEA") %>% 
   column_spec(3, width = "10em") %>% 
   column_spec(4, width = "10em") %>% 
-  column_spec(7, width = "10em") %>% 
+  column_spec(7, width = "12em") %>% 
   # add_header_above(c("Introduction to data" = 7), bold = TRUE, align = "l", font_size = "x-large")
   # pack_rows("", 1, 1) %>% 
   pack_rows("Descriptive Statistics", 1, 4) %>%

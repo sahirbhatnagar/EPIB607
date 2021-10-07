@@ -1,0 +1,342 @@
+---
+title: Assignment 4 - Central Limit Theorem, Confidence Intervals and Bootstrap. Due October 15, 11:59pm 2021
+author:
+  - name: EPIB607 - Inferential Statistics
+    affiliation: a
+#  - name: Second Author
+#    affiliation: a,b
+address:
+  - code: a
+    address: Fall 2021, McGill University
+#  - code: b
+#    address: Department of Neat Tricks, Whereever State University, Someplace, MC, 67890
+lead_author_surname: EPIB607
+#doi: "https://sahirbhatnagar.com/EPIB607/"
+abstract: |
+  All questions are to be answered in an R Markdown document using the provided template and compiled to a pdf document. You are free to choose any function from any package to complete the assignment. Concise answers will be rewarded. Be brief and to the point. Each question is worth 25 points. Label your graphs appropriately with proper titles and axis labels. Justify your answers. You may compile your reoport to pdf or to HTML. If you compile to HTML, then you must print the resulting HTML to pdf. Please submit the compiled pdf report to Crowdmark. You must also submit your code to Crowdmark. If you use the template, the code from your assignment will automatically appear at the end. Upload this code to Q5 in Crowdmark. You can upload a single pdf to Crowdmark, and then select the pages for a given question. See https://crowdmark.com/help/ for details.  
+# Optional: Acknowledgements
+#acknowledgements: |
+#  [rticles](https://cran.r-project.org/package=rticles) package, and both packages rely on the
+#  [PNAS LaTeX](http://www.pnas.org/site/authors/latex.xhtml) macros. Both these sources are
+#  ([GPL-3](https://www.gnu.org/licenses/gpl-3.0.en.html) and
+#  [LPPL (>= 1.3)](https://www.latex-project.org/lppl/)).
+# Optional: One or more keywords
+#keywords:
+papersize: letter
+fontsize: 12pt
+# Optional: Force one-column layout, default is two-column
+one_column: true
+# Optional: Enables lineno mode, but only if one_column mode is also true
+#lineno: true
+# Optional: Enable one-sided layout, default is two-sided
+#one_sided: true
+# Optional: Enable section numbering, default is unnumbered
+numbersections: true
+# Optional: Specify the depth of section number, default is 5
+#secnumdepth: 5
+# Optional: Skip inserting final break between acknowledgements, default is false
+skip_final_break: true
+# Optional: Bibliography 
+bibliography: pinp
+# Optional: Enable a 'Draft' watermark on the document
+watermark: false
+footer_contents: "Assignment 4"
+output: 
+  pinp::pinp:
+    extra_dependencies: "subfig"
+    highlight: pygments
+    latex_engine: xelatex
+# Required: Vignette metadata for inclusion in a package.
+vignette: >
+  %\VignetteIndexEntry{YourPackage-vignetteentry}
+  %\VignetteKeywords{YourPackage, r, anotherkeyword}
+  %\VignettePackage{assignment}
+  %\VignetteEngine{knitr::rmarkdown}
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r include = FALSE}
+## ---- Setup ------------------------------------------------------------------
+knitr::opts_chunk$set(
+  echo = TRUE,          # don't show code
+  eval = FALSE,
+  tidy = FALSE,
+  comment = "",
+  warning = FALSE,       # don't show warnings
+  message = FALSE,       # don't show messages (less serious warnings)
+  cache = FALSE,         # set to TRUE to save results from last compilation
+  fig.align = "center",   # center figures
+  fig.asp = 1#,          # fig.aspect ratio
+  # fig.width = 10        # fig width
+)
+```
+
+
+# Template {-}
+
+Use the template from the previous assignment. 
+
+
+
+# (25 points) Concordance between PCR-based extraction-free saliva and nasopharyngeal swabs for SARS-CoV-2 testing - PART I
+
+This question is based on the article [_Concordance between PCR-based extraction-free saliva and nasopharyngeal swabs for SARS-CoV-2 testing_](https://hrbopenresearch.org/articles/4-85/v1). The data used to reproduce the results is provided with the article and it provides Ct values for both test types (Nasopharyngeal and Saliva). Download the data, and use the following code to read it into `R`. Note that a Ct value of `undetected` implies that no virus was found in the sample. In the following `R` code, I specify `undetected` to be NA:
+
+\newpage
+
+```{r, echo=TRUE, eval=FALSE, size='tiny'}
+library(readxl)
+library(dplyr)
+library(here)
+
+# read symptomatic cohort data
+dt_symp <- readxl::read_xlsx(
+  here::here("Ct_values_for_matched_NPS_and_saliva_samples_(symptomatic_cohort).xlsx"), 
+  na = "undetected", 
+  col_names = c("ID","Nasopharyngeal","Saliva"), 
+  skip = 1, 
+  col_types = c("text", "numeric","numeric")
+) %>% 
+  dplyr::mutate(cohort = "Symptomatic")
+
+# read asymptomatic cohort data
+dt_asymp <- readxl::read_xlsx(
+  here::here("Ct_values_for_matched_NPS_and_saliva_samples_(asymptomatic_cohort).xlsx"), 
+  na = "undetected", 
+  col_names = c("ID","Nasopharyngeal","Saliva"), 
+  skip = 1,
+  col_types = c("text", "numeric","numeric")
+) %>% 
+  dplyr::mutate(cohort = "Asymptomatic")
+
+# combine symptomatic and asymptomatic data together
+dt <- dplyr::bind_rows(dt_symp, dt_asymp) %>% 
+  dplyr::mutate(cohort = factor(cohort))
+```
+
+
+```{r, eval=FALSE, echo=FALSE}
+library(readxl)
+library(dplyr)
+
+dt_symp <- readxl::read_xlsx("~/git_repositories/epib607/inst/assignments/a4/Ct_values_for_matched_NPS_and_saliva_samples_(symptomatic_cohort).xlsx", 
+                             na = "undetected", 
+                             col_names = c("ID","Nasopharyngeal","Saliva"), 
+                             skip = 1, 
+                             col_types = c("text", "numeric","numeric")) %>% 
+  dplyr::mutate(cohort = "Symptomatic")
+
+dt_asymp <- readxl::read_xlsx("~/git_repositories/epib607/inst/assignments/a4/Ct_values_for_matched_NPS_and_saliva_samples_(asymptomatic_cohort).xlsx", 
+                              na = "undetected", 
+                              col_names = c("ID","Nasopharyngeal","Saliva"), 
+                              skip = 1,
+                              col_types = c("text", "numeric","numeric")) %>% 
+  dplyr::mutate(cohort = "Asymptomatic")
+
+dt <- dplyr::bind_rows(dt_symp, dt_asymp) %>% 
+  dplyr::mutate(cohort = factor(cohort)) %>% 
+  mutate(nasal = ifelse(is.na(Nasopharyngeal),"negative","positive"),
+         saliv = ifelse(is.na(Saliva),"negative","positive"))
+
+
+dt2 <- dt %>% 
+  pivot_longer(cols = c(-1,-4), names_to = "type") %>% 
+  mutate(type = factor(type))
+
+library(ggplot2)
+
+dt2 %>% 
+  filter(cohort == "Symptomatic") %>% 
+  ggplot(aes(x = type, y = value)) + geom_violin() + geom_jitter()
+
+dt %>% 
+  filter(cohort == "Symptomatic") %>% 
+  ggplot(aes(x = Nasopharyngeal, y = Saliva)) + geom_point() + geom_smooth(method = "lm") + 
+  scale_x_continuous(limits = c(0,40)) + 
+    scale_y_continuous(limits = c(0,40))
+
+
+dt %>% 
+  filter(cohort == "Symptomatic") %>% 
+  mutate(diff = Nasopharyngeal - Saliva) %>% 
+  ggplot(aes(y = diff)) + geom_boxplot()
+  scale_x_continuous(limits = c(0,40)) + 
+    scale_y_continuous(limits = c(0,40))
+
+nrow(dt)
+(!is.na(dt$`NPS Ct value (RdRp)`)) %>% sum
+dt$`Saliva Ct value (N1)` %>% table(useNA = "al")
+
+sum(dt$Nasopharyngeal > 0 & dt$Saliva > 0, na.rm = T)
+addmargins(prop.table(table(
+  ifelse(is.na(dt$Nasopharyngeal),"negative","positive"), 
+  ifelse(is.na(dt$Saliva),"negative","positive"))),
+  margin = 1)
+```
+
+
+a) (5 points) Reproduce Table 2. Hint: you can use the following command to create a new variable which indicates if the individual was SARS-CoV-2 negative or positive. To answer this question, you can simply show your code and it's output.  
+
+```{r,echo=TRUE, eval=FALSE}
+ifelse(is.na(dt$Nasopharyngeal),"negative","positive")
+```
+
+b) (5 points) Reproduce the point estimates for Positive agreement and Negative agreement in Table 2. To answer this question, you can simply show your code and it's output.   
+c) (5 points) Can you determine which statistical procedure was used to calculate the confidence intervals for the point estimates in part b)? If yes, state the assumptions of the statistical procedure. If no, compute confidence intervals using a procedure of your choice and compare them with the ones given in the paper. State your assumptions.  
+d) (5 points) Consider the 3 figures shown in Figure 1. Comment on the dataset format that would have been used to create the three figures (e.g. tidy format, wide format).   
+e) (5 points) Create a graphic which would support the claim that _The difference in mean Ct values (0.132) was not statistically significant (p=0.860)_. You can either recreate a graph shown in the paper, or create your own. Justify why your figure supports the claim. Note: you **are not** being asked to perform any statistical test.   
+ 
+
+<br><br>
+
+# (25 points) Concordance between PCR-based extraction-free saliva and nasopharyngeal swabs for SARS-CoV-2 testing - PART II
+
+This question is based on the article [_Concordance between PCR-based extraction-free saliva and nasopharyngeal swabs for SARS-CoV-2 testing_](https://hrbopenresearch.org/articles/4-85/v1). The code to read in the data is shown in the previous question. For the following questions, only use the symptomatic cohort.   
+
+a. (5 points) Give a 95% confidence interval for the mean Ct value for each test type (Nasopharyngeal and Saliva). State your assumptions.   
+b. (5 points) Based on these confidence intervals, are you convinced that the data show there is no difference in mean Ct values between both test types? Explain.   
+c. (5 points) Construct a 95% confidence interval for the mean difference in Ct values between both test types using a canned function. Interpret this confidence interval. State the assumptions being made by this function.   
+d. (5 points) Construct a 95% bootstrap confidence interval for the mean difference in Ct values between both test types. Compare it to the one obtained in part c. State your assumptions.   
+e. (5 points) Compute a standard error for the mean difference in Ct values between both test types. Was the standard error that you computed used in any of the confidence intervals you constructed in parts a,c or d? Explain.   
+
+```{r, eval=FALSE, echo=FALSE}
+1.990722/12.7062
+se = 0.1566733
+
+R <- replicate(10000, expr = {
+  tt <- dt_symp %>% 
+    dplyr::sample_n(size = nrow(dt_symp), replace = TRUE)
+  mean(tt$Nasopharyngeal, na.rm = TRUE) - mean(tt$Saliva, na.rm = TRUE)
+})
+
+
+((1.625169+1.359352)/2)/qt(c(0.975), 80)
+
+hist(R)
+sd(R)
+quantile(R, probs = c(0.025, 0.975))
+
+(mean(dt_symp$Nasopharyngeal, na.rm = TRUE) - mean(dt_symp$Saliva, na.rm = TRUE)) + 
+  qt(c(0.025,0.975), df  = 174) * sd(R)
+
+(mean(dt_symp$Saliva, na.rm = TRUE) - mean(dt_symp$Nasopharyngeal, na.rm = TRUE)) + 
+  qt(c(0.025,0.975), df  = 174) * sd(R)
+
+
+t.test(dt_symp$Nasopharyngeal, dt_symp$Saliva, paired = TRUE)
+
+
+```
+
+
+\newpage
+
+
+# (25 points) Concordance between PCR-based extraction-free saliva and nasopharyngeal swabs for SARS-CoV-2 testing - PART III
+
+This question is based on the article [_Concordance between PCR-based extraction-free saliva and nasopharyngeal swabs for SARS-CoV-2 testing_](https://hrbopenresearch.org/articles/4-85/v1). The code to read in the data is shown in the previous question.   
+
+a. (5 points) For the asymptomatic cohort, calculate the sensitivity and specificity of the saliva test. Show your work.   
+b. (7.5 points) The reviewer reports are provided with the article. Specifically, Reviewer 2 has an issue with the very wide confidence interval for sensitivity of the saliva test. Without performing any calculations, do you agree or disagree with their statement. Explain.   
+c. (7.5 points) Are you able to calculate a 95% bootstrap confidence interval for the sensitivity of the saliva test?  If yes, compute it and compare it to the one given in the paper. If not, explain why.   
+d. (5 points) Do you think the 95% confidence interval provided for the specificity is correct? Explain.  
+
+
+
+```{r, echo=FALSE, eval=FALSE}
+
+binom.test(x = 180, n = 180, p = 0.5)
+binom.test(x = 1, n = 1, p = 0.5)
+
+tt <- dt %>% 
+  filter(cohort == "Asymptomatic")
+R <- replicate(n = 1000, {
+  tt <- dt %>% 
+    dplyr::sample_n(size = nrow(dt), replace = TRUE)
+  ttt <- table(tt$nasal, tt$saliv)
+  (ttt[1,2] - ttt[2,1])^2 / (ttt[1,2] - ttt[2,1])
+}
+tt
+
+table(tt$nasal, tt$saliv)
+
+perf <- matrix(c(82, 5, 9, 212),
+       nrow = 2,
+       dimnames = list("Saliva" = c("Positive", "Negative"),
+                       "Nasal" = c("Positive", "Negative")))
+
+mcnemar.test(perf, correct = F)
+
+R <- replicate(10000, expr = {
+  tt <- dt %>% 
+    dplyr::sample_n(size = nrow(dt), replace = TRUE)
+  ttt <- table(tt$nasal, tt$saliv)
+  (ttt[1,2] - ttt[2,1])^2 / (ttt[1,2] - ttt[2,1])
+})
+
+hist(R)
+t.stat <- (9-5)^2 / (9+5)
+abline(v = t.stat)
+mean(t.stat > R, na.rm = T)
+pchisq(t.stat,1, lower.tail = F)
+
+
+(-2.151711-1.815083)*-1
+
+qt(c(0.975), df = 174)
+
+pbinom(q = 8, size = 14, prob = 0.5, lower.tail = F)
+
+```
+
+
+
+
+# (25 points) How deep is the ocean?
+
+This question is based on the in-class exercise on sampling distributions using the depths of the ocean example. 
+
+a. (5 points) For your sample of $n=5$ of depths of the ocean, calculate the 95% Confidence interval using the $\pm$ formula, the `qnorm` function, and using $B=10000$ bootstrap samples.  
+b. (5 points) Plot all three confidence intervals on the same plot and comment on the difference/similarities between the 3 intervals. You may use the `compare_CI` function provided below to produce the plot. This takes as input, the sample mean (`ybar`), and the CIs calculated from a,b,c in the form of a numeric vector of length 2 into the arguments `PM`, `QNORM` and `BOOT`, respectively.   
+c. (10 points) Repeat parts a and b using your sample of size $n=20$.  Comment on the difference/similarities between the $n=5$ and $n=20$ graph.   
+d. (5 points) In the in-class exercise, there were a total of approximately $N=60$ students who participated. In your own words, briefly explain the difference between the $N=60$, and the $n=5$ or $n=20$. What effect did these different 'n' have on the sampling distribution of the sample means?  
+
+\newpage
+  
+  
+```{r, echo=TRUE, message=FALSE, warning=FALSE, eval=FALSE}
+compare_CI <- function(ybar, PM, QNORM, BOOT, 
+                       col = c("#E41A1C","#377EB8","#4DAF4A")) {
+
+  dt <- data.frame(type = c("plus_minus", "qnorm", "bootstrap"),
+                   ybar = rep(ybar, 3),
+                   low = c(PM[1], QNORM[1], BOOT[1]),
+                   up = c(PM[2], QNORM[2], BOOT[2])
+  )
+  
+  plot(dt$ybar, 1:nrow(dt), pch = 20, ylim = c(0, 5), 
+       xlim = range(pretty(c(dt$low, dt$up))),
+       xlab = "Depth of ocean (m)", ylab = "Confidence Interval Type",
+       las = 1, cex.axis = 0.8, cex = 3)
+  
+  abline(v = 37, lty = 2, col = "black", lwd = 2)
+  segments(x0 = dt$low, x1 = dt$up,
+           y0 = 1:nrow(dt), lend = 1,
+           col = col, lwd = 4)
+  
+  legend("topleft",
+         legend = c(eval(substitute( expression(paste(mu," = ",37)))),
+                    sprintf("plus/minus CI: [%.f, %.f]",PM[1], PM[2]),
+                    sprintf("qnorm CI: [%.f, %.f]",QNORM[1], QNORM[2]),
+                    sprintf("bootstrap CI: [%.f, %.f]",BOOT[1], BOOT[2])),
+         lty = c(1, 1,1,1),
+         col = c("black",col), lwd = 4)
+}
+
+# example of how to use the function:
+compare_CI(ybar = 36, PM = c(28, 40), QNORM = c(25,40), BOOT = c(31, 38))
+```
+
+
+

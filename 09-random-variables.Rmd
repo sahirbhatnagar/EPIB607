@@ -117,10 +117,19 @@ This expected value will exist provided that $\int_{-\infty}^\infty |y| \cdot f(
 
 The expectation acts as a mean for a variable that has a conception repetition or an infinite sample size. The expected value of a random variable will usually be in terms of population parameters. We present some examples of where the expected value of a random variable is a quantity of interest.
 
-::: {.example}
+:::{.example}
 Suppose, for example, that the death rate in any year is 1 out of every 1000 people,
 and that another 2 out of 1000 suffer some kind of disability. Then we can display the
-probability model for this insurance policy in a table like this:
+probability model for this insurance policy as shown in Table \@ref(tab:probs-example)
+
+To see what the insurance company can expect, imagine that it insures exactly 1000
+people. Further imagine that, in perfect accordance with the probabilities, 1 of the
+policyholders dies, 2 are disabled, and the remaining 997 survive the year unscathed.
+The company would pay $10,000 to one client and $5000 to each of 2 clients. That's
+a total of $20,000, or an average of 20000/1000 = $20 per policy.  Since it is charging people $50 for the policy, the company expects to make a profit of $30 per customer. Not bad!
+
+We can't predict what will happen during any given year, but we can say what we expect to happen. To do this, we (or, rather, the insurance company) need the probability model (PMF). The expected value of a policy is a parameter of this model. In fact, it's the mean. This isn't an average of some data values, so we won't estimate it. Instead, we assume that the probabilities are known and simply calculate the expected value from them. How did we come up with $20 as the expected value of a policy payout?
+:::
 
 ```{r probs-example, echo=FALSE}
 dt <- data.frame(`Policyholder outcome` = c('Death','Disability','Neither'),
@@ -135,14 +144,6 @@ dt %>%
    kable_styling()
 ```
 
-To see what the insurance company can expect, imagine that it insures exactly 1000
-people. Further imagine that, in perfect accordance with the probabilities, 1 of the
-policyholders dies, 2 are disabled, and the remaining 997 survive the year unscathed.
-The company would pay $10,000 to one client and $5000 to each of 2 clients. That's
-a total of $20,000, or an average of 20000/1000 = $20 per policy.  Since it is charging people $50 for the policy, the company expects to make a profit of $30 per customer. Not bad!
-
-We can't predict what will happen during any given year, but we can say what we expect to happen. To do this, we (or, rather, the insurance company) need the probability model (PMF). The expected value of a policy is a parameter of this model. In fact, it's the mean. This isn't an average of some data values, so we won't estimate it. Instead, we assume that the probabilities are known and simply calculate the expected value from them. How did we come up with $20 as the expected value of a policy payout?
-:::
 
 
 <br>
@@ -234,14 +235,14 @@ $g(Y) = (Y - \mu)^2$, the **squared deviation from the mean**
 
 :::{.definition name="Variance"}
 The variance of the random variable $Y$ is given by $$\Expec[(Y - \mu)^2].$$ 
-It is usually shortened to Var($Y$) or even to V($Y$).
+It is usually shortened to $\Var(Y)$.
 
 It, and its positive square root, called the _standard deviation_ of $Y$, or SD($Y$), are two of the most commonly used measures of variability or spread or uncertainty.
 :::
 
-*  Computationally, Variance($Y$) = $\Expec[(Y - \mu)^2]$ = $\sum(y - \mu)^2 \times f(y),$ or **Mean Squared Deviation**, and
+*  Computationally, $\Var(Y) = \Expec[(Y - \mu)^2]$ = $\sum(y - \mu)^2 \times f(y),$ or **Mean Squared Deviation**, and
 
-* Standard Deviation, SD($Y) = \sqrt{(Var(Y)}= \sqrt{\Expec[ (Y — \mu)^2]},$ or **Root Mean Squared Deviation**
+* Standard Deviation, SD($Y) = \sqrt{(\Var(Y)}= \sqrt{\Expec[ (Y — \mu)^2]},$ or **Root Mean Squared Deviation**
 
 * In **French**, the Standard Deviation is called [**écart type**](https://fr.wikipedia.org/wiki/Écart_type).  
 This [French->English dictionary](http://www.french-linguistics.co.uk/dictionary/type.html) translates (the noun) `écart` as space, gap, distance between objects, interval, gap between dates, difference between numbers. The adjective `type` translates as typical, standard. This adjective better describes the meaning than 'standard' does. See here for the **history of the term** [`standard` deviation](https://en.wikipedia.org/wiki/Standard_deviation#History). 

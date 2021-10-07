@@ -1,6 +1,7 @@
 bookdown::bs4_book:
   css:
     - templates/bs4_style.css
+    - templates/ims-style.css
     - templates/corrections.css # remove to stop highlighting corre
   theme:
 #    primary: "#096B72"

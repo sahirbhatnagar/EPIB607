@@ -1,0 +1,326 @@
+\documentclass[letterpaper,12pt,twoside,]{pinp}
+
+%% Some pieces required from the pandoc template
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+
+% Use the lineno option to display guide line numbers if required.
+% Note that the use of elements such as single-column equations
+% may affect the guide line number alignment.
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+
+% pinp change: the geometry package layout settings need to be set here, not in pinp.cls
+\geometry{layoutsize={0.95588\paperwidth,0.98864\paperheight},%
+  layouthoffset=0.02206\paperwidth, layoutvoffset=0.00568\paperheight}
+
+\definecolor{pinpblue}{HTML}{185FAF}  % imagecolorpicker on blue for new R logo
+\definecolor{pnasbluetext}{RGB}{101,0,0} %
+
+
+\usepackage{subfig}
+
+\title{Assignment 4 - Central Limit Theorem, Confidence Intervals and
+Bootstrap. Due October 15, 11:59pm 2021}
+
+\author[a]{EPIB607 - Inferential Statistics}
+
+  \affil[a]{Fall 2021, McGill University}
+
+\setcounter{secnumdepth}{5}
+
+% Please give the surname of the lead author for the running footer
+\leadauthor{EPIB607}
+
+% Keywords are not mandatory, but authors are strongly encouraged to provide them. If provided, please include two to five keywords, separated by the pipe symbol, e.g:
+ 
+
+\begin{abstract}
+All questions are to be answered in an R Markdown document using the
+provided template and compiled to a pdf document. You are free to choose
+any function from any package to complete the assignment. Concise
+answers will be rewarded. Be brief and to the point. Each question is
+worth 25 points. Label your graphs appropriately with proper titles and
+axis labels. Justify your answers. You may compile your reoport to pdf
+or to HTML. If you compile to HTML, then you must print the resulting
+HTML to pdf. Please submit the compiled pdf report to Crowdmark. You
+must also submit your code to Crowdmark. If you use the template, the
+code from your assignment will automatically appear at the end. Upload
+this code to Q5 in Crowdmark. You can upload a single pdf to Crowdmark,
+and then select the pages for a given question. See
+\url{https://crowdmark.com/help/} for details.
+\end{abstract}
+
+\dates{This version was compiled on \today} 
+
+% initially we use doi so keep for backwards compatibility
+% new name is doi_footer
+
+\pinpfootercontents{Assignment 4}
+
+\begin{document}
+
+% Optional adjustment to line up main text (after abstract) of first page with line numbers, when using both lineno and twocolumn options.
+% You should only change this length when you've finalised the article contents.
+\verticaladjustment{-2pt}
+
+\maketitle
+\thispagestyle{firststyle}
+\ifthenelse{\boolean{shortarticle}}{\ifthenelse{\boolean{singlecolumn}}{\abscontentformatted}{\abscontent}}{}
+
+% If your first paragraph (i.e. with the \dropcap) contains a list environment (quote, quotation, theorem, definition, enumerate, itemize...), the line after the list may have some extra indentation. If this is the case, add \parshape=0 to the end of the list environment.
+
+
+\hypertarget{template}{%
+\section*{Template}\label{template}}
+\addcontentsline{toc}{section}{Template}
+
+Use the template from the previous assignment.
+
+\hypertarget{points-concordance-between-pcr-based-extraction-free-saliva-and-nasopharyngeal-swabs-for-sars-cov-2-testing---part-i}{%
+\section{(25 points) Concordance between PCR-based extraction-free
+saliva and nasopharyngeal swabs for SARS-CoV-2 testing - PART
+I}\label{points-concordance-between-pcr-based-extraction-free-saliva-and-nasopharyngeal-swabs-for-sars-cov-2-testing---part-i}}
+
+This question is based on the article
+\href{https://hrbopenresearch.org/articles/4-85/v1}{\emph{Concordance
+between PCR-based extraction-free saliva and nasopharyngeal swabs for
+SARS-CoV-2 testing}}. The data used to reproduce the results is provided
+with the article and it provides Ct values for both test types
+(Nasopharyngeal and Saliva). Download the data, and use the following
+code to read it into \texttt{R}. Note that a Ct value of
+\texttt{undetected} implies that no virus was found in the sample. In
+the following \texttt{R} code, I specify \texttt{undetected} to be NA:
+
+\newpage
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(readxl)}
+\FunctionTok{library}\NormalTok{(dplyr)}
+\FunctionTok{library}\NormalTok{(here)}
+
+\CommentTok{\# read symptomatic cohort data}
+\NormalTok{dt\_symp }\OtherTok{\textless{}{-}}\NormalTok{ readxl}\SpecialCharTok{::}\FunctionTok{read\_xlsx}\NormalTok{(}
+\NormalTok{  here}\SpecialCharTok{::}\FunctionTok{here}\NormalTok{(}\StringTok{"Ct\_values\_for\_matched\_NPS\_and\_saliva\_samples\_(symptomatic\_cohort).xlsx"}\NormalTok{), }
+  \AttributeTok{na =} \StringTok{"undetected"}\NormalTok{, }
+  \AttributeTok{col\_names =} \FunctionTok{c}\NormalTok{(}\StringTok{"ID"}\NormalTok{,}\StringTok{"Nasopharyngeal"}\NormalTok{,}\StringTok{"Saliva"}\NormalTok{), }
+  \AttributeTok{skip =} \DecValTok{1}\NormalTok{, }
+  \AttributeTok{col\_types =} \FunctionTok{c}\NormalTok{(}\StringTok{"text"}\NormalTok{, }\StringTok{"numeric"}\NormalTok{,}\StringTok{"numeric"}\NormalTok{)}
+\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%} 
+\NormalTok{  dplyr}\SpecialCharTok{::}\FunctionTok{mutate}\NormalTok{(}\AttributeTok{cohort =} \StringTok{"Symptomatic"}\NormalTok{)}
+
+\CommentTok{\# read asymptomatic cohort data}
+\NormalTok{dt\_asymp }\OtherTok{\textless{}{-}}\NormalTok{ readxl}\SpecialCharTok{::}\FunctionTok{read\_xlsx}\NormalTok{(}
+\NormalTok{  here}\SpecialCharTok{::}\FunctionTok{here}\NormalTok{(}\StringTok{"Ct\_values\_for\_matched\_NPS\_and\_saliva\_samples\_(asymptomatic\_cohort).xlsx"}\NormalTok{), }
+  \AttributeTok{na =} \StringTok{"undetected"}\NormalTok{, }
+  \AttributeTok{col\_names =} \FunctionTok{c}\NormalTok{(}\StringTok{"ID"}\NormalTok{,}\StringTok{"Nasopharyngeal"}\NormalTok{,}\StringTok{"Saliva"}\NormalTok{), }
+  \AttributeTok{skip =} \DecValTok{1}\NormalTok{,}
+  \AttributeTok{col\_types =} \FunctionTok{c}\NormalTok{(}\StringTok{"text"}\NormalTok{, }\StringTok{"numeric"}\NormalTok{,}\StringTok{"numeric"}\NormalTok{)}
+\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%} 
+\NormalTok{  dplyr}\SpecialCharTok{::}\FunctionTok{mutate}\NormalTok{(}\AttributeTok{cohort =} \StringTok{"Asymptomatic"}\NormalTok{)}
+
+\CommentTok{\# combine symptomatic and asymptomatic data together}
+\NormalTok{dt }\OtherTok{\textless{}{-}}\NormalTok{ dplyr}\SpecialCharTok{::}\FunctionTok{bind\_rows}\NormalTok{(dt\_symp, dt\_asymp) }\SpecialCharTok{\%\textgreater{}\%} 
+\NormalTok{  dplyr}\SpecialCharTok{::}\FunctionTok{mutate}\NormalTok{(}\AttributeTok{cohort =} \FunctionTok{factor}\NormalTok{(cohort))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{enumerate}
+\def\labelenumi{\alph{enumi})}
+\tightlist
+\item
+  (5 points) Reproduce Table 2. Hint: you can use the following command
+  to create a new variable which indicates if the individual was
+  SARS-CoV-2 negative or positive. To answer this question, you can
+  simply show your code and it's output.
+\end{enumerate}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{ifelse}\NormalTok{(}\FunctionTok{is.na}\NormalTok{(dt}\SpecialCharTok{$}\NormalTok{Nasopharyngeal),}\StringTok{"negative"}\NormalTok{,}\StringTok{"positive"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{enumerate}
+\def\labelenumi{\alph{enumi})}
+\setcounter{enumi}{1}
+\tightlist
+\item
+  (5 points) Reproduce the point estimates for Positive agreement and
+  Negative agreement in Table 2. To answer this question, you can simply
+  show your code and it's output.\\
+\item
+  (5 points) Can you determine which statistical procedure was used to
+  calculate the confidence intervals for the point estimates in part b)?
+  If yes, state the assumptions of the statistical procedure. If no,
+  compute confidence intervals using a procedure of your choice and
+  compare them with the ones given in the paper. State your
+  assumptions.\\
+\item
+  (5 points) Consider the 3 figures shown in Figure 1. Comment on the
+  dataset format that would have been used to create the three figures
+  (e.g.~tidy format, wide format).\\
+\item
+  (5 points) Create a graphic which would support the claim that
+  \emph{The difference in mean Ct values (0.132) was not statistically
+  significant (p=0.860)}. You can either recreate a graph shown in the
+  paper, or create your own. Justify why your figure supports the claim.
+  Note: you \textbf{are not} being asked to perform any statistical
+  test.
+\end{enumerate}
+
+\hypertarget{points-concordance-between-pcr-based-extraction-free-saliva-and-nasopharyngeal-swabs-for-sars-cov-2-testing---part-ii}{%
+\section{(25 points) Concordance between PCR-based extraction-free
+saliva and nasopharyngeal swabs for SARS-CoV-2 testing - PART
+II}\label{points-concordance-between-pcr-based-extraction-free-saliva-and-nasopharyngeal-swabs-for-sars-cov-2-testing---part-ii}}
+
+This question is based on the article
+\href{https://hrbopenresearch.org/articles/4-85/v1}{\emph{Concordance
+between PCR-based extraction-free saliva and nasopharyngeal swabs for
+SARS-CoV-2 testing}}. The code to read in the data is shown in the
+previous question. For the following questions, only use the symptomatic
+cohort.
+
+\begin{enumerate}
+\def\labelenumi{\alph{enumi}.}
+\tightlist
+\item
+  (5 points) Give a 95\% confidence interval for the mean Ct value for
+  each test type (Nasopharyngeal and Saliva). State your assumptions.\\
+\item
+  (5 points) Based on these confidence intervals, are you convinced that
+  the data show there is no difference in mean Ct values between both
+  test types? Explain.\\
+\item
+  (5 points) Construct a 95\% confidence interval for the mean
+  difference in Ct values between both test types using a canned
+  function. Interpret this confidence interval. State the assumptions
+  being made by this function.\\
+\item
+  (5 points) Construct a 95\% bootstrap confidence interval for the mean
+  difference in Ct values between both test types. Compare it to the one
+  obtained in part c.~State your assumptions.\\
+\item
+  (5 points) Compute a standard error for the mean difference in Ct
+  values between both test types. Was the standard error that you
+  computed used in any of the confidence intervals you constructed in
+  parts a,c or d? Explain.
+\end{enumerate}
+
+\newpage
+
+\hypertarget{points-concordance-between-pcr-based-extraction-free-saliva-and-nasopharyngeal-swabs-for-sars-cov-2-testing---part-iii}{%
+\section{(25 points) Concordance between PCR-based extraction-free
+saliva and nasopharyngeal swabs for SARS-CoV-2 testing - PART
+III}\label{points-concordance-between-pcr-based-extraction-free-saliva-and-nasopharyngeal-swabs-for-sars-cov-2-testing---part-iii}}
+
+This question is based on the article
+\href{https://hrbopenresearch.org/articles/4-85/v1}{\emph{Concordance
+between PCR-based extraction-free saliva and nasopharyngeal swabs for
+SARS-CoV-2 testing}}. The code to read in the data is shown in the
+previous question.
+
+\begin{enumerate}
+\def\labelenumi{\alph{enumi}.}
+\tightlist
+\item
+  (5 points) For the asymptomatic cohort, calculate the sensitivity and
+  specificity of the saliva test. Show your work.\\
+\item
+  (7.5 points) The reviewer reports are provided with the article.
+  Specifically, Reviewer 2 has an issue with the very wide confidence
+  interval for sensitivity of the saliva test. Without performing any
+  calculations, do you agree or disagree with their statement.
+  Explain.\\
+\item
+  (7.5 points) Are you able to calculate a 95\% bootstrap confidence
+  interval for the sensitivity of the saliva test? If yes, compute it
+  and compare it to the one given in the paper. If not, explain why.\\
+\item
+  (5 points) Do you think the 95\% confidence interval provided for the
+  specificity is correct? Explain.
+\end{enumerate}
+
+\hypertarget{points-how-deep-is-the-ocean}{%
+\section{(25 points) How deep is the
+ocean?}\label{points-how-deep-is-the-ocean}}
+
+This question is based on the in-class exercise on sampling
+distributions using the depths of the ocean example.
+
+\begin{enumerate}
+\def\labelenumi{\alph{enumi}.}
+\tightlist
+\item
+  (5 points) For your sample of \(n=5\) of depths of the ocean,
+  calculate the 95\% Confidence interval using the \(\pm\) formula, the
+  \texttt{qnorm} function, and using \(B=10000\) bootstrap samples.\\
+\item
+  (5 points) Plot all three confidence intervals on the same plot and
+  comment on the difference/similarities between the 3 intervals. You
+  may use the \texttt{compare\_CI} function provided below to produce
+  the plot. This takes as input, the sample mean (\texttt{ybar}), and
+  the CIs calculated from a,b,c in the form of a numeric vector of
+  length 2 into the arguments \texttt{PM}, \texttt{QNORM} and
+  \texttt{BOOT}, respectively.\\
+\item
+  (10 points) Repeat parts a and b using your sample of size \(n=20\).
+  Comment on the difference/similarities between the \(n=5\) and
+  \(n=20\) graph.\\
+\item
+  (5 points) In the in-class exercise, there were a total of
+  approximately \(N=60\) students who participated. In your own words,
+  briefly explain the difference between the \(N=60\), and the \(n=5\)
+  or \(n=20\). What effect did these different `n' have on the sampling
+  distribution of the sample means?
+\end{enumerate}
+
+\newpage
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{compare\_CI }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(ybar, PM, QNORM, BOOT, }
+                       \AttributeTok{col =} \FunctionTok{c}\NormalTok{(}\StringTok{"\#E41A1C"}\NormalTok{,}\StringTok{"\#377EB8"}\NormalTok{,}\StringTok{"\#4DAF4A"}\NormalTok{)) \{}
+
+\NormalTok{  dt }\OtherTok{\textless{}{-}} \FunctionTok{data.frame}\NormalTok{(}\AttributeTok{type =} \FunctionTok{c}\NormalTok{(}\StringTok{"plus\_minus"}\NormalTok{, }\StringTok{"qnorm"}\NormalTok{, }\StringTok{"bootstrap"}\NormalTok{),}
+                   \AttributeTok{ybar =} \FunctionTok{rep}\NormalTok{(ybar, }\DecValTok{3}\NormalTok{),}
+                   \AttributeTok{low =} \FunctionTok{c}\NormalTok{(PM[}\DecValTok{1}\NormalTok{], QNORM[}\DecValTok{1}\NormalTok{], BOOT[}\DecValTok{1}\NormalTok{]),}
+                   \AttributeTok{up =} \FunctionTok{c}\NormalTok{(PM[}\DecValTok{2}\NormalTok{], QNORM[}\DecValTok{2}\NormalTok{], BOOT[}\DecValTok{2}\NormalTok{])}
+\NormalTok{  )}
+  
+  \FunctionTok{plot}\NormalTok{(dt}\SpecialCharTok{$}\NormalTok{ybar, }\DecValTok{1}\SpecialCharTok{:}\FunctionTok{nrow}\NormalTok{(dt), }\AttributeTok{pch =} \DecValTok{20}\NormalTok{, }\AttributeTok{ylim =} \FunctionTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{, }\DecValTok{5}\NormalTok{), }
+       \AttributeTok{xlim =} \FunctionTok{range}\NormalTok{(}\FunctionTok{pretty}\NormalTok{(}\FunctionTok{c}\NormalTok{(dt}\SpecialCharTok{$}\NormalTok{low, dt}\SpecialCharTok{$}\NormalTok{up))),}
+       \AttributeTok{xlab =} \StringTok{"Depth of ocean (m)"}\NormalTok{, }\AttributeTok{ylab =} \StringTok{"Confidence Interval Type"}\NormalTok{,}
+       \AttributeTok{las =} \DecValTok{1}\NormalTok{, }\AttributeTok{cex.axis =} \FloatTok{0.8}\NormalTok{, }\AttributeTok{cex =} \DecValTok{3}\NormalTok{)}
+  
+  \FunctionTok{abline}\NormalTok{(}\AttributeTok{v =} \DecValTok{37}\NormalTok{, }\AttributeTok{lty =} \DecValTok{2}\NormalTok{, }\AttributeTok{col =} \StringTok{"black"}\NormalTok{, }\AttributeTok{lwd =} \DecValTok{2}\NormalTok{)}
+  \FunctionTok{segments}\NormalTok{(}\AttributeTok{x0 =}\NormalTok{ dt}\SpecialCharTok{$}\NormalTok{low, }\AttributeTok{x1 =}\NormalTok{ dt}\SpecialCharTok{$}\NormalTok{up,}
+           \AttributeTok{y0 =} \DecValTok{1}\SpecialCharTok{:}\FunctionTok{nrow}\NormalTok{(dt), }\AttributeTok{lend =} \DecValTok{1}\NormalTok{,}
+           \AttributeTok{col =}\NormalTok{ col, }\AttributeTok{lwd =} \DecValTok{4}\NormalTok{)}
+  
+  \FunctionTok{legend}\NormalTok{(}\StringTok{"topleft"}\NormalTok{,}
+         \AttributeTok{legend =} \FunctionTok{c}\NormalTok{(}\FunctionTok{eval}\NormalTok{(}\FunctionTok{substitute}\NormalTok{( }\FunctionTok{expression}\NormalTok{(}\FunctionTok{paste}\NormalTok{(mu,}\StringTok{" = "}\NormalTok{,}\DecValTok{37}\NormalTok{)))),}
+                    \FunctionTok{sprintf}\NormalTok{(}\StringTok{"plus/minus CI: [\%.f, \%.f]"}\NormalTok{,PM[}\DecValTok{1}\NormalTok{], PM[}\DecValTok{2}\NormalTok{]),}
+                    \FunctionTok{sprintf}\NormalTok{(}\StringTok{"qnorm CI: [\%.f, \%.f]"}\NormalTok{,QNORM[}\DecValTok{1}\NormalTok{], QNORM[}\DecValTok{2}\NormalTok{]),}
+                    \FunctionTok{sprintf}\NormalTok{(}\StringTok{"bootstrap CI: [\%.f, \%.f]"}\NormalTok{,BOOT[}\DecValTok{1}\NormalTok{], BOOT[}\DecValTok{2}\NormalTok{])),}
+         \AttributeTok{lty =} \FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{, }\DecValTok{1}\NormalTok{,}\DecValTok{1}\NormalTok{,}\DecValTok{1}\NormalTok{),}
+         \AttributeTok{col =} \FunctionTok{c}\NormalTok{(}\StringTok{"black"}\NormalTok{,col), }\AttributeTok{lwd =} \DecValTok{4}\NormalTok{)}
+\NormalTok{\}}
+
+\CommentTok{\# example of how to use the function:}
+\FunctionTok{compare\_CI}\NormalTok{(}\AttributeTok{ybar =} \DecValTok{36}\NormalTok{, }\AttributeTok{PM =} \FunctionTok{c}\NormalTok{(}\DecValTok{28}\NormalTok{, }\DecValTok{40}\NormalTok{), }\AttributeTok{QNORM =} \FunctionTok{c}\NormalTok{(}\DecValTok{25}\NormalTok{,}\DecValTok{40}\NormalTok{), }\AttributeTok{BOOT =} \FunctionTok{c}\NormalTok{(}\DecValTok{31}\NormalTok{, }\DecValTok{38}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+
+%\showmatmethods
+
+
+\bibliography{pinp}
+\bibliographystyle{jss}
+
+
+
+\end{document}
