@@ -1,0 +1,194 @@
+\documentclass[letterpaper,11pt,twoside,]{pinp}
+
+%% Some pieces required from the pandoc template
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+
+% Use the lineno option to display guide line numbers if required.
+% Note that the use of elements such as single-column equations
+% may affect the guide line number alignment.
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{longtable}
+
+% pinp change: the geometry package layout settings need to be set here, not in pinp.cls
+\geometry{layoutsize={0.95588\paperwidth,0.98864\paperheight},%
+  layouthoffset=0.02206\paperwidth, layoutvoffset=0.00568\paperheight}
+
+\definecolor{pinpblue}{HTML}{185FAF}  % imagecolorpicker on blue for new R logo
+\definecolor{pnasbluetext}{RGB}{101,0,0} %
+
+
+
+\title{Lab 005 - Inference for means}
+
+\author[a]{EPIB607 - Inferential Statistics}
+
+  \affil[a]{McGill University}
+
+\setcounter{secnumdepth}{5}
+
+% Please give the surname of the lead author for the running footer
+\leadauthor{Bhatnagar and Hanley}
+
+% Keywords are not mandatory, but authors are strongly encouraged to provide them. If provided, please include two to five keywords, separated by the pipe symbol, e.g:
+ \keywords{  Sampling distribution |  Standard error |  Normal
+distribution |  Quantiles |  Percentiles |  Z-scores  }  
+
+\begin{abstract}
+In this exercise you will practice calculating confidence intervals
+using the t-distribution and the bootstrap.
+\end{abstract}
+
+\dates{This version was compiled on \today} 
+
+% initially we use doi so keep for backwards compatibility
+\doifooter{\url{https://sahirbhatnagar.com/EPIB607/}}
+% new name is doi_footer
+
+\pinpfootercontents{in-class exercise on confidence intervals}
+
+\begin{document}
+
+% Optional adjustment to line up main text (after abstract) of first page with line numbers, when using both lineno and twocolumn options.
+% You should only change this length when you've finalised the article contents.
+\verticaladjustment{-2pt}
+
+\maketitle
+\thispagestyle{firststyle}
+\ifthenelse{\boolean{shortarticle}}{\ifthenelse{\boolean{singlecolumn}}{\abscontentformatted}{\abscontent}}{}
+
+% If your first paragraph (i.e. with the \dropcap) contains a list environment (quote, quotation, theorem, definition, enumerate, itemize...), the line after the list may have some extra indentation. If this is the case, add \parshape=0 to the end of the list environment.
+
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule
+R Code & Value \\
+\midrule
+\endhead
+\texttt{qnorm(p\ =\ c(0.05,\ 0.95))} & -1.64, 1.64 \\
+\texttt{qnorm(p\ =\ c(0.025,\ 0.975))} & -1.96, 1.96 \\
+\texttt{qnorm(p\ =\ c(0.005,\ 0.995))} & -2.58, 2.58 \\
+\texttt{qt(p\ =\ c(0.025,\ 0.975),\ df\ =\ 400-1)} & -1.97, 1.97 \\
+\texttt{qt(p\ =\ c(0.025,\ 0.975),\ df\ =\ 25-1)} & -2.06, 2.06 \\
+\texttt{qt(p\ =\ c(0.025,\ 0.975),\ df\ =\ 20-1)} & -2.09, 2.09 \\
+\texttt{qt(p\ =\ c(0.025,\ 0.975),\ df\ =\ 16-1)} & -2.13, 2.13 \\
+\bottomrule
+\end{longtable}
+
+\hypertarget{food-intake-and-weight-gain}{%
+\section{Food intake and weight
+gain}\label{food-intake-and-weight-gain}}
+
+If we increase our food intake, we generally gain weight. Nutrition
+scientists can calculate the amount of weight gain that would be
+associated with a given increase in calories. In one study, 16 nonobese
+adults, aged 25 to 36 years, were fed 1000 calories per day in excess of
+the calories needed to maintain a stable body weight. The subjects
+maintained this diet for 8 weeks, so they consumed a total of 56,000
+extra calories. According to theory, 3500 extra calories will translate
+into a weight gain of 1 pound. Therfore we expect each of these subjects
+to gain 56,000/3500=16 pounds (lb). Here are the weights (given in the
+\texttt{weightgain.csv} file) before and after the 8-week period
+expressed in kilograms (kg):
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{weight }\OtherTok{\textless{}{-}} \FunctionTok{read.csv}\NormalTok{(}\StringTok{"weightgain.csv"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{enumerate}
+\def\labelenumi{\alph{enumi}.}
+\item
+  Calculate a 95\% confidence interval for the mean weight change and
+  give a sentence explaining the meaning of the 95\%. State your
+  assumptions.
+\item
+  Calculate a 95\% bootstrap confidence interval for the mean weight
+  change and compare it to the one obtained in part (a). Comment on the
+  bootstrap sampling distribution and compare it to the assumptions you
+  made in part (a).
+\item
+  Convert the units of the mean weight gain and 95\% confidence interval
+  to pounds. Note that 1 kilogram is equal to 2.2 pounds. Test the null
+  hypothesis that the mean weight gain is 16 lbs. State your assumptions
+  and justify your choice of test. Be sure to specify the null and
+  alternative hypotheses. What do you conclude?
+\end{enumerate}
+
+\newpage
+
+\hypertarget{attitudes-toward-school}{%
+\section{Attitudes toward school}\label{attitudes-toward-school}}
+
+The Survey of Study Habits and Attitudes (SSHA) is a psychological test
+that measures the motivation, attitude toward school, and study habits
+of students. Scores range from 0 to 200. The mean score for U.S. college
+students is about 115, and the standard deviation is about 30. A teacher
+who suspects that older students have better attitudes toward school
+gives the SSHA to 25 students who are at least 30 years of age. Their
+mean score is \(\bar{y}\) = 132.2 with a sample standard deviation
+\(s = 28\).
+
+\begin{enumerate}
+\def\labelenumi{\alph{enumi}.}
+\tightlist
+\item
+  The teacher asks you to carry out a formal statistical test for her
+  hypothesis. Perform a test, provide a 95\% confidence interval and
+  state your conclusion clearly.
+\item
+  What assumptions did you use in part (a). Which of these assumptions
+  is most important to the validity of your conclusion in part (a).
+\end{enumerate}
+
+\hypertarget{does-a-full-moon-affect-behavior}{%
+\section{Does a full moon affect
+behavior?}\label{does-a-full-moon-affect-behavior}}
+
+Many people believe that the moon influences the actions of some
+individuals. A study of dementia patients in nursing homes recorded
+various types of disruptive behaviors every day for 12 weeks. Days were
+classified as moon days if they were in a 3-day period centered at the
+day of the full moon. For each patient, the average number of disruptive
+behaviors was computed for moon days and for all other days. The
+hypothesis is that moon days will lead to more disruptive behavior. We
+look at a data set consisting of observations on 15 dementia patients in
+nursing homes (available in the \texttt{fullmoon.csv} file):
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{fullmoon }\OtherTok{\textless{}{-}} \FunctionTok{read.csv}\NormalTok{(}\StringTok{"fullmoon.csv"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{enumerate}
+\def\labelenumi{\alph{enumi}.}
+\tightlist
+\item
+  Calculate a 95\% confidence interval for the mean difference in
+  disruptive behaviors. State the assumptions you used to calculate this
+  interval.
+\item
+  Test the hypothesis that moon days will lead to more disruptive
+  behavior. State your assumptions and provide a brief conclusion based
+  on your analysis.
+\item
+  Find the minimum value of the mean difference in disruptive behaviors
+  (\(\bar{y}\)) needed to reject the null hypothesis.
+\item
+  What is the probability of detecting an increase of 1.0 aggressive
+  behavior per day during moon days?
+\end{enumerate}
+
+%\showmatmethods
+
+
+\bibliography{pinp}
+\bibliographystyle{jss}
+
+
+
+\end{document}

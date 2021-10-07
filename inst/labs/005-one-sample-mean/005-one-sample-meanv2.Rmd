@@ -1,0 +1,139 @@
+---
+title: Assignment 4 - Central Limit Theorem, Confidence Intervals and Bootstrap. Due October 15, 11:59pm 2021
+author:
+  - name: EPIB607 - Inferential Statistics
+    affiliation: a
+#  - name: Second Author
+#    affiliation: a,b
+address:
+  - code: a
+    address: Fall 2021, McGill University
+#  - code: b
+#    address: Department of Neat Tricks, Whereever State University, Someplace, MC, 67890
+lead_author_surname: EPIB607
+#doi: "https://sahirbhatnagar.com/EPIB607/"
+abstract: |
+  All questions are to be answered in an R Markdown document using the provided template and compiled to a pdf document. You are free to choose any function from any package to complete the assignment. Concise answers will be rewarded. Be brief and to the point. Each question is worth 25 points. Label your graphs appropriately with proper titles and axis labels. Justify your answers. You may compile your reoport to pdf or to HTML. If you compile to HTML, then you must print the resulting HTML to pdf. Please submit the compiled pdf report to Crowdmark. You must also submit your code to Crowdmark. If you use the template, the code from your assignment will automatically appear at the end. Upload this code to Q5 in Crowdmark. You can upload a single pdf to Crowdmark, and then select the pages for a given question. See https://crowdmark.com/help/ for details.  
+# Optional: Acknowledgements
+#acknowledgements: |
+#  [rticles](https://cran.r-project.org/package=rticles) package, and both packages rely on the
+#  [PNAS LaTeX](http://www.pnas.org/site/authors/latex.xhtml) macros. Both these sources are
+#  ([GPL-3](https://www.gnu.org/licenses/gpl-3.0.en.html) and
+#  [LPPL (>= 1.3)](https://www.latex-project.org/lppl/)).
+# Optional: One or more keywords
+#keywords:
+papersize: letter
+fontsize: 12pt
+# Optional: Force one-column layout, default is two-column
+one_column: true
+# Optional: Enables lineno mode, but only if one_column mode is also true
+#lineno: true
+# Optional: Enable one-sided layout, default is two-sided
+#one_sided: true
+# Optional: Enable section numbering, default is unnumbered
+numbersections: true
+# Optional: Specify the depth of section number, default is 5
+#secnumdepth: 5
+# Optional: Skip inserting final break between acknowledgements, default is false
+skip_final_break: true
+# Optional: Bibliography 
+bibliography: pinp
+# Optional: Enable a 'Draft' watermark on the document
+watermark: false
+footer_contents: "Assignment 4"
+output: 
+  pinp::pinp:
+    extra_dependencies: "subfig"
+    highlight: pygments
+    latex_engine: xelatex
+# Required: Vignette metadata for inclusion in a package.
+vignette: >
+  %\VignetteIndexEntry{YourPackage-vignetteentry}
+  %\VignetteKeywords{YourPackage, r, anotherkeyword}
+  %\VignettePackage{assignment}
+  %\VignetteEngine{knitr::rmarkdown}
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r include = FALSE}
+## ---- Setup ------------------------------------------------------------------
+knitr::opts_chunk$set(
+  echo = TRUE,          # don't show code
+  eval = FALSE,
+  tidy = FALSE,
+  comment = "",
+  warning = FALSE,       # don't show warnings
+  message = FALSE,       # don't show messages (less serious warnings)
+  cache = FALSE,         # set to TRUE to save results from last compilation
+  fig.align = "center",   # center figures
+  fig.asp = 1#,          # fig.aspect ratio
+  # fig.width = 10        # fig width
+)
+```
+
+
+
+
+
+# Food intake and weight gain
+
+If we increase our food intake, we generally gain weight. Nutrition scientists can calculate the amount of weight gain that would be associated with a given increase in calories. In one study, 16 nonobese adults, aged 25 to 36 years, were fed 1000 calories per day in excess of the calories needed to maintain a stable body weight. The subjects maintained this diet for 8 weeks, so they consumed a total of 56,000 extra calories. According to theory, 3500 extra calories will translate into a weight gain of 1 pound. Therfore we expect each of these subjects to gain 56,000/3500=16 pounds (lb). Here are the weights (given in the `weightgain.csv` file) before and after the 8-week period expressed in kilograms (kg):
+
+```{r, eval=FALSE, echo=TRUE}
+weight <- read.csv("weightgain.csv")
+```
+
+
+a. Calculate a 95% confidence interval for the mean weight change and give a sentence explaining the meaning of the 95%. State your assumptions. 
+
+```{r, echo=FALSE, eval=FALSE}
+weight <- read.csv("~/git_repositories/EPIB607/exercises/inferencemeans/weightgain.csv")
+
+# Creating new variable for weight change
+weight$change <- weight$after-weight$before
+weight$change_lb <- weight$change*2.2
+
+# Calculating the mean of weight change and rounding
+(ybar_change <- mean(weight$change))
+
+# Calculating the sample standard deviation
+(ssd_change <- sd(weight$change))
+
+# sample size
+(n <- nrow(weight))
+
+# Calculating a 95% confidence interval version 1
+qt_scaled <- function(p, df, mean, sd) {
+  mean  + qt(p = p, df = df) * sd
+}
+
+(q1_ci95 <- qt_scaled(p = c(0.025, 0.975), 
+                     df = nrow(weight) - 1, 
+                     mean = ybar_change, 
+                     sd = ssd_change / sqrt(n)))
+
+
+# Calculating a 95% confidence interval version 2
+ybar_change +  qt(p = c(0.025, 0.975), df = n - 1) * ssd_change / sqrt(n)
+
+```
+
+
+b. Calculate a 95% bootstrap confidence interval for the mean weight change and compare it to the one obtained in part (a). Comment on the bootstrap sampling distribution and compare it to the assumptions you made in part (a).
+
+```{r, echo=FALSE, eval=FALSE, fig.asp=0.681}
+q1_dist <- do(10000) * mean( ~ change, data = resample(weight))
+hist(q1_dist$mean, col = "lightblue", lwd = 2)
+round(quantile(~ mean, data = q1_dist, probs = c(0.001, 0.005, .025, 0.05, 
+                                                 0.90, 0.95, 0.975, 0.99)),2)
+```
+
+
+
+c. Convert the units of the mean weight gain and 95% confidence interval to pounds. Note that 1 kilogram is equal to 2.2 pounds. Test the null hypothesis that the mean weight gain is 16 lbs. State your assumptions and justify your choice of test. Be sure to specify the null and alternative hypotheses. What do you conclude?
+
+
+```{r, echo=FALSE, eval=FALSE, fig.asp=0.681}
+round(quantile(~ mean, data = q1_dist, probs = c(.025, 0.975)) * 2.2,2)
+```

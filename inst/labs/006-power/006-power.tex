@@ -1,0 +1,145 @@
+\documentclass[letterpaper,11pt,twoside,]{pinp}
+
+%% Some pieces required from the pandoc template
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+
+% Use the lineno option to display guide line numbers if required.
+% Note that the use of elements such as single-column equations
+% may affect the guide line number alignment.
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{longtable}
+
+% pinp change: the geometry package layout settings need to be set here, not in pinp.cls
+\geometry{layoutsize={0.95588\paperwidth,0.98864\paperheight},%
+  layouthoffset=0.02206\paperwidth, layoutvoffset=0.00568\paperheight}
+
+\definecolor{pinpblue}{HTML}{185FAF}  % imagecolorpicker on blue for new R logo
+\definecolor{pnasbluetext}{RGB}{101,0,0} %
+
+
+
+\title{Lab 006 - Power Calculations}
+
+\author[a]{EPIB607 - Inferential Statistics}
+
+  \affil[a]{McGill University}
+
+\setcounter{secnumdepth}{5}
+
+% Please give the surname of the lead author for the running footer
+\leadauthor{Bhatnagar and Hanley}
+
+% Keywords are not mandatory, but authors are strongly encouraged to provide them. If provided, please include two to five keywords, separated by the pipe symbol, e.g:
+ 
+
+\begin{abstract}
+
+\end{abstract}
+
+\dates{This version was compiled on \today} 
+
+% initially we use doi so keep for backwards compatibility
+\doifooter{\url{https://sahirbhatnagar.com/EPIB607/}}
+% new name is doi_footer
+
+\pinpfootercontents{EPIB607}
+
+\begin{document}
+
+% Optional adjustment to line up main text (after abstract) of first page with line numbers, when using both lineno and twocolumn options.
+% You should only change this length when you've finalised the article contents.
+\verticaladjustment{-2pt}
+
+\maketitle
+\thispagestyle{firststyle}
+\ifthenelse{\boolean{shortarticle}}{\ifthenelse{\boolean{singlecolumn}}{\abscontentformatted}{\abscontent}}{}
+
+% If your first paragraph (i.e. with the \dropcap) contains a list environment (quote, quotation, theorem, definition, enumerate, itemize...), the line after the list may have some extra indentation. If this is the case, add \parshape=0 to the end of the list environment.
+
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule
+R Code & Value \\
+\midrule
+\endhead
+\texttt{qnorm(p\ =\ c(0.05,\ 0.95))} & -1.64, 1.64 \\
+\texttt{qnorm(p\ =\ c(0.025,\ 0.975))} & -1.96, 1.96 \\
+\texttt{qnorm(p\ =\ c(0.005,\ 0.995))} & -2.58, 2.58 \\
+\texttt{qt(p\ =\ c(0.025,\ 0.975),\ df\ =\ 400-1)} & -1.97, 1.97 \\
+\texttt{qt(p\ =\ c(0.025,\ 0.975),\ df\ =\ 25-1)} & -2.06, 2.06 \\
+\texttt{qt(p\ =\ c(0.025,\ 0.975),\ df\ =\ 20-1)} & -2.09, 2.09 \\
+\texttt{qt(p\ =\ c(0.025,\ 0.975),\ df\ =\ 16-1)} & -2.13, 2.13 \\
+\bottomrule
+\end{longtable}
+
+\hypertarget{lake-wobegon}{%
+\section{Lake Wobegon}\label{lake-wobegon}}
+
+It is claimed that the children of Lake Wobegon are above average. Take
+a simple random sample of 9 children from Lake Wobegon, and measure
+their IQ to obtain a sample mean of 112.8. IQ scores are scaled to be
+Normally distributed with mean 100 and standard deviation 15.
+
+\begin{enumerate}
+\def\labelenumi{\alph{enumi})}
+\item
+  Does this sample provide evidence to reject the null hypothesis of no
+  difference between children of Lake Wobegon and the general
+  population?
+\item
+  Suppose you hope to use a one-sided test to show that the children
+  from Lake Wobegon are at least 10 points higher than average on the IQ
+  test. What power do you have to detect this with the sample of 9
+  children if using a 0.05-level test?
+\item
+  If you hoped to use a \textbf{two-sided} test to show that the
+  children from Lake Wobegon are at least 5 points higher than average
+  on the IQ test, what power do you have with the sample size of 9 and a
+  0.05-level test?
+\end{enumerate}
+
+\hypertarget{bias-in-step-counters}{%
+\section{Bias in step counters}\label{bias-in-step-counters}}
+
+Following the study by
+\href{http://www.medicine.mcgill.ca/epidemiology/hanley/bios601/Surveys/SmartphoneSteps.pdf}{Case
+et al., JAMA, 2015}, suppose we wished to assess, via a formal
+statistical test, whether (at an \textit{population}, rather than an
+individual, level) a step-counting device or app is unbiased (\(H_0\))
+or under-counts (\(H_1\)). Suppose we will do so the way
+\href{http://www.medicine.mcgill.ca/epidemiology/hanley/bios601/Surveys/SmartphoneSteps.pdf}{Case
+et al.} did, but measuring \(n\) persons just once each. We observe the
+device count when the true count on the treadmill reaches 500.
+
+\begin{enumerate}
+\def\labelenumi{\alph{enumi}.}
+\tightlist
+\item
+  Using a planned sample size of \(n=25\), and \(\sigma = 60\) steps as
+  a pre-study best-guess as to the \(s\) that might be observed in them,
+  calculate the critical value at \(\alpha = 0.01\).
+\item
+  Now imagine that the mean would not be the null 500, but \(\mu=470.\)
+  Calculate the probability that the mean in the sample of 25 will be
+  less than this critical value. Use the same \(s\) for the alternative
+  that you used for the null. What is this probability called?
+\item
+  Determine the sample size required for 80\% power using a 1\% level of
+  significance. Plot the null and alternative distributions in a diagram
+  using the
+  \href{https://raw.githubusercontent.com/sahirbhatnagar/EPIB607/master/inst/code/plot_null_alt.R}{\texttt{plot\_power}}
+  function.
+\end{enumerate}
+
+%\showmatmethods
+
+
+\bibliography{pinp}
+\bibliographystyle{jss}
+
+
+
+\end{document}
