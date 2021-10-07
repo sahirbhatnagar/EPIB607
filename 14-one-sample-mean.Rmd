@@ -61,7 +61,7 @@ Fortunately, as it did in previous chapters for the sample proportion, bootstrap
 
 ### Variability of the statistic
 
-As with the inferential ideas covered in Chapters \@ref(foundations-randomization), \@ref(foundations-bootstrapping), and \@ref(foundations-mathematical), the inferential analysis methods in this chapter are grounded in quantifying how one dataset differs from another when they are both taken from the same population.
+The inferential analysis methods in this chapter are grounded in quantifying how one dataset differs from another when they are both taken from the same population.
 To repeat, the idea is that we want to know how datasets differ from one another, but we aren't ever going to take more than one sample of observations.
 It doesn't make sense to take repeated samples from the same population because if you have the ability to take more samples, a larger sample size will benefit you more than taking two samples from the population.
 Instead of taking repeated samples from the actual population, we use bootstrapping to measure how the samples behave under an estimate of the population.
@@ -82,8 +82,8 @@ For the situation at hand where the sample mean is the statistic of interest, th
 include_graphics(here::here("inst/figures","bootsamps1mean.png"))
 ```
 
-By summarizing each of the bootstrap samples (here, using the sample mean), we see, directly, the variability of the sample mean, $\bar{x},$ from sample to sample.
-The distribution of $\bar{x}_{bs}$ for the Awesome Auto cars is shown in Figure \@ref(fig:bootmeans1mean).
+By summarizing each of the bootstrap samples (here, using the sample mean), we see, directly, the variability of the sample mean, $\bar{y},$ from sample to sample.
+The distribution of $\bar{y}_{bs}$ for the Awesome Auto cars is shown in Figure \@ref(fig:bootmeans1mean).
 
 ```{r bootmeans1mean,  echo=FALSE, fig.cap = "Because each of the bootstrap resamples respresents a different set of cars, the mean of the each bootstrap resample will be a different value.  Each of the bootstrapped means is calculated, and a histogram of the values describes the inherent natural variability of the sample mean which is due to the sampling process.", out.width="100%", fig.alt = "The sample is shown being taken from the large unknown population.  Three bootstrap resamples of 5 cars each are shown; the three resamples have an average car price of 11780 dollars, 19020 dollars, and 20260 dollars, respectively. A histogram representing many bootstrap resamples indicates that the bootstrap averages vary from roughly 10000 dollars to 25000 dollars."}
 include_graphics(here::here("inst/figures","bootmeans1mean.png"))
@@ -154,10 +154,10 @@ ggplot(bscars_mean, aes(x = stat)) +
 
 ### Bootstrap SE confidence interval
 
-As seen in Section \@ref(two-prop-boot-ci), another method for creating bootstrap confidence intervals directly uses a calculation of the variability of the bootstrap statistics (here, the bootstrap means).
+Another method for creating bootstrap confidence intervals directly uses a calculation of the variability of the bootstrap statistics (here, the bootstrap means).
 If the bootstrap distribution is relatively symmetric and bell-shaped, then the 95% bootstrap SE confidence interval can be constructed with the formula familiar from the mathematical models in previous chapters:
 
-$$\mbox{point estimate} \pm 2 \cdot SE_{BS}$$ The number 2 is an approximation connected to the "95%" part of the confidence interval (remember the 68-95-99.7 rule).
+$$\mbox{point estimate} \pm 2 \cdot SE_{BS}$$ or the quantile function. The number 2 is an approximation connected to the "95%" part of the confidence interval (remember the 68-95-99.7 rule).
 As will be seen in Section \@ref(one-mean-math), a new distribution (the $t$-distribution) will be applied to most mathematical inference on numerical variables.
 However, because bootstrapping is not grounded in the same theory as the mathematical approach given in this text, we stick with the standard normal quantiles (in R use the function `qnorm()` to find normal percentiles other than 95%) for different confidence percentages.[^inference-one-mean-1]
 
@@ -171,15 +171,10 @@ Explain how the standard error (SE) of the bootstrapped means is calculated and 
 The SE of the bootstrapped means measures how variable the means are from resample to resample.
 The bootstrap SE is a good approximation to the SE of means as if we had taken repeated samples from the original population (which we agreed isn't something we would do because of wasted resources).
 
-Logistically, we can find the standard deviation of the bootstrapped means using the same calculations from Chapter \@ref(explore-numerical).
+Logistically, we can find the standard deviation of the bootstrapped means using the same calculations from the descriptive statistics section.
 That is, the bootstrapped means are the individual observations about which we measure the variability.
 :::
 
-Although we won't spend a lot of energy on this concept, you may be wondering some of the differences between a standard error and a standard deviation.
-The **standard error**\index{standard error} describes how a statistic (e.g., sample mean or sample proportion) varies from sample to sample.
-The **standard deviation**\index{standard deviation} can be thought of as a function applied to any list of numbers which measures how far those numbers vary from their own average.
-So, you can have a standard deviation calculated on a column of dog heights or a standard deviation calculated on a column of bootstrapped means from the resampled data.
-Note that the standard deviation calculated on the bootstrapped means is referred to as the bootstrap standard error of the mean.
 
 ```{r include=FALSE, echo=FALSE}
 terms_chp_19 <- c(terms_chp_19, "SE single mean", "SD single mean")
@@ -303,14 +298,14 @@ Additionally, we can compute a standard error for the sample mean using the popu
 ::: {.important data-latex=""}
 **Central Limit Theorem for the sample mean.**
 
-When we collect a sufficiently large sample of $n$ independent observations from a population with mean $\mu$ and standard deviation $\sigma,$ the sampling distribution of $\bar{x}$ will be nearly normal with
+When we collect a sufficiently large sample of $n$ independent observations from a population with mean $\mu$ and standard deviation $\sigma,$ the sampling distribution of $\bar{y}$ will be nearly normal with
 
 $$\text{Mean} = \mu \qquad \text{Standard Error }(SE) = \frac{\sigma}{\sqrt{n}}$$
 :::
 
-Before diving into confidence intervals and hypothesis tests using $\bar{x},$ we first need to cover two topics:
+Before diving into confidence intervals and hypothesis tests using $\bar{y},$ we first need to cover two topics:
 
--   When we modeled $\hat{p}$ using the normal distribution, certain conditions had to be satisfied. The conditions for working with $\bar{x}$ are a little more complex, and below, we will discuss how to check conditions for inference using a mathematical model.
+-   When we modeled $\hat{p}$ using the normal distribution, certain conditions had to be satisfied. The conditions for working with $\bar{y}$ are a little more complex, and below, we will discuss how to check conditions for inference using a mathematical model.
 -   The standard error is dependent on the population standard deviation, $\sigma.$ However, we rarely know $\sigma,$ and instead we must estimate it. Because this estimation is itself imperfect, we use a new distribution called the $t$-distribution to fix this problem, which we discuss below.
 
 \index{t-distribution@$t$-distribution}
@@ -319,32 +314,23 @@ Before diving into confidence intervals and hypothesis tests using $\bar{x},$ we
 terms_chp_19 <- c(terms_chp_19, "t-distribution")
 ```
 
-### Evaluating the two conditions required for modeling $\bar{x}$
+### Evaluating the two conditions required for modeling $\bar{y}$
 
-Two conditions are required to apply the Central Limit Theorem\index{Central Limit Theorem} for a sample mean $\bar{x}:$
+Two conditions are required to apply the Central Limit Theorem\index{Central Limit Theorem} for a sample mean $\bar{y}:$
 
 -   **Independence.** The sample observations must be independent. The most common way to satisfy this condition is when the sample is a simple random sample from the population.
     If the data come from a random process, analogous to rolling a die, this would also satisfy the independence condition.
 
 -   **Normality.** When a sample is small, we also require that the sample observations come from a normally distributed population.
     We can relax this condition more and more for larger and larger sample sizes.
-    This condition is obviously vague, making it difficult to evaluate, so next we introduce a couple rules of thumb to make checking this condition easier.
+
 
 ```{r include=FALSE}
 terms_chp_19 <- c(terms_chp_19, "Central Limit Theorem")
 ```
 
-::: {.important data-latex=""}
-**General rule for performing the normality check.**
 
-There is no perfect way to check the normality condition, so instead we use two general rules based on the number and magnitude of extreme observations.
-Note, it often takes practice to get a sense for whether or not a normal approximation is appropriate.
-
--   $\mathbf{n < 30}:$ If the sample size $n$ is less than 30 and there are **no clear outliers** in the data, then we typically assume the data come from a nearly normal distribution to satisfy the condition.
--   $\mathbf{n \geq 30}:$ If the sample size $n$ is at least 30 and there are no **particularly extreme** outliers, then we typically assume the sampling distribution of $\bar{x}$ is nearly normal, even if the underlying distribution of individual observations is not.
-:::
-
-In this first course in statistics, you aren't expected to develop perfect judgment on the normality condition.
+You aren't expected to develop perfect judgment on the normality condition.
 However, you are expected to be able to handle clear cut cases based on the rules of thumb.[^inference-one-mean-4]
 
 [^inference-one-mean-4]: More nuanced guidelines would consider further relaxing the *particularly extreme outlier* check when the sample size is very large.
@@ -361,11 +347,11 @@ Are the independence and normality conditions met in each case?
 Each samples is from a simple random sample of its respective population, so the independence condition is satisfied.
 Let's next check the normality condition for each using the rule of thumb.
 
-The first sample has fewer than 30 observations, so we are watching for any clear outliers.
+The first sample has very little observations, so we are watching for any clear outliers.
 None are present; while there is a small gap in the histogram on the right, this gap is small and over 20% of the observations in this small sample are represented to the left of the gap, so we can hardly call these clear outliers.
 With no clear outliers, the normality condition can be reasonably assumed to be met.
 
-The second sample has a sample size greater than 30 and includes an outlier that appears to be roughly 5 times further from the center of the distribution than the next furthest observation.
+The second sample has a sample size is larger and includes an outlier that appears to be roughly 5 times further from the center of the distribution than the next furthest observation.
 This is an example of a particularly extreme outlier, so the normality condition would not be satisfied.
 
 It's often helpful to also visualize the data using a box plot to assess skewness and existence of outliers.
@@ -407,7 +393,7 @@ p1 + p2 + p3 + p4 +
   plot_layout(nrow = 2, heights = c(3, 1, 3, 1))
 ```
 
-In practice, it's typical to also do a mental check to evaluate whether we have reason to believe the underlying population would have moderate skew (if $n < 30)$ or have particularly extreme outliers $(n \geq 30)$ beyond what we observe in the data.
+In practice, it's typical to also do a mental check to evaluate whether we have reason to believe the underlying population would have moderate skew or have particularly extreme outliers beyond what we observe in the data.
 For example, consider the number of followers for each individual account on Twitter, and then imagine this distribution.
 The large majority of accounts have built up a couple thousand followers or fewer, while a relatively tiny fraction have amassed tens of millions of followers, meaning the distribution is extremely skewed.
 When we know the data come from such an extremely skewed distribution, it takes some effort to understand what sample size is large enough for the normality condition to be satisfied.
@@ -418,13 +404,13 @@ When we know the data come from such an extremely skewed distribution, it takes 
 
 \index{t-distribution}
 
-In practice, we cannot directly calculate the standard error for $\bar{x}$ since we do not know the population standard deviation, $\sigma.$ We encountered a similar issue when computing the standard error for a sample proportion, which relied on the population proportion, $p.$ Our solution in the proportion context was to use the sample value in place of the population value when computing the standard error.
-We'll employ a similar strategy for computing the standard error of $\bar{x},$ using the sample standard deviation $s$ in place of $\sigma:$
+In practice, we cannot directly calculate the standard error for $\bar{y}$ since we do not know the population standard deviation, $\sigma.$ We encountered a similar issue when computing the standard error for a sample proportion, which relied on the population proportion, $p.$ Our solution in the proportion context was to use the sample value in place of the population value when computing the standard error.
+We'll employ a similar strategy for computing the standard error of $\bar{y},$ using the sample standard deviation $s$ in place of $\sigma:$
 
 $$SE = \frac{\sigma}{\sqrt{n}} \approx \frac{s}{\sqrt{n}}$$
 
 This strategy tends to work well when we have a lot of data and can estimate $\sigma$ using $s$ accurately.
-However, the estimate is less precise with smaller samples, and this leads to problems when using the normal distribution to model $\bar{x}.$
+However, the estimate is less precise with smaller samples, and this leads to problems when using the normal distribution to model $\bar{y}.$
 
 We'll find it useful to use a new distribution for inference calculations called the $t$-distribution.
 A $t$-distribution, shown as a solid line in Figure \@ref(fig:tDistCompareToNormalDist), has a bell shape.
@@ -510,7 +496,7 @@ legend(2.5, 0.4,
 The degrees of freedom describes the shape of the $t$-distribution.
 The larger the degrees of freedom, the more closely the distribution approximates the normal distribution.
 
-When modeling $\bar{x}$ using the $t$-distribution, use $df = n - 1.$
+When modeling $\bar{y}$ using the $t$-distribution, use $df = n - 1.$
 :::
 
 The $t$-distribution allows us greater flexibility than the normal distribution when analyzing numerical data.
@@ -650,7 +636,7 @@ We revise the confidence interval formula slightly when using the $t$-distributi
 $$
 \begin{aligned}
 \text{point estimate} \ &\pm\  t^{\star}_{df} \times SE \\
-\bar{x} \ &\pm\  t^{\star}_{df} \times \frac{s}{\sqrt{n}}
+\bar{y} \ &\pm\  t^{\star}_{df} \times \frac{s}{\sqrt{n}}
 \end{aligned}
 $$
 
@@ -700,7 +686,7 @@ We can construct the confidence interval as
 
 $$
 \begin{aligned}
-\bar{x} \ &\pm\  t^{\star}_{18} \times SE \\
+\bar{y} \ &\pm\  t^{\star}_{18} \times SE \\
 4.4 \ &\pm\  2.10 \times 0.528 \\
 (3.29 \  &, \ 5.51)
 \end{aligned} 
@@ -717,11 +703,11 @@ Based on a sample of $n$ independent and nearly normal observations, a confidenc
 $$
 \begin{aligned}
 \text{point estimate} \ &\pm\  t^{\star}_{df} \times SE \\
-\bar{x} \ &\pm\  t^{\star}_{df} \times \frac{s}{\sqrt{n}}
+\bar{y} \ &\pm\  t^{\star}_{df} \times \frac{s}{\sqrt{n}}
 \end{aligned}
 $$
 
-where $\bar{x}$ is the sample mean, $t^{\star}_{df}$ corresponds to the confidence level and degrees of freedom $df,$ and $SE$ is the standard error as estimated by the sample.
+where $\bar{y}$ is the sample mean, $t^{\star}_{df}$ corresponds to the confidence level and degrees of freedom $df,$ and $SE$ is the standard error as estimated by the sample.
 :::
 
 ::: {.guidedpractice data-latex=""}
@@ -735,7 +721,7 @@ Based on the summary statistics of the data, do you have any objections to the n
 [^inference-one-mean-6]: The sample size is under 30, so we check for obvious outliers: since all observations are within 2 standard deviations of the mean, there are no such clear outliers.
 
 ::: {.workedexample data-latex=""}
-Estimate the standard error of $\bar{x} = 0.287$ ppm using the data summaries in the previous Guided Practice.
+Estimate the standard error of $\bar{y} = 0.287$ ppm using the data summaries in the previous Guided Practice.
 If we are to use the $t$-distribution to create a 90% confidence interval for the actual mean of the mercury content, identify the degrees of freedom and $t^{\star}_{df}.$
 
 ------------------------------------------------------------------------
@@ -757,7 +743,7 @@ qt(0.95, df = 14)
 Using the information and results of the previous Guided Practice and Example, compute a 90% confidence interval for the average mercury content of croaker white fish (Pacific).[^inference-one-mean-7]
 :::
 
-[^inference-one-mean-7]: $\bar{x} \ \pm\ t^{\star}_{14} \times SE \ \to\  0.287 \ \pm\  1.76 \times 0.0178 \ \to\ (0.256, 0.318).$ We are 90% confident that the average mercury content of croaker white fish (Pacific) is between 0.256 and 0.318 ppm.
+[^inference-one-mean-7]: $\bar{y} \ \pm\ t^{\star}_{14} \times SE \ \to\  0.287 \ \pm\  1.76 \times 0.0178 \ \to\ (0.256, 0.318).$ We are 90% confident that the average mercury content of croaker white fish (Pacific) is between 0.256 and 0.318 ppm.
 
 ::: {.guidedpractice data-latex=""}
 The 90% confidence interval from the previous Guided Practice is 0.256 ppm to 0.318 ppm.
@@ -768,10 +754,10 @@ Can we say that 90% of croaker white fish (Pacific) have mercury levels between 
     It does not describe what we might observe for individual observations.
 
 Recall that the margin of error is defined by the standard error.
-The margin of error for $\bar{x}$ can be directly obtained from $SE(\bar{x}).$
+The margin of error for $\bar{y}$ can be directly obtained from $SE(\bar{y}).$
 
 ::: {.important data-latex=""}
-**Margin of error for** $\bar{x}.$
+**Margin of error for** $\bar{y}.$
 
 The margin of error is $t^\star_{df} \times s/\sqrt{n}$ where $t^\star_{df}$ is calculated from a specified percentile on the t-distribution with *df* degrees of freedom.
 :::
@@ -785,7 +771,7 @@ Now that we've used the $t$-distribution for making a confidence interval for a 
 
 The T score is a ratio of how the sample mean differs from the hypothesized mean as compared to how the observations vary.
 
-$$ T = \frac{\bar{x} - \mbox{null value}}{s/\sqrt{n}} $$
+$$ T = \frac{\bar{y} - \mbox{null value}}{s/\sqrt{n}} $$
 
 When the null hypothesis is true and the conditions are met, T has a t-distribution with $df = n - 1.$
 
@@ -902,7 +888,7 @@ When comparing a quantitative variable across two groups, the question often foc
 The questions revolving around one, two, and paired samples of means are addressed using the t-distribution; they are therefore called "t-tests" and "t-intervals." When considering a quantitative variable across 3 or more groups, a method called ANOVA is applied.
 Again, almost all the research questions can be approached using computational methods (e.g., randomization tests or bootstrapping) or using mathematical models.
 We continue to emphasize the importance of experimental design in making conclusions about research claims.
-In particular, recall that variability can come from different sources (e.g., random sampling vs. random allocation, see Figure \@ref(fig:randsampValloc)).
+In particular, recall that variability can come from different sources (e.g., random sampling vs. random allocation).
 
 ### Terms
 
