@@ -828,72 +828,60 @@ knitr::kable(
 )
 ```
 
-```{exercise} 
-Table \@ref(tab:tab4) presents the
-probabilities of the random variable $Y$. 
 
-These probabilities are a
-function of the number $p$, the probability of the value "0". Answer the
-following questions:
+Table \@ref(tab:tab4) presents the probabilities of the random variable $Y$. 
 
-1.  What is the value of $p$?
+These probabilities are a function of the number $p$, the probability of the value "0". Answer the following questions:
 
-    Answer: Denote possible outcome as y, we have $\sum_{y}\Prob(y) = 1p + 2p + \dots + 6p = 1$.  
+1.  What is the value of $p$?[^exercise-7-1-1]
 
-            Thus p = $\frac{1}{21}$
+[^exercise-7-1-1]: Denote possible outcome as y, we have $\sum_{y}\Prob(y) = 1p + 2p + \dots + 6p = 1$.  Thus p = $\frac{1}{21}$
 
-2.  $\Prob(Y <3 )$ = ?
-    
-    Answer: $\Prob(Y < 3) = \Prob(Y = 0) + \Prob(Y = 1) + \Prob(Y = 2) = 1p + 2p + 3p = 6p = \frac{2}{7}$
+2.  $\Prob(Y <3 )$ = ?[^exercise-7-1-2]
 
-3.  $\Prob(Y = \mbox{odd})$ = ?
-              
-    Answer: $\Prob(Y = \mbox{odd}) = \Prob(Y = 1) + \Prob(Y = 3) + \Prob(Y = 5) = 2p + 4p + 6p = \frac{4}{7}$
+[^exercise-7-1-2]:$\Prob(Y < 3) = \Prob(Y = 0) + \Prob(Y = 1) + \Prob(Y = 2) = 1p + 2p + 3p = 6p = \frac{2}{7}$
 
-4.  $\Prob(1 \leq Y < 4)$ = ?
-              
-    Answer: $\Prob(1 \leq Y < 4) = \Prob(Y = 1) + \Prob(Y = 2) + \Prob(Y = 3) = 2p + 3p + 4p = \frac{3}{7}$
+3.  $\Prob(Y = \mbox{odd})$ = ?[^exercise-7-1-3]
 
-5.  $\Prob(|Y -3| < 1.5)$ = ?
-              
-    Answer: $\Prob(|Y -3| < 1.5) = \Prob(Y = 3) + \Prob(Y = 2) + \Prob(Y = 4) = 4p + 3p + 5p = \frac{4}{7}$
+[^exercise-7-1-3]:$\Prob(Y = \mbox{odd}) = \Prob(Y = 1) + \Prob(Y = 3) + \Prob(Y = 5) = 2p + 4p + 6p = \frac{4}{7}$
 
-6.  $\Expec(Y)$ = ?
-        
-    Answer: $\Expec(Y) = \sum_{y}(y \times \Prob(y)) = 0 \times p + 1 \times 2p + \dots + 5 \times 6p = \frac{10}{3}$
+4.  $\Prob(1 \leq Y < 4)$ = ?[^exercise-7-1-4]
 
-7.  $\Var(Y)$ = ?
-              
-    Answer: $\Var(Y) = \sum_{y}((y - \Expec(Y))^2 \times \Prob(Y)) = (0-\frac{10}{3})^2 \times \frac{1}{21} + \dots + (5-\frac{10}{3})^2 \times \frac{6}{21} = 2.22$
+[^exercise-7-1-4]:$\Prob(1 \leq Y < 4) = \Prob(Y = 1) + \Prob(Y = 2) + \Prob(Y = 3) = 2p + 3p + 4p = \frac{3}{7}$
 
-8.  What is the standard deviation of $Y$. 
-            
-    Answer: $sd(Y) = \sqrt{\Var(Y)} = 1.49$
+5.  $\Prob(|Y -3| < 1.5)$ = ?[^exercise-7-1-5]
 
-```
+[^exercise-7-1-5]:$\Prob(|Y -3| < 1.5) = \Prob(Y = 3) + \Prob(Y = 2) + \Prob(Y = 4) = 4p + 3p + 5p = \frac{4}{7}$
 
-```{exercise} 
-One invests \$2 to participate in a game of chance.
-In this game a coin is tossed three times. If all tosses end up "Head"
-then the player wins \$10. Otherwise, the player losses the investment.
+6.  $\Expec(Y)$ = ?[^exercise-7-1-6]
 
-1.  What is the probability of winning the game?
+[^exercise-7-1-6]:$\Expec(Y) = \sum_{y}(y \times \Prob(y)) = 0 \times p + 1 \times 2p + \dots + 5 \times 6p = \frac{10}{3}$
 
-Answer: P(Winning) = $\prod^{3}_{i=1}$P($Toss_i$ = Head)= $\frac{1}{2}^{3}$ = $\frac{1}{8}$ 
+7.  $\Var(Y)$ = ?[^exercise-7-1-7]
+
+[^exercise-7-1-7]:$\Var(Y) = \sum_{y}((y - \Expec(Y))^2 \times \Prob(Y)) = (0-\frac{10}{3})^2 \times \frac{1}{21} + \dots + (5-\frac{10}{3})^2 \times \frac{6}{21} = 2.22$
+
+8.  What is the standard deviation of $Y$? [^exercise-7-1-8]
+
+[^exercise-7-1-8]:$sd(Y) = \sqrt{\Var(Y)} = 1.49$
+
+------------------------------------------------------------------
+
+
+One invests \$2 to participate in a game of chance. In this game a coin is tossed three times. If all tosses end up "Head" then the player wins \$10. Otherwise, the player losses the investment.
+
+1.  What is the probability of winning the game?[^exercise-7-2-1]
+
+[^exercise-7-2-1]:P(Winning) = $\prod^{3}_{i=1}$P($Toss_i$ = Head)= $\frac{1}{2}^{3}$ = $\frac{1}{8}$ 
   
-2.  What is the probability of losing the game?
+2.  What is the probability of losing the game?[^exercise-7-2-2]
 
-Answer: Since we either win or lose, P(Losing) = 1 - P(Winning) = \frac{7}{8}
+[^exercise-7-2-2]:Since we either win or lose, P(Losing) = 1 - P(Winning) = \frac{7}{8}
   
-3.  What is the expected gain for the player that plays this game?
-    (Notice that the expectation can obtain a negative value.)
+3.  What is the expected gain for the player that plays this game?[^exercise-7-2-3]
 
-Answer: Let Y denote the outcome of the game, $\Expec(Y)$ = $\sum_y (y \times P(y))$
-= $10 \times \frac{1}{8} + 0 \times \frac{7}{8}$ = \$1.25 
-
-$\Expec(Gain) = \Expec(Y)$ - Investment = \$1.25 - \$2 = -\$0.75
-
-```
+[^exercise-7-2-3]:Let Y denote the outcome of the game, $\Expec(Y)$ = $\sum_y (y \times P(y))$
+= $10 \times \frac{1}{8} + 0 \times \frac{7}{8}$ = \$1.25;  $\Expec(Gain) = \Expec(Y)$ - Investment = \$1.25 - \$2 = -\$0.75
 
 
 ## Glossary {#glossary}

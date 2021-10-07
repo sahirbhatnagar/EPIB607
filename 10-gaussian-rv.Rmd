@@ -721,7 +721,6 @@ approximation, 0.8556984, is slightly off, but is still acceptable.
 
 ## Exercises {#Normal4}
 
-```{exercise}
 Consider the problem of establishing regulations
 concerning the maximum number of people who can occupy a lift. In
 particular, we would like to assess the probability of exceeding maximal
@@ -735,63 +734,48 @@ a normal distribution with a mean of 630kg and a standard deviation of
 61kg.
 
 1.  What is the probability that the total weight of 8 people exceeds
-    650kg?
-    
-    Answer: Denote the total weight of 8 people as $Y_8$, $\Prob(Y_8 > 650)$ = 1 - $\Prob(Y_8 \leq 650)$ = 1 - pnorm(q=650,mean=560,sd=57) = 0.0572
+    650kg?[^exercise-9-1-1]
+
+[^exercise-9-1-1]:Denote the total weight of 8 people as $Y_8$, $\Prob(Y_8 > 650)$ = 1 - $\Prob(Y_8 \leq 650)$ = 1 - pnorm(q=650,mean=560,sd=57) = 0.0572
     
 2.  What is the probability that the total weight of 9 people exceeds
-    650kg?
+    650kg?[^exercise-9-1-2]
 
-    Answer: Denote the total weight of 9 people as $Y_9$, $\Prob(Y_9 > 650)$ = pnorm(q=650,mean=630,sd=61,lower.tail = FALSE) = 0.3715
+[^exercise-9-1-2]:Denote the total weight of 9 people as $Y_9$, $\Prob(Y_9 > 650)$ = pnorm(q=650,mean=630,sd=61,lower.tail = FALSE) = 0.3715
     
 3.  What is the central region that contains 80% of distribution of the
-    total weight of 8 people?
+    total weight of 8 people?[^exercise-9-1-3]
 
-    Answer: We are going to find $y_0, y_1$ such that $\Prob(y_0 < Y_8 < y_1) = 0.8$, which is the 10 and 90$\%$-percentile of the normal distribution. 
-    
-    $y_0$ = qnorm(0.1,mean=560,sd=57) = 486.95, $y_1$ = qnorm(0.9,mean=560,sd=57) = 633.05
+[^exercise-9-1-3]:We are going to find $y_0, y_1$ such that $\Prob(y_0 < Y_8 < y_1) = 0.8$, which is the 10 and 90$\%$-percentile of the normal distribution. $y_0$ = qnorm(0.1,mean=560,sd=57) = 486.95, $y_1$ = qnorm(0.9,mean=560,sd=57) = 633.05
      
 4.  What is the central region that contains 80% of distribution of the
-    total weight of 9 people?
-      
-    Answer: Similarly, $\Prob(y_0 < Y_9 < y_1) = 0.8$ 
-      
-    $y_0$ = qnorm(0.1,mean=630,sd=61) = 551.83, $y_1$ = qnorm(0.9,mean=630,sd=61) = 708.17
+    total weight of 9 people?[^exercise-9-1-4]
 
-```
+[^exercise-9-1-4]:Similarly, $\Prob(y_0 < Y_9 < y_1) = 0.8$, $y_0$ = qnorm(0.1,mean=630,sd=61) = 551.83, $y_1$ = qnorm(0.9,mean=630,sd=61) = 708.17
 
+---------------------------------------------------------------------------------
 
-```{exercise}
-Assume $Y \sim \mbox{Binomial}(27,0.32)$. We are
-interested in the probability $\Prob(Y > 11)$.
+Assume $Y \sim \mbox{Binomial}(27,0.32)$. We are interested in the probability $\Prob(Y > 11)$.
 
-1.  Compute the (exact) value of this probability.
+1.  Compute the (exact) value of this probability.[^exercise-9-2-1]
 
-    Answer: We use the density of Binomial distribution to calculate the exact probability.  
-    
-    $\Prob(Y > 11)$ = pbinom(11,27,0.32, lower.tail=FALSE) = 0.1204
+[^exercise-9-2-1]:We use the density of Binomial distribution to calculate the exact probability. $\Prob(Y > 11)$ = pbinom(11,27,0.32, lower.tail=FALSE) = 0.1204
 
 2.  Compute a Normal approximation to this probability, without a
-    continuity correction.
-    
-    Answer: E(Y) = $27 \times 0.32$ = 8.64, sd(Y) = $\sqrt{27 \times 0.32 \times (1-0.32)}$ = 2.424
-      
-    $\Prob(Y_{approx} > 11)$ = pnorm(11,mean=8.64,sd=2.424,lower.tail=FALSE) = 0.1651
+    continuity correction.[^exercise-9-2-2]
+
+[^exercise-9-2-2]:E(Y) = $27 \times 0.32$ = 8.64, sd(Y) = $\sqrt{27 \times 0.32 \times (1-0.32)}$ = 2.424, $\Prob(Y_{approx} > 11)$ = pnorm(11,mean=8.64,sd=2.424,lower.tail=FALSE) = 0.1651
 
 3.  Compute a Normal approximation to this probability, with a
-    continuity correction.
-    
-    Answer: With expectation and standard deviation calculated above, 
-    
-    $\Prob(Y_{corrected} > 11.5)$ = pnorm(11.5,mean=8.64,sd=2.424,lower.tail=FALSE) = 0.1190
+    continuity correction.[^exercise-9-2-3]
 
-4.  Compute a Poisson approximation to this probability.
+[^exercise-9-2-3]:With expectation and standard deviation calculated above, $\Prob(Y_{corrected} > 11.5)$ = pnorm(11.5,mean=8.64,sd=2.424,lower.tail=FALSE) = 0.1190
 
-    Answer: Poisson distributed data has the same expection and variance. Thus, 
+4.  Compute a Poisson approximation to this probability.[^exercise-9-2-4]
+
+[^exercise-9-2-4]:Poisson distributed data has the same expection and variance. Thus, $\Prob(Y_{poisson} > 11)$ = ppois(11,lambda=8.64, lower.tail=FALSE) = 0.1635
     
-    $\Prob(Y_{poisson} > 11)$ = ppois(11,lambda=8.64, lower.tail=FALSE) = 0.1635
-    
-```
+
 
 ## Summary
 

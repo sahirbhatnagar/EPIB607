@@ -521,20 +521,26 @@ One of JH's favourite examples of people being misled into thinking that a cross
 
 So far, we have only dealt with equations involving a difference and the ratio of two $\mu$ parameters.
 
-1. Extend the graphs and the equations (for the difference of means and the ratio of means) to the $\pi$ parameter. Use as an example the proportions of the surfaces of the Northern (reference category) and Southern hemisphere (index category) covered by water, i.e, $\pi_{North}$ and $\pi_{South}.$  Use the hypothetical values $\pi_{North} = 0.65$ and $\pi_{South} = 0.75.$ 
+1. Extend the graphs and the equations (for the difference of means and the ratio of means) to the $\pi$ parameter. Use as an example the proportions of the surfaces of the Northern (reference category) and Southern hemisphere (index category) covered by water, i.e, $\pi_{North}$ and $\pi_{South}.$  Use the hypothetical values $\pi_{North} = 0.65$ and $\pi_{South} = 0.75.$ [^exercise-6-1]
+ 
+[^exercise-6-1]: The difference of the proportion is $\pi_{South}$ - $\pi_{North}$ = 0.1, and the ratio of the proportion is $\pi_{South}$/$\pi_{North}$ = 0.75/0.65 = 15/13 = 1.154. The corresponding plots are omitted.  
 
-2. Instead of focusing on the proportions  covered by _water_, focus on the proportions  covered by _land_. 
+2. Instead of focusing on the proportions  covered by _water_, focus on the proportions  covered by _land_. How does the **difference** of the two proportions relate to the difference calculated in 1?[^exercise-6-2-1]
+ 
+[^exercise-6-2-1]: proportions covered by _land_ are $\pi_{NorthLand}$ = 1 -$\pi_{North}$ = 0.35, $\pi_{SouthLand}$ = 1 -$\pi_{South}$ = 0.25. The difference is $\pi_{SouthLand}$ - $\pi_{NorthLand}$ = -0.1, which is the negative of the difference is (1) 
 
-    + How does the **difference** of the two proportions relate to the difference calculated in 1?
+3. How does the **ratio** of the two proportions relate to the ratio calculated in Q2? i.e., is one the reciprocal of the other?[^exercise-6-2-2]
+ 
+[^exercise-6-2-2]: The ratio of proportions covered by land is $\frac{\pi_{SouthLand}}{\pi_{NorthLand}} = \frac{0.25}{0.35} = \frac{5}{7}$, not the reciprocal calculated in 1. ($\frac{\pi_{South}}{\pi_{North}} = \frac{0.75}{0.65} = \frac{15}{13}$)
 
-    + How does the **ratio** of the two proportions relate to the ratio calculated in part 1? i.e., is one the reciprocal of the other?
+4. Can you think of different scale, where the ratio when the focus is _land_  IS  just the reciprocal of the ratio when the focus is _water_?[^exercise-6-2-3]
+ 
+[^exercise-6-2-3]: We can use the proportion of _water_ over _land_ of each hemisphere. Thus, for the the Northern hemisphere, we use $\frac{\pi_{North}}{\pi_{Northland}}$, and for Southern hemisphere, use $\frac{\pi_{South}}{\pi_{Southland}}$ to represent to proportion of _water_. Thus, the ratio when the focus is _land_ is the reciprocal of the ratio when the focus is _water_. 
 
-    + Can you think of different scale, where the ratio when the focus is _land_  IS  just the reciprocal of the ratio when the focus is _water_.?
-
-    + If you can, show that the log of the ratio when the focus is _land_ IS  just the negative of the log of the ratio when the focus is _water_.?
-
-3. Extend the graphs and the equations (for the difference of means and the ratio of means) to the $\lambda$ parameter. Use as an example the mean number of earthquakes per year  in the Northern (reference category) and Southern hemisphere (index category) , i.e, $\lambda_{North}$ and $\lambda_{South}.$  Use the hypothetical values $\lambda_{North} = 5.0$ and $\lambda_{South} = 7.5$ 
-
-
-
-
+5. If you can, show that the log of the ratio when the focus is _land_ IS  just the negative of the log of the ratio when the focus is _water_?[^exercise-6-2-4]
+ 
+[^exercise-6-2-4]: the log of the ratio when focus is _water_ is: log($\frac{\pi_{South}}{\pi_{Southland}}$/$\frac{\pi_{North}}{\pi_{Northland}}$) = log($\frac{\pi_{South}}{\pi_{Southland}}$) - log($\frac{\pi_{North}}{\pi_{Northland}}$) = -log($\frac{\pi_{Southland}}{\pi_{South}}$) + log($\frac{\pi_{Northland}}{\pi_{North}}$) = -log($\frac{\pi_{Southland}}{\pi_{South}}$/$\frac{\pi_{Northland}}{\pi_{North}}$), which is the log of the ratio when the focus is _land_. 
+    
+6. Extend the graphs and the equations (for the difference of means and the ratio of means) to the $\lambda$ parameter. Use as an example the mean number of earthquakes per year  in the Northern (reference category) and Southern hemisphere (index category) , i.e, $\lambda_{North}$ and $\lambda_{South}.$  Use the hypothetical values $\lambda_{North} = 5.0$ and $\lambda_{South} = 7.5$ [^exercise-6-3]
+ 
+[^exercise-6-3]: The unit of frequency is earthquake per year. Thus, the difference is $\lambda_{South}$ - $\lambda_{North}$ = 2.5 earthquakes per year, and the ratio is $\lambda_{South}$/$\lambda_{North}$ = 7.5/5 = 3/2. Therefore, the mean number of earthquakes per year in the Southern hemisphere is 1.5 times of that in the Northern hemisphere. The corresponding plots are omitted.  
