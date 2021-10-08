@@ -55,9 +55,9 @@ jobs:
       - name: Install packages
         run: |
            R -e 'install.packages("renv")'
+           R -e 'install.packages("renv")' -e 'install.packages(c("shape","pacman","remotes","infer","bookdown","bslib","downlit","xml2","extrafont", "dplyr","tidyr","knitr","rmarkdown","ggplot2","swirl","DT","rio","forcats","sf","colorspace","extrafont","ggrepel","patchwork","mosaic","ggpubr","kableExtra","socviz","gapminder","gghighlight"))'
+           R -e 'remotes::install_github("OI-Biostat/oi_biostat_data")' -e 'remotes::install_github("OpenIntroStat/openintro")' -e 'remotes::install_github("wilkelab/cowplot")' -e 'remotes::install_github("clauswilke/colorblindr")' -e 'remotes::install_github("clauswilke/dviz.supp")'
            R -e 'renv::restore()'
-#          R -e 'install.packages("renv")' -e 'install.packages(c("shape","pacman","remotes","infer","bookdown","bslib","downlit","xml2","extrafont", "dplyr","tidyr","knitr","rmarkdown","ggplot2","swirl","DT","rio","forcats","sf","colorspace","extrafont","ggrepel","patchwork","mosaic","ggpubr","kableExtra","socviz","gapminder","gghighlight"))'
-#          R -e 'remotes::install_github("OI-Biostat/oi_biostat_data")' -e 'remotes::install_github("OpenIntroStat/openintro")' -e 'remotes::install_github("wilkelab/cowplot")' -e 'remotes::install_github("clauswilke/colorblindr")' -e 'remotes::install_github("clauswilke/dviz.supp")'
 
 
       - name: Build site
