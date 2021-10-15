@@ -1,16 +1,66 @@
-\documentclass[10pt]{beamer}
+\documentclass[10pt]{beamer}\usepackage[]{graphicx}\usepackage[]{color}
+% maxwidth is the original width if it is less than linewidth
+% otherwise use linewidth (to make sure the graphics do not exceed the margin)
+\makeatletter
+\def\maxwidth{ %
+  \ifdim\Gin@nat@width>\linewidth
+    \linewidth
+  \else
+    \Gin@nat@width
+  \fi
+}
+\makeatother
+
+\definecolor{fgcolor}{rgb}{0.345, 0.345, 0.345}
+\newcommand{\hlnum}[1]{\textcolor[rgb]{0.686,0.059,0.569}{#1}}%
+\newcommand{\hlstr}[1]{\textcolor[rgb]{0.192,0.494,0.8}{#1}}%
+\newcommand{\hlcom}[1]{\textcolor[rgb]{0.678,0.584,0.686}{\textit{#1}}}%
+\newcommand{\hlopt}[1]{\textcolor[rgb]{0,0,0}{#1}}%
+\newcommand{\hlstd}[1]{\textcolor[rgb]{0.345,0.345,0.345}{#1}}%
+\newcommand{\hlkwa}[1]{\textcolor[rgb]{0.161,0.373,0.58}{\textbf{#1}}}%
+\newcommand{\hlkwb}[1]{\textcolor[rgb]{0.69,0.353,0.396}{#1}}%
+\newcommand{\hlkwc}[1]{\textcolor[rgb]{0.333,0.667,0.333}{#1}}%
+\newcommand{\hlkwd}[1]{\textcolor[rgb]{0.737,0.353,0.396}{\textbf{#1}}}%
+\let\hlipl\hlkwb
+
+\usepackage{framed}
+\makeatletter
+\newenvironment{kframe}{%
+ \def\at@end@of@kframe{}%
+ \ifinner\ifhmode%
+  \def\at@end@of@kframe{\end{minipage}}%
+  \begin{minipage}{\columnwidth}%
+ \fi\fi%
+ \def\FrameCommand##1{\hskip\@totalleftmargin \hskip-\fboxsep
+ \colorbox{shadecolor}{##1}\hskip-\fboxsep
+     % There is no \\@totalrightmargin, so:
+     \hskip-\linewidth \hskip-\@totalleftmargin \hskip\columnwidth}%
+ \MakeFramed {\advance\hsize-\width
+   \@totalleftmargin\z@ \linewidth\hsize
+   \@setminipage}}%
+ {\par\unskip\endMakeFramed%
+ \at@end@of@kframe}
+\makeatother
+
+\definecolor{shadecolor}{rgb}{.97, .97, .97}
+\definecolor{messagecolor}{rgb}{0, 0, 0}
+\definecolor{warningcolor}{rgb}{1, 0, 1}
+\definecolor{errorcolor}{rgb}{1, 0, 0}
+\newenvironment{knitrout}{}{} % an empty environment to be redefined in TeX
+
+\usepackage{alltt}
 
 
 %\input{slides_header.tex}
-\input{/home/sahir/git_repositories/EPIB607/slides/slides_header2.tex}
-\graphicspath{{/home/sahir/git_repositories/EPIB607/slides/figure/}}
+\input{/home/sahir/git_repositories/epib607/inst/slides/slides_header2.tex}
+\graphicspath{{/home/sahir/git_repositories/epib607/inst/slides/figure/}}
 
 %\let\oldShaded\Shaded
 %\let\endoldShaded\endShaded
 %\renewenvironment{Shaded}{\footnotesize\oldShaded}{\endoldShaded}
 
-\newcommand{\blue}[1]{\textcolor{blue}{#1}}
-\newcommand{\red}[1]{\textcolor{red}{#1}}
+%\newcommand{\blue}[1]{\textcolor{blue}{#1}}
+%\newcommand{\red}[1]{\textcolor{red}{#1}}
 
 
 \usepackage{xparse}
@@ -32,41 +82,15 @@
 	\begin{textblock*}{\paperwidth}(0pt,\textheight)
 		\raggedright #1\hspace{.5em}
 \end{textblock*}}
-
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
 \begin{document}
+	
+	
+	
 
-	<<setup, include=FALSE>>=
-library(knitr)
-knitr::opts_chunk$set(cache=FALSE, message = FALSE, tidy = FALSE, warning = FALSE,
-echo = FALSE, 
-#fig.width = 8, 
-fig.asp = 0.8, 
-fig.align = 'center', 
-#out.width = "0.50\\linewidth", 
-size = 'tiny')
-
-# the kframe environment does not work with allowframebreaks, so remove it
-#knit_hooks$set(document = function(x) {
-#gsub('\\\\(begin|end)\\{kframe\\}', '', x)
-#})
-
-library(tidyverse)
-library(NCStats)
-options(digits = 2)
-
-
-#knitr::opts_chunk$set(background = '#FFFF00')
-library(tools) #needed for include_graphics2 function
-source("/home/sahir/git_repositories/EPIB607/slides/bin/include_graphics2.R")
-@
-
-%\title{Introduction to Regression Trees}
-%\author{Sahir Bhatnagar \inst{1}}
-%\author[shortname]{Sahir Rai Bhatnagar, PhD Candidate (Biostatistics) }
-%\institute[shortinst]{Department of Epidemiology, Biostatistics and Occupational Health}
-
-	\title{013 - Statistical Power}
-\author{EPIB 607 - FALL 2020}
+	
+	\title{017 - Statistical Power}
+\author{EPIB 607}
 \institute{
 	Sahir Rai Bhatnagar\\
 	Department of Epidemiology, Biostatistics, and Occupational Health\\
@@ -112,9 +136,23 @@ source("/home/sahir/git_repositories/EPIB607/slides/bin/include_graphics2.R")
 		\item Which test should we use and why? \pause \\ \ \\
 		
 		
-		<<eval=TRUE, echo=TRUE, results="show", message=FALSE, fig.asp = 0.408>>=
-		mosaic::xpnorm(q = -0.533, mean = -0.540, sd = 0.008/sqrt(5))
-		@
+\begin{knitrout}\tiny
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlstd{mosaic}\hlopt{::}\hlkwd{xpnorm}\hlstd{(}\hlkwc{q} \hlstd{=} \hlopt{-}\hlnum{0.533}\hlstd{,} \hlkwc{mean} \hlstd{=} \hlopt{-}\hlnum{0.540}\hlstd{,} \hlkwc{sd} \hlstd{=} \hlnum{0.008}\hlopt{/}\hlkwd{sqrt}\hlstd{(}\hlnum{5}\hlstd{))}
+\end{alltt}
+\end{kframe}
+
+{\centering \includegraphics[width=\maxwidth]{figure/unnamed-chunk-2-1} 
+
+}
+
+
+\begin{kframe}\begin{verbatim}
+## [1] 0.9748004
+\end{verbatim}
+\end{kframe}
+\end{knitrout}
 		
 	\end{itemize}
 \end{frame}
@@ -137,11 +175,35 @@ source("/home/sahir/git_repositories/EPIB607/slides/bin/include_graphics2.R")
 		
 		\item We can also standardize our observed mean and calculate the $p$-value under a $\mathcal{N}(0,1)$ \\ \ \\
 		
-		<<eval=TRUE, echo=TRUE, results="show", message=TRUE, fig.asp = 0.358>>=
-		SEM <- 0.008/sqrt(5)
-		z_stat <- (-0.533 - (-0.540)) / SEM
-		mosaic::xpnorm(q = z_stat, mean = 0, sd = 1)
-		@
+\begin{knitrout}\tiny
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlstd{SEM} \hlkwb{<-} \hlnum{0.008}\hlopt{/}\hlkwd{sqrt}\hlstd{(}\hlnum{5}\hlstd{)}
+\hlstd{z_stat} \hlkwb{<-} \hlstd{(}\hlopt{-}\hlnum{0.533} \hlopt{-} \hlstd{(}\hlopt{-}\hlnum{0.540}\hlstd{))} \hlopt{/} \hlstd{SEM}
+\hlstd{mosaic}\hlopt{::}\hlkwd{xpnorm}\hlstd{(}\hlkwc{q} \hlstd{= z_stat,} \hlkwc{mean} \hlstd{=} \hlnum{0}\hlstd{,} \hlkwc{sd} \hlstd{=} \hlnum{1}\hlstd{)}
+\end{alltt}
+
+
+{\ttfamily\noindent\itshape\color{messagecolor}{\#\# }}
+
+{\ttfamily\noindent\itshape\color{messagecolor}{\#\# If X \textasciitilde{} N(0, 1), then}}
+
+{\ttfamily\noindent\itshape\color{messagecolor}{\#\# 	P(X <= 1.957) = P(Z <= 1.957) = 0.9748}}
+
+{\ttfamily\noindent\itshape\color{messagecolor}{\#\# 	P(X > \ 1.957) = P(Z > \ 1.957) = 0.0252}}
+
+{\ttfamily\noindent\itshape\color{messagecolor}{\#\# }}\end{kframe}
+
+{\centering \includegraphics[width=\maxwidth]{figure/unnamed-chunk-3-1} 
+
+}
+
+
+\begin{kframe}\begin{verbatim}
+## [1] 0.9748004
+\end{verbatim}
+\end{kframe}
+\end{knitrout}
 		
 	\end{itemize}
 \end{frame}
@@ -150,11 +212,35 @@ source("/home/sahir/git_repositories/EPIB607/slides/bin/include_graphics2.R")
 \begin{frame}[fragile]{Test using critical values}
 	\begin{itemize}
 		
-		\item An observed mean freezing temperature greater than \Sexpr{round(mosaic::xqnorm(p = 0.95, mean = -0.540, sd = 0.008/sqrt(5), plot = F),4)} rejects the null hypothesis:
+		\item An observed mean freezing temperature greater than -0.5341 rejects the null hypothesis:
 		
-		<<eval=TRUE, echo=TRUE, results="show", message=TRUE, fig.asp = 0.428>>=
-		mosaic::xqnorm(p = 0.95, mean = -0.540, sd = 0.008/sqrt(5))
-		@
+\begin{knitrout}\tiny
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlstd{mosaic}\hlopt{::}\hlkwd{xqnorm}\hlstd{(}\hlkwc{p} \hlstd{=} \hlnum{0.95}\hlstd{,} \hlkwc{mean} \hlstd{=} \hlopt{-}\hlnum{0.540}\hlstd{,} \hlkwc{sd} \hlstd{=} \hlnum{0.008}\hlopt{/}\hlkwd{sqrt}\hlstd{(}\hlnum{5}\hlstd{))}
+\end{alltt}
+
+
+{\ttfamily\noindent\itshape\color{messagecolor}{\#\# }}
+
+{\ttfamily\noindent\itshape\color{messagecolor}{\#\# If X \textasciitilde{} N(-0.54, 0.003577709), then}}
+
+{\ttfamily\noindent\itshape\color{messagecolor}{\#\# 	P(X <= -0.5341152) = 0.95}}
+
+{\ttfamily\noindent\itshape\color{messagecolor}{\#\# 	P(X > \ -0.5341152) = 0.05}}
+
+{\ttfamily\noindent\itshape\color{messagecolor}{\#\# }}\end{kframe}
+
+{\centering \includegraphics[width=\maxwidth]{figure/unnamed-chunk-4-1} 
+
+}
+
+
+\begin{kframe}\begin{verbatim}
+## [1] -0.5341152
+\end{verbatim}
+\end{kframe}
+\end{knitrout}
 		
 		
 	\end{itemize}
@@ -164,18 +250,42 @@ source("/home/sahir/git_repositories/EPIB607/slides/bin/include_graphics2.R")
 	
 	
 	\begin{minipage}{0.47\textwidth}
-		<<echo = TRUE, results='hide', fig.cap='critical value under the null distribution'>>=
-		mosaic::xqnorm(p = 0.95, 
-		mean = -0.540, 
-		sd = 0.008/sqrt(5))
-		@
+\begin{knitrout}\tiny
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlstd{mosaic}\hlopt{::}\hlkwd{xqnorm}\hlstd{(}\hlkwc{p} \hlstd{=} \hlnum{0.95}\hlstd{,}
+\hlkwc{mean} \hlstd{=} \hlopt{-}\hlnum{0.540}\hlstd{,}
+\hlkwc{sd} \hlstd{=} \hlnum{0.008}\hlopt{/}\hlkwd{sqrt}\hlstd{(}\hlnum{5}\hlstd{))}
+\end{alltt}
+\end{kframe}\begin{figure}
+
+{\centering \includegraphics[width=\maxwidth]{figure/unnamed-chunk-5-1} 
+
+}
+
+\caption[critical value under the null distribution]{critical value under the null distribution}\label{fig:unnamed-chunk-5}
+\end{figure}
+
+\end{knitrout}
 	\end{minipage}
 	\begin{minipage}{0.47\textwidth}
-		<<echo = TRUE, message=FALSE, eval=TRUE, results = 'hide', fig.cap='test statistic under the null distribution'>>=
-		mosaic::xpnorm(q = -0.533, 
-		mean = -0.540, 
-		sd = 0.008/sqrt(5))
-		@
+\begin{knitrout}\tiny
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlstd{mosaic}\hlopt{::}\hlkwd{xpnorm}\hlstd{(}\hlkwc{q} \hlstd{=} \hlopt{-}\hlnum{0.533}\hlstd{,}
+\hlkwc{mean} \hlstd{=} \hlopt{-}\hlnum{0.540}\hlstd{,}
+\hlkwc{sd} \hlstd{=} \hlnum{0.008}\hlopt{/}\hlkwd{sqrt}\hlstd{(}\hlnum{5}\hlstd{))}
+\end{alltt}
+\end{kframe}\begin{figure}
+
+{\centering \includegraphics[width=\maxwidth]{figure/unnamed-chunk-6-1} 
+
+}
+
+\caption[test statistic under the null distribution]{test statistic under the null distribution}\label{fig:unnamed-chunk-6}
+\end{figure}
+
+\end{knitrout}
 	\end{minipage}	
 	
 	Thus we reject $H_0$ at $\alpha = 0.05$.
@@ -266,9 +376,9 @@ source("/home/sahir/git_repositories/EPIB607/slides/bin/include_graphics2.R")
 	
 	\vspace*{-0.2in}
 	
-	\begin{defm}[Power = $1-\beta$]
+	\begin{definition}[Power = $1-\beta$]
 		The probability that a fixed level $\alpha$ significance test will reject $H_0$ when a particular alternative value of the parameter is true is called the \textbf{power} of the test to detect the alternative. 
-	\end{defm}
+	\end{definition}
 	
 	
 	\vspace*{-0.08in}
@@ -311,9 +421,23 @@ source("/home/sahir/git_repositories/EPIB607/slides/bin/include_graphics2.R")
 		\item $-0.540 + 1.645 \times 0.008/\sqrt{5}  = -0.534^{\circ}\textrm{C}.$
 	\end{itemize}
 	
-	<<echo = TRUE, fig.asp = 0.508>>=
-	mosaic::xqnorm(p = 0.95, mean = -0.540, sd = 0.008/sqrt(5))
-	@
+\begin{knitrout}\tiny
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlstd{mosaic}\hlopt{::}\hlkwd{xqnorm}\hlstd{(}\hlkwc{p} \hlstd{=} \hlnum{0.95}\hlstd{,} \hlkwc{mean} \hlstd{=} \hlopt{-}\hlnum{0.540}\hlstd{,} \hlkwc{sd} \hlstd{=} \hlnum{0.008}\hlopt{/}\hlkwd{sqrt}\hlstd{(}\hlnum{5}\hlstd{))}
+\end{alltt}
+\end{kframe}
+
+{\centering \includegraphics[width=\maxwidth]{figure/unnamed-chunk-7-1} 
+
+}
+
+
+\begin{kframe}\begin{verbatim}
+## [1] -0.5341152
+\end{verbatim}
+\end{kframe}
+\end{knitrout}
 \end{frame}
 
 
@@ -331,9 +455,9 @@ source("/home/sahir/git_repositories/EPIB607/slides/bin/include_graphics2.R")
 			\hline 
 			\% milk & \% water & mean ($\mu$) \\ 
 			\hline 
-			99 & 1 & \Sexpr{round((99/100) * -0.540, 4)}$^{\circ}C$ \\ 
-			98 & 2 & \Sexpr{round((98/100) * -0.540, 4)}$^{\circ}C$ \\ 
-			97 & 3 & \Sexpr{round((97/100) * -0.540, 4)}$^{\circ}C$ \\ 
+			99 & 1 & -0.5346$^{\circ}C$ \\ 
+			98 & 2 & -0.5292$^{\circ}C$ \\ 
+			97 & 3 & -0.5238$^{\circ}C$ \\ 
 			\hline 
 		\end{tabular} 
 	\end{center}
@@ -341,44 +465,40 @@ source("/home/sahir/git_repositories/EPIB607/slides/bin/include_graphics2.R")
 
 
 \begin{frame}[fragile]{If the supplier added 1\% water to the milk}
-	<<echo=FALSE, eval=TRUE>>=
-	source("https://raw.githubusercontent.com/sahirbhatnagar/EPIB607/master/slides/bin/plot_null_alt.R")
-	n <- 5
-	s <- 0.0080
-	mu0 <- -0.540
-	mha <- 0.99*-0.540
-	cutoff <- mu0 + qnorm(0.95) * s / sqrt(n)
-	power_plot(n = n, s = s,  
-	mu0 = mu0, mha = mha, 
-	cutoff = cutoff,
-	alternative = "greater",
-	xlab = "Freezing point (degrees C)")
-	@
+\begin{knitrout}\tiny
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}
+
+{\centering \includegraphics[width=\maxwidth]{figure/unnamed-chunk-8-1} 
+
+}
+
+
+\end{knitrout}
 \end{frame}
 
 
 \begin{frame}[fragile]{If the supplier added 2\% water to the milk}
-	<<echo=FALSE, eval=TRUE>>=
-	mha <- 0.98*-0.540
-	cutoff <- mu0 + qnorm(0.95) * s / sqrt(n)
-	power_plot(n = n, s = s,  
-	mu0 = mu0, mha = mha, 
-	cutoff = cutoff,
-	alternative = "greater",
-	xlab = "Freezing point (degrees C)")
-	@
+\begin{knitrout}\tiny
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}
+
+{\centering \includegraphics[width=\maxwidth]{figure/unnamed-chunk-9-1} 
+
+}
+
+
+\end{knitrout}
 \end{frame}
 
 \begin{frame}[fragile]{If the supplier added 3\% water to the milk}
-	<<echo=FALSE, eval=TRUE>>=
-	mha <- 0.97*-0.540
-	cutoff <- mu0 + qnorm(0.95) * s / sqrt(n)
-	power_plot(n = n, s = s,  
-	mu0 = mu0, mha = mha, 
-	cutoff = cutoff,
-	alternative = "greater",
-	xlab = "Freezing point (degrees C)")
-	@
+\begin{knitrout}\tiny
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}
+
+{\centering \includegraphics[width=\maxwidth]{figure/unnamed-chunk-10-1} 
+
+}
+
+
+\end{knitrout}
 \end{frame}
 
 
@@ -426,60 +546,43 @@ source("/home/sahir/git_repositories/EPIB607/slides/bin/include_graphics2.R")
 
 
 \begin{frame}[fragile]{When the buyer uses samples of size 5}
-	<<echo=FALSE, eval=TRUE, results='hide', fig.show='hide'>>=
-	n=15
-	mha <- 0.99*-0.540
-	cutoff <- mu0 + qnorm(0.95) * s / sqrt(n)
-	power_plot(n = n, s = s,  
-	mu0 = mu0, mha = mha, 
-	cutoff = cutoff,
-	alternative = "greater",
-	xlab = "Freezing point (degrees C)")
-	ylims <- par("usr")[3:4]
-	@
+
 	
 	
-	<<echo=FALSE, eval=TRUE>>=
-	n <- 5
-	s <- 0.0080
-	mu0 <- -0.540
-	mha <- 0.99*-0.540
-	cutoff <- mu0 + qnorm(0.95) * s / sqrt(n)
-	power_plot(n = n, s = s,  
-	mu0 = mu0, mha = mha, 
-	cutoff = cutoff,
-	ylimit = ylims, 
-	alternative = "greater",
-	xlab = "Freezing point (degrees C)")
-	@
+\begin{knitrout}\tiny
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}
+
+{\centering \includegraphics[width=\maxwidth]{figure/unnamed-chunk-12-1} 
+
+}
+
+
+\end{knitrout}
 \end{frame}
 
 
 \begin{frame}[fragile]{When the buyer uses samples of size 10}
-	<<echo=FALSE, eval=TRUE>>=
-	n = 10
-	mha <- 0.99*-0.540
-	cutoff <- mu0 + qnorm(0.95) * s / sqrt(n)
-	power_plot(n = n, s = s,  
-	mu0 = mu0, mha = mha, 
-	cutoff = cutoff,
-	alternative = "greater",
-	ylimit = ylims, 
-	xlab = "Freezing point (degrees C)")
-	@
+\begin{knitrout}\tiny
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}
+
+{\centering \includegraphics[width=\maxwidth]{figure/unnamed-chunk-13-1} 
+
+}
+
+
+\end{knitrout}
 \end{frame}
 
 \begin{frame}[fragile]{When the buyer uses samples of size 15}
-	<<echo=FALSE, eval=TRUE>>=
-	n=15
-	mha <- 0.99*-0.540
-	cutoff <- mu0 + qnorm(0.95) * s / sqrt(n)
-	power_plot(n = n, s = s,  
-	mu0 = mu0, mha = mha, 
-	cutoff = cutoff,
-	alternative = "greater",
-	xlab = "Freezing point (degrees C)")
-	@
+\begin{knitrout}\tiny
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}
+
+{\centering \includegraphics[width=\maxwidth]{figure/unnamed-chunk-14-1} 
+
+}
+
+
+\end{knitrout}
 \end{frame}
 
 
@@ -520,37 +623,15 @@ source("/home/sahir/git_repositories/EPIB607/slides/bin/include_graphics2.R")
 \end{frame}
 
 \begin{frame}[fragile]{The balancing formula}
-	<<echo=FALSE, eval=TRUE>>=
-	n <- 13.6
-	s <- 0.0080
-	mu0 <- -0.540
-	mha <- 0.99*-0.540
-	cutoff <- mu0 + qnorm(0.95) * s / sqrt(n)
-	power_plot(n = n, s = s,  
-	mu0 = mu0, mha = mha, 
-	cutoff = cutoff,
-	alternative = "greater",
-	xlab = "Freezing point (degrees C)")
-	I = 1
-	axis(2)
-	text(-0.5325,600,"qnorm(0.8, \nlower.tail=FALSE)=\n-0.84",
-	cex=.65,family="mono",adj=c(0,0.5),col="red")
-	x = (cutoff+mha)/2
-	text(x-.001, 330,
-	"0.84 * SEM",col="red",
-	adj=c(-0.1,0.5),cex=0.65)
-	cbPalette <- c("#999999", "#E69F00", "#56B4E9", "#009E73", 
-	"#F0E442", "#0072B2", "#D55E00", "#CC79A7")
-	text(-0.548,100,"qnorm(0.05, \nlower.tail=FALSE)=\n 1.645",
-	cex=0.65,family="mono",adj=c(0,0),col=cbPalette[6])
-	text(x-.001, 130, "1.645 * SEM",col=cbPalette[6], 
-	adj=c(1.1,0),cex=0.65)
-	arrows(mu0,   100,
-	mha,100,length=0.05,
-	code=3,angle=20,lwd=1.5)
-	text(mha-.0054,80, latex2exp::TeX("Delta = 1.645*SEM + 0.84*SEM"),
-	adj=c(-0.1,0.5), cex=0.75)
-	@
+\begin{knitrout}\tiny
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}
+
+{\centering \includegraphics[width=\maxwidth]{figure/unnamed-chunk-15-1} 
+
+}
+
+
+\end{knitrout}
 \end{frame}
 
 
@@ -592,50 +673,31 @@ source("/home/sahir/git_repositories/EPIB607/slides/bin/include_graphics2.R")
 
 
 \begin{frame}[fragile]{Code for null and alternative distribution plots}
-	<<eval = FALSE, echo = TRUE, tidy = FALSE>>=
-	source("https://raw.githubusercontent.com/sahirbhatnagar/EPIB607/master/
-	        slides/bin/plot_null_alt.R")
-	
-	mu0 <- -0.540 # mean under the null
-	mha <- 0.99*-0.540 # mean under the alternative
-	s <- 0.0080 # sample/population SD
-	n <- 5 # sample size
-	cutoff <- mu0 + qnorm(0.95) * s / sqrt(n)
-	
-	power_plot(n = n, 
-	s = s,  
-	mu0 = mu0, 
-	mha = mha, 
-	cutoff = cutoff,
-	alternative = "greater",
-	xlab = "Freezing point (degrees C)")
-	@
+\begin{knitrout}\tiny
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlkwd{source}\hlstd{(}\hlstr{"https://raw.githubusercontent.com/sahirbhatnagar/EPIB607/master/inst/code/plot_null_alt.R"}\hlstd{)}
+
+\hlstd{mu0} \hlkwb{<-} \hlopt{-}\hlnum{0.540} \hlcom{# mean under the null}
+\hlstd{mha} \hlkwb{<-} \hlnum{0.99}\hlopt{*-}\hlnum{0.540} \hlcom{# mean under the alternative}
+\hlstd{s} \hlkwb{<-} \hlnum{0.0080} \hlcom{# sample/population SD}
+\hlstd{n} \hlkwb{<-} \hlnum{5} \hlcom{# sample size}
+\hlstd{cutoff} \hlkwb{<-} \hlstd{mu0} \hlopt{+} \hlkwd{qnorm}\hlstd{(}\hlnum{0.95}\hlstd{)} \hlopt{*} \hlstd{s} \hlopt{/} \hlkwd{sqrt}\hlstd{(n)}
+
+\hlkwd{power_plot}\hlstd{(}\hlkwc{n} \hlstd{= n,}
+\hlkwc{s} \hlstd{= s,}
+\hlkwc{mu0} \hlstd{= mu0,}
+\hlkwc{mha} \hlstd{= mha,}
+\hlkwc{cutoff} \hlstd{= cutoff,}
+\hlkwc{alternative} \hlstd{=} \hlstr{"greater"}\hlstd{,}
+\hlkwc{xlab} \hlstd{=} \hlstr{"Freezing point (degrees C)"}\hlstd{)}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
 \end{frame}
 
 
-\begin{frame}[fragile]{Code for power as a function of sample size and noise}
-	<<eval = FALSE, echo = TRUE, tidy = FALSE>>=
-	source("https://raw.githubusercontent.com/sahirbhatnagar/EPIB607/
-	        master/slides/bin/plot_null_alt.R")
-	
-	pacman::p_load(manipulate) # or library(manipulate)
-	
-	mu0 <- -0.540 # mean under the null
-	mha <- 0.99*-0.540 # mean under the alternative
-	s <- 0.0080
-	n <- 5
-	cutoff <- mu0 + qnorm(0.95) * s / sqrt(n)
-	
-	manipulate::manipulate(
-	power_plot(n = sample_size, s = sample_sd,  
-	mu0 = mu0, mha = mha, 
-	cutoff = cutoff,
-	alternative = "greater",
-	xlab = "Freezing point (degrees C)"),
-	sample_size = manipulate::slider(5, 100),
-	sample_sd = manipulate::slider(0.001, 0.01, initial = 0.008))
-	@
-\end{frame}
+
 
 
 \begin{frame}{Interpreting p-values from statistical tests}
@@ -724,7 +786,7 @@ source("/home/sahir/git_repositories/EPIB607/slides/bin/include_graphics2.R")
 		Wobegon, and measure their IQ to obtain a sample mean of 112.8. 
 		\item IQ scores are scaled to be Normally distributed with mean 100 and
 		standard deviation 15. 
-		\item Does this sample provide evidence to reject the null hypothesis of no difference between children of Lake Wobegon and the general population? \pause 
+%		\item Does this sample provide evidence to reject the null hypothesis of no difference between children of Lake Wobegon and the general population? \pause 
 		\item[]\item[1.] \textcolor{blue}{Null and alternative hypotheses:} The claim made is
 		that the population of children Lake Wobegon have higher than
 		average intellidence. Thus the null hypothesis is that the
@@ -740,9 +802,23 @@ source("/home/sahir/git_repositories/EPIB607/slides/bin/include_graphics2.R")
 	\begin{enumerate}
 		\item \underline{Hypotheses.} $H_0: \mu = 100$, $H_A: \mu > 100$.
 		\item \underline{Calculate 95\% CI.}
-		<<echo=TRUE, message=FALSE, fig.asp = 0.418>>=
-		mosaic::xqnorm(p = c(0.05,1), 112.8, 15/sqrt(9))
-		@
+\begin{knitrout}\tiny
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlstd{mosaic}\hlopt{::}\hlkwd{xqnorm}\hlstd{(}\hlkwc{p} \hlstd{=} \hlkwd{c}\hlstd{(}\hlnum{0.05}\hlstd{,}\hlnum{1}\hlstd{),} \hlnum{112.8}\hlstd{,} \hlnum{15}\hlopt{/}\hlkwd{sqrt}\hlstd{(}\hlnum{9}\hlstd{))}
+\end{alltt}
+\end{kframe}
+
+{\centering \includegraphics[width=\maxwidth]{figure/unnamed-chunk-17-1} 
+
+}
+
+
+\begin{kframe}\begin{verbatim}
+## [1] 104.5757      Inf
+\end{verbatim}
+\end{kframe}
+\end{knitrout}
 		\pause 
 		\item \underline{Statement.} The lower limit of the CI excludes $\mu_0=100$, and so \underline{there is evidence to suggest} that the children at Lake Wobegon are brighter than other children at the $\alpha=0.05$ level.
 	\end{enumerate}
@@ -799,11 +875,22 @@ source("/home/sahir/git_repositories/EPIB607/slides/bin/include_graphics2.R")
 
 
 \begin{frame}[fragile]{Null and alternative distribution plots}
-	<<eval = TRUE, echo = TRUE, tidy = FALSE, fig.asp=0.598>>=
-	power_plot(n = 9, s = 15, mu0 = 100, mha = 110, 
-	cutoff = 100 + qnorm(0.95) * 15 / sqrt(9),
-	alternative = "greater", xlab = "Average IQ Score")
-	@
+\begin{knitrout}\tiny
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlkwd{source}\hlstd{(}\hlstr{"https://raw.githubusercontent.com/sahirbhatnagar/EPIB607/master/inst/code/plot_null_alt.R"}\hlstd{)}
+\hlkwd{power_plot}\hlstd{(}\hlkwc{n} \hlstd{=} \hlnum{9}\hlstd{,} \hlkwc{s} \hlstd{=} \hlnum{15}\hlstd{,} \hlkwc{mu0} \hlstd{=} \hlnum{100}\hlstd{,} \hlkwc{mha} \hlstd{=} \hlnum{110}\hlstd{,}
+\hlkwc{cutoff} \hlstd{=} \hlnum{100} \hlopt{+} \hlkwd{qnorm}\hlstd{(}\hlnum{0.95}\hlstd{)} \hlopt{*} \hlnum{15} \hlopt{/} \hlkwd{sqrt}\hlstd{(}\hlnum{9}\hlstd{),}
+\hlkwc{alternative} \hlstd{=} \hlstr{"greater"}\hlstd{,} \hlkwc{xlab} \hlstd{=} \hlstr{"Average IQ Score"}\hlstd{)}
+\end{alltt}
+\end{kframe}
+
+{\centering \includegraphics[width=\maxwidth]{figure/unnamed-chunk-18-1} 
+
+}
+
+
+\end{knitrout}
 \end{frame}
 
 
@@ -880,6 +967,61 @@ source("/home/sahir/git_repositories/EPIB607/slides/bin/include_graphics2.R")
 		\item A 0.01-level test to detect a difference of 10 points on the
 		IQ scale using the 9 children.
 \end{enumerate} }
+
+
+\begin{frame}[fragile]{Session Info}
+	\tiny
+	
+\begin{knitrout}\tiny
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{verbatim}
+R version 4.1.1 (2021-08-10)
+Platform: x86_64-pc-linux-gnu (64-bit)
+Running under: Pop!_OS 21.04
+
+Matrix products: default
+BLAS:   /usr/lib/x86_64-linux-gnu/openblas-pthread/libblas.so.3
+LAPACK: /usr/lib/x86_64-linux-gnu/openblas-pthread/libopenblasp-r0.3.13.so
+
+attached base packages:
+[1] tools     stats     graphics  grDevices utils     datasets  methods  
+[8] base     
+
+other attached packages:
+ [1] DT_0.16           mosaic_1.7.0      Matrix_1.3-2      mosaicData_0.20.1
+ [5] ggformula_0.9.4   ggstance_0.3.4    lattice_0.20-41   kableExtra_1.2.1 
+ [9] socviz_1.2        gapminder_0.3.0   here_0.1          NCStats_0.4.7    
+[13] FSA_0.8.30        forcats_0.5.1     stringr_1.4.0     dplyr_1.0.7      
+[17] purrr_0.3.4       readr_1.4.0       tidyr_1.1.3       tibble_3.1.5     
+[21] ggplot2_3.3.5     tidyverse_1.3.0   knitr_1.36       
+
+loaded via a namespace (and not attached):
+ [1] fs_1.5.0           lubridate_1.7.9    webshot_0.5.2      httr_1.4.2        
+ [5] rprojroot_2.0.2    latex2exp_0.4.0    backports_1.2.1    utf8_1.2.2        
+ [9] R6_2.5.1           DBI_1.1.1          colorspace_2.0-2   withr_2.4.2       
+[13] tidyselect_1.1.1   gridExtra_2.3      leaflet_2.0.3      curl_4.3.2        
+[17] compiler_4.1.1     cli_3.0.1          rvest_1.0.0        pacman_0.5.1      
+[21] xml2_1.3.2         ggdendro_0.1.22    labeling_0.4.2     mosaicCore_0.8.0  
+[25] scales_1.1.1       digest_0.6.28      foreign_0.8-81     rmarkdown_2.11.3  
+[29] rio_0.5.16         pkgconfig_2.0.3    htmltools_0.5.2    highr_0.9         
+[33] dbplyr_1.4.4       fastmap_1.1.0      htmlwidgets_1.5.3  rlang_0.4.11      
+[37] readxl_1.3.1       rstudioapi_0.13    farver_2.1.0       generics_0.1.0    
+[41] jsonlite_1.7.2     crosstalk_1.1.1    zip_2.2.0          car_3.0-9         
+[45] magrittr_2.0.1     Rcpp_1.0.7         munsell_0.5.0      fansi_0.5.0       
+[49] abind_1.4-5        lifecycle_1.0.1    stringi_1.7.5      carData_3.0-4     
+[53] MASS_7.3-53.1      plyr_1.8.6         grid_4.1.1         blob_1.2.1        
+[57] ggrepel_0.8.2      crayon_1.4.1       cowplot_1.1.0      haven_2.3.1       
+[61] splines_4.1.1      hms_1.1.1          pillar_1.6.3       reprex_0.3.0      
+[65] glue_1.4.2         evaluate_0.14      data.table_1.14.2  modelr_0.1.8      
+[69] vctrs_0.3.8        tweenr_1.0.1       cellranger_1.1.0   gtable_0.3.0      
+[73] polyclip_1.10-0    assertthat_0.2.1   TeachingDemos_2.12 xfun_0.26         
+[77] ggforce_0.3.2      openxlsx_4.1.5     broom_0.7.2        viridisLite_0.4.0 
+[81] ellipsis_0.3.2    
+\end{verbatim}
+\end{kframe}
+\end{knitrout}
+	
+\end{frame}
 
 \end{document}
 

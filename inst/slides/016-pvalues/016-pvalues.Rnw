@@ -2,15 +2,15 @@
 
 
 %\input{slides_header.tex}
-\input{/home/sahir/git_repositories/EPIB607/slides/slides_header2.tex}
-\graphicspath{{/home/sahir/git_repositories/EPIB607/slides/figure/}}
+\input{/home/sahir/git_repositories/epib607/inst/slides/slides_header2.tex}
+\graphicspath{{/home/sahir/git_repositories/epib607/inst/slides/figure/}}
 
 %\let\oldShaded\Shaded
 %\let\endoldShaded\endShaded
 %\renewenvironment{Shaded}{\footnotesize\oldShaded}{\endoldShaded}
 
-\newcommand{\blue}[1]{\textcolor{blue}{#1}}
-\newcommand{\red}[1]{\textcolor{red}{#1}}
+%\newcommand{\blue}[1]{\textcolor{blue}{#1}}
+%\newcommand{\red}[1]{\textcolor{red}{#1}}
 
 
 \usepackage{xparse}
@@ -34,39 +34,17 @@
 \end{textblock*}}
 
 \begin{document}
+	
+	<<echo=FALSE, warning=FALSE, message=FALSE, eval=TRUE, include=FALSE>>=
+	library(knitr)
+	knitr::read_chunk(here::here("inst/slides/knitr_options.R"))
+	@
+	
+	<<setup-slides, echo=FALSE, warning=FALSE, message=FALSE, eval=TRUE>>=
+	@
 
-	<<setup, include=FALSE>>=
-library(knitr)
-knitr::opts_chunk$set(cache=FALSE, message = FALSE, tidy = FALSE, warning = FALSE,
-echo = FALSE, 
-#fig.width = 8, 
-#fig.asp = 0.8, 
-fig.align = 'center', 
-#out.width = "0.50\\linewidth", 
-size = 'tiny')
-
-# the kframe environment does not work with allowframebreaks, so remove it
-#knit_hooks$set(document = function(x) {
-#gsub('\\\\(begin|end)\\{kframe\\}', '', x)
-#})
-
-library(tidyverse)
-library(NCStats)
-options(digits = 2)
-
-
-#knitr::opts_chunk$set(background = '#FFFF00')
-library(tools) #needed for include_graphics2 function
-source("/home/sahir/git_repositories/EPIB607/slides/bin/include_graphics2.R")
-@
-
-%\title{Introduction to Regression Trees}
-%\author{Sahir Bhatnagar \inst{1}}
-%\author[shortname]{Sahir Rai Bhatnagar, PhD Candidate (Biostatistics) }
-%\institute[shortinst]{Department of Epidemiology, Biostatistics and Occupational Health}
-
-	\title{012 - $p$-values}
-\author{EPIB 607 - FALL 2020}
+\title{016 - $p$-values}
+\author{EPIB 607}
 \institute{
 	Sahir Rai Bhatnagar\\
 	Department of Epidemiology, Biostatistics, and Occupational Health\\
@@ -88,9 +66,9 @@ source("/home/sahir/git_repositories/EPIB607/slides/bin/include_graphics2.R")
 	
 	
 	%\vspace{18pt}
-	\begin{defm}[$p$-value]
+	\begin{definition}[$p$-value]
 		A \textbf{probability concerning the observed data}, calculated under a \textbf{Null Hypothesis} assumption, i.e., assuming that the only factor operating is sampling or measurement variation. 
-	\end{defm}
+	\end{definition}
 	
 	\begin{itemize} 
 		\item[\underline{Use}] To assess the evidence provided by the sample data
@@ -237,22 +215,161 @@ where value is located in distribution of values from  healthy (reference) popul
 	%\end{footnotesize}
 \end{frame}
 
+\section{The prosecutor's fallacy}
+
 \begin{frame}
-	\frametitle{The prosecutor's fallacy \footnote{{\tiny Who's the DNA fingerprinting pointing at? New Scientist, 1994.01.29, 51-52.}}}
+	\frametitle{The prosecutor's fallacy \footnote{\tiny{The Bayesian flipCorrecting the prosecutor's fallacy. Significance. August 2015.}}}
 	
 	\begin{itemize}
 		\setlength\itemsep{1em}
-		\item Let's suppose a defendant has been accused of robbery
-		\item The null hypothesis is that the defendant is innocent. Instructions to juries are quite explicit about this. 
-		\item \textbf{Prosecutor}: ``If the defendant were innocent, wouldn't it be remarkable
-		that the police found him at the scene of the crime with a bag full of money in
-		his hand, a mask on his face, and a getaway car parked outside?'' \mbox{P(innocent $|$ evidence)}
-		\item \textbf{Jury}: Considers the evidence in light of the presumption of innocence
-		and judges whether the evidence against the defendant would be plausible if
-		the defendant were in fact innocent. \mbox{P(evidence $|$ innocent)}
+		\item The case of Troy Brown – a manconvicted of the rape of a 9-year-old girl. Theevidence of Brown's guilt, excluding DNA,was both circumstantial and equivocal.
+		\item However, the jury's guilty verdict was influenced at least in part by the prosecution'sclaim that only one in 3 million randompeople would have the same DNA profileas the rapist, and hence there was only a
+		0.000033\% chance that Brown was innocent. \pause
+		\item Upon appeal of the case, the defenceargued that the conclusions drawn fromthe statistics cited by the prosecution wereincorrect, and were an example of ``the prosecutor's fallacy''. The Supreme Court,writing in its decision on the Brown case,described the fallacy as:
+		\begin{quote}
+		the assumption that the random matchprobability is the same as the probabilitythat the defendant was not the source
+of the DNA sample. … (“Let P equalthe probability of a match, given the evidence genotype. The fallacy is to say that
+P is also the probability that the DNA atthe crime scene came from someone other than the defendant”). … It is further
+error to equate source probability withprobability of guilt
+		\end{quote}
+	%	\item Let's suppose a defendant has been accused of robbery
+	%	\item The null hypothesis is that the defendant is innocent. Instructions to juries are quite explicit about this. 
+	%	\item \textbf{Prosecutor}: ``If the defendant were innocent, wouldn't it be remarkable
+	%	that the police found him at the scene of the crime with a bag full of money in
+	%	his hand, a mask on his face, and a getaway car parked outside?'' \mbox{P(innocent $|$ evidence)}
+	%	\item \textbf{Jury}: Considers the evidence in light of the presumption of innocence
+	%	and judges whether the evidence against the defendant would be plausible if
+	%	the defendant were in fact innocent. \mbox{P(evidence $|$ innocent)}
 	\end{itemize}
 	
 \end{frame}
+
+\begin{frame}
+	\frametitle{The prosecutor's fallacy \footnote{\tiny{The Bayesian flipCorrecting the prosecutor's fallacy. Significance. August 2015.}}}
+	
+	\begin{itemize}
+		\setlength\itemsep{1em}
+		\item Restating this both more succinctly, and interms better suited to a statistically literate
+		readership, the prosecutor’s fallacy is tocalculate P(evidence | innocence) and interpretit as P(innocence | evidence). \pause 
+		\item It may be truethat if the accused were innocent, there is onlyone chance in 3 million of a DNA match. But
+		the DNA match does not necessarily implythat there is only one chance in 3 millionof the accused being innocent. \pause 
+		\item Stated moregenerally, the prosecutor’s fallacy is$$P(A | B) = P(B | A)$$
+		\item We know, from Bayes’ rule, that$$P(A | B) = \frac{P(B | A) P(A)}{P(B)}$$
+	\end{itemize}
+	
+\end{frame}
+
+
+\begin{frame}{The Bayesian Flip}
+
+\begin{itemize}
+	\item In many investigationswe may be presented withP(data | theory), but whatwe would really like to
+	know is P(theory | data):the probability that ourtheory is correct, given whatwe have observed
+	\item To move from P(data | theory) to
+	P(theory | data), we need to do the Bayesian
+	flip. \pause 
+	\item Every year in the United States 38 million
+	women are tested for breast cancer with
+	mammograms. Of these, 140 000 have cancer.
+	Mammograms have been determined to be90\% accurate for women with breast cancer. \pause 
+	\item This figure was calculated by tallying all of
+	the women who were eventually determined
+	to have breast cancer and looking back to see
+	if their initial mammograms were positive,
+	thus: $$P(+mammogram | cancer) = 0.90$$
+	and, using a similar empirical investigation,
+	$$P(+mammogram | no cancer) = 0.10$$
+\end{itemize}
+
+\end{frame}
+
+
+\begin{frame}{The Bayesian Flip}
+	
+	\begin{itemize}
+		\item It is important to know that
+		a test is both powerful and has a relatively low
+		rate of false positives. But when one is faced
+		with a positive mammogram result, these are
+		hardly useful. We administer a mammogram
+		because we do not know whether or not
+		someone has cancer.
+		\item What we want to know is$$P(cancer | +mammogram)$$ \pause 
+		\item This probability is a fractionthat has as its numerator the number of
+		women annually diagnosed with breastcancer via mammograms, or 140 000, andas its denominator the number of positive
+		mammograms (including both true cancercases and false positives):
+		\begin{align*}
+		P(cancer | +mammogram) &= \frac{True\, positives}{(True\,positives + False\, positives)} \\
+		&= 140 000 / (140 000 + 0.1 × 38\,million)\\
+		&= 140 000 / (140 000 + 3 800 000)\\
+		&= 140 000 / 3 940 000 = 0.036 = 3.6\%
+		\end{align*}
+	\end{itemize}
+	
+\end{frame}
+
+
+\begin{frame}{The Bayesian Flip}
+\begin{itemize}
+	\item Thus, if an asymptomatic woman receives
+	the dreadful news that her mammogram
+	has come back positive, more than 96\% of
+	the time it is a false positive – she is fine.
+	The dramatic difference between the 90\%
+	statistical power of the test and its 3.6\%
+	accuracy demonstrates the importance of not
+	confusing the former with the latter; we must
+	do the Bayesian flip.
+\end{itemize}
+
+\end{frame}
+
+
+\begin{frame}{The defence attorney's fallacy:the O. J. Simpson trial}
+	\begin{itemize}
+		\item Alan Dershowitz, an advisor to
+		Simpson’s defence attorneys, claimed that
+		Simpson’s previous accusation of spousal
+		abuse was not particularly relevant. The
+		evidence was that only about one in 2500
+		men who batter their significant others (wives,
+		girlfriends) go on to kill them. \pause 
+		\item The more relevant concern:
+		if a previously battered woman has been
+		murdered, what is the probability that her
+		batterer committed the crime? Clearly,
+		the previous accusations of battery would be
+		considered relevant evidence if we knew, for example, that
+		one in 3 murdered women were murdered by
+		their batterers. \pause 
+		\item Let 
+		\begin{itemize}
+			\item $B$: woman battered by her husband, boyfriend,or lover
+			\item $M$: represents the event “womanmurdered”, and by extension, 
+			\item $M,B$: denotes“woman murdered by her batterer”. 
+			\end{itemize}
+		\item Our goal is to compare $P(M,B|M)$ to $P(M,B|B)$.
+	\end{itemize}
+	
+\end{frame}
+
+
+\begin{frame}{The defence attorney's fallacy:the O. J. Simpson trial}
+	\vspace*{-.71in}
+	\begin{itemize}
+		\item Using Bayes’ rule, we have
+		$$P(M, B | M) = \frac{P(M | M, B) P(M, B)}{P(M)}$$ \pause 
+		\item In 1992, the population of women
+		in the United States was approximately
+		125 million. That year, 4936 women were
+		murdered. So, one marginal probability, $P(M)= 4936/125 000 000 = 0.000 04$. 
+		\item Approximately 3.5 million womenare battered every year, so we estimate $P(B) = 0.028$
+		\item Thatsame year 1432 women were murdered by theirprevious batterers, so the marginal probability
+		of that event is $P(M, B) = 1432/125 000 000 =0.000 01$
+	\end{itemize}
+	
+\end{frame}
+
 
 \begin{comment}
 \begin{frame}
@@ -281,7 +398,6 @@ ordered a retrial.
 \end{itemize}
 
 \end{frame}
-\end{comment}
 
 \begin{frame}
 	\frametitle{The prosecutor's fallacy in a game of poker}
@@ -295,7 +411,9 @@ ordered a retrial.
 	\end{itemize}
 	
 \end{frame}
+\end{comment}
 
+\section{Relationship between $p$-value and CI}
 
 \begin{frame}
 	\frametitle{(Intimate) Relationship between $p$-value and CI}
