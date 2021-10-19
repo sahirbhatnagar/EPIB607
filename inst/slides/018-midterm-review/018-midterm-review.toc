@@ -1,0 +1,10 @@
+\beamer@sectionintoc {1}{Exam Details}{2}{0}{1}
+\beamer@sectionintoc {2}{Data visualization}{6}{0}{2}
+\beamer@sectionintoc {3}{Tidy Data}{17}{0}{3}
+\beamer@sectionintoc {4}{Descriptive statistics}{26}{0}{4}
+\beamer@sectionintoc {5}{Grammar of graphics}{31}{0}{5}
+\beamer@sectionintoc {6}{Parameters, probability, random variables}{37}{0}{6}
+\beamer@sectionintoc {7}{Sampling Distributions, CLT, Confidence Intervals and p-values}{49}{0}{7}
+\beamer@sectionintoc {8}{Bootstrap}{72}{0}{8}
+\beamer@sectionintoc {9}{One sample mean}{80}{0}{9}
+\beamer@sectionintoc {10}{p-values}{93}{0}{10}

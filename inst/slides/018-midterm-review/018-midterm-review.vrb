@@ -1,0 +1,69 @@
+\frametitle{Session Info}
+\tiny
+^^I
+\begin{knitrout}\tiny
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{verbatim}
+R version 4.1.1 (2021-08-10)
+Platform: x86_64-pc-linux-gnu (64-bit)
+Running under: Pop!_OS 21.04
+
+Matrix products: default
+BLAS:   /usr/lib/x86_64-linux-gnu/openblas-pthread/libblas.so.3
+LAPACK: /usr/lib/x86_64-linux-gnu/openblas-pthread/libopenblasp-r0.3.13.so
+
+attached base packages:
+[1] tools     stats     graphics  grDevices utils     datasets  methods
+[8] base
+
+other attached packages:
+ [1] latex2exp_0.4.0    RColorBrewer_1.1-2 colorspace_2.0-2   oibiostat_0.2.0
+ [5] DT_0.16            mosaic_1.7.0       Matrix_1.3-2       mosaicData_0.20.1
+ [9] ggformula_0.9.4    ggstance_0.3.4     lattice_0.20-41    kableExtra_1.2.1
+[13] socviz_1.2         gapminder_0.3.0    here_0.1           NCStats_0.4.7
+[17] FSA_0.8.30         forcats_0.5.1      stringr_1.4.0      dplyr_1.0.7
+[21] purrr_0.3.4        readr_1.4.0        tidyr_1.1.3        tibble_3.1.5
+[25] ggplot2_3.3.5      tidyverse_1.3.0    knitr_1.36
+
+loaded via a namespace (and not attached):
+  [1] readxl_1.3.1       backports_1.2.1    plyr_1.8.6
+  [4] splines_4.1.1      crosstalk_1.1.1    leaflet_2.0.3
+  [7] TH.data_1.0-10     digest_0.6.28      htmltools_0.5.2
+ [10] fansi_0.5.0        magrittr_2.0.1     mosaicCore_0.8.0
+ [13] openxlsx_4.1.5     modelr_0.1.8       sandwich_2.5-1
+ [16] blob_1.2.1         rvest_1.0.0        ggrepel_0.8.2
+ [19] haven_2.3.1        xfun_0.26          crayon_1.4.1
+ [22] jsonlite_1.7.2     lme4_1.1-23        survival_3.2-13
+ [25] zoo_1.8-8          glue_1.4.2         polyclip_1.10-0
+ [28] gtable_0.3.0       emmeans_1.5.1      webshot_0.5.2
+ [31] sjstats_0.18.0     sjmisc_2.8.5       car_3.0-9
+ [34] abind_1.4-5        scales_1.1.1       mvtnorm_1.1-1
+ [37] DBI_1.1.1          rstatix_0.6.0      ggeffects_0.16.0
+ [40] Rcpp_1.0.7         viridisLite_0.4.0  xtable_1.8-4
+ [43] performance_0.7.3  foreign_0.8-81     datawizard_0.2.0.1
+ [46] htmlwidgets_1.5.3  httr_1.4.2         ellipsis_0.3.2
+ [49] pkgconfig_2.0.3    farver_2.1.0       dbplyr_1.4.4
+ [52] utf8_1.2.2         tidyselect_1.1.1   labeling_0.4.2
+ [55] rlang_0.4.11       effectsize_0.4.5   munsell_0.5.0
+ [58] TeachingDemos_2.12 cellranger_1.1.0   cli_3.0.1
+ [61] generics_0.1.0     pacman_0.5.1       sjlabelled_1.1.7
+ [64] broom_0.7.2        evaluate_0.14      fastmap_1.1.0
+ [67] ggdendro_0.1.22    fs_1.5.0           zip_2.2.0
+ [70] nlme_3.1-152       xml2_1.3.2         compiler_4.1.1
+ [73] rstudioapi_0.13    curl_4.3.2         ggsignif_0.6.0
+ [76] reprex_0.3.0       statmod_1.4.34     tweenr_1.0.1
+ [79] stringi_1.7.5      highr_0.9          parameters_0.14.0
+ [82] nloptr_1.2.2.2     vctrs_0.3.8        pillar_1.6.3
+ [85] lifecycle_1.0.1    estimability_1.3   data.table_1.14.2
+ [88] cowplot_1.1.0      insight_0.14.4     R6_2.5.1
+ [91] gridExtra_2.3      rio_0.5.16         codetools_0.2-18
+ [94] boot_1.3-27        MASS_7.3-53.1      assertthat_0.2.1
+ [97] rprojroot_2.0.2    withr_2.4.2        multcomp_1.4-13
+[100] bayestestR_0.11.0  hms_1.1.1          grid_4.1.1
+[103] sjPlot_2.8.5       coda_0.19-4        minqa_1.2.4
+[106] rmarkdown_2.11.3   snakecase_0.11.0   carData_3.0-4
+[109] ggpubr_0.4.0       ggforce_0.3.2      lubridate_1.7.9
+\end{verbatim}
+\end{kframe}
+\end{knitrout}
+^^I
