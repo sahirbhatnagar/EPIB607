@@ -1,9 +1,64 @@
-\documentclass[10pt]{beamer}
+\documentclass[10pt]{beamer}\usepackage[]{graphicx}\usepackage[]{color}
+% maxwidth is the original width if it is less than linewidth
+% otherwise use linewidth (to make sure the graphics do not exceed the margin)
+\makeatletter
+\def\maxwidth{ %
+  \ifdim\Gin@nat@width>\linewidth
+    \linewidth
+  \else
+    \Gin@nat@width
+  \fi
+}
+\makeatother
+
+\definecolor{fgcolor}{rgb}{0.345, 0.345, 0.345}
+\newcommand{\hlnum}[1]{\textcolor[rgb]{0.686,0.059,0.569}{#1}}%
+\newcommand{\hlstr}[1]{\textcolor[rgb]{0.192,0.494,0.8}{#1}}%
+\newcommand{\hlcom}[1]{\textcolor[rgb]{0.678,0.584,0.686}{\textit{#1}}}%
+\newcommand{\hlopt}[1]{\textcolor[rgb]{0,0,0}{#1}}%
+\newcommand{\hlstd}[1]{\textcolor[rgb]{0.345,0.345,0.345}{#1}}%
+\newcommand{\hlkwa}[1]{\textcolor[rgb]{0.161,0.373,0.58}{\textbf{#1}}}%
+\newcommand{\hlkwb}[1]{\textcolor[rgb]{0.69,0.353,0.396}{#1}}%
+\newcommand{\hlkwc}[1]{\textcolor[rgb]{0.333,0.667,0.333}{#1}}%
+\newcommand{\hlkwd}[1]{\textcolor[rgb]{0.737,0.353,0.396}{\textbf{#1}}}%
+\let\hlipl\hlkwb
+
+\usepackage{framed}
+\makeatletter
+\newenvironment{kframe}{%
+ \def\at@end@of@kframe{}%
+ \ifinner\ifhmode%
+  \def\at@end@of@kframe{\end{minipage}}%
+  \begin{minipage}{\columnwidth}%
+ \fi\fi%
+ \def\FrameCommand##1{\hskip\@totalleftmargin \hskip-\fboxsep
+ \colorbox{shadecolor}{##1}\hskip-\fboxsep
+     % There is no \\@totalrightmargin, so:
+     \hskip-\linewidth \hskip-\@totalleftmargin \hskip\columnwidth}%
+ \MakeFramed {\advance\hsize-\width
+   \@totalleftmargin\z@ \linewidth\hsize
+   \@setminipage}}%
+ {\par\unskip\endMakeFramed%
+ \at@end@of@kframe}
+\makeatother
+
+\definecolor{shadecolor}{rgb}{.97, .97, .97}
+\definecolor{messagecolor}{rgb}{0, 0, 0}
+\definecolor{warningcolor}{rgb}{1, 0, 1}
+\definecolor{errorcolor}{rgb}{1, 0, 0}
+\newenvironment{knitrout}{}{} % an empty environment to be redefined in TeX
+
+\usepackage{alltt}
 
 
 %\input{slides_header.tex}
-\input{/home/sahir/git_repositories/EPIB607/slides/slides_header2.tex}
-\graphicspath{{/home/sahir/git_repositories/EPIB607/slides/figure/}}
+\input{/home/sahir/git_repositories/epib607/inst/slides/slides_header2.tex}
+\graphicspath{{/home/sahir/git_repositories/epib607/inst/slides/figure/}}
+
+
+\newcommand{\Var}{\operatorname{Var}}
+\newcommand{\Expec}{\operatorname{E}}
+\newcommand{\Prob}{\operatorname{P}}
 
 %\let\oldShaded\Shaded
 %\let\endoldShaded\endShaded
@@ -32,41 +87,15 @@
 	\begin{textblock*}{\paperwidth}(0pt,\textheight)
 		\raggedright #1\hspace{.5em}
 \end{textblock*}}
-
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
 \begin{document}
+	
+	
+	
 
-	<<setup, include=FALSE>>=
-library(knitr)
-knitr::opts_chunk$set(cache=FALSE, message = FALSE, tidy = FALSE, warning = FALSE,
-echo = FALSE, 
-#fig.width = 8, 
-fig.asp = 0.75, 
-fig.align = 'center', 
-#out.width = "0.50\\linewidth", 
-size = 'tiny')
-
-# the kframe environment does not work with allowframebreaks, so remove it
-#knit_hooks$set(document = function(x) {
-#gsub('\\\\(begin|end)\\{kframe\\}', '', x)
-#})
-
-library(tidyverse)
-library(NCStats)
-options(digits = 2)
-
-
-#knitr::opts_chunk$set(background = '#FFFF00')
-library(tools) #needed for include_graphics2 function
-source("/home/sahir/git_repositories/EPIB607/slides/bin/include_graphics2.R")
-@
-
-%\title{Introduction to Regression Trees}
-%\author{Sahir Bhatnagar \inst{1}}
-%\author[shortname]{Sahir Rai Bhatnagar, PhD Candidate (Biostatistics) }
-%\institute[shortinst]{Department of Epidemiology, Biostatistics and Occupational Health}
-
-	\title{014 - Inference about a Population Proportion ($\pi$)}
-\author{EPIB 607 - FALL 2020}
+	
+\title{019 - Inference about a Population Proportion ($\pi$)}
+\author{EPIB 607}
 \institute{
 	Sahir Rai Bhatnagar\\
 	Department of Epidemiology, Biostatistics, and Occupational Health\\
@@ -128,83 +157,15 @@ source("/home/sahir/git_repositories/EPIB607/slides/bin/include_graphics2.R")
 %\section{Power and Sample Size}
 
 \begin{frame}[fragile,plain]
-	<<eval=T, echo=F, fig.align="center", fig.height=7, fig.width=9, warning=FALSE, message=F>>=
-	expit = function(x) exp(x)/(1+exp(x)) # antilogit
-	
-	par(mfrow=c(1,1),mar = rep(0.01,4))
-	
-	plot(c(-0.75,4),c(1,4.5),col="white",axes=FALSE,frame=FALSE)
-	
-	
-	segments(0.5,1:4,4,1:4,col="blue",lwd=2)
-	segments(1:4,1,1:4,4,col="blue",lwd=2)
-	
-	CEX=1.25
-	
-	x=0.5
-	dy=0.2
-	dx=0.25
-	for(row in 3:1) {
-	if(row==3) {txt = expression(mu);TXT="MEAN"}
-	if(row==2) {txt = expression(pi);TXT="PROPORTION"}
-	if(row==1) {txt = expression(lambda);TXT="RATE"}
-	text(x-0.1,row+.5,txt,cex=2*CEX,adj=c(0,.5))
-	text(x-0.25-0.05,row+.5,TXT,adj=c(1,0.5),cex=CEX)
-	if(row==1)text(x-0.25-0.05,row+.35,"(Number of events
-	per unit time)",
-	adj=c(1,1),cex=0.8*CEX)
-	arrows(x+dx, row+dy, x+dx,row+1-dy,angle=30,
-	length=0.07-0.07*(row==2),code=2+(row==3))
-	if(row<3) text(x+dx,row+dy,"0",adj=c(1.5,0.5))
-	if(row==2)text(x+dx,row+1-dy,"1",adj=c(1.5,0.5))
-	}
-	
-	dy=0.2
-	text( 2+0.5,4.45, "Number of Parameters",cex=1.75,adj=c(0.5,1))
-	
-	text( 0,4.3, "Parameter\nGenre", cex=1.75,adj=c(0.5,0))
-	arrows(0,4.25,0,3.9,length=0.07,angle=35,lwd=2)
-	for(col in 1:3) {
-	x=col+0.5; 
-	text(col+0.5, 4.15, c("1","2","?")[col],
-	adj=c(0.5,1),cex=1.5)
-	if(col==1) dx=0.05
-	if(col==2) dx=0.3
-	for(row in 3:1){
-	segments(col+0.5-dx,row+dy,col+0.5+dx,row+dy)
-	if(col>1)text(col+0.5-dx,row+dy,"0",adj=c(0.5,1.75))
-	if(col==2) text(col+0.5+dx,row+dy,"1",adj=c(0.5,1.75))
-	if(col==3) {
-	xx=seq(col+0.5-dx,col+0.5+dx,dx/10)
-	segments(xx,row+dy,xx,row+dy-0.03)       
-	}
-	txt=expression(X)
-	if(col==1) txt = expression(X %==% 1)
-	text(col+0.5,row+dy/3,txt,font=2)
-	if(col==1) { m= (2/3)*(1-2*dy)
-	points(col+0.5,row+dy+m,pch=19,cex=0.6)
-	}
-	if(col==2) { m= ((1:2)/3)*(1-2*dy)
-	points(col+0.5+c(-dx,dx),row+dy+m,pch=19,cex=0.6)
-	}
-	if(col==3) { m= ((3:12)/14)*(1-2*dy)
-	xx=seq(-dx,dx,length.out=10)
-	points(col+0.5+xx,row+dy+m,pch=19,cex=0.6-0.3*(row<3))
-	if(row==2){
-	logit = seq(-3,3,length.out=10)
-	m=expit(logit)*(1-2*dy)
-	points(col+0.5+xx,row+dy+m,pch=19,cex=0.6)
-	}
-	if(row==1){
-	log.rate = seq(-1.7,0.1,length.out=10)
-	m=exp(log.rate)*(1-2*dy)
-	points(col+0.5+xx,row+dy+m,pch=19,cex=0.6)
-	}
-	}
-	} 
-	}
-	
-	@
+\begin{knitrout}\tiny
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}
+
+{\centering \includegraphics[width=\maxwidth]{figure/unnamed-chunk-2-1} 
+
+}
+
+
+\end{knitrout}
 \end{frame}
 
 
@@ -353,9 +314,15 @@ independent of the sex at any previous birth.
 }
 
 \begin{frame}[fragile]{}
-	<<fig.asp = 0.858, echo = FALSE, eval = TRUE>>=
-	source("MakeBinomial3.R")
-	@
+\begin{knitrout}\tiny
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}
+
+{\centering \includegraphics[width=\maxwidth]{figure/unnamed-chunk-3-1} 
+
+}
+
+
+\end{knitrout}
 \end{frame}
 
 
@@ -367,16 +334,33 @@ independent of the sex at any previous birth.
 	
 	$P(Y=3) = \frac{10!}{7!3!}0.2^3(1-0.2)^{7}$ \\ \ \\
 	which can be solved in R using:
-	<<echo=TRUE, eval=TRUE>>=
-	stats::dbinom(x = 3, size = 10, prob = 0.2)
-	@
+\begin{knitrout}\tiny
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlstd{stats}\hlopt{::}\hlkwd{dbinom}\hlstd{(}\hlkwc{x} \hlstd{=} \hlnum{3}\hlstd{,} \hlkwc{size} \hlstd{=} \hlnum{10}\hlstd{,} \hlkwc{prob} \hlstd{=} \hlnum{0.2}\hlstd{)}
+\end{alltt}
+\begin{verbatim}
+## [1] 0.2013266
+\end{verbatim}
+\end{kframe}
+\end{knitrout}
 \end{frame}
 
 \begin{frame}[fragile]{The probability mass function (pmf)}
 	
-	<<echo=TRUE, eval=TRUE>>=
-	plot(0:10/10, dbinom(x = 0:10, size = 10, prob = 0.2), type = "h")
-	@
+\begin{knitrout}\tiny
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlkwd{plot}\hlstd{(}\hlnum{0}\hlopt{:}\hlnum{10}\hlopt{/}\hlnum{10}\hlstd{,} \hlkwd{dbinom}\hlstd{(}\hlkwc{x} \hlstd{=} \hlnum{0}\hlopt{:}\hlnum{10}\hlstd{,} \hlkwc{size} \hlstd{=} \hlnum{10}\hlstd{,} \hlkwc{prob} \hlstd{=} \hlnum{0.2}\hlstd{),} \hlkwc{type} \hlstd{=} \hlstr{"h"}\hlstd{)}
+\end{alltt}
+\end{kframe}
+
+{\centering \includegraphics[width=\maxwidth]{figure/unnamed-chunk-5-1} 
+
+}
+
+
+\end{knitrout}
 \end{frame}
 
 \begin{frame}[fragile]{What do we use it for?}
@@ -516,6 +500,12 @@ Study&   &  is eligible \& willing to participate in long-term\\
 		the most basic situation.
 		\item Consider a single Bernoulli trial with probability of an event $\pi$. Let's find the mean and
 		variance of the number of events ('successes').
+		\begin{tabular}{c|c|c}
+			\hline
+			W & 0 & 1 \\
+			P(W=w) & 1 - $\pi$ & $\pi$ \\
+			\hline
+		\end{tabular}
 	\end{itemize}
 \vspace*{1.5in}
 	
@@ -571,24 +561,28 @@ Study&   &  is eligible \& willing to participate in long-term\\
 
 
 \begin{frame}[fragile]{Normal approximation to binomial is the CLT in action}
-	<<>>=
-	par(mfrow=c(2,2))
-	hist(rbinom(1000, 5, 0.3)/5)
-	hist(rbinom(1000, 10, 0.3)/10)
-	hist(rbinom(1000, 20, 0.3)/20)
-	hist(rbinom(1000, 100, 0.3)/100)
-	@
+\begin{knitrout}\tiny
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}
+
+{\centering \includegraphics[width=\maxwidth]{figure/unnamed-chunk-6-1} 
+
+}
+
+
+\end{knitrout}
 \end{frame}
 
 
 \begin{frame}[fragile]{Normal approximation to binomial is the CLT in action}
-	<<>>=
-	par(mfrow=c(2,2))
-	hist(rbinom(1000, 5, 0.3))
-	hist(rbinom(1000, 10, 0.3))
-	hist(rbinom(1000, 20, 0.3))
-	hist(rbinom(1000, 100, 0.3))
-	@
+\begin{knitrout}\tiny
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}
+
+{\centering \includegraphics[width=\maxwidth]{figure/unnamed-chunk-7-1} 
+
+}
+
+
+\end{knitrout}
 \end{frame}
 
 \begin{frame}{Example 1 from AAO Unit 21}
@@ -605,17 +599,45 @@ Study&   &  is eligible \& willing to participate in long-term\\
 
 \begin{frame}[fragile]{Example 1 from AAO Unit 21 - Exact Method}
 	
-	<<echo = TRUE, eval = TRUE, fig.asp = 0.618>>=
-	mosaic::xpbinom(q = c(165, 180), size = 200, prob = 0.85)
-	@
+\begin{knitrout}\tiny
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlstd{mosaic}\hlopt{::}\hlkwd{xpbinom}\hlstd{(}\hlkwc{q} \hlstd{=} \hlkwd{c}\hlstd{(}\hlnum{165}\hlstd{,} \hlnum{180}\hlstd{),} \hlkwc{size} \hlstd{=} \hlnum{200}\hlstd{,} \hlkwc{prob} \hlstd{=} \hlnum{0.85}\hlstd{)}
+\end{alltt}
+\end{kframe}
+
+{\centering \includegraphics[width=\maxwidth]{figure/unnamed-chunk-8-1} 
+
+}
+
+
+\begin{kframe}\begin{verbatim}
+## [1] 0.1850410 0.9851197
+\end{verbatim}
+\end{kframe}
+\end{knitrout}
 \end{frame}
 
 \begin{frame}[fragile]{Example from AAO Unit 21- Normal Approximation}
 	
-	<<echo = TRUE, eval = TRUE, fig.asp = 0.618>>=
-	mosaic::xpnorm(q = c(165,180), mean = 200 * 0.85, 
-	sd = sqrt(200*0.85*0.15))
-	@
+\begin{knitrout}\tiny
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlstd{mosaic}\hlopt{::}\hlkwd{xpnorm}\hlstd{(}\hlkwc{q} \hlstd{=} \hlkwd{c}\hlstd{(}\hlnum{165}\hlstd{,}\hlnum{180}\hlstd{),} \hlkwc{mean} \hlstd{=} \hlnum{200} \hlopt{*} \hlnum{0.85}\hlstd{,}
+\hlkwc{sd} \hlstd{=} \hlkwd{sqrt}\hlstd{(}\hlnum{200}\hlopt{*}\hlnum{0.85}\hlopt{*}\hlnum{0.15}\hlstd{))}
+\end{alltt}
+\end{kframe}
+
+{\centering \includegraphics[width=\maxwidth]{figure/unnamed-chunk-9-1} 
+
+}
+
+
+\begin{kframe}\begin{verbatim}
+## [1] 0.1610510 0.9761648
+\end{verbatim}
+\end{kframe}
+\end{knitrout}
 \end{frame}
 
 
@@ -639,10 +661,22 @@ Study&   &  is eligible \& willing to participate in long-term\\
 	$$
 	
 	
-	<<echo = TRUE, eval = TRUE>>=
-	stats::dbinom(x = 0, size = 5, prob = 0.066)
-	(1-0.066)^5
-	@
+\begin{knitrout}\tiny
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlstd{stats}\hlopt{::}\hlkwd{dbinom}\hlstd{(}\hlkwc{x} \hlstd{=} \hlnum{0}\hlstd{,} \hlkwc{size} \hlstd{=} \hlnum{5}\hlstd{,} \hlkwc{prob} \hlstd{=} \hlnum{0.066}\hlstd{)}
+\end{alltt}
+\begin{verbatim}
+## [1] 0.7107787
+\end{verbatim}
+\begin{alltt}
+\hlstd{(}\hlnum{1}\hlopt{-}\hlnum{0.066}\hlstd{)}\hlopt{^}\hlnum{5}
+\end{alltt}
+\begin{verbatim}
+## [1] 0.7107787
+\end{verbatim}
+\end{kframe}
+\end{knitrout}
 	
 \end{frame}
 
@@ -655,9 +689,16 @@ Study&   &  is eligible \& willing to participate in long-term\\
 	$$
 	
 	
-	<<echo = TRUE, eval = TRUE>>=
-	stats::dbinom(x = 1, size = 5, prob = 0.066)
-	@
+\begin{knitrout}\tiny
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlstd{stats}\hlopt{::}\hlkwd{dbinom}\hlstd{(}\hlkwc{x} \hlstd{=} \hlnum{1}\hlstd{,} \hlkwc{size} \hlstd{=} \hlnum{5}\hlstd{,} \hlkwc{prob} \hlstd{=} \hlnum{0.066}\hlstd{)}
+\end{alltt}
+\begin{verbatim}
+## [1] 0.2511316
+\end{verbatim}
+\end{kframe}
+\end{knitrout}
 	
 \end{frame}
 
@@ -671,12 +712,36 @@ Study&   &  is eligible \& willing to participate in long-term\\
 	\end{align*}
 	
 	
-	<<echo = TRUE, eval = TRUE, fig.asp = 0.218>>=
-	stats::dbinom(x = 0, size = 5, prob = 0.066) + 
-	stats::dbinom(x = 1, size = 5, prob = 0.066)
-	stats::pbinom(q = 1, size = 5, prob = 0.066)
-	mosaic::xpbinom(q = 1, size = 5, prob = 0.066)
-	@
+\begin{knitrout}\tiny
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlstd{stats}\hlopt{::}\hlkwd{dbinom}\hlstd{(}\hlkwc{x} \hlstd{=} \hlnum{0}\hlstd{,} \hlkwc{size} \hlstd{=} \hlnum{5}\hlstd{,} \hlkwc{prob} \hlstd{=} \hlnum{0.066}\hlstd{)} \hlopt{+}
+\hlstd{stats}\hlopt{::}\hlkwd{dbinom}\hlstd{(}\hlkwc{x} \hlstd{=} \hlnum{1}\hlstd{,} \hlkwc{size} \hlstd{=} \hlnum{5}\hlstd{,} \hlkwc{prob} \hlstd{=} \hlnum{0.066}\hlstd{)}
+\end{alltt}
+\begin{verbatim}
+## [1] 0.9619103
+\end{verbatim}
+\begin{alltt}
+\hlstd{stats}\hlopt{::}\hlkwd{pbinom}\hlstd{(}\hlkwc{q} \hlstd{=} \hlnum{1}\hlstd{,} \hlkwc{size} \hlstd{=} \hlnum{5}\hlstd{,} \hlkwc{prob} \hlstd{=} \hlnum{0.066}\hlstd{)}
+\end{alltt}
+\begin{verbatim}
+## [1] 0.9619103
+\end{verbatim}
+\begin{alltt}
+\hlstd{mosaic}\hlopt{::}\hlkwd{xpbinom}\hlstd{(}\hlkwc{q} \hlstd{=} \hlnum{1}\hlstd{,} \hlkwc{size} \hlstd{=} \hlnum{5}\hlstd{,} \hlkwc{prob} \hlstd{=} \hlnum{0.066}\hlstd{)}
+\end{alltt}
+\end{kframe}
+
+{\centering \includegraphics[width=\maxwidth]{figure/unnamed-chunk-12-1} 
+
+}
+
+
+\begin{kframe}\begin{verbatim}
+## [1] 0.9619103
+\end{verbatim}
+\end{kframe}
+\end{knitrout}
 	
 \end{frame}
 
@@ -691,10 +756,29 @@ Study&   &  is eligible \& willing to participate in long-term\\
 	\end{align*}
 	
 	
-	<<echo = TRUE, eval = TRUE, fig.asp = 0.318>>=
-	1 - stats::pbinom(q = 1, size = 5, prob = 0.066)
-	mosaic::xpbinom(q = 1, size = 5, prob = 0.066, lower.tail = FALSE)
-	@
+\begin{knitrout}\tiny
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlnum{1} \hlopt{-} \hlstd{stats}\hlopt{::}\hlkwd{pbinom}\hlstd{(}\hlkwc{q} \hlstd{=} \hlnum{1}\hlstd{,} \hlkwc{size} \hlstd{=} \hlnum{5}\hlstd{,} \hlkwc{prob} \hlstd{=} \hlnum{0.066}\hlstd{)}
+\end{alltt}
+\begin{verbatim}
+## [1] 0.03808969
+\end{verbatim}
+\begin{alltt}
+\hlstd{mosaic}\hlopt{::}\hlkwd{xpbinom}\hlstd{(}\hlkwc{q} \hlstd{=} \hlnum{1}\hlstd{,} \hlkwc{size} \hlstd{=} \hlnum{5}\hlstd{,} \hlkwc{prob} \hlstd{=} \hlnum{0.066}\hlstd{,} \hlkwc{lower.tail} \hlstd{=} \hlnum{FALSE}\hlstd{)}
+\end{alltt}
+\end{kframe}
+
+{\centering \includegraphics[width=\maxwidth]{figure/unnamed-chunk-13-1} 
+
+}
+
+
+\begin{kframe}\begin{verbatim}
+## [1] 0.03808969
+\end{verbatim}
+\end{kframe}
+\end{knitrout}
 	
 \end{frame}
 
@@ -818,23 +902,51 @@ CI:  interval estmate & - (credible) interval  \\
 	\small
 	NHANES found that 515 of a sample of 1921 women aged 14 to 59 years currently tested positive for HPV. Provide a 99\% confidence interval for HPV prevalence. 
 	
-	<<echo = TRUE, eval = TRUE, fig.asp = 0.308>>=
-	n <- 1921
-	number_infected <- 515
-	p <- number_infected / n
-	s <- sqrt(p * (1 - p))
-	SEP <- s / sqrt(n)
-	mosaic::xqnorm(p=c(0.005,0.995), mean = p, sd = SEP)
-	@
+\begin{knitrout}\tiny
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlstd{n} \hlkwb{<-} \hlnum{1921}
+\hlstd{number_infected} \hlkwb{<-} \hlnum{515}
+\hlstd{p} \hlkwb{<-} \hlstd{number_infected} \hlopt{/} \hlstd{n}
+\hlstd{s} \hlkwb{<-} \hlkwd{sqrt}\hlstd{(p} \hlopt{*} \hlstd{(}\hlnum{1} \hlopt{-} \hlstd{p))}
+\hlstd{SEP} \hlkwb{<-} \hlstd{s} \hlopt{/} \hlkwd{sqrt}\hlstd{(n)}
+\hlstd{mosaic}\hlopt{::}\hlkwd{xqnorm}\hlstd{(}\hlkwc{p}\hlstd{=}\hlkwd{c}\hlstd{(}\hlnum{0.005}\hlstd{,}\hlnum{0.995}\hlstd{),} \hlkwc{mean} \hlstd{= p,} \hlkwc{sd} \hlstd{= SEP)}
+\end{alltt}
+\end{kframe}
+
+{\centering \includegraphics[width=\maxwidth]{figure/unnamed-chunk-14-1} 
+
+}
+
+
+\begin{kframe}\begin{verbatim}
+## [1] 0.2420567 0.2941224
+\end{verbatim}
+\end{kframe}
+\end{knitrout}
 	
 \end{frame}
 
 
 \begin{frame}[fragile]{Example 2: Assessing the prevalence of HPV infections}
 	
-	<<echo = TRUE, eval = TRUE, fig.asp = 0.308, size = "tiny">>=
-	mosaic::binom.test(x = 515, n = 1921, ci.method=c("wald"), conf.level=0.99)
-	@
+\begin{knitrout}\tiny
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlstd{mosaic}\hlopt{::}\hlkwd{binom.test}\hlstd{(}\hlkwc{x} \hlstd{=} \hlnum{515}\hlstd{,} \hlkwc{n} \hlstd{=} \hlnum{1921}\hlstd{,} \hlkwc{ci.method}\hlstd{=}\hlkwd{c}\hlstd{(}\hlstr{"wald"}\hlstd{),} \hlkwc{conf.level}\hlstd{=}\hlnum{0.99}\hlstd{)}
+\end{alltt}
+\begin{verbatim}
+## Exact binomial test (Wald CI) with 515 out of 1921 
+## number of successes = 515, number of trials = 1921, p-value < 2.2e-16
+## alternative hypothesis: true probability of success is not equal to 0.5 
+## 99 percent confidence interval:
+##  0.2420567 0.2941224 
+## sample estimates:
+## probability of success 
+##              0.2680895
+\end{verbatim}
+\end{kframe}
+\end{knitrout}
 	Note: HPV positive $\ne$ `success' !!
 \end{frame}
 
@@ -844,9 +956,23 @@ CI:  interval estmate & - (credible) interval  \\
 	
 	Suppose our observed proportion of `water' locations was $p = 4/5,$ or 80\%.
 	
-	<<echo = TRUE, eval = TRUE, fig.asp = 0.308, size = "tiny">>=
-	mosaic::binom.test(x = 4, n = 5, ci.method=c("wald"), conf.level=0.95)
-	@
+\begin{knitrout}\tiny
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlstd{mosaic}\hlopt{::}\hlkwd{binom.test}\hlstd{(}\hlkwc{x} \hlstd{=} \hlnum{4}\hlstd{,} \hlkwc{n} \hlstd{=} \hlnum{5}\hlstd{,} \hlkwc{ci.method}\hlstd{=}\hlkwd{c}\hlstd{(}\hlstr{"wald"}\hlstd{),} \hlkwc{conf.level}\hlstd{=}\hlnum{0.95}\hlstd{)}
+\end{alltt}
+\begin{verbatim}
+## Exact binomial test (Wald CI) with 4 out of 5 
+## number of successes = 4, number of trials = 5, p-value = 0.375
+## alternative hypothesis: true probability of success is not equal to 0.5 
+## 95 percent confidence interval:
+##  0.449391 1.150609 
+## sample estimates:
+## probability of success 
+##                    0.8
+\end{verbatim}
+\end{kframe}
+\end{knitrout}
 	
 	\pause 
 	
@@ -858,14 +984,46 @@ CI:  interval estmate & - (credible) interval  \\
 
 \begin{frame}[fragile]{Example 2: Proportion of Earth Covered by Water}
 	
-	<<echo = TRUE, eval = TRUE, fig.asp = 0.308>>=
-	stats::qnorm(p=c(0.025,0.975), mean = 0, sd = sqrt(0 * 1 / 5))
-	stats::qnorm(p=c(0.025,0.975), mean = 0.2, sd = sqrt(0.2 * 0.8 / 5))
-	stats::qnorm(p=c(0.025,0.975), mean = 0.4, sd = sqrt(0.4 * 0.6 / 5))
-	stats::qnorm(p=c(0.025,0.975), mean = 0.6, sd = sqrt(0.6 * 0.4 / 5))
-	stats::qnorm(p=c(0.025,0.975), mean = 0.8, sd = sqrt(0.8 * 0.2 / 5))
-	stats::qnorm(p=c(0.025,0.975), mean = 1, sd = sqrt(1 * 0 / 5))
-	@
+\begin{knitrout}\tiny
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlstd{stats}\hlopt{::}\hlkwd{qnorm}\hlstd{(}\hlkwc{p}\hlstd{=}\hlkwd{c}\hlstd{(}\hlnum{0.025}\hlstd{,}\hlnum{0.975}\hlstd{),} \hlkwc{mean} \hlstd{=} \hlnum{0}\hlstd{,} \hlkwc{sd} \hlstd{=} \hlkwd{sqrt}\hlstd{(}\hlnum{0} \hlopt{*} \hlnum{1} \hlopt{/} \hlnum{5}\hlstd{))}
+\end{alltt}
+\begin{verbatim}
+## [1] 0 0
+\end{verbatim}
+\begin{alltt}
+\hlstd{stats}\hlopt{::}\hlkwd{qnorm}\hlstd{(}\hlkwc{p}\hlstd{=}\hlkwd{c}\hlstd{(}\hlnum{0.025}\hlstd{,}\hlnum{0.975}\hlstd{),} \hlkwc{mean} \hlstd{=} \hlnum{0.2}\hlstd{,} \hlkwc{sd} \hlstd{=} \hlkwd{sqrt}\hlstd{(}\hlnum{0.2} \hlopt{*} \hlnum{0.8} \hlopt{/} \hlnum{5}\hlstd{))}
+\end{alltt}
+\begin{verbatim}
+## [1] -0.150609  0.550609
+\end{verbatim}
+\begin{alltt}
+\hlstd{stats}\hlopt{::}\hlkwd{qnorm}\hlstd{(}\hlkwc{p}\hlstd{=}\hlkwd{c}\hlstd{(}\hlnum{0.025}\hlstd{,}\hlnum{0.975}\hlstd{),} \hlkwc{mean} \hlstd{=} \hlnum{0.4}\hlstd{,} \hlkwc{sd} \hlstd{=} \hlkwd{sqrt}\hlstd{(}\hlnum{0.4} \hlopt{*} \hlnum{0.6} \hlopt{/} \hlnum{5}\hlstd{))}
+\end{alltt}
+\begin{verbatim}
+## [1] -0.02940659  0.82940659
+\end{verbatim}
+\begin{alltt}
+\hlstd{stats}\hlopt{::}\hlkwd{qnorm}\hlstd{(}\hlkwc{p}\hlstd{=}\hlkwd{c}\hlstd{(}\hlnum{0.025}\hlstd{,}\hlnum{0.975}\hlstd{),} \hlkwc{mean} \hlstd{=} \hlnum{0.6}\hlstd{,} \hlkwc{sd} \hlstd{=} \hlkwd{sqrt}\hlstd{(}\hlnum{0.6} \hlopt{*} \hlnum{0.4} \hlopt{/} \hlnum{5}\hlstd{))}
+\end{alltt}
+\begin{verbatim}
+## [1] 0.1705934 1.0294066
+\end{verbatim}
+\begin{alltt}
+\hlstd{stats}\hlopt{::}\hlkwd{qnorm}\hlstd{(}\hlkwc{p}\hlstd{=}\hlkwd{c}\hlstd{(}\hlnum{0.025}\hlstd{,}\hlnum{0.975}\hlstd{),} \hlkwc{mean} \hlstd{=} \hlnum{0.8}\hlstd{,} \hlkwc{sd} \hlstd{=} \hlkwd{sqrt}\hlstd{(}\hlnum{0.8} \hlopt{*} \hlnum{0.2} \hlopt{/} \hlnum{5}\hlstd{))}
+\end{alltt}
+\begin{verbatim}
+## [1] 0.449391 1.150609
+\end{verbatim}
+\begin{alltt}
+\hlstd{stats}\hlopt{::}\hlkwd{qnorm}\hlstd{(}\hlkwc{p}\hlstd{=}\hlkwd{c}\hlstd{(}\hlnum{0.025}\hlstd{,}\hlnum{0.975}\hlstd{),} \hlkwc{mean} \hlstd{=} \hlnum{1}\hlstd{,} \hlkwc{sd} \hlstd{=} \hlkwd{sqrt}\hlstd{(}\hlnum{1} \hlopt{*} \hlnum{0} \hlopt{/} \hlnum{5}\hlstd{))}
+\end{alltt}
+\begin{verbatim}
+## [1] 1 1
+\end{verbatim}
+\end{kframe}
+\end{knitrout}
 	
 	
 \end{frame}
@@ -919,51 +1077,51 @@ CI:  interval estmate & - (credible) interval  \\
 
 
 \begin{frame}
-	<<wilson, echo = FALSE, eval = TRUE, fig.asp=.75, cache=FALSE>>=
-	source("wilsonCI.R")
-	@
+\begin{knitrout}\tiny
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}
+
+{\centering \includegraphics[width=\maxwidth]{figure/wilson-1} 
+
+}
+
+
+\end{knitrout}
 \end{frame}
 
 
-\begin{frame}[fragile]{Clopper-Pearson 95\% CI when $p = 4/5$}
-	<<echo=TRUE, eval=FALSE>>=
-	# upper limit --> lower tail needs 2.5%
-	manipulate::manipulate(
-	mosaic::xpbinom(4, size = 5, prob = proba),
-	proba = manipulate::slider(0.001, 0.999, step = 0.001))
-	
-	# lower limit --> upper tail needs 2.5%
-	# when lower.tail=FALSE, pbinom doesnt include k, i.e., P(Y > k)
-	manipulate::manipulate(
-	mosaic::xpbinom(3, size = 5, prob = proba, lower.tail = FALSE),
-	proba = manipulate::slider(0.001, 0.999, step = 0.001))
-	@
-	
-	\blue{Question:} Should the interval be different when $p=16/20=0.8 = 4/5$?
-\end{frame}
-
-
-\begin{frame}[fragile]{Clopper-Pearson 95\% CI when $p = 16/20$}
-	<<echo=TRUE, eval=FALSE>>=
-	# upper limit --> lower tail needs 2.5%
-	manipulate::manipulate(
-	mosaic::xpbinom(16, size = 20, prob = proba),
-	proba = manipulate::slider(0.001, 0.999, step = 0.001))
-	
-	
-	# lower limit --> upper tail needs 2.5%
-	manipulate::manipulate(
-	mosaic::xpbinom(15, size = 20, prob = proba, lower.tail = FALSE),
-	proba = manipulate::slider(0.001, 0.999, step = 0.001))
-	@
-\end{frame}
 
 
 \begin{frame}[fragile]{Clopper-Pearson 95\% CI in R}
-	<<echo=TRUE>>=
-	mosaic::binom.test(x=4, n=5, ci.method=c("Clopper-Pearson"))
-	mosaic::binom.test(x=16, n=20, ci.method=c("Clopper-Pearson"))
-	@
+\begin{knitrout}\tiny
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlstd{mosaic}\hlopt{::}\hlkwd{binom.test}\hlstd{(}\hlkwc{x}\hlstd{=}\hlnum{4}\hlstd{,} \hlkwc{n}\hlstd{=}\hlnum{5}\hlstd{,} \hlkwc{ci.method}\hlstd{=}\hlkwd{c}\hlstd{(}\hlstr{"Clopper-Pearson"}\hlstd{))}
+\end{alltt}
+\begin{verbatim}
+##  with 4 out of 5 
+## number of successes = 4, number of trials = 5, p-value = 0.375
+## alternative hypothesis: true probability of success is not equal to 0.5 
+## 95 percent confidence interval:
+##  0.2835821 0.9949492 
+## sample estimates:
+## probability of success 
+##                    0.8
+\end{verbatim}
+\begin{alltt}
+\hlstd{mosaic}\hlopt{::}\hlkwd{binom.test}\hlstd{(}\hlkwc{x}\hlstd{=}\hlnum{16}\hlstd{,} \hlkwc{n}\hlstd{=}\hlnum{20}\hlstd{,} \hlkwc{ci.method}\hlstd{=}\hlkwd{c}\hlstd{(}\hlstr{"Clopper-Pearson"}\hlstd{))}
+\end{alltt}
+\begin{verbatim}
+##  with 16 out of 20 
+## number of successes = 16, number of trials = 20, p-value = 0.01182
+## alternative hypothesis: true probability of success is not equal to 0.5 
+## 95 percent confidence interval:
+##  0.563386 0.942666 
+## sample estimates:
+## probability of success 
+##                    0.8
+\end{verbatim}
+\end{kframe}
+\end{knitrout}
 \end{frame}
 
 
@@ -1084,18 +1242,46 @@ CI:  interval estmate & - (credible) interval  \\
 
 \begin{frame}[fragile]{4. 95\% CI for $\pi$ using logistic regression}
 	
-	<<echo=TRUE, eval=TRUE>>=
-	fit <- glm(cbind(16,4) ~ 1, family=binomial)
-	@
+\begin{knitrout}\tiny
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlstd{fit} \hlkwb{<-} \hlkwd{glm}\hlstd{(}\hlkwd{cbind}\hlstd{(}\hlnum{16}\hlstd{,}\hlnum{4}\hlstd{)} \hlopt{~} \hlnum{1}\hlstd{,} \hlkwc{family}\hlstd{=binomial)}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
 	
-	<<results='asis', echo = FALSE>>=
-	xtable::xtable(fit)
-	@
+% latex table generated in R 4.1.1 by xtable 1.8-4 package
+% Tue Oct 26 01:25:31 2021
+\begin{table}[ht]
+\centering
+\begin{tabular}{rrrrr}
+  \hline
+ & Estimate & Std. Error & z value & Pr($>$$|$z$|$) \\ 
+  \hline
+(Intercept) & 1.3863 & 0.5590 & 2.48 & 0.0131 \\ 
+   \hline
+\end{tabular}
+\end{table}
+
 	
-	<<echo=TRUE, eval=TRUE>>=
-	plogis(fit$coef[1])
-	round(plogis(confint(fit)),2)
-	@
+\begin{knitrout}\tiny
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlkwd{plogis}\hlstd{(fit}\hlopt{$}\hlstd{coef[}\hlnum{1}\hlstd{])}
+\end{alltt}
+\begin{verbatim}
+## (Intercept) 
+##         0.8
+\end{verbatim}
+\begin{alltt}
+\hlkwd{round}\hlstd{(}\hlkwd{plogis}\hlstd{(}\hlkwd{confint}\hlstd{(fit)),}\hlnum{2}\hlstd{)}
+\end{alltt}
+\begin{verbatim}
+##  2.5 % 97.5 % 
+##   0.59   0.93
+\end{verbatim}
+\end{kframe}
+\end{knitrout}
 	
 \end{frame}
 
@@ -1104,9 +1290,54 @@ CI:  interval estmate & - (credible) interval  \\
 \begin{frame}[fragile]{Session Info}
 	\tiny
 	
-	<<echo=FALSE, comment = NA, size = 'tiny'>>=
-	print(sessionInfo(), locale = FALSE)
-	@
+\begin{knitrout}\tiny
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{verbatim}
+R version 4.1.1 (2021-08-10)
+Platform: x86_64-pc-linux-gnu (64-bit)
+Running under: Pop!_OS 21.04
+
+Matrix products: default
+BLAS:   /usr/lib/x86_64-linux-gnu/openblas-pthread/libblas.so.3
+LAPACK: /usr/lib/x86_64-linux-gnu/openblas-pthread/libopenblasp-r0.3.13.so
+
+attached base packages:
+[1] tools     stats     graphics  grDevices utils     datasets  methods  
+[8] base     
+
+other attached packages:
+ [1] DT_0.16           mosaic_1.7.0      Matrix_1.3-2      mosaicData_0.20.1
+ [5] ggformula_0.9.4   ggstance_0.3.4    lattice_0.20-41   kableExtra_1.2.1 
+ [9] socviz_1.2        gapminder_0.3.0   here_0.1          NCStats_0.4.7    
+[13] FSA_0.8.30        forcats_0.5.1     stringr_1.4.0     dplyr_1.0.7      
+[17] purrr_0.3.4       readr_1.4.0       tidyr_1.1.4       tibble_3.1.5     
+[21] ggplot2_3.3.5     tidyverse_1.3.0   knitr_1.36       
+
+loaded via a namespace (and not attached):
+ [1] fs_1.5.0           lubridate_1.7.9    webshot_0.5.2      httr_1.4.2        
+ [5] rprojroot_2.0.2    backports_1.2.1    utf8_1.2.2         R6_2.5.1          
+ [9] DBI_1.1.1          colorspace_2.0-2   withr_2.4.2        tidyselect_1.1.1  
+[13] gridExtra_2.3      leaflet_2.0.3      curl_4.3.2         compiler_4.1.1    
+[17] cli_3.0.1          rvest_1.0.0        pacman_0.5.1       xml2_1.3.2        
+[21] ggdendro_0.1.22    labeling_0.4.2     mosaicCore_0.8.0   scales_1.1.1      
+[25] digest_0.6.28      foreign_0.8-81     rmarkdown_2.11.3   rio_0.5.16        
+[29] pkgconfig_2.0.3    htmltools_0.5.2    highr_0.9          dbplyr_1.4.4      
+[33] fastmap_1.1.0      htmlwidgets_1.5.3  rlang_0.4.12       readxl_1.3.1      
+[37] rstudioapi_0.13    farver_2.1.0       generics_0.1.0     jsonlite_1.7.2    
+[41] crosstalk_1.1.1    zip_2.2.0          car_3.0-9          magrittr_2.0.1    
+[45] Rcpp_1.0.7         munsell_0.5.0      fansi_0.5.0        abind_1.4-5       
+[49] lifecycle_1.0.1    stringi_1.7.5      carData_3.0-4      MASS_7.3-53.1     
+[53] plyr_1.8.6         grid_4.1.1         blob_1.2.1         ggrepel_0.8.2     
+[57] crayon_1.4.1       cowplot_1.1.0      haven_2.3.1        splines_4.1.1     
+[61] hms_1.1.1          pillar_1.6.4       reprex_0.3.0       glue_1.4.2        
+[65] evaluate_0.14      data.table_1.14.2  modelr_0.1.8       vctrs_0.3.8       
+[69] tweenr_1.0.1       cellranger_1.1.0   gtable_0.3.0       polyclip_1.10-0   
+[73] assertthat_0.2.1   TeachingDemos_2.12 xfun_0.26          ggforce_0.3.2     
+[77] openxlsx_4.1.5     xtable_1.8-4       broom_0.7.9        viridisLite_0.4.0 
+[81] ellipsis_0.3.2    
+\end{verbatim}
+\end{kframe}
+\end{knitrout}
 	
 \end{frame}
 
