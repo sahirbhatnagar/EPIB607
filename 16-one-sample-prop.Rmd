@@ -1,0 +1,15 @@
+# Inference for a single proportion {#inference-one-proportion}
+
+
+## The Sampling Distribution Model for a Proportion
+
+From any one sample, the best guess of the true proportion is the proportion in the sample. But since each random sample is different, our challenge—and the challenge faced by anyone who has only a sample—is not only to guess the true proportion in the entire population, but also to guess how good that guess is. Quantifying the uncertainty in our guesses is the core of statistical thinking.
+
+You've already seen how variable statistics can be from the simulation exercises of previous chapters. You can use that variation to judge how close your guess is to the true answer. Think of it like this: Imagine throwing a dart at the bull's-eye of a dartboard after putting a plain sheet of paper in front of the target to record where the dart hits. Now, take the paper off, show it to a friend, and ask her to guess the location of the bull’s-eye. Her best guess has to be where the dart hit.
+
+But that’s not likely to be exactly right. Instead, let her draw a circle that she thinks will contain the bull’s-eye. How large a circle should she draw? She has no idea how close your throw was to the bull’s-eye, so she’ll find it hard to judge the right size for her circle.
+
+What if you’d thrown several darts? She’d probably guess that the bull’s-eye is in the middle of the cluster of holes, and by looking at your consistency (or lack of), she now has a much better idea of how big a circle to draw.
+
+It is unusual to have an entire population to work with. Usually, we draw a sample at random. But, as we have seen in previous chapters, samples vary from one to the next. We called the distribution of values found for a statistic across many random samples the sampling distribution of that statistic. Now we can make a more formal definition. Suppose we could examine all possible samples of size 100 from the population of 4,000,000. The distribution of those proportions from all possible samples would be the sampling distribution of the proportion. Unfortunately, the number of all possible samples of size 100 drawn from a population of 3,945,192 is about $4x10^501$, a number so big we can’t even imagine it. But we’ve seen in previous chapters that we only need to generate a few thousand random samples from a population to get an approximation of the sampling distribution of a statistic.
+

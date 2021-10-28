@@ -12,13 +12,13 @@ Week,Date,Topic,Readings,Slides,Lab,Assignment
  ,Oct 07,One sample mean,"[Section 13](https://sahirbhatnagar.com/EPIB607/inference-one-mean.html), [AAO Unit 26](https://www.learner.org/series/against-all-odds-inside-statistics/small-sample-inference-for-one-mean/)",[015](https://github.com/sahirbhatnagar/EPIB607/blob/master/inst/slides/015-one-sample-mean/015-one-sample-mean_handout.pdf),005-one-sample-mean,
 7,Oct 12,READING BREAK – NO LECTURE,,,,
  ,Oct 14,MONDAY SCHEDULE – NO LECTURE,,,,
-,Oct 15,p-values and power (make-up lecture for Tuesday),[AAO Unit 25](https://www.learner.org/series/against-all-odds-inside-statistics/tests-of-significance/),[016](https://github.com/sahirbhatnagar/EPIB607/blob/master/inst/slides/016-pvalues/016-pvalues_handout.pdf),006-power,A4 due Oct 15
+,Oct 15,p-values (make-up lecture for Tuesday),[AAO Unit 25](https://www.learner.org/series/against-all-odds-inside-statistics/tests-of-significance/),[016](https://github.com/sahirbhatnagar/EPIB607/blob/master/inst/slides/016-pvalues/016-pvalues_handout.pdf),,A4 due Oct 15
 8,Oct 19,Midterm review,,,,A5 due Oct 18
  ,Oct 21,Midterm,,,,
-9,Oct 26,One sample proportion,"[Section 14](https://sahirbhatnagar.com/EPIB607/ChapBinom.html), [AAO Unit 21](https://www.learner.org/series/against-all-odds-inside-statistics/binomial-distributions/), [AAO Unit 28](https://www.learner.org/series/against-all-odds-inside-statistics/inference-for-proportions/)","[017](https://github.com/sahirbhatnagar/EPIB607/blob/master/inst/slides/017-power/017-power_handout.pdf), [019](https://github.com/sahirbhatnagar/EPIB607/blob/master/inst/slides/019-one-sample-prop/019-one-sample-prop_handout.pdf)",007-one-sample-prop,
- ,Oct 28,One sample rate,[AAO Unit 30](https://www.learner.org/series/against-all-odds-inside-statistics/inference-for-regression/),,008-one-sample-rate,
-10,Nov 02,Linear regression 1,[AAO Unit 27](https://www.learner.org/series/against-all-odds-inside-statistics/comparing-two-means/),,,A6 due Nov 1
- ,Nov 04,Linear regression 2,,,,
+9,Oct 26,Power,,[017](https://github.com/sahirbhatnagar/EPIB607/blob/master/inst/slides/017-power/017-power_handout.pdf),006-power,
+ ,Oct 28,One sample proportion,"[Section 14](https://sahirbhatnagar.com/EPIB607/ChapBinom.html), [AAO Unit 21](https://www.learner.org/series/against-all-odds-inside-statistics/binomial-distributions/), [AAO Unit 28](https://www.learner.org/series/against-all-odds-inside-statistics/inference-for-proportions/)",[019](https://github.com/sahirbhatnagar/EPIB607/blob/master/inst/slides/019-one-sample-prop/019-one-sample-prop_handout.pdf),007-one-sample-prop,
+10,Nov 02,One sample rate,[AAO Unit 30](https://www.learner.org/series/against-all-odds-inside-statistics/inference-for-regression/),,008-one-sample-rate,A6 due Nov 4
+ ,Nov 04,Linear regression,[AAO Unit 27](https://www.learner.org/series/against-all-odds-inside-statistics/comparing-two-means/),,,
 11,Nov 09,Poisson regression 1,,,,
  ,Nov 11,Poisson regression 2,,,,
 12,Nov 16,Logistic regression 1,,,,A7 due Nov 15
