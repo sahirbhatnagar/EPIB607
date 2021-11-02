@@ -1,0 +1,699 @@
+\documentclass[letterpaper,12pt,twoside,]{pinp}
+
+%% Some pieces required from the pandoc template
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+
+% Use the lineno option to display guide line numbers if required.
+% Note that the use of elements such as single-column equations
+% may affect the guide line number alignment.
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+
+% pinp change: the geometry package layout settings need to be set here, not in pinp.cls
+\geometry{layoutsize={0.95588\paperwidth,0.98864\paperheight},%
+  layouthoffset=0.02206\paperwidth, layoutvoffset=0.00568\paperheight}
+
+\definecolor{pinpblue}{HTML}{185FAF}  % imagecolorpicker on blue for new R logo
+\definecolor{pnasbluetext}{RGB}{101,0,0} %
+
+
+
+\title{Lab 007 - Logistic Regression Solutions}
+
+\author[a]{EPIB607 - Inferential Statistics}
+
+  \affil[a]{Fall 2020, McGill University}
+
+\setcounter{secnumdepth}{5}
+
+% Please give the surname of the lead author for the running footer
+\leadauthor{Bhatnagar}
+
+% Keywords are not mandatory, but authors are strongly encouraged to provide them. If provided, please include two to five keywords, separated by the pipe symbol, e.g:
+ 
+
+\begin{abstract}
+
+\end{abstract}
+
+\dates{This version was compiled on \today} 
+
+% initially we use doi so keep for backwards compatibility
+% new name is doi_footer
+
+
+\begin{document}
+
+% Optional adjustment to line up main text (after abstract) of first page with line numbers, when using both lineno and twocolumn options.
+% You should only change this length when you've finalised the article contents.
+\verticaladjustment{-2pt}
+
+\maketitle
+\thispagestyle{firststyle}
+\ifthenelse{\boolean{shortarticle}}{\ifthenelse{\boolean{singlecolumn}}{\abscontentformatted}{\abscontent}}{}
+
+% If your first paragraph (i.e. with the \dropcap) contains a list environment (quote, quotation, theorem, definition, enumerate, itemize...), the line after the list may have some extra indentation. If this is the case, add \parshape=0 to the end of the list environment.
+
+
+\hypertarget{introduction}{%
+\section{Introduction}\label{introduction}}
+
+\emph{Odds and probabilities}
+
+If the probability of an event \(A\) is \(p\), the odds of the event are
+\[\dfrac{p}{1 - p}. \]
+
+Given the odds of an event \(A\), the probability of the event is
+\[\dfrac{\text{odds}}{1 + \text{odds}}. \]
+
+\emph{Simple logistic regression}
+
+Suppose that \(Y\) is a binary response variable and \(X\) is a
+predictor variable, where \(Y = 1\) represents the particular outcome of
+interest.
+
+The model for a single variable logistic regression, where
+\(p(x) = P(Y = 1 | X = x)\), is
+\[\text{log} \left[ \dfrac{p(x)}{1 - p(x)} \right] = \beta_0 + \beta_1 x. \]
+
+The estimated model equation has the form
+\[\text{log} \left[ \dfrac{\hat{p}(x)}{1 - \hat{p}(x)} \right] = b_0 + b_1 x, \]
+where \(b_0\) and \(b_1\) are estimates of the model parameters
+\(\beta_0\) and \(\beta_1\).
+
+\newpage
+
+\hypertarget{background-information}{%
+\section{Background Information}\label{background-information}}
+
+Patients admitted to an intensive care unit (ICU) are either extremely
+ill or considered to be at great risk of serious complications. There
+are no widely accepted criteria for distinguishing between patients who
+should be admitted to an ICU and those for whom admission to other
+hospital units would be more appropriate. Thus, among different ICUs,
+there are wide ranges in a patient's chance of survival. When studies
+are done to compare effectiveness of ICU care, it is critical to have a
+reliable means of assessing the comparability of the different patient
+populations.
+
+One such strategy for doing so involves the use of statistical modeling
+to relate empirical data for many patient variables to outcomes of
+interest. The following dataset consists of a sample of 200 subjects who
+were part of a much larger study on survival of patients following
+admission to an adult
+ICU.\footnote{From Hosmer D.W., Lemeshow, S., and Sturdivant, R.X. \textit{Applied Logistic Regression}. 3$^{rd}$ ed., 2013.}
+The major goal of the study was to develop a logistic regression model
+to predict the probability of survival to hospital
+discharge.\footnote{Lemeshow S., et al. Predicting the outcome of intensive care unit patients. \textit{Journal of the American Statistical Association} 83.402 (1988): 348-356.}
+
+The following table provides a list of the variables in the dataset and
+their description. The data are accessible as the \texttt{icu} dataset
+in the \texttt{aplore3} package.
+
+\begin{center}
+\begin{tabular}{r|l}
+\textbf{Variable} & \textbf{Description} \\
+\hline
+\texttt{id} & patient ID number \\
+\texttt{sta} & patient status at discharge, either \texttt{Lived} or \texttt{Died} \\
+\texttt{age} & age in years (when admitted) \\
+\texttt{gender} & gender, either \texttt{Male} or \texttt{Female} \\
+\texttt{can} & cancer part of current issue, either \texttt{No} or \texttt{Yes} \\
+\texttt{crn} & history of chronic renal failure, either \texttt{No} or \texttt{Yes}\\
+\texttt{inf} & infection probable at admission, either \texttt{No} or \texttt{Yes} \\
+\texttt{cpr} & CPR prior to admission, either \texttt{No} or \texttt{Yes} \\
+\texttt{sys} & systolic blood pressure at admission, in mm Hg \\
+\texttt{hra} & heart rate at admission, in beats per minute \\
+\texttt{pre} & previous admission to an ICU within 6 months, either \texttt{No} or \texttt{Yes} \\
+\texttt{type} & type of admission, either \texttt{Elective} or \texttt{Emergency} \\
+\texttt{fra} & long bone, multiple, neck, single area, or hip fracture, either \texttt{No} or \texttt{Yes} \\
+\texttt{po2} & $PO_2$ from initial blood gases, either \texttt{60} or \texttt{<=60}, in mm Hg\\
+\texttt{ph} & $pH$ from initial blood gases, either \texttt{>= 7.25} or \texttt{< 7.25} \\
+\texttt{pco} & $PCO_2$ from initial blood gases, either \texttt{<= 45} or \texttt{>45}, in mm Hg \\
+\texttt{bic} & $HCO_3$ (bicarbonate) from initial blood gases, either \texttt{>= 18} or \texttt{<18}, in mm Hg \\
+\texttt{cre} & creatinine from initial blood gases, either \texttt{<= 2.0} or \texttt{> 2.0}, in mg/dL \\
+\texttt{loc} & level of consciousness at admission, either \texttt{Nothing}, \texttt{Stupor}, or \texttt{Coma}
+\end{tabular}
+\end{center}
+
+\newpage
+
+\hypertarget{odds-and-probabilities}{%
+\section{Odds and probabilities}\label{odds-and-probabilities}}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\item
+  Create a two-way table of survival to discharge by whether CPR was
+  administered prior to admission. The template provides code for
+  re-leveling the \texttt{sta} variable such that \texttt{0} corresponds
+  to \texttt{Died} and \texttt{1} corresponds to \texttt{Lived}.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#install the package (only needs to be done once)}
+\FunctionTok{install.packages}\NormalTok{(}\StringTok{"aplore3"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#load the data}
+\FunctionTok{library}\NormalTok{(aplore3)}
+\FunctionTok{data}\NormalTok{(}\StringTok{"icu"}\NormalTok{)}
+
+\CommentTok{\#relevel survival so that 1 corresponds to surviving to discharge}
+\NormalTok{icu}\SpecialCharTok{$}\NormalTok{sta }\OtherTok{=} \FunctionTok{factor}\NormalTok{(icu}\SpecialCharTok{$}\NormalTok{sta, }\AttributeTok{levels =} \FunctionTok{rev}\NormalTok{(}\FunctionTok{levels}\NormalTok{(icu}\SpecialCharTok{$}\NormalTok{sta)))}
+
+\CommentTok{\#create two{-}way table}
+\FunctionTok{addmargins}\NormalTok{(}\FunctionTok{table}\NormalTok{(icu}\SpecialCharTok{$}\NormalTok{sta, icu}\SpecialCharTok{$}\NormalTok{cpr,}
+             \AttributeTok{dnn =} \FunctionTok{c}\NormalTok{(}\StringTok{"Survival"}\NormalTok{, }\StringTok{"Prior CPR"}\NormalTok{)))}
+\end{Highlighting}
+\end{Shaded}
+
+  \begin{ShadedResult}
+   \begin{verbatim}
+   #          Prior CPR
+   #  Survival  No Yes Sum
+   #     Died   33   7  40
+   #     Lived 154   6 160
+   #     Sum   187  13 200
+   \end{verbatim}
+   \end{ShadedResult}
+
+  \begin{enumerate}
+  \def\labelenumii{\alph{enumii})}
+  \item
+    Calculate the odds of survival to discharge for those who did not
+    receive CPR prior to ICU admission. Is someone who did not receive
+    CPR prior to admission more likely to survive to discharge than to
+    not survive to discharge?
+
+    \textcolor{blue}{The odds of survival to discharge for those who did not receive CPR prior to ICU admission are 4.67, which corresponds to a probability of 0.82. Someone who does not receive CPR prior to admission is more likely to survive to discharge than die before discharge. An odds greater than 1 corresponds to probability greater than 50\%.}
+  \end{enumerate}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#calculate odds}
+\NormalTok{odds }\OtherTok{=} \DecValTok{154}\SpecialCharTok{/}\DecValTok{33}
+\NormalTok{odds}
+\end{Highlighting}
+\end{Shaded}
+
+  \begin{ShadedResult}
+   \begin{verbatim}
+   #  [1] 4.666667
+   \end{verbatim}
+   \end{ShadedResult}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#convert to probability}
+\NormalTok{p }\OtherTok{=}\NormalTok{ (odds)}\SpecialCharTok{/}\NormalTok{(}\DecValTok{1} \SpecialCharTok{+}\NormalTok{ odds)}
+\NormalTok{p}
+\end{Highlighting}
+\end{Shaded}
+
+  \begin{ShadedResult}
+   \begin{verbatim}
+   #  [1] 0.8235294
+   \end{verbatim}
+   \end{ShadedResult}
+
+  \begin{enumerate}
+  \def\labelenumii{\alph{enumii})}
+  \setcounter{enumii}{1}
+  \item
+    Calculate the odds of survival to discharge for those who received
+    CPR prior to ICU admission. Is someone who received CPR prior to
+    admission more likely to survive to discharge than not?
+
+    \textcolor{blue}{The odds of survival to discharge for those who receive CPR prior to ICU admission are 0.857, which corresponds to a probability of 0.46. Someone who receives CPR prior to admission is less likely to survive to discharge than survive to discharge. An odds less than 1 corresponds to probability less than 50\%.}
+  \end{enumerate}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#calculate odds}
+\NormalTok{odds }\OtherTok{=} \DecValTok{6}\SpecialCharTok{/}\DecValTok{7}
+\NormalTok{odds}
+\end{Highlighting}
+\end{Shaded}
+
+  \begin{ShadedResult}
+   \begin{verbatim}
+   #  [1] 0.8571429
+   \end{verbatim}
+   \end{ShadedResult}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#convert to probability}
+\NormalTok{p }\OtherTok{=}\NormalTok{ (odds)}\SpecialCharTok{/}\NormalTok{(}\DecValTok{1} \SpecialCharTok{+}\NormalTok{ odds)}
+\NormalTok{p}
+\end{Highlighting}
+\end{Shaded}
+
+  \begin{ShadedResult}
+   \begin{verbatim}
+   #  [1] 0.4615385
+   \end{verbatim}
+   \end{ShadedResult}
+
+  \begin{enumerate}
+  \def\labelenumii{\alph{enumii})}
+  \setcounter{enumii}{2}
+  \item
+    Calculate the odds ratio of survival to discharge, comparing
+    patients who receive CPR prior to admission to those who do not
+    receive CPR prior to admission.
+
+    \textcolor{blue}{The odds ratio of survival to discharge, comparing patients who receive CPR prior to admission to those who do not receive CPR prior to admission is $0.857/4.667 = 0.184$.}
+  \end{enumerate}
+\item
+  Creatinine level in the data are recorded as being either less than or
+  equal to 2.0 mg/dL or greater than 2.0 mg/dL. A typical creatinine
+  level is between 0.5 - 1.0 mg/dL, and elevated creatinine may be a
+  sign of renal failure.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#create two{-}way table}
+\FunctionTok{addmargins}\NormalTok{(}\FunctionTok{table}\NormalTok{(icu}\SpecialCharTok{$}\NormalTok{sta, icu}\SpecialCharTok{$}\NormalTok{cre,}
+       \AttributeTok{dnn =} \FunctionTok{c}\NormalTok{(}\StringTok{"Survival"}\NormalTok{, }\StringTok{"Creatinine"}\NormalTok{)))}
+\end{Highlighting}
+\end{Shaded}
+
+  \begin{ShadedResult}
+   \begin{verbatim}
+   #          Creatinine
+   #  Survival <= 2.0 > 2.0 Sum
+   #     Died      35     5  40
+   #     Lived    155     5 160
+   #     Sum      190    10 200
+   \end{verbatim}
+   \end{ShadedResult}
+
+  \begin{enumerate}
+  \def\labelenumii{\alph{enumii})}
+  \item
+    Calculate the odds of survival to discharge for patients who have a
+    creatinine level less than or equal to 2.0 mg/dL. From the odds,
+    calculate the probability of survival to discharge for these
+    patients.
+
+    \textcolor{blue}{The odds of survival to discharge for patients with creatinine level less than or equal to 2.0 mg/dL are 4.43, which corresponds to a probability of 0.82.}
+  \end{enumerate}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{odds }\OtherTok{=} \DecValTok{155}\SpecialCharTok{/}\DecValTok{35}
+\NormalTok{odds}
+\end{Highlighting}
+\end{Shaded}
+
+  \begin{ShadedResult}
+   \begin{verbatim}
+   #  [1] 4.428571
+   \end{verbatim}
+   \end{ShadedResult}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{p }\OtherTok{=}\NormalTok{ (odds)}\SpecialCharTok{/}\NormalTok{(}\DecValTok{1} \SpecialCharTok{+}\NormalTok{ odds)}
+\NormalTok{p}
+\end{Highlighting}
+\end{Shaded}
+
+  \begin{ShadedResult}
+   \begin{verbatim}
+   #  [1] 0.8157895
+   \end{verbatim}
+   \end{ShadedResult}
+
+  \begin{enumerate}
+  \def\labelenumii{\alph{enumii})}
+  \setcounter{enumii}{1}
+  \item
+    Calculate the probability of survival to discharge for patients who
+    have a creatinine level greater than 2.0 mg/dL. From the
+    probability, calculate the odds of survival to discharge for these
+    patients.
+
+    \textcolor{blue}{The probability of survival to discharge for patients who have a creatinine level greater than 2.0 mg/dL is 0.50, which corresponds to odds of 1. Survival is as equally likely as death.}
+  \end{enumerate}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{p }\OtherTok{=} \DecValTok{5}\SpecialCharTok{/}\DecValTok{10}
+\NormalTok{p}
+\end{Highlighting}
+\end{Shaded}
+
+  \begin{ShadedResult}
+   \begin{verbatim}
+   #  [1] 0.5
+   \end{verbatim}
+   \end{ShadedResult}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{odds }\OtherTok{=}\NormalTok{ p}\SpecialCharTok{/}\NormalTok{(}\DecValTok{1} \SpecialCharTok{{-}}\NormalTok{ p)}
+\NormalTok{odds}
+\end{Highlighting}
+\end{Shaded}
+
+  \begin{ShadedResult}
+   \begin{verbatim}
+   #  [1] 1
+   \end{verbatim}
+   \end{ShadedResult}
+
+  \begin{enumerate}
+  \def\labelenumii{\alph{enumii})}
+  \setcounter{enumii}{2}
+  \item
+    Compute and interpret the odds ratio of survival to discharge,
+    comparing patients with creatinine \(> 2.0\) mg/dL to those with
+    creatinine \(\leq\) 2.0 mg/dL.
+
+    \textcolor{blue}{The odds ratio of survival to discharge, comparing patients with creatinine $> 2.0$ mg/dL to those with creatinine $\leq$ 2.0 mg/dL is 4.43. The odds of survival to discharge for patients with relatively lower creatinine level are over 4 times as large as the odds of survival for patients with creatinine elevated past 2.0 mg/dL.}
+  \end{enumerate}
+\end{enumerate}
+
+\hypertarget{simple-logistic-regression}{%
+\section{Simple logistic regression}\label{simple-logistic-regression}}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{2}
+\item
+  Fit a logistic regression model to predict survival to discharge from
+  prior CPR.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#fit a model}
+\FunctionTok{glm}\NormalTok{(sta }\SpecialCharTok{\textasciitilde{}}\NormalTok{ cpr, }\AttributeTok{data =}\NormalTok{ icu, }\AttributeTok{family =} \FunctionTok{binomial}\NormalTok{(}\AttributeTok{link =} \StringTok{"logit"}\NormalTok{))}\SpecialCharTok{$}\NormalTok{coef}
+\end{Highlighting}
+\end{Shaded}
+
+  \begin{ShadedResult}
+   \begin{verbatim}
+   #  (Intercept)      cprYes 
+   #     1.540445   -1.694596
+   \end{verbatim}
+   \end{ShadedResult}
+
+  \begin{enumerate}
+  \def\labelenumii{\alph{enumii})}
+  \item
+    Write the model equation estimated from the data.
+
+    \color{blue}
+
+    \[\log\left[\frac{\hat{p}( \text{status = lived} |\text{cpr})}{1 - \hat{p}(\text{status = lived} | \text{cpr})}\right] = 1.540 -1.695(cpr_{yes})\]
+
+    \[\log (\widehat{\text{odds}}\text{ of lived | cpr}) = 1.540 -1.695(cpr_{yes}) \]
+
+    \color{black}
+  \item
+    Interpret the intercept. Confirm that the interpretation coheres
+    with the answer to Question 1, part a).
+
+    \textcolor{blue}{The intercept represents the log of the estimated odds of survival to discharge for individuals who did not receive CPR prior to ICU admission; thus, the estimated odds of survival for this group are $\exp(1.540) = 4.67$. }
+  \end{enumerate}
+
+  \newpage
+
+  \begin{enumerate}
+  \def\labelenumii{\alph{enumii})}
+  \setcounter{enumii}{2}
+  \item
+    Interpret the slope coefficient. Compute the exponential of the
+    slope coefficient and confirm that this matches the answer to
+    Question 1, part c).
+
+    \textcolor{blue}{The slope coefficient represents the change in the log of the estimated odds of survival to discharge from the no CPR group to the CPR group; $\exp(-1.695) = 0.184$, which represnts the estimated odds ratio for survival to discharge, comparing those who received CPR prior to admission to those who did not.}
+  \item
+    Compute and interpret an odds ratio that summarizes the association
+    between survival to discharge and prior CPR.
+
+    \textcolor{blue}{Either the odds ratio from part c) or its inverse $\exp(1.695) = 5.45$ are a summary of the association between survival to discharge and prior CPR. The inverse is the estimated odds ratio for survival to discharge, comparing those who did not receive CPR prior to admission to those who did; this odds ratio indicates that the odds of survival in the no CPR group are over 5 times as large as the odds of survival in the CPR group.}
+  \item
+    Is there evidence of a statistically significant association between
+    survival to discharge and prior CPR at \(\alpha = 0.05\)?
+
+    \textcolor{blue}{Yes, the $p$-value is 0.004, which is less than $\alpha = 0.05$. There is sufficient evidence to reject $H_0: \beta_1 = 0$ in favor of the alternative. There is evidence of an association between receiving CPR prior to ICU admission and lower probability of survival to discharge.}
+  \end{enumerate}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#use summary(glm())}
+\FunctionTok{summary}\NormalTok{(}\FunctionTok{glm}\NormalTok{(sta }\SpecialCharTok{\textasciitilde{}}\NormalTok{ cpr, }\AttributeTok{data =}\NormalTok{ icu, }\AttributeTok{family =} \FunctionTok{binomial}\NormalTok{(}\AttributeTok{link =} \StringTok{"logit"}\NormalTok{)))}
+\end{Highlighting}
+\end{Shaded}
+
+  \begin{ShadedResult}
+   \begin{verbatim}
+   #  
+   #  Call:
+   #  glm(formula = sta ~ cpr, family = binomial(link = "logit"), data = icu)
+   #  
+   #  Deviance Residuals: 
+   #      Min       1Q   Median       3Q      Max  
+   #  -1.8626   0.6231   0.6231   0.6231   1.2435  
+   #  
+   #  Coefficients:
+   #              Estimate Std. Error z value Pr(>|z|)    
+   #  (Intercept)   1.5404     0.1918   8.031 9.71e-16 ***
+   #  cprYes       -1.6946     0.5885  -2.880  0.00398 ** 
+   #  ---
+   #  Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+   #  
+   #  (Dispersion parameter for binomial family taken to be 1)
+   #  
+   #      Null deviance: 200.16  on 199  degrees of freedom
+   #  Residual deviance: 192.23  on 198  degrees of freedom
+   #  AIC: 196.23
+   #  
+   #  Number of Fisher Scoring iterations: 4
+   \end{verbatim}
+   \end{ShadedResult}
+\end{enumerate}
+
+\newpage
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{3}
+\item
+  Fit a logistic regression model to predict survival to discharge from
+  an indicator of elevated creatinine.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#fit the model}
+\FunctionTok{glm}\NormalTok{(sta }\SpecialCharTok{\textasciitilde{}}\NormalTok{ cre, }\AttributeTok{data =}\NormalTok{ icu, }\AttributeTok{family =} \FunctionTok{binomial}\NormalTok{(}\AttributeTok{link =} \StringTok{"logit"}\NormalTok{))}\SpecialCharTok{$}\NormalTok{coef}
+\end{Highlighting}
+\end{Shaded}
+
+  \begin{ShadedResult}
+   \begin{verbatim}
+   #  (Intercept)    cre> 2.0 
+   #     1.488077   -1.488077
+   \end{verbatim}
+   \end{ShadedResult}
+
+  \begin{enumerate}
+  \def\labelenumii{\alph{enumii})}
+  \item
+    Write the model equation estimated from the data.
+
+    \color{blue}
+
+    \[\log\left[\frac{\hat{p}( \text{status = lived} |\text{creatinine})}{1 - \hat{p}(\text{status = lived} | \text{creatinine})}\right] = 1.488 -1.488(cre_{> 2.0})\]
+
+    \[\log (\widehat{\text{odds}}\text{ of lived | creatinine}) = 1.488 - 1.488(cre_{> 2.0}) \]
+
+    \color{black}
+  \item
+    Interpret the intercept and slope coefficient.
+
+    \textcolor{blue}{The intercept is the log odds of survival to discharge for individuals with creatinine less than or equal to 2.0 mg/dL. The slope coefficient is the difference in the log odds of survival to discharge between the groups defined by creatinine; log odds are 1.488 lower in the group with creatinine higher than 2.0 mg/dL}
+  \item
+    Compute and interpret an odds ratio that summarizes the association
+    between survival to discharge and an indicator of elevated
+    creatinine.
+
+    \textcolor{blue}{The odds ratio of survival to discharge, comparing those with lower creatinine to those with higher creatinine, is $e^{1.488} = 4.43$; the odds of survival to discharge are over 4 times as large in the group with creatinine less than 2.0 mg/dL. }
+  \item
+    Is there evidence of a statistically significant association between
+    survival to discharge and an indicator of elevated creatinine at
+    \(\alpha = 0.05\)?
+
+    \textcolor{blue}{Yes, the $p$-value is 0.0024, which is less than $\alpha = 0.05$. There is sufficient evidence to reject $H_0: \beta_1 = 0$ in favor of the alternative. There is evidence of an association between creatinine level higher than 2.0 mg/dL and lower probability of survival to discharge.}
+  \end{enumerate}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#fit the model}
+\FunctionTok{summary}\NormalTok{(}\FunctionTok{glm}\NormalTok{(sta }\SpecialCharTok{\textasciitilde{}}\NormalTok{ cre, }\AttributeTok{data =}\NormalTok{ icu, }\AttributeTok{family =} \FunctionTok{binomial}\NormalTok{(}\AttributeTok{link =} \StringTok{"logit"}\NormalTok{)))}
+\end{Highlighting}
+\end{Shaded}
+
+  \begin{ShadedResult}
+   \begin{verbatim}
+   #  
+   #  Call:
+   #  glm(formula = sta ~ cre, family = binomial(link = "logit"), data = icu)
+   #  
+   #  Deviance Residuals: 
+   #      Min       1Q   Median       3Q      Max  
+   #  -1.8394   0.6381   0.6381   0.6381   1.1774  
+   #  
+   #  Coefficients:
+   #              Estimate Std. Error z value Pr(>|z|)    
+   #  (Intercept)   1.4881     0.1871   7.951 1.84e-15 ***
+   #  cre> 2.0     -1.4881     0.6596  -2.256   0.0241 *  
+   #  ---
+   #  Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+   #  
+   #  (Dispersion parameter for binomial family taken to be 1)
+   #  
+   #      Null deviance: 200.16  on 199  degrees of freedom
+   #  Residual deviance: 195.40  on 198  degrees of freedom
+   #  AIC: 199.4
+   #  
+   #  Number of Fisher Scoring iterations: 4
+   \end{verbatim}
+   \end{ShadedResult}
+\item
+  Fit a logistic regression model to predict survival to discharge from
+  age.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#fit the model}
+\FunctionTok{glm}\NormalTok{(sta }\SpecialCharTok{\textasciitilde{}}\NormalTok{ age, }\AttributeTok{data =}\NormalTok{ icu, }\AttributeTok{family =} \FunctionTok{binomial}\NormalTok{(}\AttributeTok{link =} \StringTok{"logit"}\NormalTok{))}\SpecialCharTok{$}\NormalTok{coef}
+\end{Highlighting}
+\end{Shaded}
+
+  \begin{ShadedResult}
+   \begin{verbatim}
+   #  (Intercept)         age 
+   #   3.05851323 -0.02754261
+   \end{verbatim}
+   \end{ShadedResult}
+
+  \begin{enumerate}
+  \def\labelenumii{\alph{enumii})}
+  \item
+    Write the model equation estimated from the data.
+
+    \color{blue}
+
+    \[\log\left[\frac{\hat{p}( \text{status = lived} |\text{age})}{1 - \hat{p}(\text{status = lived} | \text{age})}\right] =  3.059 - 0.028(age) \]
+
+    \[\log (\widehat{\text{odds}}\text{ of lived | age}) = 3.059 - 0.028(age) \]
+
+    \color{black}
+  \item
+    Does the intercept have a meaningful interpretation in the context
+    of the data?
+
+    \textcolor{blue}{The intercept represents the log odds of survival to discharge for an individual of age 0 years admitted to the ICU. Since the youngest age observed in the dataset is 16 years, the intercept does not represent a reliable estimate of the odds of survival to discharge for a newborn who needs intensive care.}
+  \item
+    Interpret the slope coefficient.
+
+    \textcolor{blue}{The intercept represents that an increase in age of 1 year is associated with a decrease of 0.028 in the log odds of survival to discharge.}
+  \item
+    Calculate the odds of survival to discharge for a 70-year-old
+    individual. Is a 70-year-old individual more likely to survive than
+    not?
+
+    \textcolor{blue}{The log odds of survival to discharge for a 70-year-old individual are $3.059 - 0.028(70) = 1.305$, thus the odds of survival to discharge are $e^{1.305} = 3.10$. A 70-year-old individual is more likely to survive than not, since odds greater than 1 are associated with probability greater than 0.50.}
+  \end{enumerate}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#use predict()}
+\NormalTok{icu.model.age }\OtherTok{=} \FunctionTok{glm}\NormalTok{(sta }\SpecialCharTok{\textasciitilde{}}\NormalTok{ age, }\AttributeTok{data =}\NormalTok{ icu, }\AttributeTok{family =} \FunctionTok{binomial}\NormalTok{(}\AttributeTok{link =} \StringTok{"logit"}\NormalTok{))}
+\NormalTok{log.odds }\OtherTok{=} \FunctionTok{predict}\NormalTok{(icu.model.age, }\AttributeTok{newdata =} \FunctionTok{data.frame}\NormalTok{(}\StringTok{"age"} \OtherTok{=} \DecValTok{70}\NormalTok{))}
+
+\FunctionTok{exp}\NormalTok{(log.odds)}
+\end{Highlighting}
+\end{Shaded}
+
+  \begin{ShadedResult}
+   \begin{verbatim}
+   #         1 
+   #  3.097299
+   \end{verbatim}
+   \end{ShadedResult}
+
+  \begin{enumerate}
+  \def\labelenumii{\alph{enumii})}
+  \setcounter{enumii}{4}
+  \item
+    Calculate the odds ratio of survival to discharge comparing a
+    45-year-old individual to a 70-year-old individual.
+
+    \textcolor{blue}{The odds ratio can be calculated directly from the model slope, or from calculating the odds at each age then dividing to obtain the ratio. The odds ratio of survival to discharge comparing a 45-year-old individual to a 70-year-old individual is $e^{(70-45)(0.02754)} = 1.99$; the odds of survival to discharge are almost twice as large for a 45-year-old than a 70-year-old.}
+  \end{enumerate}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#use r as a calculator}
+\NormalTok{difference.odds }\OtherTok{=}\NormalTok{ icu.model.age}\SpecialCharTok{$}\NormalTok{coef[}\DecValTok{2}\NormalTok{]}\SpecialCharTok{*}\NormalTok{(}\DecValTok{70{-}45}\NormalTok{)}
+\FunctionTok{exp}\NormalTok{(difference.odds)}
+\end{Highlighting}
+\end{Shaded}
+
+  \begin{ShadedResult}
+   \begin{verbatim}
+   #        age 
+   #  0.5022962
+   \end{verbatim}
+   \end{ShadedResult}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{exp}\NormalTok{(}\SpecialCharTok{{-}}\NormalTok{difference.odds)}
+\end{Highlighting}
+\end{Shaded}
+
+  \begin{ShadedResult}
+   \begin{verbatim}
+   #       age 
+   #  1.990857
+   \end{verbatim}
+   \end{ShadedResult}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#alternatively, use predict()}
+\NormalTok{log.odds}\FloatTok{.70} \OtherTok{=} \FunctionTok{predict}\NormalTok{(icu.model.age, }\AttributeTok{newdata =} \FunctionTok{data.frame}\NormalTok{(}\StringTok{"age"} \OtherTok{=} \DecValTok{70}\NormalTok{))}
+\NormalTok{log.odds}\FloatTok{.45} \OtherTok{=} \FunctionTok{predict}\NormalTok{(icu.model.age, }\AttributeTok{newdata =} \FunctionTok{data.frame}\NormalTok{(}\StringTok{"age"} \OtherTok{=} \DecValTok{45}\NormalTok{))}
+\FunctionTok{exp}\NormalTok{(log.odds}\FloatTok{.45}\NormalTok{)}\SpecialCharTok{/}\FunctionTok{exp}\NormalTok{(log.odds}\FloatTok{.70}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+  \begin{ShadedResult}
+   \begin{verbatim}
+   #         1 
+   #  1.990857
+   \end{verbatim}
+   \end{ShadedResult}
+\end{enumerate}
+
+%\showmatmethods
+
+
+\bibliography{pinp}
+\bibliographystyle{jss}
+
+
+
+\end{document}

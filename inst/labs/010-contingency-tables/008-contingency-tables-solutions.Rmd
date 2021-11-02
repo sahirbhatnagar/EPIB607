@@ -1,0 +1,858 @@
+---
+title: Lab 008 - Contingency Tables and Difference of two Proportions Solutions
+
+# Use letters for affiliations
+author:
+  - name: EPIB607 - Inferential Statistics
+    affiliation: a
+#  - name: Second Author
+#    affiliation: a,b
+address:
+  - code: a
+    address: Fall 2020, McGill University
+#  - code: b
+#    address: Department of Neat Tricks, Whereever State University, Someplace, MC, 67890
+
+# For footer text  TODO(fold into template, allow free form two-authors)
+lead_author_surname: Bhatnagar
+
+# Place DOI URL or CRAN Package URL here
+#doi: "https://sahirbhatnagar.com/EPIB607/"
+
+# Abstract
+#abstract: |
+#  This DALITE quiz will cover regression.
+
+# Optional: Acknowledgements
+#acknowledgements: |
+#  This template package builds upon, and extends, the work of the excellent
+#  [rticles](https://cran.r-project.org/package=rticles) package, and both packages rely on the
+#  [PNAS LaTeX](http://www.pnas.org/site/authors/latex.xhtml) macros. Both these sources are
+#  gratefully acknowledged as this work would not have been possible without them.  Our extensions
+#  are under the same respective licensing term
+#  ([GPL-3](https://www.gnu.org/licenses/gpl-3.0.en.html) and
+#  [LPPL (>= 1.3)](https://www.latex-project.org/lppl/)).
+
+# Optional: One or more keywords
+keywords:
+#  - linear regression
+#  - poisson regression
+#  - logistic regression
+
+# Paper size for the document, values of letterpaper and a4paper
+papersize: letter
+
+# Font size of the document, values of 9pt (default), 10pt, 11pt and 12pt
+fontsize: 12pt
+
+# Optional: Force one-column layout, default is two-column
+one_column: true
+
+# Optional: Enables lineno mode, but only if one_column mode is also true
+#lineno: true
+
+# Optional: Enable one-sided layout, default is two-sided
+#one_sided: true
+
+# Optional: Enable section numbering, default is unnumbered
+numbersections: true
+
+# Optional: Specify the depth of section number, default is 5
+#secnumdepth: 5
+
+# Optional: Skip inserting final break between acknowledgements, default is false
+skip_final_break: true
+
+# Optional: Bibliography 
+bibliography: pinp
+
+# Optional: Enable a 'Draft' watermark on the document
+watermark: false
+
+# Customize footer, eg by referencing the vignette
+#footer_contents: "DALITE Q5 due October , 2019 by 5pm"
+
+# Produce a pinp document
+output: pinp::pinp
+
+# Required: Vignette metadata for inclusion in a package.
+vignette: >
+  %\VignetteIndexEntry{YourPackage-vignetteentry}
+  %\VignetteKeywords{YourPackage, r, anotherkeyword}
+  %\VignettePackage{Due Sepetember 26, 2018}
+  %\VignetteEngine{knitr::rmarkdown}
+---
+
+
+# Inference for the difference of two proportions
+
+1. The use of screening mammograms for breast cancer has been controversial for decades because the overall benefit on breast cancer mortality is uncertain. A 30-year study to investigate the effectiveness of mammograms versus a standard non-mammogram breast cancer exam was conducted in Canada with 89,835 female participants.\footnote{Miller AB. 2014. \emph{Twenty five year follow-up for breast cancer incidence and mortality of the Canadian National Breast Screening Study: randomised screening trial}. \textit{BMJ} 348 (2014): g366. } Each woman was randomized to receive either annual mammograms or standard physical exams for breast cancer over a 5-year screening period. 
+
+    By the end of the 25 year follow-up period, 1,005 women died from breast cancer. The results are summarized in the following table.\footnote{During the 25 years following the screening period, each woman was screened for breast cancer according to the standard of care at her health care center. }
+    
+    \begin{table}[h]
+	\centering
+	\begin{tabular}{rrcc}
+		& \multicolumn{3}{c}{Death from breast cancer?} \\
+		\cline{2-4}
+		& \ \hspace{3mm}\ & Yes & No \\
+		\hline
+		Mammogram Group && 500 & 44,425 \\
+		Control Group && 505 & 44,405 \\
+		\hline
+	\end{tabular}
+\end{table}
+
+    a) Calculate $\hat{p}_1$ and $\hat{p}_2$, the two sample proportions of interest. 
+  
+        \textcolor{blue}{The two sample proportions of interest are the proportion of breast cancer deaths in the mammogram group and the proportion of breast cancer deaths in the control group: $\hat{p}_M = 500/(500 + 44425) = 0.0111$, $\hat{p}_C = 505/(505 + 44405) = 0.0112$.}
+      
+    ```{r}
+#use r as a calculator
+x = c(500, 505)
+n = c(500 + 44425, 505 + 44405)
+p.hat.vector = x/n
+p.hat.vector
+```
+      
+  
+    b) Analyze the results; do the data suggest that annual mammography results in a reduction in breast cancer mortality relative to standard exams? Be sure to check the assumptions for using the normal approximation.
+
+        \color{blue}
+    
+        Since the participants were randomly assigned to each group, the groups can be treated as independent, and it is reasonable to assume independence of patients within each group.
+    
+        The pooled proportion $\hat{p}$ is
+    \[\hat{p} = \dfrac{x_1 + x_2}{n_1 + n_2} = 0.0112\]
+    
+        The success-failure condition is met; the expected number of successes is about 503 in both groups (and expected number of failures is naturally much larger, given that both $\hat{p}$ is less than 0.50 and $n$ is very large).
+    
+        Test $H_0: p_M = p_C$ against $H_A: p_M \neq p_C$. Let $\alpha = 0.05$.
+    
+        The two-sided $p$-value is 0.895. Since $p > \alpha$, there is insufficient evidence to reject the null hypothesis; the observed difference in proportions of breast cancer deaths is reasonably explained by chance. The results do not suggest that annual mammography results in a reduction in breast cancer mortality relative to standard exams.
+    
+        \color{black}
+    
+    ```{r}
+#use r as a calculator
+p.hat.pooled = sum(x)/sum(n)
+p.hat.pooled
+
+#check success-failure
+n*p.hat.pooled
+n*(1 - p.hat.pooled)
+
+#conduct inference
+prop.test(x = x, n = n)$p.val
+```
+    
+
+    c) Calculate and interpret a 95\% confidence interval for the difference in proportions of deaths from breast cancer. Be sure to check the assumptions for using the normal approximation.
+  
+        \color{blue}
+  
+        The success-failure condition should be checked for each sample: from the data, the number of successes and failures are both well over 10 in each group.
+  
+        The 95\% confidence interval is (-0.0015, 0.0013). With 95\% confidence, the difference in probability of death is within the interval (-0.15\%, 0.13\%); i.e., 0.15\% lower in the mammogram group to 0.13\% higher in the mammogram group. As expected from the large $p$-value, the confidence interval contains the null value 0.
+  
+        \color{black}
+  
+    ```{r}
+#conduct inference
+prop.test(x = x, n = n)$conf.int
+```
+
+\newpage
+  
+2. Remdesivir is an antiviral drug previously tested in animal models infected with coronaviruses like SARS and MERS. As of May 2020, remdesivir had temporary approval from the FDA for use in severely ill COVID-19 patients and was the subject of numerous ongoing studies. 
+ 
+      A randomized controlled trial conducted in China enrolled 236 patients with severe COVID-19; 158 were assigned to receive remdesivir and 78 to receive a placebo. In the remdesivir group, 103 patients showed clinical improvement; in the placebo group, 45 patients showed clinical improvement.\footnote{Wang, Y, et al. Remdesivir in adults with severe COVID-19: a randomised, double-blind, placebo-controlled, multi-centre trial. \textit{Lancet} 395(10236). 16 May 2020.}
+      
+      a) Calculate $\hat{p}_1$ and $\hat{p}_2$, the two sample proportions of interest.
+      
+          \textcolor{blue}{The two sample proportions of interest are 0.652 and 0.577, the proportion of individuals in each treatment group that showed clinical improvement.}
+      
+    ```{r}
+#use r as a calculator
+x = c(103, 45)
+n = c(158, 78)
+p.hat.vector = x/n
+p.hat.vector
+```
+      
+      
+      b) Conduct a formal comparison of the clinical improvement rates and summarize your findings. Be sure to check the assumptions for using the normal approximation.
+      
+          \color{blue}
+          
+          Since the participants were randomly assigned to each group, the groups can be treated as independent, and it is reasonable to assume independence of patients within each group.
+    
+          The pooled proportion $\hat{p}$ is
+    \[\hat{p} = \dfrac{x_1 + x_2}{n_1 + n_2} = 0.627\]
+    
+          The success-failure condition is met; the expected number of successes and failures are all larger than 10.
+        
+          Test $H_0: p_1 = p_2$ against $H_A: p_1 \neq p_2$, where $p_1$ represents the population proportion of clinical improvement in COVID-19 patients treated with remdesivir and $p_2$ represents the population proportion of clinical improvement in COVID-19 patients treated with placebo. Let $\alpha = 0.05$. The $p$-value is 0.328, which is greater than $\alpha$; there is insufficient evidence to reject the null hypothesis of no difference. Even though the proportion of patients who experienced clinical improvement about 7\% higher in the remdesivir group, this difference is not extreme enough to represent sufficient evidence that remdesivir is more effective than placebo.
+          
+          \color{black}
+      
+    ```{r}
+#use r as a calculator
+p.hat.pooled = sum(x)/sum(n)
+p.hat.pooled
+
+#check success-failure
+n*p.hat.pooled
+n*(1 - p.hat.pooled)
+
+#conduct inference
+prop.test(x = x, n = n)$p.val
+```
+      
+      
+      c) Report and interpret an appropriate interval estimate. Be sure to check the assumptions for using the normal approximation.
+      
+          \textcolor{blue}{The success-failure condition should be checked for each sample: from the data, the number of successes and failures are both well over 10 in each group. The 95\% confidence interval is (-0.067, 0.217); with 95\% confidence, this interval captures the difference in population proportion of clinical mortality between COVID-19 patients treated with remdesivir and those treated with placebo. The interval contains 0, which is consistent with no statistically significant evidence of a difference. The interval reflects the lack of precision around the effect estimate that is characteristic of an insufficiently large sample size.}
+      
+    ```{r}
+prop.test(x = x, n = n)$conf.int
+```
+      
+      
+
+
+\newpage
+
+# Contingency Tables 
+
+
+**The $\chi^2$ test of independence**
+
+In the $\chi^2$ test of independence, the observed number of cell counts are compared to the number of **expected** cell counts, where the expected counts are calculated under the null hypothesis.
+
+  - $H_0$: the row and column variables are not associated
+
+  - $H_A$: the row and column variables are associated
+
+The expected count for the $i^{th}$ row and $j^{th}$ column is
+\[E_{i, j} = \dfrac{(\text{row $i$ total}) \times (\text{column $j$ total}) }{n}, \]
+where $n$ is the total number of observations.
+
+Assumptions for the $\chi^2$ test:
+
+  - *Independence*. Each case that contributes a count to the table must be independent of all other cases in the table.
+  
+  - *Sample size*. Each expected cell count must be greater than or equal to 10. For tables larger than $2 \times 2$, it is appropriate to use the test if no more than 1/5 of the expected counts are less than 5, and all expected counts are greater than 1.
+
+The **$\chi^2$ test statistic** is calculated as
+\[\chi^2 = \sum_{i = 1}^r \sum_{j = 1}^c \dfrac{(O_{i, j} - E_{i, j})^2}{E_{i, j}}, \]
+and is approximately distributed $\chi^2$ with degrees of freedom $(r - 1)(c - 1)$, where $r$ is the number of rows and $c$ is the number of columns. $O_{i, j}$ represents the observed count in row $i$, column $j$.
+
+For each cell in a table, the **residual** equals
+\[\dfrac{O_{i, j} - E_{i, j}}{\sqrt{E_{i,j}}}. \]
+Residuals with a large magnitude contribute the most to the $\chi^2$ statistic. If a residual is positive, the observed value is greater than the expected value; if a residual is negative, the observed value is less than the expected.
+
+\vspace{0.5cm}
+
+*Fisher's exact test*
+
+When the expected counts in a two-way table are less than 10, Fisher's exact test is used to compute a $p$-value without relying on the normal approximation. In this course, only the logic behind Fisher's exact test for a $2 \times 2$ table is discussed. In the $2 \times 2$ table case, the hypotheses for Fisher's exact test can be expressed in the same way as for a two-sample test of proportions; the null hypothesis is $H_0: p_1 = p_2$.
+
+The $p$-value is the probability of observing results as or more extreme than those observed under the assumption that the null hypothesis is true.
+
+  - Thus, the $p$-value is calculated by adding together the individual conditional probabilities of obtaining each table that is as or more extreme than the one observed, under the null hypothesis and given that the marginal totals are considered fixed.
+  
+  - When the marginal totals are held constant, the value of any one cell in the table determines the rest of entries. When marginal totals are considered fixed, each table represents a unique set of results.
+  
+  - Extreme tables are those which contradict $H_0: p_1 = p_2$.
+  
+  - A two-sided $p$-value can be calculated by doubling the smaller of the possible one-sided $p$-values; this method is typically used when calculating $p$-values by hand. Another common method is to classify "more extreme" tables as all tables with probabilities less than that of the observed table, in both directions; the $p$-value is the sum of probabilities for the qualifying table.
+  
+The probability of a particular table (i.e., set of results) can be calculated with the **hypergeometric distribution**.
+
+Let $X$ represent the number of successes in a series of repeated Bernoulli trials, where sampling is done without replacement. Suppose that in the population of size $N$, there are $m$ total successes. What is the probability of observing exactly $k$ successes when drawing a sample of size $n$?
+
+
+For example, imagine an urn with $m$ white balls and $N - m$ black balls (thus, there are $N$ total balls). Draw $n$ balls without replacement (i.e., a sample of $n$ balls). What is the probability of observing $k$ white balls in the sample? 
+
+The possible results of a sample can be organized in a $2 \times 2$ table:
+
+\begin{table*}[h!]
+\begin{center}
+\begin{tabular}{l|cc|c} 
+   & \textbf{White Ball} & \textbf{Black Ball} & \textbf{Total}\\ \hline
+  \textbf{Sampled} & $k$ & \textcolor{gray}{$n - k$}  & $n$  \\
+  \textbf{Not Sampled} & \textcolor{gray}{$m - k$} & \textcolor{gray}{$N - n - (m - k)$} & \textcolor{gray}{$N - n$} \\ \hline
+  \textbf{Total} & $m$ & $N - m$ & $N$  \\ 
+\end{tabular}\\
+\end{center}
+\end{table*}
+
+
+The probability of observing exactly $k$ successses in a sample of size $n$ (i.e., $n$ dependent trials) is given by 
+\[P(X = k) = \dfrac{{m \choose k} {N - m \choose n-k}}{{N \choose n}}. \]
+
+Hypergeometric probabilities are calculated in \textsf{R} with the use of \texttt{dhyper()} and \texttt{phyper()}. The following code shows how to calculate $P(X = 5)$, $P(X \leq 5)$, and $P(X > 5)$ for $X \sim \text{HGeom}(10, 15, 8)$, where $m = 10$, $N - m = 15$, and $n = 8$. 
+
+```{r}
+#probability X equals 5
+dhyper(5, 10, 15, 8)
+
+#probability X is less than or equal to 5
+phyper(5, 10, 15, 8)
+
+#probability X is greater than 5
+phyper(5, 10, 15, 8, lower.tail = FALSE)
+```
+
+\vspace{0.5cm}
+
+*Measures of association in two-by-two tables*
+
+Chapter 1 introduced the **relative risk (RR)**, a measure of the risk of a certain event occurring in one group relative to the risk of the event occurring in another group, as a numerical summary for two-by-two ($2 \times 2$) tables. The relative risk can also be thought of as a measure of association.
+
+Consider the following hypothetical two-by-two table. The relative risk of Outcome A can be calculated by using either Group 1 or Group 2 as the reference group:
+
+\begin{table}[h!]
+	\centering
+	\begin{tabular}{r|rrr}
+		\hline
+		& Outcome A & Outcome B & Sum\\ 
+		\hline
+		Group 1 & $a$ & $b$ & $a + b$ \\ 
+		Group 2 & $c$ & $d$ & $c + d$ \\
+		Sum & $a + c$ & $b + d$ & $a + b + c + d = n$ \\
+		\hline
+	\end{tabular}	
+	\caption{A hypothetical two-by-two table of outcome by group.}
+\end{table}
+
+
+\[RR_{\text{A, comparing Group 1 to Group 2}} = \dfrac{a/(a + b)}{c/(c+d)} \]
+\[RR_{\text{A, comparing Group 2 to Group 1}} = \dfrac{c/(c + d)}{a/(a+b)} \]
+
+The relative risk is only valid for tables where the proportions $a/(a + b)$ and $c/(c + d)$ represent the incidence of Outcome A within the populations from which Groups 1 and 2 are sampled.
+
+The **odds ratio (OR)** is a measure of association that remains applicable even when it is not possible to estimate incidence of an outcome from the sample data. The **odds** of Outcome A in Group 1 are $a/b$, while the odds of Outcome A in Group 2 are $c/d$.
+
+\[OR_{\text{A, comparing Group 1 to Group 2}} = \dfrac{a/b}{c/d} = \dfrac{ad}{bc} \]
+\[OR_{\text{A, comparing Group 2 to Group 1}} = \dfrac{c/d}{a/b} = \dfrac{bc}{ad} \]
+
+\vspace{0.5cm}
+
+# The $\chi^2$ test of independence
+
+3. In resource-limited settings, single-dose nevirapine (NVP) is given to an HIV-positive woman during birth to prevent mother-to-child transmission of the virus. Exposure of the infant to NVP may foster the growth of more virulent strains of the virus in the child.
+
+    If a child is HIV-positive, should they be treated with NVP or a more expensive drug, lopinavir (LPV)? In this setting, success means preventing a growth of the virus in the child (i.e., preventing virologic failure). The following table contains data from a 2012 study conducted in six African countries and India.\footnote{A. Violari, et al. "Nevirapine versus ritonavir-boosted lopinavir for HIV-infected children." \textit{NEJM} 366: 2380-2389.}
+    
+    \begin{center}
+\begin{tabular}{l|cc|c} 
+   & \textbf{NVP} & \textbf{LPV} & \textbf{Total}\\ \hline
+  \textbf{Virologic Failure} & 60 & 27 & 87  \\
+  \textbf{Stable Disease} & 87 & 113 & 200 \\ \hline
+  \textbf{Total} & 147 & 140 & 287  \\ 
+\end{tabular}\\
+\end{center}
+
+    \vspace{0.5cm}
+    
+    a) State the null and alternative hypotheses.
+
+        \color{blue}
+  
+        The null hypothesis is that there is no association between treatment and outcome; i.e., treatment and outcome are independent.
+  
+        The alternative hypothesis is that there is an association between treatment and outcome; i.e., treatment and outcome are not independent.
+  
+        \color{black}
+
+
+    
+    b) Calculate the expected cell counts.
+    
+        \color{blue}  
+    
+        The expected cell counts are shown in parentheses next to the observed cell counts.  
+    
+        \begin{center}
+  \begin{tabular}{l|cc|c} 
+   & \textbf{NVP} & \textbf{LPV} & \textbf{Total}\\ \hline
+  \textbf{Virologic Failure} & 60 (44.56) & 27 (42.44) & 87  \\ 
+  \textbf{Stable Disease} & 87 (102.44) & 113 (97.56)& 200 \\ \hline
+  \textbf{Total} & 147 & 140 & 287  \\ 
+  \end{tabular}\\
+        \end{center}  
+
+
+        \color{black}
+
+    ```{r}
+#use r as a calculator
+
+#set parameters
+n = 287
+row.1.total = 87
+row.2.total = 200
+col.1.total = 147
+col.2.total = 140
+
+#calculate expected values
+exp.1.1 = (row.1.total * col.1.total)/n
+exp.1.1
+
+exp.1.2 = (row.1.total * col.2.total)/n
+exp.1.2
+
+exp.2.1 = (row.2.total * col.1.total)/n
+exp.2.1
+
+exp.2.2 = (row.2.total * col.2.total)/n
+exp.2.2
+```
+
+    
+    c) Check the assumptions for using the $\chi^2$ test.
+
+        \textcolor{blue}{Independence holds, since this is a randomized study. All expected counts are greater than 10.}
+
+    d) Calculate the $\chi^2$ test statistic.
+    
+        \color{blue}
+  
+        \[\chi^2 = \sum \dfrac{(\text{obs - exp})^2}{\text{exp}} = \dfrac{(60-44.56)^2}{44.56} + \dfrac{(27-42.44)^2}{42.44} +  \dfrac{(87-102.44)^2}{102.44} + \dfrac{(113 - 97.56)^2}{97.56} = 15.74\]
+  
+        \color{black}
+
+    ```{r}
+#use r as a calculator
+obs.1.1 = 60
+chi.sq.1.1 = ((obs.1.1 - exp.1.1)^2)/exp.1.1
+
+obs.1.2 = 27
+chi.sq.1.2 = ((obs.1.2 - exp.1.2)^2)/exp.1.2
+
+obs.2.1 = 87
+chi.sq.2.1 = ((obs.2.1 - exp.2.1)^2)/exp.2.1
+
+obs.2.2 = 113
+chi.sq.2.2 = ((obs.2.2 - exp.2.2)^2)/exp.2.2
+
+chi.sq = chi.sq.1.1 + chi.sq.1.2 + chi.sq.2.1 + chi.sq.2.2
+chi.sq
+```
+
+
+
+    e) Calculate the $p$-value for the test statistic using \texttt{pchisq()}. The $p$-value represents the probability of observing a result as or more extreme than the sample data.
+
+        \textcolor{blue}{The $p$-value for the test statistic is $7.28 \times 10^{-5}$.}
+
+
+    ```{r, eval = FALSE}
+#use pchisq()
+pchisq(chi.sq, df = (2 - 1)*(2 - 1), lower.tail = FALSE)
+```
+
+    
+    f) Confirm the results from parts c) and d) using \texttt{chisq.test()}. Note that the value of the test statistic will be slightly different because \textsf{R} is applying a 'continuity correction'.
+    
+        \textcolor{blue}{From \texttt{chisq.test()}, the $\chi^2$ statistic is 14.73 and the associated $p$-value is 0.0001.}
+
+    ```{r}
+#enter the data as a table
+hiv.table = matrix(c(60, 27, 87, 113), 
+                  nrow = 2, ncol = 2, byrow = T)
+    
+#add labels and confirm the table was entered correctly
+dimnames(hiv.table) = list("Outcome" = c("Virologic Failure", "Stable Disease"),
+                            "Drug" = c("NVP", "LPV"))
+hiv.table
+
+#use chisq.test()
+chisq.test(hiv.table)
+```
+
+    
+    g) Summarize the conclusions; be sure to include which drug is recommended for treatment, based on the data.
+
+        \color{blue}
+  
+          There is sufficient evidence at the $\alpha = 0.05$ significance level to reject the null hypothesis and accept the alternative hypothesis that treatment and outcome are associated.
+  
+          From comparing the expected and observed cell counts (or looking at the residuals), it is possible to determine the direction of the association. When treated with lopinarvir, fewer children than expected experience virologic failure (27 observed versus ~42 expected), and more than expected experience stable disease (113 observed versus ~98 expected). In contrast, when treated with nevirapine, more children than expected experience virologic failure (60 observed versus ~45 expected), and fewer children than expected experience stable disease (87 observed versus ~102 expected). 
+  
+          The data suggest that HIV-positive children should be treated with lopinarvir.
+  
+          \color{black}
+
+
+    ```{r}
+#look at residuals
+chisq.test(hiv.table)$resid
+
+#to view the expected values, use $expected
+chisq.test(hiv.table)$expected
+```
+
+    
+    h) Repeat the analysis using inference for the difference of two proportions and confirm that the results are the same.
+
+        \textcolor{blue}{The proportion of successes on nevirapine is 0.59 and the proportion of successes on lopinarvir is 0.81. The $p$-value is 0.0012; there is sufficient evidence to reject the null of no difference and conclude that stable disease is associated with lopinarvir.}
+
+    ```{r}
+#use prop.test( )
+prop.test(x = c(87, 113), n = c(147, 140))
+```
+
+    
+4. In the PREVEND study introduced in Chapter 6, researchers measured various features of study participants, including data on statin use and highest level of education attained. From the data in \texttt{prevend.samp}, is there evidence of an association between statin use and educational level? Summarize the results.
+
+    \color{blue}
+
+    Test the null hypothesis that statin use and education level are not associated against the alternative hypothesis that statin use and education level are associated. Let $\alpha = 0.05$.
+
+    The $p$-value of the $\chi^2$ statistic is 0.0003. The results are highly significant, and there is evidence to support accepting the alternative hypothesis that statin use and education level are associated.
+
+    The largest deviations from independence occur in the primary school group and university group. There are more statin users than expected in the primary school group and fewer statin users than expected in the university group. There is an observable overall trend; as highest educational level attained increases, the proportion of statin users goes from higher than expected to lower than expected.
+
+    \color{black}
+
+    ```{r}
+#load the data
+library(oibiostat)
+data("prevend.samp")
+
+#convert variables to factors
+prevend.samp$Statin = factor(prevend.samp$Statin, levels = c(0, 1),
+                             labels = c("NonUser", "User"))
+
+prevend.samp$Education = factor(prevend.samp$Education, levels = 0:3,
+                                labels = c("Primary", "LowerSec",
+                                           "UpperSec", "Univ"))
+
+#create a table
+statin.edu.table = table(prevend.samp$Statin, prevend.samp$Education)
+
+#run chi-squared test
+chisq.test(statin.edu.table)
+
+chisq.test(statin.edu.table)$residuals
+```
+
+\newpage
+
+# Fisher's exact test
+
+5. \textit{Clostridium difficile} is a bacterium that causes inflammation of the colon. Antibiotic treatment is typically not effective, particularly for patients who experience multiple recurrences of infection. Infusion of feces from healthy donors has been reported as an effective treatment for recurrent infection. A randomized trial was conducted to compare the efficacy of donor-feces infusion versus vancomycin, the antibiotic typically prescribed to treat \textit{C. difficile }infection. The results of the trial are shown in the following table. 
+
+    \begin{table}[h]
+	\centering
+	\begin{tabular}{rrr|r}
+		\hline
+		& Cured & Uncured & Sum \\ 
+		\hline
+		Fecal Infusion & 13 & 3 & 16 \\ 
+		Vancomycin & 4 & 9 & 13 \\ 
+		\hline
+		Sum & 17 & 12 & 29 \\ 
+		\hline
+	\end{tabular}
+    \end{table}
+
+    a) Can a $\chi^2$ test be used to analyze these results?
+    
+        \textcolor{blue}{A $\chi^2$ test is not advisable since there are expected counts less than 10.}
+    
+    ```{r}
+infusion.table = matrix(c(13, 3, 4, 9), nrow = 2, ncol = 2, byrow = T)
+dimnames(infusion.table) = list("Outcome" = c("Cured", "Uncured"),
+                                "Treatment" = c("Fecal Infusion", 
+                                                "Vancomycin"))
+
+chisq.test(infusion.table)$expected
+```
+    
+    b) Researchers are interested in understanding whether fecal infusion is a more effective treatment than vancomycin. Write the null hypothesis and appropriate one-sided alternative hypothesis.
+    
+        \textcolor{blue}{Let $p_1$ represent the population proportion of individuals cured on the fecal infusion treatment and $p_2$ represent the population proportion of individuals cured on the vancomycin treatment. Under the null hypothesis, the proportion cured is equal between the two treatment groups: $H_0: p_1 = p_2$. The appropriate alternative hypothesis of interest is $H_0: p_1 > p_2$. }    
+    
+    c) Under the assumption that the marginal totals are fixed, enumerate all possible sets of results that are more extreme than what was observed, in the same direction.
+    
+        \textcolor{blue}{Results more extreme than what was observed are those that constitute stronger evidence in favor of the fecal treatment group being more effective than vancomyin; i.e., results where either 14, 15, or 16 of the cured patients were in the fecal infusion group.}
+      
+        \color{blue}
+      
+        \begin{table}[h]
+	\centering
+	\color{gray}
+	\begin{tabular}{r|cc|c}
+		\hline
+		& Cured & Uncured & Sum \\ 
+		\hline
+		Fecal Infusion & \textcolor{black}{14} & \textcolor{black}{2} & 16 \\ 
+		Vancomycin & \textcolor{black}{3} & \textcolor{black}{10} & 13 \\ 
+		\hline
+		Sum & 17 & 12 & 29 \\ 
+		\hline
+	\end{tabular}
+        \end{table}
+
+        \begin{table}[h]
+	\centering
+	\color{gray}
+	\begin{tabular}{r|cc|c}
+		\hline
+		& Cured & Uncured & Sum \\ 
+		\hline
+		Fecal Infusion & \textcolor{black}{15} & \textcolor{black}{1} & 16 \\ 
+		Vancomycin & \textcolor{black}{2} & \textcolor{black}{11} & 13 \\ 
+		\hline
+		Sum & 17 & 12 & 29 \\ 
+		\hline
+	\end{tabular}
+        \end{table}
+
+        \begin{table}[h]
+	\centering
+	\color{gray}
+	\begin{tabular}{r|cc|c}
+		\hline
+		& Cured & Uncured & Sum \\ 
+		\hline
+		Fecal Infusion & \textcolor{black}{16} & \textcolor{black}{0} & 16 \\ 
+		Vancomycin & \textcolor{black}{1} & \textcolor{black}{12} & 13 \\ 
+		\hline
+		Sum & 17 & 12 & 29 \\ 
+		\hline
+	\end{tabular}
+      \end{table}
+      
+      \color{black}
+    
+    d) Calculate the probability of the observed results.
+    
+        \textcolor{blue}{Use the hypergeometric distribution with parameters $N = 29$, $m = 17$, and $n = 16$; calculate $P(X = 13)$. Consider the "successes" to be the individuals cured and the "sample size" to be the number of individuals in the fecal infusion group. The probability that 13 of the cured individuals were in the fecal infusion group, given the table margins are fixed, is 0.0077.}
+    
+    ```{r}
+#probability of the observed results
+dhyper(13, 17, 29 - 17, 16)
+```
+
+    
+    e) Calculate the probability of each set of results enumerated in part c).
+    
+        \textcolor{blue}{The probabilities of observing 14, 15, or 16 cured individuals in the fecal infusion group, respectively, are $6.61 \times 10^{-4}$, $2.41 \times 10^{-5}$, and $2.51 \times 10^{-7}$. }
+    
+    ```{r}
+#probability of results more extreme than observed
+dhyper(14, 17, 29 - 17, 16)
+dhyper(15, 17, 29 - 17, 16)
+dhyper(16, 17, 29 - 17, 16)
+```
+    
+    f) Based on the answers in parts d) and e), compute the one-sided $p$-value and interpret the results.
+    
+        \textcolor{blue}{The probability of observing results as or more extreme than the observed table is 0.0084. Since $p < 0.05$, there is sufficient evidence to reject the null hypothesis at significance level $\alpha = 0.05$; the data support fecal infusion as a more effective treatment for \textit{C. difficile} infection than vancomycin.}
+    
+    ```{r}
+#summing previous probabilities
+p.observed = dhyper(13, 17, 29 - 17, 16)
+p.more.extreme = dhyper(14, 17, 29 - 17, 16) + dhyper(15, 17, 29 - 17, 16) + 
+  dhyper(16, 17, 29 - 17, 16)
+p.observed + p.more.extreme
+
+#using phyper
+phyper(12, 17, 29 - 17, 16, lower.tail = FALSE)
+```
+
+    
+    g) Use \texttt{fisher.test( )} to confirm the calculations in part f) and to calculate the two-sided $p$-value.
+    
+        \textcolor{blue}{The two-sided $p$-value is 0.0095.}
+    
+    ```{r}
+#one-sided p-value
+fisher.test(infusion.table, alternative = "greater")$p.val
+
+#two-sided p-value
+fisher.test(infusion.table, alternative = "two.sided")$p.val
+```
+
+
+6. Psychologists conducted an experiment to investigate the effect of anxiety on a person's desire to be alone or in the company of others (Schacter 1959; Lehmann 1975). A group of 30 individuals were randomly assigned into two groups; one group was designated the "high anxiety" group and the other the "low anxiety" group. Those in the high-anxiety group were told that in the "upcoming experiment", they would be subjected to painful electric shocks, while those in the low-anxiety group were told that the shocks would be mild and painless.\footnote{Individuals were not actually subjected to electric shocks of any kind}. All individuals were informed that there would be a 10 minute wait before the experiment began, and that they could choose whether to wait alone or with other participants.
+
+    The following table summarizes the results:
+  
+    \begin{table}[h]
+	\centering
+	\begin{tabular}{rrr|r}
+		\hline
+		& Wait Together & Wait Alone & Sum \\ 
+		\hline
+		High-Anxiety & 12 & 5 & 17 \\ 
+		Low-Anxiety & 4 & 9 & 13 \\ 
+		\hline
+		Sum & 16 & 14 & 30 \\ 
+		\hline
+	\end{tabular}
+    \end{table}
+
+
+    a) Under the null hypothesis of no association, what are the expected cell counts?
+    
+        \textcolor{blue}{Under the null hypothesis of no association, the expected cell counts are 9.07 and 7.93 in the wait together and wait alone groups, respectively, for those considered "high anxiety" and 6.93 and 6.07 in the wait together and wait alone groups, respectively, for those considered "low anxiety".}
+    
+    ```{r}
+#enter the data
+anxiety.table = matrix(c(12, 5, 4, 9), nrow = 2, ncol = 2, byrow = T)
+dimnames(anxiety.table) = list("Treatment" = c("High Anxiety", "Low Anxiety"),
+                               "Outcome" = c("Wait Together", "Wait Alone"))
+
+chisq.test(anxiety.table)$expected
+```
+       
+    
+    b) Under the assumption that the marginal totals are fixed and the null hypothesis is true, what is the probability of the observed set of results?
+
+        \textcolor{blue}{Use the hypergeometric distribution with parameters $N = 30$, $m = 16$, and $n = 17$; calculate $P(X = 12)$. Consider the "successes" to be the individuals who wait together, and the "number sampled" to be the people randomized to the high-anxiety group. The probability of the observed set of results, assuming the marginal totals are fixed and the null hypothesis is true, is 0.0304.}
+    
+    ```{r}
+dhyper(12, 16, 30 - 16, 17)
+```
+
+
+    c) Enumerate the tables that are more extreme than what was observed, in the same direction. 
+    
+        \textcolor{blue}{More individuals than expected in the high-anxiety group were observed to wait together; thus, tables that are more extreme in the same direction also consist of those where more people in the high-anxiety group wait together than observed. These are tables in which 13, 14, 15, or 16 individuals in the high-anxiety group wait together.}
+        
+        \begin{table}[h]
+	\centering
+	\color{gray}
+	\begin{tabular}{r|cc|c}
+		\hline
+		& Wait Together & Wait Alone & Sum \\ 
+		\hline
+		High-Anxiety & \textcolor{black}{13} & \textcolor{black}{4} & 17 \\ 
+		Low-Anxiety & \textcolor{black}{3} & \textcolor{black}{10} & 13 \\ 
+		\hline
+		Sum & 16 & 14 & 30 \\ 
+		\hline
+	\end{tabular}
+        \end{table}
+        
+        \begin{table}[h!]
+	\centering
+	\color{gray}
+	\begin{tabular}{r|cc|c}
+		\hline
+		& Wait Together & Wait Alone & Sum \\ 
+		\hline
+		High-Anxiety & \textcolor{black}{14} & \textcolor{black}{3} & 17 \\ 
+		Low-Anxiety & \textcolor{black}{2} & \textcolor{black}{11} & 13 \\ 
+		\hline
+		Sum & 16 & 14 & 30 \\ 
+		\hline
+	\end{tabular}
+        \end{table}
+        
+        \begin{table}[h!]
+	\centering
+	\color{gray}
+	\begin{tabular}{r|cc|c}
+		\hline
+		& Wait Together & Wait Alone & Sum \\ 
+		\hline
+		High-Anxiety & \textcolor{black}{15} & \textcolor{black}{2} & 17 \\ 
+		Low-Anxiety & \textcolor{black}{1} & \textcolor{black}{12} & 13 \\ 
+		\hline
+		Sum & 16 & 14 & 30 \\ 
+		\hline
+	\end{tabular}
+        \end{table}
+        
+        \begin{table}[h!]
+	\centering
+	\color{gray}
+	\begin{tabular}{r|cc|c}
+		\hline
+		& Wait Together & Wait Alone & Sum \\ 
+		\hline
+		High-Anxiety & \textcolor{black}{16} & \textcolor{black}{1} & 17 \\ 
+		Low-Anxiety & \textcolor{black}{0} & \textcolor{black}{13} & 13 \\ 
+		\hline
+		Sum & 16 & 14 & 30 \\ 
+		\hline
+	\end{tabular}
+        \end{table}
+    
+    
+    \newpage
+    
+    d) Conduct a formal test of association for the results and summarize your findings. Let $\alpha = 0.05$.
+    
+        \textcolor{blue}{Let $p_1$ represent the population proportion of individuals waiting together in the high-anxiety group and $p_2$ represent the population proportion of individuals waiting together in the low-anxiety group. Test $H_0: p_1 = p_2$ against $H_A: p_1 \neq p_2$. Let $\alpha = 0.05$. The two-sided $p$-value is 0.063. There is insufficient evidence to reject the null hypothesis; the data do not suggest there is an association between high anxiety and a person's desire to be in the company of others.}
+        
+        \textcolor{blue}{Note that the results are borderline; a one-sided $p$-value rejects the null hypothesis with $p = 0.036$. The choice of two-sided hypothesis is more impartial.}
+        
+    ```{r}
+#two-sided test
+fisher.test(anxiety.table)$p.val
+    
+#one-sided test
+fisher.test(anxiety.table, alternative = "greater")$p.val
+```
+        
+\newpage
+
+# Measures of association in two-by-two tables
+
+7. Suppose a study is conducted to assess the association between smoking and cardiovascular disease (CVD). Researchers recruited a group of 231 study participants then categorized them according to smoking and disease status: 111 are smokers, while 40 smokers and 32 non-smokers have CVD. Calculate and interpret the relative risk of CVD.
+
+    \textcolor{blue}{The relative risk of CVD comparing smokers to non-smokers is 1.35. Smoking is associated with a 35\% increase in the probability of CVD. In other words, the risk of CVD is 35\% greater in smokers compared to non-smokers. }
+
+    ```{r}
+#use r as a calculator
+risk.smokers = 40/111
+risk.nonsmokers = 32/(231-111)
+
+risk.smokers / risk.nonsmokers
+```
+
+
+8. Suppose another study is conducted to assess the association between smoking and CVD, but researchers use a different design: 90 individuals with CVD and 110 individuals without CVD are recruited. 40 of the individuals with CVD are smokers, and 80 of the individuals without CVD are non-smokers.
+
+    a) Is relative risk an appropriate measure of association for these data? Explain your answer.
+    
+        \textcolor{blue}{No, relative risk should not be calculated for these observations. Since the number of individuals with and without CVD is fixed by the study design, the proportion of individuals with CVD within a certain group (smokers or non-smokers) as calculated from the data is not a measure of CVD risk for that population.}
+
+    b) Calculate the odds of CVD among smokers and the odds of CVD among non-smokers.
+    
+        \textcolor{blue}{Since there are 110 individuals without CVD and 80 of those are non-smokers, there are 30 individuals without CVD who smoke. Thus, there are $30 + 40 = 70$ individuals who smoke, and $(110 + 90) - 70 = 130$ individuals who do smoke. Of the 130 non-smokers, 80 do not have CVD; thus, 50 non-smokers have CVD.} 
+        
+        \textcolor{blue}{The odds of CVD among smokers is the number of smokers with CVD divided by the number of smokers without CVD: $40/30 = 1.33$. The odds of CVD among non-smokers is the number of non-smokers with CVD divided by the number of non-smokers without CVD: $50/80 = 0.625$.}
+    
+    ```{r}
+#use r as a calculator
+odds.smokers = 40/30
+odds.nonsmokers = 50/80
+
+odds.smokers
+odds.nonsmokers
+```
+
+    c) Calculate and interpret the odds ratio of CVD, comparing smokers to non-smokers.
+  
+        \textcolor{blue}{The odds ratio of CVD, comparing smokers to non-smokers is 2.13. The odds of CVD in smokers are approximately twice as large as the odds of CVD in smokers. The data suggest that smoking is associated with CVD.}
+    
+
+    ```{r}
+#use r as a calculator
+odds.smokers / odds.nonsmokers
+```
+
+    d) What would an odds ratio of CVD (comparing smokers to non-smokers) equal to 1 represent, in terms of the association between smoking and CVD? What would an odds ratio of CVD less than 1 represent?
+
+        \textcolor{blue}{An odds ratio equal to 1 would represent no association between smoking and CVD. An odds ratio less than 1 would represent an association between not smoking and CVD; i.e., that the odds of CVD in non-smokers were higher than the odds of CVD in smokers.}
+
+

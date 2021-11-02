@@ -1,0 +1,142 @@
+---
+title: "In-class exercise - Inference for proportions. Solutions."
+subtitle: "Your Name Here and ID number here"
+author: "EPIB 607, Fall 2019, McGill University"
+date: "`r Sys.Date()`"
+output:
+  html_document:
+    toc: true
+    toc_float: false
+    number_sections: true
+    toc_depth: 3
+    keep_md: false
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r include = FALSE}
+## ---- Setup ------------------------------------------------------------------
+knitr::opts_chunk$set(
+  echo = TRUE,          # don't show code
+  warning = FALSE,       # don't show warnings
+  message = FALSE,       # don't show messages (less serious warnings)
+  cache = FALSE,         # set to TRUE to save results from last compilation
+  fig.align = "center",   # center figures
+  fig.asp = 1,          # fig.aspect ratio
+  fig.width = 10        # fig width
+)
+```
+
+
+# Drunken cyclists 
+
+```{r}
+## ---- Question-4 - --------------------------------------------------------
+#around 900 people die bike accidents
+#1711 people died from bike accidents, 542 tested positive drunk
+#making 99% confidence interval Wald's way 
+p_bike <- 542/1711
+sigma_bike <- sqrt(p_bike*(1-p_bike))
+#using qnorm and plugging everything in
+CI_99_bike <-qnorm(p = c(0.005, 0.995), mean = p_bike, sd = sigma_bike/sqrt(1711))
+
+#based off this confidence interval, no? because the proportion is still really low,
+#if the truth was within the confidence interval, thats a low number for a proportion
+
+#99% CI around those who are drunk
+p_drunk_bike <- 386/1711
+sigma_drunk_bike <- sqrt(p_drunk_bike*(1-p_drunk_bike))
+CI_99_drunk_bike <- qnorm(p = c(0.005, 0.995), mean = p_drunk_bike, sd = sigma_drunk_bike/sqrt(1711))
+
+```
+
+### To do statistical inference for these data, we think in terms of a model where *p* is parameter that represents the probability that a tested bicycle rider is positive for alcohol. Find a 99% confidence interval for *p*.
+
+(4 points) First the probability that a test bicycle rider needs to be calculated based on this sample, which would be 542 testing positive for alcohol out of 1711 fatal bicycle incidents. This propotion is found to be `r round(p_bike,2)`. Since this is a very large sample size, it is fair to assume that the CLT has kicked in, meaning normality can be assumed. Thus a 99% confidence interval built around the probability of `r round(p_bike,2)` would be probabilities of `r round(CI_99_bike, 2)`. Thus 99% of the time, our procedure would produce a CI that covers the true probability that someone would test positive for alcohol in a fatal bike accident is between `r round(CI_99_bike,2)`.
+
+### Can you conclude from your analysis of this study that alcohol causes fatal bicycle accidents? Explain.
+
+
+(3 points)  I cannot conclude that alcohol causes fatal bicycle accidents. For that information, a study would need to conducted analyzing the proportion of people who used a bicycle with alcohol in their blood. That way we can measure the proportion of fatal accidents based off of that information. This study only measures how many fatal bicycle accidents had alcohol involved, but there is no information on the number of people riding bicycles with alcohol in their blood.
+
+### In this study 386 bicyclists had blood alcohol levels above 0.10%, a level defining legally drunk in many states at the time. Give a 99% confidence interval for the proportion who were legally drunk according to this criterion.
+
+(3 points) First the proportion of those legally drunk needs to be determined. This would be 386 drunk cyclists out of 1711 fatal bicycle accidents. That proportion can be found as `r round(p_drunk_bike,2)`. Building a 99% confidence interval around that number would give us proportions of `r round(CI_99_drunk_bike,2)`. Thus with 99% cconfidence, the true population proportion of drunk cyclists in fatal accidents lies between `r round(CI_99_drunk_bike,2)`.
+
+
+# Handling contact lenses
+
+```{r}
+## ---- Question-5 - --------------------------------------------------------
+q5_dirtycontacts <- 139
+q5_dirtycontactsplus2 <- q5_dirtycontacts + 2
+q5_n <- 281
+q5_nplus4 <- q5_n+4
+
+q5_p_plus4 <- (q5_dirtycontactsplus2)/(q5_nplus4)
+q5_sdplus4 <- sqrt((q5_p_plus4*(1-q5_p_plus4))/q5_nplus4)
+q5_crit99 <- qnorm(p=0.995)
+q5a_ci99 <- q5_p_plus4 + c(-q5_crit99,q5_crit99) * q5_sdplus4
+q5a_ci99 <- round(q5a_ci99,2)
+
+q5b_p <- 139/281
+q5b_n <- 281
+q5b_sd <- sqrt((q5b_p*(1-q5b_p))/q5b_n)
+q5b_ci99 <- q5b_p + c(-q5_crit99,q5_crit99) * q5b_sd
+q5b_ci99 <- round(q5b_ci99,2)
+
+```
+
+5a. The plus four 99% confidence interval for the proportion p of all American contact lens wearers who do not consistently wash their hands before handing their lenses is between `r q5a_ci99[1]` and `r q5a_ci99[2]`. The assumptions are that the sample size is greater than 10, with any counts of successes and failures, and the confidence level has to be over 90%. SRS and normal. Additional The assumptions were that the sample was regarded as an SRS from the population and that the sample size was large enough to ensure that the distribution of ${\widehat{p}}$ is close to Normal.
+
+5b. The large sample 99% confidence interval for the proportion p of all American contact lens wearers who do not consistently wash their hands before handing their lenses is between `r q5b_ci99[1]` and `r q5b_ci99[2]`. The assumptions were that the sample was regarded as an SRS from the population and that the sample size was large enough to ensure that the distribution of ${\widehat{p}}$ is close to Normal. We can make the latter assumption because there are at least 15 successes and 15 failures. 
+
+5c. The researchers indicated that this survey had a substantial nonresponse rate. Nonresponders could be systematically different from responders, potentially causing some bias in the sample results. For example, nonresponders who would rather not take the time to wash their hands may also prefer not to take time answer the survey. Ultimately, statistical methods could be used to overcome this limitation if there were differences among groups, but this breaks the randomization needed for our assumption that this is an SRS if sample is not truly random due to nonresponders. The margin of error in a confidence interval covers only chance variation due to random sampling or random assignment. When interpreting this confidence interval, it may be prudent to limit the generalizability of the results as they not be able to infer the results to a larger target population than if the sample was truly an SRS. The results could only be inferred to perhaps the group of people sampled rather than all contact lens users, as the confidence interval may not be accurate of all contact lens users when it is not truly an SRS.  
+
+5d. Survey participants simply answered a questionnaire, and no attempt was made to verify the answers. This could cause some bias in the sample results. For example, there could be some social desireability bias introduced. If participants are afraid of judgement from the researchers, they may untruthfully answer that they wash their contacts, which would be on the contrary to their unhygienic ways. No verification may lead to respondents answering different than their behaviour. Verification would lead to more accurate results abut their behaviour. The margin of error in a confidence interval covers only chance variation due to random sampling or random assignment. As a result, when interpretting the confidence interval, it may be prudent to state that the confidence interval for proportion of respondents who say they wash their hands instead of this is the confidence interval for proportion of respondents who actually wash their hands before handling their contact lenses. 
+
+# Cancer-detecting dogs
+
+```{r results='hide', fig.keep='none'}
+## ---- Question-6 - --------------------------------------------------------
+
+#A study was designed to determine whether dogs can be trained to identify urine specimens from individuals with bladder cancer. Dogs were first trained to discriminate between urine specimens from patients with bladder cancer and urine specimens from patients with other conditions. After the training was completed, the dogs had to pick one of seven new urine specimens. Each time, only one of the seven urine specimens came from a patient with bladder cancer. Out of 54 trials, the dogs identified the correct urine specimen 22 times.
+
+dogprob <- 1/7
+(dogp <- 22/54)
+dogn <- 54
+# a. If the dogs were simply picking a urine specimen at random, we would expect them to be correct, on average, 1 out of 7 times. The experiment was designed to test whether dogs can perform better than chance. State the null and alternative hypotheses for this test.
+
+
+
+# b. Obtain the test statistic and the P-value. What do you conclude?
+dogpsep <- sqrt((dogprob*(1-dogprob))/dogn)
+
+dogclop <- pbinom(q = 21, size = 54, prob = 1/7, lower.tail = F)
+
+# check with the binom test
+mosaic::binom.test(x=22,n=54,p=1/7,ci.method="Clopper-Pearson",alternative="greater")
+
+# just to see where the cut off happens for doing lower tail vs upper tail
+pbinom(q = 1, size = 4, prob = .5)
+
+pbinom(q = 21, size = 54, prob = 1/7, lower.tail = F)
+
+# taking a look using the Wilson method to see what that would turn up
+dogz <- round(((22/54)-(1/7))/dogpsep, 2)
+dogpvalue <- pnorm(q = 22/54, mean = 1/7, sd = dogpsep, lower.tail = F)
+22/54
+
+```
+
+a) The null hypothesis is that this dogs identify one of the seven samples at random and have a 1/7 chance of being correct, $H_o: \pi = \pi_o = 1/7$. We have trained them to identify the correct urine sample, so the alternative hypothesis is that dogs identify the correct sample more often than they identify any of the six incorrect samples, $H_a: \pi > 1/7$. Alpha level of 0.05. 
+
+b) The proportion of urine samples that dogs correctly identified as coming from patients with cancer was 22/54, ie: they correctly identified samples 40.7% of the time. Using the Clopper-Pearson method gives a p value of `r dogclop`. This is a one-tailed test and assumes an SRS. With the p value being below 0.05, I conlcude that this study provides evidence to support the alternative hypothesis that these trained dogs can detect detect bladder cancer from urine samples more often than not. 
+
+
+# Code {-}
+
+```{r all-code, ref.label=knitr::all_labels(), echo = TRUE, eval = FALSE}
+
+```
+

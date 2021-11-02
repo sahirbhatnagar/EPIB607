@@ -1,0 +1,1609 @@
+\documentclass[letterpaper,12pt,twoside,]{pinp}
+
+%% Some pieces required from the pandoc template
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+
+% Use the lineno option to display guide line numbers if required.
+% Note that the use of elements such as single-column equations
+% may affect the guide line number alignment.
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+
+% pinp change: the geometry package layout settings need to be set here, not in pinp.cls
+\geometry{layoutsize={0.95588\paperwidth,0.98864\paperheight},%
+  layouthoffset=0.02206\paperwidth, layoutvoffset=0.00568\paperheight}
+
+\definecolor{pinpblue}{HTML}{185FAF}  % imagecolorpicker on blue for new R logo
+\definecolor{pnasbluetext}{RGB}{101,0,0} %
+
+
+
+\title{Lab 008 - Contingency Tables and Difference of two Proportions Solutions}
+
+\author[a]{EPIB607 - Inferential Statistics}
+
+  \affil[a]{Fall 2020, McGill University}
+
+\setcounter{secnumdepth}{5}
+
+% Please give the surname of the lead author for the running footer
+\leadauthor{Bhatnagar}
+
+% Keywords are not mandatory, but authors are strongly encouraged to provide them. If provided, please include two to five keywords, separated by the pipe symbol, e.g:
+ 
+
+\begin{abstract}
+
+\end{abstract}
+
+\dates{This version was compiled on \today} 
+
+% initially we use doi so keep for backwards compatibility
+% new name is doi_footer
+
+
+\begin{document}
+
+% Optional adjustment to line up main text (after abstract) of first page with line numbers, when using both lineno and twocolumn options.
+% You should only change this length when you've finalised the article contents.
+\verticaladjustment{-2pt}
+
+\maketitle
+\thispagestyle{firststyle}
+\ifthenelse{\boolean{shortarticle}}{\ifthenelse{\boolean{singlecolumn}}{\abscontentformatted}{\abscontent}}{}
+
+% If your first paragraph (i.e. with the \dropcap) contains a list environment (quote, quotation, theorem, definition, enumerate, itemize...), the line after the list may have some extra indentation. If this is the case, add \parshape=0 to the end of the list environment.
+
+
+\hypertarget{inference-for-the-difference-of-two-proportions}{%
+\section{Inference for the difference of two
+proportions}\label{inference-for-the-difference-of-two-proportions}}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\item
+  The use of screening mammograms for breast cancer has been
+  controversial for decades because the overall benefit on breast cancer
+  mortality is uncertain. A 30-year study to investigate the
+  effectiveness of mammograms versus a standard non-mammogram breast
+  cancer exam was conducted in Canada with 89,835 female
+  participants.\footnote{Miller AB. 2014. \emph{Twenty five year follow-up for breast cancer incidence and mortality of the Canadian National Breast Screening Study: randomised screening trial}. \textit{BMJ} 348 (2014): g366. }
+  Each woman was randomized to receive either annual mammograms or
+  standard physical exams for breast cancer over a 5-year screening
+  period.
+
+  By the end of the 25 year follow-up period, 1,005 women died from
+  breast cancer. The results are summarized in the following
+  table.\footnote{During the 25 years following the screening period, each woman was screened for breast cancer according to the standard of care at her health care center. }
+
+  \begin{table}[h]
+   \centering
+   \begin{tabular}{rrcc}
+       & \multicolumn{3}{c}{Death from breast cancer?} \\
+       \cline{2-4}
+       & \ \hspace{3mm}\ & Yes & No \\
+       \hline
+       Mammogram Group && 500 & 44,425 \\
+       Control Group && 505 & 44,405 \\
+       \hline
+   \end{tabular}
+  \end{table}
+
+  \begin{enumerate}
+  \def\labelenumii{\alph{enumii})}
+  \item
+    Calculate \(\hat{p}_1\) and \(\hat{p}_2\), the two sample
+    proportions of interest.
+
+    \textcolor{blue}{The two sample proportions of interest are the proportion of breast cancer deaths in the mammogram group and the proportion of breast cancer deaths in the control group: $\hat{p}_M = 500/(500 + 44425) = 0.0111$, $\hat{p}_C = 505/(505 + 44405) = 0.0112$.}
+  \end{enumerate}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#use r as a calculator}
+\NormalTok{x =}\StringTok{ }\KeywordTok{c}\NormalTok{(}\DecValTok{500}\NormalTok{, }\DecValTok{505}\NormalTok{)}
+\NormalTok{n =}\StringTok{ }\KeywordTok{c}\NormalTok{(}\DecValTok{500} \OperatorTok{+}\StringTok{ }\DecValTok{44425}\NormalTok{, }\DecValTok{505} \OperatorTok{+}\StringTok{ }\DecValTok{44405}\NormalTok{)}
+\NormalTok{p.hat.vector =}\StringTok{ }\NormalTok{x}\OperatorTok{/}\NormalTok{n}
+\NormalTok{p.hat.vector}
+\end{Highlighting}
+\end{Shaded}
+
+  \begin{ShadedResult}
+   \begin{verbatim}
+   #  [1] 0.01112966 0.01124471
+   \end{verbatim}
+   \end{ShadedResult}
+
+  \begin{enumerate}
+  \def\labelenumii{\alph{enumii})}
+  \setcounter{enumii}{1}
+  \item
+    Analyze the results; do the data suggest that annual mammography
+    results in a reduction in breast cancer mortality relative to
+    standard exams? Be sure to check the assumptions for using the
+    normal approximation.
+
+    \color{blue}
+
+    Since the participants were randomly assigned to each group, the
+    groups can be treated as independent, and it is reasonable to assume
+    independence of patients within each group.
+
+    The pooled proportion \(\hat{p}\) is
+    \[\hat{p} = \dfrac{x_1 + x_2}{n_1 + n_2} = 0.0112\]
+
+    The success-failure condition is met; the expected number of
+    successes is about 503 in both groups (and expected number of
+    failures is naturally much larger, given that both \(\hat{p}\) is
+    less than 0.50 and \(n\) is very large).
+
+    Test \(H_0: p_M = p_C\) against \(H_A: p_M \neq p_C\). Let
+    \(\alpha = 0.05\).
+
+    The two-sided \(p\)-value is 0.895. Since \(p > \alpha\), there is
+    insufficient evidence to reject the null hypothesis; the observed
+    difference in proportions of breast cancer deaths is reasonably
+    explained by chance. The results do not suggest that annual
+    mammography results in a reduction in breast cancer mortality
+    relative to standard exams.
+
+    \color{black}
+  \end{enumerate}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#use r as a calculator}
+\NormalTok{p.hat.pooled =}\StringTok{ }\KeywordTok{sum}\NormalTok{(x)}\OperatorTok{/}\KeywordTok{sum}\NormalTok{(n)}
+\NormalTok{p.hat.pooled}
+\end{Highlighting}
+\end{Shaded}
+
+  \begin{ShadedResult}
+   \begin{verbatim}
+   #  [1] 0.01118718
+   \end{verbatim}
+   \end{ShadedResult}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#check success-failure}
+\NormalTok{n}\OperatorTok{*}\NormalTok{p.hat.pooled}
+\end{Highlighting}
+\end{Shaded}
+
+  \begin{ShadedResult}
+   \begin{verbatim}
+   #  [1] 502.5839 502.4161
+   \end{verbatim}
+   \end{ShadedResult}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{n}\OperatorTok{*}\NormalTok{(}\DecValTok{1} \OperatorTok{-}\StringTok{ }\NormalTok{p.hat.pooled)}
+\end{Highlighting}
+\end{Shaded}
+
+  \begin{ShadedResult}
+   \begin{verbatim}
+   #  [1] 44422.42 44407.58
+   \end{verbatim}
+   \end{ShadedResult}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#conduct inference}
+\KeywordTok{prop.test}\NormalTok{(}\DataTypeTok{x =}\NormalTok{ x, }\DataTypeTok{n =}\NormalTok{ n)}\OperatorTok{$}\NormalTok{p.val}
+\end{Highlighting}
+\end{Shaded}
+
+  \begin{ShadedResult}
+   \begin{verbatim}
+   #  [1] 0.8948174
+   \end{verbatim}
+   \end{ShadedResult}
+
+  \begin{enumerate}
+  \def\labelenumii{\alph{enumii})}
+  \setcounter{enumii}{2}
+  \item
+    Calculate and interpret a 95\% confidence interval for the
+    difference in proportions of deaths from breast cancer. Be sure to
+    check the assumptions for using the normal approximation.
+
+    \color{blue}
+
+    The success-failure condition should be checked for each sample:
+    from the data, the number of successes and failures are both well
+    over 10 in each group.
+
+    The 95\% confidence interval is (-0.0015, 0.0013). With 95\%
+    confidence, the difference in probability of death is within the
+    interval (-0.15\%, 0.13\%); i.e., 0.15\% lower in the mammogram
+    group to 0.13\% higher in the mammogram group. As expected from the
+    large \(p\)-value, the confidence interval contains the null value
+    0.
+
+    \color{black}
+  \end{enumerate}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#conduct inference}
+\KeywordTok{prop.test}\NormalTok{(}\DataTypeTok{x =}\NormalTok{ x, }\DataTypeTok{n =}\NormalTok{ n)}\OperatorTok{$}\NormalTok{conf.int}
+\end{Highlighting}
+\end{Shaded}
+
+  \begin{ShadedResult}
+   \begin{verbatim}
+   #  [1] -0.001512853  0.001282751
+   #  attr(,"conf.level")
+   #  [1] 0.95
+   \end{verbatim}
+   \end{ShadedResult}
+\end{enumerate}
+
+\newpage
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{1}
+\item
+  Remdesivir is an antiviral drug previously tested in animal models
+  infected with coronaviruses like SARS and MERS. As of May 2020,
+  remdesivir had temporary approval from the FDA for use in severely ill
+  COVID-19 patients and was the subject of numerous ongoing studies.
+
+  A randomized controlled trial conducted in China enrolled 236 patients
+  with severe COVID-19; 158 were assigned to receive remdesivir and 78
+  to receive a placebo. In the remdesivir group, 103 patients showed
+  clinical improvement; in the placebo group, 45 patients showed
+  clinical
+  improvement.\footnote{Wang, Y, et al. Remdesivir in adults with severe COVID-19: a randomised, double-blind, placebo-controlled, multi-centre trial. \textit{Lancet} 395(10236). 16 May 2020.}
+
+  \begin{enumerate}
+  \def\labelenumii{\alph{enumii})}
+  \item
+    Calculate \(\hat{p}_1\) and \(\hat{p}_2\), the two sample
+    proportions of interest.
+
+    \textcolor{blue}{The two sample proportions of interest are 0.652 and 0.577, the proportion of individuals in each treatment group that showed clinical improvement.}
+  \end{enumerate}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#use r as a calculator}
+\NormalTok{x =}\StringTok{ }\KeywordTok{c}\NormalTok{(}\DecValTok{103}\NormalTok{, }\DecValTok{45}\NormalTok{)}
+\NormalTok{n =}\StringTok{ }\KeywordTok{c}\NormalTok{(}\DecValTok{158}\NormalTok{, }\DecValTok{78}\NormalTok{)}
+\NormalTok{p.hat.vector =}\StringTok{ }\NormalTok{x}\OperatorTok{/}\NormalTok{n}
+\NormalTok{p.hat.vector}
+\end{Highlighting}
+\end{Shaded}
+
+  \begin{ShadedResult}
+   \begin{verbatim}
+   #  [1] 0.6518987 0.5769231
+   \end{verbatim}
+   \end{ShadedResult}
+
+  \begin{enumerate}
+  \def\labelenumii{\alph{enumii})}
+  \setcounter{enumii}{1}
+  \item
+    Conduct a formal comparison of the clinical improvement rates and
+    summarize your findings. Be sure to check the assumptions for using
+    the normal approximation.
+
+    \color{blue}
+
+    Since the participants were randomly assigned to each group, the
+    groups can be treated as independent, and it is reasonable to assume
+    independence of patients within each group.
+
+    The pooled proportion \(\hat{p}\) is
+    \[\hat{p} = \dfrac{x_1 + x_2}{n_1 + n_2} = 0.627\]
+
+    The success-failure condition is met; the expected number of
+    successes and failures are all larger than 10.
+
+    Test \(H_0: p_1 = p_2\) against \(H_A: p_1 \neq p_2\), where \(p_1\)
+    represents the population proportion of clinical improvement in
+    COVID-19 patients treated with remdesivir and \(p_2\) represents the
+    population proportion of clinical improvement in COVID-19 patients
+    treated with placebo. Let \(\alpha = 0.05\). The \(p\)-value is
+    0.328, which is greater than \(\alpha\); there is insufficient
+    evidence to reject the null hypothesis of no difference. Even though
+    the proportion of patients who experienced clinical improvement
+    about 7\% higher in the remdesivir group, this difference is not
+    extreme enough to represent sufficient evidence that remdesivir is
+    more effective than placebo.
+
+    \color{black}
+  \end{enumerate}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#use r as a calculator}
+\NormalTok{p.hat.pooled =}\StringTok{ }\KeywordTok{sum}\NormalTok{(x)}\OperatorTok{/}\KeywordTok{sum}\NormalTok{(n)}
+\NormalTok{p.hat.pooled}
+\end{Highlighting}
+\end{Shaded}
+
+  \begin{ShadedResult}
+   \begin{verbatim}
+   #  [1] 0.6271186
+   \end{verbatim}
+   \end{ShadedResult}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#check success-failure}
+\NormalTok{n}\OperatorTok{*}\NormalTok{p.hat.pooled}
+\end{Highlighting}
+\end{Shaded}
+
+  \begin{ShadedResult}
+   \begin{verbatim}
+   #  [1] 99.08475 48.91525
+   \end{verbatim}
+   \end{ShadedResult}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{n}\OperatorTok{*}\NormalTok{(}\DecValTok{1} \OperatorTok{-}\StringTok{ }\NormalTok{p.hat.pooled)}
+\end{Highlighting}
+\end{Shaded}
+
+  \begin{ShadedResult}
+   \begin{verbatim}
+   #  [1] 58.91525 29.08475
+   \end{verbatim}
+   \end{ShadedResult}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#conduct inference}
+\KeywordTok{prop.test}\NormalTok{(}\DataTypeTok{x =}\NormalTok{ x, }\DataTypeTok{n =}\NormalTok{ n)}\OperatorTok{$}\NormalTok{p.val}
+\end{Highlighting}
+\end{Shaded}
+
+  \begin{ShadedResult}
+   \begin{verbatim}
+   #  [1] 0.3284038
+   \end{verbatim}
+   \end{ShadedResult}
+
+  \begin{enumerate}
+  \def\labelenumii{\alph{enumii})}
+  \setcounter{enumii}{2}
+  \item
+    Report and interpret an appropriate interval estimate. Be sure to
+    check the assumptions for using the normal approximation.
+
+    \textcolor{blue}{The success-failure condition should be checked for each sample: from the data, the number of successes and failures are both well over 10 in each group. The 95\% confidence interval is (-0.067, 0.217); with 95\% confidence, this interval captures the difference in population proportion of clinical mortality between COVID-19 patients treated with remdesivir and those treated with placebo. The interval contains 0, which is consistent with no statistically significant evidence of a difference. The interval reflects the lack of precision around the effect estimate that is characteristic of an insufficiently large sample size.}
+  \end{enumerate}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{prop.test}\NormalTok{(}\DataTypeTok{x =}\NormalTok{ x, }\DataTypeTok{n =}\NormalTok{ n)}\OperatorTok{$}\NormalTok{conf.int}
+\end{Highlighting}
+\end{Shaded}
+
+  \begin{ShadedResult}
+   \begin{verbatim}
+   #  [1] -0.06703113  0.21698245
+   #  attr(,"conf.level")
+   #  [1] 0.95
+   \end{verbatim}
+   \end{ShadedResult}
+\end{enumerate}
+
+\newpage
+
+\hypertarget{contingency-tables}{%
+\section{Contingency Tables}\label{contingency-tables}}
+
+\textbf{The \(\chi^2\) test of independence}
+
+In the \(\chi^2\) test of independence, the observed number of cell
+counts are compared to the number of \textbf{expected} cell counts,
+where the expected counts are calculated under the null hypothesis.
+
+\begin{itemize}
+\item
+  \(H_0\): the row and column variables are not associated
+\item
+  \(H_A\): the row and column variables are associated
+\end{itemize}
+
+The expected count for the \(i^{th}\) row and \(j^{th}\) column is
+\[E_{i, j} = \dfrac{(\text{row $i$ total}) \times (\text{column $j$ total}) }{n}, \]
+where \(n\) is the total number of observations.
+
+Assumptions for the \(\chi^2\) test:
+
+\begin{itemize}
+\item
+  \emph{Independence}. Each case that contributes a count to the table
+  must be independent of all other cases in the table.
+\item
+  \emph{Sample size}. Each expected cell count must be greater than or
+  equal to 10. For tables larger than \(2 \times 2\), it is appropriate
+  to use the test if no more than 1/5 of the expected counts are less
+  than 5, and all expected counts are greater than 1.
+\end{itemize}
+
+The \textbf{\(\chi^2\) test statistic} is calculated as
+\[\chi^2 = \sum_{i = 1}^r \sum_{j = 1}^c \dfrac{(O_{i, j} - E_{i, j})^2}{E_{i, j}}, \]
+and is approximately distributed \(\chi^2\) with degrees of freedom
+\((r - 1)(c - 1)\), where \(r\) is the number of rows and \(c\) is the
+number of columns. \(O_{i, j}\) represents the observed count in row
+\(i\), column \(j\).
+
+For each cell in a table, the \textbf{residual} equals
+\[\dfrac{O_{i, j} - E_{i, j}}{\sqrt{E_{i,j}}}. \] Residuals with a large
+magnitude contribute the most to the \(\chi^2\) statistic. If a residual
+is positive, the observed value is greater than the expected value; if a
+residual is negative, the observed value is less than the expected.
+
+\vspace{0.5cm}
+
+\emph{Fisher's exact test}
+
+When the expected counts in a two-way table are less than 10, Fisher's
+exact test is used to compute a \(p\)-value without relying on the
+normal approximation. In this course, only the logic behind Fisher's
+exact test for a \(2 \times 2\) table is discussed. In the
+\(2 \times 2\) table case, the hypotheses for Fisher's exact test can be
+expressed in the same way as for a two-sample test of proportions; the
+null hypothesis is \(H_0: p_1 = p_2\).
+
+The \(p\)-value is the probability of observing results as or more
+extreme than those observed under the assumption that the null
+hypothesis is true.
+
+\begin{itemize}
+\item
+  Thus, the \(p\)-value is calculated by adding together the individual
+  conditional probabilities of obtaining each table that is as or more
+  extreme than the one observed, under the null hypothesis and given
+  that the marginal totals are considered fixed.
+\item
+  When the marginal totals are held constant, the value of any one cell
+  in the table determines the rest of entries. When marginal totals are
+  considered fixed, each table represents a unique set of results.
+\item
+  Extreme tables are those which contradict \(H_0: p_1 = p_2\).
+\item
+  A two-sided \(p\)-value can be calculated by doubling the smaller of
+  the possible one-sided \(p\)-values; this method is typically used
+  when calculating \(p\)-values by hand. Another common method is to
+  classify ``more extreme'' tables as all tables with probabilities less
+  than that of the observed table, in both directions; the \(p\)-value
+  is the sum of probabilities for the qualifying table.
+\end{itemize}
+
+The probability of a particular table (i.e., set of results) can be
+calculated with the \textbf{hypergeometric distribution}.
+
+Let \(X\) represent the number of successes in a series of repeated
+Bernoulli trials, where sampling is done without replacement. Suppose
+that in the population of size \(N\), there are \(m\) total successes.
+What is the probability of observing exactly \(k\) successes when
+drawing a sample of size \(n\)?
+
+For example, imagine an urn with \(m\) white balls and \(N - m\) black
+balls (thus, there are \(N\) total balls). Draw \(n\) balls without
+replacement (i.e., a sample of \(n\) balls). What is the probability of
+observing \(k\) white balls in the sample?
+
+The possible results of a sample can be organized in a \(2 \times 2\)
+table:
+
+\begin{table*}[h!]
+\begin{center}
+\begin{tabular}{l|cc|c} 
+   & \textbf{White Ball} & \textbf{Black Ball} & \textbf{Total}\\ \hline
+  \textbf{Sampled} & $k$ & \textcolor{gray}{$n - k$}  & $n$  \\
+  \textbf{Not Sampled} & \textcolor{gray}{$m - k$} & \textcolor{gray}{$N - n - (m - k)$} & \textcolor{gray}{$N - n$} \\ \hline
+  \textbf{Total} & $m$ & $N - m$ & $N$  \\ 
+\end{tabular}\\
+\end{center}
+\end{table*}
+
+The probability of observing exactly \(k\) successses in a sample of
+size \(n\) (i.e., \(n\) dependent trials) is given by
+\[P(X = k) = \dfrac{{m \choose k} {N - m \choose n-k}}{{N \choose n}}. \]
+
+Hypergeometric probabilities are calculated in \textsf{R} with the use
+of \texttt{dhyper()} and \texttt{phyper()}. The following code shows how
+to calculate \(P(X = 5)\), \(P(X \leq 5)\), and \(P(X > 5)\) for
+\(X \sim \text{HGeom}(10, 15, 8)\), where \(m = 10\), \(N - m = 15\),
+and \(n = 8\).
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#probability X equals 5}
+\KeywordTok{dhyper}\NormalTok{(}\DecValTok{5}\NormalTok{, }\DecValTok{10}\NormalTok{, }\DecValTok{15}\NormalTok{, }\DecValTok{8}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{ShadedResult}
+\begin{verbatim}
+#  [1] 0.1060121
+\end{verbatim}
+\end{ShadedResult}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#probability X is less than or equal to 5}
+\KeywordTok{phyper}\NormalTok{(}\DecValTok{5}\NormalTok{, }\DecValTok{10}\NormalTok{, }\DecValTok{15}\NormalTok{, }\DecValTok{8}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{ShadedResult}
+\begin{verbatim}
+#  [1] 0.9779072
+\end{verbatim}
+\end{ShadedResult}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#probability X is greater than 5}
+\KeywordTok{phyper}\NormalTok{(}\DecValTok{5}\NormalTok{, }\DecValTok{10}\NormalTok{, }\DecValTok{15}\NormalTok{, }\DecValTok{8}\NormalTok{, }\DataTypeTok{lower.tail =} \OtherTok{FALSE}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{ShadedResult}
+\begin{verbatim}
+#  [1] 0.02209278
+\end{verbatim}
+\end{ShadedResult}
+
+\vspace{0.5cm}
+
+\emph{Measures of association in two-by-two tables}
+
+Chapter 1 introduced the \textbf{relative risk (RR)}, a measure of the
+risk of a certain event occurring in one group relative to the risk of
+the event occurring in another group, as a numerical summary for
+two-by-two (\(2 \times 2\)) tables. The relative risk can also be
+thought of as a measure of association.
+
+Consider the following hypothetical two-by-two table. The relative risk
+of Outcome A can be calculated by using either Group 1 or Group 2 as the
+reference group:
+
+\begin{table}[h!]
+    \centering
+    \begin{tabular}{r|rrr}
+        \hline
+        & Outcome A & Outcome B & Sum\\ 
+        \hline
+        Group 1 & $a$ & $b$ & $a + b$ \\ 
+        Group 2 & $c$ & $d$ & $c + d$ \\
+        Sum & $a + c$ & $b + d$ & $a + b + c + d = n$ \\
+        \hline
+    \end{tabular}   
+    \caption{A hypothetical two-by-two table of outcome by group.}
+\end{table}
+
+\[RR_{\text{A, comparing Group 1 to Group 2}} = \dfrac{a/(a + b)}{c/(c+d)} \]
+\[RR_{\text{A, comparing Group 2 to Group 1}} = \dfrac{c/(c + d)}{a/(a+b)} \]
+
+The relative risk is only valid for tables where the proportions
+\(a/(a + b)\) and \(c/(c + d)\) represent the incidence of Outcome A
+within the populations from which Groups 1 and 2 are sampled.
+
+The \textbf{odds ratio (OR)} is a measure of association that remains
+applicable even when it is not possible to estimate incidence of an
+outcome from the sample data. The \textbf{odds} of Outcome A in Group 1
+are \(a/b\), while the odds of Outcome A in Group 2 are \(c/d\).
+
+\[OR_{\text{A, comparing Group 1 to Group 2}} = \dfrac{a/b}{c/d} = \dfrac{ad}{bc} \]
+\[OR_{\text{A, comparing Group 2 to Group 1}} = \dfrac{c/d}{a/b} = \dfrac{bc}{ad} \]
+
+\vspace{0.5cm}
+
+\hypertarget{the-chi2-test-of-independence}{%
+\section{\texorpdfstring{The \(\chi^2\) test of
+independence}{The \textbackslash chi\^{}2 test of independence}}\label{the-chi2-test-of-independence}}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{2}
+\item
+  In resource-limited settings, single-dose nevirapine (NVP) is given to
+  an HIV-positive woman during birth to prevent mother-to-child
+  transmission of the virus. Exposure of the infant to NVP may foster
+  the growth of more virulent strains of the virus in the child.
+
+  If a child is HIV-positive, should they be treated with NVP or a more
+  expensive drug, lopinavir (LPV)? In this setting, success means
+  preventing a growth of the virus in the child (i.e., preventing
+  virologic failure). The following table contains data from a 2012
+  study conducted in six African countries and
+  India.\footnote{A. Violari, et al. "Nevirapine versus ritonavir-boosted lopinavir for HIV-infected children." \textit{NEJM} 366: 2380-2389.}
+
+  \begin{center}
+  \begin{tabular}{l|cc|c} 
+  & \textbf{NVP} & \textbf{LPV} & \textbf{Total}\\ \hline
+    \textbf{Virologic Failure} & 60 & 27 & 87  \\
+    \textbf{Stable Disease} & 87 & 113 & 200 \\ \hline
+    \textbf{Total} & 147 & 140 & 287  \\ 
+  \end{tabular}\\
+  \end{center}
+
+  \vspace{0.5cm}
+
+  \begin{enumerate}
+  \def\labelenumii{\alph{enumii})}
+  \item
+    State the null and alternative hypotheses.
+
+    \color{blue}
+
+    The null hypothesis is that there is no association between
+    treatment and outcome; i.e., treatment and outcome are independent.
+
+    The alternative hypothesis is that there is an association between
+    treatment and outcome; i.e., treatment and outcome are not
+    independent.
+
+    \color{black}
+  \item
+    Calculate the expected cell counts.
+
+    \color{blue}
+
+    The expected cell counts are shown in parentheses next to the
+    observed cell counts.
+
+    \begin{center}
+      \begin{tabular}{l|cc|c} 
+    & \textbf{NVP} & \textbf{LPV} & \textbf{Total}\\ \hline
+      \textbf{Virologic Failure} & 60 (44.56) & 27 (42.44) & 87  \\ 
+      \textbf{Stable Disease} & 87 (102.44) & 113 (97.56)& 200 \\ \hline
+      \textbf{Total} & 147 & 140 & 287  \\ 
+      \end{tabular}\\
+     \end{center}
+
+    \color{black}
+  \end{enumerate}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#use r as a calculator}
+
+\CommentTok{#set parameters}
+\NormalTok{n =}\StringTok{ }\DecValTok{287}
+\NormalTok{row.}\FloatTok{1.}\NormalTok{total =}\StringTok{ }\DecValTok{87}
+\NormalTok{row.}\FloatTok{2.}\NormalTok{total =}\StringTok{ }\DecValTok{200}
+\NormalTok{col.}\FloatTok{1.}\NormalTok{total =}\StringTok{ }\DecValTok{147}
+\NormalTok{col.}\FloatTok{2.}\NormalTok{total =}\StringTok{ }\DecValTok{140}
+
+\CommentTok{#calculate expected values}
+\NormalTok{exp.}\FloatTok{1.1}\NormalTok{ =}\StringTok{ }\NormalTok{(row.}\FloatTok{1.}\NormalTok{total }\OperatorTok{*}\StringTok{ }\NormalTok{col.}\FloatTok{1.}\NormalTok{total)}\OperatorTok{/}\NormalTok{n}
+\NormalTok{exp.}\FloatTok{1.1}
+\end{Highlighting}
+\end{Shaded}
+
+  \begin{ShadedResult}
+   \begin{verbatim}
+   #  [1] 44.56098
+   \end{verbatim}
+   \end{ShadedResult}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{exp.}\FloatTok{1.2}\NormalTok{ =}\StringTok{ }\NormalTok{(row.}\FloatTok{1.}\NormalTok{total }\OperatorTok{*}\StringTok{ }\NormalTok{col.}\FloatTok{2.}\NormalTok{total)}\OperatorTok{/}\NormalTok{n}
+\NormalTok{exp.}\FloatTok{1.2}
+\end{Highlighting}
+\end{Shaded}
+
+  \begin{ShadedResult}
+   \begin{verbatim}
+   #  [1] 42.43902
+   \end{verbatim}
+   \end{ShadedResult}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{exp.}\FloatTok{2.1}\NormalTok{ =}\StringTok{ }\NormalTok{(row.}\FloatTok{2.}\NormalTok{total }\OperatorTok{*}\StringTok{ }\NormalTok{col.}\FloatTok{1.}\NormalTok{total)}\OperatorTok{/}\NormalTok{n}
+\NormalTok{exp.}\FloatTok{2.1}
+\end{Highlighting}
+\end{Shaded}
+
+  \begin{ShadedResult}
+   \begin{verbatim}
+   #  [1] 102.439
+   \end{verbatim}
+   \end{ShadedResult}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{exp.}\FloatTok{2.2}\NormalTok{ =}\StringTok{ }\NormalTok{(row.}\FloatTok{2.}\NormalTok{total }\OperatorTok{*}\StringTok{ }\NormalTok{col.}\FloatTok{2.}\NormalTok{total)}\OperatorTok{/}\NormalTok{n}
+\NormalTok{exp.}\FloatTok{2.2}
+\end{Highlighting}
+\end{Shaded}
+
+  \begin{ShadedResult}
+   \begin{verbatim}
+   #  [1] 97.56098
+   \end{verbatim}
+   \end{ShadedResult}
+
+  \begin{enumerate}
+  \def\labelenumii{\alph{enumii})}
+  \setcounter{enumii}{2}
+  \item
+    Check the assumptions for using the \(\chi^2\) test.
+
+    \textcolor{blue}{Independence holds, since this is a randomized study. All expected counts are greater than 10.}
+  \item
+    Calculate the \(\chi^2\) test statistic.
+
+    \color{blue}
+
+    \[\chi^2 = \sum \dfrac{(\text{obs - exp})^2}{\text{exp}} = \dfrac{(60-44.56)^2}{44.56} + \dfrac{(27-42.44)^2}{42.44} +  \dfrac{(87-102.44)^2}{102.44} + \dfrac{(113 - 97.56)^2}{97.56} = 15.74\]
+
+    \color{black}
+  \end{enumerate}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#use r as a calculator}
+\NormalTok{obs.}\FloatTok{1.1}\NormalTok{ =}\StringTok{ }\DecValTok{60}
+\NormalTok{chi.sq.}\FloatTok{1.1}\NormalTok{ =}\StringTok{ }\NormalTok{((obs.}\FloatTok{1.1} \OperatorTok{-}\StringTok{ }\NormalTok{exp.}\FloatTok{1.1}\NormalTok{)}\OperatorTok{^}\DecValTok{2}\NormalTok{)}\OperatorTok{/}\NormalTok{exp.}\FloatTok{1.1}
+
+\NormalTok{obs.}\FloatTok{1.2}\NormalTok{ =}\StringTok{ }\DecValTok{27}
+\NormalTok{chi.sq.}\FloatTok{1.2}\NormalTok{ =}\StringTok{ }\NormalTok{((obs.}\FloatTok{1.2} \OperatorTok{-}\StringTok{ }\NormalTok{exp.}\FloatTok{1.2}\NormalTok{)}\OperatorTok{^}\DecValTok{2}\NormalTok{)}\OperatorTok{/}\NormalTok{exp.}\FloatTok{1.2}
+
+\NormalTok{obs.}\FloatTok{2.1}\NormalTok{ =}\StringTok{ }\DecValTok{87}
+\NormalTok{chi.sq.}\FloatTok{2.1}\NormalTok{ =}\StringTok{ }\NormalTok{((obs.}\FloatTok{2.1} \OperatorTok{-}\StringTok{ }\NormalTok{exp.}\FloatTok{2.1}\NormalTok{)}\OperatorTok{^}\DecValTok{2}\NormalTok{)}\OperatorTok{/}\NormalTok{exp.}\FloatTok{2.1}
+
+\NormalTok{obs.}\FloatTok{2.2}\NormalTok{ =}\StringTok{ }\DecValTok{113}
+\NormalTok{chi.sq.}\FloatTok{2.2}\NormalTok{ =}\StringTok{ }\NormalTok{((obs.}\FloatTok{2.2} \OperatorTok{-}\StringTok{ }\NormalTok{exp.}\FloatTok{2.2}\NormalTok{)}\OperatorTok{^}\DecValTok{2}\NormalTok{)}\OperatorTok{/}\NormalTok{exp.}\FloatTok{2.2}
+
+\NormalTok{chi.sq =}\StringTok{ }\NormalTok{chi.sq.}\FloatTok{1.1} \OperatorTok{+}\StringTok{ }\NormalTok{chi.sq.}\FloatTok{1.2} \OperatorTok{+}\StringTok{ }\NormalTok{chi.sq.}\FloatTok{2.1} \OperatorTok{+}\StringTok{ }\NormalTok{chi.sq.}\FloatTok{2.2}
+\NormalTok{chi.sq}
+\end{Highlighting}
+\end{Shaded}
+
+  \begin{ShadedResult}
+   \begin{verbatim}
+   #  [1] 15.73587
+   \end{verbatim}
+   \end{ShadedResult}
+
+  \begin{enumerate}
+  \def\labelenumii{\alph{enumii})}
+  \setcounter{enumii}{4}
+  \item
+    Calculate the \(p\)-value for the test statistic using
+    \texttt{pchisq()}. The \(p\)-value represents the probability of
+    observing a result as or more extreme than the sample data.
+
+    \textcolor{blue}{The $p$-value for the test statistic is $7.28 \times 10^{-5}$.}
+  \end{enumerate}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#use pchisq()}
+\KeywordTok{pchisq}\NormalTok{(chi.sq, }\DataTypeTok{df =}\NormalTok{ (}\DecValTok{2} \OperatorTok{-}\StringTok{ }\DecValTok{1}\NormalTok{)}\OperatorTok{*}\NormalTok{(}\DecValTok{2} \OperatorTok{-}\StringTok{ }\DecValTok{1}\NormalTok{), }\DataTypeTok{lower.tail =} \OtherTok{FALSE}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+  \begin{enumerate}
+  \def\labelenumii{\alph{enumii})}
+  \setcounter{enumii}{5}
+  \item
+    Confirm the results from parts c) and d) using
+    \texttt{chisq.test()}. Note that the value of the test statistic
+    will be slightly different because \textsf{R} is applying a
+    `continuity correction'.
+
+    \textcolor{blue}{From \texttt{chisq.test()}, the $\chi^2$ statistic is 14.73 and the associated $p$-value is 0.0001.}
+  \end{enumerate}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#enter the data as a table}
+\NormalTok{hiv.table =}\StringTok{ }\KeywordTok{matrix}\NormalTok{(}\KeywordTok{c}\NormalTok{(}\DecValTok{60}\NormalTok{, }\DecValTok{27}\NormalTok{, }\DecValTok{87}\NormalTok{, }\DecValTok{113}\NormalTok{), }
+              \DataTypeTok{nrow =} \DecValTok{2}\NormalTok{, }\DataTypeTok{ncol =} \DecValTok{2}\NormalTok{, }\DataTypeTok{byrow =}\NormalTok{ T)}
+
+\CommentTok{#add labels and confirm the table was entered correctly}
+\KeywordTok{dimnames}\NormalTok{(hiv.table) =}\StringTok{ }\KeywordTok{list}\NormalTok{(}\StringTok{"Outcome"}\NormalTok{ =}\StringTok{ }\KeywordTok{c}\NormalTok{(}\StringTok{"Virologic Failure"}\NormalTok{, }\StringTok{"Stable Disease"}\NormalTok{),}
+                        \StringTok{"Drug"}\NormalTok{ =}\StringTok{ }\KeywordTok{c}\NormalTok{(}\StringTok{"NVP"}\NormalTok{, }\StringTok{"LPV"}\NormalTok{))}
+\NormalTok{hiv.table}
+\end{Highlighting}
+\end{Shaded}
+
+  \begin{ShadedResult}
+   \begin{verbatim}
+   #                     Drug
+   #  Outcome             NVP LPV
+   #    Virologic Failure  60  27
+   #    Stable Disease     87 113
+   \end{verbatim}
+   \end{ShadedResult}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#use chisq.test()}
+\KeywordTok{chisq.test}\NormalTok{(hiv.table)}
+\end{Highlighting}
+\end{Shaded}
+
+  \begin{ShadedResult}
+   \begin{verbatim}
+   #  
+   #   Pearson's Chi-squared test with Yates' continuity correction
+   #  
+   #  data:  hiv.table
+   #  X-squared = 14.733, df = 1, p-value = 0.0001238
+   \end{verbatim}
+   \end{ShadedResult}
+
+  \begin{enumerate}
+  \def\labelenumii{\alph{enumii})}
+  \setcounter{enumii}{6}
+  \item
+    Summarize the conclusions; be sure to include which drug is
+    recommended for treatment, based on the data.
+
+    \color{blue}
+
+    There is sufficient evidence at the \(\alpha = 0.05\) significance
+    level to reject the null hypothesis and accept the alternative
+    hypothesis that treatment and outcome are associated.
+
+    From comparing the expected and observed cell counts (or looking at
+    the residuals), it is possible to determine the direction of the
+    association. When treated with lopinarvir, fewer children than
+    expected experience virologic failure (27 observed versus
+    \textasciitilde42 expected), and more than expected experience
+    stable disease (113 observed versus \textasciitilde98 expected). In
+    contrast, when treated with nevirapine, more children than expected
+    experience virologic failure (60 observed versus \textasciitilde45
+    expected), and fewer children than expected experience stable
+    disease (87 observed versus \textasciitilde102 expected).
+
+    The data suggest that HIV-positive children should be treated with
+    lopinarvir.
+
+    \color{black}
+  \end{enumerate}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#look at residuals}
+\KeywordTok{chisq.test}\NormalTok{(hiv.table)}\OperatorTok{$}\NormalTok{resid}
+\end{Highlighting}
+\end{Shaded}
+
+  \begin{ShadedResult}
+   \begin{verbatim}
+   #                     Drug
+   #  Outcome                   NVP       LPV
+   #    Virologic Failure  2.312824 -2.369939
+   #    Stable Disease    -1.525412  1.563082
+   \end{verbatim}
+   \end{ShadedResult}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#to view the expected values, use $expected}
+\KeywordTok{chisq.test}\NormalTok{(hiv.table)}\OperatorTok{$}\NormalTok{expected}
+\end{Highlighting}
+\end{Shaded}
+
+  \begin{ShadedResult}
+   \begin{verbatim}
+   #                     Drug
+   #  Outcome                   NVP      LPV
+   #    Virologic Failure  44.56098 42.43902
+   #    Stable Disease    102.43902 97.56098
+   \end{verbatim}
+   \end{ShadedResult}
+
+  \begin{enumerate}
+  \def\labelenumii{\alph{enumii})}
+  \setcounter{enumii}{7}
+  \item
+    Repeat the analysis using inference for the difference of two
+    proportions and confirm that the results are the same.
+
+    \textcolor{blue}{The proportion of successes on nevirapine is 0.59 and the proportion of successes on lopinarvir is 0.81. The $p$-value is 0.0012; there is sufficient evidence to reject the null of no difference and conclude that stable disease is associated with lopinarvir.}
+  \end{enumerate}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#use prop.test( )}
+\KeywordTok{prop.test}\NormalTok{(}\DataTypeTok{x =} \KeywordTok{c}\NormalTok{(}\DecValTok{87}\NormalTok{, }\DecValTok{113}\NormalTok{), }\DataTypeTok{n =} \KeywordTok{c}\NormalTok{(}\DecValTok{147}\NormalTok{, }\DecValTok{140}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+  \begin{ShadedResult}
+   \begin{verbatim}
+   #  
+   #   2-sample test for equality of proportions with continuity correction
+   #  
+   #  data:  c(87, 113) out of c(147, 140)
+   #  X-squared = 14.733, df = 1, p-value = 0.0001238
+   #  alternative hypothesis: two.sided
+   #  95 percent confidence interval:
+   #   -0.3251572 -0.1054551
+   #  sample estimates:
+   #     prop 1    prop 2 
+   #  0.5918367 0.8071429
+   \end{verbatim}
+   \end{ShadedResult}
+\item
+  In the PREVEND study introduced in Chapter 6, researchers measured
+  various features of study participants, including data on statin use
+  and highest level of education attained. From the data in
+  \texttt{prevend.samp}, is there evidence of an association between
+  statin use and educational level? Summarize the results.
+
+  \color{blue}
+
+  Test the null hypothesis that statin use and education level are not
+  associated against the alternative hypothesis that statin use and
+  education level are associated. Let \(\alpha = 0.05\).
+
+  The \(p\)-value of the \(\chi^2\) statistic is 0.0003. The results are
+  highly significant, and there is evidence to support accepting the
+  alternative hypothesis that statin use and education level are
+  associated.
+
+  The largest deviations from independence occur in the primary school
+  group and university group. There are more statin users than expected
+  in the primary school group and fewer statin users than expected in
+  the university group. There is an observable overall trend; as highest
+  educational level attained increases, the proportion of statin users
+  goes from higher than expected to lower than expected.
+
+  \color{black}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#load the data}
+\KeywordTok{library}\NormalTok{(oibiostat)}
+\KeywordTok{data}\NormalTok{(}\StringTok{"prevend.samp"}\NormalTok{)}
+
+\CommentTok{#convert variables to factors}
+\NormalTok{prevend.samp}\OperatorTok{$}\NormalTok{Statin =}\StringTok{ }\KeywordTok{factor}\NormalTok{(prevend.samp}\OperatorTok{$}\NormalTok{Statin, }\DataTypeTok{levels =} \KeywordTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{, }\DecValTok{1}\NormalTok{),}
+                         \DataTypeTok{labels =} \KeywordTok{c}\NormalTok{(}\StringTok{"NonUser"}\NormalTok{, }\StringTok{"User"}\NormalTok{))}
+
+\NormalTok{prevend.samp}\OperatorTok{$}\NormalTok{Education =}\StringTok{ }\KeywordTok{factor}\NormalTok{(prevend.samp}\OperatorTok{$}\NormalTok{Education, }\DataTypeTok{levels =} \DecValTok{0}\OperatorTok{:}\DecValTok{3}\NormalTok{,}
+                            \DataTypeTok{labels =} \KeywordTok{c}\NormalTok{(}\StringTok{"Primary"}\NormalTok{, }\StringTok{"LowerSec"}\NormalTok{,}
+                                       \StringTok{"UpperSec"}\NormalTok{, }\StringTok{"Univ"}\NormalTok{))}
+
+\CommentTok{#create a table}
+\NormalTok{statin.edu.table =}\StringTok{ }\KeywordTok{table}\NormalTok{(prevend.samp}\OperatorTok{$}\NormalTok{Statin, prevend.samp}\OperatorTok{$}\NormalTok{Education)}
+
+\CommentTok{#run chi-squared test}
+\KeywordTok{chisq.test}\NormalTok{(statin.edu.table)}
+\end{Highlighting}
+\end{Shaded}
+
+  \begin{ShadedResult}
+   \begin{verbatim}
+   #  
+   #   Pearson's Chi-squared test
+   #  
+   #  data:  statin.edu.table
+   #  X-squared = 19.054, df = 3, p-value = 0.0002665
+   \end{verbatim}
+   \end{ShadedResult}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{chisq.test}\NormalTok{(statin.edu.table)}\OperatorTok{$}\NormalTok{residuals}
+\end{Highlighting}
+\end{Shaded}
+
+  \begin{ShadedResult}
+   \begin{verbatim}
+   #           
+   #               Primary   LowerSec   UpperSec       Univ
+   #    NonUser -1.3196995 -0.8994999  0.3760673  1.3000955
+   #    User     2.4146629  1.6458208 -0.6880929 -2.3787932
+   \end{verbatim}
+   \end{ShadedResult}
+\end{enumerate}
+
+\newpage
+
+\hypertarget{fishers-exact-test}{%
+\section{Fisher's exact test}\label{fishers-exact-test}}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{4}
+\item
+  \textit{Clostridium difficile} is a bacterium that causes inflammation
+  of the colon. Antibiotic treatment is typically not effective,
+  particularly for patients who experience multiple recurrences of
+  infection. Infusion of feces from healthy donors has been reported as
+  an effective treatment for recurrent infection. A randomized trial was
+  conducted to compare the efficacy of donor-feces infusion versus
+  vancomycin, the antibiotic typically prescribed to treat
+  \textit{C. difficile }infection. The results of the trial are shown in
+  the following table.
+
+  \begin{table}[h]
+   \centering
+   \begin{tabular}{rrr|r}
+       \hline
+       & Cured & Uncured & Sum \\ 
+       \hline
+       Fecal Infusion & 13 & 3 & 16 \\ 
+       Vancomycin & 4 & 9 & 13 \\ 
+       \hline
+       Sum & 17 & 12 & 29 \\ 
+       \hline
+   \end{tabular}
+   \end{table}
+
+  \begin{enumerate}
+  \def\labelenumii{\alph{enumii})}
+  \item
+    Can a \(\chi^2\) test be used to analyze these results?
+
+    \textcolor{blue}{A $\chi^2$ test is not advisable since there are expected counts less than 10.}
+  \end{enumerate}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{infusion.table =}\StringTok{ }\KeywordTok{matrix}\NormalTok{(}\KeywordTok{c}\NormalTok{(}\DecValTok{13}\NormalTok{, }\DecValTok{3}\NormalTok{, }\DecValTok{4}\NormalTok{, }\DecValTok{9}\NormalTok{), }\DataTypeTok{nrow =} \DecValTok{2}\NormalTok{, }\DataTypeTok{ncol =} \DecValTok{2}\NormalTok{, }\DataTypeTok{byrow =}\NormalTok{ T)}
+\KeywordTok{dimnames}\NormalTok{(infusion.table) =}\StringTok{ }\KeywordTok{list}\NormalTok{(}\StringTok{"Outcome"}\NormalTok{ =}\StringTok{ }\KeywordTok{c}\NormalTok{(}\StringTok{"Cured"}\NormalTok{, }\StringTok{"Uncured"}\NormalTok{),}
+                            \StringTok{"Treatment"}\NormalTok{ =}\StringTok{ }\KeywordTok{c}\NormalTok{(}\StringTok{"Fecal Infusion"}\NormalTok{, }
+                                            \StringTok{"Vancomycin"}\NormalTok{))}
+
+\KeywordTok{chisq.test}\NormalTok{(infusion.table)}\OperatorTok{$}\NormalTok{expected}
+\end{Highlighting}
+\end{Shaded}
+
+  \begin{ShadedResult}
+   \begin{verbatim}
+   #           Treatment
+   #  Outcome   Fecal Infusion Vancomycin
+   #    Cured          9.37931    6.62069
+   #    Uncured        7.62069    5.37931
+   \end{verbatim}
+   \end{ShadedResult}
+
+  \begin{enumerate}
+  \def\labelenumii{\alph{enumii})}
+  \setcounter{enumii}{1}
+  \item
+    Researchers are interested in understanding whether fecal infusion
+    is a more effective treatment than vancomycin. Write the null
+    hypothesis and appropriate one-sided alternative hypothesis.
+
+    \textcolor{blue}{Let $p_1$ represent the population proportion of individuals cured on the fecal infusion treatment and $p_2$ represent the population proportion of individuals cured on the vancomycin treatment. Under the null hypothesis, the proportion cured is equal between the two treatment groups: $H_0: p_1 = p_2$. The appropriate alternative hypothesis of interest is $H_0: p_1 > p_2$. }
+  \item
+    Under the assumption that the marginal totals are fixed, enumerate
+    all possible sets of results that are more extreme than what was
+    observed, in the same direction.
+
+    \textcolor{blue}{Results more extreme than what was observed are those that constitute stronger evidence in favor of the fecal treatment group being more effective than vancomyin; i.e., results where either 14, 15, or 16 of the cured patients were in the fecal infusion group.}
+
+    \color{blue}
+
+    \begin{table}[h]
+     \centering
+     \color{gray}
+     \begin{tabular}{r|cc|c}
+     \hline
+     & Cured & Uncured & Sum \\ 
+     \hline
+     Fecal Infusion & \textcolor{black}{14} & \textcolor{black}{2} & 16 \\ 
+     Vancomycin & \textcolor{black}{3} & \textcolor{black}{10} & 13 \\ 
+     \hline
+     Sum & 17 & 12 & 29 \\ 
+     \hline
+     \end{tabular}
+     \end{table}
+
+    \begin{table}[h]
+     \centering
+     \color{gray}
+     \begin{tabular}{r|cc|c}
+     \hline
+     & Cured & Uncured & Sum \\ 
+     \hline
+     Fecal Infusion & \textcolor{black}{15} & \textcolor{black}{1} & 16 \\ 
+     Vancomycin & \textcolor{black}{2} & \textcolor{black}{11} & 13 \\ 
+     \hline
+     Sum & 17 & 12 & 29 \\ 
+     \hline
+     \end{tabular}
+     \end{table}
+
+    \begin{table}[h]
+     \centering
+     \color{gray}
+     \begin{tabular}{r|cc|c}
+     \hline
+     & Cured & Uncured & Sum \\ 
+     \hline
+     Fecal Infusion & \textcolor{black}{16} & \textcolor{black}{0} & 16 \\ 
+     Vancomycin & \textcolor{black}{1} & \textcolor{black}{12} & 13 \\ 
+     \hline
+     Sum & 17 & 12 & 29 \\ 
+     \hline
+     \end{tabular}
+       \end{table}
+  \end{enumerate}
+
+  \color{black}
+
+  \begin{enumerate}
+  \def\labelenumii{\alph{enumii})}
+  \setcounter{enumii}{3}
+  \item
+    Calculate the probability of the observed results.
+
+    \textcolor{blue}{Use the hypergeometric distribution with parameters $N = 29$, $m = 17$, and $n = 16$; calculate $P(X = 13)$. Consider the "successes" to be the individuals cured and the "sample size" to be the number of individuals in the fecal infusion group. The probability that 13 of the cured individuals were in the fecal infusion group, given the table margins are fixed, is 0.0077.}
+  \end{enumerate}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#probability of the observed results}
+\KeywordTok{dhyper}\NormalTok{(}\DecValTok{13}\NormalTok{, }\DecValTok{17}\NormalTok{, }\DecValTok{29} \OperatorTok{-}\StringTok{ }\DecValTok{17}\NormalTok{, }\DecValTok{16}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+  \begin{ShadedResult}
+   \begin{verbatim}
+   #  [1] 0.007715441
+   \end{verbatim}
+   \end{ShadedResult}
+
+  \begin{enumerate}
+  \def\labelenumii{\alph{enumii})}
+  \setcounter{enumii}{4}
+  \item
+    Calculate the probability of each set of results enumerated in part
+    c).
+
+    \textcolor{blue}{The probabilities of observing 14, 15, or 16 cured individuals in the fecal infusion group, respectively, are $6.61 \times 10^{-4}$, $2.41 \times 10^{-5}$, and $2.51 \times 10^{-7}$. }
+  \end{enumerate}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#probability of results more extreme than observed}
+\KeywordTok{dhyper}\NormalTok{(}\DecValTok{14}\NormalTok{, }\DecValTok{17}\NormalTok{, }\DecValTok{29} \OperatorTok{-}\StringTok{ }\DecValTok{17}\NormalTok{, }\DecValTok{16}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+  \begin{ShadedResult}
+   \begin{verbatim}
+   #  [1] 0.0006613235
+   \end{verbatim}
+   \end{ShadedResult}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{dhyper}\NormalTok{(}\DecValTok{15}\NormalTok{, }\DecValTok{17}\NormalTok{, }\DecValTok{29} \OperatorTok{-}\StringTok{ }\DecValTok{17}\NormalTok{, }\DecValTok{16}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+  \begin{ShadedResult}
+   \begin{verbatim}
+   #  [1] 2.404813e-05
+   \end{verbatim}
+   \end{ShadedResult}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{dhyper}\NormalTok{(}\DecValTok{16}\NormalTok{, }\DecValTok{17}\NormalTok{, }\DecValTok{29} \OperatorTok{-}\StringTok{ }\DecValTok{17}\NormalTok{, }\DecValTok{16}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+  \begin{ShadedResult}
+   \begin{verbatim}
+   #  [1] 2.505013e-07
+   \end{verbatim}
+   \end{ShadedResult}
+
+  \begin{enumerate}
+  \def\labelenumii{\alph{enumii})}
+  \setcounter{enumii}{5}
+  \item
+    Based on the answers in parts d) and e), compute the one-sided
+    \(p\)-value and interpret the results.
+
+    \textcolor{blue}{The probability of observing results as or more extreme than the observed table is 0.0084. Since $p < 0.05$, there is sufficient evidence to reject the null hypothesis at significance level $\alpha = 0.05$; the data support fecal infusion as a more effective treatment for \textit{C. difficile} infection than vancomycin.}
+  \end{enumerate}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#summing previous probabilities}
+\NormalTok{p.observed =}\StringTok{ }\KeywordTok{dhyper}\NormalTok{(}\DecValTok{13}\NormalTok{, }\DecValTok{17}\NormalTok{, }\DecValTok{29} \OperatorTok{-}\StringTok{ }\DecValTok{17}\NormalTok{, }\DecValTok{16}\NormalTok{)}
+\NormalTok{p.more.extreme =}\StringTok{ }\KeywordTok{dhyper}\NormalTok{(}\DecValTok{14}\NormalTok{, }\DecValTok{17}\NormalTok{, }\DecValTok{29} \OperatorTok{-}\StringTok{ }\DecValTok{17}\NormalTok{, }\DecValTok{16}\NormalTok{) }\OperatorTok{+}\StringTok{ }\KeywordTok{dhyper}\NormalTok{(}\DecValTok{15}\NormalTok{, }\DecValTok{17}\NormalTok{, }\DecValTok{29} \OperatorTok{-}\StringTok{ }\DecValTok{17}\NormalTok{, }\DecValTok{16}\NormalTok{) }\OperatorTok{+}\StringTok{ }
+\StringTok{  }\KeywordTok{dhyper}\NormalTok{(}\DecValTok{16}\NormalTok{, }\DecValTok{17}\NormalTok{, }\DecValTok{29} \OperatorTok{-}\StringTok{ }\DecValTok{17}\NormalTok{, }\DecValTok{16}\NormalTok{)}
+\NormalTok{p.observed }\OperatorTok{+}\StringTok{ }\NormalTok{p.more.extreme}
+\end{Highlighting}
+\end{Shaded}
+
+  \begin{ShadedResult}
+   \begin{verbatim}
+   #  [1] 0.008401063
+   \end{verbatim}
+   \end{ShadedResult}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#using phyper}
+\KeywordTok{phyper}\NormalTok{(}\DecValTok{12}\NormalTok{, }\DecValTok{17}\NormalTok{, }\DecValTok{29} \OperatorTok{-}\StringTok{ }\DecValTok{17}\NormalTok{, }\DecValTok{16}\NormalTok{, }\DataTypeTok{lower.tail =} \OtherTok{FALSE}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+  \begin{ShadedResult}
+   \begin{verbatim}
+   #  [1] 0.008401063
+   \end{verbatim}
+   \end{ShadedResult}
+
+  \begin{enumerate}
+  \def\labelenumii{\alph{enumii})}
+  \setcounter{enumii}{6}
+  \item
+    Use \texttt{fisher.test( )} to confirm the calculations in part f)
+    and to calculate the two-sided \(p\)-value.
+
+    \textcolor{blue}{The two-sided $p$-value is 0.0095.}
+  \end{enumerate}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#one-sided p-value}
+\KeywordTok{fisher.test}\NormalTok{(infusion.table, }\DataTypeTok{alternative =} \StringTok{"greater"}\NormalTok{)}\OperatorTok{$}\NormalTok{p.val}
+\end{Highlighting}
+\end{Shaded}
+
+  \begin{ShadedResult}
+   \begin{verbatim}
+   #  [1] 0.008401063
+   \end{verbatim}
+   \end{ShadedResult}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#two-sided p-value}
+\KeywordTok{fisher.test}\NormalTok{(infusion.table, }\DataTypeTok{alternative =} \StringTok{"two.sided"}\NormalTok{)}\OperatorTok{$}\NormalTok{p.val}
+\end{Highlighting}
+\end{Shaded}
+
+  \begin{ShadedResult}
+   \begin{verbatim}
+   #  [1] 0.009530323
+   \end{verbatim}
+   \end{ShadedResult}
+\item
+  Psychologists conducted an experiment to investigate the effect of
+  anxiety on a person's desire to be alone or in the company of others
+  (Schacter 1959; Lehmann 1975). A group of 30 individuals were randomly
+  assigned into two groups; one group was designated the ``high
+  anxiety'' group and the other the ``low anxiety'' group. Those in the
+  high-anxiety group were told that in the ``upcoming experiment'', they
+  would be subjected to painful electric shocks, while those in the
+  low-anxiety group were told that the shocks would be mild and
+  painless.\footnote{Individuals were not actually subjected to electric shocks of any kind}.
+  All individuals were informed that there would be a 10 minute wait
+  before the experiment began, and that they could choose whether to
+  wait alone or with other participants.
+
+  The following table summarizes the results:
+
+  \begin{table}[h]
+   \centering
+   \begin{tabular}{rrr|r}
+       \hline
+       & Wait Together & Wait Alone & Sum \\ 
+       \hline
+       High-Anxiety & 12 & 5 & 17 \\ 
+       Low-Anxiety & 4 & 9 & 13 \\ 
+       \hline
+       Sum & 16 & 14 & 30 \\ 
+       \hline
+   \end{tabular}
+   \end{table}
+
+  \begin{enumerate}
+  \def\labelenumii{\alph{enumii})}
+  \item
+    Under the null hypothesis of no association, what are the expected
+    cell counts?
+
+    \textcolor{blue}{Under the null hypothesis of no association, the expected cell counts are 9.07 and 7.93 in the wait together and wait alone groups, respectively, for those considered "high anxiety" and 6.93 and 6.07 in the wait together and wait alone groups, respectively, for those considered "low anxiety".}
+  \end{enumerate}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#enter the data}
+\NormalTok{anxiety.table =}\StringTok{ }\KeywordTok{matrix}\NormalTok{(}\KeywordTok{c}\NormalTok{(}\DecValTok{12}\NormalTok{, }\DecValTok{5}\NormalTok{, }\DecValTok{4}\NormalTok{, }\DecValTok{9}\NormalTok{), }\DataTypeTok{nrow =} \DecValTok{2}\NormalTok{, }\DataTypeTok{ncol =} \DecValTok{2}\NormalTok{, }\DataTypeTok{byrow =}\NormalTok{ T)}
+\KeywordTok{dimnames}\NormalTok{(anxiety.table) =}\StringTok{ }\KeywordTok{list}\NormalTok{(}\StringTok{"Treatment"}\NormalTok{ =}\StringTok{ }\KeywordTok{c}\NormalTok{(}\StringTok{"High Anxiety"}\NormalTok{, }\StringTok{"Low Anxiety"}\NormalTok{),}
+                           \StringTok{"Outcome"}\NormalTok{ =}\StringTok{ }\KeywordTok{c}\NormalTok{(}\StringTok{"Wait Together"}\NormalTok{, }\StringTok{"Wait Alone"}\NormalTok{))}
+
+\KeywordTok{chisq.test}\NormalTok{(anxiety.table)}\OperatorTok{$}\NormalTok{expected}
+\end{Highlighting}
+\end{Shaded}
+
+  \begin{ShadedResult}
+   \begin{verbatim}
+   #                Outcome
+   #  Treatment      Wait Together Wait Alone
+   #    High Anxiety      9.066667   7.933333
+   #    Low Anxiety       6.933333   6.066667
+   \end{verbatim}
+   \end{ShadedResult}
+
+  \begin{enumerate}
+  \def\labelenumii{\alph{enumii})}
+  \setcounter{enumii}{1}
+  \item
+    Under the assumption that the marginal totals are fixed and the null
+    hypothesis is true, what is the probability of the observed set of
+    results?
+
+    \textcolor{blue}{Use the hypergeometric distribution with parameters $N = 30$, $m = 16$, and $n = 17$; calculate $P(X = 12)$. Consider the "successes" to be the individuals who wait together, and the "number sampled" to be the people randomized to the high-anxiety group. The probability of the observed set of results, assuming the marginal totals are fixed and the null hypothesis is true, is 0.0304.}
+  \end{enumerate}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{dhyper}\NormalTok{(}\DecValTok{12}\NormalTok{, }\DecValTok{16}\NormalTok{, }\DecValTok{30} \OperatorTok{-}\StringTok{ }\DecValTok{16}\NormalTok{, }\DecValTok{17}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+  \begin{ShadedResult}
+   \begin{verbatim}
+   #  [1] 0.03042455
+   \end{verbatim}
+   \end{ShadedResult}
+
+  \begin{enumerate}
+  \def\labelenumii{\alph{enumii})}
+  \setcounter{enumii}{2}
+  \item
+    Enumerate the tables that are more extreme than what was observed,
+    in the same direction.
+
+    \textcolor{blue}{More individuals than expected in the high-anxiety group were observed to wait together; thus, tables that are more extreme in the same direction also consist of those where more people in the high-anxiety group wait together than observed. These are tables in which 13, 14, 15, or 16 individuals in the high-anxiety group wait together.}
+
+    \begin{table}[h]
+     \centering
+     \color{gray}
+     \begin{tabular}{r|cc|c}
+     \hline
+     & Wait Together & Wait Alone & Sum \\ 
+     \hline
+     High-Anxiety & \textcolor{black}{13} & \textcolor{black}{4} & 17 \\ 
+     Low-Anxiety & \textcolor{black}{3} & \textcolor{black}{10} & 13 \\ 
+     \hline
+     Sum & 16 & 14 & 30 \\ 
+     \hline
+     \end{tabular}
+     \end{table}
+
+    \begin{table}[h!]
+     \centering
+     \color{gray}
+     \begin{tabular}{r|cc|c}
+     \hline
+     & Wait Together & Wait Alone & Sum \\ 
+     \hline
+     High-Anxiety & \textcolor{black}{14} & \textcolor{black}{3} & 17 \\ 
+     Low-Anxiety & \textcolor{black}{2} & \textcolor{black}{11} & 13 \\ 
+     \hline
+     Sum & 16 & 14 & 30 \\ 
+     \hline
+     \end{tabular}
+     \end{table}
+
+    \begin{table}[h!]
+     \centering
+     \color{gray}
+     \begin{tabular}{r|cc|c}
+     \hline
+     & Wait Together & Wait Alone & Sum \\ 
+     \hline
+     High-Anxiety & \textcolor{black}{15} & \textcolor{black}{2} & 17 \\ 
+     Low-Anxiety & \textcolor{black}{1} & \textcolor{black}{12} & 13 \\ 
+     \hline
+     Sum & 16 & 14 & 30 \\ 
+     \hline
+     \end{tabular}
+     \end{table}
+
+    \begin{table}[h!]
+     \centering
+     \color{gray}
+     \begin{tabular}{r|cc|c}
+     \hline
+     & Wait Together & Wait Alone & Sum \\ 
+     \hline
+     High-Anxiety & \textcolor{black}{16} & \textcolor{black}{1} & 17 \\ 
+     Low-Anxiety & \textcolor{black}{0} & \textcolor{black}{13} & 13 \\ 
+     \hline
+     Sum & 16 & 14 & 30 \\ 
+     \hline
+     \end{tabular}
+     \end{table}
+  \end{enumerate}
+
+  \newpage
+
+  \begin{enumerate}
+  \def\labelenumii{\alph{enumii})}
+  \setcounter{enumii}{3}
+  \item
+    Conduct a formal test of association for the results and summarize
+    your findings. Let \(\alpha = 0.05\).
+
+    \textcolor{blue}{Let $p_1$ represent the population proportion of individuals waiting together in the high-anxiety group and $p_2$ represent the population proportion of individuals waiting together in the low-anxiety group. Test $H_0: p_1 = p_2$ against $H_A: p_1 \neq p_2$. Let $\alpha = 0.05$. The two-sided $p$-value is 0.063. There is insufficient evidence to reject the null hypothesis; the data do not suggest there is an association between high anxiety and a person's desire to be in the company of others.}
+
+    \textcolor{blue}{Note that the results are borderline; a one-sided $p$-value rejects the null hypothesis with $p = 0.036$. The choice of two-sided hypothesis is more impartial.}
+  \end{enumerate}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#two-sided test}
+\KeywordTok{fisher.test}\NormalTok{(anxiety.table)}\OperatorTok{$}\NormalTok{p.val}
+\end{Highlighting}
+\end{Shaded}
+
+  \begin{ShadedResult}
+   \begin{verbatim}
+   #  [1] 0.06335838
+   \end{verbatim}
+   \end{ShadedResult}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#one-sided test}
+\KeywordTok{fisher.test}\NormalTok{(anxiety.table, }\DataTypeTok{alternative =} \StringTok{"greater"}\NormalTok{)}\OperatorTok{$}\NormalTok{p.val}
+\end{Highlighting}
+\end{Shaded}
+
+  \begin{ShadedResult}
+   \begin{verbatim}
+   #  [1] 0.03548226
+   \end{verbatim}
+   \end{ShadedResult}
+\end{enumerate}
+
+\newpage
+
+\hypertarget{measures-of-association-in-two-by-two-tables}{%
+\section{Measures of association in two-by-two
+tables}\label{measures-of-association-in-two-by-two-tables}}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{6}
+\item
+  Suppose a study is conducted to assess the association between smoking
+  and cardiovascular disease (CVD). Researchers recruited a group of 231
+  study participants then categorized them according to smoking and
+  disease status: 111 are smokers, while 40 smokers and 32 non-smokers
+  have CVD. Calculate and interpret the relative risk of CVD.
+
+  \textcolor{blue}{The relative risk of CVD comparing smokers to non-smokers is 1.35. Smoking is associated with a 35\% increase in the probability of CVD. In other words, the risk of CVD is 35\% greater in smokers compared to non-smokers. }
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#use r as a calculator}
+\NormalTok{risk.smokers =}\StringTok{ }\DecValTok{40}\OperatorTok{/}\DecValTok{111}
+\NormalTok{risk.nonsmokers =}\StringTok{ }\DecValTok{32}\OperatorTok{/}\NormalTok{(}\DecValTok{231-111}\NormalTok{)}
+
+\NormalTok{risk.smokers }\OperatorTok{/}\StringTok{ }\NormalTok{risk.nonsmokers}
+\end{Highlighting}
+\end{Shaded}
+
+  \begin{ShadedResult}
+   \begin{verbatim}
+   #  [1] 1.351351
+   \end{verbatim}
+   \end{ShadedResult}
+\item
+  Suppose another study is conducted to assess the association between
+  smoking and CVD, but researchers use a different design: 90
+  individuals with CVD and 110 individuals without CVD are recruited. 40
+  of the individuals with CVD are smokers, and 80 of the individuals
+  without CVD are non-smokers.
+
+  \begin{enumerate}
+  \def\labelenumii{\alph{enumii})}
+  \item
+    Is relative risk an appropriate measure of association for these
+    data? Explain your answer.
+
+    \textcolor{blue}{No, relative risk should not be calculated for these observations. Since the number of individuals with and without CVD is fixed by the study design, the proportion of individuals with CVD within a certain group (smokers or non-smokers) as calculated from the data is not a measure of CVD risk for that population.}
+  \item
+    Calculate the odds of CVD among smokers and the odds of CVD among
+    non-smokers.
+
+    \textcolor{blue}{Since there are 110 individuals without CVD and 80 of those are non-smokers, there are 30 individuals without CVD who smoke. Thus, there are $30 + 40 = 70$ individuals who smoke, and $(110 + 90) - 70 = 130$ individuals who do smoke. Of the 130 non-smokers, 80 do not have CVD; thus, 50 non-smokers have CVD.}
+
+    \textcolor{blue}{The odds of CVD among smokers is the number of smokers with CVD divided by the number of smokers without CVD: $40/30 = 1.33$. The odds of CVD among non-smokers is the number of non-smokers with CVD divided by the number of non-smokers without CVD: $50/80 = 0.625$.}
+  \end{enumerate}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#use r as a calculator}
+\NormalTok{odds.smokers =}\StringTok{ }\DecValTok{40}\OperatorTok{/}\DecValTok{30}
+\NormalTok{odds.nonsmokers =}\StringTok{ }\DecValTok{50}\OperatorTok{/}\DecValTok{80}
+
+\NormalTok{odds.smokers}
+\end{Highlighting}
+\end{Shaded}
+
+  \begin{ShadedResult}
+   \begin{verbatim}
+   #  [1] 1.333333
+   \end{verbatim}
+   \end{ShadedResult}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{odds.nonsmokers}
+\end{Highlighting}
+\end{Shaded}
+
+  \begin{ShadedResult}
+   \begin{verbatim}
+   #  [1] 0.625
+   \end{verbatim}
+   \end{ShadedResult}
+
+  \begin{enumerate}
+  \def\labelenumii{\alph{enumii})}
+  \setcounter{enumii}{2}
+  \item
+    Calculate and interpret the odds ratio of CVD, comparing smokers to
+    non-smokers.
+
+    \textcolor{blue}{The odds ratio of CVD, comparing smokers to non-smokers is 2.13. The odds of CVD in smokers are approximately twice as large as the odds of CVD in smokers. The data suggest that smoking is associated with CVD.}
+  \end{enumerate}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#use r as a calculator}
+\NormalTok{odds.smokers }\OperatorTok{/}\StringTok{ }\NormalTok{odds.nonsmokers}
+\end{Highlighting}
+\end{Shaded}
+
+  \begin{ShadedResult}
+   \begin{verbatim}
+   #  [1] 2.133333
+   \end{verbatim}
+   \end{ShadedResult}
+
+  \begin{enumerate}
+  \def\labelenumii{\alph{enumii})}
+  \setcounter{enumii}{3}
+  \item
+    What would an odds ratio of CVD (comparing smokers to non-smokers)
+    equal to 1 represent, in terms of the association between smoking
+    and CVD? What would an odds ratio of CVD less than 1 represent?
+
+    \textcolor{blue}{An odds ratio equal to 1 would represent no association between smoking and CVD. An odds ratio less than 1 would represent an association between not smoking and CVD; i.e., that the odds of CVD in non-smokers were higher than the odds of CVD in smokers.}
+  \end{enumerate}
+\end{enumerate}
+
+%\showmatmethods
+
+
+\bibliography{pinp}
+\bibliographystyle{jss}
+
+
+
+\end{document}
+
