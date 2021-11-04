@@ -21,8 +21,8 @@ Week,Date,Topic,Readings,Slides,Lab,Assignment
  ,Nov 04,Linear regression 1,"[AAO Unit 30](https://www.learner.org/series/against-all-odds-inside-statistics/inference-for-regression/), [AAO Unit 27](https://www.learner.org/series/against-all-odds-inside-statistics/comparing-two-means/) ",[021](https://github.com/sahirbhatnagar/EPIB607/blob/master/inst/slides/021-regression-intro/021-regression-intro_handout.pdf),,
 11,Nov 09,Linear regression 2,,[022](https://github.com/sahirbhatnagar/EPIB607/blob/master/inst/slides/022-linear-reg/022-linear-reg_handout.pdf),,
  ,Nov 11,Poisson regression 1,,[023](https://github.com/sahirbhatnagar/EPIB607/blob/master/inst/slides/023-poisson-reg/023-poisson-reg_handout.pdf),,
-12,Nov 16,Poisson regression 2,,,,A7 due Nov 15
- ,Nov 18,Logistic regression 1,,[024](https://github.com/sahirbhatnagar/EPIB607/blob/master/inst/slides/024-logistic-reg-1/024-logistic-reg-1_handout.pdf),009-logistic-reg,
+12,Nov 16,Poisson regression 2,,,,
+ ,Nov 18,Logistic regression 1,,[024](https://github.com/sahirbhatnagar/EPIB607/blob/master/inst/slides/024-logistic-reg-1/024-logistic-reg-1_handout.pdf),009-logistic-reg,A7 due Nov 19
 13,Nov 23,Logistic regression 2,,[025](https://github.com/sahirbhatnagar/EPIB607/blob/master/inst/slides/025-logistic-reg-2/025-logistic-reg-2.pdf),,
  ,Nov 25,Contingency tables,,,,
 14,Nov 30,Simulation Study,,,010-contingency-tables,A8 due Nov 30

@@ -1,0 +1,302 @@
+\documentclass[letterpaper,12pt,twoside,]{pinp}
+
+%% Some pieces required from the pandoc template
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+
+% Use the lineno option to display guide line numbers if required.
+% Note that the use of elements such as single-column equations
+% may affect the guide line number alignment.
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+
+% pinp change: the geometry package layout settings need to be set here, not in pinp.cls
+\geometry{layoutsize={0.95588\paperwidth,0.98864\paperheight},%
+  layouthoffset=0.02206\paperwidth, layoutvoffset=0.00568\paperheight}
+
+\definecolor{pinpblue}{HTML}{185FAF}  % imagecolorpicker on blue for new R logo
+\definecolor{pnasbluetext}{RGB}{101,0,0} %
+
+
+\usepackage{subfig}
+
+\title{Assignment 7 - Sample Size, Proportions, Rates, Linear
+Regression. Due November 19, 11:59pm 2021}
+
+\author[a]{EPIB607 - Inferential Statistics}
+
+  \affil[a]{Fall 2021, McGill University}
+
+\setcounter{secnumdepth}{5}
+
+% Please give the surname of the lead author for the running footer
+\leadauthor{EPIB607}
+
+% Keywords are not mandatory, but authors are strongly encouraged to provide them. If provided, please include two to five keywords, separated by the pipe symbol, e.g:
+ 
+
+\begin{abstract}
+All questions are to be answered in an R Markdown document using the
+provided template and compiled to a pdf document. You are free to choose
+any function from any package to complete the assignment. Concise
+answers will be rewarded. Be brief and to the point. Each question is
+worth 25 points. Label your graphs appropriately with proper titles and
+axis labels. Justify your answers. You may compile your reoport to pdf
+or to HTML. If you compile to HTML, then you must print the resulting
+HTML to pdf. Please submit the compiled pdf report to Crowdmark. You
+must also submit your code to Crowdmark. If you use the template, the
+code from your assignment will automatically appear at the end. Upload
+this code to Q5 in Crowdmark. You can upload a single pdf to Crowdmark,
+and then select the pages for a given question. See
+\url{https://crowdmark.com/help/} for details.
+\end{abstract}
+
+\dates{This version was compiled on \today} 
+
+% initially we use doi so keep for backwards compatibility
+% new name is doi_footer
+
+\pinpfootercontents{Assignment 7}
+
+\begin{document}
+
+% Optional adjustment to line up main text (after abstract) of first page with line numbers, when using both lineno and twocolumn options.
+% You should only change this length when you've finalised the article contents.
+\verticaladjustment{-2pt}
+
+\maketitle
+\thispagestyle{firststyle}
+\ifthenelse{\boolean{shortarticle}}{\ifthenelse{\boolean{singlecolumn}}{\abscontentformatted}{\abscontent}}{}
+
+% If your first paragraph (i.e. with the \dropcap) contains a list environment (quote, quotation, theorem, definition, enumerate, itemize...), the line after the list may have some extra indentation. If this is the case, add \parshape=0 to the end of the list environment.
+
+
+\hypertarget{template}{%
+\section*{Template}\label{template}}
+\addcontentsline{toc}{section}{Template}
+
+Use the template from the previous assignment.
+
+\hypertarget{points-regen-cov-antibody-combination-and-outcomes-in-outpatients-with-covid-19}{%
+\section{(25 points) REGEN-COV Antibody Combination and Outcomes in
+Outpatients with
+Covid-19}\label{points-regen-cov-antibody-combination-and-outcomes-in-outpatients-with-covid-19}}
+
+This question is based on the paper \emph{REGEN-COV Antibody Combination
+and Outcomes in Outpatients with Covid-19} by Weinreich et al.~2021
+published in the New England Journal of Medicine (available on
+myCourses).
+
+\begin{enumerate}
+\def\labelenumi{\alph{enumi})}
+\item
+  (10 points) Use a simulation based approach (as shown in class) to
+  reproduce the sample size calculation for the average change from
+  baseline in viral shedding from day 1 to day 22 (details can be found
+  in Section 11.2 of the study protocol also available on myCourses).
+  Specifically focus on the sample size of 20 patients per arm in phase
+  1. Hint: you are being asked to show (via simulation) that the study
+  is indeed powered at the stated value to detect the stated effect.
+\item
+  (10 points) The sample size section of the protocol continues further:
+\end{enumerate}
+
+\begin{quote}
+Assuming a 10\% dropout rate and standard deviation of 2.1 log10
+copies/mL (Cao, 2020), a sample size of 50 patients per arm in phase 2
+will have at least 80\% power to detect a difference of 1.25 log10
+copies/mL.
+\end{quote}
+
+Using simulations, reproduce this power calculation.
+
+\begin{enumerate}
+\def\labelenumi{\alph{enumi})}
+\setcounter{enumi}{2}
+\tightlist
+\item
+  (5 points) Finally, the protocol says:
+\end{enumerate}
+
+\begin{quote}
+If a standard deviation of 3.8 log10 copies/mL is assumed (Wang, 2020c),
+the detectable difference would be 2.27 log10 copies/mL
+\end{quote}
+
+Use the \texttt{pwr} R package
+(\url{https://cran.r-project.org/web/packages/pwr/index.html}) to
+reproduce this power calculation.
+
+\hypertarget{points-simulation-study-for-confidence-intervals-of-proportions}{%
+\section{(25 points) Simulation study for confidence intervals of
+proportions}\label{points-simulation-study-for-confidence-intervals-of-proportions}}
+
+The goal of this simulation study is to estimate the coverage
+probabilities of confidence intervals for the binomial proportion. In
+class we saw at least three methods to calculate the confidence interval
+for a proportion: 1) normal approximation, 2) the exact method
+(Clopper-Pearson) and 3) the plus 4 method.
+
+\begin{enumerate}
+\def\labelenumi{\alph{enumi})}
+\item
+  (10 points) Simulate 100 trials from a Binomial(n = 10, \(\pi\) = 0.1)
+  distribution using the \texttt{stats::rbinom} function. For each of
+  these trials, calculate the 95\% confidence interval for the
+  proportion using each of the three methods mentioned above. For each
+  of the three methods: plot the confidence intervals and color each of
+  them by whether they covered the truth or not. Hint: see the R code
+  for the slides on one sample rates.
+\item
+  (5 points) For each of the three methods, calculate the coverage
+  probability, i.e., the percentage of intervals which contain the true
+  population proportion \(\pi\). Describe your findings and comment on
+  the differences between methods in terms of coverage probability.
+\item
+  (10 points) Repeat the simulation study in a), but this time, with
+  different combinations of \(n\) and \(\pi\). Visualize the coverage
+  probabilities as a function of \(n\) and \(\pi\) for each of the three
+  methods. Describe your findings and comment on the differences between
+  methods in terms of coverage probabilities as a function of \(n\) and
+  \(\pi\). What happens to the coverage probabilities when the expected
+  number of events increases? Explain.
+\end{enumerate}
+
+\hypertarget{points-concordance-between-pcr-based-extraction-free-saliva-and-nasopharyngeal-swabs-for-sars-cov-2-testing---part-i}{%
+\section{(25 points) Concordance between PCR-based extraction-free
+saliva and nasopharyngeal swabs for SARS-CoV-2 testing - PART
+I}\label{points-concordance-between-pcr-based-extraction-free-saliva-and-nasopharyngeal-swabs-for-sars-cov-2-testing---part-i}}
+
+This question is based on the article
+\href{https://hrbopenresearch.org/articles/4-85/v2}{\emph{Concordance
+between PCR-based extraction-free saliva and nasopharyngeal swabs for
+SARS-CoV-2 testing}}. The data used to reproduce the results is provided
+with the article and it provides Ct values for both test types
+(Nasopharyngeal and Saliva). Download the data, and use the following
+code to read it into \texttt{R}. Note that a Ct value of
+\texttt{undetected} implies that no virus was found in the sample. In
+the following \texttt{R} code, I specify \texttt{undetected} to be NA:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(readxl)}
+\FunctionTok{library}\NormalTok{(dplyr)}
+\FunctionTok{library}\NormalTok{(here)}
+
+\CommentTok{\# read symptomatic cohort data}
+\NormalTok{dt\_symp }\OtherTok{\textless{}{-}}\NormalTok{ readxl}\SpecialCharTok{::}\FunctionTok{read\_xlsx}\NormalTok{(}
+\NormalTok{  here}\SpecialCharTok{::}\FunctionTok{here}\NormalTok{(}\StringTok{"Ct\_values\_for\_matched\_NPS\_and\_saliva\_samples\_(symptomatic\_cohort).xlsx"}\NormalTok{), }
+  \AttributeTok{na =} \StringTok{"undetected"}\NormalTok{, }
+  \AttributeTok{col\_names =} \FunctionTok{c}\NormalTok{(}\StringTok{"ID"}\NormalTok{,}\StringTok{"Nasopharyngeal"}\NormalTok{,}\StringTok{"Saliva"}\NormalTok{), }
+  \AttributeTok{skip =} \DecValTok{1}\NormalTok{, }
+  \AttributeTok{col\_types =} \FunctionTok{c}\NormalTok{(}\StringTok{"text"}\NormalTok{, }\StringTok{"numeric"}\NormalTok{,}\StringTok{"numeric"}\NormalTok{)}
+\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%} 
+\NormalTok{  dplyr}\SpecialCharTok{::}\FunctionTok{mutate}\NormalTok{(}\AttributeTok{cohort =} \StringTok{"Symptomatic"}\NormalTok{)}
+
+\CommentTok{\# read asymptomatic cohort data}
+\NormalTok{dt\_asymp }\OtherTok{\textless{}{-}}\NormalTok{ readxl}\SpecialCharTok{::}\FunctionTok{read\_xlsx}\NormalTok{(}
+\NormalTok{  here}\SpecialCharTok{::}\FunctionTok{here}\NormalTok{(}\StringTok{"Ct\_values\_for\_matched\_NPS\_and\_saliva\_samples\_(asymptomatic\_cohort).xlsx"}\NormalTok{), }
+  \AttributeTok{na =} \StringTok{"undetected"}\NormalTok{, }
+  \AttributeTok{col\_names =} \FunctionTok{c}\NormalTok{(}\StringTok{"ID"}\NormalTok{,}\StringTok{"Nasopharyngeal"}\NormalTok{,}\StringTok{"Saliva"}\NormalTok{), }
+  \AttributeTok{skip =} \DecValTok{1}\NormalTok{,}
+  \AttributeTok{col\_types =} \FunctionTok{c}\NormalTok{(}\StringTok{"text"}\NormalTok{, }\StringTok{"numeric"}\NormalTok{,}\StringTok{"numeric"}\NormalTok{)}
+\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%} 
+\NormalTok{  dplyr}\SpecialCharTok{::}\FunctionTok{mutate}\NormalTok{(}\AttributeTok{cohort =} \StringTok{"Asymptomatic"}\NormalTok{)}
+
+\CommentTok{\# combine symptomatic and asymptomatic data together}
+\NormalTok{dt }\OtherTok{\textless{}{-}}\NormalTok{ dplyr}\SpecialCharTok{::}\FunctionTok{bind\_rows}\NormalTok{(dt\_symp, dt\_asymp) }\SpecialCharTok{\%\textgreater{}\%} 
+\NormalTok{  dplyr}\SpecialCharTok{::}\FunctionTok{mutate}\NormalTok{(}\AttributeTok{cohort =} \FunctionTok{factor}\NormalTok{(cohort))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{enumerate}
+\def\labelenumi{\alph{enumi})}
+\item
+  (8 points) For the symptomatic cohort, was there a difference in mean
+  Ct values? Use an appropriate regression model to answer this
+  question. Write the regression equation in terms of population
+  parameters and define all parameters in your model. What is the
+  parameter of interest?
+\item
+  (5 points) Estimate the regression parameters using the data provided.
+  Report the estimated coefficient for the parameter of interest and
+  interpret it in the context of the problem.
+\item
+  (5 points) Reproduce the p-value for the parameter of interest from
+  the regression output and interpret it. What assumptions were used in
+  calculating the p-value. (Note: you are being asked to show how the
+  p-value was calculated. Do not simply copy the value from the
+  regression output.)
+\item
+  (7 points) Use a permutation test to calculate the p-value for the
+  parameter of interest and compare it with the one obtained in part c).
+  Briefly discuss this comparison.
+\end{enumerate}
+
+\newpage
+
+\hypertarget{points-5-each-physical-activity-in-nhanes}{%
+\section{(25 points, 5 each) Physical activity in
+NHANES}\label{points-5-each-physical-activity-in-nhanes}}
+
+This problem uses data from the
+\href{https://cran.r-project.org/web/packages/NHANES/NHANES.pdf}{National
+Health and Nutrition Examination Survey (NHANES)}, a survey conducted
+annually by the US Centers for Disease Control (CDC). The dataset is
+available from the \texttt{NHANES} package.
+
+Regular physical activity is important for maintaining a healthy weight,
+boosting mood, and reducing risk for diabetes, heart attack, and stroke.
+In this problem, you will be exploring the relationship between weight
+(\texttt{Weight}) and physical activity (\texttt{PhysActive}) using the
+NHANES data. Weight is measured in kilograms. The variable
+\texttt{PhysActive} is coded \texttt{Yes} if the participant does
+moderate or vigorous-intensity sports, fitness, or recreational
+activities, and \texttt{No} if otherwise. The objective is to compare
+weight between physically active and those who are not.
+
+\begin{enumerate}
+\def\labelenumi{\alph{enumi})}
+\item
+  Explore the data.
+
+  \begin{enumerate}
+  \def\labelenumii{\roman{enumii}.}
+  \item
+    Identify how many individuals are physically active.
+  \item
+    Create a plot that shows the association between weight and physical
+    activity. Describe what you see.
+  \end{enumerate}
+\item
+  Provide an appropriate regression model for the stated objective and
+  state the parameter of interest. Give the regression equation in terms
+  of population parameters and be sure to define each of the parameters
+  in your model.
+\item
+  Fit a linear regression model to estimate the regression parameters.
+  Report the estimated coefficients from the model and interpret each of
+  them in the context of the problem.
+\item
+  Report a 95\% confidence interval for the parameter of interest and
+  interpret the interval in the context of the problem. Based on the
+  interval, is there sufficient evidence at \(\alpha = 0.05\) to reject
+  the null hypothesis of no association between weight and physical
+  activity? State the assumptions used for calculating the 95\%
+  confidence interval.
+\item
+  Provide a 95\% bootstrap confidence interval for the parameter of
+  interest and compare it to the one in part d). Briefly discuss the
+  comparison.
+\end{enumerate}
+
+%\showmatmethods
+
+
+\bibliography{pinp}
+\bibliographystyle{jss}
+
+
+
+\end{document}
