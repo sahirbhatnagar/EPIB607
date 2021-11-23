@@ -1,0 +1,83 @@
+---
+title: "R Notebook"
+output:
+  html_document:
+    df_print: paged
+editor_options:
+  chunk_output_type: console
+---
+
+# Bednets example
+
+```{r}
+library(dplyr)
+library(here)
+library(sjPlot)
+
+df <- read.csv(here::here("inst/slides/023-poisson-reg/bednets.csv"))
+df
+```
+
+
+## Using the totals only
+
+```{r}
+dt <- df %>% 
+  group_by(Exposure) %>% 
+  summarise(PT = sum(Person.time), 
+            cases = sum(Cases))
+
+fit <- glm(cases ~ Exposure + offset(log(PT)), data = dt, family = poisson(link="log"))
+summary(fit)
+exp(coef(fit))
+confint(fit)
+exp(confint(fit))
+exp(coef(fit)[2] + qnorm(p = c(0.025, 0.975)) * sqrt(vcov(fit)[2,2]))
+sjPlot::tab_model(fit)
+```
+
+$$
+\mu = \lambda * PT\\
+ = \lambda_0 * \theta^{exposure} * PT\\
+ \log(\mu) = \log(\lambda_0) + exposure*\log(\theta) + 1 * \log(PT)
+
+$$
+
+
+## Using the more granular data
+
+```{r, error=TRUE}
+fit <- glm(Cases/Person.time ~ Exposure, data = df, family = poisson(link = "log")) # wrong
+fit <- glm(Cases ~ Exposure + offset(Person.time), data = df, family = poisson(link = "log")) # wrong
+fit <- glm(Cases ~ Exposure + offset(log(Month)), data = df, family = poisson(link = "log")) # wrong
+fit <- glm(Cases ~ Exposure + offset(log(Person.time)), data = df, family = poisson(link = "log")) # correct
+summary(fit)
+```
+
+# Fitted values aka expected number of cases
+$$
+\hat \mu = \hat \lambda_0 * \hat \theta^{exposure} * PT
+
+$$
+
+```{r}
+expected <- exp(coef(fit)[1]) * (exp(coef(fit)[2])^df$Exposure) * df$Person.time
+# or you can use the fitted function
+plot(fitted(fit), expected)
+abline(a = 0, b = 1)
+
+exp(coef(fit))
+
+plot(df$Cases, expected)
+abline(a= 0, b = 1)
+df$expected <- expected
+df$diff <- df$Cases - df$expected
+
+chi.stat <- sum(df$diff^2 / df$expected)  
+mosaic::xpchisq(q = chi.stat, df = nrow(df)-1, lower.tail = FALSE)
+```
+
+$$
+\chi^2_{stat} = \sum_{i=1}^k \frac{(O_i  - E_i)^2}{E_i}
+$$
+

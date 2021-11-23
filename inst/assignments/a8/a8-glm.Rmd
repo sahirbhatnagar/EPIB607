@@ -1,0 +1,486 @@
+---
+title: Assignment 8 - Poisson and Logistic Regression. Due December 1, 11:59pm 2021
+author:
+  - name: EPIB607 - Inferential Statistics
+    affiliation: a
+#  - name: Second Author
+#    affiliation: a,b
+address:
+  - code: a
+    address: McGill University
+#  - code: b
+#    address: Department of Neat Tricks, Whereever State University, Someplace, MC, 67890
+lead_author_surname: Bhatnagar
+#doi: "https://sahirbhatnagar.com/EPIB607/"
+abstract: |
+  In this assignment you will practice poisson and logistic regression. State all assumptions. Provide confidence intervals with appropriate units. Answers should be given in full sentences (DO NOT just provide the number). All graphs and calculations are to be completed in an R Markdown document using the template from previous assignments. You are free to choose any function from any package to complete the assignment. Concise answers will be rewarded. Be brief and to the point. Please submit the compiled pdf report to Crowdmark. You need to save your answers to each question in separate pdf files. You also need to upload your code separately to Q3. See https://crowdmark.com/help/ for details.  
+# Optional: Acknowledgements
+#acknowledgements: |
+#  [rticles](https://cran.r-project.org/package=rticles) package, and both packages rely on the
+#  [PNAS LaTeX](http://www.pnas.org/site/authors/latex.xhtml) macros. Both these sources are
+#  ([GPL-3](https://www.gnu.org/licenses/gpl-3.0.en.html) and
+#  [LPPL (>= 1.3)](https://www.latex-project.org/lppl/)).
+# Optional: One or more keywords
+keywords:
+  - Rates
+  - Parameter contrasts
+  - Regression
+papersize: letter
+fontsize: 12pt
+# Optional: Force one-column layout, default is two-column
+one_column: true
+# Optional: Enables lineno mode, but only if one_column mode is also true
+#lineno: true
+# Optional: Enable one-sided layout, default is two-sided
+#one_sided: true
+# Optional: Enable section numbering, default is unnumbered
+numbersections: true
+# Optional: Specify the depth of section number, default is 5
+#secnumdepth: 5
+# Optional: Skip inserting final break between acknowledgements, default is false
+skip_final_break: true
+# Optional: Bibliography 
+bibliography: pinp
+# Optional: Enable a 'Draft' watermark on the document
+watermark: false
+#footer_contents: "Assignment 2 due October 11, 2020 by 11:59pm"
+output: pinp::pinp
+# Required: Vignette metadata for inclusion in a package.
+vignette: >
+  %\VignetteIndexEntry{YourPackage-vignetteentry}
+  %\VignetteKeywords{YourPackage, r, anotherkeyword}
+  %\VignettePackage{Due October 11, 2020}
+  %\VignetteEngine{knitr::rmarkdown}
+editor_options: 
+  chunk_output_type: console
+---
+
+
+
+```{r setup, echo=FALSE, message=FALSE, warning=FALSE}
+library(dplyr)
+library(knitr)
+library(kableExtra)
+```
+
+
+
+
+
+# (50 points) Population mortality rates in Denmark
+
+The following table contains mortality data for males and females in Denmark for 4 age groups over three time periods. 
+
+\vspace*{0.3in}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+library(dplyr)
+library(tidyr)
+
+pt <- read.table("~/git_repositories/epib607/inst/assignments/a8/denmark_person_time.txt", skip = 1, header = TRUE)
+pt$type <- "PT"
+deaths <- read.table("~/git_repositories/epib607/inst/assignments/a8/denmark_deaths.txt", skip = 1, 
+header = TRUE)
+deaths$type <- "deaths"
+df <- rbind(pt, deaths)
+
+tt <- df %>% 
+gather(key = "group", value = "value", -Year, -Age, -type) %>% 
+spread(type, value) %>% 
+mutate(rate = deaths / PT) %>% 
+gather(key = "measure", value = "value", -Year, -Age, -group) %>% 
+unite(col = "measure", group, measure) %>% 
+spread(measure, value) 
+
+
+# head(tt)
+# str(tt)
+# levels(tt$Year)
+# levels(tt$Age)
+knitr::kable(tt[which(tt$Year %in% c("1980-1984","2000-2004", "2005-2009") & 
+tt$Age %in% c("70-74", "75-79", "80-84", "85-89")),c("Year", "Age", "Female_deaths", "Female_PT", "Female_rate", 
+"Male_deaths", "Male_PT", "Male_rate")], row.names = FALSE)
+
+
+df <- tt[which(tt$Year %in% c("1980-1984","2000-2004", "2005-2009") & 
+tt$Age %in% c("70-74", "75-79", "80-84", "85-89")),c("Year", "Age", "Female_deaths", "Female_PT", "Female_rate", 
+"Male_deaths", "Male_PT", "Male_rate")]
+
+readr::write_csv(df, file = "~/git_repositories/epib607/inst/assignments/a8/denmark.csv")
+
+pt <- read.csv("~/git_repositories/epib607/inst/assignments/a8/denmark.csv")
+# str(pt)
+```
+
+a. (15 points) Come up with a suitable regression model for this data. Write down the regression equation in terms of parameters and determinants. 
+b. (15 points) Estimate the parameters of this model using the data in the table above. Provide the fitted regression equation. The data is provided in the `denmark.csv` file in myCourses.
+c. (10 points) Interpret the parameter for gender. Are mortality rates significantly different in males compared with females?
+d. (10 points) Perform a goodness of fit test for the fitted model in part (b). Is this a good fit?
+
+
+\newpage
+
+# (50 points) Survival of patients following admission to an adult intensive care unit (ICU)
+
+The ICU study data set consists of a sample of 200 subjects who were part of a much larger study on survival of patients following admission to an adult intensive care unit (ICU). The major goal of this study was to develop a logistic regression model to predict the probability of survival to hospital discharge of these patients. A code sheet for the variables in this data is provided in `icu_codebase.pdf`.
+The primary outcome variable is vital status at hospital discharge (`sta`). Clinicians associated with the study felt that a key determinant of survival was the type of admission, `type`. The dataset can be loaded into `R` as follows:
+
+
+```{r, echo=FALSE}
+load(here::here("inst/assignments/a8/icu.rda"))
+```
+
+```{r, echo=TRUE, eval=FALSE}
+load("icu.rda")
+```
+
+```{r, echo=FALSE, eval=FALSE}
+icu <- icu %>% 
+  mutate(age.f = cut(age, breaks = c(15,seq(24,94, by = 10)), include.lowest = TRUE))
+
+plot(sta ~ type, data = icu)
+plot(sta ~ age.f, data = icu)
+
+
+grid()
+curve(predict(fit_glm, data.frame(x), type = "response"),
+      add = TRUE, col = "dodgerblue", lty = 2)
+curve(boot::inv.logit(-1.5 + 0.5 * x + x ^ 2),
+      add = TRUE, col = "darkorange", lty = 1)
+legend("bottomleft", c("True Probability", "Estimated Probability", "Data"), lty = c(1, 2, 0),
+       pch = c(NA, NA, 20), lwd = 2, col = c("darkorange", "dodgerblue", "black"))
+
+fit1 <- glm(sta ~ type, data = icu, family = binomial)
+summary(fit1)
+
+
+fit2 <- glm(type ~ sta, data = icu, family = binomial)
+summary(fit2)
+
+```
+
+
+a. Write down the equation for the logistic regression model of `sta` on `type`. What characteristic of the outcome variable, `sta`, leads us to consider the logistic regression model as opposed to the usual linear regression model to describe the relationship between `sta` and `type`? What is the parameter of interest and what does it represent?  
+b. Use the `plot` function (in base R) to plot the relationship between `sta` and `type`. Interpret the plot.   
+c. Using a logistic regression routine of your choice, obtain the estimates of the parameters of the logistic regression model in part a. Interpret the estimate for the parameter of interest in the context of the problem and provide a 95\% confidence interval for this parameter. State your assumptions.  
+d. Using these estimates, write down the equation for the fitted values, that is, the estimated probabilities of the response.  
+e. Plot the fitted values as a function of `sta` using a boxplot. Interpret the boxplot.   
+f. Fit a model with `type` as the response and `sta` as the determinant. Comment on the differences and similarities of this model vs. the one in part c. Would you prefer one model over the other? Explain.  
+
+
+
+ 
+
+
+
+```{r, echo=FALSE}
+knitr::knit_exit()
+```
+
+
+
+```{r, eval=FALSE, echo=FALSE}
+library(epitools)
+leprosy <- c(101, 159)
+pop <- c(46028,34594)
+pop <- c(554,446)
+bcg <- c(1,0)
+
+fit <- glm(cbind(leprosy,pop) ~ bcg, family = binomial(link = "logit"))
+summary(fit)
+exp(coef(fit))
+
+x <- c(101, 159)
+n <- c(46028, 34594)
+
+prop.test(x = x, n = n)
+
+r243 <- matrix(c(101,159,46028,34594), 2, 2)
+dimnames(r243) <- list("BCG Scar" = c("Present", "Absent"),
+                      "Status" = c("Leprocy Cases", "Population Survey")
+                      )
+
+epitools::epitab(r243)
+epitools::epitab(r243, rev = "rows")
+
+```
+
+# (50 points) BCG Vaccination and Leprosy
+
+This question is based on the paper by _Fine, P. E. M., et al. "Protective efficacy of BCG against leprosy in Northern Malawi." The Lancet 328.8505 (1986): 499-502._ The aim of the study was to investigate whether BCG vaccination in early childhood, whose purpose is to protect against leprosy, which is caused by a closely related bacillus. New cases of leprosy reported during a given period in a defined geographical area were examined for presence or absence of the characteristic scar left by BCG vaccination. During approximately the same period, a 100% survey of the population of this area had been carried out, and this survey included examination for BCG scar. The tabulated data refer only to subjects under 35, because persons over the age of 35 at the time of the study would have been children at a time when vaccination was not widely available. The data in the table below are from this unusual example of a case-control study in which the controls were obtained from a 100% cross-sectional survey of the study base. 
+
+
+\begin{table}[h]
+	\centering
+	\begin{tabular}{rrcc}
+		& \multicolumn{3}{c}{Case status} \\
+		\cline{2-4}
+		BCG scar & \ \hspace{3mm}\ & Leprosy cases & Healthy population survey (controls) \\
+		\hline
+		Present && 101 & 46,028 \\
+		Absent && 159 & 34, 594 \\
+		\hline
+	\end{tabular}
+\end{table}
+
+a) (8 points) Calculate $\hat{p}_1$ and $\hat{p}_2$, the two sample proportions of interest. Test the hypothesis for a difference in proportions; do the data suggest that the BCG vaccination in early childhood protects against leprosy? Be sure to check your assumptions.
+
+b) (8 points) Formulate a hypothesis for a contingency-table approach to analyzing this data and test this hypothesis. Be sure to check your assumptions.
+
+c) (8 points) Estimate the odds of BCG vaccination for leprosy cases and for the controls. Estimate the odds ratio, standard error (using Woolf's formula) and 95\% confidence interval and interpret it.
+
+d) (8 points) Fit an appropriate logistic regression model and compare your results from part c). Do they agree?
+    
+e) (9 points) Summarize the conclusions from all three approaches (difference in proportions, contingency table, logistic regression). Do they agree? Explain. 
+    
+f) (9 points) The following table shows the results of a computer-simulate study which picked 1000 controls at random. Re-run the logistic regression on these data and compare with part d). Comment on any differences or similarities (i.e. the differences between using 80000 controls and 1000 controls).
+
+
+\begin{table}[h]
+	\centering
+	\begin{tabular}{rrcc}
+		& \multicolumn{3}{c}{Case status} \\
+		\cline{2-4}
+		BCG scar & \ \hspace{3mm}\ & Leprosy cases & Healthy population survey (controls) \\
+		\hline
+		Present && 101 & 554 \\
+		Absent && 159 & 446 \\
+		\hline
+	\end{tabular}
+\end{table}
+
+
+
+# (12 points, 2 each) Seismicity before and after hydraulic fracturing in the Horn River Basin, northeast British Columbia 
+
+Consult the article _Investigation of regional seismicity before and after hydraulic fracturing in the Horn River Basin, northeast British Columbia_ by Farahbod et al. (2014). 
+
+a) Using just the year 2006 data in the first four columns of Table 2, calculate separate event rates for the periods when hydraulic fracturing  (i) was and (ii) was not in operation.
+Express each rate as the number of events per year, and accompany it with a 95% CI.
+
+b) Repeat the calculations for the individual years 2007 to 2011.
+
+c) Repeat the  calculations for the entire period 2006 to 2011. 
+
+d) Store your results in a tidy `data.frame`.
+
+e) Are you comfortable using Poisson-based CIs for the entire period 2006 to 2011? i.e. does it look like the rate in non-HF days is homogeneous over the 6 years, i.e., do the 6 CIs largely overlap each other?
+
+f) Does it look like the rate in HF days is homogeneous over the 6 years, i.e., do the 6 CIs largely overlap each other?
+
+
+
+# (28 points) Simulation study for confidence intervals of counts
+
+The goal of this simulation study is to estimate the coverage probabilties of three different confidence intervals for a Poisson count. In class we saw at least three methods to calculate the confidence interval for a count: 1) normal approximation, 2) the exact method and 3) using the Poisson quantile `stats::qpois` function. 
+
+a) (12 points) Simulate 1000 trials from a Poisson($\mu$ = 5) distribution using the `stats::rpois` function. For each of these trials, calculate the 95% confidence interval for the count using each of the three methods mentioned above. For each of the three methods, calculate the coverage probability, i.e., the percentage of intervals which contain the true mean $\mu$. Describe your findings and comment on the differences between methods in terms of coverage probability. 
+
+b) (16 points) Repeat the simulation study in a), but this time, with increasing values of $\mu$. Visualize the coverage probabilities as a function of $\mu$ for each of the three methods. Describe your findings and comment on the differences between methods in terms of coverage probabilities as a function of $\mu$, i.e., what happens to the coverage probabilities when the expected number of counts increases? Explain.
+
+
+```{r, eval=FALSE, echo=FALSE}
+library(dplyr)
+library(mosaic)
+
+set.seed(1234)
+(sims <- rbinom(n = 1000, size = 10, prob = 0.1))
+
+sapply(sims, function(i){
+  p <- i/10
+  z_ci <- p + qnorm(c(0.025, 0.975)) * sqrt(p * (1-p) / 10)
+  dplyr::between(0.2, z_ci[1], z_ci[2])
+}) %>% mean
+
+sapply(sims, function(i){
+  p <- (i + 2) / (10 + 2)
+  z_ci <- p + qnorm(c(0.025, 0.975)) * sqrt(p * (1-p) / (10 + 2))
+  dplyr::between(0.2, z_ci[1],z_ci[2])
+}) %>% mean
+
+sapply(sims, function(i){
+  tt <- stats::binom.test(x = i, n = 10)
+  z_ci <- tt$conf.int
+  dplyr::between(0.2, z_ci[1],z_ci[2])
+}) %>% mean
+
+
+sapply(sims, function(i){
+  tt <- mosaic::binom.test(x = i, n = 10)
+  
+}) %>% mean
+
+
+vecs <- c()
+for(i in sims){
+  tt <- mosaic::binom.test(i, 10, method = )
+  z_ci <- tt$conf.int
+  vecs <- c(dplyr::between(0.2, z_ci[1],z_ci[2]),vecs)
+}
+mean(vecs)
+
+
+tt <- stats::prop.test(2,10)
+tt <- stats::binom.test(2,10)
+tt$conf.int[1]
+tt$conf.int[2]
+```
+
+
+# (30 points, 5 each) Weather Data Analysis
+
+
+```{r, eval=FALSE, echo=FALSE}
+# pacman::p_load_gh("ropensci/weathercan")
+library(tidyverse)
+library(weathercan)
+
+# get stations with lots of historical weather
+head(stations)
+stations %>%
+  filter(prov %in% c("QC")) %>%
+  filter(interval == "day") %>%
+  filter(start <= 2002) %>%
+  filter(end >= 2016) %>% 
+  dplyr::arrange(start)
+
+
+# download Danville station
+qc <- weather_dl(station_ids = 5345, start = "1871-01-01", end = "2020-10-31", interval = "day")
+qc <- qc[!is.na(qc$max_temp),]
+qc_weather <- qc %>% 
+  dplyr::select(station_name, station_id, prov, lat, lon, date, year, month, day, max_temp, min_temp, mean_temp) %>% 
+  mutate(dayfromstart = 1:n()) %>% 
+  dplyr::select(dayfromstart, everything()) %>% 
+  mutate(year = as.numeric(as.character(year)),
+         month = as.numeric(as.character(month)),
+         day = as.numeric(as.character(day)))
+
+readr::write_csv(qc_weather, file = "~/git_repositories/EPIB607/assignments/a3/qc_weather.csv")
+
+qc_weather %>% 
+  ggplot() + 
+  geom_smooth(mapping = aes(x=dayfromstart, y = max_temp))
+
+
+# stations %>% 
+#   filter(prov == "QC") %>% 
+#   pull(station_name) %>% 
+#   table
+# stations %>% 
+#   filter(station_name %in% "MONTREAL/PIERRE ELLIOTT TRUDEAU INTL")
+
+# yul <- weather_dl(station_ids = 30165, start = "2002-01-01", end = "2020-10-31")
+# yul_weather <- yul %>% 
+#   # dplyr::select(station_name, station_id, prov, lat)
+#   group_by(year, month, day) %>% 
+#   summarise(maxtemp = max(temp,na.rm=T),
+#             meantemp = mean(temp,na.rm=T),
+#             mintemp = min(temp, na.rm=T)) %>%
+#   ungroup() %>% 
+#   mutate(dayfromstart = 1:n()) %>% 
+#   dplyr::select(dayfromstart, everything()) %>% 
+#   filter(!is.na(meantemp))
+```
+
+
+Environment and Climate Change Canada (ECCC), formerly Environment Canada, is a federal department with the stated role of protecting the environment, conserving national natural heritage, and also providing weather and meteorological information. According to ECCC _warming over the 20th century is indisputable and largely due to human activities_ adding _Canada's rate of warming is about twice the global rate: a 2°C increase globally means a 3 to 4ºC increase for Canada_. Berkeley Earth has reported that [2015 was unambiguously the warmest year on record across the world](http://berkeleyearth.org/wp-content/uploads/2016/01/2015-Hottest-Year-BE-Press-Release-v1.0.pdf), with the Earth's temperature more than 1.0 C (1.8 F) above the 1850-1900 average.  
+The data set `qc_weather.csv` contains daily temperature readings at [Danville weather station in Quebec](https://www.wunderground.com/weather/ca/danville) starting from June 6, 1880 (some dates are missing) that were scraped from the [Environment and Climate Change Canada (ECCC) website](https://climate.weather.gc.ca/historical_data/search_historic_data_e.html) using the [weathercan R package](https://docs.ropensci.org/weathercan/index.html). The daily measurements provided for you are:
+
+- `year`: the year of the measurement.
+
+- `month`: the month of the measurement; 1 = January, 2 = February,... , 12 = December.
+
+- `day`: the day within the month (1-31).
+
+- `max_temp`: the maximum recorded temperature that day.
+
+- `mean_temp`: the average of recorded temperatures that day.
+
+- `min_temp`: the minimum recorded temperature that day.
+
+- `dayfromstart`: a number from 1 to 13501 that represents the number of days since June 5.  So 1 = June 6, 1880.
+
+
+a) Create a new data set which contains all the rows that correspond to February in any year. Compare the `max_temp` in the February data between (1) those February days in 2015 and (2) February days in all other years using an appropriate figure and summary statistics. Describe your findings in 3 or fewer sentences.
+
+<!--    \textcolor{NavyBlue}{The boxplot illustrates that temperatures in February 2018 were overall warmer than in other years. The mean maximum February temperature in 2018 is almost 9 degrees warmer than typical, and the median in 2018 is well above the third quartile in other years.}-->
+
+```{r, echo=FALSE, eval=FALSE}
+
+
+tt <- qc_weather %>% 
+  filter(month == 2) %>%
+  mutate(f2015 = ifelse(year==2015,TRUE,FALSE))
+
+# tt %>% 
+# ggplot(aes(x=f2015, y=max_temp)) + geom_boxplot() + facet_wrap(~factor(month))
+
+# qc_weather$month %>% table
+
+summary(lm(max_temp ~ f2015, data = tt))
+
+
+
+```
+
+
+b) Were those February days in 2015 warmer than February days in all other years ? Use an appropriate regression model to answer this question. Write the regression equation in terms of population parameters and define all parameters in your model. What is the parameter of interest?
+
+c) Estimate the regression parameters using the data provided. Report the estimated coefficient for the parameter of interest and interpret it in the context of the problem.
+
+d) Report the p-value for the parameter of interest. Based on the p-value, is there sufficient evidence at $\alpha = 0.05$ to support the claim that 2015 was the warmest year on record? What assumptions were used in calculating the p-value. 
+
+e) Provide a potential explanation for why your analysis agrees or does not agree with the claim made by Berkeley Earth.
+
+f) Use a permutation test to calculate the p-value for the parameter of interest and compare it with the one obtained in part d). Briefly discuss this comparison.
+
+<!--    \textcolor{NavyBlue}{The mean and standard deviation of the replicates are 37.63 degrees and 1.79 degrees, respectively. Not a single one of the 10,000 replicates produced a sample mean as extreme as what was actually observed this past year.}-->
+
+```{r, eval = FALSE, echo=FALSE}
+#set the seed
+set.seed(2018)
+
+set.seed(101) ## for reproducibility
+nsim <- 1000
+res <- numeric(nsim) ## set aside space for results
+for (i in 1:nsim) {
+    ## standard approach: scramble response value
+    perm <- sample(nrow(qc_weather))
+    bdat <- transform(qc_weather, colonies=colonies[perm])
+    ## compute & store difference in means; store the value
+    res[i] <- mean(bdat[bdat$place=="field","colonies"])-
+        mean(bdat[bdat$place=="forest","colonies"])
+}
+obs <- mean(ants[ants$place=="field","colonies"])-
+    mean(ants[ants$place=="forest","colonies"])
+## append the observed value to the list of results
+res <- c(res,obs)
+```
+
+
+
+
+
+# (30 points, 6 each) Physical activity in NHANES
+
+This problem uses data from the [National Health and Nutrition Examination Survey (NHANES)](https://cran.r-project.org/web/packages/NHANES/NHANES.pdf), a survey conducted annually by the US Centers for Disease Control (CDC). The dataset is available from the \texttt{NHANES} package.
+
+Regular physical activity is important for maintaining a healthy weight, boosting mood, and reducing risk for diabetes, heart attack, and stroke. In this problem, you will be exploring the relationship between weight (\texttt{Weight}) and physical activity (\texttt{PhysActive}) using the NHANES data. Weight is measured in kilograms. The variable \texttt{PhysActive} is coded \texttt{Yes} if the participant does moderate or vigorous-intensity sports, fitness, or recreational activities, and \texttt{No} if otherwise. The objective is to compare weight between physically active and those who are not.
+
+a) Explore the data.
+
+    i. Identify how many individuals are physically active.
+    
+    ii. Create a plot that shows the association between weight and physical activity. Describe what you see.
+
+b) Provide an appropriate regression model for the stated objective and state the parameter of interest. Give the regression equation in terms of population parameters and be sure to define each of the parameters in your model.
+    
+c) Fit a linear regression model to estimate the regression parameters. Report the estimated coefficients from the model and interpret each of them in the context of the problem.
+
+d) Report a 95\% confidence interval for the parameter of interest and interpret the interval in the context of the problem. Based on the interval, is there sufficient evidence at $\alpha = 0.05$ to reject the null hypothesis of no association between weight and physical activity? State the assumptions used for calculating the 95\% confidence interval.
+
+e) Provide a 95\% bootstrap confidence interval for the parameter of interest and compare it to the one in part d). Briefly discuss the comparison.
+
+
+
