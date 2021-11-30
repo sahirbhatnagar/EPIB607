@@ -1,0 +1,64 @@
+---
+title: "Untitled"
+output: html_document
+editor_options: 
+  chunk_output_type: inline
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Kidney Stone removal procedures 2
+
+## Enter the data
+
+```{r}
+# cases --> unsuccessful (Y = 1)
+cases <- c(6, 36, 71 , 25)
+controls <- c(81, 234, 192, 55)
+open <- c(1, 0, 1, 0)
+greater2 <- c(0, 0, 1, 1)
+df <- data.frame(cases, controls, open, greater2)
+```
+
+```{r}
+fit <- glm(cbind(cases, controls) ~ open + greater2, data = df, 
+           family = binomial(link = "logit")) # pi --> risk of unsuccessful surgery
+# fit <- glm(cbind(controls, cases)) # pi --> risk of successful surgery
+summary(fit)
+fitted(fit)
+# on the logit scale
+coef(fit)
+# odds ratio
+exp(coef(fit)[2:3])
+exp(confint(fit))
+
+
+# baseline risk or pi_00
+plogis(coef(fit)[1])
+1/(1+exp(-coef(fit)[1]))
+exp(coef(fit)[1]) / (1 + exp(coef(fit)[1]))
+
+df$fitted <- fitted(fit)
+
+coef(fit)
+df[1,]
+plogis(coef(fit)[1])*exp(coef(fit)[2]) # incorrect
+exp(coef(fit)[1] + coef(fit)[2]) # incorrect
+plogis(coef(fit)[1] + coef(fit)[2]) # correct
+# logit(pi_zx) = beta_0 + beta_1 * z + beta_2 * x
+# open = 1, greater2 = 0
+#logit(pi_10) = beta_0 + beta_1
+# pi_10 = antilogit (beta_0 + beta_1)
+```
+
+$$
+\frac{\pi_{ZX}}{1-\pi_{ZX}} = \frac{\pi_{00}}{1-\pi_{00}} \cdot \theta_1^Z \cdot \theta_2^X\\
+\log\frac{\pi_{ZX}}{1-\pi_{ZX}} = \log\frac{\pi_{00}}{1-\pi_{00}} + Z \log \theta_1 + X \log\theta_{2}
+$$
+
+
+$$
+\log
+$$

@@ -23,9 +23,9 @@ Week,Date,Topic,Readings,Slides,Lab,Assignment
  ,Nov 11,Poisson regression 1,,[023](https://github.com/sahirbhatnagar/EPIB607/blob/master/inst/slides/023-poisson-reg/023-poisson-reg_handout.pdf),,
 12,Nov 16,Poisson regression 2,,,,
  ,Nov 18,Logistic regression 1,,[024](https://github.com/sahirbhatnagar/EPIB607/blob/master/inst/slides/024-logistic-reg-1/024-logistic-reg-1_handout.pdf),009-logistic-reg,A7 due Nov 19
-13,Nov 23,Logistic regression 2,,[025](https://github.com/sahirbhatnagar/EPIB607/blob/master/inst/slides/025-logistic-reg-2/025-logistic-reg-2.pdf),,
- ,Nov 25,Contingency tables,,,,
-14,Nov 30,Simulation Study,,,010-contingency-tables,A8 due Dec 1
+13,Nov 23,Logistic regression 1,,[025](https://github.com/sahirbhatnagar/EPIB607/blob/master/inst/slides/025-logistic-reg-2/025-logistic-reg-2.pdf),,
+ ,Nov 25,Logistic regression 2,,,,
+14,Nov 30,ROC curves,,[026](https://github.com/sahirbhatnagar/EPIB607/blob/master/inst/slides/026-ROC-curves/ROC_curves.pdf),,A8 due Dec 1
 ,Dec 02,Final review,,,,
 ,Dec 09,Final,,,,
 ,Dec 22,Group project,,,,[Group project due](https://github.com/sahirbhatnagar/EPIB607/blob/master/inst/project/EPIB607_project.pdf)

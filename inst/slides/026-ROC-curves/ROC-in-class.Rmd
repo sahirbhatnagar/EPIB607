@@ -1,0 +1,155 @@
+---
+title: "In-class exercise on ROC curves"
+output:
+  html_document:
+    toc: true
+    toc_float: true
+    number_sections: true
+    toc_depth: 4
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+# Packages
+
+```{r}
+pacman::p_load(dplyr)
+pacman::p_load(pROC)
+```
+
+
+# Survival of patients following admission to an adult intensive care unit (ICU)
+
+The ICU study data set consists of a sample of 200 subjects who were part of a much larger study on survival of patients following admission to an adult intensive care unit (ICU). The major goal of this study was to develop a logistic regression model to predict the probability of survival to hospital discharge of these patients. A code sheet for the variables in this data is provided in `icu_codebase.pdf`.
+The primary outcome variable is vital status at hospital discharge (`sta`). Clinicians associated with the study felt that a key determinant of survival was the type of admission, `type`.
+
+```{r load}
+load(here::here("inst/assignments/a8/icu.rda"))
+
+# create binary version of sta
+icu <- icu %>% 
+  mutate(sta.int = as.numeric(sta) - 1)
+
+head(icu)
+```
+
+
+# Intercept only
+
+
+```{r}
+# overall proportion hiv positive
+round(sum(icu$sta.int)/nrow(icu),3)
+
+# intercept-only logit model
+fit0 <- glm(sta ~ 1, family=binomial(link=logit), data=icu)
+print(summary(fit0), show.call=TRUE, digits=2, signif.stars = FALSE)
+
+# checks
+plogis(fit0$coefficients)
+fitted(fit0)
+icu$fit0fitted <- fitted(fit0)
+```
+
+
+# Several predictors
+
+```{r}
+fit1 <- glm(sta ~ type, 
+            family=binomial(link=logit), 
+            data=icu)
+summary(fit1)
+boxplot(fitted(fit1) ~ icu$sta)
+icu$fit1fitted <- fitted(fit1)
+
+fit2 <- glm(sta ~ type + age, 
+            family=binomial(link=logit), 
+            data=icu)
+
+summary(fit2)
+
+par(mfrow = c(1,2))
+boxplot(fitted(fit1) ~ icu$sta)
+boxplot(fitted(fit2) ~ icu$sta)
+for(i in seq(0,1, by = 0.1)) abline(h = i, col = "red", lwd = 2)
+
+icu$fit2fitted <- fitted(fit2)
+```
+
+
+# ROC Curves
+
+```{r}
+rocobj1 <- plot.roc(icu$sta.int, fitted(fit1),
+                    percent=TRUE,
+                    ci=TRUE, # compute AUC (of AUC by default)
+                    print.auc=TRUE) # print the AUC (will contain the CI)
+
+ciobj <- ci.se(rocobj1, # CI of sensitivity
+               specificities=seq(0, 100, 5)) # over a select set of specificities
+plot(ciobj, type="shape", col="#1c61b6AA") # plot as a blue shape
+plot(ci(rocobj1, of="thresholds", thresholds="best")) # add one threshold
+```
+
+
+
+```{r}
+rocobj2 <- plot.roc(icu$sta.int, fitted(fit2),
+                    percent=TRUE,
+                    ci=TRUE, # compute AUC (of AUC by default)
+                    print.auc=TRUE) # print the AUC (will contain the CI)
+
+ciobj2 <- ci.se(rocobj2, # CI of sensitivity
+               specificities=seq(0, 100, 5)) # over a select set of specificities
+plot(ciobj2, type="shape", col="#1c61b6AA") # plot as a blue shape
+plot(ci(rocobj2, of="thresholds", thresholds="best")) # add one threshold
+```
+
+# Optimal cutoff
+
+```{r}
+boxplot(fitted(fit1) ~ icu$sta)
+abline(h = coords(rocobj1, "best")$threshold)
+
+boxplot(fitted(fit2) ~ icu$sta)
+abline(h = coords(rocobj2, "best")$threshold[1])
+
+best.thresh <- coords(rocobj2, "best")$threshold[1]
+best.thresh
+
+icu$model_based_class <- icu$fit2fitted > best.thresh
+table(icu$model_based_class, icu$sta)
+```
+
+
+
+# Compare ROC curves
+
+
+```{r}
+
+plot.roc(icu$sta.int, fitted(fit1),
+                    percent=TRUE,
+                    ci=TRUE, # compute AUC (of AUC by default)
+                    print.auc=TRUE) # print the AUC (will contain the CI)
+
+plot.roc(icu$sta.int, fitted(fit2),
+                    percent=TRUE,
+                    ci=TRUE, # compute AUC (of AUC by default)
+                    print.auc=TRUE, 
+          col = "red", print.auc.y = 20,
+         add = TRUE) # print the AUC (will contain the CI)
+
+roc.test(rocobj1, rocobj2)
+
+
+
+
+
+```
+
+
+
