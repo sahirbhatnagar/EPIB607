@@ -1,0 +1,411 @@
+---
+editor_options: 
+  markdown: 
+    wrap: 72
+---
+
+# Syllabus {.unnumbered}
+
+## General Information {.unnumbered}
+
+-   **Course \#**: EPIB 607
+
+-   **Term and year**: Fall 2021
+
+-   **Course pre-requisite(s)**: A first year course in undergraduate
+    differential and integral calculus. Basic understanding of
+    exponentials, logs, histograms, graphs, mean, median, mode, standard
+    deviation. Enrollment in the Epidemiology or Public Health program
+    at McGill University, or with the permission of the instructor.
+
+-   **Course co-requisite**: EPIB 613
+
+-   **Course schedule**: Tuesdays and Thursdays 11:35am - 1:25pm in
+    [Education 129](https://www.mcgill.ca/tls/spaces/classrooms/education-129).
+
+-   **Number of credits**: 4
+
+## Instructor & TA Information {.unnumbered}
+
+### Instructor Information {.unnumbered}
+
+-   **Name and Title**: Sahir Rai Bhatnagar, PhD, Assistant Professor
+
+-   **E-mail**:
+    [sahir.bhatnagar\@mcgill.ca](mailto:sahir.bhatnagar@mcgill.ca){.email}
+
+-   **Office hours**: Fridays 8am - 9am (via Zoom)
+
+-   **Communication plan**: All office hours will be held virtually via Zoom
+    (link posted in [myCourses](https://mycourses2.mcgill.ca/)). 
+    This is a large class and many students struggle with the same topics. 
+    For this reason, it is often inefficient for the instructor and the teaching 
+    assistants to respond to individual questions via email.  **You are strongly encouraged to attend virtual office hours to ask questions in person**. This is the easiest and most 
+    efficient way to ensure that we will respond in a timely manner. I have also 
+    created a Slack workspace for the entire class, which will be monitored by 
+    the TAs and myself. You may post questions there, and potentially get 
+    responses from your peers/me/TAs. If you must send an email, please include 
+    an informative subject title beginning with **[Fall 2021 - EPIB-607-001 - Inferential Statistics]**. 
+    If you need more time to troubleshoot a problem or a topic, then feel free 
+    to setup an appointment with me or the TAs. We will do our best to help. 
+    The instructor and teaching assistants will make every effort to respond to 
+    emails/Slack messages within 48 hours of receipt. Emails/Slack messages 
+    received after 5:00pm EST and on weekends will be treated as though received 
+    on the following business day. 
+
+### TA Information {.unnumbered}
+
+You are assigned a specific TA based on your last name. Throughout the
+term, your assigned TA will be the one marking your assignments. Issues with marks on assignments
+are to be discussed with your TA first. You are required to attend the office hours of your TA. In exceptional circumstances only, you can attend the office hours of another TA. All
+TA office hours will be held virtually (link posted in [myCourses](https://mycourses2.mcgill.ca/)).
+
+-   **Chinchin Wang**
+
+    -   [chinchin.wang\@mail.mcgill.ca](mailto:chinchin.wang@mail.mcgill.ca){.email}
+
+    -   Office hours: Tuesdays 9:00am - 10:00am
+
+    -   Students with last names beginning with: Aa - En
+
+-   **Mariam El Sheikh**
+
+    -   [mariam.elsheikh\@mail.mcgill.ca](mailto:mariam.elsheikh@mail.mcgill.ca){.email}
+
+    -   Office hours: Mondays 12:00pm - 1:00pm
+
+    -   Students with last names beginning with: Er - Lu
+
+-   **Ting Zhang**
+
+    -   [ting.zhang3\@mail.mcgill.ca](mailto:ting.zhang3@mail.mcgill.ca){.email}
+
+    -   Office hours: Fridays 10:00am - 11:00am
+
+    -   Students with last names beginning with: Ma - Sam
+
+-   **Jingyan Fu**
+
+    -   [jingyan.fu\@mail.mcgill.ca](mailto:jingyan.fu@mail.mcgill.ca){.email}
+
+    -   Office hours: Thursdays 1:30pm - 2:30pm
+
+    -   Students with last names beginning with: Sar - Zh
+
+## Course Overview {.unnumbered}
+
+Introduction to the basic principles of statistical inference used in
+clinical and epidemiologic research. Topics include variability; methods
+of processing and describing data; sampling and sampling distributions;
+inferences regarding means and proportions, non-parametric methods,
+regression and correlation.
+
+The principal audience is researchers in the natural and social sciences
+who haven't had an introductory course in statistics (or did have one a
+long time ago). This audience accepts that statistics has penetrated the
+life sciences pervasively and is required knowledge for both doing
+research and understanding scientific papers.
+
+## Instructor Message Regarding Course Delivery {.unnumbered}
+
+Lectures will be delivered in person on Tuesdays and Thursdays from 11:35am – 1:25pm. Our classroom will be crowded. As of August 25, 2021, there were more than 90 students registered for this class and the room we have been assigned seats [96 at full capacity](https://www.mcgill.ca/tls/spaces/classrooms/education-129), with no allowance for distancing. McGill's guidelines do not require distancing, do not require vaccination, and state that neither you nor I will be notified if someone in the class contracts Coronavirus disease, thus unnecessarily putting our community at greater risk of Covid infection. This decision has been challenged by dozens of legal experts in the McGill Faculty of Law who stress that McGill has a [legal obligation](https://www.google.com/url?q=https://montreal.ctvnews.ca/mcgill-law-professors-say-school-has-a-legal-obligation-to-enforce-mandatory-vaccines-for-on-campus-attendance-1.5551894&sa=D&source=editors&ust=1630359599418000&usg=AOvVaw0DZJG2-VXnEG2KL8nd5pll) to require vaccination to protect our community. The decision to not implement a vaccine mandate is also being highly criticized by [several experts in epidemiology and infectious disease at the McGill School of Population and Global Health](https://www.google.com/url?q=https://www.mcgill.ca/spgh/files/spgh/mcgill_letter_advocating_for_vaccine_mandate_17_august_2021.pdf&sa=D&source=editors&ust=1630359599418000&usg=AOvVaw3uZm0_S3FxrUdYHX83yNBZ) who are strongly advocating against the community health risks of not requiring vaccination. The [McGill Association of University Teachers](https://www.google.com/url?q=https://www.mcgill.ca/maut/files/maut/letter_-_maut_calls_for_vaccine_mandate_2021-08-16.pdf) also wants a vaccine mandate. The SSMU students' union is also organizing [a protest this Wednesday](https://www.google.com/url?q=https://www.facebook.com/events/s/protest-for-a-safe-accessible-/1526882857644669/&sa=D&source=editors&ust=1630359599419000&usg=AOvVaw1tHiHxYZ1A2plXep38O7k_) to demand a vaccine mandate to better protect students.
+
+McGill students this fall will regularly be attending packed (and often overcapacity) classes with no distancing, inadequate ventilation, and faculty removing masks. This learning situation is occurring within a broader Montreal context where the full vaccination rate among 18-24 year-olds is low ([63% at present](https://www.google.com/url?q=https://vaccintrackerqc.ca/en/%23by-age-group&sa=D&source=editors&ust=1630359599419000&usg=AOvVaw1OtNrnb-yrk-Tp5cqMbG9x)), children under 12 are not vaccinated, and masking is not being regularly enforced on public transit. In response, there have additionally been multiple public [letters](https://www.google.com/url?q=https://t.co/qxblvPkEFA?amp%3D1&sa=D&source=editors&ust=1630359599420000&usg=AOvVaw2vGFFzsIaJirr2sNCCpcEY) and petitions signed by thousands asking McGill to implement a vaccine requirement including faculty and students [at McGill](https://www.google.com/url?q=https://t.co/8kUenYb3E7?amp%3D1&sa=D&source=editors&ust=1630359599420000&usg=AOvVaw118xqxe6Qxas-HgdadwUvP) and [across Quebec](https://www.google.com/url?q=https://docs.google.com/document/d/13OB4eBdUqjbj60NatufzVPjnDCQrGmW7tf76ofzh4OA/edit&sa=D&source=editors&ust=1630359599421000&usg=AOvVaw07LtCy4ipD1xJTUsjTQr73). My reason for sharing the above information is to ensure you are sufficiently aware of ongoing challenges surrounding McGill's failure to mandate a vaccine and to help facilitate informed decision-making when attending classes this fall. 
+
+I am sorry that I cannot provide a safer environment for us as a class. McGill University has clearly communicated to instructors that we are required to teach in person or [face potential punishment for failure to complete our job duties](https://www.mediafire.com/file/djbfj2sgx5ba755/20210830_Teaching_Concerns.pdf/file). 
+
+Lectures will be recorded through McGill's Lecture Recording Service and Zoom, and posted on [myCourses](https://mycourses2.mcgill.ca/). If you do not feel comfortable in the classroom or need to quarantine after exposure you may choose to participate in the course virtually by watching the recorded lectures. However, please note that **midterm and final exams will be delivered in person** in a different classroom that allows for distancing and that no online option will be provided. Of course, if pandemic conditions change these plans may also change.
+
+Here are some useful links from Teaching and Learning Services: -
+[Guidelines for Students on Teaching, Learning, and
+Assessment](https://www.mcgill.ca/tls/instructors/policies/guidelines-f2021#Students)
+- [Learning
+Resources](https://www.mcgill.ca/tls/students/learning-resources)
+
+## Learning Outcomes {.unnumbered}
+
+The aim of this course is to provide students with basic principles of
+statistical inference so that they can:
+
+-   Visualize/Analyze/Interpret data using statistical methods with the
+    `R` statistical software program.
+
+-   Understand the statistical results in a scientific paper.
+
+-   Apply statistical methods in their own research.
+
+-   Use the methods learned in this course as a foundation for more
+    advanced biostatistics courses.
+
+## Instructional Method {.unnumbered}
+
+**This course will follow the Partially Flipped Classroom model**: Here, students
+are expected to have engaged with the material before coming to class.
+This allows the instructor to delegate the delivery of basic content and
+definitions to textbooks and videos, and enforces the idea that students
+cannot be simply passive recipients of information. This approach then
+allows the professor to focus valuable class time on nurturing efficient
+discussions surrounding the ideas within the content, guiding
+interactive exploration of typical misconceptions, and promoting
+collaborative problem solving with peers. Refer to the [class schedule](#schedule) 
+for assigned readings. 
+
+**A focus on computation**: Classic introductory statistics textbooks
+were written during a time when computers were still in their infancy.
+As such, even the newer editions heavily rely on by-hand computations
+such as looking up tables for tail probabilities. We take a modern
+approach and introduce computational methods in statistics with the
+statistical software program `R`. Assignments must be submitted in
+`R Markdown` format to ensure reproducible results.
+
+**Reliance on EPIB613**: This course relies heavily on the material presented in 
+EPIB613. I am in constant contact with the EPIB613 instructors to ensure that the requisite
+computing knowledge needed to complete assignments in this course is being covered in a timely 
+manner. I will not present material that has been covered in EPIB613. I will assume
+you are following the material in that course. Students from external departments are responsible for learning the material on their own (or seek help from a classmate) in case they are not 
+registered for EPIB613. 
+
+
+## Required Course Materials {.unnumbered}
+
+### Course notes {-}
+
+The course website [https://sahirbhatnagar.com/EPIB607/](https://sahirbhatnagar.com/EPIB607/) will contain most of the required material. 
+There is no required textbook for this course. However, several references will 
+be posted on [myCourses](https://mycourses2.mcgill.ca/).  
+
+### Equipment  {-}
+
+Hand calculators (with square root, log, and exponential function) are
+required. Laptops for in-class exercises can be useful but is not
+required.
+
+### Software  {-}
+
+R and RStudio. The installation instructions are available at [https://sahirbhatnagar.com/EPIB607/install.html](https://sahirbhatnagar.com/EPIB607/install.html)
+
+
+
+### Tutorials from DataCamp  {-}
+
+This class is supported by DataCamp, which will allow you to learn `R`
+through a combination of short expert videos and hands-on-the-keyboard
+exercises. You will be asked to complete some of the courses in DataCamp
+for background reading or for assignments. You can sign up for a free
+account at this
+[link](https://www.datacamp.com/groups/shared_links/a10245cf1485dc55a1ee21a23d6dfe6ae703fd60).
+Note: you are required to sign up with a \@mail.mcgill.ca or \@mcgill.ca
+email address.
+
+## Course Content {.unnumbered}
+
+### Descriptive Statistics  {-}
+
+-   Histograms, density plots, measures of center, boxplots, standard
+    deviation
+
+-   Data visualization (aesthetics, visual cues, coordinate systems,
+    scales, facets and layers)
+
+-   Choosing color palettes: Cynthia Brewer palettes, perceptually
+    uniform palettes, color blind friendly palettes.
+
+-   Tidy data
+
+### Sampling Distributions  {-}
+
+-   Parameters and statistics
+
+-   Standard error of the mean
+
+-   Normal (Gaussian) distribution
+
+-   Central Limit Theorem
+
+-   Confidence intervals
+
+-   Bootstrap for sampling distributions and confidence intervals
+
+### One Sample Inference  {-}
+
+-   Inference about a population mean
+
+-   P values, power, and sample size considerations
+
+-   Inference about a population proportion
+
+-   Inference about a population rate
+
+### Regression  {-}
+
+-   Linear regression for means, difference in means, ratio of means
+
+-   Poisson regression for rates, rate differences, rate ratios
+
+-   Logistic regression for odds ratios and risk ratios
+
+## Evaluation {.unnumbered}
+
+|                                                                 |     |
+|:----------------------------------------------------------------|:---:|
+| 8 Assignments (submit to Crowdmark)                             | 20% |
+| Group Project due **December 22nd**                             | 10% |
+| 2-hour Midterm exam (1 two-sided formula sheet) **October 21st** | 30% |
+| 3-hour Final exam (2 two-sided formula sheets) **December 9th** | 40% |
+
+The final grade will be the maximum of:\
+
+|                                                                            |
+|:--------------------------------------------------------------------------:|
+| 20% Assignments + 10% Group Project + 30% Midterm + 40% Final |
+|                                     OR                                     |
+|        20% Assignments + 10% Group Project + 70% Final        |
+
+
+### Assignments {-}
+
+All assignments are to be completed in RMarkdown, and submitted via Crowdmark. FAQ for how to submit an assignment via Crowdmark is available at [https://crowdmark.com/help/completing-and-submitting-an-assessment/](https://crowdmark.com/help/completing-and-submitting-an-assessment/). Be sure to submit one pdf per question. You can compile your `.Rmd` file to HTML and then print to pdf, or you can compile to pdf directly (if you have [LaTeX installed](https://sahirbhatnagar.com/EPIB607/install.html#to-download-latex)).
+There will be assignments which consist only of completing a DataCamp course. In such instances, you are not required to submit anything. We will be able to see that you completed the assignment on the DataCamp instructor dashboard.
+Extensions for assignments may be granted upon request only. Assignments submitted after the solutions have been posted will not be accepted and given a grade of 0. 
+
+
+### Group Project {-}
+
+The objective of the group project is to construct an exercise and solutions suitable for testing or demonstrating understanding of basic principles of biostatistics as discussed in this course.
+
+Exercises must be based on (i) one to two articles in a scientific journal or perhaps in the lay press
+or (ii) a \textit{publicly available} dataset. The data must not be taken from an RA project, but must be
+freely available on the web or another public source. The article or data should concern some health
+problem amenable to statistical investigation. The narrative of the exercise should be clear and concise.
+The exercise should comprise 5-7 questions requiring altogether about three hours for completion. The
+questions may cover any part of this course. You must also produce a separate set of model answers;
+these should be equally short and to the point. 
+
+
+The group project will be evaluated using the following criteria (for a total of 10 points):
+
+1. The choice of subject and ingenuity (2.0 points)  
+2. Testing of important biostatistical principles (2.5 points)  
+3. Exercises that are clear, concise, and creative. It's better to have one question that tests several concepts together, vs. several questions that have no link with each other (2.5 points)  
+4. Quality of solutions (2.0 points)  
+5. Is the report reproducible (1.0 points)  
+
+
+**Projects should be done in groups of 2 to 4 people**.
+Examples final projects prepared by students in previous years have been posted on MyCourses.
+All projects must be uploaded to myCourses. One submission per group.
+
+The upload should consist of the following:  
+
+1. One `.Rmd` file containing the questions and solutions. This must be fully reproducible using the techniques discussed in this class, i.e., I should be able to download your submission, open the `.Rmd` file, and compile it without error. Be aware of file paths and hard coded solutions.  
+2. One compiled `.pdf` or `.html` file of the Rmarkdown document  
+3. Any article(s) on which the questions are based  
+4. Any data-sets used in the questions, in text or CSV format. If the dataset is publicly available then a link to the dataset or the R package is sufficient.  
+
+### Midterm and Final Exams {-}
+
+**There is no possibility to take the midterm or final exam on alternative dates. If you cannot
+attend the midterm, then the final exam will account for 70% of your grade.** Also note that the midterm and final exams will be delivered in person in a different classroom that allows for distancing and that no online option will be provided. The final grade will consist of a letter grade. Students [may request special accommodations](https://www.mcgill.ca/osd/student-resources/forms/exam-sign) from the [Office for Students with Disabilities](https://www.mcgill.ca/osd/).
+
+
+In the event of extraordinary circumstances beyond the University's control, the content and/or evaluation scheme in this course is subject to change.
+
+## McGill Policy Statments {.unnumbered}
+
+### Land Acknowledgement {-}
+
+[McGill University is located on land](https://www.mcgill.ca/indigenous/land-and-peoples) which has long served as a site of meeting and exchange amongst Indigenous peoples, including the Haudenosaunee (h oh - D EE - n oh - SH oh - n ee) and Anishinabeg (Ah-nish-ih-nah'-bey) nations. McGill honours, recognizes and respects these nations as the traditional stewards of the lands and waters on which we meet today. 
+
+A connection to the land is inextricably linked to Indigenous identity. Historically, the cultural protocol of acknowledging traditional territory symbolizes the importance of place and identity for Indigenous peoples. Within many Indigenous communities, protocol requires that individuals situate themselves, and their relationships to the people and the land. For many Indigenous peoples in Canada, and increasingly in broader Canadian society, traditional territory acknowledgements are an important cultural protocol practised at ceremonial events as a way to acknowledge and honour Indigenous peoples’ connections to their [ancestral lands](https://native-land.ca/).
+
+**Acknowledging the traditional territory ensures:**
+
+- Recognition is given to the land’s history in order to strengthen and cultivate relationships with the local Indigenous communities;  
+- The institution’s community is exposed to and educated about Indigenous histories, cultures, and identities;  
+- A welcoming space for Indigenous students, staff and faculty.  
+
+
+### Language of Submission {.unnumbered}
+
+In accord with McGill University's Charter of Students' Rights, students
+in this course have the right to submit in English or in French any
+written work that is to be graded. This does not apply to courses in
+which acquiring proficiency in a language is one of the objectives.
+
+Conformément à la Charte des droits de l'étudiant de l'Université
+McGill, chaque étudiant a le droit de soumettre en français ou en
+anglais tout travail écrit devant être noté (sauf dans le cas des cours
+dont l'un des objets est la maîtrise d'une langue).
+
+### Academic Integrity {.unnumbered}
+
+McGill University values academic integrity. Therefore, all students
+must understand the meaning and consequences of cheating, plagiarism and
+other academic offences under the Code of Student Conduct and
+Disciplinary Procedures (see
+[www.mcgill.ca/students/srr/honest/](https://www.mcgill.ca/students/srr/honest/)
+for more information).
+
+L'université McGill attache une haute importance à l'honnêteté
+académique. Il incombe par conséquent à tous les étudiants de comprendre
+ce que l'on entend par tricherie, plagiat et autres infractions
+académiques, ainsi que les conséquences que peuvent avoir de telles
+actions, selon le Code de conduite de l'étudiant et des procédures
+disciplinaires (pour de plus amples renseignements, veuillez consulter
+le site
+[www.mcgill.ca/students/srr/honest/](https://www.mcgill.ca/students/srr/honest/)).
+
+### Text Matching Software {-}
+
+Work submitted for evaluation as part of this course may be checked with text matching software within myCourses.
+
+### Copyright {-}
+
+Instructor-generated course materials (e.g., handouts, notes, summaries, exam questions) are protected by law and may not be copied or distributed in any form or in any medium without explicit permission of the instructor. Note that infringements of copyright ([https://www.mcgill.ca/secretariat/files/secretariat/policy_on_copyright.pdf](https://www.mcgill.ca/secretariat/files/secretariat/policy_on_copyright.pdf)) can be subject to follow up by the University under the Code of Student Conduct and Disciplinary Procedures.
+
+
+### Zoom Recordings of Class Lectures {-}
+
+Please read the [Guidelines for Instructors and Students on Teaching, Learning, and Assessment](https://www.mcgill.ca/tls/instructors/policies/guidelines-f2021) and this course outline. You will be notified through a "pop-up" box in Zoom if part of a class is being recorded (see image below). By remaining in sessions that are recorded, you agree to the recording, and you understand that your image, voice, and name may be disclosed to classmates. You also understand that recordings will be made available in myCourses to students registered in the course.
+
+<img src="/Users/runner/work/EPIB607/EPIB607/inst/figures/zoom.jpg" width="212" />
+
+
+The University is committed to maintaining teaching and learning spaces that are respectful and inclusive for all. To this end, offensive, violent, or harmful language arising in contexts such as the following may be cause for disciplinary action:  
+
+1. Zoom sessions, including Username (use only your legal or preferred name), virtual backgrounds, "chat" boxes, whiteboard annotations, breakout rooms  
+2. myCourses discussion fora  
+3. Slack channels and messages  
+
+
+### Student Wellness {-}
+
+As the instructor of this course I endeavor to provide an inclusive learning environment. However, if you experience barriers to learning in this course, do not hesitate to discuss them with me and the [Office for Students with Disabilities](https://www.mcgill.ca/osd/), 514-398-6009.
+
+Many students may face mental health challenges that can impact not only their academic success but also their ability to thrive in our campus community. Please reach out for support when you need it; many [resources](https://www.mcgill.ca/wellness-hub/campus-care) are available on-campus, off-campus and online.
+
+If you have difficulty affording food or if you lack a safe and stable place to live and believe that this may affect your performance in this course, I encourage you to contact the [Dean of Students](mailto:deanofstudents@mcgill.ca) who can connect you with support services. If you feel comfortable doing so, please let me know as well, so we can discuss how I can best support your learning.
+
+
+### Course Evaluations {-}
+
+End-of-course evaluations are one of the ways that McGill works towards maintaining and improving the quality of courses and the student’s learning experience. You will be notified by e-mail when the evaluations are available. Please note that a minimum number of responses must be received for results to be available to students.
+
+
+### Sustainability {-}
+
+
+McGill is entering a new and exciting chapter of sustainability on campus. From research to operations, sustainable solutions for local and global challenges are being innovated at all levels of our University. At the centre of these initiatives, guiding the way, is the [McGill University Climate & Sustainability Strategy 2020-2025](https://www.mcgill.ca/sustainability/).
+
+This Strategy commits McGill to three ambitious, yet realistic long-term targets; attaining a Platinum sustainability rating by 2030, becoming zero-waste by 2035, and achieving carbon neutrality by 2040. It is our responsibility as members of the global community that we do what we can to achieve these goals to reduce our impact on climate change and contribute positively to the sustainability of the planet.
+
+To support the achievement of these three long-term targets, the content of the Strategy examines the University’s activities across eight categories: Research & Education, Buildings & Utilities, Waste Management, Travel & Commuting, Food Systems, Procurement, Landscapes & Ecosystems, and Community Building. Each category is headlined by one flagship action, with another 54 complimentary actions distributed throughout the Strategy. Additionally, each category highlights ways students, staff, and faculty can get involved and contribute to a sustainable McGill.
+
+Everyone at McGill has a role to play. From changing a personal habit to leading a large-scale project, we can all take part in addressing the urgency of climate change and contributing to a more sustainable future.
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/rVP1iykt5H4" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+
+
+
+

@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>Chapter 2 Visualizing data: Mapping data onto aesthetics | EPIB607</title>
+<meta name="author" content="Sahir Bhatnagar and James A Hanley">
+<meta name="description" content="This section is reproduced from the book Fundamentals of Data Visualization13 Packages used in this Section pacman::p_load(  cowplot,  colorspace,  colorblindr, #...">
+<meta name="generator" content="bookdown 0.24 with bs4_book()">
+<meta property="og:title" content="Chapter 2 Visualizing data: Mapping data onto aesthetics | EPIB607">
+<meta property="og:type" content="book">
+<meta property="og:url" content="https://sahirbhatnagar.com/EPIB607/aesthetic-mapping.html">
+<meta property="og:description" content="This section is reproduced from the book Fundamentals of Data Visualization13 Packages used in this Section pacman::p_load(  cowplot,  colorspace,  colorblindr, #...">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Chapter 2 Visualizing data: Mapping data onto aesthetics | EPIB607">
+<meta name="twitter:description" content="This section is reproduced from the book Fundamentals of Data Visualization13 Packages used in this Section pacman::p_load(  cowplot,  colorspace,  colorblindr, #...">
+<!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
+<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.3.1/transition.js"></script><script src="libs/bs3compat-0.3.1/tabs.js"></script><script src="libs/bs3compat-0.3.1/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
+<script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script><script src="libs/kePrint-0.0.1/kePrint.js"></script><link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet">
+<link href="libs/bsTable-3.3.7/bootstrapTable.min.css" rel="stylesheet">
+<script src="libs/bsTable-3.3.7/bootstrapTable.js"></script><script src="libs/htmlwidgets-1.5.4/htmlwidgets.js"></script><link href="libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet">
+<script src="libs/datatables-binding-0.20/datatables.js"></script><link href="libs/dt-core-1.11.3/css/jquery.dataTables.min.css" rel="stylesheet">
+<link href="libs/dt-core-1.11.3/css/jquery.dataTables.extra.css" rel="stylesheet">
+<script src="libs/dt-core-1.11.3/js/jquery.dataTables.min.js"></script><link href="libs/crosstalk-1.2.0/css/crosstalk.min.css" rel="stylesheet">
+<script src="libs/crosstalk-1.2.0/js/crosstalk.min.js"></script><link href="libs/nouislider-7.0.10/jquery.nouislider.min.css" rel="stylesheet">
+<script src="libs/nouislider-7.0.10/jquery.nouislider.min.js"></script><link href="libs/selectize-0.12.0/selectize.bootstrap3.css" rel="stylesheet">
+<script src="libs/selectize-0.12.0/selectize.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- CSS --><link rel="stylesheet" href="templates/bs4_style.css">
+<link rel="stylesheet" href="templates/ims-style.css">
+<link rel="stylesheet" href="templates/corrections.css">
+</head>
+<body data-spy="scroll" data-target="#toc">
+
+<div class="container-fluid">
+<div class="row">
+  <header class="col-sm-12 col-lg-3 sidebar sidebar-book"><a class="sr-only sr-only-focusable" href="#content">Skip to main content</a>
+
+    <div class="d-flex align-items-start justify-content-between">
+      <h1>
+        <a href="index.html" title="">EPIB607</a>
+      </h1>
+      <button class="btn btn-outline-primary d-lg-none ml-2 mt-1" type="button" data-toggle="collapse" data-target="#main-nav" aria-expanded="true" aria-controls="main-nav"><i class="fas fa-bars"></i><span class="sr-only">Show table of contents</span></button>
+    </div>
+
+    <div id="main-nav" class="collapse-lg">
+      <form role="search">
+        <input id="search" class="form-control" type="search" placeholder="Search" aria-label="Search">
+</form>
+
+      <nav aria-label="Table of contents"><h2>Table of contents</h2>
+        <ul class="book-toc list-unstyled">
+<li><a class="" href="index.html">Preface</a></li>
+<li><a class="" href="schedule.html">Schedule</a></li>
+<li><a class="" href="syllabus.html">Syllabus</a></li>
+<li class="book-part">Descriptive Statistics</li>
+<li><a class="" href="introdata.html"><span class="header-section-number">1</span> Introduction to Data</a></li>
+<li><a class="active" href="aesthetic-mapping.html"><span class="header-section-number">2</span> Visualizing data: Mapping data onto aesthetics</a></li>
+<li><a class="" href="coordinate-systems-axes.html"><span class="header-section-number">3</span> Coordinate systems and axes</a></li>
+<li><a class="" href="ggplot2-package-for-plots.html"><span class="header-section-number">4</span> ggplot2 package for plots</a></li>
+<li><a class="" href="color-basics.html"><span class="header-section-number">5</span> Color scales</a></li>
+<li class="book-part">Sampling Distributions</li>
+<li><a class="" href="paras.html"><span class="header-section-number">6</span> Statistical Parameters</a></li>
+<li><a class="" href="ChapProbability.html"><span class="header-section-number">7</span> Probability</a></li>
+<li><a class="" href="randomVariables.html"><span class="header-section-number">8</span> Random Variables</a></li>
+<li><a class="" href="ChapNormal.html"><span class="header-section-number">9</span> The Normal Random Variable</a></li>
+<li><a class="" href="ChapSampDist.html"><span class="header-section-number">10</span> The Sampling Distribution</a></li>
+<li><a class="" href="CI.html"><span class="header-section-number">11</span> Parameter Intervals</a></li>
+<li><a class="" href="foundations-bootstrapping.html"><span class="header-section-number">12</span> Confidence intervals with bootstrapping</a></li>
+<li class="book-part">One Sample Inference</li>
+<li><a class="" href="inference-one-mean.html"><span class="header-section-number">13</span> Inference for a single mean</a></li>
+<li><a class="" href="ChapBinom.html"><span class="header-section-number">14</span> Binomial Random Variable</a></li>
+<li><a class="" href="inference-one-prop.html"><span class="header-section-number">15</span> Inference for a single proportion</a></li>
+<li class="book-part">Computing</li>
+<li><a class="" href="install.html"><span class="header-section-number">16</span> Installing R and RStudio</a></li>
+<li><a class="" href="basics.html"><span class="header-section-number">17</span> Basics of R and Rstudio</a></li>
+<li><a class="" href="projects.html"><span class="header-section-number">18</span> RStudio Projects</a></li>
+<li><a class="" href="functionsHOP.html"><span class="header-section-number">19</span> Functions</a></li>
+<li><a class="" href="packages.html"><span class="header-section-number">20</span> Packages</a></li>
+<li><a class="" href="import.html"><span class="header-section-number">21</span> Data Import and Export</a></li>
+<li><a class="" href="transition-to-r-from-excel-stata-sas.html"><span class="header-section-number">22</span> Transition to R from Excel, Stata, SAS</a></li>
+<li><a class="" href="references.html">References</a></li>
+</ul>
+
+        <div class="book-extra">
+          
+        </div>
+      </nav>
+</div>
+  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="aesthetic-mapping" class="section level1">
+<h1>
+<span class="header-section-number">2</span> Visualizing data: Mapping data onto aesthetics<a class="anchor" aria-label="anchor" href="#aesthetic-mapping"><i class="fas fa-link"></i></a>
+</h1>
+<div class="rmdnote">
+<p>This section is reproduced from the book Fundamentals of Data Visualization<span class="citation"><a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;Claus Wilke, &lt;em&gt;Fundamentals of Data Visualization&lt;/em&gt;, 2020, &lt;a href="https://clauswilke.com/dataviz/" role="doc-biblioref"&gt;https://clauswilke.com/dataviz/&lt;/a&gt;.&lt;/p&gt;'><sup>13</sup></a></span></p>
+</div>
+<p><strong>Packages used in this Section</strong></p>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">pacman</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/pacman/man/p_load.html">p_load</a></span><span class="op">(</span>
+  <span class="va">cowplot</span>,
+  <span class="va">colorspace</span>,
+  <span class="va">colorblindr</span>, <span class="co"># devtools::install_github("clauswilke/colorblindr")</span>
+  <span class="va">dviz.supp</span>, <span class="co">#   devtools::install_github("clauswilke/dviz.supp")</span>
+  <span class="va">forcats</span>,
+  <span class="va">patchwork</span>,
+  <span class="va">lubridate</span>
+<span class="op">)</span></code></pre></div>
+<p>Whenever we visualize data, we take data values and convert them in a systematic and logical way into the visual elements that make up the final graphic. Even though there are many different types of data visualizations, and on first glance a scatter plot, a pie chart, and a heatmap don’t seem to have much in common, all these visualizations can be described with a common language that captures how data values are turned into blobs of ink on paper or colored pixels on screen. The key insight is the following: All data visualizations map data values into quantifiable features of the resulting graphic. We refer to these features as <em>aesthetics.</em></p>
+<div id="aesthetics-and-types-of-data" class="section level2">
+<h2>
+<span class="header-section-number">2.1</span> Aesthetics and types of data<a class="anchor" aria-label="anchor" href="#aesthetics-and-types-of-data"><i class="fas fa-link"></i></a>
+</h2>
+<p>Aesthetics describe every aspect of a given graphical element. A few examples are provided in Figure <a href="aesthetic-mapping.html#fig:common-aesthetics">2.1</a>. A critical component of every graphical element is of course its <em>position,</em> which describes where the element is located. In standard 2d graphics, we describe positions by an <em>x</em> and <em>y</em> value, but other coordinate systems and one- or three-dimensional visualizations are possible. Next, all graphical elements have a <em>shape</em>, a <em>size</em>, and a <em>color.</em> Even if we are preparing a black-and-white drawing, graphical elements need to have a color to be visible, for example black if the background is white or white if the background is black. Finally, to the extent we are using lines to visualize data, these lines may have different widths or dash–dot patterns. Beyond the examples shown in Figure <a href="aesthetic-mapping.html#fig:common-aesthetics">2.1</a>, there are many other aesthetics we may encounter in a data visualization. For example, if we want to display text, we may have to specify font family, font face, and font size, and if graphical objects overlap, we may have to specify whether they are partially transparent.</p>
+
+<div class="figure">
+<span style="display:block;" id="fig:common-aesthetics"></span>
+<img src="03-aesthetic-mapping_files/figure-html/common-aesthetics-1.png" alt="Commonly used aesthetics in data visualization: position, shape, size, color, line width, line type. Some of these aesthetics can represent both continuous and discrete data (position, size, line width, color) while others can usually only represent discrete data (shape, line type)." width="576"><p class="caption">
+Figure 2.1: Commonly used aesthetics in data visualization: position, shape, size, color, line width, line type. Some of these aesthetics can represent both continuous and discrete data (position, size, line width, color) while others can usually only represent discrete data (shape, line type).
+</p>
+</div>
+<p>All aesthetics fall into one of two groups: Those that can represent continuous data and those that can not. Continuous data values are values for which arbitrarily fine intermediates exist. For example, time duration is a continuous value. Between any two durations, say 50 seconds and 51 seconds, there are arbitrarily many intermediates, such as 50.5 seconds, 50.51 seconds, 50.50001 seconds, and so on. By contrast, number of persons in a room is a discrete value. A room can hold 5 persons or 6, but not 5.5. For the examples in Figure <a href="aesthetic-mapping.html#fig:common-aesthetics">2.1</a>, position, size, color, and line width can represent continuous data, but shape and line type can usually only represent discrete data.</p>
+<p>Next we’ll consider the types of data we may want to represent in our visualization. You may think of data as numbers, but numerical values are only two out of several types of data we may encounter. In addition to continuous and discrete numerical values, data can come in the form of discrete categories, in the form of dates or times, and as text (Table <a href="aesthetic-mapping.html#tab:basic-data-types">2.1</a>). When data is numerical we also call it <em>quantitative</em> and when it is categorical we call it <em>qualitative</em>. Variables holding qualitative data are <em>factors</em>, and the different categories are called <em>levels</em>. The levels of a factor are most commonly without order (as in the example of “dog”, “cat”, “fish” in Table <a href="aesthetic-mapping.html#tab:basic-data-types">2.1</a>), but factors can also be ordered, when there is an intrinsic order among the levels of the factor (as in the example of “good”, “fair”, “poor” in Table <a href="aesthetic-mapping.html#tab:basic-data-types">2.1</a>).</p>
+<div class="inline-table"><table class="table table-sm">
+<caption>
+<span id="tab:basic-data-types">Table 2.1: </span> Types of variables encountered in typical data visualization scenarios.</caption>
+<colgroup>
+<col width="21%">
+<col width="18%">
+<col width="20%">
+<col width="39%">
+</colgroup>
+<thead><tr class="header">
+<th align="left">Type of variable</th>
+<th align="left">Examples</th>
+<th align="left">Appropriate scale</th>
+<th align="left">Description</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td align="left">quantitative/numerical
+continuous</td>
+<td align="left">1.3, 5.7, 83,
+1.5x10<sup>-2</sup>
+</td>
+<td align="left">continuous</td>
+<td align="left">Arbitrary numerical values. These can be
+integers, rational numbers, or real numbers.</td>
+</tr>
+<tr class="even">
+<td align="left">quantitative/numerical
+discrete</td>
+<td align="left">1, 2, 3, 4</td>
+<td align="left">discrete</td>
+<td align="left">Numbers in discrete units. These are most
+commonly but not necessarily integers.
+For example, the numbers 0.5, 1.0, 1.5 could
+also be treated as discrete if intermediate
+values cannot exist in the given dataset.</td>
+</tr>
+<tr class="odd">
+<td align="left">qualitative/categorical
+unordered</td>
+<td align="left">dog, cat, fish</td>
+<td align="left">discrete</td>
+<td align="left">Categories without order. These are discrete
+and unique categories that have no inherent
+order. These variables are
+also called <em>factors</em>.</td>
+</tr>
+<tr class="even">
+<td align="left">qualitative/categorical
+ordered</td>
+<td align="left">good, fair, poor</td>
+<td align="left">discrete</td>
+<td align="left">Categories with order. These are discrete
+and unique categories with an order. For
+example, “fair” always lies between “good”
+and “poor”. These variables are
+also called <em>ordered factors</em>.</td>
+</tr>
+<tr class="odd">
+<td align="left">date or time</td>
+<td align="left">Jan. 5 2018, 8:03am</td>
+<td align="left">continuous or discrete</td>
+<td align="left">Specific days and/or times. Also
+generic dates, such as July 4 or Dec. 25
+(without year).</td>
+</tr>
+<tr class="even">
+<td align="left">text</td>
+<td align="left">The quick brown fox
+jumps over the lazy
+dog.</td>
+<td align="left">none, or discrete</td>
+<td align="left">Free-form text. Can be treated
+as categorical if needed.</td>
+</tr>
+</tbody>
+</table></div>
+<p>To examine a concrete example of these various types of data, take a look at Table <a href="aesthetic-mapping.html#tab:data-example">2.2</a>. It shows the first few rows of a dataset providing the daily temperature normals (average daily temperatures over a 30-year window) for four U.S. locations. This table contains five variables: month, day, location, station ID, and temperature (in degrees Fahrenheit). Month is an ordered factor, day is a discrete numerical value, location is an unordered factor, station ID is similarly an unordered factor, and temperature is a continuous numerical value.</p>
+<div class="inline-table"><table class="table table-sm">
+<caption>
+<span id="tab:data-example">Table 2.2: </span> First 12 rows of a dataset listing daily temperature normals for four weather stations. Data source: NOAA.</caption>
+<thead><tr class="header">
+<th align="center">Month</th>
+<th align="center">Day</th>
+<th align="left">Location</th>
+<th align="center">Station ID</th>
+<th align="center">Temperature</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td align="center">Jan</td>
+<td align="center">1</td>
+<td align="left">Chicago</td>
+<td align="center">USW00014819</td>
+<td align="center">25.6</td>
+</tr>
+<tr class="even">
+<td align="center">Jan</td>
+<td align="center">1</td>
+<td align="left">San Diego</td>
+<td align="center">USW00093107</td>
+<td align="center">55.2</td>
+</tr>
+<tr class="odd">
+<td align="center">Jan</td>
+<td align="center">1</td>
+<td align="left">Houston</td>
+<td align="center">USW00012918</td>
+<td align="center">53.9</td>
+</tr>
+<tr class="even">
+<td align="center">Jan</td>
+<td align="center">1</td>
+<td align="left">Death Valley</td>
+<td align="center">USC00042319</td>
+<td align="center">51.0</td>
+</tr>
+<tr class="odd">
+<td align="center">Jan</td>
+<td align="center">2</td>
+<td align="left">Chicago</td>
+<td align="center">USW00014819</td>
+<td align="center">25.5</td>
+</tr>
+<tr class="even">
+<td align="center">Jan</td>
+<td align="center">2</td>
+<td align="left">San Diego</td>
+<td align="center">USW00093107</td>
+<td align="center">55.3</td>
+</tr>
+<tr class="odd">
+<td align="center">Jan</td>
+<td align="center">2</td>
+<td align="left">Houston</td>
+<td align="center">USW00012918</td>
+<td align="center">53.8</td>
+</tr>
+<tr class="even">
+<td align="center">Jan</td>
+<td align="center">2</td>
+<td align="left">Death Valley</td>
+<td align="center">USC00042319</td>
+<td align="center">51.2</td>
+</tr>
+<tr class="odd">
+<td align="center">Jan</td>
+<td align="center">3</td>
+<td align="left">Chicago</td>
+<td align="center">USW00014819</td>
+<td align="center">25.3</td>
+</tr>
+<tr class="even">
+<td align="center">Jan</td>
+<td align="center">3</td>
+<td align="left">San Diego</td>
+<td align="center">USW00093107</td>
+<td align="center">55.3</td>
+</tr>
+<tr class="odd">
+<td align="center">Jan</td>
+<td align="center">3</td>
+<td align="left">Death Valley</td>
+<td align="center">USC00042319</td>
+<td align="center">51.3</td>
+</tr>
+<tr class="even">
+<td align="center">Jan</td>
+<td align="center">3</td>
+<td align="left">Houston</td>
+<td align="center">USW00012918</td>
+<td align="center">53.8</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<div id="scales-map-data-values-onto-aesthetics" class="section level2">
+<h2>
+<span class="header-section-number">2.2</span> Scales map data values onto aesthetics<a class="anchor" aria-label="anchor" href="#scales-map-data-values-onto-aesthetics"><i class="fas fa-link"></i></a>
+</h2>
+<p>To map data values onto aesthetics, we need to specify which data values correspond to which specific aesthetics values. For example, if our graphic has an <em>x</em> axis, then we need to specify which data values fall onto particular positions along this axis. Similarly, we may need to specify which data values are represented by particular shapes or colors. This mapping between data values and aesthetics values is created via <em>scales</em>. A scale defines a unique mapping between data and aesthetics (Figure <a href="aesthetic-mapping.html#fig:basic-scales-example">2.2</a>). Importantly, a scale must be one-to-one, such that for each specific data value there is exactly one aesthetics value and vice versa. If a scale isn’t one-to-one, then the data visualization becomes ambiguous.</p>
+
+<div class="figure">
+<span style="display:block;" id="fig:basic-scales-example"></span>
+<img src="03-aesthetic-mapping_files/figure-html/basic-scales-example-1.png" alt="Scales link data values to aesthetics. Here, the numbers 1 through 4 have been mapped onto a position scale, a shape scale, and a color scale. For each scale, each number corresponds to a unique position, shape, or color and vice versa." width="528"><p class="caption">
+Figure 2.2: Scales link data values to aesthetics. Here, the numbers 1 through 4 have been mapped onto a position scale, a shape scale, and a color scale. For each scale, each number corresponds to a unique position, shape, or color and vice versa.
+</p>
+</div>
+<p>Let’s put things into practice. We can take the dataset shown in Table <a href="aesthetic-mapping.html#tab:data-example">2.2</a>, map temperature onto the <em>y</em> axis, day of the year onto the <em>x</em> axis, location onto color, and visualize these aesthetics with solid lines. The result is a standard line plot showing the temperature normals at the four locations as they change during the year (Figure
+<a href="aesthetic-mapping.html#fig:temp-normals-vs-time">2.3</a>).</p>
+
+<div class="figure">
+<span style="display:block;" id="fig:temp-normals-vs-time"></span>
+<img src="03-aesthetic-mapping_files/figure-html/temp-normals-vs-time-1.png" alt="Daily temperature normals for four selected locations in the U.S. Temperature is mapped to the y axis, day of the year to the x axis, and location to line color. Data source: NOAA." width="672"><p class="caption">
+Figure 2.3: Daily temperature normals for four selected locations in the U.S. Temperature is mapped to the <em>y</em> axis, day of the year to the <em>x</em> axis, and location to line color. Data source: NOAA.
+</p>
+</div>
+<p>Figure <a href="aesthetic-mapping.html#fig:temp-normals-vs-time">2.3</a> is a fairly standard visualization for a temperature curve and likely the visualization most data scientists would intuitively choose first. However, it is up to us which variables we map onto which scales. For example, instead of mapping temperature onto the <em>y</em> axis and location onto color, we can do the opposite. Because now the key variable of interest (temperature) is shown as color, we need to show sufficiently large colored areas for the color to convey useful information.<span class="citation"><a class="footnote-ref" tabindex="0" data-toggle="popover" data-content="&lt;p&gt;M. Stone, D. Albers Szafir, and V. Setlur, “An Engineering Model for Color Difference as a Function of Size,” in &lt;em&gt;22nd Color and Imaging Conference&lt;/em&gt; (Society for Imaging Science and Technology, 2014).&lt;/p&gt;"><sup>14</sup></a></span> Therefore, for this visualization I have chosen squares instead of lines, one for each month and location, and I have colored them by the average temperature normal for each month (Figure <a href="aesthetic-mapping.html#fig:four-locations-temps-by-month">2.4</a>).</p>
+
+<div class="figure">
+<span style="display:block;" id="fig:four-locations-temps-by-month"></span>
+<img src="03-aesthetic-mapping_files/figure-html/four-locations-temps-by-month-1.png" alt="Monthly normal mean temperatures for four locations in the U.S. Data source: NOAA" width="754.285714285714"><p class="caption">
+Figure 2.4: Monthly normal mean temperatures for four locations in the U.S. Data source: NOAA
+</p>
+</div>
+<p>I would like to emphasize that Figure <a href="aesthetic-mapping.html#fig:four-locations-temps-by-month">2.4</a> uses two position scales (month along the <em>x</em> axis and location along the <em>y</em> axis) but neither is a continuous scale. Month is an ordered factor with 12 levels and location is an unordered factor with four levels. Therefore, the two position scales are both discrete. For discrete position scales, we generally place the different levels of the factor at an equal spacing along the axis. If the factor is ordered (as is here the case for month), then the levels need to placed in the appropriate order. If the factor is unordered (as is here the case for location), then the order is arbitrary, and we can choose any order we want. I have ordered the locations from overall coldest (Chicago) to overall hottest (Death Valley) to generate a pleasant staggering of colors. However, I could have chosen any other order and the figure would have been equally valid.</p>
+<p>Both Figures <a href="aesthetic-mapping.html#fig:temp-normals-vs-time">2.3</a> and <a href="aesthetic-mapping.html#fig:four-locations-temps-by-month">2.4</a> used three scales in total, two position scales and one color scale. This is a typical number of scales for a basic visualization, but we can use more than three scales at once. Figure <a href="aesthetic-mapping.html#fig:mtcars-five-scale">2.5</a> uses five scales, two position scales, one color scale, one size scale, and one shape scale, and all scales represent a different variable from the dataset.</p>
+
+<div class="figure">
+<span style="display:block;" id="fig:mtcars-five-scale"></span>
+<img src="03-aesthetic-mapping_files/figure-html/mtcars-five-scale-1.png" alt="Fuel efficiency versus displacement, for 32 cars (1973–74 models). This figure uses five separate scales to represent data: (i) the x axis (displacement); (ii) the y axis (fuel efficiency); (iii) the color of the data points (power); (iv) the size of the data points (weight); and (v) the shape of the data points (number of cylinders). Four of the five variables displayed (displacement, fuel efficiency, power, and weight) are numerical continuous. The remaining one (number of cylinders) can be considered to be either numerical discrete or qualitative ordered. Data source: Motor Trend, 1974." width="576"><p class="caption">
+Figure 2.5: Fuel efficiency versus displacement, for 32 cars (1973–74 models). This figure uses five separate scales to represent data: (i) the <em>x</em> axis (displacement); (ii) the <em>y</em> axis (fuel efficiency); (iii) the color of the data points (power); (iv) the size of the data points (weight); and (v) the shape of the data points (number of cylinders). Four of the five variables displayed (displacement, fuel efficiency, power, and weight) are numerical continuous. The remaining one (number of cylinders) can be considered to be either numerical discrete or qualitative ordered. Data source: <em>Motor Trend</em>, 1974.
+</p>
+</div>
+
+</div>
+</div>
+
+  <div class="chapter-nav">
+<div class="prev"><a href="introdata.html"><span class="header-section-number">1</span> Introduction to Data</a></div>
+<div class="next"><a href="coordinate-systems-axes.html"><span class="header-section-number">3</span> Coordinate systems and axes</a></div>
+</div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
+    <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
+      <ul class="nav navbar-nav">
+<li><a class="nav-link" href="#aesthetic-mapping"><span class="header-section-number">2</span> Visualizing data: Mapping data onto aesthetics</a></li>
+<li><a class="nav-link" href="#aesthetics-and-types-of-data"><span class="header-section-number">2.1</span> Aesthetics and types of data</a></li>
+<li><a class="nav-link" href="#scales-map-data-values-onto-aesthetics"><span class="header-section-number">2.2</span> Scales map data values onto aesthetics</a></li>
+</ul>
+
+      <div class="book-extra">
+        <ul class="list-unstyled">
+          
+        </ul>
+</div>
+    </nav>
+</div>
+
+</div>
+</div> <!-- .container -->
+
+<footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>"<strong>EPIB607</strong>" was written by Sahir Bhatnagar and James A Hanley. It was last built on 2021-12-07.</p>
+  </div>
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>This book was built by the <a class="text-light" href="https://bookdown.org">bookdown</a> R package.</p>
+  </div>
+
+</div></div>
+</footer><!-- dynamically load mathjax for compatibility with self-contained --><script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script><script type="text/x-mathjax-config">const popovers = document.querySelectorAll('a.footnote-ref[data-toggle="popover"]');
+for (let popover of popovers) {
+  const div = document.createElement('div');
+  div.setAttribute('style', 'position: absolute; top: 0, left:0; width:0, height:0, overflow: hidden; visibility: hidden;');
+  div.innerHTML = popover.getAttribute('data-content');
+
+  var has_math = div.querySelector("span.math");
+  if (has_math) {
+    document.body.appendChild(div);
+    MathJax.Hub.Queue(["Typeset", MathJax.Hub, div]);
+    MathJax.Hub.Queue(function() {
+      popover.setAttribute('data-content', div.innerHTML);
+      document.body.removeChild(div);
+    })
+  }
+}
+</script>
+</body>
+</html>

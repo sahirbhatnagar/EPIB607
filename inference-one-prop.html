@@ -1,0 +1,1175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>Chapter 15 Inference for a single proportion | EPIB607</title>
+<meta name="author" content="Sahir Bhatnagar and James A Hanley">
+<meta name="description" content="This section is adapted from the book Introduction to Modern Statistics89 There is only one variable being measured in a study which focuses on one proportion. For each observational unit, the...">
+<meta name="generator" content="bookdown 0.24 with bs4_book()">
+<meta property="og:title" content="Chapter 15 Inference for a single proportion | EPIB607">
+<meta property="og:type" content="book">
+<meta property="og:url" content="https://sahirbhatnagar.com/EPIB607/inference-one-prop.html">
+<meta property="og:description" content="This section is adapted from the book Introduction to Modern Statistics89 There is only one variable being measured in a study which focuses on one proportion. For each observational unit, the...">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Chapter 15 Inference for a single proportion | EPIB607">
+<meta name="twitter:description" content="This section is adapted from the book Introduction to Modern Statistics89 There is only one variable being measured in a study which focuses on one proportion. For each observational unit, the...">
+<!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
+<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.3.1/transition.js"></script><script src="libs/bs3compat-0.3.1/tabs.js"></script><script src="libs/bs3compat-0.3.1/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
+<script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script><script src="libs/kePrint-0.0.1/kePrint.js"></script><link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet">
+<link href="libs/bsTable-3.3.7/bootstrapTable.min.css" rel="stylesheet">
+<script src="libs/bsTable-3.3.7/bootstrapTable.js"></script><script src="libs/htmlwidgets-1.5.4/htmlwidgets.js"></script><link href="libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet">
+<script src="libs/datatables-binding-0.20/datatables.js"></script><link href="libs/dt-core-1.11.3/css/jquery.dataTables.min.css" rel="stylesheet">
+<link href="libs/dt-core-1.11.3/css/jquery.dataTables.extra.css" rel="stylesheet">
+<script src="libs/dt-core-1.11.3/js/jquery.dataTables.min.js"></script><link href="libs/crosstalk-1.2.0/css/crosstalk.min.css" rel="stylesheet">
+<script src="libs/crosstalk-1.2.0/js/crosstalk.min.js"></script><link href="libs/nouislider-7.0.10/jquery.nouislider.min.css" rel="stylesheet">
+<script src="libs/nouislider-7.0.10/jquery.nouislider.min.js"></script><link href="libs/selectize-0.12.0/selectize.bootstrap3.css" rel="stylesheet">
+<script src="libs/selectize-0.12.0/selectize.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- CSS --><link rel="stylesheet" href="templates/bs4_style.css">
+<link rel="stylesheet" href="templates/ims-style.css">
+<link rel="stylesheet" href="templates/corrections.css">
+</head>
+<body data-spy="scroll" data-target="#toc">
+
+<div class="container-fluid">
+<div class="row">
+  <header class="col-sm-12 col-lg-3 sidebar sidebar-book"><a class="sr-only sr-only-focusable" href="#content">Skip to main content</a>
+
+    <div class="d-flex align-items-start justify-content-between">
+      <h1>
+        <a href="index.html" title="">EPIB607</a>
+      </h1>
+      <button class="btn btn-outline-primary d-lg-none ml-2 mt-1" type="button" data-toggle="collapse" data-target="#main-nav" aria-expanded="true" aria-controls="main-nav"><i class="fas fa-bars"></i><span class="sr-only">Show table of contents</span></button>
+    </div>
+
+    <div id="main-nav" class="collapse-lg">
+      <form role="search">
+        <input id="search" class="form-control" type="search" placeholder="Search" aria-label="Search">
+</form>
+
+      <nav aria-label="Table of contents"><h2>Table of contents</h2>
+        <ul class="book-toc list-unstyled">
+<li><a class="" href="index.html">Preface</a></li>
+<li><a class="" href="schedule.html">Schedule</a></li>
+<li><a class="" href="syllabus.html">Syllabus</a></li>
+<li class="book-part">Descriptive Statistics</li>
+<li><a class="" href="introdata.html"><span class="header-section-number">1</span> Introduction to Data</a></li>
+<li><a class="" href="aesthetic-mapping.html"><span class="header-section-number">2</span> Visualizing data: Mapping data onto aesthetics</a></li>
+<li><a class="" href="coordinate-systems-axes.html"><span class="header-section-number">3</span> Coordinate systems and axes</a></li>
+<li><a class="" href="ggplot2-package-for-plots.html"><span class="header-section-number">4</span> ggplot2 package for plots</a></li>
+<li><a class="" href="color-basics.html"><span class="header-section-number">5</span> Color scales</a></li>
+<li class="book-part">Sampling Distributions</li>
+<li><a class="" href="paras.html"><span class="header-section-number">6</span> Statistical Parameters</a></li>
+<li><a class="" href="ChapProbability.html"><span class="header-section-number">7</span> Probability</a></li>
+<li><a class="" href="randomVariables.html"><span class="header-section-number">8</span> Random Variables</a></li>
+<li><a class="" href="ChapNormal.html"><span class="header-section-number">9</span> The Normal Random Variable</a></li>
+<li><a class="" href="ChapSampDist.html"><span class="header-section-number">10</span> The Sampling Distribution</a></li>
+<li><a class="" href="CI.html"><span class="header-section-number">11</span> Parameter Intervals</a></li>
+<li><a class="" href="foundations-bootstrapping.html"><span class="header-section-number">12</span> Confidence intervals with bootstrapping</a></li>
+<li class="book-part">One Sample Inference</li>
+<li><a class="" href="inference-one-mean.html"><span class="header-section-number">13</span> Inference for a single mean</a></li>
+<li><a class="" href="ChapBinom.html"><span class="header-section-number">14</span> Binomial Random Variable</a></li>
+<li><a class="active" href="inference-one-prop.html"><span class="header-section-number">15</span> Inference for a single proportion</a></li>
+<li class="book-part">Computing</li>
+<li><a class="" href="install.html"><span class="header-section-number">16</span> Installing R and RStudio</a></li>
+<li><a class="" href="basics.html"><span class="header-section-number">17</span> Basics of R and Rstudio</a></li>
+<li><a class="" href="projects.html"><span class="header-section-number">18</span> RStudio Projects</a></li>
+<li><a class="" href="functionsHOP.html"><span class="header-section-number">19</span> Functions</a></li>
+<li><a class="" href="packages.html"><span class="header-section-number">20</span> Packages</a></li>
+<li><a class="" href="import.html"><span class="header-section-number">21</span> Data Import and Export</a></li>
+<li><a class="" href="transition-to-r-from-excel-stata-sas.html"><span class="header-section-number">22</span> Transition to R from Excel, Stata, SAS</a></li>
+<li><a class="" href="references.html">References</a></li>
+</ul>
+
+        <div class="book-extra">
+          
+        </div>
+      </nav>
+</div>
+  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="inference-one-prop" class="section level1">
+<h1>
+<span class="header-section-number">15</span> Inference for a single proportion<a class="anchor" aria-label="anchor" href="#inference-one-prop"><i class="fas fa-link"></i></a>
+</h1>
+<div class="rmdnote">
+<p>This section is adapted from the book Introduction to Modern Statistics<span class="citation"><a class="footnote-ref" tabindex="0" data-toggle="popover" data-content="&lt;p&gt;Çetinkaya-Rundel and Hardin, &lt;em&gt;Introduction to Modern Statistics&lt;/em&gt;.&lt;/p&gt;"><sup>89</sup></a></span></p>
+</div>
+<p>There is only one variable being measured in a study which focuses on one proportion.
+For each observational unit, the single variable is measured as either an event or non-event (e.g., “surgical complication” vs. “no surgical complication”).
+Because the nature of the research question at hand focuses on only a single variable, there is not a way to randomize the variable across a different (explanatory) variable.
+For this reason, we will not use randomization as an analysis tool when focusing on a single proportion.
+Instead, we will apply bootstrapping techniques to test a given hypothesis, and we will also revisit the associated mathematical models.</p>
+
+<div id="one-prop-null-boot" class="section level2">
+<h2>
+<span class="header-section-number">15.1</span> Bootstrap test for a proportion<a class="anchor" aria-label="anchor" href="#one-prop-null-boot"><i class="fas fa-link"></i></a>
+</h2>
+<p>We will be testing a hypothesized value of <span class="math inline">\(p\)</span> (referred to as <span class="math inline">\(p_0),\)</span> using the bootstrap.</p>
+
+<div id="observed-data-3" class="section level3">
+<h3>
+<span class="header-section-number">15.1.1</span> Observed data<a class="anchor" aria-label="anchor" href="#observed-data-3"><i class="fas fa-link"></i></a>
+</h3>
+<p>People providing an organ for donation sometimes seek the help of a special “medical consultant”.
+These consultants assist the patient in all aspects of the surgery, with the goal of reducing the possibility of complications during the medical procedure and recovery.
+Patients might choose a consultant based in part on the historical complication rate of the consultant’s clients.
+One consultant tried to attract patients by noting the average complication rate for liver donor surgeries in the US is about 10%, but her clients have only had 3 complications in the 62 liver donor surgeries she has facilitated.
+She claims this is strong evidence that her work meaningfully contributes to reducing complications (and therefore she should be hired!).</p>
+<div class="workedexample">
+<p>Using the data, is it possible to assess the consultant’s claim that her complication rate is less than 10%?</p>
+<hr>
+<p>No.
+The claim is that there is a causal connection, but the data are observational.
+Patients who hire this medical consultant may have lower complication rates for other reasons.</p>
+<p>While it is not possible to assess this causal claim, it is still possible to test for an association using these data.
+For this question we ask, could the low complication rate of <span class="math inline">\(\hat{p} = 0.048\)</span> have simply occurred by chance, if her complication rate does not differ from the US standard rate?</p>
+</div>
+<div class="guidedpractice">
+<p>Write out hypotheses in both plain and statistical language to test for the association between the consultant’s work and the true complication rate, <span class="math inline">\(p,\)</span> for the consultant’s clients.<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;&lt;span class="math inline"&gt;\(H_0:\)&lt;/span&gt; There is no association between the consultant’s contributions and the clients’ complication rate.
+In statistical language, &lt;span class="math inline"&gt;\(p = 0.10.\)&lt;/span&gt; &lt;span class="math inline"&gt;\(H_A:\)&lt;/span&gt; Patients who work with the consultant tend to have a complication rate lower than 10%, i.e., &lt;span class="math inline"&gt;\(p &amp;lt; 0.10.\)&lt;/span&gt;&lt;/p&gt;'><sup>90</sup></a></p>
+</div>
+<p>Because, as it turns out, the conditions of working with the normal distribution are not met, the uncertainty associated with the sample proportion should not be modeled using the normal distribution, as doing so would underestimate the uncertainty associated with the sample statistic.
+However, we would still like to assess the hypotheses from the previous Guided Practice in absence of the normal framework.
+To do so, we need to evaluate the possibility of a sample value <span class="math inline">\((\hat{p})\)</span> as far below the null value, <span class="math inline">\(p_0 = 0.10\)</span> as what was observed.
+The deviation of the sample value from the hypothesized parameter is usually quantified with a p-value.</p>
+<p>The p-value is computed based on the null distribution, which is the distribution of the test statistic if the null hypothesis is true.
+Supposing the null hypothesis is true, we can compute the p-value by identifying the probability of observing a test statistic that favors the alternative hypothesis at least as strongly as the observed test statistic.
+Here we will use a bootstrap simulation to calculate the p-value.</p>
+
+</div>
+<div id="variability-of-the-statistic-3" class="section level3">
+<h3>
+<span class="header-section-number">15.1.2</span> Variability of the statistic<a class="anchor" aria-label="anchor" href="#variability-of-the-statistic-3"><i class="fas fa-link"></i></a>
+</h3>
+<p>We want to identify the sampling distribution of the test statistic <span class="math inline">\((\hat{p})\)</span> if the null hypothesis was true.
+In other words, we want to see the variability we can expect from sample proportions if the null hypothesis was true.
+Then we plan to use this information to decide whether there is enough evidence to reject the null hypothesis.</p>
+<p>Under the null hypothesis, 10% of liver donors have complications during or after surgery.
+Suppose this rate was really no different for the consultant’s clients (for <em>all</em> the consultant’s clients, not just the 62 previously measured).
+If this was the case, we could <em>simulate</em> 62 clients to get a sample proportion for the complication rate from the null distribution.
+Simulating observations using a hypothesized null parameter value is often called a <strong>parametric bootstrap simulation</strong>.</p>
+<p>Similar to previous applications of the bootstrap, each client can be simulated using a bag of marbles with 10% red marbles and 90% white marbles.
+Sampling a marble from the bag (with 10% red marbles) is one way of simulating whether a patient has a complication <em>if the true complication rate is 10%</em>.
+If we select 62 marbles and then compute the proportion of patients with complications in the simulation, <span class="math inline">\(\hat{p}_{sim1},\)</span> then the resulting sample proportion is a sample from the null distribution.</p>
+<p>There were 5 simulated cases with a complication and 57 simulated cases without a complication, i.e., <span class="math inline">\(\hat{p}_{sim1} = 5/62 = 0.081.\)</span></p>
+<div class="workedexample">
+<p>Is this one simulation enough to determine whether or not we should reject the null hypothesis?</p>
+<hr>
+<p>No.
+To assess the hypotheses, we need to see a distribution of many values of <span class="math inline">\(\hat{p}_{sim},\)</span> not just a <em>single</em> draw from this sampling distribution.</p>
+</div>
+</div>
+<div id="observed-statistic-vs.-null-statistics" class="section level3">
+<h3>
+<span class="header-section-number">15.1.3</span> Observed statistic vs. null statistics<a class="anchor" aria-label="anchor" href="#observed-statistic-vs.-null-statistics"><i class="fas fa-link"></i></a>
+</h3>
+<p>One simulation isn’t enough to get a sense of the null distribution; many simulation studies are needed.
+Roughly 10,000 seems sufficient.
+However, paying someone to simulate 10,000 studies by hand is a waste of time and money.
+Instead, simulations are typically programmed into a computer, which is much more efficient.</p>
+<p>Figure <a href="inference-one-prop.html#fig:nullDistForPHatIfLiverTransplantConsultantIsNotHelpful">15.1</a> shows the results of 10,000 simulated studies.
+The proportions that are equal to or less than <span class="math inline">\(\hat{p} = 0.048\)</span> are shaded.
+The shaded areas represent sample proportions under the null distribution that provide at least as much evidence as <span class="math inline">\(\hat{p}\)</span> favoring the alternative hypothesis.
+There were 420 simulated sample proportions with <span class="math inline">\(\hat{p}_{sim} \leq 0.048.\)</span> We use these to construct the null distribution’s left-tail area and find the p-value:</p>
+<p><span class="math display">\[\text{left tail area} = \frac{\text{Number of observed simulations with }\hat{p}_{sim} \leq \text{ 0.048}}{10000}\]</span></p>
+<p>Of the 10,000 simulated <span class="math inline">\(\hat{p}_{sim},\)</span> 420 were equal to or smaller than <span class="math inline">\(\hat{p}.\)</span> Since the hypothesis test is one-sided, the estimated p-value is equal to this tail area: 0.042.</p>
+<div class="figure">
+<span style="display:block;" id="fig:nullDistForPHatIfLiverTransplantConsultantIsNotHelpful"></span>
+<img src="16-one-sample-prop_files/figure-html/nullDistForPHatIfLiverTransplantConsultantIsNotHelpful-1.png" alt="The null distribution for \(\hat{p},\) created from 10,000 simulated studies. The left tail, representing the p-value for the hypothesis test, contains 4.2% of the simulations." width="672"><p class="caption">
+Figure 15.1: The null distribution for <span class="math inline">\(\hat{p},\)</span> created from 10,000 simulated studies. The left tail, representing the p-value for the hypothesis test, contains 4.2% of the simulations.
+</p>
+</div>
+
+<div class="guidedpractice">
+<p>Because the estimated p-value is 0.042, which is smaller than the significance level 0.05, we reject the null hypothesis.
+Explain what this means in plain language in the context of the problem.<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content="&lt;p&gt;There is sufficiently strong evidence to reject the null hypothesis in favor of the alternative hypothesis.
+We would conclude that there is evidence that the consultant’s surgery complication rate is lower than the US standard rate of 10%.&lt;/p&gt;"><sup>91</sup></a></p>
+</div>
+<div class="guidedpractice">
+<p>Does the conclusion in the previous Guided Practice imply the consultant is good at their job?
+Explain.<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content="&lt;p&gt;No.
+Not necessarily.
+The evidence supports the alternative hypothesis that the consultant’s complication rate is lower, but it’s not a measurement of their performance.&lt;/p&gt;"><sup>92</sup></a></p>
+</div>
+<div class="important">
+<p><strong>Null distribution of</strong> <span class="math inline">\(\hat{p}\)</span> <strong>with bootstrap simulation.</strong></p>
+<p>Regardless of the statistical method chosen, the p-value is always derived by analyzing the null distribution of the test statistic.
+The normal model poorly approximates the null distribution for <span class="math inline">\(\hat{p}\)</span> when the success-failure condition is not satisfied.
+As a substitute, we can generate the null distribution using simulated sample proportions and use this distribution to compute the tail area, i.e., the p-value.</p>
+</div>
+<p>In the previous Guided Practice, the p-value is <em>estimated</em>.
+It is not exact because the simulated null distribution itself is only a close approximation of the sampling distribution of the sample statistic.
+An exact p-value can be generated using the binomial distribution, but that method will not be covered in this text.</p>
+
+</div>
+</div>
+<div id="one-prop-norm" class="section level2">
+<h2>
+<span class="header-section-number">15.2</span> Mathematical model for a proportion<a class="anchor" aria-label="anchor" href="#one-prop-norm"><i class="fas fa-link"></i></a>
+</h2>
+<div id="conditions" class="section level3">
+<h3>
+<span class="header-section-number">15.2.1</span> Conditions<a class="anchor" aria-label="anchor" href="#conditions"><i class="fas fa-link"></i></a>
+</h3>
+<p>We previously introduced the normal distribution and showed how it can be used as a mathematical model to describe the variability of a statistic.
+There are conditions under which a sample proportion <span class="math inline">\(\hat{p}\)</span> is well modeled using a normal distribution.
+When the sample observations are independent and the sample size is sufficiently large, the normal model will describe the sampling distribution of the sample proportion quite well; when the observations violate the conditions, the normal model can be inaccurate.
+Particularly, it can underestimate the variability of the sample proportion.</p>
+<div class="important">
+<p><strong>Sampling distribution of</strong> <span class="math inline">\(\hat{p}.\)</span></p>
+<p>The sampling distribution for <span class="math inline">\(\hat{p}\)</span> based on a sample of size <span class="math inline">\(n\)</span> from a population with a true proportion <span class="math inline">\(p\)</span> is nearly normal when:</p>
+<ol style="list-style-type: decimal">
+<li>The sample’s observations are independent, e.g., are from a simple random sample.</li>
+<li>We expected to see at least 10 successes and 10 failures in the sample, i.e., <span class="math inline">\(np\geq10\)</span> and <span class="math inline">\(n(1-p)\geq10.\)</span> This is called the <strong>success-failure condition</strong>.</li>
+</ol>
+<p>When these conditions are met, then the sampling distribution of <span class="math inline">\(\hat{p}\)</span> is nearly normal with mean <span class="math inline">\(p\)</span> and standard error of <span class="math inline">\(\hat{p}\)</span> as <span class="math inline">\(SE = \sqrt{\frac{\ \hat{p}(1-\hat{p})\ }{n}}.\)</span></p>
+</div>
+<p>Recall that the margin of error is defined by the standard error.
+The margin of error for <span class="math inline">\(\hat{p}\)</span> can be directly obtained from <span class="math inline">\(SE(\hat{p}).\)</span></p>
+<div class="important">
+<p><strong>Margin of error for</strong> <span class="math inline">\(\hat{p}.\)</span></p>
+<p>The margin of error is <span class="math inline">\(z^\star \times \sqrt{\frac{\ \hat{p}(1-\hat{p})\ }{n}}\)</span> where <span class="math inline">\(z^\star\)</span> is calculated from a specified percentile on the normal distribution.</p>
+</div>
+<p> </p>
+<p>Typically we don’t know the true proportion <span class="math inline">\(p,\)</span> so we substitute some value to check conditions and estimate the standard error.
+For confidence intervals, the sample proportion <span class="math inline">\(\hat{p}\)</span> is used to check the success-failure condition and compute the standard error.
+For hypothesis tests, typically the null value – that is, the proportion claimed in the null hypothesis – is used in place of <span class="math inline">\(p.\)</span></p>
+<p>The independence condition is a more nuanced requirement.
+When it isn’t met, it is important to understand how and why it is violated.
+For example, there exist no statistical methods available to truly correct the inherent biases of data from a convenience sample.
+On the other hand, if we took a cluster sample, the observations wouldn’t be independent, but suitable statistical methods are available for analyzing the data (but they are beyond the scope of even most second or third courses in statistics).</p>
+<div class="workedexample">
+<p>In the examples based on large sample theory, we modeled <span class="math inline">\(\hat{p}\)</span> using the normal distribution.
+Why is this not appropriate for the case study on the medical consultant?</p>
+<hr>
+<p>The independence assumption may be reasonable if each of the surgeries is from a different surgical team.
+However, the success-failure condition is not satisfied.
+Under the null hypothesis, we would anticipate seeing <span class="math inline">\(62 \times 0.10 = 6.2\)</span> complications, not the 10 required for the normal approximation.</p>
+</div>
+<p>While this book is scoped to well-constrained statistical problems, do remember that this is just the first book in what is a large library of statistical methods that are suitable for a very wide range of data and contexts.</p>
+</div>
+<div id="confidence-interval-for-a-proportion" class="section level3">
+<h3>
+<span class="header-section-number">15.2.2</span> Confidence interval for a proportion<a class="anchor" aria-label="anchor" href="#confidence-interval-for-a-proportion"><i class="fas fa-link"></i></a>
+</h3>
+<p></p>
+<p>A confidence interval provides a range of plausible values for the parameter <span class="math inline">\(p,\)</span> and when <span class="math inline">\(\hat{p}\)</span> can be modeled using a normal distribution, the confidence interval for <span class="math inline">\(p\)</span> takes the form <span class="math inline">\(\hat{p} \pm z^{\star} \times SE.\)</span> We have seen <span class="math inline">\(\hat{p}\)</span> to be the sample proportion.
+The value <span class="math inline">\(z^{\star}\)</span> determines the confidence level (previously set to be 1.96) and will be discussed in detail in the examples following.
+The value of the standard error, <span class="math inline">\(SE,\)</span> depends heavily on the sample size.</p>
+<div class="important">
+<p><strong>Standard error of one proportion,</strong> <span class="math inline">\(\hat{p}.\)</span></p>
+<p>When the conditions are met so that the distribution of <span class="math inline">\(\hat{p}\)</span> is nearly normal, the <strong>variability</strong> of a single proportion, <span class="math inline">\(\hat{p}\)</span> is well described by:</p>
+<p><span class="math display">\[SE(\hat{p}) = \sqrt{\frac{p(1-p)}{n}}\]</span></p>
+<p>Note that we almost never know the true value of <span class="math inline">\(p.\)</span> A more helpful formula to use is:</p>
+<p><span class="math display">\[SE(\hat{p}) \approx \sqrt{\frac{(\mbox{best guess of }p)(1 - \mbox{best guess of }p)}{n}}\]</span></p>
+<p>For hypothesis testing, we often use <span class="math inline">\(p_0\)</span> as the best guess of <span class="math inline">\(p.\)</span> For confidence intervals, we typically use <span class="math inline">\(\hat{p}\)</span> as the best guess of <span class="math inline">\(p.\)</span></p>
+</div>
+<div class="guidedpractice">
+<p>Consider taking many polls of registered voters (i.e., random samples) of size 300 asking them if they support legalized marijuana.
+It is suspected that about 2/3 of all voters support legalized marijuana.
+To understand how the sample proportion <span class="math inline">\((\hat{p})\)</span> would vary across the samples, calculate the standard error of <span class="math inline">\(\hat{p}.\)</span><a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;Because the &lt;span class="math inline"&gt;\(p\)&lt;/span&gt; is unknown but expected to be around 2/3, we will use 2/3 in place of &lt;span class="math inline"&gt;\(p\)&lt;/span&gt; in the formula for the standard error.&lt;br&gt;&lt;span class="math inline"&gt;\(SE = \sqrt{\frac{p(1-p)}{n}} \approx \sqrt{\frac{2/3 (1 - 2/3)} {300}} = 0.027.\)&lt;/span&gt;&lt;/p&gt;'><sup>93</sup></a></p>
+</div>
+
+</div>
+<div id="variability-of-the-sample-proportion" class="section level3">
+<h3>
+<span class="header-section-number">15.2.3</span> Variability of the sample proportion<a class="anchor" aria-label="anchor" href="#variability-of-the-sample-proportion"><i class="fas fa-link"></i></a>
+</h3>
+<div class="workedexample">
+<p>A simple random sample of 826 payday loan borrowers was surveyed to better understand their interests around regulation and costs.
+70% of the responses supported new regulations on payday lenders.</p>
+<ol style="list-style-type: decimal">
+<li><p>Is it reasonable to model the variability of <span class="math inline">\(\hat{p}\)</span> from sample to sample using a normal distribution?</p></li>
+<li><p>Estimate the standard error of <span class="math inline">\(\hat{p}.\)</span></p></li>
+<li><p>Construct a 95% confidence interval for <span class="math inline">\(p,\)</span> the proportion of payday borrowers who support increased regulation for payday lenders.</p></li>
+</ol>
+<hr>
+<ol style="list-style-type: decimal">
+<li>The data are a random sample, so it is reasonable to assume that the observations are independent and representative of the population of interest.</li>
+</ol>
+<p>We also must check the success-failure condition, which we do using <span class="math inline">\(\hat{p}\)</span> in place of <span class="math inline">\(p\)</span> when computing a confidence interval:</p>
+<p><span class="math display">\[
+\begin{aligned}
+  \text{Support: }
+      n p &amp;
+          \approx 826 \times 0.70
+      = 578\\
+  \text{Not: }
+      n (1 - p) &amp;
+        \approx 826 \times (1 - 0.70)
+      = 248
+\end{aligned}
+\]</span></p>
+<p>Since both values are at least 10, we can use the normal distribution to model <span class="math inline">\(\hat{p}.\)</span></p>
+<ol start="2" style="list-style-type: decimal">
+<li>Because <span class="math inline">\(p\)</span> is unknown and the standard error is for a confidence interval, use <span class="math inline">\(\hat{p}\)</span> in place of <span class="math inline">\(p\)</span> in the formula.</li>
+</ol>
+<p><span class="math display">\[SE = \sqrt{\frac{p(1-p)}{n}} \approx \sqrt{\frac{0.70 (1 - 0.70)} {826}} = 0.016.\]</span></p>
+<ol start="3" style="list-style-type: decimal">
+<li>Using the point estimate 0.70, <span class="math inline">\(z^{\star} = 1.96\)</span> for a 95% confidence interval, and the standard error <span class="math inline">\(SE = 0.016\)</span> from the previous Guided Practice, the confidence interval is</li>
+</ol>
+<p><span class="math display">\[ 
+\begin{aligned}
+\text{point estimate} \ &amp;\pm \ z^{\star} \times \ SE \\
+0.70 \ &amp;\pm \ 1.96 \ \times \ 0.016 \\ 
+(0.669 \ &amp;, \ 0.731)
+\end{aligned}
+\]</span></p>
+<p>We are 95% confident that the true proportion of payday borrowers who supported regulation at the time of the poll was between 0.669 and 0.731.</p>
+</div>
+<div class="important">
+<p><strong>Constructing a confidence interval for a single proportion.</strong></p>
+<p>There are three steps to constructing a confidence interval for <span class="math inline">\(p.\)</span></p>
+<ol style="list-style-type: decimal">
+<li>Check if it seems reasonable to assume the observations are independent and check the success-failure condition using <span class="math inline">\(\hat{p}.\)</span> If the conditions are met, the sampling distribution of <span class="math inline">\(\hat{p}\)</span> may be well-approximated by the normal model.</li>
+<li>Construct the standard error using <span class="math inline">\(\hat{p}\)</span> in place of <span class="math inline">\(p\)</span> in the standard error formula.</li>
+<li>Apply the general confidence interval formula.</li>
+</ol>
+</div>
+<p>For additional one-proportion confidence interval examples, see Section <a href="foundations-bootstrapping.html#ConfidenceIntervals">12.4</a>.</p>
+</div>
+<div id="changing-the-confidence-level" class="section level3">
+<h3>
+<span class="header-section-number">15.2.4</span> Changing the confidence level<a class="anchor" aria-label="anchor" href="#changing-the-confidence-level"><i class="fas fa-link"></i></a>
+</h3>
+<p></p>
+<p>Suppose we want to consider confidence intervals where the confidence level is somewhat higher than 95%: perhaps we would like a confidence level of 99%.
+Think back to the analogy about trying to catch a fish: if we want to be more sure that we will catch the fish, we should use a wider net.
+To create a 99% confidence level, we must also widen our 95% interval.
+On the other hand, if we want an interval with lower confidence, such as 90%, we could make our original 95% interval slightly slimmer.</p>
+<p>The 95% confidence interval structure provides guidance in how to make intervals with new confidence levels.
+Below is a general 95% confidence interval for a point estimate that comes from a nearly normal distribution:</p>
+<p><span class="math display">\[\text{point estimate} \ \pm \ 1.96 \ \times \ SE\]</span></p>
+<p>There are three components to this interval: the point estimate, “1.96”, and the standard error.
+The choice of <span class="math inline">\(1.96 \times SE\)</span> was based on capturing 95% of the data since the estimate is within 1.96 standard errors of the true value about 95% of the time.
+The choice of 1.96 corresponds to a 95% confidence level.</p>
+<div class="guidedpractice">
+<p>If <span class="math inline">\(X\)</span> is a normally distributed random variable, how often will <span class="math inline">\(X\)</span> be within 2.58 standard deviations of the mean?<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;This is equivalent to asking how often the &lt;span class="math inline"&gt;\(Z\)&lt;/span&gt; score will be larger than -2.58 but less than 2.58.
+(For a picture, see Figure &lt;a href="inference-one-prop.html#fig:choosingZForCI"&gt;15.2&lt;/a&gt;.) To determine this probability, look up -2.58 and 2.58 in the normal probability table (0.0049 and 0.9951).
+Thus, there is a &lt;span class="math inline"&gt;\(0.9951-0.0049 \approx 0.99\)&lt;/span&gt; probability that the unobserved random variable &lt;span class="math inline"&gt;\(X\)&lt;/span&gt; will be within 2.58 standard deviations of the mean.&lt;/p&gt;'><sup>94</sup></a></p>
+</div>
+<div class="figure">
+<span style="display:block;" id="fig:choosingZForCI"></span>
+<img src="16-one-sample-prop_files/figure-html/choosingZForCI-1.png" alt="The area between -\(z^{\star}\) and \(z^{\star}\) increases as \(|z^{\star}|\) becomes larger. If the confidence level is 99%, we choose \(z^{\star}\) such that 99% of the normal curve is between -\(z^{\star}\) and \(z^{\star},\) which corresponds to 0.5% in the lower tail and 0.5% in the upper tail: \(z^{\star}=2.58.\)" width="672"><p class="caption">
+Figure 15.2: The area between -<span class="math inline">\(z^{\star}\)</span> and <span class="math inline">\(z^{\star}\)</span> increases as <span class="math inline">\(|z^{\star}|\)</span> becomes larger. If the confidence level is 99%, we choose <span class="math inline">\(z^{\star}\)</span> such that 99% of the normal curve is between -<span class="math inline">\(z^{\star}\)</span> and <span class="math inline">\(z^{\star},\)</span> which corresponds to 0.5% in the lower tail and 0.5% in the upper tail: <span class="math inline">\(z^{\star}=2.58.\)</span>
+</p>
+</div>
+
+<p></p>
+<p>To create a 99% confidence interval, change 1.96 in the 95% confidence interval formula to be <span class="math inline">\(2.58.\)</span> The previous Guided Practice highlights that 99% of the time a normal random variable will be within 2.58 standard deviations of its mean.
+This approach – using the Z scores in the normal model to compute confidence levels – is appropriate when the point estimate is associated with a normal distribution and we can properly compute the standard error.
+Thus, the formula for a 99% confidence interval is:</p>
+<p><span class="math display">\[\text{point estimate} \ \pm \ 2.58 \ \times \ SE\]</span></p>
+<p>The normal approximation is crucial to the precision of the <span class="math inline">\(z^\star\)</span> confidence intervals (in contrast to the bootstrap percentile confidence intervals).
+When the normal model is not a good fit, we will use alternative distributions that better characterize the sampling distribution or we will use bootstrapping procedures.</p>
+<div class="guidedpractice">
+<p>Create a 99% confidence interval for the impact of the stent on the risk of stroke using the data from Section <a href="#case-study-stents-strokes"><strong>??</strong></a>.
+The point estimate is 0.090, and the standard error is <span class="math inline">\(SE = 0.028.\)</span> It has been verified for you that the point estimate can reasonably be modeled by a normal distribution.<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;Since the necessary conditions for applying the normal model have already been checked for us, we can go straight to the construction of the confidence interval: &lt;span class="math inline"&gt;\(\text{point estimate} \pm 2.58 \times SE\)&lt;/span&gt; Which gives an interval of (0.018, 0.162).$ We are 99% confident that implanting a stent in the brain of a patient who is at risk of stroke increases the risk of stroke within 30 days by a rate of 0.018 to 0.162 (assuming the patients are representative of the population).&lt;/p&gt;'><sup>95</sup></a></p>
+</div>
+<div class="important">
+<p><strong>Mathematical model confidence interval for any confidence level.</strong></p>
+<p>If the point estimate follows the normal model with standard error <span class="math inline">\(SE,\)</span> then a confidence interval for the population parameter is</p>
+<p><span class="math display">\[\text{point estimate} \ \pm \ z^{\star} \ \times \ SE\]</span></p>
+<p>where <span class="math inline">\(z^{\star}\)</span> corresponds to the confidence level selected.</p>
+</div>
+<p>Figure <a href="inference-one-prop.html#fig:choosingZForCI">15.2</a> provides a picture of how to identify <span class="math inline">\(z^{\star}\)</span> based on a confidence level.
+We select <span class="math inline">\(z^{\star}\)</span> so that the area between -<span class="math inline">\(z^{\star}\)</span> and <span class="math inline">\(z^{\star}\)</span> in the normal model corresponds to the confidence level.</p>
+<div class="guidedpractice">
+<p>Previously, we found that implanting a stent in the brain of a patient at risk for a stroke <em>increased</em> the risk of a stroke.
+The study estimated a 9% increase in the number of patients who had a stroke, and the standard error of this estimate was about <span class="math inline">\(SE = 2.8%.\)</span> Compute a 90% confidence interval for the effect.<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;We must find &lt;span class="math inline"&gt;\(z^{\star}\)&lt;/span&gt; such that 90% of the distribution falls between -&lt;span class="math inline"&gt;\(z^{\star}\)&lt;/span&gt; and &lt;span class="math inline"&gt;\(z^{\star}\)&lt;/span&gt; in the standard normal model, &lt;span class="math inline"&gt;\(N(\mu=0, \sigma=1).\)&lt;/span&gt; We can look up -&lt;span class="math inline"&gt;\(z^{\star}\)&lt;/span&gt; in the normal probability table by looking for a lower tail of 5% (the other 5% is in the upper tail), thus &lt;span class="math inline"&gt;\(z^{\star} = 1.65.\)&lt;/span&gt; The 90% confidence interval can then be computed as &lt;span class="math inline"&gt;\(\text{point estimate} \pm 1.65 \times SE \to (4.4\%, 13.6\%).\)&lt;/span&gt; (Note: the conditions for normality had earlier been confirmed for us.) That is, we are 90% confident that implanting a stent in a stroke patient’s brain increased the risk of stroke within 30 days by 4.4% to 13.6%.&lt;br&gt;
+Note, the problem was set up as 90% to indicate that there was not a need for a high level of confidence (such as 95% or 99%).
+A lower degree of confidence increases potential for error, but it also produces a more narrow interval.&lt;/p&gt;'><sup>96</sup></a></p>
+</div>
+</div>
+<div id="hypothesis-test-for-a-proportion" class="section level3">
+<h3>
+<span class="header-section-number">15.2.5</span> Hypothesis test for a proportion<a class="anchor" aria-label="anchor" href="#hypothesis-test-for-a-proportion"><i class="fas fa-link"></i></a>
+</h3>
+<div class="important">
+<p><strong>The test statistic for assessing a single proportion is a Z.</strong></p>
+<p>The <strong>Z score</strong> is a ratio of how the sample proportion differs from the hypothesized proportion as compared to the expected variability of the <span class="math inline">\(\hat{p}\)</span> values.</p>
+<p><span class="math display">\[Z = \frac{\hat{p} - p_0}{\sqrt{p_0(1 - p_0)/n}}\]</span></p>
+<p>When the null hypothesis is true and the conditions are met, Z has a standard normal distribution.</p>
+<p>Conditions:</p>
+<ul>
+<li>independent observations<br>
+</li>
+<li>large samples <span class="math inline">\((n p_0 \geq 10\)</span> and <span class="math inline">\(n (1-p_0) \geq 10)\)</span><br>
+</li>
+</ul>
+</div>
+<p>One possible regulation for payday lenders is that they would be required to do a credit check and evaluate debt payments against the borrower’s finances.
+We would like to know: would borrowers support this form of regulation?</p>
+<div class="guidedpractice">
+<p>Set up hypotheses to evaluate whether borrowers have a majority support for this type of regulation.<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;&lt;span class="math inline"&gt;\(H_0:\)&lt;/span&gt; there is not support for the regulation; &lt;span class="math inline"&gt;\(H_0:\)&lt;/span&gt; &lt;span class="math inline"&gt;\(p \leq 0.50.\)&lt;/span&gt; &lt;span class="math inline"&gt;\(H_A:\)&lt;/span&gt; the majority of borrowers support the regulation; &lt;span class="math inline"&gt;\(H_A:\)&lt;/span&gt; &lt;span class="math inline"&gt;\(p &amp;gt; 0.50.\)&lt;/span&gt;&lt;/p&gt;'><sup>97</sup></a></p>
+</div>
+<p>To apply the normal distribution framework in the context of a hypothesis test for a proportion, the independence and success-failure conditions must be satisfied.
+In a hypothesis test, the success-failure condition is checked using the null proportion: we verify <span class="math inline">\(np_0\)</span> and <span class="math inline">\(n(1-p_0)\)</span> are at least 10, where <span class="math inline">\(p_0\)</span> is the null value.</p>
+<div class="guidedpractice">
+<p>Do payday loan borrowers support a regulation that would require lenders to pull their credit report and evaluate their debt payments?
+From a random sample of 826 borrowers, 51% said they would support such a regulation.
+Is it reasonable to use a normal distribution to model <span class="math inline">\(\hat{p}\)</span> for a hypothesis test here?<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;Independence holds since the poll is based on a random sample.
+The success-failure condition also holds, which is checked using the null value &lt;span class="math inline"&gt;\((p_0 = 0.5)\)&lt;/span&gt; from &lt;span class="math inline"&gt;\(H_0:\)&lt;/span&gt; &lt;span class="math inline"&gt;\(np_0 = 826 \times 0.5 = 413,\)&lt;/span&gt; &lt;span class="math inline"&gt;\(n(1 - p_0) = 826 \times 0.5 = 413.\)&lt;/span&gt; Recall that here, the best guess for &lt;span class="math inline"&gt;\(p\)&lt;/span&gt; is &lt;span class="math inline"&gt;\(p_0\)&lt;/span&gt; which comes from the null hypothesis (because we assume the null hypothesis is true when performing the testing procedure steps).
+&lt;span class="math inline"&gt;\(H_0:\)&lt;/span&gt; there is not support for the regulation; &lt;span class="math inline"&gt;\(H_0:\)&lt;/span&gt; &lt;span class="math inline"&gt;\(p \leq 0.50.\)&lt;/span&gt; &lt;span class="math inline"&gt;\(H_A:\)&lt;/span&gt; the majority of borrowers support the regulation; &lt;span class="math inline"&gt;\(H_A:\)&lt;/span&gt; &lt;span class="math inline"&gt;\(p &amp;gt; 0.50.\)&lt;/span&gt;&lt;/p&gt;'><sup>98</sup></a></p>
+</div>
+<div class="workedexample">
+<p>Using the hypotheses and data from the previous Guided Practices, evaluate whether the poll on lending regulations provides convincing evidence that a majority of payday loan borrowers support a new regulation that would require lenders to pull credit reports and evaluate debt payments.</p>
+<hr>
+<p>With hypotheses already set up and conditions checked, we can move onto calculations.
+The standard error in the context of a one-proportion hypothesis test is computed using the null value, <span class="math inline">\(p_0:\)</span></p>
+<p><span class="math display">\[SE = \sqrt{\frac{p_0 (1 - p_0)}{n}} = \sqrt{\frac{0.5 (1 - 0.5)}{826}} = 0.017\]</span></p>
+<p>A picture of the normal model is shown with the p-value represented by the shaded region.</p>
+<div class="inline-figure"><img src="16-one-sample-prop_files/figure-html/unnamed-chunk-6-1.png" width="672"></div>
+<p>Based on the normal model, the test statistic can be computed as the Z score of the point estimate:</p>
+<p><span class="math display">\[
+\begin{aligned}
+Z &amp;= \frac{\text{point estimate} - \text{null value}}{SE} \\
+  &amp;= \frac{0.51 - 0.50}{0.017} \\
+  &amp;= 0.59
+\end{aligned} 
+\]</span></p>
+<p>The single tail area which represents the p-value is 0.2776.
+Because the p-value is larger than 0.05, we do not reject <span class="math inline">\(H_0.\)</span> The poll does not provide convincing evidence that a majority of payday loan borrowers support regulations around credit checks and evaluation of debt payments.</p>
+<p>We might have wanted to ask whether the borrows <strong>support or oppose</strong> the regulations (to study opinion in either direction away from the 50% benchmark), i.e., a two-sided test.
+In that case, the p-value would have been doubled to 0.5552 (again, we would not reject <span class="math inline">\(H_0).\)</span> In the two-sided hypothesis setting, the appropriate conclusion would be to claim that the poll does not provide convincing evidence that a majority of payday loan borrowers support or oppose regulations around credit checks and evaluation of debt payments.</p>
+<p>In both the one-sided or two-sided setting, the conclusion is somewhat unsatisfactory because there is no conclusion.
+That is, there is no resolution one way or the other about public opinion.
+We cannot claim that exactly 50% of people support the regulation, but we cannot claim a majority in either direction.</p>
+</div>
+<div class="important">
+<p><strong>Mathematical model hypothesis test for a proportion.</strong></p>
+<p>Set up hypotheses and verify the conditions using the null value, <span class="math inline">\(p_0,\)</span> to ensure <span class="math inline">\(\hat{p}\)</span> is nearly normal under <span class="math inline">\(H_0.\)</span> If the conditions hold, construct the standard error, again using <span class="math inline">\(p_0,\)</span> and show the p-value in a drawing.
+Lastly, compute the p-value and evaluate the hypotheses.</p>
+</div>
+</div>
+<div id="violating-conditions" class="section level3">
+<h3>
+<span class="header-section-number">15.2.6</span> Violating conditions<a class="anchor" aria-label="anchor" href="#violating-conditions"><i class="fas fa-link"></i></a>
+</h3>
+<p>We’ve spent a lot of time discussing conditions for when <span class="math inline">\(\hat{p}\)</span> can be reasonably modeled by a normal distribution.
+What happens when the success-failure condition fails?
+What about when the independence condition fails?
+In either case, the general ideas of confidence intervals and hypothesis tests remain the same, but the strategy or technique used to generate the interval or p-value change.</p>
+<p>When the success-failure condition isn’t met for a hypothesis test, we can simulate the null distribution of <span class="math inline">\(\hat{p}\)</span> using the null value, <span class="math inline">\(p_0,\)</span> as seen in Section <a href="inference-one-prop.html#one-prop-null-boot">15.1</a>.
+Unfortunately, methods for dealing with observations which are not independent (e.g., repeated measurements on subject, such as in studies where measurements from the same subjects are taken pre and post study) are outside the scope of this course.</p>
+
+</div>
+</div>
+<div id="chp16-review" class="section level2">
+<h2>
+<span class="header-section-number">15.3</span> Chapter review<a class="anchor" aria-label="anchor" href="#chp16-review"><i class="fas fa-link"></i></a>
+</h2>
+<div id="summary-7" class="section level3">
+<h3>
+<span class="header-section-number">15.3.1</span> Summary<a class="anchor" aria-label="anchor" href="#summary-7"><i class="fas fa-link"></i></a>
+</h3>
+<p>Building on the foundational ideas from the previous few ideas, this chapter focused exclusively on the single population proportion as the parameter of interest.
+Note that it is not possible to do a randomization test with only one variable, so to do computational hypothesis testing, we applied a bootstrapping framework.
+The bootstrap confidence interval and the mathematical framework for both hypothesis testing and confidence intervals are similar to those applied to other data structures and parameters.
+When using the mathematical model, keep in mind the success-failure conditions.
+Additionally, know that bootstrapping is always more accurate with larger samples.</p>
+</div>
+<div id="terms-2" class="section level3">
+<h3>
+<span class="header-section-number">15.3.2</span> Terms<a class="anchor" aria-label="anchor" href="#terms-2"><i class="fas fa-link"></i></a>
+</h3>
+<p>We introduced the following terms in the chapter.
+If you’re not sure what some of these terms mean, we recommend you go back in the text and review their definitions.
+We are purposefully presenting them in alphabetical order, instead of in order of appearance, so they will be a little more challenging to locate.
+However you should be able to easily spot them as <strong>bolded text</strong>.</p>
+<div class="inline-table"><table class="table table-striped table-condensed" style="margin-left: auto; margin-right: auto;"><tbody>
+<tr>
+<td style="text-align:left;">
+parametric bootstrap
+</td>
+<td style="text-align:left;">
+success-failure condition
+</td>
+<td style="text-align:left;">
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+SE single proportion
+</td>
+<td style="text-align:left;">
+Z score
+</td>
+<td style="text-align:left;">
+</td>
+</tr>
+</tbody></table></div>
+</div>
+</div>
+<div id="chp16-exercises" class="section level2">
+<h2>
+<span class="header-section-number">15.4</span> Exercises<a class="anchor" aria-label="anchor" href="#chp16-exercises"><i class="fas fa-link"></i></a>
+</h2>
+<div class="exercises">
+<ol style="list-style-type: decimal">
+<li>
+<p><strong>Do aliens exist?</strong>
+In May 2021, YouGov asked 4,839 adult Great Britain residents whether they think aliens exist, and if so, if they have or have not visited Earth.
+You want to evaluate if more than a quarter (25%) of Great Britain adults think aliens don’t exist.
+In the survey 22% responded “I think they exist, and have visited Earth”, 28% responded “I think they exist, but have not visited Earth”, 29% responded “I don’t think they exist”, and 22% responded “Don’t know”.
+A friend of yours offers to help you with setting up the hypothesis test and comes up with the following hypotheses.
+Indicate any errors you see.</p>
+<p><span class="math inline">\(H_0: \hat{p} = 0.29 \quad \quad H_A: \hat{p} &gt; 0.29\)</span></p>
+<p></p>
+</li>
+<li>
+<p><strong>Married at 25.</strong>
+A study suggests that the 25% of 25 year olds have gotten married.
+You believe that this is incorrect and decide to collect your own sample for a hypothesis test.
+From a random sample of 25 year olds in census data with size 776, you find that 24% of them are married.
+A friend of yours offers to help you with setting up the hypothesis test and comes up with the following hypotheses. Indicate any errors you see.</p>
+<p><span class="math inline">\(H_0: \hat{p} = 0.24 \quad \quad H_A: \hat{p} \neq 0.24\)</span></p>
+<p></p>
+</li>
+<li>
+<p><strong>Defund the police.</strong>
+A Survey USA poll conducted in Seattle, WA in May 2021 reports that of the 650 respondents (adults living in this area), 159 support proposals to defund police departments.<span class="citation"><a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;&lt;span class="citeproc-not-found" data-reference-id="data:defundpolice"&gt;&lt;strong&gt;???&lt;/strong&gt;&lt;/span&gt;&lt;/p&gt;'><sup>99</sup></a></span></p>
+<ol style="list-style-type: lower-alpha">
+<li><p>A journalist writing a news story on the poll results wants to use the headline “More than 1 in 5 adults living in Seattle support proposals to defund police departments.” You caution the journalist that they should first conduct a hypothesis test to see if the poll data provide convincing evidence for this claim. Write the hypotheses for this test.</p></li>
+<li><p>Calculate the proportion of Seattle adults in this sample who support proposals to defund police departments.</p></li>
+<li><p>Describe a setup for a simulation that would be appropriate in this situation and how the p-value can be calculated using the simulation results.</p></li>
+<li><p>Below is a histogram showing the distribution of <span class="math inline">\(\hat{p}_{sim}\)</span> in 1,000 simulations under the null hypothesis. Estimate the p-value using the plot and use it to evaluate the hypotheses.</p></li>
+</ol>
+<div class="sourceCode" id="cb117"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://openintrostat.github.io/openintro/">openintro</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/tidymodels/infer">infer</a></span><span class="op">)</span>
+
+<span class="va">defund_police</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span><span class="op">(</span>opinion <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="st">"support"</span>, <span class="fl">159</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="st">"do not support"</span>, <span class="fl">650</span><span class="op">-</span><span class="fl">159</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>
+
+<span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">47</span><span class="op">)</span>
+<span class="va">null_dist</span> <span class="op">&lt;-</span> <span class="va">defund_police</span> <span class="op"><a href="https://infer.tidymodels.org/reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="https://infer.tidymodels.org/reference/specify.html">specify</a></span><span class="op">(</span>response <span class="op">=</span> <span class="va">opinion</span>, success <span class="op">=</span> <span class="st">"support"</span><span class="op">)</span> <span class="op"><a href="https://infer.tidymodels.org/reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="https://infer.tidymodels.org/reference/hypothesize.html">hypothesize</a></span><span class="op">(</span>null <span class="op">=</span> <span class="st">"point"</span>, p <span class="op">=</span> <span class="fl">0.20</span><span class="op">)</span> <span class="op"><a href="https://infer.tidymodels.org/reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="https://infer.tidymodels.org/reference/generate.html">generate</a></span><span class="op">(</span>reps <span class="op">=</span> <span class="fl">1000</span>, type <span class="op">=</span> <span class="st">"simulate"</span><span class="op">)</span> <span class="op"><a href="https://infer.tidymodels.org/reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="https://infer.tidymodels.org/reference/calculate.html">calculate</a></span><span class="op">(</span>stat <span class="op">=</span> <span class="st">"prop"</span><span class="op">)</span>
+
+<span class="va">null_dist</span> <span class="op"><a href="https://infer.tidymodels.org/reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">stat</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_histogram.html">geom_histogram</a></span><span class="op">(</span>bins <span class="op">=</span> <span class="fl">20</span>, fill <span class="op">=</span> <span class="va">IMSCOL</span><span class="op">[</span><span class="st">"green"</span>, <span class="st">"full"</span><span class="op">]</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>
+    title <span class="op">=</span> <span class="st">"1,000 parametric bootstrapped proportions"</span>,
+    subtitle <span class="op">=</span> <span class="st">"p = 0.20"</span>,
+    x <span class="op">=</span> <span class="st">"Bootstrapped proportion of\nthose who support proposals to defund police departments"</span>,
+    y <span class="op">=</span> <span class="st">"Count"</span>
+    <span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html">scale_x_continuous</a></span><span class="op">(</span>breaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span><span class="fl">0.15</span>, <span class="fl">0.25</span>, <span class="fl">0.02</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<div class="inline-figure"><img src="16-one-sample-prop_files/figure-html/unnamed-chunk-8-1.png" width="672"></div>
+<p></p>
+</li>
+<li>
+<p><strong>Assisted reproduction.</strong>
+Assisted Reproductive Technology (ART) is a collection of techniques that help facilitate pregnancy (e.g., in vitro fertilization). The 2018 ART Fertility Clinic Success Rates Report published by the Centers for Disease Control and Prevention reports that ART has been successful in leading to a live birth in 48.8% of cases where the patient is under 35 years old.<span class="citation"><a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;&lt;span class="citeproc-not-found" data-reference-id="web:art2018"&gt;&lt;strong&gt;???&lt;/strong&gt;&lt;/span&gt;&lt;/p&gt;'><sup>100</sup></a></span> A new fertility clinic claims that their success rate is higher than average for this age group. A random sample of 30 of their patients yielded a success rate of 60%. A consumer watchdog group would like to determine if this provides strong evidence to support the company’s claim.</p>
+<ol style="list-style-type: lower-alpha">
+<li><p>Write the hypotheses to test if the success rate for ART at this clinic is significantly higher than the success rate reported by the CDC.</p></li>
+<li><p>Describe a setup for a simulation that would be appropriate in this situation and how the p-value can be calculated using the simulation results.</p></li>
+</ol>
+<div class="sourceCode" id="cb118"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://openintrostat.github.io/openintro/">openintro</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/tidymodels/infer">infer</a></span><span class="op">)</span>
+
+<span class="va">art</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span><span class="op">(</span>fertility <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="st">"success"</span>, <span class="fl">12</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="st">"failure"</span>, <span class="fl">18</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>
+
+<span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">47</span><span class="op">)</span>
+<span class="va">null_dist</span> <span class="op">&lt;-</span> <span class="va">art</span> <span class="op"><a href="https://infer.tidymodels.org/reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="https://infer.tidymodels.org/reference/specify.html">specify</a></span><span class="op">(</span>response <span class="op">=</span> <span class="va">fertility</span>, success <span class="op">=</span> <span class="st">"success"</span><span class="op">)</span> <span class="op"><a href="https://infer.tidymodels.org/reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="https://infer.tidymodels.org/reference/hypothesize.html">hypothesize</a></span><span class="op">(</span>null <span class="op">=</span> <span class="st">"point"</span>, p <span class="op">=</span> <span class="fl">0.488</span><span class="op">)</span> <span class="op"><a href="https://infer.tidymodels.org/reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="https://infer.tidymodels.org/reference/generate.html">generate</a></span><span class="op">(</span>reps <span class="op">=</span> <span class="fl">1000</span>, type <span class="op">=</span> <span class="st">"simulate"</span><span class="op">)</span> <span class="op"><a href="https://infer.tidymodels.org/reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="https://infer.tidymodels.org/reference/calculate.html">calculate</a></span><span class="op">(</span>stat <span class="op">=</span> <span class="st">"prop"</span><span class="op">)</span> 
+
+<span class="va">null_dist</span> <span class="op"><a href="https://infer.tidymodels.org/reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">stat</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_histogram.html">geom_histogram</a></span><span class="op">(</span>binwidth <span class="op">=</span> <span class="fl">0.05</span>, fill <span class="op">=</span> <span class="va">IMSCOL</span><span class="op">[</span><span class="st">"green"</span>, <span class="st">"full"</span><span class="op">]</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>
+    title <span class="op">=</span> <span class="st">"1,000 parametric bootstrapped proportions"</span>,
+    subtitle <span class="op">=</span> <span class="st">"p = 0.488"</span>,
+    x <span class="op">=</span> <span class="st">"Proportion of successful ART cases"</span>,
+    y <span class="op">=</span> <span class="st">"Count"</span>
+    <span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_abline.html">geom_vline</a></span><span class="op">(</span>xintercept <span class="op">=</span> <span class="fl">0.6</span>, color <span class="op">=</span> <span class="va">IMSCOL</span><span class="op">[</span><span class="st">"red"</span>, <span class="fl">1</span><span class="op">]</span>, size <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></code></pre></div>
+<div class="inline-figure"><img src="16-one-sample-prop_files/figure-html/unnamed-chunk-9-1.png" width="672"></div>
+<ol start="3" style="list-style-type: lower-alpha">
+<li><p>Below is a histogram showing the distribution of <span class="math inline">\(\hat{p}_{sim}\)</span> in 1,000 simulations under the null hypothesis. Estimate the p-value using the plot and use it to evaluate the hypotheses.</p></li>
+<li><p>After performing this analysis, the consumer group releases the following news headline: “Infertility clinic falsely advertises better success rates”. Comment on the appropriateness of this statement.</p></li>
+</ol>
+<p></p>
+</li>
+<li>
+<p><strong>If I fits, I sits, bootstrap test.</strong>
+A citizen science project on which type of enclosed spaces cats are most likely to sit in compared (among other options) two different spaces taped to the ground. The first was a square, and the second was a shape known as <a href="https://en.wikipedia.org/wiki/Illusory_contours#Kanizsa_figures">Kanizsa square illusion</a>. When comparing the two options given to 7 cats, 5 chose the square, and 2 chose the Kanizsa square illusion. We are interested to know whether these data provide convincing evidence that cats prefer one of the shapes over the other.<span class="citation"><a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;&lt;span class="citeproc-not-found" data-reference-id="Smith:2021"&gt;&lt;strong&gt;???&lt;/strong&gt;&lt;/span&gt;&lt;/p&gt;'><sup>101</sup></a></span></p>
+<ol style="list-style-type: lower-alpha">
+<li><p>What are the null and alternative hypotheses for evaluating whether these data provide convincing evidence that cats have preference for one of the shapes</p></li>
+<li><p>A parametric bootstrap simulation (with 1,000 bootstrap samples) was run and the resulting null distribution is displayed in the histogram below.Find the p-value using this distribution and conclude the hypothesis test in the context of the problem.</p></li>
+</ol>
+<div class="sourceCode" id="cb119"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/tidymodels/infer">infer</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://openintrostat.github.io/openintro/">openintro</a></span><span class="op">)</span>
+
+<span class="va">cats</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span><span class="op">(</span>choice <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="st">"square"</span>, <span class="fl">5</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="st">"Kanizsa"</span>, <span class="fl">2</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>
+
+<span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">47</span><span class="op">)</span>
+<span class="va">cats</span> <span class="op"><a href="https://infer.tidymodels.org/reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="https://infer.tidymodels.org/reference/specify.html">specify</a></span><span class="op">(</span>response <span class="op">=</span> <span class="va">choice</span>, success <span class="op">=</span> <span class="st">"square"</span><span class="op">)</span> <span class="op"><a href="https://infer.tidymodels.org/reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="https://infer.tidymodels.org/reference/hypothesize.html">hypothesize</a></span><span class="op">(</span>null <span class="op">=</span> <span class="st">"point"</span>, p <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span> <span class="op"><a href="https://infer.tidymodels.org/reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="https://infer.tidymodels.org/reference/generate.html">generate</a></span><span class="op">(</span>reps <span class="op">=</span> <span class="fl">1000</span>, type <span class="op">=</span> <span class="st">"simulate"</span><span class="op">)</span> <span class="op"><a href="https://infer.tidymodels.org/reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="https://infer.tidymodels.org/reference/calculate.html">calculate</a></span><span class="op">(</span>stat <span class="op">=</span> <span class="st">"prop"</span><span class="op">)</span> <span class="op"><a href="https://infer.tidymodels.org/reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">stat</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_histogram.html">geom_histogram</a></span><span class="op">(</span>binwidth <span class="op">=</span> <span class="fl">0.05</span>, fill <span class="op">=</span> <span class="va">IMSCOL</span><span class="op">[</span><span class="st">"green"</span>, <span class="st">"full"</span><span class="op">]</span><span class="op">)</span> <span class="op">+</span> 
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>
+    title <span class="op">=</span> <span class="st">"1,000 parametric bootstrapped proportions"</span>,
+    subtitle <span class="op">=</span> <span class="st">"p = 0.5"</span>,
+    x <span class="op">=</span> <span class="st">"Proportion of cats who prefer squares"</span>,
+    y <span class="op">=</span> <span class="st">"Count"</span>
+    <span class="op">)</span></code></pre></div>
+<div class="inline-figure"><img src="16-one-sample-prop_files/figure-html/unnamed-chunk-10-1.png" width="672"></div>
+</li>
+<li>
+<p><strong>Legalization of marijuana, bootstrap test.</strong>
+The 2018 General Social Survey asked a random sample of 1,563 US adults: “Do you think the use of marijuana should be made legal, or not?” 60% of the respondents said it should be made legal.<span class="citation"><a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;&lt;span class="citeproc-not-found" data-reference-id="data:gssgrass"&gt;&lt;strong&gt;???&lt;/strong&gt;&lt;/span&gt;&lt;/p&gt;'><sup>102</sup></a></span> Consider a scenario where, in order to become legal, 55% (or more) of voters must approve.</p>
+<ol style="list-style-type: lower-alpha">
+<li><p>What are the null and alternative hypotheses for evaluating whether these data provide convincing evidence that, if voted on, marijuana would be legalized in the US.</p></li>
+<li><p>A parametric bootstrap simulation (with 1,000 bootstrap samples) was run and the resulting null distribution is displayed in the histogram below. Find the p-value using this distribution and conclude the hypothesis test in the context of the problem.</p></li>
+</ol>
+<div class="sourceCode" id="cb120"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/tidymodels/infer">infer</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://openintrostat.github.io/openintro/">openintro</a></span><span class="op">)</span>
+
+<span class="va">mj</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span><span class="op">(</span>opinion <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="st">"legal"</span>, <span class="fl">938</span><span class="op">)</span>,<span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="st">"not legal"</span>, <span class="fl">625</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>
+
+<span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">47</span><span class="op">)</span>
+<span class="va">mj</span> <span class="op"><a href="https://infer.tidymodels.org/reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="https://infer.tidymodels.org/reference/specify.html">specify</a></span><span class="op">(</span>response <span class="op">=</span> <span class="va">opinion</span>, success <span class="op">=</span> <span class="st">"legal"</span><span class="op">)</span> <span class="op"><a href="https://infer.tidymodels.org/reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="https://infer.tidymodels.org/reference/hypothesize.html">hypothesize</a></span><span class="op">(</span>null <span class="op">=</span> <span class="st">"point"</span>, p <span class="op">=</span> <span class="fl">0.55</span><span class="op">)</span> <span class="op"><a href="https://infer.tidymodels.org/reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="https://infer.tidymodels.org/reference/generate.html">generate</a></span><span class="op">(</span>reps <span class="op">=</span> <span class="fl">1000</span>, type <span class="op">=</span> <span class="st">"simulate"</span><span class="op">)</span> <span class="op"><a href="https://infer.tidymodels.org/reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="https://infer.tidymodels.org/reference/calculate.html">calculate</a></span><span class="op">(</span>stat <span class="op">=</span> <span class="st">"prop"</span><span class="op">)</span> <span class="op"><a href="https://infer.tidymodels.org/reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">stat</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_histogram.html">geom_histogram</a></span><span class="op">(</span>binwidth <span class="op">=</span> <span class="fl">0.005</span>, fill <span class="op">=</span> <span class="va">IMSCOL</span><span class="op">[</span><span class="st">"green"</span>, <span class="st">"full"</span><span class="op">]</span><span class="op">)</span> <span class="op">+</span> 
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>
+    title <span class="op">=</span> <span class="st">"1,000 parametric bootstrapped proportions"</span>,
+    subtitle <span class="op">=</span> <span class="st">"p = 0.55"</span>,
+    x <span class="op">=</span> <span class="st">"Proportion of US adults who support legalizing marijuana"</span>,
+    y <span class="op">=</span> <span class="st">"Count"</span>
+    <span class="op">)</span></code></pre></div>
+<div class="inline-figure"><img src="16-one-sample-prop_files/figure-html/unnamed-chunk-11-1.png" width="672"></div>
+<p></p>
+</li>
+<li>
+<p><strong>If I fits, I sits, standard errors.</strong>
+The results of a study on the type of enclosed spaces cats are most likely to sit in show that 5 out of 7 cats chose a square taped to the ground over a shape known as <a href="https://en.wikipedia.org/wiki/Illusory_contours#Kanizsa_figures">Kanizsa square illusion</a>, which was preferred by the remaining 2 cats. To evaluate whether these data provide convincing evidence that cats prefer one of the shapes over the other, we set <span class="math inline">\(H_0: p = 0.5\)</span>, where <span class="math inline">\(p\)</span> is the population proportion of cats who prefer square over the Kanizsa square illusion and <span class="math inline">\(H_A: p \neq 0.5\)</span>, which suggests some preference, without specifying which shape is more preferred.<span class="citation"><a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;&lt;span class="citeproc-not-found" data-reference-id="Smith:2021"&gt;&lt;strong&gt;???&lt;/strong&gt;&lt;/span&gt;&lt;/p&gt;'><sup>103</sup></a></span></p>
+<ol style="list-style-type: lower-alpha">
+<li><p>Using the mathematical model, calculate the standard error of the sample proportion in repeated samples of size 7.</p></li>
+<li><p>A parametric bootstrap simulation (with 1,000 bootstrap samples) was run and the resulting null distribution is displayed in the histogram below. This distribution shows the variability of the sample proportion in samples of size 7 when 50% of cats prefer the square shape over the Kanizsa square illusion. What is the approximate standard error of the sample proportion based on this distribution?</p></li>
+</ol>
+<div class="sourceCode" id="cb121"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/tidymodels/infer">infer</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://openintrostat.github.io/openintro/">openintro</a></span><span class="op">)</span>
+
+<span class="va">cats</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span><span class="op">(</span>choice <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="st">"square"</span>, <span class="fl">5</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="st">"Kanizsa"</span>, <span class="fl">2</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>
+
+<span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">47</span><span class="op">)</span>
+<span class="va">cats</span> <span class="op"><a href="https://infer.tidymodels.org/reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="https://infer.tidymodels.org/reference/specify.html">specify</a></span><span class="op">(</span>response <span class="op">=</span> <span class="va">choice</span>, success <span class="op">=</span> <span class="st">"square"</span><span class="op">)</span> <span class="op"><a href="https://infer.tidymodels.org/reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="https://infer.tidymodels.org/reference/hypothesize.html">hypothesize</a></span><span class="op">(</span>null <span class="op">=</span> <span class="st">"point"</span>, p <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span> <span class="op"><a href="https://infer.tidymodels.org/reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="https://infer.tidymodels.org/reference/generate.html">generate</a></span><span class="op">(</span>reps <span class="op">=</span> <span class="fl">1000</span>, type <span class="op">=</span> <span class="st">"simulate"</span><span class="op">)</span> <span class="op"><a href="https://infer.tidymodels.org/reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="https://infer.tidymodels.org/reference/calculate.html">calculate</a></span><span class="op">(</span>stat <span class="op">=</span> <span class="st">"prop"</span><span class="op">)</span> <span class="op"><a href="https://infer.tidymodels.org/reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">stat</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_histogram.html">geom_histogram</a></span><span class="op">(</span>binwidth <span class="op">=</span> <span class="fl">0.05</span>, fill <span class="op">=</span> <span class="va">IMSCOL</span><span class="op">[</span><span class="st">"green"</span>, <span class="st">"full"</span><span class="op">]</span><span class="op">)</span> <span class="op">+</span> 
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>
+    title <span class="op">=</span> <span class="st">"1,000 parametric bootstrapped proportions"</span>,
+    subtitle <span class="op">=</span> <span class="st">"p = 0.5"</span>,
+    x <span class="op">=</span> <span class="st">"Bootstrapped proportion of\ncats who prefer squares"</span>,
+    y <span class="op">=</span> <span class="st">"Count"</span>
+    <span class="op">)</span></code></pre></div>
+<div class="inline-figure"><img src="16-one-sample-prop_files/figure-html/unnamed-chunk-12-1.png" width="672"></div>
+<ol start="3" style="list-style-type: lower-alpha">
+<li><p>Do the mathematical model and parametric bootstrap give similar standard errors?</p></li>
+<li><p>In order to approach the problem using the mathematical model, is the success-failure condition met for this study?Explain.</p></li>
+<li><p>What about the null distribution shown above (generated using the parametric bootstrap) tells us that the mathematical model should probably not be used?</p></li>
+</ol>
+<p></p>
+</li>
+<li>
+<p><strong>Legalization of marijuana, standard errors.</strong>
+According to the 2018 General Social Survey, in a random sample of 1,563 US adults, 60% think marijuana should be made legal.<span class="citation"><a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;&lt;span class="citeproc-not-found" data-reference-id="data:gssgrass"&gt;&lt;strong&gt;???&lt;/strong&gt;&lt;/span&gt;&lt;/p&gt;'><sup>104</sup></a></span> Consider a scenario where, in order to become legal, 55% (or more) of voters must approve.</p>
+<ol style="list-style-type: lower-alpha">
+<li><p>Calculate the standard error of the sample proportion using the mathematical model.</p></li>
+<li><p>A parametric bootstrap simulation (with 1,000 bootstrap samples) was run and the resulting null distribution is displayed in the histogram below. This distribution shows the variability of the sample proportion in samples of size 1,563 when 55% of voters approve legalizing marijuana. What is the approximate standard error of the sample proportion based on this distribution?</p></li>
+</ol>
+<div class="sourceCode" id="cb122"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/tidymodels/infer">infer</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://openintrostat.github.io/openintro/">openintro</a></span><span class="op">)</span>
+
+<span class="va">mj</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span><span class="op">(</span>opinion <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="st">"legal"</span>, <span class="fl">938</span><span class="op">)</span>,<span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="st">"not legal"</span>, <span class="fl">625</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>
+
+<span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">47</span><span class="op">)</span>
+<span class="va">mj</span> <span class="op"><a href="https://infer.tidymodels.org/reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="https://infer.tidymodels.org/reference/specify.html">specify</a></span><span class="op">(</span>response <span class="op">=</span> <span class="va">opinion</span>, success <span class="op">=</span> <span class="st">"legal"</span><span class="op">)</span> <span class="op"><a href="https://infer.tidymodels.org/reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="https://infer.tidymodels.org/reference/hypothesize.html">hypothesize</a></span><span class="op">(</span>null <span class="op">=</span> <span class="st">"point"</span>, p <span class="op">=</span> <span class="fl">0.55</span><span class="op">)</span> <span class="op"><a href="https://infer.tidymodels.org/reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="https://infer.tidymodels.org/reference/generate.html">generate</a></span><span class="op">(</span>reps <span class="op">=</span> <span class="fl">1000</span>, type <span class="op">=</span> <span class="st">"simulate"</span><span class="op">)</span> <span class="op"><a href="https://infer.tidymodels.org/reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="https://infer.tidymodels.org/reference/calculate.html">calculate</a></span><span class="op">(</span>stat <span class="op">=</span> <span class="st">"prop"</span><span class="op">)</span> <span class="op"><a href="https://infer.tidymodels.org/reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">stat</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_histogram.html">geom_histogram</a></span><span class="op">(</span>binwidth <span class="op">=</span> <span class="fl">0.005</span>, fill <span class="op">=</span> <span class="va">IMSCOL</span><span class="op">[</span><span class="st">"green"</span>, <span class="st">"full"</span><span class="op">]</span><span class="op">)</span> <span class="op">+</span> 
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>
+    title <span class="op">=</span> <span class="st">"1,000 parametric bootstrapped proportions"</span>,
+    subtitle <span class="op">=</span> <span class="st">"p = 0.55"</span>,
+    x <span class="op">=</span> <span class="st">"Proportion of US adults who support legalizing marijuana"</span>,
+    y <span class="op">=</span> <span class="st">"Count"</span>
+    <span class="op">)</span></code></pre></div>
+<div class="inline-figure"><img src="16-one-sample-prop_files/figure-html/unnamed-chunk-13-1.png" width="672"></div>
+<ol start="3" style="list-style-type: lower-alpha">
+<li><p>Do the mathematical model and parametric bootstrap give similar standard errors?</p></li>
+<li><p>In this setting (to test whether the true underlying population proportion is greater than 0.55), would there be a strong reason to choose the mathematical model over the parametric bootstrap (or vice versa)?</p></li>
+</ol>
+<p></p>
+</li>
+<li>
+<p><strong>Statistics and employment, describe the bootstrap.</strong>
+A large university knows that about 70% of the full-time students are employed at least 5 hours per week. The members of the Statistics Department wonder if the same proportion of their students work at least 5 hours per week. They randomly sample 25 majors and find that 15 of the students work 5 or more hours each week.</p>
+<p>Two bootstrap sampling distributions are created to describe the variability in the proportion of statistics majors who work at least 5 hours per week. The parametric bootstrap imposes a true population proportion of <span class="math inline">\(p = 0.7\)</span> while the data bootstrap resamples from the actual data (which has 60% of the observations who work at least 5 hours per week).</p>
+<div class="sourceCode" id="cb123"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/tidymodels/infer">infer</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://openintrostat.github.io/openintro/">openintro</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://patchwork.data-imaginist.com">patchwork</a></span><span class="op">)</span>
+
+<span class="va">students</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span><span class="op">(</span>outside <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="st">"work"</span>, <span class="fl">15</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="st">"don't work"</span>, <span class="fl">10</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>
+
+<span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">47</span><span class="op">)</span>
+<span class="va">p_para</span> <span class="op">&lt;-</span> <span class="va">students</span> <span class="op"><a href="https://infer.tidymodels.org/reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="https://infer.tidymodels.org/reference/specify.html">specify</a></span><span class="op">(</span>response <span class="op">=</span> <span class="va">outside</span>, success <span class="op">=</span> <span class="st">"work"</span><span class="op">)</span> <span class="op"><a href="https://infer.tidymodels.org/reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="https://infer.tidymodels.org/reference/hypothesize.html">hypothesize</a></span><span class="op">(</span>null <span class="op">=</span> <span class="st">"point"</span>, p <span class="op">=</span> <span class="fl">0.7</span><span class="op">)</span> <span class="op"><a href="https://infer.tidymodels.org/reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="https://infer.tidymodels.org/reference/generate.html">generate</a></span><span class="op">(</span>reps <span class="op">=</span> <span class="fl">1000</span>, type <span class="op">=</span> <span class="st">"simulate"</span><span class="op">)</span> <span class="op"><a href="https://infer.tidymodels.org/reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="https://infer.tidymodels.org/reference/calculate.html">calculate</a></span><span class="op">(</span>stat <span class="op">=</span> <span class="st">"prop"</span><span class="op">)</span> <span class="op"><a href="https://infer.tidymodels.org/reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">stat</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> 
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_histogram.html">geom_histogram</a></span><span class="op">(</span>binwidth <span class="op">=</span> <span class="fl">0.05</span>, fill <span class="op">=</span> <span class="va">IMSCOL</span><span class="op">[</span><span class="st">"green"</span>, <span class="st">"full"</span><span class="op">]</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>
+    title <span class="op">=</span> <span class="st">"Parametric bootstrap"</span>,
+    subtitle <span class="op">=</span> <span class="st">"p = 0.7"</span>,
+    x <span class="op">=</span> <span class="st">"Bootstrapped proportion of\nthose who work"</span>,
+    y <span class="op">=</span> <span class="st">"Count"</span>
+  <span class="op">)</span>
+
+<span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">47</span><span class="op">)</span>
+<span class="va">p_data</span> <span class="op">&lt;-</span> <span class="va">students</span> <span class="op"><a href="https://infer.tidymodels.org/reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="https://infer.tidymodels.org/reference/specify.html">specify</a></span><span class="op">(</span>response <span class="op">=</span> <span class="va">outside</span>, success <span class="op">=</span> <span class="st">"work"</span><span class="op">)</span> <span class="op"><a href="https://infer.tidymodels.org/reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="https://infer.tidymodels.org/reference/generate.html">generate</a></span><span class="op">(</span>reps <span class="op">=</span> <span class="fl">1000</span>, type <span class="op">=</span> <span class="st">"bootstrap"</span><span class="op">)</span> <span class="op"><a href="https://infer.tidymodels.org/reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="https://infer.tidymodels.org/reference/calculate.html">calculate</a></span><span class="op">(</span>stat <span class="op">=</span> <span class="st">"prop"</span><span class="op">)</span> <span class="op"><a href="https://infer.tidymodels.org/reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">stat</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> 
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_histogram.html">geom_histogram</a></span><span class="op">(</span>binwidth <span class="op">=</span> <span class="fl">0.05</span>, fill <span class="op">=</span> <span class="va">IMSCOL</span><span class="op">[</span><span class="st">"green"</span>, <span class="st">"full"</span><span class="op">]</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>
+    title <span class="op">=</span> <span class="st">"Data bootstrap"</span>,
+    x <span class="op">=</span> <span class="st">"Bootstrapped proportion of\nthose who work"</span>,
+    y <span class="op">=</span> <span class="st">"Count"</span>
+  <span class="op">)</span>
+
+<span class="va">p_para</span> <span class="op">+</span> <span class="va">p_data</span></code></pre></div>
+<div class="inline-figure"><img src="16-one-sample-prop_files/figure-html/unnamed-chunk-14-1.png" width="100%"></div>
+<ol style="list-style-type: lower-alpha">
+<li><p>The bootstrap sampling was done under two different settings to generate each of the distributions shown above. Describe the two different settings.</p></li>
+<li><p>Where are each of the two distributions centered? Are they centered at roughly the same place?</p></li>
+<li><p>Estimate the standard error of the simulated proportions based on each distribution. Are the two standard errors you estimate roughly equal?</p></li>
+<li><p>Describe the shapes of the two distributions. Are they roughly the same?</p></li>
+</ol>
+<p></p>
+</li>
+<li>
+<p><strong>National Health Plan, parametric bootstrap.</strong>
+A Kaiser Family Foundation poll for a random sample of US adults in 2019 found that 79% of Democrats, 55% of Independents, and 24% of Republicans supported a generic “National Health Plan”.
+There were 347 Democrats, 298 Republicans, and 617 Independents surveyed.<span class="citation"><a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;&lt;span class="citeproc-not-found" data-reference-id="data:KFF2019nathealthplan"&gt;&lt;strong&gt;???&lt;/strong&gt;&lt;/span&gt;&lt;/p&gt;'><sup>105</sup></a></span></p>
+<p>A political pundit on TV claims that a majority of Independents support a National Health Plan. Do these data provide strong evidence to support this type of statement? One approach to assessing the question of whether a majority of Independents support a National Health Plan is to simulate 1,000 parametric bootstrap samples with <span class="math inline">\(p = 0.5\)</span> as the proportion of Independents in support.</p>
+<div class="sourceCode" id="cb124"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/tidymodels/infer">infer</a></span><span class="op">)</span>
+
+<span class="va">nhp</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span><span class="op">(</span>opinion <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="st">"yes plan"</span>, <span class="fl">339</span><span class="op">)</span>,<span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="st">"no plan"</span>, <span class="fl">278</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>
+
+<span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">47</span><span class="op">)</span>
+<span class="va">null_dist</span> <span class="op">&lt;-</span> <span class="va">nhp</span> <span class="op"><a href="https://infer.tidymodels.org/reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="https://infer.tidymodels.org/reference/specify.html">specify</a></span><span class="op">(</span>response <span class="op">=</span> <span class="va">opinion</span>, success <span class="op">=</span> <span class="st">"yes plan"</span><span class="op">)</span> <span class="op"><a href="https://infer.tidymodels.org/reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="https://infer.tidymodels.org/reference/hypothesize.html">hypothesize</a></span><span class="op">(</span>null <span class="op">=</span> <span class="st">"point"</span>, p <span class="op">=</span> <span class="fl">0.50</span><span class="op">)</span> <span class="op"><a href="https://infer.tidymodels.org/reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="https://infer.tidymodels.org/reference/generate.html">generate</a></span><span class="op">(</span>reps <span class="op">=</span> <span class="fl">1000</span>, type <span class="op">=</span> <span class="st">"simulate"</span><span class="op">)</span> <span class="op"><a href="https://infer.tidymodels.org/reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="https://infer.tidymodels.org/reference/calculate.html">calculate</a></span><span class="op">(</span>stat <span class="op">=</span> <span class="st">"prop"</span><span class="op">)</span>
+
+<span class="va">null_dist</span> <span class="op"><a href="https://infer.tidymodels.org/reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">stat</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> 
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_histogram.html">geom_histogram</a></span><span class="op">(</span>binwidth <span class="op">=</span> <span class="fl">0.005</span>, fill <span class="op">=</span> <span class="va">IMSCOL</span><span class="op">[</span><span class="st">"green"</span>, <span class="st">"full"</span><span class="op">]</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>
+    title <span class="op">=</span> <span class="st">"1,000 parametric bootstrapped proportions"</span>,
+    subtitle <span class="op">=</span> <span class="st">"p = 0.50"</span>,
+    x <span class="op">=</span> <span class="st">"Bootstrapped proportion of\nthose who support a national health plan"</span>,
+    y <span class="op">=</span> <span class="st">"Count"</span>
+    <span class="op">)</span></code></pre></div>
+<div class="inline-figure"><img src="16-one-sample-prop_files/figure-html/unnamed-chunk-15-1.png" width="672"></div>
+<ol style="list-style-type: lower-alpha">
+<li><p>The histogram above displays 1000 values of what?</p></li>
+<li><p>Is the observed proportion of Independents consistent with the parametric bootstrap proportions under the setting where <span class="math inline">\(p=0.5?\)</span></p></li>
+<li><p>In order to test the claim that “a majority of Independents support a National Health Plan” what are the null and alternative hypotheses?</p></li>
+<li><p>Using the parametric bootstrap distribution, find the p-value and conclude the hypothesis test in the context of the problem.</p></li>
+</ol>
+<p></p>
+</li>
+<li>
+<p><strong>Statistics and employment, use the bootstrap.</strong>
+In a large university where 70% of the full-time students are employed at least 5 hours per week, the members of the Statistics Department wonder if the same proportion of their students work at least 5 hours per week. They randomly sample 25 majors and find that 15 of the students work 5 or more hours each week.</p>
+<p>Two bootstrap sampling distributions are created to describe the variability in the proportion of statistics majors who work at least 5 hours per week. The parametric bootstrap imposes a true population proportion of <span class="math inline">\(p=0.7\)</span> while the data bootstrap resamples from the actual data (which has 60% of the observations who work at least 5 hours per week).</p>
+<div class="sourceCode" id="cb125"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/tidymodels/infer">infer</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://openintrostat.github.io/openintro/">openintro</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://patchwork.data-imaginist.com">patchwork</a></span><span class="op">)</span>
+
+<span class="va">students</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span><span class="op">(</span>outside <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="st">"work"</span>, <span class="fl">15</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="st">"don't work"</span>, <span class="fl">10</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>
+
+<span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">47</span><span class="op">)</span>
+<span class="va">p_para</span> <span class="op">&lt;-</span> <span class="va">students</span> <span class="op"><a href="https://infer.tidymodels.org/reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="https://infer.tidymodels.org/reference/specify.html">specify</a></span><span class="op">(</span>response <span class="op">=</span> <span class="va">outside</span>, success <span class="op">=</span> <span class="st">"work"</span><span class="op">)</span> <span class="op"><a href="https://infer.tidymodels.org/reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="https://infer.tidymodels.org/reference/hypothesize.html">hypothesize</a></span><span class="op">(</span>null <span class="op">=</span> <span class="st">"point"</span>, p <span class="op">=</span> <span class="fl">0.7</span><span class="op">)</span> <span class="op"><a href="https://infer.tidymodels.org/reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="https://infer.tidymodels.org/reference/generate.html">generate</a></span><span class="op">(</span>reps <span class="op">=</span> <span class="fl">1000</span>, type <span class="op">=</span> <span class="st">"simulate"</span><span class="op">)</span> <span class="op"><a href="https://infer.tidymodels.org/reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="https://infer.tidymodels.org/reference/calculate.html">calculate</a></span><span class="op">(</span>stat <span class="op">=</span> <span class="st">"prop"</span><span class="op">)</span> <span class="op"><a href="https://infer.tidymodels.org/reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">stat</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> 
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_histogram.html">geom_histogram</a></span><span class="op">(</span>binwidth <span class="op">=</span> <span class="fl">0.05</span>, fill <span class="op">=</span> <span class="va">IMSCOL</span><span class="op">[</span><span class="st">"green"</span>, <span class="st">"full"</span><span class="op">]</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>
+    title <span class="op">=</span> <span class="st">"Parametric bootstrap"</span>,
+    subtitle <span class="op">=</span> <span class="st">"p = 0.7"</span>,
+    x <span class="op">=</span> <span class="st">"Bootstrapped proportion of\nthose who work"</span>,
+    y <span class="op">=</span> <span class="st">"Count"</span>
+  <span class="op">)</span>
+
+<span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">47</span><span class="op">)</span>
+<span class="va">p_data</span> <span class="op">&lt;-</span> <span class="va">students</span> <span class="op"><a href="https://infer.tidymodels.org/reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="https://infer.tidymodels.org/reference/specify.html">specify</a></span><span class="op">(</span>response <span class="op">=</span> <span class="va">outside</span>, success <span class="op">=</span> <span class="st">"work"</span><span class="op">)</span> <span class="op"><a href="https://infer.tidymodels.org/reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="https://infer.tidymodels.org/reference/generate.html">generate</a></span><span class="op">(</span>reps <span class="op">=</span> <span class="fl">1000</span>, type <span class="op">=</span> <span class="st">"bootstrap"</span><span class="op">)</span> <span class="op"><a href="https://infer.tidymodels.org/reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="https://infer.tidymodels.org/reference/calculate.html">calculate</a></span><span class="op">(</span>stat <span class="op">=</span> <span class="st">"prop"</span><span class="op">)</span> <span class="op"><a href="https://infer.tidymodels.org/reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">stat</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> 
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_histogram.html">geom_histogram</a></span><span class="op">(</span>binwidth <span class="op">=</span> <span class="fl">0.05</span>, fill <span class="op">=</span> <span class="va">IMSCOL</span><span class="op">[</span><span class="st">"green"</span>, <span class="st">"full"</span><span class="op">]</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>
+    title <span class="op">=</span> <span class="st">"Data bootstrap"</span>,
+    x <span class="op">=</span> <span class="st">"Bootstrapped proportion of\nthose who work"</span>,
+    y <span class="op">=</span> <span class="st">"Count"</span>
+  <span class="op">)</span>
+
+<span class="va">p_para</span> <span class="op">+</span> <span class="va">p_data</span></code></pre></div>
+<div class="inline-figure"><img src="16-one-sample-prop_files/figure-html/unnamed-chunk-16-1.png" width="100%"></div>
+<ol style="list-style-type: lower-alpha">
+<li><p>Which bootstrap distribution should be used to test whether the proportion of all statistics majors who work at least 5 hours per week is 70%? And which bootstrap distribution should be used to find a confidence interval for the true poportion of statistics majors who work at least 5 hours per week?</p></li>
+<li><p>Using the appropriate histogram, test the claim that 70% of statistics majors, like their peers, work at least 5 hours per week. State the null and alternative hypotheses, find the p-value, and conclude the test in the context of the problem.</p></li>
+<li><p>Using the appropriate histogram, find a 98% bootstrap percentile confidence interval for the true proportion of statistics majors who work at least 5 hours per week. Interpret the confidence interval in the context of the problem.</p></li>
+<li><p>Using the appropriate historgram, find a 98% bootstrap SE confidence interval for the true proportion of statistics majors who work at least 5 hours per week. Interpret the confidence interval in the context of the problem.</p></li>
+</ol>
+<p></p>
+</li>
+<li>
+<p><strong>CLT for proportions.</strong>
+Define the term “sampling distribution” of the sample proportion, and describe how the shape, center, and spread of the sampling distribution change as the sample size increases when <span class="math inline">\(p = 0.1\)</span>.</p>
+<p></p>
+</li>
+<li>
+<p><strong>Vegetarian college students.</strong>
+Suppose that 8% of college students are vegetarians. Determine if the following statements are true or false, and explain your reasoning.</p>
+<ol style="list-style-type: lower-alpha">
+<li><p>The distribution of the sample proportions of vegetarians in random samples of size 60 is approximately normal since <span class="math inline">\(n \ge 30\)</span>.</p></li>
+<li><p>The distribution of the sample proportions of vegetarian college students in random samples of size 50 is right skewed.</p></li>
+<li><p>A random sample of 125 college students where 12% are vegetarians would be considered unusual.</p></li>
+<li><p>A random sample of 250 college students where 12% are vegetarians would be considered unusual.</p></li>
+<li><p>The standard error would be reduced by one-half if we increased the sample size from 125 to 250.</p></li>
+</ol>
+</li>
+<li>
+<p><strong>Young Americans, American dream.</strong>
+About 77% of young adults think they can achieve the American dream.
+Determine if the following statements are true or false, and explain your reasoning.<span class="citation"><a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;&lt;span class="citeproc-not-found" data-reference-id="news:youngAmericans1"&gt;&lt;strong&gt;???&lt;/strong&gt;&lt;/span&gt;&lt;/p&gt;'><sup>106</sup></a></span></p>
+<ol style="list-style-type: lower-alpha">
+<li><p>The distribution of sample proportions of young Americans who think they can achieve the American dream in random samples of size 20 is left skewed.</p></li>
+<li><p>The distribution of sample proportions of young Americans who think they can achieve the American dream in random samples of size 40 is approximately normal since <span class="math inline">\(n \ge 30\)</span>.</p></li>
+<li><p>A random sample of 60 young Americans where 85% think they can achieve the American dream would be considered unusual.</p></li>
+<li><p>A random sample of 120 young Americans where 85% think they can achieve the American dream would be considered unusual.</p></li>
+</ol>
+</li>
+<li>
+<p><strong>Orange tabbies.</strong>
+Suppose that 90% of orange tabby cats are male.
+Determine if the following statements are true or false, and explain your reasoning.</p>
+<ol style="list-style-type: lower-alpha">
+<li><p>The distribution of sample proportions of random samples of size 30 is left skewed.</p></li>
+<li><p>Using a sample size that is 4 times as large will reduce the standard error of the sample proportion by one-half.</p></li>
+<li><p>The distribution of sample proportions of random samples of size 140 is approximately normal.</p></li>
+<li><p>The distribution of sample proportions of random samples of size 280 is approximately normal.</p></li>
+</ol>
+</li>
+<li>
+<p><strong>Young Americans, starting a family.</strong>
+About 25% of young Americans have delayed starting a family due to the continued economic slump.
+Determine if the following statements are true or false, and explain your reasoning.<span class="citation"><a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;&lt;span class="citeproc-not-found" data-reference-id="news:youngAmericans2"&gt;&lt;strong&gt;???&lt;/strong&gt;&lt;/span&gt;&lt;/p&gt;'><sup>107</sup></a></span></p>
+<ol style="list-style-type: lower-alpha">
+<li><p>The distribution of sample proportions of young Americans who have delayed starting a family due to the continued economic slump in random samples of size 12 is right skewed.</p></li>
+<li><p>In order for the distribution of sample proportions of young Americans who have delayed starting a family due to the continued economic slump to be approximately normal, we need random samples where the sample size is at least 40.</p></li>
+<li><p>A random sample of 50 young Americans where 20% have delayed starting a family due to the continued economic slump would be considered unusual.</p></li>
+<li><p>A random sample of 150 young Americans where 20% have delayed starting a family due to the continued economic slump would be considered unusual.</p></li>
+<li><p>Tripling the sample size will reduce the standard error of the sample proportion by one-third.</p></li>
+</ol>
+<p></p>
+</li>
+<li>
+<p><strong>Sex equality.</strong>
+The General Social Survey asked a random sample of 1,390 Americans the following question: “On the whole, do you think it should or should not be the government’s responsibility to promote equality between men and women?” 82% of the respondents said it “should be”. At a 95% confidence level, this sample has 2% margin of error. Based on this information, determine if the following statements are true or false, and explain your reasoning.<span class="citation"><a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;&lt;span class="citeproc-not-found" data-reference-id="data:gsssexeq"&gt;&lt;strong&gt;???&lt;/strong&gt;&lt;/span&gt;&lt;/p&gt;'><sup>108</sup></a></span></p>
+<ol style="list-style-type: lower-alpha">
+<li><p>We are 95% confident that between 80% and 84% of Americans in this sample think it’s the government’s responsibility to promote equality between men and women.</p></li>
+<li><p>We are 95% confident that between 80% and 84% of all Americans think it’s the government’s responsibility to promote equality between men and women.</p></li>
+<li><p>If we considered many random samples of 1,390 Americans, and we calculated 95% confidence intervals for each, 95% of these intervals would include the true population proportion of Americans who think it’s the government’s responsibility to promote equality between men and women.</p></li>
+<li><p>In order to decrease the margin of error to 1%, we would need to quadruple (multiply by 4) the sample size.</p></li>
+<li><p>Based on this confidence interval, there is sufficient evidence to conclude that a majority of Americans think it’s the government’s responsibility to promote equality between men and women.</p></li>
+</ol>
+<p></p>
+</li>
+<li>
+<p><strong>Elderly drivers.</strong>
+The Marist Poll published a report stating that 66% of adults nationally think licensed drivers should be required to retake their road test once they reach 65 years of age. It was also reported that interviews were conducted on a random sample of 1,018 American adults, and that the margin of error was 3% using a 95% confidence level.<span class="citation"><a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;&lt;span class="citeproc-not-found" data-reference-id="data:elderlyDriving"&gt;&lt;strong&gt;???&lt;/strong&gt;&lt;/span&gt;&lt;/p&gt;'><sup>109</sup></a></span></p>
+<ol style="list-style-type: lower-alpha">
+<li><p>Verify the margin of error reported by The Marist Poll using a mathematical model.</p></li>
+<li><p>Based on a 95% confidence interval, does the poll provide convincing evidence that <em>more than</em> two thirds of the population think that licensed drivers should be required to retake their road test once they turn 65?</p></li>
+</ol>
+<p></p>
+</li>
+<li>
+<p><strong>Fireworks on July 4<span class="math inline">\(^{\text{th}}\)</span>.</strong>
+A local news outlet reported that 56% of 600 randomly sampled Kansas residents planned to set off fireworks on July <span class="math inline">\(4^{th}\)</span>.
+Determine the margin of error for the 56% point estimate using a 95% confidence level using a mathematical model.<span class="citation"><a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;&lt;span class="citeproc-not-found" data-reference-id="data:july4"&gt;&lt;strong&gt;???&lt;/strong&gt;&lt;/span&gt;&lt;/p&gt;'><sup>110</sup></a></span></p>
+<p></p>
+</li>
+<li>
+<p><strong>Proof of COVID-19 vaccination.</strong>
+A Gallup poll surveyed 3,731 randomly sampled US in April 2021, asking how they felt about requiring proof of COVID-19 vaccination for travel by airplane.
+The poll found that 57% said they would favor it.<span class="citation"><a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;&lt;span class="citeproc-not-found" data-reference-id="data:gallupcovidvaccine"&gt;&lt;strong&gt;???&lt;/strong&gt;&lt;/span&gt;&lt;/p&gt;'><sup>111</sup></a></span></p>
+<ol style="list-style-type: lower-alpha">
+<li><p>Describe the population parameter of interest. What is the value of the point estimate of this parameter?</p></li>
+<li><p>Check if the conditions required for constructing a confidence interval using a mathematical model based on these data are met.</p></li>
+<li><p>Construct a 95% confidence interval for the proportion of US adults who favor requiring proof of COVID-19 vaccination for travel by airplane.</p></li>
+<li><p>Without doing any calculations, describe what would happen to the confidence interval if we decided to use a higher confidence level.</p></li>
+<li><p>Without doing any calculations, describe what would happen to the confidence interval if we used a larger sample.</p></li>
+</ol>
+<p></p>
+</li>
+<li>
+<p><strong>Study abroad.</strong>
+A survey on 1,509 high school seniors who took the SAT and who completed an optional web survey shows that 55% of high school seniors are fairly certain that they will participate in a study abroad program in college.<span class="citation"><a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;&lt;span class="citeproc-not-found" data-reference-id="data:studyAbroad"&gt;&lt;strong&gt;???&lt;/strong&gt;&lt;/span&gt;&lt;/p&gt;'><sup>112</sup></a></span></p>
+<ol style="list-style-type: lower-alpha">
+<li><p>Is this sample a representative sample from the population of all high school seniors in the US? Explain your reasoning.</p></li>
+<li><p>Let’s suppose the conditions for inference are met. Even if your answer to part (a) indicated that this approach would not be reliable, this analysis may still be interesting to carry out (though not report). Using a mathematical model, construct a 90% confidence interval for the proportion of high school seniors (of those who took the SAT) who are fairly certain they will participate in a study abroad program in college, and interpret this interval in context.</p></li>
+<li><p>What does “90% confidence” mean?</p></li>
+<li><p>Based on this interval, would it be appropriate to claim that the majority of high school seniors are fairly certain that they will participate in a study abroad program in college?</p></li>
+</ol>
+</li>
+<li>
+<p><strong>Legalization of marijuana, mathematical interval.</strong>
+The General Social Survey asked a random sample of 1,563 US adults: “Do you think the use of marijuana should be made legal, or not?” 60% of the respondents said it should be made legal.<span class="citation"><a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;&lt;span class="citeproc-not-found" data-reference-id="data:gssgrass"&gt;&lt;strong&gt;???&lt;/strong&gt;&lt;/span&gt;&lt;/p&gt;'><sup>113</sup></a></span></p>
+<ol style="list-style-type: lower-alpha">
+<li><p>Is 60% a sample statistic or a population parameter? Explain.</p></li>
+<li><p>Using a mathematical model, construct a 95% confidence interval for the proportion of US adults who think marijuana should be made legal, and interpret it.</p></li>
+<li><p>A critic points out that this 95% confidence interval is only accurate if the statistic follows a normal distribution, or if the normal model is a good approximation. Is this true for these data? Explain.</p></li>
+<li><p>A news piece on this survey’s findings states, “Majority of US adults think marijuana should be legalized.” Based on your confidence interval, is this statement justified?</p></li>
+</ol>
+</li>
+<li>
+<p><strong>National Health Plan, mathematical inference.</strong>
+A Kaiser Family Foundation poll for a random sample of US adults in 2019 found that 79% of Democrats, 55% of Independents, and 24% of Republicans supported a generic “National Health Plan”.
+There were 347 Democrats, 298 Republicans, and 617 Independents surveyed.<span class="citation"><a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;&lt;span class="citeproc-not-found" data-reference-id="data:KFF2019nathealthplan"&gt;&lt;strong&gt;???&lt;/strong&gt;&lt;/span&gt;&lt;/p&gt;'><sup>114</sup></a></span></p>
+<ol style="list-style-type: lower-alpha">
+<li><p>A political pundit on TV claims that a majority of Independents support a National Health Plan. Do these data provide strong evidence to support this type of statement? Your response should use a mathematical model.</p></li>
+<li><p>Would you expect a confidence interval for the proportion of Independents who oppose the public option plan to include 0.5? Explain.</p></li>
+</ol>
+</li>
+<li>
+<p><strong>Is college worth it?</strong>
+Among a simple random sample of 331 American adults who do not have a four-year college degree and are not currently enrolled in school, 48% said they decided not to go to college because they could not afford school.<span class="citation"><a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;&lt;span class="citeproc-not-found" data-reference-id="data:collegeWorthIt"&gt;&lt;strong&gt;???&lt;/strong&gt;&lt;/span&gt;&lt;/p&gt;'><sup>115</sup></a></span></p>
+<ol style="list-style-type: lower-alpha">
+<li><p>A newspaper article states that only a minority of the Americans who decide not to go to college do so because they cannot afford it and uses the point estimate from this survey as evidence. Conduct a hypothesis test to determine if these data provide strong evidence supporting this statement.</p></li>
+<li><p>Would you expect a confidence interval for the proportion of American adults who decide not to go to college because they cannot afford it to include 0.5? Explain.</p></li>
+</ol>
+<p></p>
+</li>
+<li>
+<p><strong>Taste test.</strong>
+Some people claim that they can tell the difference between a diet soda and a regular soda in the first sip.
+A researcher wanting to test this claim randomly sampled 80 such people.
+He then filled 80 plain white cups with soda, half diet and half regular through random assignment, and asked each person to take one sip from their cup and identify the soda as diet or regular.
+53 participants correctly identified the soda.</p>
+<ol style="list-style-type: lower-alpha">
+<li><p>Do these data provide strong evidence that these people are able to detect the difference between diet and regular soda, in other words, are the results significantly better than just random guessing? Your response should use a mathematical model.</p></li>
+<li><p>Interpret the p-value in this context.</p></li>
+</ol>
+<p></p>
+</li>
+<li>
+<p><strong>Will the coronavirus bring the world closer together?</strong>
+An April 2021 YouGov poll asked 4,265 UK adults whether they think the coronavirus bring the world closer together or leave us further apart.
+12% of the respondents said it will bring the world closer together. 37% said it would leave us further apart, 39% said it won’t make a difference and the remainder didn’t have an opinion on the matter.<span class="citation"><a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;&lt;span class="citeproc-not-found" data-reference-id="data:yougovcovid"&gt;&lt;strong&gt;???&lt;/strong&gt;&lt;/span&gt;&lt;/p&gt;'><sup>116</sup></a></span></p>
+<ol style="list-style-type: lower-alpha">
+<li><p>Calculate, using a mathematical model, a 90% confidence interval for the proportion of UK adults who think the coronavirus will bring the world closer together, and interpret the interval in context.</p></li>
+<li><p>Suppose we wanted the margin of error for the 90% confidence level to be about 0.5%. How large of a sample size would you recommend for the poll?</p></li>
+</ol>
+<p></p>
+</li>
+<li>
+<p><strong>Quality control.</strong>
+As part of a quality control process for computer chips, an engineer at a factory randomly samples 212 chips during a week of production to test the current rate of chips with severe defects.
+She finds that 27 of the chips are defective.</p>
+<ol style="list-style-type: lower-alpha">
+<li><p>What population is under consideration in the data set?</p></li>
+<li><p>What parameter is being estimated?</p></li>
+<li><p>What is the point estimate for the parameter?</p></li>
+<li><p>What is the name of the statistic that can be used to measure the uncertainty of the point estimate?</p></li>
+<li><p>Compute the value of the statistic from part (d) using a mathematical model.</p></li>
+<li><p>The historical rate of defects is 10%. Should the engineer be surprised by the observed rate of defects during the current week?</p></li>
+<li><p>Suppose the true population value was found to be 10%. If we use this proportion to recompute the value in part (d) using <span class="math inline">\(p = 0.1\)</span> instead of <span class="math inline">\(\hat{p}\)</span>, how much does the resulting value of the statistic change?</p></li>
+</ol>
+</li>
+<li><p><strong>Nearsighted children.</strong>
+Nearsightedness (myopia) is a common vision condition in which you can see objects near to you clearly, but objects farther away are blurry.
+It is believed that nearsightedness affects about 8% of all children.
+In a random sample of 194 children, 21 are nearsighted.
+Using a mathematical model, conduct a hypothesis test for the following question: do these data provide evidence that the 8% value is inaccurate?</p></li>
+<li>
+<p><strong>Website registration.</strong>
+A website is trying to increase registration for first-time visitors, exposing 1% of these visitors to a new site design.
+Of 752 randomly sampled visitors over a month who saw the new design, 64 registered.</p>
+<ol style="list-style-type: lower-alpha">
+<li><p>Check the conditions for constructing a confidence interval using a mathematical model.</p></li>
+<li><p>Compute the standard error which would describe the variability associated with repeated samples of size 752.</p></li>
+<li><p>Construct and interpret a 90% confidence interval for the fraction of first-time visitors of the site who would register under the new design (assuming stable behaviors by new visitors over time).</p></li>
+</ol>
+</li>
+<li><p><strong>Coupons driving visits.</strong>
+A store randomly samples 603 shoppers over the course of a year and finds that 142 of them made their visit because of a coupon they’d received in the mail.
+Using a mathematical model, construct a 95% confidence interval for the fraction of all shoppers during the year whose visit was because of a coupon they’d received in the mail.</p></li>
+</ol>
+</div>
+</div>
+<div id="chp16-exercises-sol" class="section level2">
+<h2>
+<span class="header-section-number">15.5</span> Solutions to odd numbered exercises<a class="anchor" aria-label="anchor" href="#chp16-exercises-sol"><i class="fas fa-link"></i></a>
+</h2>
+<div class="exercises-solution">
+<ol style="list-style-type: decimal">
+<li>First, the hypotheses should be about the population proportion (<span class="math inline">\(p\)</span>), not the sample proportion. Second, the null value should be what we are testing (0.25), not the observed value (0.29). The correct way to set up these hypotheses is: <span class="math inline">\(H_0: p = 0.25\)</span> and <span class="math inline">\(H_A: p &gt; 0.25.\)</span>
+</li>
+<li>(a) <span class="math inline">\(H_0 : p = 0.20,\)</span> <span class="math inline">\(H_A : p &gt; 0.20.\)</span> (b) <span class="math inline">\(\hat{p} = 159/650 = 0.245.\)</span> (c) Answers will vary. Each student can be represented with a card. Take 100 cards, 20 black cards representing those who support proposals to defund police departments and 80 red cards representing those who do not. Shuffle the cards and draw with replacement (shuffling each time in between draws) 650 cards representing the 650 respondents to the poll. Calculate the proportion of black cards in this sample, <span class="math inline">\(\hat{p}_{sim},\)</span> i.e., the proportion of those who upport proposals to defund police departments. The p-value will be the proportion of simulations where <span class="math inline">\(\hat{p}_{sim} \geq 0.245.\)</span> (Note: We would generally use a computer to perform the simulations.) (d) There 1 only one simulated proportion that is at least 0.245, therefore the approximate p-value is 0.001. Your p-value may vary slightly since it is based on a visual estimate. Since the p-value is smaller than 0.05, we reject <span class="math inline">\(H_0.\)</span> The data provide convincing evidence that the proportion of Seattle adults who support proposals to defund police departments is greater than 0.20, i.e. more than one in five.</li>
+<li>(a) <span class="math inline">\(H_0: p = 0.5\)</span>, <span class="math inline">\(H_A: p \ne 0.5\)</span>. (b) The p-value is roughly 0.4, There is not evidence in the data (possibly because there are only 7 cats being measured!) to conclude that the cats have a preference one way or the other between the two shapes.</li>
+<li>(a) <span class="math inline">\(SE(\hat{p}) = 0.189\)</span>. (c) Roughly 0.188. (c) Yes. (d) No. (e) The parametric bootstrap is discrete (only a few distinct options) and the mathematical model is continuous (infinite options on a continuum).</li>
+<li>(a) The parametric bootstrap simulation was done with <span class="math inline">\(p=0.7\)</span>, and the data bootstrap simulation was done with <span class="math inline">\(p = 0.6.\)</span> (b) The parametric bootstrap is centered at 0.7; the data bootstrap is centered at 0.6. (c) The standard error of the sample proportion is given to be roughly 0.1 for both histograms. (d) Both histograms are reasonably symmetric. Note that histograms which describe the variability of proportions become more skewed as the center of the distribution gets closer to 1 (or zero) because the boundary of 1.0 restricts the symmetry of the tail of the distribution. For this reason, the parametric bootstrap histogram is slightly more skewed (left).</li>
+<li>(a) The parametric bootstrap for testing. The data bootstrap distribution for confidence intervals. (b) <span class="math inline">\(H_0: p = 0.7;\)</span> <span class="math inline">\(H_A: p \ne 0.7.\)</span> p-value <span class="math inline">\(&gt; 0.05.\)</span> There is no evidence that the proportion of full-time statistics majors who work is different from 70%. (c) We are 98% confident that the true proportion of all full-time student statistics majors who work at least 5 hours per week is between 35% and 80%. (d) Using <span class="math inline">\(z^\star = 2.33\)</span>, the 98% confidence interval is 0.367 to 0.833.</li>
+<li>(a)  False. Doesn’t satisfy success-failure condition. (b) True. The success-failure condition is not satisfied. In most samples we would expect <span class="math inline">\(\hat{p}\)</span> to be close to 0.08, the true population proportion. While <span class="math inline">\(\hat{p}\)</span> can be much above 0.08, it is bound below by 0, suggesting it would take on a right skewed shape. Plotting the sampling distribution would confirm this suspicion. (c) False. <span class="math inline">\(SE_{\hat{p}} = 0.0243\)</span>, and <span class="math inline">\(\hat{p} = 0.12\)</span> is only <span class="math inline">\(\frac{0.12 - 0.08}{0.0243} = 1.65\)</span> SEs away from the mean, which would not be considered unusual. (d) True. <span class="math inline">\(\hat{p}=0.12\)</span> is 2.32 standard errors away from the mean, which is often considered unusual. (e) False. Decreases the SE by a factor of <span class="math inline">\(1/\sqrt{2}\)</span>.</li>
+<li>(a)  True. See the reasoning of 6.1(b). (b) True. We take the square root of the sample size in the SE formula. (c) True. The independence and success-failure conditions are satisfied. (d) True. The independence and success-failure conditions are satisfied.</li>
+<li>(a)  False. A confidence interval is constructed to estimate the population proportion, not the sample proportion. (b) True. 95% CI: <span class="math inline">\(82\%\ \pm\ 2\%\)</span>. (c) True. By the definition of the confidence level. (d) True. Quadrupling the sample size decreases the SE and ME by a factor of <span class="math inline">\(1/\sqrt{4}\)</span>. (e) True. The 95% CI is entirely above 50%.</li>
+<li>With a random sample, independence is satisfied. The success-failure condition is also satisfied. <span class="math inline">\(ME = z^{\star} \sqrt{ \frac{\hat{p} (1-\hat{p})} {n} } = 1.96 \sqrt{ \frac{0.56 \times 0.44}{600} }= 0.0397 \approx 4\%.\)</span>
+</li>
+<li>(a)  No. The sample only represents students who took the SAT, and this was also an online survey. (b) (0.5289, 0.5711). We are 90% confident that 53% to 57% of high school seniors who took the SAT are fairly certain that they will participate in a study abroad program in college. (c) 90% of such random samples would produce a 90% confidence interval that includes the true proportion. (d) Yes. The interval lies entirely above 50%.</li>
+<li>(a)  We want to check for a majority (or minority), so we use the following hypotheses: <span class="math inline">\(H_0: p = 0.5\)</span> and <span class="math inline">\(H_A: p \neq 0.5\)</span>. We have a sample proportion of <span class="math inline">\(\hat{p} = 0.55\)</span> and a sample size of <span class="math inline">\(n = 617\)</span> independents. Since this is a random sample, independence is satisfied. The success-failure condition is also satisfied: <span class="math inline">\(617 \times 0.5\)</span> and <span class="math inline">\(617 \times (1 - 0.5)\)</span> are both at least 10 (we use the null proportion <span class="math inline">\(p_0 = 0.5\)</span> for this check in a one-proportion hypothesis test). Therefore, we can model <span class="math inline">\(\hat{p}\)</span> using a normal distribution with a standard error of <span class="math inline">\(SE = \sqrt{\frac{p(1 - p)}{n}} = 0.02\)</span>. (We use the null proportion <span class="math inline">\(p_0 = 0.5\)</span> to compute the standard error for a one-proportion hypothesis test.) Next, we compute the test statistic: <span class="math inline">\(Z = \frac{0.55 - 0.5}{0.02} = 2.5.\)</span> This yields a one-tail area of 0.0062, and a p-value of <span class="math inline">\(2 \times 0.0062 = 0.0124.\)</span> Because the p-value is smaller than 0.05, we reject the null hypothesis. We have strong evidence that the support is different from 0.5, and since the data provide a point estimate above 0.5, we have strong evidence to support this claim by the TV pundit. (b) No. Generally we expect a hypothesis test and a confidence interval to align, so we would expect the confidence interval to show a range of plausible values entirely above 0.5. However, if the confidence level is misaligned (e.g., a 99% confidence level and a <span class="math inline">\(\alpha = 0.05\)</span> significance level), then this is no longer generally true.</li>
+<li>(a)  <span class="math inline">\(H_0: p = 0.5\)</span>. <span class="math inline">\(H_A: p &gt; 0.5\)</span>. Independence (random sample, <span class="math inline">\(&lt;10\%\)</span> of population) is satisfied, as is the success-failure conditions (using <span class="math inline">\(p_0 = 0.5\)</span>, we expect 40 successes and 40 failures). <span class="math inline">\(Z = 2.91\)</span> <span class="math inline">\(\to\)</span> p- value <span class="math inline">\(= 0.0018\)</span>. Since the p-value <span class="math inline">\(&lt; 0.05\)</span>, we reject the null hypothesis. The data provide strong evidence that the rate of correctly identifying a soda for these people is significantly better than just by random guessing. (b) If in fact people cannot tell the difference between diet and regular soda and they randomly guess, the probability of getting a random sample of 80 people where 53 or more identify a soda correctly would be 0.0018.</li>
+<li>(a) The sample is from all computer chips manufactured at the factory during the week of production. We might be tempted to generalize the population to represent all weeks, but we should exercise caution here since the rate of defects may change over time. (b) The fraction of computer chips manufactured at the factory during the week of production that had defects. (c) Estimate the parameter using the data: <span class="math inline">\(\hat{p} = \frac{27}{212} = 0.127\)</span>. (d) <em>Standard error</em> (or <span class="math inline">\(SE\)</span>). (e) Compute the <span class="math inline">\(SE\)</span> using <span class="math inline">\(\hat{p} = 0.127\)</span> in place of <span class="math inline">\(p\)</span>: <span class="math inline">\(SE \approx \sqrt{\frac{\hat{p}(1 - \hat{p})}{n}} = \sqrt{\frac{0.127(1 - 0.127)}{212}} = 0.023\)</span>. (f) The standard error is the standard deviation of <span class="math inline">\(\hat{p}\)</span>. A value of 0.10 would be about one standard error away from the observed value, which would not represent a very uncommon deviation. (Usually beyond about 2 standard errors is a good rule of thumb.) The engineer should not be surprised. (g) Recomputed standard error using <span class="math inline">\(p = 0.1\)</span>: <span class="math inline">\(SE = \sqrt{\frac{0.1(1 - 0.1)}{212}} = 0.021\)</span>. This value isn’t very different, which is typical when the standard error is computed using relatively similar proportions (and even sometimes when those proportions are quite different!).</li>
+<li>(a) The visitors are from a simple random sample, so independence is satisfied. The success-failure condition is also satisfied, with both 64 and <span class="math inline">\(752 - 64 = 688\)</span> above 10. Therefore, we can use a normal distribution to model <span class="math inline">\(\hat{p}\)</span> and construct a confidence interval. (b) The sample proportion is <span class="math inline">\(\hat{p} = \frac{64}{752} = 0.085\)</span>. The standard error is <span class="math inline">\(SE = \sqrt{\frac{0.085 (1 - 0.085)}{752}} = 0.010.\)</span> (c) For a 90% confidence interval, use <span class="math inline">\(z^{\star} = 1.65\)</span>. The confidence interval is <span class="math inline">\(0.085 \pm 1.65 \times 0.010 \to (0.0685, 0.1015)\)</span>. We are 90% confident that 6.85% to 10.15% of first-time site visitors will register using the new design.</li>
+</ol>
+</div>
+
+</div>
+</div>
+
+
+
+
+  <div class="chapter-nav">
+<div class="prev"><a href="ChapBinom.html"><span class="header-section-number">14</span> Binomial Random Variable</a></div>
+<div class="next"><a href="install.html"><span class="header-section-number">16</span> Installing R and RStudio</a></div>
+</div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
+    <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
+      <ul class="nav navbar-nav">
+<li><a class="nav-link" href="#inference-one-prop"><span class="header-section-number">15</span> Inference for a single proportion</a></li>
+<li>
+<a class="nav-link" href="#one-prop-null-boot"><span class="header-section-number">15.1</span> Bootstrap test for a proportion</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#observed-data-3"><span class="header-section-number">15.1.1</span> Observed data</a></li>
+<li><a class="nav-link" href="#variability-of-the-statistic-3"><span class="header-section-number">15.1.2</span> Variability of the statistic</a></li>
+<li><a class="nav-link" href="#observed-statistic-vs.-null-statistics"><span class="header-section-number">15.1.3</span> Observed statistic vs. null statistics</a></li>
+</ul>
+</li>
+<li>
+<a class="nav-link" href="#one-prop-norm"><span class="header-section-number">15.2</span> Mathematical model for a proportion</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#conditions"><span class="header-section-number">15.2.1</span> Conditions</a></li>
+<li><a class="nav-link" href="#confidence-interval-for-a-proportion"><span class="header-section-number">15.2.2</span> Confidence interval for a proportion</a></li>
+<li><a class="nav-link" href="#variability-of-the-sample-proportion"><span class="header-section-number">15.2.3</span> Variability of the sample proportion</a></li>
+<li><a class="nav-link" href="#changing-the-confidence-level"><span class="header-section-number">15.2.4</span> Changing the confidence level</a></li>
+<li><a class="nav-link" href="#hypothesis-test-for-a-proportion"><span class="header-section-number">15.2.5</span> Hypothesis test for a proportion</a></li>
+<li><a class="nav-link" href="#violating-conditions"><span class="header-section-number">15.2.6</span> Violating conditions</a></li>
+</ul>
+</li>
+<li>
+<a class="nav-link" href="#chp16-review"><span class="header-section-number">15.3</span> Chapter review</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#summary-7"><span class="header-section-number">15.3.1</span> Summary</a></li>
+<li><a class="nav-link" href="#terms-2"><span class="header-section-number">15.3.2</span> Terms</a></li>
+</ul>
+</li>
+<li><a class="nav-link" href="#chp16-exercises"><span class="header-section-number">15.4</span> Exercises</a></li>
+<li><a class="nav-link" href="#chp16-exercises-sol"><span class="header-section-number">15.5</span> Solutions to odd numbered exercises</a></li>
+</ul>
+
+      <div class="book-extra">
+        <ul class="list-unstyled">
+          
+        </ul>
+</div>
+    </nav>
+</div>
+
+</div>
+</div> <!-- .container -->
+
+<footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>"<strong>EPIB607</strong>" was written by Sahir Bhatnagar and James A Hanley. It was last built on 2021-12-07.</p>
+  </div>
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>This book was built by the <a class="text-light" href="https://bookdown.org">bookdown</a> R package.</p>
+  </div>
+
+</div></div>
+</footer><!-- dynamically load mathjax for compatibility with self-contained --><script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script><script type="text/x-mathjax-config">const popovers = document.querySelectorAll('a.footnote-ref[data-toggle="popover"]');
+for (let popover of popovers) {
+  const div = document.createElement('div');
+  div.setAttribute('style', 'position: absolute; top: 0, left:0; width:0, height:0, overflow: hidden; visibility: hidden;');
+  div.innerHTML = popover.getAttribute('data-content');
+
+  var has_math = div.querySelector("span.math");
+  if (has_math) {
+    document.body.appendChild(div);
+    MathJax.Hub.Queue(["Typeset", MathJax.Hub, div]);
+    MathJax.Hub.Queue(function() {
+      popover.setAttribute('data-content', div.innerHTML);
+      document.body.removeChild(div);
+    })
+  }
+}
+</script>
+</body>
+</html>

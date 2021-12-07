@@ -1,0 +1,839 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>Chapter 9 The Normal Random Variable | EPIB607</title>
+<meta name="author" content="Sahir Bhatnagar and James A Hanley">
+<meta name="description" content="9.1 Student Learning Objective This chapter introduces a very important bell-shaped distribution known as the Normal distribution. Computations associated with this distribution are discussed,...">
+<meta name="generator" content="bookdown 0.24 with bs4_book()">
+<meta property="og:title" content="Chapter 9 The Normal Random Variable | EPIB607">
+<meta property="og:type" content="book">
+<meta property="og:url" content="https://sahirbhatnagar.com/EPIB607/ChapNormal.html">
+<meta property="og:description" content="9.1 Student Learning Objective This chapter introduces a very important bell-shaped distribution known as the Normal distribution. Computations associated with this distribution are discussed,...">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Chapter 9 The Normal Random Variable | EPIB607">
+<meta name="twitter:description" content="9.1 Student Learning Objective This chapter introduces a very important bell-shaped distribution known as the Normal distribution. Computations associated with this distribution are discussed,...">
+<!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
+<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.3.1/transition.js"></script><script src="libs/bs3compat-0.3.1/tabs.js"></script><script src="libs/bs3compat-0.3.1/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
+<script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script><script src="libs/kePrint-0.0.1/kePrint.js"></script><link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet">
+<link href="libs/bsTable-3.3.7/bootstrapTable.min.css" rel="stylesheet">
+<script src="libs/bsTable-3.3.7/bootstrapTable.js"></script><script src="libs/htmlwidgets-1.5.4/htmlwidgets.js"></script><link href="libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet">
+<script src="libs/datatables-binding-0.20/datatables.js"></script><link href="libs/dt-core-1.11.3/css/jquery.dataTables.min.css" rel="stylesheet">
+<link href="libs/dt-core-1.11.3/css/jquery.dataTables.extra.css" rel="stylesheet">
+<script src="libs/dt-core-1.11.3/js/jquery.dataTables.min.js"></script><link href="libs/crosstalk-1.2.0/css/crosstalk.min.css" rel="stylesheet">
+<script src="libs/crosstalk-1.2.0/js/crosstalk.min.js"></script><link href="libs/nouislider-7.0.10/jquery.nouislider.min.css" rel="stylesheet">
+<script src="libs/nouislider-7.0.10/jquery.nouislider.min.js"></script><link href="libs/selectize-0.12.0/selectize.bootstrap3.css" rel="stylesheet">
+<script src="libs/selectize-0.12.0/selectize.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- CSS --><link rel="stylesheet" href="templates/bs4_style.css">
+<link rel="stylesheet" href="templates/ims-style.css">
+<link rel="stylesheet" href="templates/corrections.css">
+</head>
+<body data-spy="scroll" data-target="#toc">
+
+<div class="container-fluid">
+<div class="row">
+  <header class="col-sm-12 col-lg-3 sidebar sidebar-book"><a class="sr-only sr-only-focusable" href="#content">Skip to main content</a>
+
+    <div class="d-flex align-items-start justify-content-between">
+      <h1>
+        <a href="index.html" title="">EPIB607</a>
+      </h1>
+      <button class="btn btn-outline-primary d-lg-none ml-2 mt-1" type="button" data-toggle="collapse" data-target="#main-nav" aria-expanded="true" aria-controls="main-nav"><i class="fas fa-bars"></i><span class="sr-only">Show table of contents</span></button>
+    </div>
+
+    <div id="main-nav" class="collapse-lg">
+      <form role="search">
+        <input id="search" class="form-control" type="search" placeholder="Search" aria-label="Search">
+</form>
+
+      <nav aria-label="Table of contents"><h2>Table of contents</h2>
+        <ul class="book-toc list-unstyled">
+<li><a class="" href="index.html">Preface</a></li>
+<li><a class="" href="schedule.html">Schedule</a></li>
+<li><a class="" href="syllabus.html">Syllabus</a></li>
+<li class="book-part">Descriptive Statistics</li>
+<li><a class="" href="introdata.html"><span class="header-section-number">1</span> Introduction to Data</a></li>
+<li><a class="" href="aesthetic-mapping.html"><span class="header-section-number">2</span> Visualizing data: Mapping data onto aesthetics</a></li>
+<li><a class="" href="coordinate-systems-axes.html"><span class="header-section-number">3</span> Coordinate systems and axes</a></li>
+<li><a class="" href="ggplot2-package-for-plots.html"><span class="header-section-number">4</span> ggplot2 package for plots</a></li>
+<li><a class="" href="color-basics.html"><span class="header-section-number">5</span> Color scales</a></li>
+<li class="book-part">Sampling Distributions</li>
+<li><a class="" href="paras.html"><span class="header-section-number">6</span> Statistical Parameters</a></li>
+<li><a class="" href="ChapProbability.html"><span class="header-section-number">7</span> Probability</a></li>
+<li><a class="" href="randomVariables.html"><span class="header-section-number">8</span> Random Variables</a></li>
+<li><a class="active" href="ChapNormal.html"><span class="header-section-number">9</span> The Normal Random Variable</a></li>
+<li><a class="" href="ChapSampDist.html"><span class="header-section-number">10</span> The Sampling Distribution</a></li>
+<li><a class="" href="CI.html"><span class="header-section-number">11</span> Parameter Intervals</a></li>
+<li><a class="" href="foundations-bootstrapping.html"><span class="header-section-number">12</span> Confidence intervals with bootstrapping</a></li>
+<li class="book-part">One Sample Inference</li>
+<li><a class="" href="inference-one-mean.html"><span class="header-section-number">13</span> Inference for a single mean</a></li>
+<li><a class="" href="ChapBinom.html"><span class="header-section-number">14</span> Binomial Random Variable</a></li>
+<li><a class="" href="inference-one-prop.html"><span class="header-section-number">15</span> Inference for a single proportion</a></li>
+<li class="book-part">Computing</li>
+<li><a class="" href="install.html"><span class="header-section-number">16</span> Installing R and RStudio</a></li>
+<li><a class="" href="basics.html"><span class="header-section-number">17</span> Basics of R and Rstudio</a></li>
+<li><a class="" href="projects.html"><span class="header-section-number">18</span> RStudio Projects</a></li>
+<li><a class="" href="functionsHOP.html"><span class="header-section-number">19</span> Functions</a></li>
+<li><a class="" href="packages.html"><span class="header-section-number">20</span> Packages</a></li>
+<li><a class="" href="import.html"><span class="header-section-number">21</span> Data Import and Export</a></li>
+<li><a class="" href="transition-to-r-from-excel-stata-sas.html"><span class="header-section-number">22</span> Transition to R from Excel, Stata, SAS</a></li>
+<li><a class="" href="references.html">References</a></li>
+</ul>
+
+        <div class="book-extra">
+          
+        </div>
+      </nav>
+</div>
+  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="ChapNormal" class="section level1">
+<h1>
+<span class="header-section-number">9</span> The Normal Random Variable<a class="anchor" aria-label="anchor" href="#ChapNormal"><i class="fas fa-link"></i></a>
+</h1>
+<div id="student-learning-objective-1" class="section level2">
+<h2>
+<span class="header-section-number">9.1</span> Student Learning Objective<a class="anchor" aria-label="anchor" href="#student-learning-objective-1"><i class="fas fa-link"></i></a>
+</h2>
+<p>This chapter introduces a very important bell-shaped distribution known
+as the Normal distribution. Computations associated with this
+distribution are discussed, including the percentiles of the
+distribution and the identification of intervals of subscribed
+probability. The Normal distribution may serve as an approximation to
+other distributions. We demonstrate this property by showing that under
+appropriate conditions the Binomial distribution can be approximated by
+the Normal distribution. This property of the Normal distribution will
+be picked up in the next chapter where the mathematical theory that
+establishes the Normal approximation is demonstrated. By the end of this
+chapter, the student should be able to:</p>
+<ul>
+<li><p>Understand the <code>pnorm</code> and <code>qnorm</code> functions</p></li>
+<li><p>Recognize the Normal density and apply <code>R</code> functions for computing
+Normal probabilities and percentiles.</p></li>
+<li><p>Associate the distribution of a Normal random variable with that of
+its standardized counterpart, which is obtained by centering and
+re-scaling.</p></li>
+<li><p>Use the Normal distribution to approximate the Binomial
+distribution.</p></li>
+</ul>
+</div>
+<div id="the-normal-random-variable" class="section level2">
+<h2>
+<span class="header-section-number">9.2</span> The Normal Random Variable<a class="anchor" aria-label="anchor" href="#the-normal-random-variable"><i class="fas fa-link"></i></a>
+</h2>
+<p>The Normal distribution is the most important of all distributions that
+are used in statistics. In many cases it serves as a generic model for
+the distribution of a measurement. Moreover, even in cases where the
+measurement is modeled by other distributions (i.e. Binomial, Poisson,
+Uniform, Exponential, etc.) the Normal distribution emerges as an
+approximation of the distribution of numerical characteristics of the
+data produced by such measurements.</p>
+<div id="the-normal-distribution" class="section level3">
+<h3>
+<span class="header-section-number">9.2.1</span> The Normal Distribution<a class="anchor" aria-label="anchor" href="#the-normal-distribution"><i class="fas fa-link"></i></a>
+</h3>
+<p>A Normal random variable has a continuous distribution over the sample
+space of all numbers, negative or positive. We denote the Normal
+distribution via <span class="math inline">\(Y \sim \mathrm{Normal}(\mu, \sigma)\)</span>, where
+<span class="math inline">\(\mu = \operatorname{E}(Y)\)</span> is the expectation of the random variable and
+<span class="math inline">\(\sigma = \sqrt{\operatorname{Var}(Y)}\)</span> is it’s standard deviation<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;If &lt;span class="math inline"&gt;\(Y \sim \mbox{Normal}(\mu,\sigma)\)&lt;/span&gt; then the density of &lt;span class="math inline"&gt;\(Y\)&lt;/span&gt; is
+given by the formula
+&lt;span class="math inline"&gt;\(f(y) = \exp\{-\frac{(y-\mu)^2}{2 \sigma^2}\}/\sqrt{2 \pi \sigma^2}\)&lt;/span&gt;,
+for all &lt;span class="math inline"&gt;\(y\)&lt;/span&gt;.&lt;/p&gt;'><sup>55</sup></a>.</p>
+<p>Consider, for example, <span class="math inline">\(Y \sim \mathrm{Normal}(\mu=2,\sigma=3)\)</span>. The density of the
+distribution is presented in Figure <a href="ChapNormal.html#fig:Normal1">9.1</a>. Observe that the
+distribution is symmetric about the expectation 2. The random variable
+is more likely to obtain its value in the vicinity of the expectation.
+Values much larger or much smaller than the expectation are
+substantially less likely.</p>
+<div class="figure" style="text-align: center">
+<span style="display:block;" id="fig:Normal1"></span>
+<img src="10-gaussian-rv_files/figure-html/Normal1-1.png" alt="The Normal(2,3) Distribution" width="672"><p class="caption">
+Figure 9.1: The Normal(2,3) Distribution
+</p>
+</div>
+<p>The density of the Normal distribution can be computed with the aid of
+the function <code>dnorm</code>. The cumulative probability can be computed with
+the function <code>pnorm</code>. For illustrating the use of the latter function,
+assume that <span class="math inline">\(Y \sim \mathrm{Normal}(2,3)\)</span>. Say one is interested in the
+computation of the probability <span class="math inline">\(\operatorname{P}(0 &lt; Y \leq 5)\)</span> that the random
+variable obtains a value that belongs to the interval <span class="math inline">\((0,5]\)</span>. The
+required probability is indicated by the marked area in
+Figure <a href="ChapNormal.html#fig:Normal1">9.1</a>. This area can be computed as the difference
+between the probability <span class="math inline">\(\operatorname{P}(Y \leq 5)\)</span>, the area to the left of 5,
+and the probability <span class="math inline">\(\operatorname{P}(Y \leq 0)\)</span>, the area to the left of 0:</p>
+<div class="sourceCode" id="cb64"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">pnorm</a></span><span class="op">(</span>q <span class="op">=</span> <span class="fl">5</span>, mean <span class="op">=</span> <span class="fl">2</span>, sd <span class="op">=</span> <span class="fl">3</span><span class="op">)</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">pnorm</a></span><span class="op">(</span>q <span class="op">=</span> <span class="fl">0</span>, mean <span class="op">=</span> <span class="fl">2</span>, sd <span class="op">=</span> <span class="fl">3</span><span class="op">)</span>
+<span class="co">#&gt; [1] 0.5888522</span></code></pre></div>
+<p>The difference is the indicated area that corresponds to the probability
+of being inside the interval, which turns out to be approximately equal
+to 0.589. Notice that the expectation <span class="math inline">\(\mu\)</span> of the Normal distribution
+is entered as the second argument to the function. The third argument to
+the function is the standard deviation, i.e. the square root of the
+variance.</p>
+<p>We can alternatively use the <code>mosaic</code> R package to compute this probability, which also outputs a graph by default:</p>
+<div class="sourceCode" id="cb65"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">mosaic</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/mosaic/man/xpnorm.html">xpnorm</a></span><span class="op">(</span>q <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">5</span><span class="op">)</span>, mean <span class="op">=</span> <span class="fl">2</span>, sd <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></code></pre></div>
+<div class="inline-figure"><img src="10-gaussian-rv_files/figure-html/unnamed-chunk-2-1.png" width="672"></div>
+<pre><code>#&gt; [1] 0.2524925 0.8413447</code></pre>
+<p>Figure <a href="ChapNormal.html#fig:Normal2">9.2</a> displays the densities of the Normal
+distribution for the combinations <span class="math inline">\(\mu= 0\)</span>, <span class="math inline">\(\sigma = 1\)</span> (the <em>red</em>
+line); <span class="math inline">\(\mu = 2\)</span>, <span class="math inline">\(\sigma = 3\)</span> (the <em>black</em> line); and <span class="math inline">\(\mu = -3\)</span>,
+<span class="math inline">\(\sigma = 1/2\)</span> (the <em>green</em> line). Observe that the smaller the
+variance the more concentrated is the distribution of the random
+variable about the expectation.</p>
+<div class="figure" style="text-align: center">
+<span style="display:block;" id="fig:Normal2"></span>
+<img src="10-gaussian-rv_files/figure-html/Normal2-1.png" alt="The Normal Distribution for Various Values of $\mu$ and $\sigma$" width="672"><p class="caption">
+Figure 9.2: The Normal Distribution for Various Values of <span class="math inline">\(\mu\)</span> and <span class="math inline">\(\sigma\)</span>
+</p>
+</div>
+
+<div class="example">
+<span id="exm:exnormal1" class="example"><strong>Example 9.1  </strong></span>IQ tests are a popular (and controversial) mean for
+measuring intelligence. They are produced as (weighted) average of a
+response to a long list of questions, designed to test different
+abilities. The score of the test across the entire population is set to
+be equal to 100 and the standard deviation is set to 15. The
+distribution of the score is Normal. Hence, if <span class="math inline">\(Y\)</span> is the IQ score of a
+random subject then <span class="math inline">\(Y \sim \mathrm{Normal}(100,15)\)</span>.
+</div>
+
+
+<div class="example">
+<span id="exm:exnormal2" class="example"><strong>Example 9.2  </strong></span>Any measurement that is produced as a result of the
+combination of many independent influencing factors is likely to poses
+the Normal distribution. For example, the hight of a person is
+influenced both by genetics and by the environment in which that person
+grew up. Both the genetic and the environmental influences are a
+combination of many factors. Thereby, it should not come as a surprise
+that the heights of people in a population tend to follow the Normal
+distribution.
+</div>
+
+</div>
+<div id="the-standard-normal-distribution" class="section level3">
+<h3>
+<span class="header-section-number">9.2.2</span> The Standard Normal Distribution<a class="anchor" aria-label="anchor" href="#the-standard-normal-distribution"><i class="fas fa-link"></i></a>
+</h3>
+<p>The standard normal distribution is a normal distribution of
+standardized values, which are called <span class="math inline">\(z\)</span>-scores. A <span class="math inline">\(z\)</span>-score is the
+original measurement measured in units of the standard deviation from
+the expectation. For example, if the expectation of a Normal
+distribution is 2 and the standard deviation is <span class="math inline">\(3 = \sqrt{9}\)</span>, then the
+value of 0 is 2/3 standard deviations smaller than (or to the left of)
+the expectation. Hence, the <span class="math inline">\(z\)</span>-score of the value 0 is -2/3.</p>
+<p>The standard Normal distribution is the distribution of a standardized
+Normal measurement. The expectation for the standard Normal distribution
+is 0 and the variance is 1. When <span class="math inline">\(Y \sim N(\mu,\sigma)\)</span> has a Normal
+distribution with expectation <span class="math inline">\(\mu\)</span> and standard deviation <span class="math inline">\(\sigma\)</span> then the
+transformed random variable <span class="math inline">\(Z = (Y-\mu)/\sigma\)</span> produces the standard
+Normal distribution <span class="math inline">\(Z\sim N(0,1)\)</span>. The transformation corresponds to
+the re-expression of the original measurement in terms of a new “zero”
+and a new unit of measurement. The new “zero” is the expectation of the
+original measurement and the new unit is the standard deviation of the
+original measurement.</p>
+<p>Computation of probabilities associated with a Normal random variable
+<span class="math inline">\(Y\)</span> can be carried out with the aid of the standard Normal distribution.
+For example, consider the computation of the probability
+<span class="math inline">\(\operatorname{P}(0 &lt; Y \leq 5)\)</span> for <span class="math inline">\(Y \sim N(2, 3)\)</span>, that has expectation <span class="math inline">\(\mu=2\)</span>
+and standard deviation <span class="math inline">\(\sigma = 3\)</span>. Consider <span class="math inline">\(Y\)</span>’s standardized values:
+<span class="math inline">\(Z = (Y-2)/3\)</span>. The boundaries of the interval <span class="math inline">\([0,5]\)</span>, namely <span class="math inline">\(0\)</span> and
+<span class="math inline">\(5\)</span>, have standardized <span class="math inline">\(z\)</span>-scores of <span class="math inline">\((0-2)/3=-2/3\)</span> and <span class="math inline">\((5-2)/3 =1\)</span>,
+respectively. Clearly, the original measurement <span class="math inline">\(Y\)</span> falls between the
+original boundaries (<span class="math inline">\(0 &lt; Y \leq 5\)</span>) if, and only if, the standardized
+measurement <span class="math inline">\(Z\)</span> falls between the standardized boundaries
+(<span class="math inline">\(-2/3 &lt; Z \leq 1\)</span>). Therefore, the probability that <span class="math inline">\(Y\)</span> obtains a value
+in the range <span class="math inline">\([0,5]\)</span> is equal to the probability that <span class="math inline">\(Y\)</span> obtains a
+value in the range <span class="math inline">\([-2/3,1]\)</span>.</p>
+<div class="figure" style="text-align: center">
+<span style="display:block;" id="fig:Normal3"></span>
+<img src="10-gaussian-rv_files/figure-html/Normal3-1.png" alt="The Standard Normal Distribution" width="672"><p class="caption">
+Figure 9.3: The Standard Normal Distribution
+</p>
+</div>
+<p>The function “<code>pnorm</code>” was used in the previous subsection in order to
+compute that probability that <span class="math inline">\(X\)</span> obtains values between 0 and 5. The
+computation produced the probability 0.5888522. We can repeat the
+computation by the application of the same function to the standardized
+values:</p>
+<div class="sourceCode" id="cb67"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">pnorm</a></span><span class="op">(</span>q <span class="op">=</span> <span class="op">(</span><span class="fl">5</span><span class="op">-</span><span class="fl">2</span><span class="op">)</span><span class="op">/</span><span class="fl">3</span><span class="op">)</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">pnorm</a></span><span class="op">(</span>q <span class="op">=</span> <span class="op">(</span><span class="fl">0</span><span class="op">-</span><span class="fl">2</span><span class="op">)</span><span class="op">/</span><span class="fl">3</span><span class="op">)</span>
+<span class="co">#&gt; [1] 0.5888522</span></code></pre></div>
+<p>The value that is being computed, the area under the graph for the
+standard Normal distribution, is presented in Figure <a href="ChapNormal.html#fig:Normal3">9.3</a>.
+Recall that 3 arguments where specified in the previous application of
+the function <code>pnorm</code>: the <span class="math inline">\(x\)</span> value, the expectation, and the standard
+deviation. In the given application we did not specify the last two
+arguments, only the first one. (Notice that the output of the expression
+<code>(5-2)/3</code> is a single number and, likewise, the output of the
+expression <code>(0-2)/3</code> is also a single number.) Most <code>R</code> function have many arguments that enables flexible application in a wide range of settings. For convenience, however, default values are set to most of these arguments. These default values are used unless an alternative value for the argument is set when the function is called. The default value of the second argument of the function
+<code>pnorm</code> that specifies the expectation is <code>mean=0</code>, and the default
+value of the third argument that specifies the standard deviation is
+<code>sd=1</code>. Therefore, if no other value is set for these arguments the
+function computes the cumulative distribution function of the standard
+Normal distribution.</p>
+</div>
+<div id="computing-percentiles" class="section level3">
+<h3>
+<span class="header-section-number">9.2.3</span> Computing Percentiles<a class="anchor" aria-label="anchor" href="#computing-percentiles"><i class="fas fa-link"></i></a>
+</h3>
+<p>Consider the issue of determining the range that contains 95% of the
+probability for a Normal random variable. We start with the standard
+Normal distribution. Consult Figure <a href="ChapNormal.html#fig:Normal4">9.4</a>. The figure
+displays the standard Normal distribution with the central region
+shaded. The area of the shaded region is 0.95.</p>
+<p>We may find the <span class="math inline">\(z\)</span>-values of the boundaries of the region, denoted in
+the figure as <span class="math inline">\(z_0\)</span> and <span class="math inline">\(z_1\)</span> by the investigation of the cumulative
+distribution function. Indeed, in order to have 95% of the distribution
+in the central region one should leave out 2.5% of the distribution in
+each of the two tails. That is, 0.025 should be the area of the unshaded
+region to the right of <span class="math inline">\(z_1\)</span> and, likewise, 0.025 should be the area of
+the unshaded region to the left of <span class="math inline">\(z_0\)</span>. In other words, the cumulative
+probability up to <span class="math inline">\(z_0\)</span> should be 0.025 and the cumulative distribution
+up to <span class="math inline">\(z_1\)</span> should be 0.975.</p>
+<p>In general, given a random variable <span class="math inline">\(Y\)</span> and given a percent <span class="math inline">\(p\)</span>, the <span class="math inline">\(y\)</span>
+value with the property that the cumulative distribution up to <span class="math inline">\(y\)</span> is
+equal to the probability <span class="math inline">\(p\)</span> is called the <span class="math inline">\(p\)</span>-<em>percentile</em> of the
+distribution. Here we seek the 2.5%-percentile and the 97.5%-percentile
+of the standard Normal distribution.</p>
+<div class="figure" style="text-align: center">
+<span style="display:block;" id="fig:Normal4"></span>
+<img src="10-gaussian-rv_files/figure-html/Normal4-1.png" alt="Central 95$\%$ of the Standard Normal Distribution" width="672"><p class="caption">
+Figure 9.4: Central 95<span class="math inline">\(\%\)</span> of the Standard Normal Distribution
+</p>
+</div>
+<p>The percentiles of the Normal distribution are computed by the function
+<code>qnorm</code>. The first argument to the function is a probability (or a
+sequence of probabilities), the second and third arguments are the
+expectation and the standard deviations of the normal distribution. The
+default values to these arguments are set to 0 and 1, respectively.
+Hence if these arguments are not provided the function computes the
+percentiles of the standard Normal distribution. Let us apply the
+function in order to compute <span class="math inline">\(z_1\)</span> and <span class="math inline">\(z_0\)</span>:</p>
+<div class="sourceCode" id="cb68"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">qnorm</a></span><span class="op">(</span><span class="fl">0.975</span><span class="op">)</span>
+<span class="co">#&gt; [1] 1.959964</span>
+<span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">qnorm</a></span><span class="op">(</span><span class="fl">0.025</span><span class="op">)</span>
+<span class="co">#&gt; [1] -1.959964</span></code></pre></div>
+<p>Observe that <span class="math inline">\(z_1\)</span> is practically equal to 1.96 and
+<span class="math inline">\(z_0 = -1.96 = -z_1\)</span>. The fact that <span class="math inline">\(z_0\)</span> is the negative of <span class="math inline">\(z_1\)</span>
+results from the symmetry of the standard Normal distribution about 0.
+As a conclusion we get that for the standard Normal distribution 95% of
+the probability is concentrated in the range <span class="math inline">\([-1.96, 1.96]\)</span>.</p>
+<div class="figure" style="text-align: center">
+<span style="display:block;" id="fig:Normal5"></span>
+<img src="10-gaussian-rv_files/figure-html/Normal5-1.png" alt="Central 95$\%$ of the Normal(2,3) Distribution" width="672"><p class="caption">
+Figure 9.5: Central 95<span class="math inline">\(\%\)</span> of the Normal(2,3) Distribution
+</p>
+</div>
+<p>The problem of determining the central range that contains 95% of the
+distribution can be addresses in the context of the original measurement
+<span class="math inline">\(Y\)</span> (See Figure <a href="ChapNormal.html#fig:Normal5">9.5</a>). We seek in this case an interval
+centered at the expectation 2, which is the center of the distribution
+of <span class="math inline">\(Y\)</span>, unlike 0 which was the center of the standardized values <span class="math inline">\(Z\)</span>.
+One way of solving the problem is via the application of the function
+<code>qnorm</code> with the appropriate values for the expectation and the
+standard deviation:</p>
+<div class="sourceCode" id="cb69"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">qnorm</a></span><span class="op">(</span><span class="fl">0.975</span>,<span class="fl">2</span>,<span class="fl">3</span><span class="op">)</span>
+<span class="co">#&gt; [1] 7.879892</span>
+<span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">qnorm</a></span><span class="op">(</span><span class="fl">0.025</span>,<span class="fl">2</span>,<span class="fl">3</span><span class="op">)</span>
+<span class="co">#&gt; [1] -3.879892</span></code></pre></div>
+<p>Hence, we get that <span class="math inline">\(y_0 = -3.88\)</span> has the property that the total
+probability to its left is 0.025 and <span class="math inline">\(y_1 = 7.88\)</span> has the property that
+the total probability to its right is 0.025. The total probability in
+the range <span class="math inline">\([-3.88, 7.88]\)</span> is 0.95.</p>
+<p>An alternative approach for obtaining the given interval exploits the
+interval that was obtained for the standardized values. An interval
+<span class="math inline">\([-1.96,1.96]\)</span> of standardized <span class="math inline">\(z\)</span>-values corresponds to an interval
+<span class="math inline">\([2 - 1.96 \cdot 3, 2 + 1.96\cdot 3]\)</span> of the original <span class="math inline">\(x\)</span>-values:</p>
+<div class="sourceCode" id="cb70"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fl">2</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">qnorm</a></span><span class="op">(</span><span class="fl">0.975</span><span class="op">)</span><span class="op">*</span><span class="fl">3</span>
+<span class="co">#&gt; [1] 7.879892</span>
+<span class="fl">2</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">qnorm</a></span><span class="op">(</span><span class="fl">0.025</span><span class="op">)</span><span class="op">*</span><span class="fl">3</span>
+<span class="co">#&gt; [1] -3.879892</span></code></pre></div>
+<p>Hence, we again produce the interval <span class="math inline">\([-3.88,7.88]\)</span>, the interval that
+was obtained before as the central interval that contains 95% of the
+distribution of the <span class="math inline">\(\mathrm{Normal}(2,3)\)</span> random variable.</p>
+<p>In general, if <span class="math inline">\(Y \sim N(\mu,\sigma)\)</span> is a Normal random variable then
+the interval <span class="math inline">\([\mu - 1.96 \cdot \sigma, \mu + 1.96 \cdot \sigma]\)</span>
+contains 95% of the distribution of the random variable. Frequently one
+uses the notation <span class="math inline">\(\mu \pm 1.96 \cdot \sigma\)</span> to describe such an
+interval.</p>
+</div>
+<div id="the-p-and-q-functions-a-summary" class="section level3">
+<h3>
+<span class="header-section-number">9.2.4</span> The p and q functions: a summary<a class="anchor" aria-label="anchor" href="#the-p-and-q-functions-a-summary"><i class="fas fa-link"></i></a>
+</h3>
+<p>The ‘<strong>p</strong>’ function tells us, for a given value of the characteristic, what <strong>p</strong>roportion of the distribution lies to the left of this specified value.</p>
+<p>The ‘<strong>q</strong>’ (or quantile) function tells us, for a given proportion p, what is the value of the characteristic such that that specified proportion p of the distribution lies to the left of this ‘q’ value.</p>
+<p>In Figure <a href="ChapNormal.html#fig:pqfunction">9.6</a>, the values of the <strong>p</strong> function are shown on the vertical axis, in red, against the (in this case, equally-spaced) values of the characteristic, shown on the horizontal axis. You enter on the horizontal axis, and exit with an answer on the vertical axis.</p>
+<p>The <strong>q</strong> function (in blue) goes into the opposite direction. You enter at some proportion on the vertical axis, and exit with a value of the characteristic (a quantile) on the horizontal axis. In our plot, the proportions on the vertical axis are equally-spaced. Percentiles and quartiles are a very specific sets of quantiles: they are obtained by finding the values that divide the distribution into 100 or into 4.</p>
+<div class="figure" style="text-align: center">
+<span style="display:block;" id="fig:pqfunction"></span>
+<img src="10-gaussian-rv_files/figure-html/pqfunction-1.png" alt="p and q functions visual representation." width="672"><p class="caption">
+Figure 9.6: p and q functions visual representation.
+</p>
+</div>
+</div>
+<div id="outliers-and-the-normal-distribution" class="section level3">
+<h3>
+<span class="header-section-number">9.2.5</span> Outliers and the Normal Distribution<a class="anchor" aria-label="anchor" href="#outliers-and-the-normal-distribution"><i class="fas fa-link"></i></a>
+</h3>
+<p>Consider, next, the computation of the interquartile range in the Normal
+distribution. Recall that the interquartile range is the length of the
+central interval that contains 50% of the distribution. This interval
+starts at the first quartile (Q1), the value that splits the
+distribution so that 25% of the distribution is to the left of the value
+and 75% is to the right of it. The interval ends at the third quartile
+(Q3) where 75% of the distribution is to the left and 25% is to the
+right.</p>
+<p>For the standard Normal the third and first quartiles can be computed
+with the aid of the function “<code>qnorm</code>”:</p>
+<div class="sourceCode" id="cb71"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">qnorm</a></span><span class="op">(</span><span class="fl">0.75</span><span class="op">)</span>
+<span class="co">#&gt; [1] 0.6744898</span>
+<span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">qnorm</a></span><span class="op">(</span><span class="fl">0.25</span><span class="op">)</span>
+<span class="co">#&gt; [1] -0.6744898</span></code></pre></div>
+<p>Observe that for the standard Normal distribution one has that 75% of
+the distribution is to the left of the value 0.6744898, which is the
+third quartile of this distribution. Likewise, 25% of the standard
+Normal distribution are to the left of the value -0.6744898, which is
+the first quartile. the interquartile range is the length of the
+interval between the third and the first quartiles. In the case of the
+standard Normal distribution this length is equal to
+<span class="math inline">\(0.6744898 - (-0.6744898) = 1.348980\)</span>.</p>
+<p>We previously considered box plots as a mean for
+the graphical display of numerical data. The box plot includes a
+vertical rectangle that initiates at the first quartile and ends at the
+third quartile, with the median marked within the box. The rectangle
+contains 50% of the data. Whiskers extends from the ends of this
+rectangle to the smallest and to the largest data values that are not
+outliers. Outliers are values that lie outside of the normal range of
+the data. Outliers are identified as values that are more then 1.5 times
+the interquartile range away from the ends of the central rectangle.
+Hence, a value is an outlier if it is larger than the third quartile
+plus 1.5 times the interquartile range or if it is less than the first
+quartile minus 1.5 times the interquartile range.</p>
+<p>How likely is it to obtain an outlier value when the measurement has the
+standard Normal distribution? We obtained that the third quartile of the
+standard Normal distribution is equal to 0.6744898 and the first
+quartile is minus this value. The interquartile range is the difference
+between the third and first quartiles. The upper and lower thresholds
+for the defining outliers are:</p>
+<div class="sourceCode" id="cb72"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">qnorm</a></span><span class="op">(</span><span class="fl">0.75</span><span class="op">)</span> <span class="op">+</span> <span class="fl">1.5</span><span class="op">*</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">qnorm</a></span><span class="op">(</span><span class="fl">0.75</span><span class="op">)</span><span class="op">-</span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">qnorm</a></span><span class="op">(</span><span class="fl">0.25</span><span class="op">)</span><span class="op">)</span>
+<span class="co">#&gt; [1] 2.697959</span>
+<span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">qnorm</a></span><span class="op">(</span><span class="fl">0.25</span><span class="op">)</span> <span class="op">-</span> <span class="fl">1.5</span><span class="op">*</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">qnorm</a></span><span class="op">(</span><span class="fl">0.75</span><span class="op">)</span><span class="op">-</span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">qnorm</a></span><span class="op">(</span><span class="fl">0.25</span><span class="op">)</span><span class="op">)</span>
+<span class="co">#&gt; [1] -2.697959</span></code></pre></div>
+<p>Hence, a value larger than 2.697959 or smaller than -2.697959 would be
+identified as an outlier.</p>
+<p>The probability of being less than the upper threshold 2.697959 in the
+standard Normal distribution is computed with the expression
+“<code>pnorm(2.697959)</code>”. The probability of being above the threshold is 1
+minus that probability, which is the outcome of the expression
+“<code>1-pnorm(2.697959)</code>”.</p>
+<p>By the symmetry of the standard Normal distribution we get that the
+probability of being below the lower threshold -2.697959 is equal to the
+probability of being above the upper threshold. Consequently, the
+probability of obtaining an outlier is equal to twice the probability of
+being above the upper threshold:</p>
+<div class="sourceCode" id="cb73"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fl">2</span><span class="op">*</span><span class="op">(</span><span class="fl">1</span><span class="op">-</span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">pnorm</a></span><span class="op">(</span><span class="fl">2.697959</span><span class="op">)</span><span class="op">)</span>
+<span class="co">#&gt; [1] 0.006976603</span></code></pre></div>
+<p>We get that for the standard Normal distribution the probability of an
+outlier is approximately 0.7%.</p>
+</div>
+</div>
+<div id="approximation-of-the-binomial-distribution" class="section level2">
+<h2>
+<span class="header-section-number">9.3</span> Approximation of the Binomial Distribution<a class="anchor" aria-label="anchor" href="#approximation-of-the-binomial-distribution"><i class="fas fa-link"></i></a>
+</h2>
+<p>The Normal distribution emerges frequently as an approximation of the
+distribution of data characteristics. The probability theory that
+mathematically establishes such approximation is called the Central
+Limit Theorem and is the subject of subsequent chapters. In this section we
+demonstrate the Normal approximation in the context of the Binomial
+distribution.</p>
+<div id="approximate-binomial-probabilities-and-percentiles" class="section level3">
+<h3>
+<span class="header-section-number">9.3.1</span> Approximate Binomial Probabilities and Percentiles<a class="anchor" aria-label="anchor" href="#approximate-binomial-probabilities-and-percentiles"><i class="fas fa-link"></i></a>
+</h3>
+<p>Consider, for example, the probability of obtaining between 1940 and
+2060 heads when tossing 4,000 fair coins. Let <span class="math inline">\(Y\)</span> be the total number of
+heads. The tossing of a coin is a trial with two possible outcomes:
+“Head” and “Tail.” The probability of a “Head” is 0.5 and there are
+4,000 trials. Let us call obtaining a “Head” in a trial a “Success”.
+Observe that the random variable <span class="math inline">\(Y\)</span> counts the total number of
+successes. Hence, <span class="math inline">\(Y \sim \mathrm{Binomial}(4000,0.5)\)</span>.</p>
+<p>The probability <span class="math inline">\(\operatorname{P}(1940 \leq Y \leq 2060)\)</span> can be computed as the
+difference between the probability <span class="math inline">\(\operatorname{P}(Y \leq 2060)\)</span> of being less or
+equal to 2060 and the probability <span class="math inline">\(\operatorname{P}(Y &lt; 1940)\)</span> of being strictly
+less than 1940. However, 1939 is the largest integer that is still
+strictly less than the integer 1940. As a result we get that
+<span class="math inline">\(\operatorname{P}(Y &lt; 1940) = \operatorname{P}(Y \leq 1939)\)</span>. Consequently,
+<span class="math inline">\(\operatorname{P}(1940 \leq Y \leq 2060) = \operatorname{P}(Y \leq 2060) - \operatorname{P}(Y \leq 1939)\)</span>.</p>
+<p>Applying the function “<code>pbinom</code>” for the computation of the Binomial
+cumulative probability, namely the probability of being less or equal to
+a given value, we get that the probability in the range between 1940 and
+2060 is equal to</p>
+<div class="sourceCode" id="cb74"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/stats/Binomial.html">pbinom</a></span><span class="op">(</span>q <span class="op">=</span> <span class="fl">2060</span>, size <span class="op">=</span> <span class="fl">4000</span>, prob <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Binomial.html">pbinom</a></span><span class="op">(</span>q <span class="op">=</span> <span class="fl">1939</span>, size <span class="op">=</span> <span class="fl">4000</span>, prob <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span>
+<span class="co">#&gt; [1] 0.9442883</span></code></pre></div>
+<p>This is an exact computation. The Normal approximation produces an
+approximate evaluation, not an exact computation. The Normal
+approximation replaces Binomial computations by computations carried out
+for the Normal distribution. The computation of a probability for a
+Binomial random variable is replaced by computation of probability for a
+Normal random variable that has the same expectation and standard
+deviation as the Binomial random variable.</p>
+<p>Notice that if <span class="math inline">\(Y \sim \mathrm{Binomial}(4000,0.5)\)</span> then the expectation
+is <span class="math inline">\(\operatorname{E}(Y) = 4,000 \times 0.5 = 2,000\)</span> and the variance is
+<span class="math inline">\(\operatorname{Var}(Y) = 4,000 \times 0.5 \times 0.5 = 1,000\)</span>, with the standard
+deviation being the square root of the variance. Repeating the same
+computation that we conducted for the Binomial random variable, but this
+time with the function <code>pnorm</code> that is used for the computation of the
+Normal cumulative probability, we get:</p>
+<div class="sourceCode" id="cb75"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">mu</span> <span class="op">&lt;-</span> <span class="fl">4000</span><span class="op">*</span><span class="fl">0.5</span>
+<span class="va">sig</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">sqrt</a></span><span class="op">(</span><span class="fl">4000</span><span class="op">*</span><span class="fl">0.5</span><span class="op">*</span><span class="fl">0.5</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">pnorm</a></span><span class="op">(</span><span class="fl">2060</span>,<span class="va">mu</span>,<span class="va">sig</span><span class="op">)</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">pnorm</a></span><span class="op">(</span><span class="fl">1939</span>,<span class="va">mu</span>,<span class="va">sig</span><span class="op">)</span>
+<span class="co">#&gt; [1] 0.9442441</span></code></pre></div>
+<p>Observe that in this example the Normal approximation of the probability
+(0.9442441) agrees with the Binomial computation of the probability
+(0.9442883) up to 3 significant digits.</p>
+<p>Normal computations may also be applied in order to find approximate
+percentiles of the Binomial distribution. For example, let us identify
+the central region that contains for a <span class="math inline">\(\mathrm{Binomial}(4000,0.5)\)</span>
+random variable (approximately) 95% of the distribution. Towards that
+end we can identify the boundaries of the region for the Normal
+distribution with the same expectation and standard deviation as that of
+the target Binomial distribution:</p>
+<div class="sourceCode" id="cb76"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">qnorm</a></span><span class="op">(</span><span class="fl">0.975</span>,<span class="va">mu</span>,<span class="va">sig</span><span class="op">)</span>
+<span class="co">#&gt; [1] 2061.98</span>
+<span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">qnorm</a></span><span class="op">(</span><span class="fl">0.025</span>,<span class="va">mu</span>,<span class="va">sig</span><span class="op">)</span>
+<span class="co">#&gt; [1] 1938.02</span></code></pre></div>
+<p>After rounding to the nearest integer we get the interval <span class="math inline">\([1938,2062]\)</span>
+as a proposed central region.</p>
+<p>In order to validate the proposed region we may repeat the computation
+under the actual Binomial distribution:</p>
+<div class="sourceCode" id="cb77"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/stats/Binomial.html">qbinom</a></span><span class="op">(</span><span class="fl">0.975</span>,<span class="fl">4000</span>,<span class="fl">0.5</span><span class="op">)</span>
+<span class="co">#&gt; [1] 2062</span>
+<span class="fu"><a href="https://rdrr.io/r/stats/Binomial.html">qbinom</a></span><span class="op">(</span><span class="fl">0.025</span>,<span class="fl">4000</span>,<span class="fl">0.5</span><span class="op">)</span>
+<span class="co">#&gt; [1] 1938</span></code></pre></div>
+<p>Again, we get the interval <span class="math inline">\([1938,2062]\)</span> as the central region, in
+agreement with the one proposed by the Normal approximation. Notice that
+the function “<code>qbinom</code>” produces the percentiles of the Binomial
+distribution. It may not come as a surprise to learn that “<code>qpois</code>”,
+“<code>qunif</code>”, “<code>qexp</code>” compute the percentiles of the Poisson, Uniform and
+Exponential distributions, respectively.</p>
+<div class="rmdnote">
+<p>The ability to approximate one distribution by the other, when
+computation tools for both distributions are handy, seems to be of
+questionable importance. Indeed, the significance of the Normal
+approximation is not so much in its ability to approximate the Binomial
+distribution as such. Rather, the important point is that the Normal
+distribution may serve as an approximation to a wide class of
+distributions, with the Binomial distribution being only one example.
+Computations that are based on the Normal approximation will be valid
+for all members in the class of distributions, including cases where we
+don’t have the computational tools at our disposal or even in cases
+where we do not know what the exact distribution of the member is! As
+promised, a more detailed discussion of the Normal approximation in a
+wider context will be presented in the Central Limit Theorem chapter.</p>
+</div>
+<p>On the other hand, one need not assume that any distribution is well
+approximated by the Normal distribution. For example, the distribution
+of wealth in the population tends to be skewed, with more than 50% of
+the people possessing less than 50% of the wealth and small percentage
+of the people possessing the majority of the wealth. The Normal
+distribution is not a good model for such distribution. The Exponential
+distribution, or distributions similar to it, may be more appropriate.</p>
+</div>
+<div id="continuity-corrections" class="section level3">
+<h3>
+<span class="header-section-number">9.3.2</span> Continuity Corrections<a class="anchor" aria-label="anchor" href="#continuity-corrections"><i class="fas fa-link"></i></a>
+</h3>
+<p>In order to complete this section let us look more carefully at the
+Normal approximations of the Binomial distribution.</p>
+<div class="figure" style="text-align: center">
+<span style="display:block;" id="fig:Normal6"></span>
+<img src="10-gaussian-rv_files/figure-html/Normal6-1.png" alt="Normal Approximation of the Binomial Distribution" width="672"><p class="caption">
+Figure 9.7: Normal Approximation of the Binomial Distribution
+</p>
+</div>
+<p>In principle, the Normal approximation is valid when <span class="math inline">\(n\)</span>, the number of
+independent trials in the Binomial distribution, is large. When <span class="math inline">\(n\)</span> is
+relatively small the approximation may not be so good. Indeed, take
+<span class="math inline">\(Y \sim \mathrm{Binomial}(30,0.3)\)</span> and consider the probability
+<span class="math inline">\(\operatorname{P}(Y \leq 6)\)</span>. Compare the actual probability to the Normal
+approximation:</p>
+<div class="sourceCode" id="cb78"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/stats/Binomial.html">pbinom</a></span><span class="op">(</span><span class="fl">6</span>,<span class="fl">30</span>,<span class="fl">0.3</span><span class="op">)</span>
+<span class="co">#&gt; [1] 0.159523</span>
+<span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">pnorm</a></span><span class="op">(</span><span class="fl">6</span>,<span class="fl">30</span><span class="op">*</span><span class="fl">0.3</span>,<span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">sqrt</a></span><span class="op">(</span><span class="fl">30</span><span class="op">*</span><span class="fl">0.3</span><span class="op">*</span><span class="fl">0.7</span><span class="op">)</span><span class="op">)</span>
+<span class="co">#&gt; [1] 0.1159989</span></code></pre></div>
+<p>The Normal approximation, which is equal to 0.1159989, is not too close
+to the actual probability, which is equal to 0.1595230.</p>
+<p>A naïve application of the Normal approximation for the
+<span class="math inline">\(\mathrm{Binomial}(n,p)\)</span> distribution may not be so good when the number
+of trials <span class="math inline">\(n\)</span> is small. Yet, a small modification of the approximation
+may produce much better results. In order to explain the modification
+consult Figure <a href="ChapNormal.html#fig:Normal6">9.7</a> where you will find the bar plot of the
+Binomial distribution with the density of the approximating Normal
+distribution superimposed on top of it. The target probability is the
+sum of heights of the bars that are painted in <em>red</em>. In the naïve
+application of the Normal approximation we used the area under the
+normal density which is to the left of the bar associated with the value
+<span class="math inline">\(y=6\)</span>.</p>
+<p>Alternatively, you may associate with each bar located at <span class="math inline">\(y\)</span> the area
+under the normal density over the interval <span class="math inline">\([y-0.5, y+0.5]\)</span>. The
+resulting correction to the approximation will use the Normal
+probability of the event <span class="math inline">\(\{Y \leq 6.5\}\)</span>, which is the area shaded in
+<em>red</em>. The application of this approximation, which is called
+<em>continuity correction</em> produces:</p>
+<div class="sourceCode" id="cb79"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">pnorm</a></span><span class="op">(</span><span class="fl">6.5</span>,<span class="fl">30</span><span class="op">*</span><span class="fl">0.3</span>,<span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">sqrt</a></span><span class="op">(</span><span class="fl">30</span><span class="op">*</span><span class="fl">0.3</span><span class="op">*</span><span class="fl">0.7</span><span class="op">)</span><span class="op">)</span>
+<span class="co">#&gt; [1] 0.1596193</span></code></pre></div>
+<p>Observe that the corrected approximation is much closer to the target
+probability, which is 0.1595230, and is substantially better that the
+uncorrected approximation which was 0.1159989. Generally, it is
+recommended to apply the continuity correction to the Normal
+approximation of a discrete distribution.</p>
+<p>Consider the <span class="math inline">\(\mathrm{Binomial}(n,p)\)</span> distribution. Another situation
+where the Normal approximation may fail is when <span class="math inline">\(p\)</span>, the probability of
+“Success” in the Binomial distribution, is too close to 0 (or too close
+to 1). Recall, that for large <span class="math inline">\(n\)</span> the Poisson distribution emerged as an
+approximation of the Binomial distribution in such a setting. One may
+expect that when <span class="math inline">\(n\)</span> is large and <span class="math inline">\(p\)</span> is small then the Poisson
+distribution may produce a better approximation of a Binomial
+probability. When the Poisson distribution is used for the approximation
+we call it a <em>Poisson Approximation</em>.</p>
+<p>Let us consider an example. Let us analyze 3 Binomial distributions. The
+expectation in all the distributions is equal to 2 but the number of
+trials, <span class="math inline">\(n\)</span>, vary. In the first case <span class="math inline">\(n=20\)</span> (and hence <span class="math inline">\(p=0.1\)</span>), in the
+second <span class="math inline">\(n=200\)</span> (and <span class="math inline">\(p=0.01\)</span>), and in the third <span class="math inline">\(n=2,000\)</span> (and
+<span class="math inline">\(p=0.001\)</span>. In all three cases we will be interested in the probability
+of obtaining a value less or equal to 3.</p>
+<p>The Poisson approximation replaces computations conducted under the
+Binomial distribution with Poisson computations, with a Poisson
+distribution that has the same expectation as the Binomial. Since in all
+three cases the expectation is equal to 2 we get that the same Poisson
+approximation is used to the three probabilities:</p>
+<div class="sourceCode" id="cb80"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/stats/Poisson.html">ppois</a></span><span class="op">(</span><span class="fl">3</span>,<span class="fl">2</span><span class="op">)</span>
+<span class="co">#&gt; [1] 0.8571235</span></code></pre></div>
+<p>The actual Binomial probability in the first case (<span class="math inline">\(n=20\)</span>, <span class="math inline">\(p=0.1\)</span>) and
+a Normal approximation thereof are:</p>
+<div class="sourceCode" id="cb81"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/stats/Binomial.html">pbinom</a></span><span class="op">(</span><span class="fl">3</span>,<span class="fl">20</span>,<span class="fl">0.1</span><span class="op">)</span>
+<span class="co">#&gt; [1] 0.8670467</span>
+<span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">pnorm</a></span><span class="op">(</span><span class="fl">3.5</span>,<span class="fl">2</span>,<span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">sqrt</a></span><span class="op">(</span><span class="fl">20</span><span class="op">*</span><span class="fl">0.1</span><span class="op">*</span><span class="fl">0.9</span><span class="op">)</span><span class="op">)</span>
+<span class="co">#&gt; [1] 0.8682238</span></code></pre></div>
+<p>Observe that the Normal approximation (with a continuity correction) is
+better than the Poisson approximation in this case.</p>
+<p>In the second case (<span class="math inline">\(n=200\)</span>, <span class="math inline">\(p=0.01\)</span>) the actual Binomial probability
+and the Normal approximation of the probability are:</p>
+<div class="sourceCode" id="cb82"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/stats/Binomial.html">pbinom</a></span><span class="op">(</span><span class="fl">3</span>,<span class="fl">200</span>,<span class="fl">0.01</span><span class="op">)</span>
+<span class="co">#&gt; [1] 0.858034</span>
+<span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">pnorm</a></span><span class="op">(</span><span class="fl">3.5</span>,<span class="fl">2</span>,<span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">sqrt</a></span><span class="op">(</span><span class="fl">200</span><span class="op">*</span><span class="fl">0.01</span><span class="op">*</span><span class="fl">0.99</span><span class="op">)</span><span class="op">)</span>
+<span class="co">#&gt; [1] 0.856789</span></code></pre></div>
+<p>Observe that the Poisson approximation that produces 0.8571235 is
+slightly closer to the target than the Normal approximation. The greater
+accuracy of the Poisson approximation for the case where <span class="math inline">\(n\)</span> is large
+and <span class="math inline">\(p\)</span> is small is more pronounced in the final case (<span class="math inline">\(n=2000\)</span>,
+<span class="math inline">\(p=0.001\)</span>) where the target probability and the Normal approximation
+are:</p>
+<div class="sourceCode" id="cb83"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/stats/Binomial.html">pbinom</a></span><span class="op">(</span><span class="fl">3</span>,<span class="fl">2000</span>,<span class="fl">0.001</span><span class="op">)</span>
+<span class="co">#&gt; [1] 0.8572138</span>
+<span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">pnorm</a></span><span class="op">(</span><span class="fl">3.5</span>,<span class="fl">2</span>,<span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">sqrt</a></span><span class="op">(</span><span class="fl">2000</span><span class="op">*</span><span class="fl">0.001</span><span class="op">*</span><span class="fl">0.999</span><span class="op">)</span><span class="op">)</span>
+<span class="co">#&gt; [1] 0.8556984</span></code></pre></div>
+<p>Compare the actual Binomial probability, which is equal to 0.8572138, to
+the Poisson approximation that produced 0.8571235. The Normal
+approximation, 0.8556984, is slightly off, but is still acceptable.</p>
+</div>
+</div>
+<div id="Normal4" class="section level2">
+<h2>
+<span class="header-section-number">9.4</span> Exercises<a class="anchor" aria-label="anchor" href="#Normal4"><i class="fas fa-link"></i></a>
+</h2>
+<p>Consider the problem of establishing regulations
+concerning the maximum number of people who can occupy a lift. In
+particular, we would like to assess the probability of exceeding maximal
+weight when 8 people are allowed to use the lift simultaneously and
+compare that to the probability of allowing 9 people into the lift.</p>
+<p>Assume that the total weight of 8 people chosen at random follows a
+normal distribution with a mean of 560kg and a standard deviation of
+57kg. Assume that the total weight of 9 people chosen at random follows
+a normal distribution with a mean of 630kg and a standard deviation of
+61kg.</p>
+<ol style="list-style-type: decimal">
+<li>What is the probability that the total weight of 8 people exceeds
+650kg?<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;Denote the total weight of 8 people as &lt;span class="math inline"&gt;\(Y_8\)&lt;/span&gt;, &lt;span class="math inline"&gt;\(\operatorname{P}(Y_8 &amp;gt; 650)\)&lt;/span&gt; = 1 - &lt;span class="math inline"&gt;\(\operatorname{P}(Y_8 \leq 650)\)&lt;/span&gt; = 1 - pnorm(q=650,mean=560,sd=57) = 0.0572&lt;/p&gt;'><sup>56</sup></a>
+</li>
+</ol>
+<ol start="2" style="list-style-type: decimal">
+<li>What is the probability that the total weight of 9 people exceeds
+650kg?<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;Denote the total weight of 9 people as &lt;span class="math inline"&gt;\(Y_9\)&lt;/span&gt;, &lt;span class="math inline"&gt;\(\operatorname{P}(Y_9 &amp;gt; 650)\)&lt;/span&gt; = pnorm(q=650,mean=630,sd=61,lower.tail = FALSE) = 0.3715&lt;/p&gt;'><sup>57</sup></a>
+</li>
+</ol>
+<ol start="3" style="list-style-type: decimal">
+<li>What is the central region that contains 80% of distribution of the
+total weight of 8 people?<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;We are going to find &lt;span class="math inline"&gt;\(y_0, y_1\)&lt;/span&gt; such that &lt;span class="math inline"&gt;\(\operatorname{P}(y_0 &amp;lt; Y_8 &amp;lt; y_1) = 0.8\)&lt;/span&gt;, which is the 10 and 90&lt;span class="math inline"&gt;\(\%\)&lt;/span&gt;-percentile of the normal distribution. &lt;span class="math inline"&gt;\(y_0\)&lt;/span&gt; = qnorm(0.1,mean=560,sd=57) = 486.95, &lt;span class="math inline"&gt;\(y_1\)&lt;/span&gt; = qnorm(0.9,mean=560,sd=57) = 633.05&lt;/p&gt;'><sup>58</sup></a>
+</li>
+</ol>
+<ol start="4" style="list-style-type: decimal">
+<li>What is the central region that contains 80% of distribution of the
+total weight of 9 people?<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;Similarly, &lt;span class="math inline"&gt;\(\operatorname{P}(y_0 &amp;lt; Y_9 &amp;lt; y_1) = 0.8\)&lt;/span&gt;, &lt;span class="math inline"&gt;\(y_0\)&lt;/span&gt; = qnorm(0.1,mean=630,sd=61) = 551.83, &lt;span class="math inline"&gt;\(y_1\)&lt;/span&gt; = qnorm(0.9,mean=630,sd=61) = 708.17&lt;/p&gt;'><sup>59</sup></a>
+</li>
+</ol>
+<hr>
+<p>Assume <span class="math inline">\(Y \sim \mbox{Binomial}(27,0.32)\)</span>. We are interested in the probability <span class="math inline">\(\operatorname{P}(Y &gt; 11)\)</span>.</p>
+<ol style="list-style-type: decimal">
+<li>Compute the (exact) value of this probability.<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;We use the density of Binomial distribution to calculate the exact probability. &lt;span class="math inline"&gt;\(\operatorname{P}(Y &amp;gt; 11)\)&lt;/span&gt; = pbinom(11,27,0.32, lower.tail=FALSE) = 0.1204&lt;/p&gt;'><sup>60</sup></a>
+</li>
+</ol>
+<ol start="2" style="list-style-type: decimal">
+<li>Compute a Normal approximation to this probability, without a
+continuity correction.<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;E(Y) = &lt;span class="math inline"&gt;\(27 \times 0.32\)&lt;/span&gt; = 8.64, sd(Y) = &lt;span class="math inline"&gt;\(\sqrt{27 \times 0.32 \times (1-0.32)}\)&lt;/span&gt; = 2.424, &lt;span class="math inline"&gt;\(\operatorname{P}(Y_{approx} &amp;gt; 11)\)&lt;/span&gt; = pnorm(11,mean=8.64,sd=2.424,lower.tail=FALSE) = 0.1651&lt;/p&gt;'><sup>61</sup></a>
+</li>
+</ol>
+<ol start="3" style="list-style-type: decimal">
+<li>Compute a Normal approximation to this probability, with a
+continuity correction.<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;With expectation and standard deviation calculated above, &lt;span class="math inline"&gt;\(\operatorname{P}(Y_{corrected} &amp;gt; 11.5)\)&lt;/span&gt; = pnorm(11.5,mean=8.64,sd=2.424,lower.tail=FALSE) = 0.1190&lt;/p&gt;'><sup>62</sup></a>
+</li>
+</ol>
+<ol start="4" style="list-style-type: decimal">
+<li>Compute a Poisson approximation to this probability.<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;Poisson distributed data has the same expection and variance. Thus, &lt;span class="math inline"&gt;\(\operatorname{P}(Y_{poisson} &amp;gt; 11)\)&lt;/span&gt; = ppois(11,lambda=8.64, lower.tail=FALSE) = 0.1635&lt;/p&gt;'><sup>63</sup></a>
+</li>
+</ol>
+</div>
+<div id="summary-1" class="section level2">
+<h2>
+<span class="header-section-number">9.5</span> Summary<a class="anchor" aria-label="anchor" href="#summary-1"><i class="fas fa-link"></i></a>
+</h2>
+<div id="glossary" class="section level3 unnumbered">
+<h3>Glossary<a class="anchor" aria-label="anchor" href="#glossary"><i class="fas fa-link"></i></a>
+</h3>
+<dl>
+<dt>Normal Random Variable:</dt>
+<dd>
+<p>A bell-shaped distribution that is frequently used to model a
+measurement. The distribution is marked with
+<span class="math inline">\(\mathrm{Normal}(\mu,\sigma)\)</span>. Note that <code>R</code> uses <span class="math inline">\(\sigma\)</span> also, and not <span class="math inline">\(\sigma^2\)</span> for its <code>p</code> and <code>q</code> functions .</p>
+</dd>
+<dt>Standard Normal Distribution:</dt>
+<dd>
+<p>The <span class="math inline">\(\mathrm{Normal}(0,1)\)</span>. The distribution of standardized Normal
+measurement.</p>
+</dd>
+<dt>Percentile:</dt>
+<dd>
+<p>Given a percent <span class="math inline">\(p \cdot 100\%\)</span> (or a probability <span class="math inline">\(p\)</span>), the value
+<span class="math inline">\(y\)</span> is the percentile of a random variable <span class="math inline">\(Y\)</span> if it satisfies the
+equation <span class="math inline">\(\operatorname{P}(Y \leq y) = p\)</span>.</p>
+</dd>
+<dt>Normal Approximation of the Binomial:</dt>
+<dd>
+<p>Approximate computations associated with the Binomial distribution
+with parallel computations that use the Normal distribution with the
+same expectation and standard deviation as the Binomial.</p>
+</dd>
+<dt>Poisson Approximation of the Binomial:</dt>
+<dd>
+<p>Approximate computations associated with the Binomial distribution
+with parallel computations that use the Poisson distribution with
+the same expectation as the Binomial.</p>
+</dd>
+</dl>
+</div>
+</div>
+</div>
+
+  <div class="chapter-nav">
+<div class="prev"><a href="randomVariables.html"><span class="header-section-number">8</span> Random Variables</a></div>
+<div class="next"><a href="ChapSampDist.html"><span class="header-section-number">10</span> The Sampling Distribution</a></div>
+</div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
+    <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
+      <ul class="nav navbar-nav">
+<li><a class="nav-link" href="#ChapNormal"><span class="header-section-number">9</span> The Normal Random Variable</a></li>
+<li><a class="nav-link" href="#student-learning-objective-1"><span class="header-section-number">9.1</span> Student Learning Objective</a></li>
+<li>
+<a class="nav-link" href="#the-normal-random-variable"><span class="header-section-number">9.2</span> The Normal Random Variable</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#the-normal-distribution"><span class="header-section-number">9.2.1</span> The Normal Distribution</a></li>
+<li><a class="nav-link" href="#the-standard-normal-distribution"><span class="header-section-number">9.2.2</span> The Standard Normal Distribution</a></li>
+<li><a class="nav-link" href="#computing-percentiles"><span class="header-section-number">9.2.3</span> Computing Percentiles</a></li>
+<li><a class="nav-link" href="#the-p-and-q-functions-a-summary"><span class="header-section-number">9.2.4</span> The p and q functions: a summary</a></li>
+<li><a class="nav-link" href="#outliers-and-the-normal-distribution"><span class="header-section-number">9.2.5</span> Outliers and the Normal Distribution</a></li>
+</ul>
+</li>
+<li>
+<a class="nav-link" href="#approximation-of-the-binomial-distribution"><span class="header-section-number">9.3</span> Approximation of the Binomial Distribution</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#approximate-binomial-probabilities-and-percentiles"><span class="header-section-number">9.3.1</span> Approximate Binomial Probabilities and Percentiles</a></li>
+<li><a class="nav-link" href="#continuity-corrections"><span class="header-section-number">9.3.2</span> Continuity Corrections</a></li>
+</ul>
+</li>
+<li><a class="nav-link" href="#Normal4"><span class="header-section-number">9.4</span> Exercises</a></li>
+<li>
+<a class="nav-link" href="#summary-1"><span class="header-section-number">9.5</span> Summary</a><ul class="nav navbar-nav"><li><a class="nav-link" href="#glossary">Glossary</a></li></ul>
+</li>
+</ul>
+
+      <div class="book-extra">
+        <ul class="list-unstyled">
+          
+        </ul>
+</div>
+    </nav>
+</div>
+
+</div>
+</div> <!-- .container -->
+
+<footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>"<strong>EPIB607</strong>" was written by Sahir Bhatnagar and James A Hanley. It was last built on 2021-12-07.</p>
+  </div>
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>This book was built by the <a class="text-light" href="https://bookdown.org">bookdown</a> R package.</p>
+  </div>
+
+</div></div>
+</footer><!-- dynamically load mathjax for compatibility with self-contained --><script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script><script type="text/x-mathjax-config">const popovers = document.querySelectorAll('a.footnote-ref[data-toggle="popover"]');
+for (let popover of popovers) {
+  const div = document.createElement('div');
+  div.setAttribute('style', 'position: absolute; top: 0, left:0; width:0, height:0, overflow: hidden; visibility: hidden;');
+  div.innerHTML = popover.getAttribute('data-content');
+
+  var has_math = div.querySelector("span.math");
+  if (has_math) {
+    document.body.appendChild(div);
+    MathJax.Hub.Queue(["Typeset", MathJax.Hub, div]);
+    MathJax.Hub.Queue(function() {
+      popover.setAttribute('data-content', div.innerHTML);
+      document.body.removeChild(div);
+    })
+  }
+}
+</script>
+</body>
+</html>

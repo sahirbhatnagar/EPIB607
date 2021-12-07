@@ -1,0 +1,733 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>Chapter 17 Basics of R and Rstudio | EPIB607</title>
+<meta name="author" content="Sahir Bhatnagar and James A Hanley">
+<meta name="description" content="This section is adapted from the book Data Science in Education Using R121  17.1 RStudio Layout and Customization: Getting to Know R through RStudio Now that we’ve installed both R and RStudio, we...">
+<meta name="generator" content="bookdown 0.24 with bs4_book()">
+<meta property="og:title" content="Chapter 17 Basics of R and Rstudio | EPIB607">
+<meta property="og:type" content="book">
+<meta property="og:url" content="https://sahirbhatnagar.com/EPIB607/basics.html">
+<meta property="og:description" content="This section is adapted from the book Data Science in Education Using R121  17.1 RStudio Layout and Customization: Getting to Know R through RStudio Now that we’ve installed both R and RStudio, we...">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Chapter 17 Basics of R and Rstudio | EPIB607">
+<meta name="twitter:description" content="This section is adapted from the book Data Science in Education Using R121  17.1 RStudio Layout and Customization: Getting to Know R through RStudio Now that we’ve installed both R and RStudio, we...">
+<!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
+<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.3.1/transition.js"></script><script src="libs/bs3compat-0.3.1/tabs.js"></script><script src="libs/bs3compat-0.3.1/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
+<script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script><script src="libs/kePrint-0.0.1/kePrint.js"></script><link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet">
+<link href="libs/bsTable-3.3.7/bootstrapTable.min.css" rel="stylesheet">
+<script src="libs/bsTable-3.3.7/bootstrapTable.js"></script><script src="libs/htmlwidgets-1.5.4/htmlwidgets.js"></script><link href="libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet">
+<script src="libs/datatables-binding-0.20/datatables.js"></script><link href="libs/dt-core-1.11.3/css/jquery.dataTables.min.css" rel="stylesheet">
+<link href="libs/dt-core-1.11.3/css/jquery.dataTables.extra.css" rel="stylesheet">
+<script src="libs/dt-core-1.11.3/js/jquery.dataTables.min.js"></script><link href="libs/crosstalk-1.2.0/css/crosstalk.min.css" rel="stylesheet">
+<script src="libs/crosstalk-1.2.0/js/crosstalk.min.js"></script><link href="libs/nouislider-7.0.10/jquery.nouislider.min.css" rel="stylesheet">
+<script src="libs/nouislider-7.0.10/jquery.nouislider.min.js"></script><link href="libs/selectize-0.12.0/selectize.bootstrap3.css" rel="stylesheet">
+<script src="libs/selectize-0.12.0/selectize.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- CSS --><link rel="stylesheet" href="templates/bs4_style.css">
+<link rel="stylesheet" href="templates/ims-style.css">
+<link rel="stylesheet" href="templates/corrections.css">
+</head>
+<body data-spy="scroll" data-target="#toc">
+
+<div class="container-fluid">
+<div class="row">
+  <header class="col-sm-12 col-lg-3 sidebar sidebar-book"><a class="sr-only sr-only-focusable" href="#content">Skip to main content</a>
+
+    <div class="d-flex align-items-start justify-content-between">
+      <h1>
+        <a href="index.html" title="">EPIB607</a>
+      </h1>
+      <button class="btn btn-outline-primary d-lg-none ml-2 mt-1" type="button" data-toggle="collapse" data-target="#main-nav" aria-expanded="true" aria-controls="main-nav"><i class="fas fa-bars"></i><span class="sr-only">Show table of contents</span></button>
+    </div>
+
+    <div id="main-nav" class="collapse-lg">
+      <form role="search">
+        <input id="search" class="form-control" type="search" placeholder="Search" aria-label="Search">
+</form>
+
+      <nav aria-label="Table of contents"><h2>Table of contents</h2>
+        <ul class="book-toc list-unstyled">
+<li><a class="" href="index.html">Preface</a></li>
+<li><a class="" href="schedule.html">Schedule</a></li>
+<li><a class="" href="syllabus.html">Syllabus</a></li>
+<li class="book-part">Descriptive Statistics</li>
+<li><a class="" href="introdata.html"><span class="header-section-number">1</span> Introduction to Data</a></li>
+<li><a class="" href="aesthetic-mapping.html"><span class="header-section-number">2</span> Visualizing data: Mapping data onto aesthetics</a></li>
+<li><a class="" href="coordinate-systems-axes.html"><span class="header-section-number">3</span> Coordinate systems and axes</a></li>
+<li><a class="" href="ggplot2-package-for-plots.html"><span class="header-section-number">4</span> ggplot2 package for plots</a></li>
+<li><a class="" href="color-basics.html"><span class="header-section-number">5</span> Color scales</a></li>
+<li class="book-part">Sampling Distributions</li>
+<li><a class="" href="paras.html"><span class="header-section-number">6</span> Statistical Parameters</a></li>
+<li><a class="" href="ChapProbability.html"><span class="header-section-number">7</span> Probability</a></li>
+<li><a class="" href="randomVariables.html"><span class="header-section-number">8</span> Random Variables</a></li>
+<li><a class="" href="ChapNormal.html"><span class="header-section-number">9</span> The Normal Random Variable</a></li>
+<li><a class="" href="ChapSampDist.html"><span class="header-section-number">10</span> The Sampling Distribution</a></li>
+<li><a class="" href="CI.html"><span class="header-section-number">11</span> Parameter Intervals</a></li>
+<li><a class="" href="foundations-bootstrapping.html"><span class="header-section-number">12</span> Confidence intervals with bootstrapping</a></li>
+<li class="book-part">One Sample Inference</li>
+<li><a class="" href="inference-one-mean.html"><span class="header-section-number">13</span> Inference for a single mean</a></li>
+<li><a class="" href="ChapBinom.html"><span class="header-section-number">14</span> Binomial Random Variable</a></li>
+<li><a class="" href="inference-one-prop.html"><span class="header-section-number">15</span> Inference for a single proportion</a></li>
+<li class="book-part">Computing</li>
+<li><a class="" href="install.html"><span class="header-section-number">16</span> Installing R and RStudio</a></li>
+<li><a class="active" href="basics.html"><span class="header-section-number">17</span> Basics of R and Rstudio</a></li>
+<li><a class="" href="projects.html"><span class="header-section-number">18</span> RStudio Projects</a></li>
+<li><a class="" href="functionsHOP.html"><span class="header-section-number">19</span> Functions</a></li>
+<li><a class="" href="packages.html"><span class="header-section-number">20</span> Packages</a></li>
+<li><a class="" href="import.html"><span class="header-section-number">21</span> Data Import and Export</a></li>
+<li><a class="" href="transition-to-r-from-excel-stata-sas.html"><span class="header-section-number">22</span> Transition to R from Excel, Stata, SAS</a></li>
+<li><a class="" href="references.html">References</a></li>
+</ul>
+
+        <div class="book-extra">
+          
+        </div>
+      </nav>
+</div>
+  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="basics" class="section level1">
+<h1>
+<span class="header-section-number">17</span> Basics of R and Rstudio<a class="anchor" aria-label="anchor" href="#basics"><i class="fas fa-link"></i></a>
+</h1>
+<div class="rmdnote">
+<p>This section is adapted from the book Data Science in Education Using R<span class="citation"><a class="footnote-ref" tabindex="0" data-toggle="popover" data-content="&lt;p&gt;Bovee, &lt;em&gt;Data Science in Education Using R&lt;/em&gt;.&lt;/p&gt;"><sup>121</sup></a></span></p>
+</div>
+<div id="rstudio-layout-and-customization-getting-to-know-r-through-rstudio" class="section level2">
+<h2>
+<span class="header-section-number">17.1</span> RStudio Layout and Customization: Getting to Know R through RStudio<a class="anchor" aria-label="anchor" href="#rstudio-layout-and-customization-getting-to-know-r-through-rstudio"><i class="fas fa-link"></i></a>
+</h2>
+<p>Now that we’ve installed both R and RStudio, we will be accessing R <em>through</em> RStudio.
+One of the most reliable ways to tell if you’re opening R or RStudio is to look at the icons:</p>
+<div class="figure">
+<span style="display:block;" id="fig:fig5-1"></span>
+<img src="inst/figures/Figure%205.1.png" alt="Icons" width="479"><p class="caption">
+Figure 17.1: Icons
+</p>
+</div>
+<p>Whenever we want to work with R, we’ll open RStudio. RStudio interfaces directly with R, and is an <strong>I</strong>ntegrated <strong>D</strong>evelopment <strong>E</strong>nvironment (IDE). This means that RStudio comes with built-in features that make using R a little easier.</p>
+<p>You do not <em>have</em> to use RStudio to access R, and many people don’t!</p>
+<p>Other IDEs that work with R include:</p>
+<ul>
+<li>
+<a href="https://jupyter.org/">Jupyter notebook</a> (https<a href=""></a>://jupyter.org/)</li>
+<li>
+<a href="https://visualstudio.microsoft.com/services/visual-studio-online/">VisualStudio</a> (https<a href=""></a>://visualstudio.microsoft.com/services/visual-studio-online/)</li>
+<li>
+<a href="https://github.com/jalvesaq/Nvim-R">VIM</a> (https<a href=""></a>://github.com/jalvesaq/Nvim-R)</li>
+<li>
+<a href="https://plugins.jetbrains.com/plugin/6632-r-language-for-intellij">IntelliJ IDEA</a> (https<a href=""></a>://plugins.jetbrains.com/plugin/6632-r-language-for-intellij)</li>
+<li>
+<a href="https://ess.r-project.org/">EMACS Speaks Statistics (ESS)</a> (https<a href=""></a>://ess.r-project.org/)</li>
+</ul>
+<p>This is a non-exhaustive list, and most of these options require a good deal of familiarity with a given IDE.
+However we bring up alternative IDEs—particularly ESS—because RStudio, as of this writing, is not fully accessible for learners who utilize screen readers. We have chosen to use RStudio in this text in order to standardize the experience, but we encourage you to choose the IDE that best suits your needs!</p>
+<div id="rstudio-layout" class="section level3">
+<h3>
+<span class="header-section-number">17.1.1</span> RStudio Layout<a class="anchor" aria-label="anchor" href="#rstudio-layout"><i class="fas fa-link"></i></a>
+</h3>
+<p>When we open RStudio for the first time, by default RStudio displays four rectangle panes:</p>
+<div class="inline-figure"><img src="inst/figures/RStudio_overview.PNG" width="100%" style="display: block; margin: auto;"></div>
+<div class="rmdtip">
+<p>If your RStudio displays only one left pane it is because you have no scripts open yet.</p>
+</div>
+<p><strong>The Source Pane</strong><br>
+This pane, by default in the upper-left, is a space to edit, run, and save your scripts. Scripts contain the commands you want to run. This pane can also display datasets (data frames) for viewing.</p>
+<p>For Stata users, this pane is similar to your Do-file and Data Editor windows.</p>
+<p><strong>The R Console Pane</strong></p>
+<p>The R Console, by default the left or lower-left pane in R Studio, is the home of the R “engine”. This is where the commands are actually run and non-graphic outputs and error/warning messages appear. You can directly enter and run commands in the R Console, but realize that these commands are not saved as they are when running commands from a script.</p>
+<p>If you are familiar with Stata, the R Console is like the Command Window and also the Results Window.</p>
+<p><strong>The Environment Pane</strong><br>
+This pane, by default in the upper-right, is most often used to see brief summaries of objects in the R Environment in the current session. These objects could include imported, modified, or created datasets, parameters you have defined, or vectors or lists you have defined during analysis (e.g. names of regions). You can click on the arrow next to a data frame name to see its variables.</p>
+<p>In Stata, this is most similar to the Variables Manager window.</p>
+<p>This pane also contains <em>History</em> where you can see commands that you can previously. It also has a “Tutorial” tab where you can complete interactive R tutorials if you have the <strong>learnr</strong> package installed. It also has a “Connections” pane for external connections, and can have a “Git” pane if you choose to interface with Github.</p>
+<p><strong>Plots, Viewer, Packages, and Help Pane</strong><br>
+The lower-right pane includes several important tabs. Typical plot graphics including maps will display in the Plot pane. Interactive or HTML outputs will display in the Viewer pane. The Help pane can display documentation and help files. The Files pane is a browser which can be used to open or delete files. The Packages pane allows you to see, install, update, delete, load/unload R packages, and see which version of the package you have. To learn more about packages see Section <a href="packages.html#packages">20</a>.</p>
+<p>This pane contains the Stata equivalents of the Plots Manager and Project Manager windows.</p>
+<p>As you work with R more, you’ll find yourself using the tabs within each of the panes.</p>
+<p>We can open up an <code>.R</code> script in the source pane by going to “File”, selecting “New File”, and then selecting “R Script”:</p>
+<div class="figure">
+<span style="display:block;" id="fig:fig5-3"></span>
+<img src="inst/figures/Figure%205.3.png" alt="Creating a New R Script in RStudio" width="791"><p class="caption">
+Figure 17.2: Creating a New R Script in RStudio
+</p>
+</div>
+<p>You do not need to do anything specific with this file, but we encourage you to experiment with it if you would like!</p>
+</div>
+<div id="customizing-rstudio" class="section level3">
+<h3>
+<span class="header-section-number">17.1.2</span> Customizing RStudio<a class="anchor" aria-label="anchor" href="#customizing-rstudio"><i class="fas fa-link"></i></a>
+</h3>
+<p>One of the balances we’ve tried to strike in this text is a balance between best practices in your <em>workflow</em> (how you’ll use R in your projects) and your <em>R code</em>. A best practice for your <em>workflow</em> is to ensure that you’re starting with a blank slate every time you open R (through RStudio).<br>
+To accomplish this, go to “Tools”, and select “Global Options” from the dropdown menu.</p>
+<div class="figure">
+<span style="display:block;" id="fig:fig5-4"></span>
+<img src="inst/figures/Figure%205.4.png" alt="Selecting Global Options from the Tool Dropdown Menu" width="255"><p class="caption">
+Figure 17.3: Selecting Global Options from the Tool Dropdown Menu
+</p>
+</div>
+<p>The “General” tab will open, with several checkboxes selected and unselected. The most important thing you can do is select “Never” next to the “Save workspace to .RData on exit:” prompt. After selecting “Never”, go through and check and uncheck boxes so that your General tab looks like this:</p>
+<div class="figure">
+<span style="display:block;" id="fig:fig5-5"></span>
+<img src="inst/figures/Figure%205.5.png" alt="General Tab from Global Options" width="649"><p class="caption">
+Figure 17.4: General Tab from Global Options
+</p>
+</div>
+<div class="rmdcaution">
+<p>It will become clear why this is a good idea in Section <a href="projects.html#projects">18</a>.</p>
+</div>
+<p>Last, but certainly not least, click on the “Appearance” tab from within Global Options. From here you can select your RStudio Font, Font Size, and Theme. Go through the options and select an appearance that works best for you, and know that you can <em>always</em> come back and change it!</p>
+</div>
+<div id="minimized-and-missing-panes" class="section level3">
+<h3>
+<span class="header-section-number">17.1.3</span> Minimized and Missing Panes<a class="anchor" aria-label="anchor" href="#minimized-and-missing-panes"><i class="fas fa-link"></i></a>
+</h3>
+<p>If, at any point, you find that one of your panes seems to have “disappeared”, one of two things has likely happened:</p>
+<ul>
+<li>A pane has been minimized</li>
+<li>A pane has been closed</li>
+</ul>
+<p>Let’s look at the Environment pane as an example.
+If the Environment pane has been minimized, we’ll see something like this:</p>
+<div class="figure">
+<span style="display:block;" id="fig:fig5-6"></span>
+<img src="inst/figures/Figure%205.6.png" alt="RStudio Layout with the Environment Pane Minimized" width="1363"><p class="caption">
+Figure 17.5: RStudio Layout with the Environment Pane Minimized
+</p>
+</div>
+<p>We know that the Environment pane has been minimized because although we can see the pane headers in the top right, we can’t see the information <em>within</em> the Environment pane. To fix this, we can click on the icon of two squares in the top right of the Environment pane. If you click on the icon of the large square in the top right of the Environment pane, you’ll maximize the Environment pane and minimize the Files pane. We do not want to do this, since we would prefer to see all the panes at once.</p>
+<p>If the Environment pane has somehow been closed, you can recover it by going to the “View” menu, selecting “Panes”, and then selecting “Pane Layout”, like so:</p>
+<div class="figure">
+<span style="display:block;" id="fig:fig5-7"></span>
+<img src="inst/figures/Figure%205.7.png" alt="Accessing the Pane Layout from the View Dropdown Menu" width="456"><p class="caption">
+Figure 17.6: Accessing the Pane Layout from the View Dropdown Menu
+</p>
+</div>
+<p>When we select Pane Layout, we’ll see this:</p>
+<div class="figure">
+<span style="display:block;" id="fig:fig5-8"></span>
+<img src="inst/figures/Figure%205.8.png" alt="Pane Layout Options within RStudio" width="650"><p class="caption">
+Figure 17.7: Pane Layout Options within RStudio
+</p>
+</div>
+<p>From here, you can select which tabs you’d like to appear within each pane, and you can even change where each pane appears within RStudio. If our Environment Pane had been closed, we would select it from the Pane Layout in order to re-open it within RStudio.</p>
+<div class="rmdtip">
+<p><strong>Restart</strong><br>
+If your R freezes, you can re-start R by going to the Session menu and clicking “Restart R”. This avoids the hassle of closing and opening RStudio. Everything in your R environment will be removed when you do this.</p>
+</div>
+</div>
+</div>
+<div id="writing-and-running-code-in-rstudio" class="section level2">
+<h2>
+<span class="header-section-number">17.2</span> Writing and Running Code in RStudio<a class="anchor" aria-label="anchor" href="#writing-and-running-code-in-rstudio"><i class="fas fa-link"></i></a>
+</h2>
+<p>Up to this point, we’ve been exploring the RStudio interface and setting up our preferences.
+Now, we’ll shift to some basic coding practices.
+In order to run code in R, you need to type your code either in the Console or within an <code>.R</code> script.</p>
+<p>We generally recommend creating an <code>.R</code> script as you’re learning, as it allows you to type all of your code, add comments, and then save your <code>.R</code> script for reference. If instead you work entirely in the Console, anything that you type in the Console will disappear as soon as you restart or close R, and you will not be able to reference it in the future.</p>
+<div id="running-code-in-the-console" class="section level3">
+<h3>
+<span class="header-section-number">17.2.1</span> Running Code in the Console<a class="anchor" aria-label="anchor" href="#running-code-in-the-console"><i class="fas fa-link"></i></a>
+</h3>
+<p>To run code in the Console, you type your code next to the <code>&gt;</code> and hit <code>Enter</code>.<br>
+We’ll spend a little time practicing running code in the Console by exploring some basic properties of coding in R.</p>
+<p>In the Console, type <code>3 + 4</code> and hit <code>Enter</code>.
+You should see the following:</p>
+<div class="figure">
+<span style="display:block;" id="fig:fig5-9"></span>
+<img src="inst/figures/Figure%205.9.png" alt="Using the Console as a Calculator" width="208"><p class="caption">
+Figure 17.8: Using the Console as a Calculator
+</p>
+</div>
+<p>We’ve just used R to add the numbers 3 and 4.
+R has returned the sum of <code>3 + 4</code> on a new line, next to <code>[1]</code>.
+The <code>[1]</code> tells us that there is one row of data.</p>
+<p>We can also use R to print out text.
+Type the following in the Console and hit <code>Enter</code>:</p>
+<div class="sourceCode" id="cb127"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="st">"I am learning R"</span><span class="op">)</span></code></pre></div>
+<p>We should see this in the Console:</p>
+<div class="figure">
+<span style="display:block;" id="fig:fig5-10"></span>
+<img src="inst/figures/Figure%205.10.png" alt="Printing Text to the Console" width="255"><p class="caption">
+Figure 17.9: Printing Text to the Console
+</p>
+</div>
+<p>There’s one error that you’re likely going to come across, both when running code in the Console as well as in an R script.
+Let’s explore that error now by running the following code in the Console and hitting <code>Enter</code>:</p>
+<div class="sourceCode" id="cb128"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb128-1"><a href="basics.html#cb128-1"></a><span class="kw">print</span>(<span class="st">"This is going to cause a problem"</span></span></code></pre></div>
+<p>Make sure that you left off the closing parenthesis!
+What you’ll see in the Console is:</p>
+<div class="figure">
+<span style="display:block;" id="fig:fig5-11"></span>
+<img src="inst/figures/Figure%205.11.png" alt="Incomplete Parentheses Change What R Expects Next" width="407"><p class="caption">
+Figure 17.10: Incomplete Parentheses Change What R Expects Next
+</p>
+</div>
+<p>When we’re missing a closing parenthesis, R is expecting us to provide more code.
+We know this because instead of seeing a carat <code>&gt;</code> in our Console, we see a <code>+</code>, and R has not returned the print statement that we were expecting!
+There are two ways to fix this problem:</p>
+<ul>
+<li>Type the closing <code>)</code> in the Console and hit <code>Enter</code>
+</li>
+<li>Hit the <code>Esc</code> key</li>
+</ul>
+<p>Go ahead and run this intentional error, and try each of the options above.
+Compare the output of each, and think about how they’re different.
+Can you think of when you might want to use one option instead of the other?</p>
+</div>
+<div id="running-code-in-an-r-script" class="section level3">
+<h3>
+<span class="header-section-number">17.2.2</span> Running Code in an R Script<a class="anchor" aria-label="anchor" href="#running-code-in-an-r-script"><i class="fas fa-link"></i></a>
+</h3>
+<p>The key to using the script editor effectively is to memorize one of the most important keyboard shortcuts: <code>Cmd + Enter</code> for Mac or <code>Ctrl + Enter</code> otherwise. This executes the current R expression in the console.
+For example, take the code below.
+If your cursor is at █, pressing <code>Cmd/Ctrl + Enter</code> will run the complete command that generates <code>fit</code>.
+It will also move the cursor to the next statement (<code>summary(fit)</code>).
+That makes it easy to run your complete script by repeatedly pressing Cmd/Ctrl + Enter.</p>
+<div class="sourceCode" id="cb129"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb129-1"><a href="basics.html#cb129-1"></a><span class="kw">data</span>(<span class="st">"mtcars"</span>)</span>
+<span id="cb129-2"><a href="basics.html#cb129-2"></a></span>
+<span id="cb129-3"><a href="basics.html#cb129-3"></a>fit &lt;-<span class="st"> </span><span class="kw">lm</span>(mpg <span class="op">~</span><span class="st"> </span>disp <span class="op">+</span><span class="st"> </span>hp <span class="op">+</span><span class="st"> </span>drat, </span>
+<span id="cb129-4"><a href="basics.html#cb129-4"></a>          <span class="dt">data =</span> mtcars, █</span>
+<span id="cb129-5"><a href="basics.html#cb129-5"></a>          <span class="dt">weights =</span> <span class="kw">runif</span>(<span class="kw">nrow</span>(mtcars)))</span>
+<span id="cb129-6"><a href="basics.html#cb129-6"></a></span>
+<span id="cb129-7"><a href="basics.html#cb129-7"></a><span class="kw">summary</span>(fit)</span></code></pre></div>
+<p>Instead of running expression-by-expression, you can also execute the complete script in one step: <code>Cmd/Ctrl + Shift + S</code>.
+Doing this regularly is a great way to check that you’ve captured all the important parts of your code in the script.</p>
+<p>I recommend that you always start your script with the packages that you need.
+That way, if you share your code with others, they can easily see what packages they need to install.
+Note, however, that you should never include <code><a href="https://rdrr.io/r/utils/install.packages.html">install.packages()</a></code> or <code><a href="https://rdrr.io/r/base/getwd.html">setwd()</a></code> in a script that you share.
+It’s very antisocial to change settings on someone else’s computer!</p>
+<p>When working through your assignments or research projects, I highly recommend starting in the editor and practicing your keyboard shortcuts.
+Over time, sending code to the console in this way will become so natural that you won’t even think about it.</p>
+</div>
+<div id="rstudio-diagnostics" class="section level3">
+<h3>
+<span class="header-section-number">17.2.3</span> RStudio diagnostics<a class="anchor" aria-label="anchor" href="#rstudio-diagnostics"><i class="fas fa-link"></i></a>
+</h3>
+<p>The script editor will also highlight syntax errors with a red squiggly line and a cross in the sidebar:</p>
+<div class="inline-figure"><img src="inst/figures/rstudio-diagnostic.png" width="129"></div>
+<p>Hover over the cross to see what the problem is:</p>
+<div class="inline-figure"><img src="inst/figures/rstudio-diagnostic-tip.png" width="202"></div>
+<p>RStudio will also let you know about potential problems:</p>
+<div class="inline-figure"><img src="inst/figures/rstudio-diagnostic-warn.png" width="439"></div>
+</div>
+<div id="commenting-your-code-in-r" class="section level3">
+<h3>
+<span class="header-section-number">17.2.4</span> Commenting Your Code in R<a class="anchor" aria-label="anchor" href="#commenting-your-code-in-r"><i class="fas fa-link"></i></a>
+</h3>
+<p>It is considered good practice to comment your code when working in an <code>.R</code> script.
+Even if you are the only person to ever work on your code, it can be helpful to write yourself notes about what you were trying to do with a specific piece of code.
+Moreover, writing comments in your code as you work through the examples in this book is a great way to help reinforce what you’re learning.
+Comments are ignored by R when running a script, so they will not affect your code or analysis.</p>
+<p>To comment out a line of code, you can place a pound sign (also called an octothorpe) <code>#</code> in front of the line of code that you want to exclude when you’re running your script.
+Be careful when excluding certain lines of code, especially in longer files, as it can be easy to forget where you’ve commented out code.
+It is often better to simply start a new section of code to tinker with until you get it working as expected, rather than commenting out individual lines of code.</p>
+<p>We can also write comments in-line with our code, like this:</p>
+<div class="sourceCode" id="cb130"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co">#' this will be a short code example.</span>
+<span class="co">#' you are not expected to know what this does,</span>
+<span class="co">#' nor do you need to try running it on your computer.</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://readr.tidyverse.org">readr</a></span><span class="op">)</span>  <span class="co"># load the readr package</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://here.r-lib.org/">here</a></span><span class="op">)</span>  <span class="co"># load the here package</span>
+<span class="va">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://readr.tidyverse.org/reference/read_delim.html">read_csv</a></span><span class="op">(</span><span class="fu"><a href="https://here.r-lib.org//reference/here.html">here</a></span><span class="op">(</span><span class="st">"file_path"</span>, <span class="st">"file_name.csv"</span><span class="op">)</span><span class="op">)</span>  <span class="co"># save file_name.csv as data</span></code></pre></div>
+<p>If you think you’ll be writing more than one line of comments, you can do a pound sign followed by a single quotation mark (<code>#'</code>).
+This will continue to comment out lines of text or code each time you hit <code>Enter</code>.
+You can delete the <code>#'</code> on a new line where you want to write code for R to run.
+This method is useful when you’re writing a long description of what you’re doing in R.</p>
+<div class="rmdnote">
+<p>when we refer to “commenting” we’re referring to adding in actual text comments, whereas “commenting out” refers to using the pound sign (octothorpe) in front of a line of code so that R ignores it. We will also use the phrase “uncomment code”, which means you should delete (or omit when typing out) the <code>#</code> or <code>#'</code> in an example.</p>
+</div>
+</div>
+</div>
+<div id="autocomplete-to-avoid-coding-mistakes" class="section level2">
+<h2>
+<span class="header-section-number">17.3</span> Autocomplete to avoid coding mistakes<a class="anchor" aria-label="anchor" href="#autocomplete-to-avoid-coding-mistakes"><i class="fas fa-link"></i></a>
+</h2>
+<div class="rmdcaution">
+<div class="sourceCode" id="cb131"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/read.table.html">read.csv</a></span><span class="op">(</span><span class="st">"myfile.csv"</span><span class="op">)</span>
+<span class="co">#&gt; Error in file(file, "rt"): cannot open the connection</span>
+<span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span>y <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">5</span><span class="op">)</span>
+<span class="co">#&gt; Error in mean.default(y = 1:5): argument "x" is missing, with no default</span></code></pre></div>
+<p>The above errors undoubtedly happen to several students every time I teach this course. There’s always a mistake in the filename, or the file doesn’t exist in the current working directory, or the function argument is misspelled. This might not makes sense at this point, but please just get in the habit of using the Tab button. A demo is shown in Figure <a href="basics.html#fig:tabgif">17.13</a>.</p>
+<div class="figure">
+<span style="display:block;" id="fig:unnamed-chunk-10-1"></span>
+<img src="inst/figures/tab_mac.png" alt="Tab button on a Mac keyboard" width="423"><p class="caption">
+Figure 17.11: Tab button on a Mac keyboard
+</p>
+</div>
+<div class="figure">
+<span style="display:block;" id="fig:unnamed-chunk-10-2"></span>
+<img src="inst/figures/tab_windows.jpg" alt="Tab button on most other keyboards" width="500"><p class="caption">
+Figure 17.12: Tab button on most other keyboards
+</p>
+</div>
+</div>
+<p>Use your Tab key when typing to engage RStudio’s auto-complete functionality. This can prevent spelling errors, remind you of function arguments, and easily find file paths. Press Tab while typing to produce a drop-down menu of likely functions and objects, based on what you have typed so far. In Figure <a href="basics.html#fig:tabgif">17.13</a>, I show three commands which use the Tab functionality. These are the most common use cases.</p>
+<div class="figure">
+<span style="display:block;" id="fig:tabgif"></span>
+<img src="inst/gifs/tab.gif" alt="Autocomplete in RStudio using the Tab button. First line: I first type `lib` and then hit Tab. I then scroll down (using my arrow key) to search for the `library` function, then I hit Enter. Then I type `sp` and the hit Tab again. I then scroll down (using my arrow key) to search for the `splines` library. Then I hit Enter. The other two lines follow the same strategy. I encourage you to try it out for yourself." width="95%"><p class="caption">
+Figure 17.13: Autocomplete in RStudio using the Tab button. First line: I first type <code>lib</code> and then hit Tab. I then scroll down (using my arrow key) to search for the <code>library</code> function, then I hit Enter. Then I type <code>sp</code> and the hit Tab again. I then scroll down (using my arrow key) to search for the <code>splines</code> library. Then I hit Enter. The other two lines follow the same strategy. I encourage you to try it out for yourself.
+</p>
+</div>
+</div>
+<div id="keyboard-shortcuts" class="section level2">
+<h2>
+<span class="header-section-number">17.4</span> Keyboard shortcuts<a class="anchor" aria-label="anchor" href="#keyboard-shortcuts"><i class="fas fa-link"></i></a>
+</h2>
+<p>Some very useful keyboard shortcuts are below. See all the keyboard shortcuts for Windows, Max, and Linux in the second page of this RStudio <a href="https://github.com/rstudio/cheatsheets/raw/master/rstudio-ide.pdf">user interface cheatsheet</a>.</p>
+<div class="inline-table"><table class="table table-sm">
+<colgroup>
+<col width="24%">
+<col width="21%">
+<col width="54%">
+</colgroup>
+<thead><tr class="header">
+<th>Windows/Linux</th>
+<th>Mac</th>
+<th>Action</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td>Esc</td>
+<td>Esc</td>
+<td>Interrupt current command (useful if you accidentally ran an incomplete command and cannot escape seeing “+” in the R console)</td>
+</tr>
+<tr class="even">
+<td>Ctrl+s</td>
+<td>Cmd+s</td>
+<td>Save (script)</td>
+</tr>
+<tr class="odd">
+<td>Tab</td>
+<td>Tab</td>
+<td>Auto-complete</td>
+</tr>
+<tr class="even">
+<td>Ctrl + Enter</td>
+<td>Cmd + Enter</td>
+<td>Run current line(s)/selection of code</td>
+</tr>
+<tr class="odd">
+<td>Ctrl + Shift + C</td>
+<td>Cmd + Shift + c</td>
+<td>comment/uncomment the highlighted lines</td>
+</tr>
+<tr class="even">
+<td>Alt + -</td>
+<td>Option + -</td>
+<td>Insert <code>&lt;-</code>
+</td>
+</tr>
+<tr class="odd">
+<td>Ctrl + Shift + m</td>
+<td>Cmd + Shift + m</td>
+<td>Insert <code>%&gt;%</code>
+</td>
+</tr>
+<tr class="even">
+<td>Ctrl + l</td>
+<td>Cmd + l</td>
+<td>Clear the R console</td>
+</tr>
+<tr class="odd">
+<td>Ctrl + Alt + b</td>
+<td>Cmd + Option + b</td>
+<td>Run from start to current line</td>
+</tr>
+<tr class="even">
+<td>Ctrl + Alt + t</td>
+<td>Cmd + Option + t</td>
+<td>Run the current code section (R Markdown)</td>
+</tr>
+<tr class="odd">
+<td>Ctrl + Alt + i</td>
+<td>Cmd + Shift + r</td>
+<td>Insert code chunk (into R Markdown)</td>
+</tr>
+<tr class="even">
+<td>Ctrl + Alt + c</td>
+<td>Cmd + Option + c</td>
+<td>Run current code chunk (R Markdown)</td>
+</tr>
+<tr class="odd">
+<td>up/down arrows in R console</td>
+<td>Same</td>
+<td>Toggle through recently run commands</td>
+</tr>
+<tr class="even">
+<td>Shift + up/down arrows in script</td>
+<td>Same</td>
+<td>Select multiple code lines</td>
+</tr>
+<tr class="odd">
+<td>Ctrl + f</td>
+<td>Cmd + f</td>
+<td>Find and replace in current script</td>
+</tr>
+<tr class="even">
+<td>Ctrl + Shift + f</td>
+<td>Cmd + Shift + f</td>
+<td>Find in files (search/replace across many scripts)</td>
+</tr>
+<tr class="odd">
+<td>Alt + l</td>
+<td>Cmd + Option + l</td>
+<td>Fold selected code</td>
+</tr>
+<tr class="even">
+<td>Shift + Alt + l</td>
+<td>Cmd + Shift + Option+l</td>
+<td>Unfold selected code</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<div id="resources-for-learning-r-and-rstudio" class="section level2">
+<h2>
+<span class="header-section-number">17.5</span> Resources for learning R and Rstudio<a class="anchor" aria-label="anchor" href="#resources-for-learning-r-and-rstudio"><i class="fas fa-link"></i></a>
+</h2>
+<p>You will have many opportunities to formally learn R in <a href="https://www.mcgill.ca/study/2021-2022/courses/epib-613">EPIB613</a>. This course is meant to provide the necessary coding background for EPIB607. This section provides some links to several additional learning resources, and finishes with some thoughts about the difficulty of learning R and</p>
+<div id="help-documentation" class="section level3">
+<h3>
+<span class="header-section-number">17.5.1</span> Help documentation<a class="anchor" aria-label="anchor" href="#help-documentation"><i class="fas fa-link"></i></a>
+</h3>
+<p>Functions, datasets, and other built-in objects in R are documented in its help system. Search the RStudio “Help” tab for documentation on R packages and specific functions. This is within the pane that also contains Files, Plots, and Packages (typically in the lower-right pane). As a shortcut, you can also type the name of a package or function into the R console after a question-mark to open the relevant Help page. Do not include parentheses.</p>
+<p>For example: <code><a href="https://rdrr.io/r/base/mean.html">?mean</a></code> or <code><a href="https://rdrr.io/r/graphics/plot.default.html">?plot</a></code> or <code><a href="https://rdrr.io/r/graphics/plot.default.html">help(plot)</a></code>.</p>
+<p>The quality of R’s help pages varies somewhat. They tend to be on the terse side. However, they all have essentially the same structure and it is useful to know how to read them. Figure <a href="basics.html#fig:help">17.14</a> provides an overview of what to look for. Remember, functions take inputs, perform actions, and return outputs. Something goes in, it gets worked on, and then something comes out. That means you want to know what the function <em>requires</em>, what it <em>does</em>, and what it <em>returns</em>. What it requires is shown in the <strong>Usage</strong> and <strong>Arguments</strong> sections of the help page. The names of all the required and optional arguments are given by name and in the order the function expects them. Some arguments have default values. In the case of the <code><a href="https://rdrr.io/r/base/mean.html">mean()</a></code> function the argument <code>na.rm</code> is set to <code>FALSE</code> by default. These will be shown in the <strong>Usage</strong> section. If a named argument has no default, you will have to give it a value. Depending on what the argument is, this might be a logical value, a number, a dataset, or any other object.</p>
+<div class="figure">
+<span style="display:block;" id="fig:help"></span>
+<img src="inst/figures/help_page.png" alt="How to read a help page [@kieran]." width="97%"><p class="caption">
+Figure 17.14: How to read a help page.<span class="citation"><a class="footnote-ref" tabindex="0" data-toggle="popover" data-content="&lt;p&gt;Kieran Healy, &lt;em&gt;Data Visualization: A Practical Introduction&lt;/em&gt; (Princeton University Press, 2018).&lt;/p&gt;"><sup>122</sup></a></span>
+</p>
+</div>
+</div>
+<div id="online-forums" class="section level3">
+<h3>
+<span class="header-section-number">17.5.2</span> Online Forums<a class="anchor" aria-label="anchor" href="#online-forums"><i class="fas fa-link"></i></a>
+</h3>
+<p>These are community driven forums with hundreds of thousands of users. After looking at the help page, this is the next thing I do to find help.</p>
+<ol style="list-style-type: decimal">
+<li>
+<a href="https://stackoverflow.com/">StackOverflow</a> (a Q&amp;A site with hundreds of thousands of answers to all sorts of programming questions)<br>
+</li>
+<li>
+<a href="https://community.rstudio.com/">RStudio Community</a> (a forum specifically designed for people using RStudio and the tidyverse.</li>
+<li>Searching for help with R on Google can sometimes be tricky because the program name is a single letter. Google is generally smart enough to figure out what you mean when you search for “r scatterplot”, but if it does struggle, try searching for “rstats” instead (e.g. “rstats scatterplot”).</li>
+</ol>
+</div>
+<div id="cheatsheets" class="section level3">
+<h3>
+<span class="header-section-number">17.5.3</span> Cheatsheets<a class="anchor" aria-label="anchor" href="#cheatsheets"><i class="fas fa-link"></i></a>
+</h3>
+<p>There are many PDF “cheatsheets” available on the <a href="https://rstudio.com/resources/cheatsheets/">RStudio website</a>. Of particular interest to this course are:</p>
+<ul>
+<li>
+<a href="http://github.com/rstudio/cheatsheets/raw/master/base-r.pdf">Base R</a><br>
+</li>
+<li>
+<a href="https://github.com/rstudio/cheatsheets/raw/master/rstudio-ide.pdf">RStudio IDE</a><br>
+</li>
+<li>
+<a href="https://github.com/rstudio/cheatsheets/raw/master/rmarkdown.pdf">Dynamic documents with rmarkdown</a><br>
+</li>
+<li>
+<a href="https://github.com/rstudio/cheatsheets/raw/master/data-visualization.pdf">Data visualization with ggplot2 cheatsheet</a><br>
+</li>
+<li>
+<a href="https://github.com/rstudio/cheatsheets/raw/master/data-transformation.pdf">Data transformation with dplyr cheatsheet</a><br>
+</li>
+<li><a href="https://github.com/rstudio/cheatsheets/raw/master/data-import.pdf">Data import with readr, readxl, and googlesheets4 cheatsheet</a></li>
+<li><a href="Data%20tidying%20with%20tidyr%20cheatsheet">Data tidying with tidyr cheatsheet</a></li>
+</ul>
+</div>
+<div id="twitter" class="section level3">
+<h3>
+<span class="header-section-number">17.5.4</span> Twitter<a class="anchor" aria-label="anchor" href="#twitter"><i class="fas fa-link"></i></a>
+</h3>
+<p>R has a vibrant twitter community where you can learn tips, shortcuts, and news - follow these accounts:</p>
+<ul>
+<li>R Function A Day <a href="https://twitter.com/rfunctionaday">@rfuntionaday</a> is an <em>incredible</em> resource<br>
+</li>
+<li>R for Data Science <a href="https://twitter.com/rstats4ds?lang=en">@rstats4ds</a><br>
+</li>
+<li>RStudio <a href="https://twitter.com/rstudio?lang=en">@RStudio</a><br>
+</li>
+<li>RStudio Tips <a href="https://twitter.com/rstudiotips">@rstudiotips</a><br>
+</li>
+<li>R-Bloggers <a href="https://twitter.com/Rbloggers">@Rbloggers</a><br>
+</li>
+<li>R-ladies <a href="https://twitter.com/RLadiesGlobal">@RLadiesGlobal</a><br>
+</li>
+<li>You can post R-related questions and content with <a href="https://twitter.com/search?q=%23rstats">#rstats</a>. The community there is exceptionally generous and helpful.</li>
+</ul>
+</div>
+<div id="exploring-r-with-the-swirl-package" class="section level3">
+<h3>
+<span class="header-section-number">17.5.5</span> Exploring R with the {swirl} Package<a class="anchor" aria-label="anchor" href="#exploring-r-with-the-swirl-package"><i class="fas fa-link"></i></a>
+</h3>
+<p>In addition to the Datacamp courses needed to complete A1, you can supplement your learning through <a href="https://swirlstats.com/students.html">{swirl}</a> (https<a href=""></a>://swirlstats.com/students.html). Students in previous years have found this helpful. You can install {swirl} by running the following code:</p>
+<div class="sourceCode" id="cb132"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"swirl"</span><span class="op">)</span></code></pre></div>
+<p>{swirl} is set of packages that you can download, providing an interactive method for learning R by using R in the RStudio Console.<br>
+Since you’ve already installed R, RStudio, and the {swirl} package, you can follow the instructions on the {swirl} webpage or run the following code <em>in your Console pane</em> to get started with a beginner-level course in {swirl}:</p>
+<div class="sourceCode" id="cb133"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://swirlstats.com">swirl</a></span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/pkg/swirl/man/install_course.html">install_course</a></span><span class="op">(</span><span class="st">"R_Programming_E"</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/pkg/swirl/man/swirl.html">swirl</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<p>There are multiple courses available on {swirl}, and you can access them by installing them and then running the <code><a href="https://rdrr.io/pkg/swirl/man/swirl.html">swirl()</a></code> command in your console.</p>
+</div>
+<div id="free-online-resources" class="section level3">
+<h3>
+<span class="header-section-number">17.5.6</span> Free online resources<a class="anchor" aria-label="anchor" href="#free-online-resources"><i class="fas fa-link"></i></a>
+</h3>
+<ul>
+<li>
+<a href="https://r4ds.had.co.nz/">R for Data Science</a><br>
+</li>
+<li>
+<a href="https://bookdown.org/yihui/rmarkdown-cookbook/">RMarkdown Cookbook</a><br>
+</li>
+<li>
+<a href="https://rstudio-education.github.io/hopr/">Hands-On Programming with R</a><br>
+</li>
+<li>
+<a href="https://rkabacoff.github.io/datavis/">Data Visualization with R</a><br>
+</li>
+<li>
+<a href="https://clauswilke.com/dataviz/">Fundamentals of Data Visualization</a><br>
+</li>
+<li>
+<a href="https://mdsr-book.github.io/mdsr2e/">Modern Data Science with R</a><br>
+</li>
+<li>
+<a href="https://www.bigbookofr.com/">Big Book of R</a><br>
+</li>
+<li>
+<a href="https://www.rstudio.com/collections/espanol/">Materiales de RStudio en Español</a><br>
+</li>
+<li><a href="https://juba.github.io/tidyverse/index.html">Introduction à R et au tidyverse (Francais)</a></li>
+</ul>
+</div>
+<div id="learning-r-can-be-difficult" class="section level3">
+<h3>
+<span class="header-section-number">17.5.7</span> Learning R can be difficult<a class="anchor" aria-label="anchor" href="#learning-r-can-be-difficult"><i class="fas fa-link"></i></a>
+</h3>
+<p>Learning R can be difficult at first—it’s like learning a new language, just like Spanish, French, or Chinese. Hadley Wickham—the chief data scientist at RStudio and the author of some amazing R packages you’ll be using like <code>ggplot2</code>—<a href="https://r-posts.com/advice-to-young-and-old-programmers-a-conversation-with-hadley-wickham/">made this wise observation</a>:</p>
+<blockquote>
+<p>It’s easy when you start out programming to get really frustrated and think, “Oh it’s me, I’m really stupid,” or, “I’m not made out to program.” But, that is absolutely not the case. Everyone gets frustrated. I still get frustrated occasionally when writing R code. It’s just a natural part of programming. So, it happens to everyone and gets less and less over time. Don’t blame yourself. Just take a break, do something fun, and then come back and try again later.</p>
+</blockquote>
+</div>
+</div>
+<div id="whats-next" class="section level2">
+<h2>
+<span class="header-section-number">17.6</span> What’s next<a class="anchor" aria-label="anchor" href="#whats-next"><i class="fas fa-link"></i></a>
+</h2>
+<p>The next four Chapters are designed to give you the skills and knowledge necessary to <em>get started</em> in any programming task. If you have not yet installed R and/or RStudio, please go through the steps outlined in Chapter <a href="install.html#install">16</a> before beginning the next three.</p>
+<p>Please note that these Chapters are not intended to be a full and complete introduction to programming with R nor to using R for data science. The Datacamp courses you will need to complete for A1 as well as EPIB613 will provide you with the tools to program for data science related tasks. The point of these Chapters is to establish good programming habits before you even start coding. I have gathered these resources here as a succinct reference of what I find to be the most useful to be successful in this course. The four core concepts are:</p>
+<ol style="list-style-type: decimal">
+<li>
+<a href="projects.html#projects">Projects</a><br>
+</li>
+<li><a href="functionsHOP.html#functionsHOP">Functions</a></li>
+<li>
+<a href="packages.html#packages">Packages</a><br>
+</li>
+<li><a href="import.html#import">Importing data</a></li>
+</ol>
+</div>
+</div>
+
+  <div class="chapter-nav">
+<div class="prev"><a href="install.html"><span class="header-section-number">16</span> Installing R and RStudio</a></div>
+<div class="next"><a href="projects.html"><span class="header-section-number">18</span> RStudio Projects</a></div>
+</div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
+    <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
+      <ul class="nav navbar-nav">
+<li><a class="nav-link" href="#basics"><span class="header-section-number">17</span> Basics of R and Rstudio</a></li>
+<li>
+<a class="nav-link" href="#rstudio-layout-and-customization-getting-to-know-r-through-rstudio"><span class="header-section-number">17.1</span> RStudio Layout and Customization: Getting to Know R through RStudio</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#rstudio-layout"><span class="header-section-number">17.1.1</span> RStudio Layout</a></li>
+<li><a class="nav-link" href="#customizing-rstudio"><span class="header-section-number">17.1.2</span> Customizing RStudio</a></li>
+<li><a class="nav-link" href="#minimized-and-missing-panes"><span class="header-section-number">17.1.3</span> Minimized and Missing Panes</a></li>
+</ul>
+</li>
+<li>
+<a class="nav-link" href="#writing-and-running-code-in-rstudio"><span class="header-section-number">17.2</span> Writing and Running Code in RStudio</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#running-code-in-the-console"><span class="header-section-number">17.2.1</span> Running Code in the Console</a></li>
+<li><a class="nav-link" href="#running-code-in-an-r-script"><span class="header-section-number">17.2.2</span> Running Code in an R Script</a></li>
+<li><a class="nav-link" href="#rstudio-diagnostics"><span class="header-section-number">17.2.3</span> RStudio diagnostics</a></li>
+<li><a class="nav-link" href="#commenting-your-code-in-r"><span class="header-section-number">17.2.4</span> Commenting Your Code in R</a></li>
+</ul>
+</li>
+<li><a class="nav-link" href="#autocomplete-to-avoid-coding-mistakes"><span class="header-section-number">17.3</span> Autocomplete to avoid coding mistakes</a></li>
+<li><a class="nav-link" href="#keyboard-shortcuts"><span class="header-section-number">17.4</span> Keyboard shortcuts</a></li>
+<li>
+<a class="nav-link" href="#resources-for-learning-r-and-rstudio"><span class="header-section-number">17.5</span> Resources for learning R and Rstudio</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#help-documentation"><span class="header-section-number">17.5.1</span> Help documentation</a></li>
+<li><a class="nav-link" href="#online-forums"><span class="header-section-number">17.5.2</span> Online Forums</a></li>
+<li><a class="nav-link" href="#cheatsheets"><span class="header-section-number">17.5.3</span> Cheatsheets</a></li>
+<li><a class="nav-link" href="#twitter"><span class="header-section-number">17.5.4</span> Twitter</a></li>
+<li><a class="nav-link" href="#exploring-r-with-the-swirl-package"><span class="header-section-number">17.5.5</span> Exploring R with the {swirl} Package</a></li>
+<li><a class="nav-link" href="#free-online-resources"><span class="header-section-number">17.5.6</span> Free online resources</a></li>
+<li><a class="nav-link" href="#learning-r-can-be-difficult"><span class="header-section-number">17.5.7</span> Learning R can be difficult</a></li>
+</ul>
+</li>
+<li><a class="nav-link" href="#whats-next"><span class="header-section-number">17.6</span> What’s next</a></li>
+</ul>
+
+      <div class="book-extra">
+        <ul class="list-unstyled">
+          
+        </ul>
+</div>
+    </nav>
+</div>
+
+</div>
+</div> <!-- .container -->
+
+<footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>"<strong>EPIB607</strong>" was written by Sahir Bhatnagar and James A Hanley. It was last built on 2021-12-07.</p>
+  </div>
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>This book was built by the <a class="text-light" href="https://bookdown.org">bookdown</a> R package.</p>
+  </div>
+
+</div></div>
+</footer><!-- dynamically load mathjax for compatibility with self-contained --><script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script><script type="text/x-mathjax-config">const popovers = document.querySelectorAll('a.footnote-ref[data-toggle="popover"]');
+for (let popover of popovers) {
+  const div = document.createElement('div');
+  div.setAttribute('style', 'position: absolute; top: 0, left:0; width:0, height:0, overflow: hidden; visibility: hidden;');
+  div.innerHTML = popover.getAttribute('data-content');
+
+  var has_math = div.querySelector("span.math");
+  if (has_math) {
+    document.body.appendChild(div);
+    MathJax.Hub.Queue(["Typeset", MathJax.Hub, div]);
+    MathJax.Hub.Queue(function() {
+      popover.setAttribute('data-content', div.innerHTML);
+      document.body.removeChild(div);
+    })
+  }
+}
+</script>
+</body>
+</html>

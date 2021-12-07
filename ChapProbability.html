@@ -1,0 +1,1077 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>Chapter 7 Probability | EPIB607</title>
+<meta name="author" content="Sahir Bhatnagar and James A Hanley">
+<meta name="description" content="This section is adapted from the book Introduction to Statistical Thinking (With R, Without Calculus)40  7.1 Student Learning Objective This section extends the notion of variability that was...">
+<meta name="generator" content="bookdown 0.24 with bs4_book()">
+<meta property="og:title" content="Chapter 7 Probability | EPIB607">
+<meta property="og:type" content="book">
+<meta property="og:url" content="https://sahirbhatnagar.com/EPIB607/ChapProbability.html">
+<meta property="og:description" content="This section is adapted from the book Introduction to Statistical Thinking (With R, Without Calculus)40  7.1 Student Learning Objective This section extends the notion of variability that was...">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Chapter 7 Probability | EPIB607">
+<meta name="twitter:description" content="This section is adapted from the book Introduction to Statistical Thinking (With R, Without Calculus)40  7.1 Student Learning Objective This section extends the notion of variability that was...">
+<!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
+<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.3.1/transition.js"></script><script src="libs/bs3compat-0.3.1/tabs.js"></script><script src="libs/bs3compat-0.3.1/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
+<script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script><script src="libs/kePrint-0.0.1/kePrint.js"></script><link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet">
+<link href="libs/bsTable-3.3.7/bootstrapTable.min.css" rel="stylesheet">
+<script src="libs/bsTable-3.3.7/bootstrapTable.js"></script><script src="libs/htmlwidgets-1.5.4/htmlwidgets.js"></script><link href="libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet">
+<script src="libs/datatables-binding-0.20/datatables.js"></script><link href="libs/dt-core-1.11.3/css/jquery.dataTables.min.css" rel="stylesheet">
+<link href="libs/dt-core-1.11.3/css/jquery.dataTables.extra.css" rel="stylesheet">
+<script src="libs/dt-core-1.11.3/js/jquery.dataTables.min.js"></script><link href="libs/crosstalk-1.2.0/css/crosstalk.min.css" rel="stylesheet">
+<script src="libs/crosstalk-1.2.0/js/crosstalk.min.js"></script><link href="libs/nouislider-7.0.10/jquery.nouislider.min.css" rel="stylesheet">
+<script src="libs/nouislider-7.0.10/jquery.nouislider.min.js"></script><link href="libs/selectize-0.12.0/selectize.bootstrap3.css" rel="stylesheet">
+<script src="libs/selectize-0.12.0/selectize.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- CSS --><link rel="stylesheet" href="templates/bs4_style.css">
+<link rel="stylesheet" href="templates/ims-style.css">
+<link rel="stylesheet" href="templates/corrections.css">
+</head>
+<body data-spy="scroll" data-target="#toc">
+
+<div class="container-fluid">
+<div class="row">
+  <header class="col-sm-12 col-lg-3 sidebar sidebar-book"><a class="sr-only sr-only-focusable" href="#content">Skip to main content</a>
+
+    <div class="d-flex align-items-start justify-content-between">
+      <h1>
+        <a href="index.html" title="">EPIB607</a>
+      </h1>
+      <button class="btn btn-outline-primary d-lg-none ml-2 mt-1" type="button" data-toggle="collapse" data-target="#main-nav" aria-expanded="true" aria-controls="main-nav"><i class="fas fa-bars"></i><span class="sr-only">Show table of contents</span></button>
+    </div>
+
+    <div id="main-nav" class="collapse-lg">
+      <form role="search">
+        <input id="search" class="form-control" type="search" placeholder="Search" aria-label="Search">
+</form>
+
+      <nav aria-label="Table of contents"><h2>Table of contents</h2>
+        <ul class="book-toc list-unstyled">
+<li><a class="" href="index.html">Preface</a></li>
+<li><a class="" href="schedule.html">Schedule</a></li>
+<li><a class="" href="syllabus.html">Syllabus</a></li>
+<li class="book-part">Descriptive Statistics</li>
+<li><a class="" href="introdata.html"><span class="header-section-number">1</span> Introduction to Data</a></li>
+<li><a class="" href="aesthetic-mapping.html"><span class="header-section-number">2</span> Visualizing data: Mapping data onto aesthetics</a></li>
+<li><a class="" href="coordinate-systems-axes.html"><span class="header-section-number">3</span> Coordinate systems and axes</a></li>
+<li><a class="" href="ggplot2-package-for-plots.html"><span class="header-section-number">4</span> ggplot2 package for plots</a></li>
+<li><a class="" href="color-basics.html"><span class="header-section-number">5</span> Color scales</a></li>
+<li class="book-part">Sampling Distributions</li>
+<li><a class="" href="paras.html"><span class="header-section-number">6</span> Statistical Parameters</a></li>
+<li><a class="active" href="ChapProbability.html"><span class="header-section-number">7</span> Probability</a></li>
+<li><a class="" href="randomVariables.html"><span class="header-section-number">8</span> Random Variables</a></li>
+<li><a class="" href="ChapNormal.html"><span class="header-section-number">9</span> The Normal Random Variable</a></li>
+<li><a class="" href="ChapSampDist.html"><span class="header-section-number">10</span> The Sampling Distribution</a></li>
+<li><a class="" href="CI.html"><span class="header-section-number">11</span> Parameter Intervals</a></li>
+<li><a class="" href="foundations-bootstrapping.html"><span class="header-section-number">12</span> Confidence intervals with bootstrapping</a></li>
+<li class="book-part">One Sample Inference</li>
+<li><a class="" href="inference-one-mean.html"><span class="header-section-number">13</span> Inference for a single mean</a></li>
+<li><a class="" href="ChapBinom.html"><span class="header-section-number">14</span> Binomial Random Variable</a></li>
+<li><a class="" href="inference-one-prop.html"><span class="header-section-number">15</span> Inference for a single proportion</a></li>
+<li class="book-part">Computing</li>
+<li><a class="" href="install.html"><span class="header-section-number">16</span> Installing R and RStudio</a></li>
+<li><a class="" href="basics.html"><span class="header-section-number">17</span> Basics of R and Rstudio</a></li>
+<li><a class="" href="projects.html"><span class="header-section-number">18</span> RStudio Projects</a></li>
+<li><a class="" href="functionsHOP.html"><span class="header-section-number">19</span> Functions</a></li>
+<li><a class="" href="packages.html"><span class="header-section-number">20</span> Packages</a></li>
+<li><a class="" href="import.html"><span class="header-section-number">21</span> Data Import and Export</a></li>
+<li><a class="" href="transition-to-r-from-excel-stata-sas.html"><span class="header-section-number">22</span> Transition to R from Excel, Stata, SAS</a></li>
+<li><a class="" href="references.html">References</a></li>
+</ul>
+
+        <div class="book-extra">
+          
+        </div>
+      </nav>
+</div>
+  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="ChapProbability" class="section level1">
+<h1>
+<span class="header-section-number">7</span> Probability<a class="anchor" aria-label="anchor" href="#ChapProbability"><i class="fas fa-link"></i></a>
+</h1>
+
+<div class="rmdnote">
+<p>This section is adapted from the book Introduction to Statistical Thinking (With R, Without Calculus)<span class="citation"><a class="footnote-ref" tabindex="0" data-toggle="popover" data-content="&lt;p&gt;Benjamin Yakir, “Introduction to Statistical Thinking (with R, Without Calculus)” (The Hebrew University, 2011).&lt;/p&gt;"><sup>40</sup></a></span></p>
+</div>
+<div id="student-learning-objective" class="section level2">
+<h2>
+<span class="header-section-number">7.1</span> Student Learning Objective<a class="anchor" aria-label="anchor" href="#student-learning-objective"><i class="fas fa-link"></i></a>
+</h2>
+<p>This section extends the notion of variability that was introduced in
+the context of data to other situations. The variability of the entire
+<em>population</em> and the concept of a <em>random variable</em> is discussed. These
+concepts are central for the development and interpretation of
+statistical inference. By the end of the chapter the student should:</p>
+<ul>
+<li><p>Consider the distribution of a variable in a population and compute
+parameters of this distribution, such as the mean and the standard
+deviation.</p></li>
+<li><p>Become familiar with the concept of a random variable.</p></li>
+<li><p>Understand the relation between the distribution of the population
+and the distribution of a random variable produced by sampling a
+random subject from the population.</p></li>
+<li><p>Identify the distribution of the random variable in simple settings
+and compute its expectation and variance.</p></li>
+</ul>
+</div>
+<div id="different-forms-of-variability" class="section level2">
+<h2>
+<span class="header-section-number">7.2</span> Different Forms of Variability<a class="anchor" aria-label="anchor" href="#different-forms-of-variability"><i class="fas fa-link"></i></a>
+</h2>
+<p>In Section <a href="introdata.html#introdata">1</a> we examined the variability in data. In the
+statistical context, data is obtained by selecting a sample from the
+target population and measuring the quantities of interest for the
+subjects that belong to the sample. Different subjects in the sample may
+obtain different values for the measurement, leading to variability in
+the data.</p>
+<p>This variability may be summarized with the aid of a <em>frequency table</em>,
+a table of <em>relative frequency</em>, or via the <em>cumulative relative
+frequency</em>. A graphical display of the variability in the data may be
+obtained with the aid of the <em>bar plot</em>, the <em>histogram</em>, or the <em>boxplot</em>. For example, Figure <a href="ChapProbability.html#fig:frogBoxPlot2">7.1</a> shows a boxplot of <code>clutch.volume</code> (from the <a href="introdata.html#frogDataExample"><code>frog</code></a> dataset in the <code>oibiostat</code> package) alongside a vertical dot plot.</p>
+<div class="figure">
+<span style="display:block;" id="fig:frogBoxPlot2"></span>
+<img src="08-probability_files/figure-html/frogBoxPlot2-1.png" alt="A boxplot and dot plot of `clutch.volume`. The horizontal dashes indicate the bottom 50% of the data and the open circles represent the top 50%." width="672"><p class="caption">
+Figure 7.1: A boxplot and dot plot of <code>clutch.volume</code>. The horizontal dashes indicate the bottom 50% of the data and the open circles represent the top 50%.
+</p>
+</div>
+<p>Numerical summaries may be computed in order to characterize the main
+features of the variability. We used the <em>mean</em> and the <em>median</em> in
+order to identify the location of the distribution. The <em>sample
+variance</em>, or better yet the <em>sample standard deviation</em>, as well as the
+<em>inter-quartile range</em> were all described as tools to quantify the
+overall spread of the data.</p>
+<p>The aim of all these graphical representations and numerical summaries
+is to investigate the variability of the data.</p>
+<p>The subject of this chapter is to introduce two other forms of
+variability, variability that is not associated, at least not directly,
+with the data that we observe. The first type of variability is the
+<strong>population variability</strong>. The other type of variability is the
+variability of a <strong>random variable</strong>.</p>
+<p>The notions of variability that will be presented are abstract, they are
+not given in terms of the data that we observe, and they have a
+mathematical-theoretical flavor to them. At first, these abstract
+notions may look to you as a waste of your time and may seem to be
+unrelated to the subject matter of the course. The opposite is true. The
+very core of statistical thinking is relating observed data to
+theoretical and abstract models of a phenomena. Via this comparison, and
+using the tools of statistical inference that are presented in the
+second half of the book, statisticians can extrapolate insights or make
+statements regarding the phenomena on the basis of the observed data.
+Thereby, the abstract notions of variability that are introduced in this
+chapter, and are extended in the subsequent chapters, are the essential foundations for the practice of
+statistics.</p>
+<p>The first notion of variability is the variability that is associated
+with the population. It is similar in its nature to the variability of
+the data. The difference between these two types of variability is that
+the former corresponds to the variability of the quantity of interest
+across all members of the population and not only for those that were
+selected to the sample.</p>
+<p>We will examine the data set <a href="https://github.com/sahirbhatnagar/EPIB607/blob/master/inst/data/heights_sample.csv"><code>heights_sample.csv</code></a> which contains data on the sex and height of a sample of
+100 observations. We will also consider the sex and height of
+<em>all</em> the members of the population from which the sample was selected.
+The size of the relevant population is 100,000, including the 100
+subjects that composed the sample. When we examine the values of the
+height across the entire population we can see that different people may
+have different heights. This variability of the heights is the
+<strong>population variability</strong>.</p>
+<p>The other abstract type of variability, the <strong>variability of a random variable</strong>, is a mathematical concept. The aim of this concept is to model
+the notion of randomness in measurements or the uncertainty regarding
+the outcome of a measurement. In particular we will initially consider
+the variability of a random variable in the context of selecting one
+subject at random from the population.</p>
+<p>Imagine we have a population of size 100,000 and we are about to select
+at random one subject from this population. We intend to measure the
+height of the subject that will be selected. Prior to the selection and
+measurement we are not certain what value of height will be obtained.
+One may associate the notion of variability with uncertainty — different
+subjects to be selected may obtain different evaluations of the
+measurement and we do not know before hand which subject will be
+selected. The resulting variability is the variability of a random
+variable.</p>
+<p>Random variables can be defined for more abstract settings. Their aim is
+to provide models for randomness and uncertainty in measurements. Simple
+examples of such abstract random variables will be provided in this
+chapter. More examples will be introduced in the subsequent chapters.
+The more abstract examples of random variables need not be associated
+with a specific population. Still, the same definitions that are used
+for the example of a random variable that emerges as a result of
+sampling a single subject from a population will apply to the more
+abstract constructions.</p>
+<p>All types of variability, the variability of the data we dealt with
+before as well as the other two types of variability, can be displayed
+using graphical tools and characterized with numerical summaries.
+Essentially the same type of plots and numerical summaries, possibly
+with some modifications, may and will be applied.</p>
+<p>A point to remember is that the variability of the data relates to a
+concrete list of data values that is presented to us. In contrary to the
+case of the variability of the data, the other types of variability are
+not associated with quantities we actually get to observe. The data for
+the sample we get to see but not the data for the rest of the
+population. Yet, we can still discuss the variability of a population
+that is out there, even though we do not observe the list of
+measurements for the entire population. (The example that we give in
+this chapter of a population was artificially constructed and serves for
+illustration only. In the actual statistical context one does not obtain
+measurements from the entire population, only from the subjects that
+went into the sample.) The discussion of the variability in this context
+is theoretical in its nature. Still, this theoretical discussion is
+instrumental for understanding statistics.</p>
+</div>
+<div id="variability-of-a-population" class="section level2">
+<h2>
+<span class="header-section-number">7.3</span> Variability of a population<a class="anchor" aria-label="anchor" href="#variability-of-a-population"><i class="fas fa-link"></i></a>
+</h2>
+<p>In this section we introduce the variability of a population and present
+some numerical summaries that characterizes this variability. Before
+doing so, let us review with the aid of an example some of the numerical
+summaries that were used for the characterization of the variability of
+data.</p>
+<p>Recall the file <code>heights_sample.csv</code> that contains data on the height and sex of
+100 subjects (the data file can be obtained <a href="https://github.com/sahirbhatnagar/EPIB607/blob/master/inst/data/heights_sample.csv">here</a>). We read the
+content of the file into a data frame by the name <code>heights_sample</code> and apply the
+function <code>summary</code> to the data frame:</p>
+<div class="sourceCode" id="cb49"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org">dplyr</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/leeper/rio">rio</a></span><span class="op">)</span>
+<span class="va">heights_sample</span> <span class="op">&lt;-</span> <span class="fu">rio</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/rio/man/import.html">import</a></span><span class="op">(</span><span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org//reference/here.html">here</a></span><span class="op">(</span><span class="st">"inst/data/heights_sample.csv"</span><span class="op">)</span><span class="op">)</span>
+<span class="va">heights_sample</span> <span class="op">&lt;-</span> <span class="va">heights_sample</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> 
+  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>sex <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span><span class="op">(</span><span class="va">sex</span><span class="op">)</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">heights_sample</span><span class="op">)</span>
+<span class="co">#&gt;        id              sex         height     </span>
+<span class="co">#&gt;  Min.   :1538611   FEMALE:54   Min.   :117.0  </span>
+<span class="co">#&gt;  1st Qu.:3339583   MALE  :46   1st Qu.:158.0  </span>
+<span class="co">#&gt;  Median :5105620               Median :171.0  </span>
+<span class="co">#&gt;  Mean   :5412367               Mean   :170.1  </span>
+<span class="co">#&gt;  3rd Qu.:7622236               3rd Qu.:180.2  </span>
+<span class="co">#&gt;  Max.   :9878130               Max.   :208.0</span></code></pre></div>
+<p>When applied to a numeric sequence,
+the function <code>summary</code> produces the smallest and largest values in the
+sequence, the three quartiles (including the median) and the mean. If
+the input of the same function is a factor then the outcome is the
+frequency in the data of each of the levels of the factor. Here <code>sex</code>
+is a factor with two levels. From the summary we can see that 54 of the
+subjects in the sample are female and 46 are male.</p>
+<p>Notice that when the input to the function <code>summary</code> is a data frame,
+as is the case in this example, then the output is a summary of each of
+the variables of the data frame. In this example two of the variables
+are numeric (<code>id</code> and <code>height</code>) and one variable is a factor
+(<code>sex</code>).</p>
+<p>Recall that the mean is the arithmetic average of the data which is
+computed by summing all the values of the variable and dividing the
+result by the number of observations. Hence, if <span class="math inline">\(n\)</span> is the number of
+observations (<span class="math inline">\(n=100\)</span> in this example) and <span class="math inline">\(y_i\)</span> is the value of the
+variable for subject <span class="math inline">\(i\)</span>, then one may write the mean in a formula form
+as</p>
+<p><span class="math display">\[\bar y = \frac{\mbox{Sum of all values in the data}}{\mbox{Number of values in the data}} = \frac{\sum_{i=1}^n y_i}{n}\;,\]</span></p>
+<p>where <span class="math inline">\(\bar y\)</span> corresponds to the mean of the data and the symbol
+<span class="math inline">\(\sum_{i=1}^n y_i\)</span> corresponds to the sum of all values in the data.</p>
+<p>The median is computed by ordering the data values and selecting a value
+that splits the ordered data into two equal parts. The first and third
+quartile are obtained by further splitting each of the halves into two
+quarters.</p>
+<p>Let us discuss the variability associated with an entire target
+population. The file <code>heights_population.csv</code> that contains the population data can
+be obtained <a href="https://github.com/sahirbhatnagar/EPIB607/blob/master/inst/data/heights_sample.csv%3E">here</a>. It is a
+CSV file that contains the information on sex and height of an entire
+adult population of some imaginary city. (The data in <code>heights_sample</code>
+corresponds to a sample from this city.) Read the population data into
+<code>R</code> and examine it:</p>
+<div class="sourceCode" id="cb50"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">heights_population</span> <span class="op">&lt;-</span> <span class="fu">rio</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/rio/man/import.html">import</a></span><span class="op">(</span><span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org//reference/here.html">here</a></span><span class="op">(</span><span class="st">"inst/data/heights_population.csv"</span><span class="op">)</span><span class="op">)</span>
+<span class="va">heights_population</span> <span class="op">&lt;-</span> <span class="va">heights_population</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> 
+  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>sex <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span><span class="op">(</span><span class="va">sex</span><span class="op">)</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">heights_population</span><span class="op">)</span>
+<span class="co">#&gt;        id              sex            height   </span>
+<span class="co">#&gt;  Min.   :1000082   FEMALE:48888   Min.   :117  </span>
+<span class="co">#&gt;  1st Qu.:3254220   MALE  :51112   1st Qu.:162  </span>
+<span class="co">#&gt;  Median :5502618                  Median :170  </span>
+<span class="co">#&gt;  Mean   :5502428                  Mean   :170  </span>
+<span class="co">#&gt;  3rd Qu.:7757518                  3rd Qu.:178  </span>
+<span class="co">#&gt;  Max.   :9999937                  Max.   :217</span></code></pre></div>
+<p>The object <code>heights_population</code> is a data frame of the same structure as the data
+frame <code>heights_sample</code>. It contains three variables: a unique identifier of each
+subject (<code>id</code>), the sex of the subject (<code>sex</code>), and its height
+(<code>height</code>). Applying the function <code>summary</code> to the data frame produces
+the summary of the variables that it contains. In particular, for the
+variable <code>sex</code>, which is a factor, it produces the frequency of its
+two categories – 48,888 female and 51,112 – a total of 100,000 subjects.
+For the variable <code>height</code>, which is a numeric variable, it produces
+the extreme values, the quartiles, and the mean.</p>
+<div class="sourceCode" id="cb51"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org">ggplot2</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://wilkelab.org/cowplot/">cowplot</a></span><span class="op">)</span>
+<span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme_get.html">theme_set</a></span><span class="op">(</span><span class="fu">cowplot</span><span class="fu">::</span><span class="fu"><a href="https://wilkelab.org/cowplot/reference/theme_cowplot.html">theme_cowplot</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span>
+<span class="va">p</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">heights_population</span>, 
+            mapping <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">height</span><span class="op">)</span><span class="op">)</span>
+<span class="va">p</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_bar.html">geom_bar</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<div class="figure" style="text-align: center">
+<span style="display:block;" id="fig:Prob1"></span>
+<img src="08-probability_files/figure-html/Prob1-1.png" alt="Bar Plot of Height" width="60%"><p class="caption">
+Figure 7.2: Bar Plot of Height
+</p>
+</div>
+<p>Let us concentrate on the variable <code>height</code>. A bar plot of the
+distribution of the heights in the entire population is given in
+Figure <a href="ChapProbability.html#fig:Prob1">7.2</a>. Recall that a vertical bar is placed
+above each value of height that appears in the population, with the
+height of the bar representing the frequency of the value in the
+population. One may read out of the graph or obtain from the numerical
+summaries that the variable takes integer values in the range between
+117 and 217 (heights are rounded to the nearest centimeter). The
+distribution is centered at 170 centimeter, with the central 50% of the
+values spreading between 162 and 178 centimeters.</p>
+<p>The mean of the height in the entire population is equal to 170
+centimeter. This mean, just like the mean for the distribution of data,
+is obtained by the summation of all the heights in the population
+divided by the population size. Let us denote the size of the entire
+population by <span class="math inline">\(N\)</span>. In this example <span class="math inline">\(N = 100,000\)</span>. (The size of the
+sample for the data was called <span class="math inline">\(n\)</span> and was equal to <span class="math inline">\(n=100\)</span> in the
+parallel example that deals with the data of a sample.) The mean of an
+entire population is denoted by the Greek letter <span class="math inline">\(\mu\)</span> and is read
+“<em>mew</em>”. (The average for the data was denoted <span class="math inline">\(\bar y\)</span>). The formula of
+the population mean is:</p>
+<p><span class="math display">\[\mu = \frac{\mbox{Sum of all values in the population}}{\mbox{Number of values in the population}}= \frac{\sum_{i=1}^N y_i}{N}\;.\]</span></p>
+<p>Observe the similarity between the definition of the mean for the data
+and the definition of the mean for the population. In both cases the
+arithmetic average is computed. The only difference is that in the case
+of the mean of the data the computation is with respect to the values
+that appear in the sample whereas for the population all the values in
+the population participate in the computation.</p>
+<div class="rmdwarning">
+<p>In actual life, we will not have all the values of a variable in the
+entire population. Hence, we will not be able to compute the actual
+value of the population mean.</p>
+</div>
+<p>However, it is still meaningful to talk
+about the population mean because this number exists, even though we do
+not know what its value is. As a matter of fact, <em>one of the issues in statistics is to try to estimate this unknown quantity on the basis of the data we do have in the sample</em>.</p>
+<p>A characteristic of the distribution of an entire population is called a
+<strong>parameter</strong>. Hence, <span class="math inline">\(\mu\)</span>, the population average, is a parameter. Other
+examples of parameters are the population median and the population
+quartiles. These parameters are defined exactly like their data
+counterparts, but with respect to the values of the entire population
+instead of the observations in the sample alone. See Section <a href="paras.html#paras">6</a> for more details on statistical parameters.</p>
+<p>Another example of a parameter is the population variance. Recall that
+the sample variance was defined with the aid of the deviations
+<span class="math inline">\(y_i - \bar y\)</span>, where <span class="math inline">\(y_i\)</span> is the value of the measurement for the
+<span class="math inline">\(i\)</span>th subject and <span class="math inline">\(\bar y\)</span> is the mean for the data. In order to compute
+the sample variance these deviations were squared to produce the squared
+deviations. The squares were summed up and then divided by the sample
+size minus one (<span class="math inline">\(n-1\)</span>). The sample variance, computed from the data, was
+denoted <span class="math inline">\(s^2\)</span>.</p>
+<p>The population variance is defined in a similar way. First, the
+deviations from the population mean <span class="math inline">\(y_i - \mu\)</span> are considered for each
+of the members of the population. These deviations are squared and the
+average of the squares is computed. We denote this parameter by
+<span class="math inline">\(\sigma^2\)</span> (read “<em>sigma square</em>”). A minor difference between the
+sample variance and the population variance is that for the latter we
+should divide the sum of squared deviations by the population size (<span class="math inline">\(N\)</span>)
+and not by the population size minus one (<span class="math inline">\(N-1\)</span>):</p>
+<p><span class="math display">\[\begin{aligned}
+\sigma^2 =&amp; \mbox{The average square deviation in the population}\\
+         =&amp; \frac{\mbox{Sum of the squares of the deviations in the population}}{\mbox{Number of values in the population}}\\
+         =&amp; \frac{\sum_{i=1}^N (y_i-\mu)^2}{N}\;.\end{aligned}\]</span></p>
+<p>The standard deviation of the population, yet another parameter, is
+denoted by <span class="math inline">\(\sigma\)</span> and is equal to the square root of the variance. The
+standard deviation summarizes the overall variability of the measurement
+across the population. Again, the typical situation is that we do not
+know what the actual value of the standard deviation of the population
+is. Yet, we may refer to it as a quantity and we may try to estimate its
+value based on the data we do have from the sample.</p>
+<p>For the height of the subjects in our imaginary city we get that the
+variance is equal to <span class="math inline">\(\sigma^2 =126.1576\)</span>. The standard deviation is
+equal to <span class="math inline">\(\sigma = \sqrt{126.1576} = 11.23199\)</span>. These quantities can be
+computed in this example from the data frame <code>heights_population</code> with the aid of
+the functions <code>var</code> and <code>sd</code>, respectively<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;Observe that the function &lt;code&gt;var&lt;/code&gt; computes the sample variance.
+Consequently, the sum of squares is divided by &lt;span class="math inline"&gt;\(N-1\)&lt;/span&gt;. We can correct
+that when computing the population variance by multiplying the
+result by &lt;span class="math inline"&gt;\(N-1\)&lt;/span&gt; and dividing by &lt;span class="math inline"&gt;\(N\)&lt;/span&gt;. Notice that the difference
+between the two quantities is negligible for a large population.
+Henceforth we will use the functions &lt;code&gt;var&lt;/code&gt; and &lt;code&gt;sd&lt;/code&gt; to compute
+the variance and standard deviations of populations without the
+application of the correction.&lt;/p&gt;'><sup>41</sup></a>.</p>
+</div>
+<div id="variability-of-a-random-variable" class="section level2">
+<h2>
+<span class="header-section-number">7.4</span> Variability of a random variable<a class="anchor" aria-label="anchor" href="#variability-of-a-random-variable"><i class="fas fa-link"></i></a>
+</h2>
+<p>In the previous section we dealt with the variability of the population.
+Next we consider the variability of a random variable. As an example,
+consider taking a sample of size <span class="math inline">\(n=1\)</span> from the population (a single
+person) and measuring his/her height. We will apply the function <code><a href="https://dplyr.tidyverse.org/reference/sample_n.html">dplyr::sample_n</a></code> to sample one row from the data frame:</p>
+<div class="sourceCode" id="cb52"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">heights_population</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> 
+  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/sample_n.html">sample_n</a></span><span class="op">(</span>size <span class="op">=</span> <span class="fl">1</span><span class="op">)</span>
+<span class="co">#&gt;        id  sex height</span>
+<span class="co">#&gt; 1 7984250 MALE    186</span></code></pre></div>
+<p>The first entry to the function is the data frame. When
+we set the second argument to <code>size = 1</code> then the function selects one of the
+entries of the data frame at random, with each entry having the same
+likelihood of being selected. Let us run the function again:</p>
+<div class="sourceCode" id="cb53"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">heights_population</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> 
+  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/sample_n.html">sample_n</a></span><span class="op">(</span>size <span class="op">=</span> <span class="fl">1</span><span class="op">)</span>
+<span class="co">#&gt;        id    sex height</span>
+<span class="co">#&gt; 1 5407059 FEMALE    166</span></code></pre></div>
+<p>In this instance an entry with a different value was selected. Try to
+run the command several times yourself and see what you get. Would you
+necessarily obtain a different value in each run?</p>
+<p>Now let us enter the same command without pressing the return key:</p>
+<div class="sourceCode" id="cb54"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">heights_population</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> 
+  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/sample_n.html">sample_n</a></span><span class="op">(</span>size <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></code></pre></div>
+<p>Can you tell, before pressing the key, what value will you get?</p>
+<p>The answer to this question is of course <em>“No”</em>. There are 100,000
+entries. In principle, any of the
+values may be selected and there is no way of telling in advance which
+of the values will turn out as an outcome.</p>
+<p>A random variable is the future outcome of a measurement, <span><strong>before</strong></span>
+the measurement is taken. It does not have a specific value, but rather
+a collection of potential values with a distribution over these values.</p>
+<div class="rmdnote">
+<p>After the measurement is taken and the specific value is revealed then
+the random variable ceases to be a random variable! Instead, it becomes
+data.</p>
+</div>
+<p>Although one is not able to say what the outcome of a random variable
+will turn out to be. Still, one may identify patterns in this potential
+outcome. For example, knowing that the distribution of heights in the
+population ranges between 117 and 217 centimeter one may say in advance
+that the outcome of the measurement must also be in that interval.
+Moreover, since there is a total of 3,476 subjects with height equal to
+168 centimeters and since the likelihood of each subject to be selected
+is equal then the likelihood of selecting a subject of this height is
+3,476/100,000 = 0.03476. In the context of random variables we call this
+likelihood <strong>probability</strong>. In the same vain, the frequency of subjects
+with hight 192 centimeter is 488, and therefore the probability of
+measuring such a height is 0.00488. The frequency of subjects with
+height 200 centimeter or above is 393, hence the probability of
+obtaining a measurement in the range between 200 and 217 centimeter is
+0.00393.</p>
+<div id="sample-space-and-distribution" class="section level3">
+<h3>
+<span class="header-section-number">7.4.1</span> Sample Space and Distribution<a class="anchor" aria-label="anchor" href="#sample-space-and-distribution"><i class="fas fa-link"></i></a>
+</h3>
+<div class="definition">
+<p><span id="def:unlabeled-div-17" class="definition"><strong>Definition 7.1  (Random Variable) </strong></span>A random variable refer to numerical values, typically the outcome of an
+observation, a measurement, or a function thereof.</p>
+</div>
+<p>A random variable is characterized via the collection of potential
+values it may obtain, known as the <strong>sample space</strong> and the likelihood of
+obtaining each of the values in the sample space (namely, the
+probability of the value). In the given example, the sample space
+contains the 94 integer values that are marked in
+Figure <a href="ChapProbability.html#fig:Prob1">7.2</a>. The probability of each value is the height
+of the bar above the value, divided by the total frequency of 100,000
+(namely, the relative frequency in the population).</p>
+<p>We will denote random variables with capital Latin letters such as <span class="math inline">\(X\)</span>,
+<span class="math inline">\(Y\)</span>, and <span class="math inline">\(Z\)</span>. Values they may obtain will be marked by small Latin
+letters such as <span class="math inline">\(x\)</span>, <span class="math inline">\(y\)</span>, <span class="math inline">\(z\)</span>. For the probability of values we will use
+the letter “<span class="math inline">\(\operatorname{P}\)</span>”. Hence, if we denote by <span class="math inline">\(Y\)</span> the measurement of
+height of a random individual that is sampled from the given population
+then:</p>
+<p><span class="math display">\[\operatorname{P}(Y = 168) = 0.03476\]</span> and
+<span class="math display">\[\operatorname{P}(Y \geq 200) = 0.00393\;.\]</span></p>
+<p>Consider, as yet another example, the probability that the height of a
+random person sampled from the population differs from 170 centimeter by
+no more than 10 centimeters. (In other words, that the height is between
+160 and 180 centimeters.) Denote by <span class="math inline">\(Y\)</span> the height of that random
+person. We are interested in the probability
+<span class="math inline">\(\operatorname{P}(|Y -170| \leq 10)\)</span>.<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;The expression &lt;span class="math inline"&gt;\(\{|Y -170| \leq 10\}\)&lt;/span&gt; reads as “the absolute value
+of the difference between &lt;span class="math inline"&gt;\(Y\)&lt;/span&gt; and 170 is no more that 10”. In other
+words, &lt;span class="math inline"&gt;\(\{-10 \leq Y - 170 \leq 10\}\)&lt;/span&gt;, which is equivalent to the
+statement that &lt;span class="math inline"&gt;\(\{160 \leq Y \leq 180\}\)&lt;/span&gt;. It follows that
+&lt;span class="math inline"&gt;\(\operatorname{P}(|Y-170|\leq 10) = \operatorname{P}(160\leq Y \leq 180)\)&lt;/span&gt;.&lt;/p&gt;'><sup>42</sup></a></p>
+<p>The random person can be any of the subjects of the population with
+equal probability. Thus, the sequence of the heights of the 100,000
+subjects represents the distribution of the random variable <span class="math inline">\(Y\)</span>:</p>
+<div class="sourceCode" id="cb55"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">Y</span> <span class="op">&lt;-</span> <span class="va">heights_population</span><span class="op">$</span><span class="va">height</span></code></pre></div>
+<p>Notice that the object <code>Y</code> is a sequence of length 100,000 that stores
+all the heights of the population. The probability we seek is the
+relative frequency in this sequence of values between 160 and 180. First
+we compute the probability and then explain the method of computation:</p>
+<div class="sourceCode" id="cb56"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">abs</a></span><span class="op">(</span><span class="va">Y</span><span class="op">-</span><span class="fl">170</span><span class="op">)</span> <span class="op">&lt;=</span> <span class="fl">10</span><span class="op">)</span>
+<span class="co">#&gt; [1] 0.64541</span></code></pre></div>
+<p>We get that the height of a person randomly sampled from the population
+is between 160 and 180 centimeters with probability 0.64541.</p>
+<p>Let us produce a small example that will help us explain the computation
+of the probability. We start by forming a sequence with 10 numbers:</p>
+<div class="sourceCode" id="cb57"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">Y</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">6.3</span>, <span class="fl">6.9</span>, <span class="fl">6.6</span>, <span class="fl">3.4</span>, <span class="fl">5.5</span>, <span class="fl">4.3</span>, <span class="fl">6.5</span>, <span class="fl">4.7</span>, <span class="fl">6.1</span>, <span class="fl">5.3</span><span class="op">)</span></code></pre></div>
+<p>The goal is to compute the proportion of numbers that are in the range
+<span class="math inline">\([4,6]\)</span> (or, equivalently, <span class="math inline">\(\{|Y-5| \leq 1\}\)</span>).</p>
+<p>The function <code>abs</code> computes the absolute number of its input argument.
+When the function is applied to the sequence <code>Y-5</code> it produces a
+sequence of the same length with the distances between the components of
+<code>Y</code> and the number 5:</p>
+<div class="sourceCode" id="cb58"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">abs</a></span><span class="op">(</span><span class="va">Y</span><span class="op">-</span><span class="fl">5</span><span class="op">)</span>
+<span class="co">#&gt;  [1] 1.3 1.9 1.6 1.6 0.5 0.7 1.5 0.3 1.1 0.3</span></code></pre></div>
+<p>Compare the resulting output to the original sequence. The first value
+in the input sequence is 6.3. Its distance from 5 is indeed 1.3. The
+fourth value in the input sequence is 3.4. The difference 3.4 - 5 is
+equal to -1.6, and when the absolute value is taken we get a distance of
+1.6.</p>
+<p>The function <code>&lt;=</code> expects an argument to the right and an argument to
+the left. It compares each component to the left with the parallel
+component to the right and returns a logical value, <code>TRUE</code> or
+<code>FALSE</code>, depending on whether the relation that is tested holds or
+not:</p>
+<div class="sourceCode" id="cb59"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">abs</a></span><span class="op">(</span><span class="va">Y</span> <span class="op">-</span> <span class="fl">5</span><span class="op">)</span> <span class="op">&lt;=</span> <span class="fl">1</span>
+<span class="co">#&gt;  [1] FALSE FALSE FALSE FALSE  TRUE  TRUE FALSE  TRUE FALSE</span>
+<span class="co">#&gt; [10]  TRUE</span></code></pre></div>
+<p>Observe the in this example the function <code>&lt;=</code> produced 10 logical
+values, one for each of the elements of the sequence to the left of it.
+The first input in the sequence <code>Y</code> is 6.3, which is more than one
+unit away from 5. Hence, the first output of the logical expression is
+<code>FALSE</code>. On the other hand, the last input in the sequence <code>Y</code> is
+5.3, which is within the range. Therefore, the last output of the
+logical expression is <code>TRUE</code>.</p>
+<p>Next, we compute the proportion of <code>TRUE</code> values in the sequence:</p>
+<div class="sourceCode" id="cb60"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">abs</a></span><span class="op">(</span><span class="va">Y</span> <span class="op">-</span> <span class="fl">5</span><span class="op">)</span> <span class="op">&lt;=</span> <span class="fl">1</span><span class="op">)</span>
+<span class="co">#&gt; [1] 0.4</span></code></pre></div>
+<p>When a sequence with logical values is entered into the function
+<code>mean</code> then the function replaces the <code>TRUE</code>’s by 1 and the <code>FALSE</code>’s
+by 0. The average produces then the relative frequency of <code>TRUE</code>’s in
+the sequence as required. Specifically, in this example there are 4
+<code>TRUE</code>’s and 6 <code>FALSE</code>’s. Consequently, the output of the final
+expression is <span class="math inline">\(4/10 = 0.4\)</span>.</p>
+<p>The computation of the probability that the sampled height falls within
+10 centimeter of 170 is based on the same code. The only differences are
+that the input sequence <code>Y</code> is replaced by the sequence of population
+heights <code>Y</code> as input. the number <code>5</code> is replaced by the number
+<code>170</code> and the number <code>1</code> is replaced by the number <code>10</code>. In both
+cases the result of the computation is the relative proportion of the
+times that the values of the input sequence fall within a given range of
+the indicated number.</p>
+<p>The probability function of a random variable is defined for any value
+that the random variable may obtain and produces the <strong>distribution</strong> of
+the random variable. The probability function may emerge as a relative
+frequency as in the given example or it may be a result of theoretical
+modeling. Examples of theoretical random variables are presented in subsequent chapters.</p>
+<p>Consider an example of a random variable. The sample space and the
+probability function specify the distribution of the random variable.
+For example, assume it is known that a random variable <span class="math inline">\(Y\)</span> may obtain
+the values 0, 1, 2, or 3. Moreover, imagine that it is known that
+<span class="math inline">\(\operatorname{P}(Y=1) = 0.25\)</span>, <span class="math inline">\(\operatorname{P}(Y=2) = 0.15\)</span>, and <span class="math inline">\(\operatorname{P}(Y=3)= 0.10\)</span>. What
+is <span class="math inline">\(\operatorname{P}(Y=0)\)</span>, the probability that <span class="math inline">\(Y\)</span> is equal to 0?</p>
+<p>The sample space, the collection of possible values that the random
+variable may obtain is the collection <span class="math inline">\(\{0,1,2,3\}\)</span>. Observe that the
+sum over the positive values is:</p>
+<p><span class="math display">\[\operatorname{P}(Y &gt; 0) = \operatorname{P}(Y=1) + \operatorname{P}(Y=2) + \operatorname{P}(Y=3) = 0.25 + 0.15 + 0.10 = 0.50\;.\]</span>
+It follows, since the sum of probabilities over the entire sample space
+is equal to 1, that <span class="math inline">\(\operatorname{P}(Y=0) = 1- 0.5 = 0.5\)</span>.</p>
+<div class="inline-table"><table class="table table-sm">
+<caption>
+<span id="tab:Probability1">Table 7.1: </span>The Distribution of <span class="math inline">\(Y\)</span>
+</caption>
+<thead><tr class="header">
+<th align="right">Value</th>
+<th align="right">Probability</th>
+<th align="right">Cum.Prob</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td align="right">0</td>
+<td align="right">0.50</td>
+<td align="right">0.50</td>
+</tr>
+<tr class="even">
+<td align="right">1</td>
+<td align="right">0.25</td>
+<td align="right">0.75</td>
+</tr>
+<tr class="odd">
+<td align="right">2</td>
+<td align="right">0.15</td>
+<td align="right">0.90</td>
+</tr>
+<tr class="even">
+<td align="right">3</td>
+<td align="right">0.10</td>
+<td align="right">1.00</td>
+</tr>
+</tbody>
+</table></div>
+<p>Table <a href="ChapProbability.html#tab:Probability1">7.1</a> summarizes the distribution of the random
+variable <span class="math inline">\(Y\)</span>. Observe the similarity between the probability function
+and the notion of relative frequency that was discussed in
+Section <a href="introdata.html#introdata">1</a>. Both quantities describe distribution. Both are
+non-negative and sum to 1. Likewise, notice that one may define the
+cumulative probability the same way cumulative relative frequency is
+defined: Ordering the values of the random variable from smallest to
+largest, the cumulative probability at a given value is the sum of
+probabilities for values less or equal to the given value.</p>
+<p>Knowledge of the probabilities of a random variable (or the cumulative
+probabilities) enables the computation of other probabilities that are
+associated with the random variable. For example, considering the random
+variable <span class="math inline">\(Y\)</span> of Table <a href="ChapProbability.html#tab:Probability1">7.1</a>, we may calculate the
+probability of <span class="math inline">\(Y\)</span> falling in the interval <span class="math inline">\([0.5, 2.3]\)</span>. Observe that
+the given range contains two values from the sample space, 1 and 2,
+therefore:</p>
+<p><span class="math display">\[\operatorname{P}(0.5 \leq Y \leq 2.3) = \operatorname{P}(Y=1) + \operatorname{P}(Y = 2) = 0.25 + 0.15 = 0.40\;.\]</span>
+Likewise, we may produce the probability of <span class="math inline">\(Y\)</span> obtaining an odd value:</p>
+<p><span class="math display">\[\operatorname{P}(Y = \mbox{odd}) = \operatorname{P}(Y=1) + \operatorname{P}(Y=3) = 0.25 + 0.10 = 0.35\;.\]</span>
+Observe that both <span class="math inline">\(\{0.5 \leq Y \leq 2.3\}\)</span> and <span class="math inline">\(\{Y = \mbox{odd}\}\)</span>
+refer to subsets of values of the sample space. Such subsets are denoted
+<strong>events</strong>. In both examples the probability of the event was computed by
+the summation of the probabilities associated with values that belong to
+the event.</p>
+</div>
+<div id="expectation-and-standard-deviation" class="section level3">
+<h3>
+<span class="header-section-number">7.4.2</span> Expectation and Standard Deviation<a class="anchor" aria-label="anchor" href="#expectation-and-standard-deviation"><i class="fas fa-link"></i></a>
+</h3>
+<p>We may characterize the center of the distribution of a random variable
+and the spread of the distribution in ways similar to those used for the
+characterization of the distribution of data and the distribution of a
+population.</p>
+<p>The <strong>expectation</strong> marks the center of the distribution of a random
+variable. It is equivalent to the data average <span class="math inline">\(\bar y\)</span> and the
+population average <span class="math inline">\(\mu\)</span>, which was used in order to mark the location
+of the distribution of the data and the population, respectively.</p>
+<p>The average of the data can be computed as the weighted average of the values that are present
+in the data, with weights given by the relative frequency. Specifically,
+for the data</p>
+<p><span class="math display">\[1,\; 1,\; 1,\; 2,\; 2,\; 3,\; 4,\; 4,\; 4,\; 4,\; 4,\]</span> the mean can be calculated via</p>
+<p><span class="math display">\[\frac{1 + 1 + 1 + 2 + 2 + 3 + 4 + 4 + 4 + 4 + 4}{11} =
+1\times \frac{3}{11} + 2 \times \frac{2}{11} + 3 \times \frac{1}{11} + 4 \times \frac{5}{11}\;,\]</span>
+producing the value of <span class="math inline">\(\bar y =2.727\)</span> in both representations. Using a
+formula, the equality between the two ways of computing the mean is
+given in terms of the equation:</p>
+<p><span class="math display">\[\bar y = \frac{\sum_{i=1}^n y_i}{n} = \sum_y \big(y \times (f_y/n)\big)\;,\]</span>
+where <span class="math inline">\(f_y/n\)</span> represents the frequency of <span class="math inline">\(y\)</span> in the data.
+In the first representation of the arithmetic mean, the average is
+computed by the summation of all data points and dividing the sum by the
+sample size. In the second representation, that uses a weighted sum, the
+sum extends over all the unique values that appear in the data. For each
+unique value the value is multiplied by the relative frequency of the
+value in the data. These multiplications are summed up to produce the
+mean.</p>
+<p>The expectation of a random variable is computed in the spirit of the
+second formulation. The expectation of a random variable is marked with
+the letter “<span class="math inline">\(\operatorname{E}\)</span>” and is define via the equation:</p>
+<p><span class="math display">\[\operatorname{E}(Y) = \sum_y \big(y \times \operatorname{P}(y)\big)\;.\]</span> In this definition
+all the unique values of the sample space are considered. For each value
+a product of the value and the probability of the value is taken. The
+expectation is obtained by the summation of all these products. In this
+definition the probability <span class="math inline">\(\operatorname{P}(y)\)</span> replaces the relative frequency
+<span class="math inline">\(f_y/n\)</span> but otherwise, the definition of the expectation and the second
+formulation of the mean are identical to each other.</p>
+<p>Consider the random variable <span class="math inline">\(Y\)</span> with distribution that is described in
+Table <a href="ChapProbability.html#tab:Probability1">7.1</a>. In order to obtain its expectation we
+multiply each value in the sample space by the probability of the value.
+Summation of the products produces the expectation (see
+Table <a href="ChapProbability.html#tab:Probability1">7.1</a>:</p>
+<p><span class="math display">\[\operatorname{E}(Y) = 0 \times 0.5 + 1 \times 0.25 + 2 \times 0.15 + 3\times 0.10 = 0.85\;.\]</span></p>
+<div class="inline-table"><table class="table table-sm">
+<caption>
+<span id="tab:Probability2">Table 7.2: </span>The Expectation of <span class="math inline">\(X\)</span>
+</caption>
+<thead><tr class="header">
+<th align="right">Value</th>
+<th align="right">Probability</th>
+<th align="right">Value * Probability</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td align="right">0</td>
+<td align="right">0.50</td>
+<td align="right">0.00</td>
+</tr>
+<tr class="even">
+<td align="right">1</td>
+<td align="right">0.25</td>
+<td align="right">0.25</td>
+</tr>
+<tr class="odd">
+<td align="right">2</td>
+<td align="right">0.15</td>
+<td align="right">0.30</td>
+</tr>
+<tr class="even">
+<td align="right">3</td>
+<td align="right">0.10</td>
+<td align="right">0.30</td>
+</tr>
+</tbody>
+</table></div>
+<div class="sourceCode" id="cb61"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">y</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">1</span>,<span class="fl">2</span>,<span class="fl">3</span><span class="op">)</span>
+<span class="va">p</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">.5</span>,<span class="fl">.25</span>,<span class="fl">.15</span>,<span class="fl">.1</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">p</span><span class="op">*</span><span class="va">y</span><span class="op">)</span>
+<span class="co">#&gt; [1] 0.85</span></code></pre></div>
+<p>In the example of height we get that the expectation is equal to 170.035
+centimeter. Notice that this expectation is equal to <span class="math inline">\(\mu\)</span>, the mean of
+the population<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content="&lt;p&gt;The mean of the population can be computed with the expression
+&lt;code&gt;mean(heights_population$height)&lt;/code&gt;&lt;/p&gt;"><sup>43</sup></a>. This is no accident. The expectation of a potential
+measurement of a randomly selected subject from a population is equal to
+the average of the measurement across all subjects.</p>
+<p>The sample variance (<span class="math inline">\(s^2\)</span>) is obtained as the sum of the squared
+deviations from the average, divided by the sample size (<span class="math inline">\(n\)</span>) minus 1:</p>
+<p><span class="math display">\[s^2 = \frac{\sum_{i=1}^n (y_i - \bar y)^2}{n-1}\;.\]</span> A second
+formulation for the computation of the same quantity is via the use of
+relative frequencies. The formula for the sample variance takes the form</p>
+<p><span class="math display">\[s^2 = \frac{n}{n-1}\sum_y \big((y - \bar y)^2\times (f_y/n)\big)\;.\]</span>
+In this formulation one considers each of the unique value that are
+present in the data. For each value the deviation between the value and
+the average is computed. These deviations are then squared and
+multiplied by the relative frequency. The products are summed up.
+Finally, the sum is multiplied by the ratio between the sample size <span class="math inline">\(n\)</span>
+and <span class="math inline">\(n-1\)</span> in order to correct for the fact that in the sample variance
+the sum of squared deviations is divided by the sample size minus 1 and
+not by the sample size.</p>
+<p>In a similar way, the variance of a random variable may be defined via
+the probability of the values that make the sample space. For each such
+value one computes the deviation from the expectation. This deviation is
+then squared and multiplied by the probability of the value. The
+multiplications are summed up in order to produce the variance:</p>
+<p><span class="math display">\[\operatorname{Var}(Y) = \sum_y\big( (y-\operatorname{E}(Y))^2 \times \operatorname{P}(y)\big)\;.\]</span> Notice
+that the formula for the computation of the variance of a random
+variable is very similar to the second formulation for the computation
+of the sample variance. Essentially, the mean of the data is replaced by
+the expectation of the random variable and the relative frequency of a
+value is replaced by the probability of the value. Another difference is
+that the correction factor is not used for the variance of a random
+variable.</p>
+<div class="inline-table"><table class="table table-sm">
+<caption>
+<span id="tab:tab3">Table 7.3: </span>The Variance of <span class="math inline">\(Y\)</span>
+</caption>
+<thead><tr class="header">
+<th align="right"><span class="math inline">\(y\)</span></th>
+<th align="right"><span class="math inline">\(P(Y=y)\)</span></th>
+<th align="right"><span class="math inline">\(y - E[Y]\)</span></th>
+<th align="right"><span class="math inline">\((y - E[Y])^2\)</span></th>
+<th align="right"><span class="math inline">\(P(Y=y)*(y - E[Y])^2\)</span></th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td align="right">0</td>
+<td align="right">0.50</td>
+<td align="right">-0.85</td>
+<td align="right">0.7225</td>
+<td align="right">0.361250</td>
+</tr>
+<tr class="even">
+<td align="right">1</td>
+<td align="right">0.25</td>
+<td align="right">0.15</td>
+<td align="right">0.0225</td>
+<td align="right">0.005625</td>
+</tr>
+<tr class="odd">
+<td align="right">2</td>
+<td align="right">0.15</td>
+<td align="right">1.15</td>
+<td align="right">1.3225</td>
+<td align="right">0.198375</td>
+</tr>
+<tr class="even">
+<td align="right">3</td>
+<td align="right">0.10</td>
+<td align="right">2.15</td>
+<td align="right">4.6225</td>
+<td align="right">0.462250</td>
+</tr>
+</tbody>
+</table></div>
+<div class="sourceCode" id="cb62"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">y</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">1</span>,<span class="fl">2</span>,<span class="fl">3</span><span class="op">)</span>
+<span class="va">p</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0.5</span>,<span class="fl">0.25</span>,<span class="fl">0.15</span>,<span class="fl">0.1</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">p</span> <span class="op">*</span> <span class="op">(</span><span class="va">y</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">p</span><span class="op">*</span><span class="va">y</span><span class="op">)</span><span class="op">)</span><span class="op">^</span><span class="fl">2</span> <span class="op">)</span>
+<span class="co">#&gt; [1] 1.0275</span></code></pre></div>
+<p>As an example consider the variance of the random variable <span class="math inline">\(Y\)</span>. The
+computation of the variance of this random variable is carried out in
+Table <a href="ChapProbability.html#tab:tab3">7.3</a>. The sample space, the values that the
+random variable may obtain, are given in the first column and the
+probabilities of the values are given in the second column. In the third
+column the deviation of the value from the expectation
+<span class="math inline">\(\operatorname{E}(Y) = 0.85\)</span> is computed for each value. The 4th column contains
+the square of these deviations and the 5th and last column involves the
+product of the square deviations and the probabilities. The variance is
+obtained by summing up the products in the last column. In the given
+example:</p>
+<p><span class="math display">\[\begin{aligned}
+\operatorname{Var}(Y) = &amp; (0-0.85)^2 \times 0.5  + (1-0.85)^2 \times 0.25 \\ &amp;+ (2-0.85)^2\times 0.15 + (3-0.85)^2\times 0.10= 1.0275\;.\end{aligned}\]</span></p>
+<p>The standard deviation of a random variable is the square root of the
+variance. The standard deviation of <span class="math inline">\(Y\)</span> is
+<span class="math inline">\(\sqrt{\operatorname{Var}(Y)} = \sqrt{1.0275} = 1.013657\)</span>.</p>
+<p>In the example that involves the height of a subject selected from the
+population at random we obtain that the variance is <span class="math inline">\(126.1576\)</span>, equal to
+the population variance, and the standard deviation is 11.23199, the
+square root of the variance.</p>
+<p>Other characterization of the distribution that were computed for data,
+such as the median, the quartiles, etc., may also be defined for random
+variables.</p>
+</div>
+</div>
+<div id="probability-and-statistics" class="section level2">
+<h2>
+<span class="header-section-number">7.5</span> Probability and Statistics<a class="anchor" aria-label="anchor" href="#probability-and-statistics"><i class="fas fa-link"></i></a>
+</h2>
+<p>Modern science may be characterized by a systematic collection of
+empirical measurements and the attempt to model laws of nature using
+mathematical language. The drive to deliver better measurements led to
+the development of more accurate and more sensitive measurement tools.
+Nonetheless, at some point it became apparent that measurements may not
+be perfectly reproducible and any repeated measurement of presumably the
+exact same phenomena will typically produce variability in the outcomes.
+On the other hand, scientists also found that there are general laws
+that govern this variability in repetitions. For example, it was
+discovered that the average of several independent repeats of the
+measurement is less variable and more reproducible than each of the
+single measurements themselves.</p>
+<p>Probability was first introduced as a branch of mathematics in the
+investigation of uncertainty associated with gambling and games of
+chance. During the early 19th century probability began to be used in
+order to model variability in measurements. This application of
+probability turned out to be very successful. Indeed, one of the major
+achievements of probability was the development of the mathematical
+theory that explains the phenomena of reduced variability that is
+observed when averages are used instead of single measurements. In
+the following chapters we discuss the conclusions of this theory.</p>
+<p>Statistics study methods for inference based on data. Probability serves
+as the mathematical foundation for the development of statistical
+theory. In this chapter we introduced the probabilistic concept of a
+random variable. This concept is key for understanding statistics. We will next discuss the probability theory that is used for statistical inference. Statistical inference itself is
+discussed later on in the course.</p>
+</div>
+<div id="exercises-1" class="section level2">
+<h2>
+<span class="header-section-number">7.6</span> Exercises<a class="anchor" aria-label="anchor" href="#exercises-1"><i class="fas fa-link"></i></a>
+</h2>
+<div class="inline-table"><table class="table table-sm">
+<caption>
+<span id="tab:tab4">Table 7.4: </span>The Distribution of <span class="math inline">\(Y\)</span>
+</caption>
+<thead><tr class="header">
+<th align="right">Value</th>
+<th align="left">Probability</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td align="right">0</td>
+<td align="left">1p</td>
+</tr>
+<tr class="even">
+<td align="right">1</td>
+<td align="left">2p</td>
+</tr>
+<tr class="odd">
+<td align="right">2</td>
+<td align="left">3p</td>
+</tr>
+<tr class="even">
+<td align="right">3</td>
+<td align="left">4p</td>
+</tr>
+<tr class="odd">
+<td align="right">4</td>
+<td align="left">5p</td>
+</tr>
+<tr class="even">
+<td align="right">5</td>
+<td align="left">6p</td>
+</tr>
+</tbody>
+</table></div>
+<p>Table <a href="ChapProbability.html#tab:tab4">7.4</a> presents the probabilities of the random variable <span class="math inline">\(Y\)</span>.</p>
+<p>These probabilities are a function of the number <span class="math inline">\(p\)</span>, the probability of the value “0”. Answer the following questions:</p>
+<ol style="list-style-type: decimal">
+<li>What is the value of <span class="math inline">\(p\)</span>?<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;Denote possible outcome as y, we have &lt;span class="math inline"&gt;\(\sum_{y}\operatorname{P}(y) = 1p + 2p + \dots + 6p = 1\)&lt;/span&gt;. Thus p = &lt;span class="math inline"&gt;\(\frac{1}{21}\)&lt;/span&gt;&lt;/p&gt;'><sup>44</sup></a>
+</li>
+</ol>
+<ol start="2" style="list-style-type: decimal">
+<li>
+<span class="math inline">\(\operatorname{P}(Y &lt;3 )\)</span> = ?<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;&lt;span class="math inline"&gt;\(\operatorname{P}(Y &amp;lt; 3) = \operatorname{P}(Y = 0) + \operatorname{P}(Y = 1) + \operatorname{P}(Y = 2) = 1p + 2p + 3p = 6p = \frac{2}{7}\)&lt;/span&gt;&lt;/p&gt;'><sup>45</sup></a>
+</li>
+</ol>
+<ol start="3" style="list-style-type: decimal">
+<li>
+<span class="math inline">\(\operatorname{P}(Y = \mbox{odd})\)</span> = ?<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;&lt;span class="math inline"&gt;\(\operatorname{P}(Y = \mbox{odd}) = \operatorname{P}(Y = 1) + \operatorname{P}(Y = 3) + \operatorname{P}(Y = 5) = 2p + 4p + 6p = \frac{4}{7}\)&lt;/span&gt;&lt;/p&gt;'><sup>46</sup></a>
+</li>
+</ol>
+<ol start="4" style="list-style-type: decimal">
+<li>
+<span class="math inline">\(\operatorname{P}(1 \leq Y &lt; 4)\)</span> = ?<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;&lt;span class="math inline"&gt;\(\operatorname{P}(1 \leq Y &amp;lt; 4) = \operatorname{P}(Y = 1) + \operatorname{P}(Y = 2) + \operatorname{P}(Y = 3) = 2p + 3p + 4p = \frac{3}{7}\)&lt;/span&gt;&lt;/p&gt;'><sup>47</sup></a>
+</li>
+</ol>
+<ol start="5" style="list-style-type: decimal">
+<li>
+<span class="math inline">\(\operatorname{P}(|Y -3| &lt; 1.5)\)</span> = ?<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;&lt;span class="math inline"&gt;\(\operatorname{P}(|Y -3| &amp;lt; 1.5) = \operatorname{P}(Y = 3) + \operatorname{P}(Y = 2) + \operatorname{P}(Y = 4) = 4p + 3p + 5p = \frac{4}{7}\)&lt;/span&gt;&lt;/p&gt;'><sup>48</sup></a>
+</li>
+</ol>
+<ol start="6" style="list-style-type: decimal">
+<li>
+<span class="math inline">\(\operatorname{E}(Y)\)</span> = ?<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;&lt;span class="math inline"&gt;\(\operatorname{E}(Y) = \sum_{y}(y \times \operatorname{P}(y)) = 0 \times p + 1 \times 2p + \dots + 5 \times 6p = \frac{10}{3}\)&lt;/span&gt;&lt;/p&gt;'><sup>49</sup></a>
+</li>
+</ol>
+<ol start="7" style="list-style-type: decimal">
+<li>
+<span class="math inline">\(\operatorname{Var}(Y)\)</span> = ?<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;&lt;span class="math inline"&gt;\(\operatorname{Var}(Y) = \sum_{y}((y - \operatorname{E}(Y))^2 \times \operatorname{P}(Y)) = (0-\frac{10}{3})^2 \times \frac{1}{21} + \dots + (5-\frac{10}{3})^2 \times \frac{6}{21} = 2.22\)&lt;/span&gt;&lt;/p&gt;'><sup>50</sup></a>
+</li>
+</ol>
+<ol start="8" style="list-style-type: decimal">
+<li>What is the standard deviation of <span class="math inline">\(Y\)</span>?<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;&lt;span class="math inline"&gt;\(sd(Y) = \sqrt{\operatorname{Var}(Y)} = 1.49\)&lt;/span&gt;&lt;/p&gt;'><sup>51</sup></a>
+</li>
+</ol>
+<hr>
+<p>One invests $2 to participate in a game of chance. In this game a coin is tossed three times. If all tosses end up “Head” then the player wins $10. Otherwise, the player losses the investment.</p>
+<ol style="list-style-type: decimal">
+<li>What is the probability of winning the game?<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;P(Winning) = &lt;span class="math inline"&gt;\(\prod^{3}_{i=1}\)&lt;/span&gt;P(&lt;span class="math inline"&gt;\(Toss_i\)&lt;/span&gt; = Head)= &lt;span class="math inline"&gt;\(\frac{1}{2}^{3}\)&lt;/span&gt; = &lt;span class="math inline"&gt;\(\frac{1}{8}\)&lt;/span&gt;&lt;/p&gt;'><sup>52</sup></a>
+</li>
+</ol>
+<ol start="2" style="list-style-type: decimal">
+<li>What is the probability of losing the game?<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content="&lt;p&gt;Since we either win or lose, P(Losing) = 1 - P(Winning) = &lt;/p&gt;"><sup>53</sup></a>
+</li>
+</ol>
+<ol start="3" style="list-style-type: decimal">
+<li>What is the expected gain for the player that plays this game?<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;Let Y denote the outcome of the game, &lt;span class="math inline"&gt;\(\operatorname{E}(Y)\)&lt;/span&gt; = &lt;span class="math inline"&gt;\(\sum_y (y \times P(y))\)&lt;/span&gt;
+= &lt;span class="math inline"&gt;\(10 \times \frac{1}{8} + 0 \times \frac{7}{8}\)&lt;/span&gt; = $1.25; &lt;span class="math inline"&gt;\(\operatorname{E}(Gain) = \operatorname{E}(Y)\)&lt;/span&gt; - Investment = $1.25 - $2 = -$0.75&lt;/p&gt;'><sup>54</sup></a>
+</li>
+</ol>
+</div>
+<div id="glossary" class="section level2">
+<h2>
+<span class="header-section-number">7.7</span> Glossary<a class="anchor" aria-label="anchor" href="#glossary"><i class="fas fa-link"></i></a>
+</h2>
+<dl>
+<dt>Random Variable:</dt>
+<dd>
+<p>The probabilistic model for the value of a measurement, before the
+measurement is taken.</p>
+</dd>
+<dt>Sample Space:</dt>
+<dd>
+<p>The set of all values a random variable may obtain.</p>
+</dd>
+<dt>Probability:</dt>
+<dd>
+<p>A number between 0 and 1 which is assigned to a subset of the sample
+space. This number indicates the likelihood of the random variable
+obtaining a value in that subset.</p>
+</dd>
+<dt>Expectation:</dt>
+<dd>
+<p>The central value for a random variable. The expectation of the
+random variable <span class="math inline">\(Y\)</span> is marked by <span class="math inline">\(\operatorname{E}(Y)\)</span>.</p>
+</dd>
+<dt>Variance:</dt>
+<dd>
+<p>The (squared) spread of a random variable. The variance of the
+random variable <span class="math inline">\(Y\)</span> is marked by <span class="math inline">\(\operatorname{Var}(Y)\)</span>. The standard deviation
+is the square root of the variance.</p>
+</dd>
+</dl>
+</div>
+<div id="summary-of-formulas" class="section level2">
+<h2>
+<span class="header-section-number">7.8</span> Summary of Formulas<a class="anchor" aria-label="anchor" href="#summary-of-formulas"><i class="fas fa-link"></i></a>
+</h2>
+<dl>
+<dt>Population Size:</dt>
+<dd>
+<p><span class="math inline">\(N\)</span> = the number of people, things, etc. in the population.</p>
+</dd>
+<dt>Population Average:</dt>
+<dd>
+<p><span class="math inline">\(\mu = (1/N)\sum_{i=1}^N y_i\)</span></p>
+</dd>
+<dt>Expectation of a Random Variable:</dt>
+<dd>
+<p><span class="math inline">\(\operatorname{E}(Y) = \sum_y \big(y \times \operatorname{P}(y)\big)\)</span></p>
+</dd>
+<dt>Population Variance:</dt>
+<dd>
+<p><span class="math inline">\(\sigma^2 = (1/N)\sum_{i=1}^N (y_i-\mu)^2\)</span></p>
+</dd>
+<dt>Variance of a Random Variable:</dt>
+<dd>
+<p><span class="math inline">\(\operatorname{Var}(Y) = \sum_y\big( (y-\operatorname{E}(Y))^2 \times \operatorname{P}(y)\big)\)</span></p>
+</dd>
+</dl>
+</div>
+</div>
+
+  <div class="chapter-nav">
+<div class="prev"><a href="paras.html"><span class="header-section-number">6</span> Statistical Parameters</a></div>
+<div class="next"><a href="randomVariables.html"><span class="header-section-number">8</span> Random Variables</a></div>
+</div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
+    <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
+      <ul class="nav navbar-nav">
+<li><a class="nav-link" href="#ChapProbability"><span class="header-section-number">7</span> Probability</a></li>
+<li><a class="nav-link" href="#student-learning-objective"><span class="header-section-number">7.1</span> Student Learning Objective</a></li>
+<li><a class="nav-link" href="#different-forms-of-variability"><span class="header-section-number">7.2</span> Different Forms of Variability</a></li>
+<li><a class="nav-link" href="#variability-of-a-population"><span class="header-section-number">7.3</span> Variability of a population</a></li>
+<li>
+<a class="nav-link" href="#variability-of-a-random-variable"><span class="header-section-number">7.4</span> Variability of a random variable</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#sample-space-and-distribution"><span class="header-section-number">7.4.1</span> Sample Space and Distribution</a></li>
+<li><a class="nav-link" href="#expectation-and-standard-deviation"><span class="header-section-number">7.4.2</span> Expectation and Standard Deviation</a></li>
+</ul>
+</li>
+<li><a class="nav-link" href="#probability-and-statistics"><span class="header-section-number">7.5</span> Probability and Statistics</a></li>
+<li><a class="nav-link" href="#exercises-1"><span class="header-section-number">7.6</span> Exercises</a></li>
+<li><a class="nav-link" href="#glossary"><span class="header-section-number">7.7</span> Glossary</a></li>
+<li><a class="nav-link" href="#summary-of-formulas"><span class="header-section-number">7.8</span> Summary of Formulas</a></li>
+</ul>
+
+      <div class="book-extra">
+        <ul class="list-unstyled">
+          
+        </ul>
+</div>
+    </nav>
+</div>
+
+</div>
+</div> <!-- .container -->
+
+<footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>"<strong>EPIB607</strong>" was written by Sahir Bhatnagar and James A Hanley. It was last built on 2021-12-07.</p>
+  </div>
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>This book was built by the <a class="text-light" href="https://bookdown.org">bookdown</a> R package.</p>
+  </div>
+
+</div></div>
+</footer><!-- dynamically load mathjax for compatibility with self-contained --><script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script><script type="text/x-mathjax-config">const popovers = document.querySelectorAll('a.footnote-ref[data-toggle="popover"]');
+for (let popover of popovers) {
+  const div = document.createElement('div');
+  div.setAttribute('style', 'position: absolute; top: 0, left:0; width:0, height:0, overflow: hidden; visibility: hidden;');
+  div.innerHTML = popover.getAttribute('data-content');
+
+  var has_math = div.querySelector("span.math");
+  if (has_math) {
+    document.body.appendChild(div);
+    MathJax.Hub.Queue(["Typeset", MathJax.Hub, div]);
+    MathJax.Hub.Queue(function() {
+      popover.setAttribute('data-content', div.innerHTML);
+      document.body.removeChild(div);
+    })
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,19 @@
+:root {
+  --theme-color1: #0059B3;
+  --theme-color2: #327AC2;
+}
+
+a {
+  color: var(--theme-color1);
+}
+
+.sidebar-book a,
+.sidebar-chapter a {
+  color: darkgray;
+}
+
+.sidebar-book:hover a,
+.sidebar-chapter:hover a {
+  color: var(--theme-color1);
+}
+

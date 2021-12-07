@@ -1,0 +1,805 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>Chapter 13 Inference for a single mean | EPIB607</title>
+<meta name="author" content="Sahir Bhatnagar and James A Hanley">
+<meta name="description" content="This section is adapted from the book Introduction to Modern Statistics78  13.1 Introduction The important data structure for this chapter is a numeric response variable (that is, the outcome is...">
+<meta name="generator" content="bookdown 0.24 with bs4_book()">
+<meta property="og:title" content="Chapter 13 Inference for a single mean | EPIB607">
+<meta property="og:type" content="book">
+<meta property="og:url" content="https://sahirbhatnagar.com/EPIB607/inference-one-mean.html">
+<meta property="og:description" content="This section is adapted from the book Introduction to Modern Statistics78  13.1 Introduction The important data structure for this chapter is a numeric response variable (that is, the outcome is...">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Chapter 13 Inference for a single mean | EPIB607">
+<meta name="twitter:description" content="This section is adapted from the book Introduction to Modern Statistics78  13.1 Introduction The important data structure for this chapter is a numeric response variable (that is, the outcome is...">
+<!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
+<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.3.1/transition.js"></script><script src="libs/bs3compat-0.3.1/tabs.js"></script><script src="libs/bs3compat-0.3.1/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
+<script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script><script src="libs/kePrint-0.0.1/kePrint.js"></script><link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet">
+<link href="libs/bsTable-3.3.7/bootstrapTable.min.css" rel="stylesheet">
+<script src="libs/bsTable-3.3.7/bootstrapTable.js"></script><script src="libs/htmlwidgets-1.5.4/htmlwidgets.js"></script><link href="libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet">
+<script src="libs/datatables-binding-0.20/datatables.js"></script><link href="libs/dt-core-1.11.3/css/jquery.dataTables.min.css" rel="stylesheet">
+<link href="libs/dt-core-1.11.3/css/jquery.dataTables.extra.css" rel="stylesheet">
+<script src="libs/dt-core-1.11.3/js/jquery.dataTables.min.js"></script><link href="libs/crosstalk-1.2.0/css/crosstalk.min.css" rel="stylesheet">
+<script src="libs/crosstalk-1.2.0/js/crosstalk.min.js"></script><link href="libs/nouislider-7.0.10/jquery.nouislider.min.css" rel="stylesheet">
+<script src="libs/nouislider-7.0.10/jquery.nouislider.min.js"></script><link href="libs/selectize-0.12.0/selectize.bootstrap3.css" rel="stylesheet">
+<script src="libs/selectize-0.12.0/selectize.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- CSS --><link rel="stylesheet" href="templates/bs4_style.css">
+<link rel="stylesheet" href="templates/ims-style.css">
+<link rel="stylesheet" href="templates/corrections.css">
+</head>
+<body data-spy="scroll" data-target="#toc">
+
+<div class="container-fluid">
+<div class="row">
+  <header class="col-sm-12 col-lg-3 sidebar sidebar-book"><a class="sr-only sr-only-focusable" href="#content">Skip to main content</a>
+
+    <div class="d-flex align-items-start justify-content-between">
+      <h1>
+        <a href="index.html" title="">EPIB607</a>
+      </h1>
+      <button class="btn btn-outline-primary d-lg-none ml-2 mt-1" type="button" data-toggle="collapse" data-target="#main-nav" aria-expanded="true" aria-controls="main-nav"><i class="fas fa-bars"></i><span class="sr-only">Show table of contents</span></button>
+    </div>
+
+    <div id="main-nav" class="collapse-lg">
+      <form role="search">
+        <input id="search" class="form-control" type="search" placeholder="Search" aria-label="Search">
+</form>
+
+      <nav aria-label="Table of contents"><h2>Table of contents</h2>
+        <ul class="book-toc list-unstyled">
+<li><a class="" href="index.html">Preface</a></li>
+<li><a class="" href="schedule.html">Schedule</a></li>
+<li><a class="" href="syllabus.html">Syllabus</a></li>
+<li class="book-part">Descriptive Statistics</li>
+<li><a class="" href="introdata.html"><span class="header-section-number">1</span> Introduction to Data</a></li>
+<li><a class="" href="aesthetic-mapping.html"><span class="header-section-number">2</span> Visualizing data: Mapping data onto aesthetics</a></li>
+<li><a class="" href="coordinate-systems-axes.html"><span class="header-section-number">3</span> Coordinate systems and axes</a></li>
+<li><a class="" href="ggplot2-package-for-plots.html"><span class="header-section-number">4</span> ggplot2 package for plots</a></li>
+<li><a class="" href="color-basics.html"><span class="header-section-number">5</span> Color scales</a></li>
+<li class="book-part">Sampling Distributions</li>
+<li><a class="" href="paras.html"><span class="header-section-number">6</span> Statistical Parameters</a></li>
+<li><a class="" href="ChapProbability.html"><span class="header-section-number">7</span> Probability</a></li>
+<li><a class="" href="randomVariables.html"><span class="header-section-number">8</span> Random Variables</a></li>
+<li><a class="" href="ChapNormal.html"><span class="header-section-number">9</span> The Normal Random Variable</a></li>
+<li><a class="" href="ChapSampDist.html"><span class="header-section-number">10</span> The Sampling Distribution</a></li>
+<li><a class="" href="CI.html"><span class="header-section-number">11</span> Parameter Intervals</a></li>
+<li><a class="" href="foundations-bootstrapping.html"><span class="header-section-number">12</span> Confidence intervals with bootstrapping</a></li>
+<li class="book-part">One Sample Inference</li>
+<li><a class="active" href="inference-one-mean.html"><span class="header-section-number">13</span> Inference for a single mean</a></li>
+<li><a class="" href="ChapBinom.html"><span class="header-section-number">14</span> Binomial Random Variable</a></li>
+<li><a class="" href="inference-one-prop.html"><span class="header-section-number">15</span> Inference for a single proportion</a></li>
+<li class="book-part">Computing</li>
+<li><a class="" href="install.html"><span class="header-section-number">16</span> Installing R and RStudio</a></li>
+<li><a class="" href="basics.html"><span class="header-section-number">17</span> Basics of R and Rstudio</a></li>
+<li><a class="" href="projects.html"><span class="header-section-number">18</span> RStudio Projects</a></li>
+<li><a class="" href="functionsHOP.html"><span class="header-section-number">19</span> Functions</a></li>
+<li><a class="" href="packages.html"><span class="header-section-number">20</span> Packages</a></li>
+<li><a class="" href="import.html"><span class="header-section-number">21</span> Data Import and Export</a></li>
+<li><a class="" href="transition-to-r-from-excel-stata-sas.html"><span class="header-section-number">22</span> Transition to R from Excel, Stata, SAS</a></li>
+<li><a class="" href="references.html">References</a></li>
+</ul>
+
+        <div class="book-extra">
+          
+        </div>
+      </nav>
+</div>
+  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="inference-one-mean" class="section level1">
+<h1>
+<span class="header-section-number">13</span> Inference for a single mean<a class="anchor" aria-label="anchor" href="#inference-one-mean"><i class="fas fa-link"></i></a>
+</h1>
+<div class="rmdnote">
+<p>This section is adapted from the book Introduction to Modern Statistics<span class="citation"><a class="footnote-ref" tabindex="0" data-toggle="popover" data-content="&lt;p&gt;Çetinkaya-Rundel and Hardin.&lt;/p&gt;"><sup>78</sup></a></span></p>
+</div>
+<div id="introduction-1" class="section level2">
+<h2>
+<span class="header-section-number">13.1</span> Introduction<a class="anchor" aria-label="anchor" href="#introduction-1"><i class="fas fa-link"></i></a>
+</h2>
+<p>The important data structure for this chapter is a numeric response variable (that is, the outcome is quantitative).</p>
+<p>We will introduce a new important mathematical model, the <span class="math inline">\(t\)</span>-distribution (as the foundation for the <span class="math inline">\(t\)</span>-test).</p>
+<p>In this chapter, we focus on the sample mean (instead of, for example, the sample median or the range of the observations) because of the well-studied mathematical model which describes the behavior of the sample mean.
+We will not cover mathematical models which describe other statistics, but the bootstrap and randomization techniques described below are immediately extendable to any function of the observed data.
+The sample mean will be calculated in one group, two paired groups, two independent groups, and many groups settings.
+The techniques described for each setting will vary slightly, but you will be well served to find the structural similarities across the different settings.</p>
+<p>The sample mean <span class="math inline">\(\bar{y}\)</span> can also be modeled using a normal distribution when certain conditions are met.
+ However, we’ll soon learn that a new distribution, called the <span class="math inline">\(t\)</span>-distribution, tends to be more useful when working with the sample mean.
+We’ll first learn about this new distribution, then we’ll use it to construct confidence intervals and conduct hypothesis tests for the mean.</p>
+</div>
+<div id="boot1mean" class="section level2">
+<h2>
+<span class="header-section-number">13.2</span> Bootstrap confidence interval for a mean<a class="anchor" aria-label="anchor" href="#boot1mean"><i class="fas fa-link"></i></a>
+</h2>
+<p>Consider a situation where you want to know whether you should buy a franchise of the used car store Awesome Autos.
+As part of your planning, you’d like to know for how much an average car from Awesome Autos sells.
+In order to go through the example more clearly, let’s say that you are only able to randomly sample five cars from Awesome Auto.
+(If this were a real example, you would surely be able to take a much larger sample size, possibly even being able to measure the entire population!)</p>
+<div id="observed-data-2" class="section level3">
+<h3>
+<span class="header-section-number">13.2.1</span> Observed data<a class="anchor" aria-label="anchor" href="#observed-data-2"><i class="fas fa-link"></i></a>
+</h3>
+<p>Figure <a href="inference-one-mean.html#fig:5cars">13.1</a> shows a (small) random sample of observations from Awesome Auto.
+The actual cars as well as their selling price is shown.</p>
+<div class="figure">
+<span style="display:block;" id="fig:5cars"></span>
+<img src="inst/figures/5cars.png" alt="Photographs of 5 different automobiles.  The cars are different color and different makes and models.  On top of the image of each car is its price; the five prices range from 9600 dollars to 27000 dollars." width="75%"><p class="caption">
+Figure 13.1: A sample of five cars from Awesome Auto.
+</p>
+</div>
+<p>The sample average car price of $17140.00 is a first guess at the price of the average car price at Awesome Auto.
+However, as a student of statistics, you understand that one sample mean based on a sample of five observations will not necessarily equal the true population average car price for all the cars at Awesome Auto.
+Indeed, you can see that the observed car prices vary with a standard deviation of $7170.29, and surely the average car price would be different if a different sample of size five had been taken from the population.
+Fortunately, as it did in previous chapters for the sample proportion, bootstrapping will approximate the variability of the sample mean from sample to sample.</p>
+</div>
+<div id="variability-of-the-statistic-2" class="section level3">
+<h3>
+<span class="header-section-number">13.2.2</span> Variability of the statistic<a class="anchor" aria-label="anchor" href="#variability-of-the-statistic-2"><i class="fas fa-link"></i></a>
+</h3>
+<p>The inferential analysis methods in this chapter are grounded in quantifying how one dataset differs from another when they are both taken from the same population.
+To repeat, the idea is that we want to know how datasets differ from one another, but we aren’t ever going to take more than one sample of observations.
+It doesn’t make sense to take repeated samples from the same population because if you have the ability to take more samples, a larger sample size will benefit you more than taking two samples from the population.
+Instead of taking repeated samples from the actual population, we use bootstrapping to measure how the samples behave under an estimate of the population.</p>
+<p>As mentioned previously, to get a sense of the cars at Awesome Auto, you take a sample of five cars from the Awesome Auto branch near you as a way to gauge the price of the cars being sold.
+Figure <a href="inference-one-mean.html#fig:bootpop1mean">13.2</a> shows how the unknown original population can be estimated by using the sample to approximate the distribution of car prices from the population of cars at Awesome Auto.</p>
+<div class="figure">
+<span style="display:block;" id="fig:bootpop1mean"></span>
+<img src="inst/figures/bootpop1mean.png" alt="The sample of 5 cars is drawn from a large population with other values (i.e., other car prices) unknown. The sample of five cars is replicated infinitely many times to create a proxy population where the car prices are given by the original dataset in the same relative distribution as measured in the sample." width="847"><p class="caption">
+Figure 13.2: As seen previously, the idea behind bootstrapping is to consider the sample at hand as an estimate of the population. Sampling from the sample (of 5 cars) is identical to sampling from an infinite population which is made up of only the cars in the original sample.
+</p>
+</div>
+<p>By taking repeated samples from the estimated population, the variability from sample to sample can be observed.
+In Figure <a href="foundations-bootstrapping.html#fig:boot2">12.2</a> the repeated bootstrap samples are seen to be different both from each other and from the original population.
+Recall that the bootstrap samples were taken from the same (estimated) population, and so the differences in bootstrap samples are due entirely to natural variability in the sampling procedure.
+For the situation at hand where the sample mean is the statistic of interest, the variability from sample to sample can be seen in Figure <a href="inference-one-mean.html#fig:bootsamps1mean">13.3</a>.</p>
+<div class="figure">
+<span style="display:block;" id="fig:bootsamps1mean"></span>
+<img src="inst/figures/bootsamps1mean.png" alt="The sample is shown being taken from the large unknown population.  The bootstrap resamples, however, are taken directly from the original sample (sampling with replacement) as if the resamples had been taken from an infinitely large proxy population.  Three bootstrap resamples of 5 cars each are shown, each resample is slightly different due to the process of resampling with replacement." width="711"><p class="caption">
+Figure 13.3: To estimate the natural variability in the sample mean, different bootstrap samples are taken from the original sample. Notice that each bootstrap resample is different from each other as well as from the original sample
+</p>
+</div>
+<p>By summarizing each of the bootstrap samples (here, using the sample mean), we see, directly, the variability of the sample mean, <span class="math inline">\(\bar{y},\)</span> from sample to sample.
+The distribution of <span class="math inline">\(\bar{y}_{bs}\)</span> for the Awesome Auto cars is shown in Figure <a href="inference-one-mean.html#fig:bootmeans1mean">13.4</a>.</p>
+<div class="figure">
+<span style="display:block;" id="fig:bootmeans1mean"></span>
+<img src="inst/figures/bootmeans1mean.png" alt="The sample is shown being taken from the large unknown population.  Three bootstrap resamples of 5 cars each are shown; the three resamples have an average car price of 11780 dollars, 19020 dollars, and 20260 dollars, respectively. A histogram representing many bootstrap resamples indicates that the bootstrap averages vary from roughly 10000 dollars to 25000 dollars." width="100%"><p class="caption">
+Figure 13.4: Because each of the bootstrap resamples respresents a different set of cars, the mean of the each bootstrap resample will be a different value. Each of the bootstrapped means is calculated, and a histogram of the values describes the inherent natural variability of the sample mean which is due to the sampling process.
+</p>
+</div>
+<p>Figure <a href="inference-one-mean.html#fig:carsbsmean">13.5</a> summarizes one thousand bootstrap samples in a histogram of the bootstrap sample means.
+The bootstrapped average car prices vary from about $10,000 to $25,000.
+The bootstrap percentile confidence interval is found by locating the middle 90% (for a 90% confidence interval) or a 95% (for a 95% confidence interval) of the bootstrapped statistics.</p>
+<div class="workedexample">
+<p>Using Figure <a href="inference-one-mean.html#fig:carsbsmean">13.5</a>, find the 90% and 95% bootstrap percentile confidence intervals for the true average price of a car from Awesome Auto.</p>
+<hr>
+<p>A 90% confidence interval is given by $12,140 and $22,007.
+The conclusion is that we are 90% confident that the true average car price at Awesome Auto lies somewhere between $12,140 and $22,007.</p>
+<p>A 95% confidence interval is given by $11,778 to $22,500.
+The conclusion is that we are 95% confident that the true average car price at Awesome Auto lies somewhere between $11,778 to $22,500.</p>
+</div>
+<div class="figure">
+<span style="display:block;" id="fig:carsbsmean"></span>
+<img src="14-one-sample-mean_files/figure-html/carsbsmean-1.png" alt="The original Awesome Auto data is bootstrapped 1,000 times. The histogram provides a sense for the variability of the average car price from sample to sample." width="100%"><p class="caption">
+Figure 13.5: The original Awesome Auto data is bootstrapped 1,000 times. The histogram provides a sense for the variability of the average car price from sample to sample.
+</p>
+</div>
+</div>
+<div id="bootstrap-se-confidence-interval" class="section level3">
+<h3>
+<span class="header-section-number">13.2.3</span> Bootstrap SE confidence interval<a class="anchor" aria-label="anchor" href="#bootstrap-se-confidence-interval"><i class="fas fa-link"></i></a>
+</h3>
+<p>Another method for creating bootstrap confidence intervals directly uses a calculation of the variability of the bootstrap statistics (here, the bootstrap means).
+If the bootstrap distribution is relatively symmetric and bell-shaped, then the 95% bootstrap SE confidence interval can be constructed with the formula familiar from the mathematical models in previous chapters:</p>
+<p><span class="math display">\[\mbox{point estimate} \pm 2 \cdot SE_{BS}\]</span> or the quantile function. The number 2 is an approximation connected to the “95%” part of the confidence interval (remember the 68-95-99.7 rule).
+As will be seen in Section <a href="inference-one-mean.html#one-mean-math">13.3</a>, a new distribution (the <span class="math inline">\(t\)</span>-distribution) will be applied to most mathematical inference on numerical variables.
+However, because bootstrapping is not grounded in the same theory as the mathematical approach given in this text, we stick with the standard normal quantiles (in R use the function <code><a href="https://rdrr.io/r/stats/Normal.html">qnorm()</a></code> to find normal percentiles other than 95%) for different confidence percentages.<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;There is a large literature on understanding and improving bootstrap intervals, see &lt;span class="citation"&gt;&lt;span class="citeproc-not-found" data-reference-id="Hesterbeg:2015"&gt;&lt;strong&gt;???&lt;/strong&gt;&lt;/span&gt;&lt;/span&gt; titled &lt;a href="https://www.tandfonline.com/doi/full/10.1080/00031305.2015.1089789"&gt;“What Teachers Should Know About the Bootstrap”&lt;/a&gt; and &lt;span class="citation"&gt;&lt;span class="citeproc-not-found" data-reference-id="Hayden:2019"&gt;&lt;strong&gt;???&lt;/strong&gt;&lt;/span&gt;&lt;/span&gt; titled &lt;a href="https://www.tandfonline.com/doi/full/10.1080/10691898.2019.1669507"&gt;“Questionable Claims for Simple Versions of the Bootstrap”&lt;/a&gt; for more information.&lt;/p&gt;'><sup>79</sup></a></p>
+<div class="workedexample">
+<p>Explain how the standard error (SE) of the bootstrapped means is calculated and what it is measuring.</p>
+<hr>
+<p>The SE of the bootstrapped means measures how variable the means are from resample to resample.
+The bootstrap SE is a good approximation to the SE of means as if we had taken repeated samples from the original population (which we agreed isn’t something we would do because of wasted resources).</p>
+<p>Logistically, we can find the standard deviation of the bootstrapped means using the same calculations from the descriptive statistics section.
+That is, the bootstrapped means are the individual observations about which we measure the variability.</p>
+</div>
+<div class="guidedpractice">
+<p>It turns out that the standard deviation of the bootstrapped means from Figure <a href="inference-one-mean.html#fig:carsbsmean">13.5</a> is $2,891.87 (a value which is an excellent approximation for the standard error of sample means if we were to take repeated samples from the population).
+[Note: in R the calculation was done using the function <code><a href="https://rdrr.io/r/stats/sd.html">sd()</a></code>.] The average of the observed prices is $17,140, ad we will consider the sample average to be the best guess point estimate for <span class="math inline">\(\mu.\)</span> .</p>
+<p>Find and interpret the confidence interval for <span class="math inline">\(\mu\)</span> (the true average cost of a car at Awesome Auto) using the bootstrap SE confidence interval formula.<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;Using the formula for the bootstrap SE interval, we find the 95% confidence interval for &lt;span class="math inline"&gt;\(\mu\)&lt;/span&gt; is: &lt;span class="math inline"&gt;\(17,140 \pm 2 \cdot 2,891.87 \rightarrow\)&lt;/span&gt; ($11,356.26, $22,923.74).
+We are 95% confident that the true average car price at Awesome Auto is somewhere between $11,356.26 and $22,923.74.&lt;/p&gt;'><sup>80</sup></a></p>
+</div>
+<div class="workedexample">
+<p>Compare and contrast the two different 95% confidence intervals for <span class="math inline">\(\mu\)</span> created by finding the percentiles of the bootstrapped means and created by finding the SE of the bootstrapped means.
+Do you think the intervals <em>should</em> be identical?</p>
+<hr>
+<ul>
+<li>Percentile interval: ($11,778, $22,500)</li>
+<li>SE interval: ($11,356.26, $22,923.74)</li>
+</ul>
+<p>The intervals were created using different methods, so it is not surprising that they are not identical.
+However, we are pleased to see that the two methods provide very similar interval approximations.</p>
+<p>The technical details surrounding which data structures are best for percentile intervals and which are best for SE intervals is beyond the scope of this text.
+However, the larger the samples are, the better (and closer) the interval estimates will be.</p>
+</div>
+</div>
+<div id="bootstrap-percentile-confidence-interval-for-a-standard-deviation" class="section level3">
+<h3>
+<span class="header-section-number">13.2.4</span> Bootstrap percentile confidence interval for a standard deviation<a class="anchor" aria-label="anchor" href="#bootstrap-percentile-confidence-interval-for-a-standard-deviation"><i class="fas fa-link"></i></a>
+</h3>
+<p>Suppose that the research question at hand seeks to understand how variable the prices of the cars are at Awesome Auto.
+That is, your interest is no longer in the average car price but in the <em>standard deviation</em> of the prices of all cars at Awesome Auto, <span class="math inline">\(\sigma.\)</span> You may have already realized that the sample standard deviation, <span class="math inline">\(s,\)</span> will work as a good <strong>point estimate</strong> for the parameter of interest: the population standard deviation, <span class="math inline">\(\sigma.\)</span> The point estimate of the five observations is calculated to be <span class="math inline">\(s = \$7,170.286.\)</span> While <span class="math inline">\(s = \$7,170.286\)</span> might be a good guess for <span class="math inline">\(\sigma,\)</span> we prefer to have an interval estimate for the parameter of interest.
+Although there is a mathematical model which describes how <span class="math inline">\(s\)</span> varies from sample to sample, the mathematical model will not be presented in this text.
+Even without the mathematical model, bootstrapping can be used to find a confidence interval for the parameter <span class="math inline">\(\sigma.\)</span> Using the same technique as presented for a confidence interval for <span class="math inline">\(\mu,\)</span> here we find the bootstrap percentile confidence interval for <span class="math inline">\(\sigma.\)</span></p>
+<div class="workedexample">
+<p>Describe the bootstrap distribution for the standard deviation shown in Figure <a href="inference-one-mean.html#fig:carsbssd">13.6</a>.</p>
+<hr>
+<p>The distribution is skewed left and centered near $7,170.286, which is the point estimate from the original data.
+Most observations in this distribution lie between $0 and $10,000.</p>
+</div>
+<div class="guidedpractice">
+<p>Using Figure <a href="inference-one-mean.html#fig:carsbssd">13.6</a>, find <em>and interpret</em> a 90% bootstrap percentile confidence interval for the population standard deviation for car prices at Awesome Auto.<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;By looking at the percentile values in Figure &lt;a href="inference-one-mean.html#fig:carsbssd"&gt;13.6&lt;/a&gt;, the middle 90% of the bootstrap standard deviations are given by the 5 percentile ($3,602.5) and 95 percentile ($8,737.2).
+That is, we are 90% confident that the true standard deviation of car prices is between $3,602.5 and $8,737.2.
+Note, the problem was set up as 90% to indicate that there was not a need for a high level of confidence (such a 95% or 99%).
+A lower degree of confidence increases potential for error, but it also produces a more narrow interval.&lt;/p&gt;'><sup>81</sup></a></p>
+</div>
+<div class="figure">
+<span style="display:block;" id="fig:carsbssd"></span>
+<img src="14-one-sample-mean_files/figure-html/carsbssd-1.png" alt="The original Awesome Auto data is bootstrapped 1,000 times. The histogram provides a sense for the variability of the standard deviation of the car prices from sample to sample." width="100%"><p class="caption">
+Figure 13.6: The original Awesome Auto data is bootstrapped 1,000 times. The histogram provides a sense for the variability of the standard deviation of the car prices from sample to sample.
+</p>
+</div>
+</div>
+<div id="bootstrapping-is-not-a-solution-to-small-sample-sizes" class="section level3">
+<h3>
+<span class="header-section-number">13.2.5</span> Bootstrapping is not a solution to small sample sizes!<a class="anchor" aria-label="anchor" href="#bootstrapping-is-not-a-solution-to-small-sample-sizes"><i class="fas fa-link"></i></a>
+</h3>
+<p>The example presented above is done for a sample with only five observations.
+As with analysis techniques that build on mathematical models, bootstrapping works best when a large random sample has been taken from the population.
+Bootstrapping is a method for capturing the variability of a statistic when the mathematical model is unknown (it is not a method for navigating small samples).
+As you might guess, the larger the random sample, the more accurately that sample will represent the population of interest.</p>
+</div>
+</div>
+<div id="one-mean-math" class="section level2">
+<h2>
+<span class="header-section-number">13.3</span> Mathematical model for a mean<a class="anchor" aria-label="anchor" href="#one-mean-math"><i class="fas fa-link"></i></a>
+</h2>
+<p>As with the sample proportion, the variability of the sample mean is well described by the mathematical theory given by the Central Limit Theorem.
+However, because of missing information about the inherent variability in the population (<span class="math inline">\(\sigma\)</span>), a <span class="math inline">\(t\)</span>-distribution is used in place of the standard normal when performing hypothesis test or confidence interval analyses.</p>
+<div id="mathematical-distribution-of-the-sample-mean" class="section level3">
+<h3>
+<span class="header-section-number">13.3.1</span> Mathematical distribution of the sample mean<a class="anchor" aria-label="anchor" href="#mathematical-distribution-of-the-sample-mean"><i class="fas fa-link"></i></a>
+</h3>
+<p>The sample mean tends to follow a normal distribution centered at the population mean, <span class="math inline">\(\mu,\)</span> when certain conditions are met.
+Additionally, we can compute a standard error for the sample mean using the population standard deviation <span class="math inline">\(\sigma\)</span> and the sample size <span class="math inline">\(n.\)</span></p>
+<div class="important">
+<p><strong>Central Limit Theorem for the sample mean.</strong></p>
+<p>When we collect a sufficiently large sample of <span class="math inline">\(n\)</span> independent observations from a population with mean <span class="math inline">\(\mu\)</span> and standard deviation <span class="math inline">\(\sigma,\)</span> the sampling distribution of <span class="math inline">\(\bar{y}\)</span> will be nearly normal with</p>
+<p><span class="math display">\[\text{Mean} = \mu \qquad \text{Standard Error }(SE) = \frac{\sigma}{\sqrt{n}}\]</span></p>
+</div>
+<p>Before diving into confidence intervals and hypothesis tests using <span class="math inline">\(\bar{y},\)</span> we first need to cover two topics:</p>
+<ul>
+<li>When we modeled <span class="math inline">\(\hat{p}\)</span> using the normal distribution, certain conditions had to be satisfied. The conditions for working with <span class="math inline">\(\bar{y}\)</span> are a little more complex, and below, we will discuss how to check conditions for inference using a mathematical model.</li>
+<li>The standard error is dependent on the population standard deviation, <span class="math inline">\(\sigma.\)</span> However, we rarely know <span class="math inline">\(\sigma,\)</span> and instead we must estimate it. Because this estimation is itself imperfect, we use a new distribution called the <span class="math inline">\(t\)</span>-distribution to fix this problem, which we discuss below.</li>
+</ul>
+<p></p>
+</div>
+<div id="evaluating-the-two-conditions-required-for-modeling-bary" class="section level3">
+<h3>
+<span class="header-section-number">13.3.2</span> Evaluating the two conditions required for modeling <span class="math inline">\(\bar{y}\)</span><a class="anchor" aria-label="anchor" href="#evaluating-the-two-conditions-required-for-modeling-bary"><i class="fas fa-link"></i></a>
+</h3>
+<p>Two conditions are required to apply the Central Limit Theorem for a sample mean <span class="math inline">\(\bar{y}:\)</span></p>
+<ul>
+<li><p><strong>Independence.</strong> The sample observations must be independent. The most common way to satisfy this condition is when the sample is a simple random sample from the population.
+If the data come from a random process, analogous to rolling a die, this would also satisfy the independence condition.</p></li>
+<li><p><strong>Normality.</strong> When a sample is small, we also require that the sample observations come from a normally distributed population.
+We can relax this condition more and more for larger and larger sample sizes.</p></li>
+</ul>
+<p>You aren’t expected to develop perfect judgment on the normality condition.
+However, you are expected to be able to handle clear cut cases based on the rules of thumb.<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content="&lt;p&gt;More nuanced guidelines would consider further relaxing the &lt;em&gt;particularly extreme outlier&lt;/em&gt; check when the sample size is very large.
+However, we’ll leave further discussion here to a future course.&lt;/p&gt;"><sup>82</sup></a></p>
+<div class="workedexample">
+<p>Consider the four plots provided in Figure <a href="inference-one-mean.html#fig:outliersandsscondition">13.7</a> that come from simple random samples from different populations.
+Their sample sizes are <span class="math inline">\(n_1 = 15\)</span> and <span class="math inline">\(n_2 = 50.\)</span></p>
+<p>Are the independence and normality conditions met in each case?</p>
+<hr>
+<p>Each samples is from a simple random sample of its respective population, so the independence condition is satisfied.
+Let’s next check the normality condition for each using the rule of thumb.</p>
+<p>The first sample has very little observations, so we are watching for any clear outliers.
+None are present; while there is a small gap in the histogram on the right, this gap is small and over 20% of the observations in this small sample are represented to the left of the gap, so we can hardly call these clear outliers.
+With no clear outliers, the normality condition can be reasonably assumed to be met.</p>
+<p>The second sample has a sample size is larger and includes an outlier that appears to be roughly 5 times further from the center of the distribution than the next furthest observation.
+This is an example of a particularly extreme outlier, so the normality condition would not be satisfied.</p>
+<p>It’s often helpful to also visualize the data using a box plot to assess skewness and existence of outliers.
+The box plots provided underneath each histogram confirms our conclusions that the first sample does not have any outliers and the second sample does, with one outlier being particularly more extreme than the others.</p>
+</div>
+<div class="figure">
+<span style="display:block;" id="fig:outliersandsscondition"></span>
+<img src="14-one-sample-mean_files/figure-html/outliersandsscondition-1.png" alt="Histograms of samples from two different populations." width="672"><p class="caption">
+Figure 13.7: Histograms of samples from two different populations.
+</p>
+</div>
+<p>In practice, it’s typical to also do a mental check to evaluate whether we have reason to believe the underlying population would have moderate skew or have particularly extreme outliers beyond what we observe in the data.
+For example, consider the number of followers for each individual account on Twitter, and then imagine this distribution.
+The large majority of accounts have built up a couple thousand followers or fewer, while a relatively tiny fraction have amassed tens of millions of followers, meaning the distribution is extremely skewed.
+When we know the data come from such an extremely skewed distribution, it takes some effort to understand what sample size is large enough for the normality condition to be satisfied.</p>
+<p></p>
+</div>
+<div id="introducing-the-t-distribution" class="section level3">
+<h3>
+<span class="header-section-number">13.3.3</span> Introducing the t-distribution<a class="anchor" aria-label="anchor" href="#introducing-the-t-distribution"><i class="fas fa-link"></i></a>
+</h3>
+<p></p>
+<p>In practice, we cannot directly calculate the standard error for <span class="math inline">\(\bar{y}\)</span> since we do not know the population standard deviation, <span class="math inline">\(\sigma.\)</span> We encountered a similar issue when computing the standard error for a sample proportion, which relied on the population proportion, <span class="math inline">\(p.\)</span> Our solution in the proportion context was to use the sample value in place of the population value when computing the standard error.
+We’ll employ a similar strategy for computing the standard error of <span class="math inline">\(\bar{y},\)</span> using the sample standard deviation <span class="math inline">\(s\)</span> in place of <span class="math inline">\(\sigma:\)</span></p>
+<p><span class="math display">\[SE = \frac{\sigma}{\sqrt{n}} \approx \frac{s}{\sqrt{n}}\]</span></p>
+<p>This strategy tends to work well when we have a lot of data and can estimate <span class="math inline">\(\sigma\)</span> using <span class="math inline">\(s\)</span> accurately.
+However, the estimate is less precise with smaller samples, and this leads to problems when using the normal distribution to model <span class="math inline">\(\bar{y}.\)</span></p>
+<p>We’ll find it useful to use a new distribution for inference calculations called the <span class="math inline">\(t\)</span>-distribution.
+A <span class="math inline">\(t\)</span>-distribution, shown as a solid line in Figure <a href="inference-one-mean.html#fig:tDistCompareToNormalDist">13.8</a>, has a bell shape.
+However, its tails are thicker than the normal distribution’s, meaning observations are more likely to fall beyond two standard deviations from the mean than under the normal distribution.</p>
+<p>The extra thick tails of the <span class="math inline">\(t\)</span>-distribution are exactly the correction needed to resolve the problem (due to extra variability of the T score) of using <span class="math inline">\(s\)</span> in place of <span class="math inline">\(\sigma\)</span> in the <span class="math inline">\(SE\)</span> calculation.</p>
+<div class="figure">
+<span style="display:block;" id="fig:tDistCompareToNormalDist"></span>
+<img src="14-one-sample-mean_files/figure-html/tDistCompareToNormalDist-1.png" alt="Comparison of a $t$-distribution and a normal distribution." width="60%"><p class="caption">
+Figure 13.8: Comparison of a <span class="math inline">\(t\)</span>-distribution and a normal distribution.
+</p>
+</div>
+<p>The <span class="math inline">\(t\)</span>-distribution is always centered at zero and has a single parameter: degrees of freedom.
+The <strong>degrees of freedom</strong> describes the precise form of the bell-shaped <span class="math inline">\(t\)</span>-distribution.
+Several <span class="math inline">\(t\)</span>-distributions are shown in Figure <a href="inference-one-mean.html#fig:tDistConvergeToNormalDist">13.9</a> in comparison to the normal distribution.
+Similar to the Chi-square distribution, the shape of the <span class="math inline">\(t\)</span>-distribution also depends on the degrees of freedom.</p>
+<p>In general, we’ll use a <span class="math inline">\(t\)</span>-distribution with <span class="math inline">\(df = n - 1\)</span> to model the sample mean when the sample size is <span class="math inline">\(n.\)</span> That is, when we have more observations, the degrees of freedom will be larger and the <span class="math inline">\(t\)</span>-distribution will look more like the standard normal distribution; when the degrees of freedom is about 30 or more, the <span class="math inline">\(t\)</span>-distribution is nearly indistinguishable from the normal distribution.</p>
+<div class="figure">
+<span style="display:block;" id="fig:tDistConvergeToNormalDist"></span>
+<img src="14-one-sample-mean_files/figure-html/tDistConvergeToNormalDist-1.png" alt="The larger the degrees of freedom, the more closely the $t$-distribution resembles the standard normal distribution." width="672"><p class="caption">
+Figure 13.9: The larger the degrees of freedom, the more closely the <span class="math inline">\(t\)</span>-distribution resembles the standard normal distribution.
+</p>
+</div>
+<div class="important">
+<p><strong>Degrees of freedom: df.</strong></p>
+<p>The degrees of freedom describes the shape of the <span class="math inline">\(t\)</span>-distribution.
+The larger the degrees of freedom, the more closely the distribution approximates the normal distribution.</p>
+<p>When modeling <span class="math inline">\(\bar{y}\)</span> using the <span class="math inline">\(t\)</span>-distribution, use <span class="math inline">\(df = n - 1.\)</span></p>
+</div>
+<p>The <span class="math inline">\(t\)</span>-distribution allows us greater flexibility than the normal distribution when analyzing numerical data.
+In practice, it’s common to use statistical software, such as R, Python, or SAS for these analyses.
+In R, the function used for calculating probabilities under a <span class="math inline">\(t\)</span>-distribution is <code><a href="https://rdrr.io/r/stats/TDist.html">pt()</a></code> (which should seem similar to previous R functions, <code><a href="https://rdrr.io/r/stats/Normal.html">pnorm()</a></code> and <code><a href="https://rdrr.io/r/stats/Chisquare.html">pchisq()</a></code>).
+Don’t forget that with the <span class="math inline">\(t\)</span>-distribution, the degrees of freedom must always be specified!</p>
+<p>For the examples and guided practices below, you may have to use a table or statistical software to find the answers.
+We recommend trying the problems so as to get a sense for how the <span class="math inline">\(t\)</span>-distribution can vary in width depending on the degrees of freedom.
+No matter the approach you choose, apply your method using the examples below to confirm your working understanding of the <span class="math inline">\(t\)</span>-distribution.</p>
+<div class="workedexample">
+<p>What proportion of the <span class="math inline">\(t\)</span>-distribution with 18 degrees of freedom falls below -2.10?</p>
+<hr>
+<p>Just like a normal probability problem, we first draw the picture in Figure <a href="inference-one-mean.html#fig:tDistDF18LeftTail2Point10">13.10</a> and shade the area below -2.10.</p>
+<p>Using statistical software, we can obtain a precise value: 0.0250.</p>
+</div>
+
+<div class="sourceCode" id="cb102"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># use pt() to find probability under the $t$-distribution</span>
+<span class="fu"><a href="https://rdrr.io/r/stats/TDist.html">pt</a></span><span class="op">(</span><span class="op">-</span><span class="fl">2.10</span>, df <span class="op">=</span> <span class="fl">18</span><span class="op">)</span>
+<span class="co">#&gt; [1] 0.0250452</span></code></pre></div>
+<div class="figure">
+<span style="display:block;" id="fig:tDistDF18LeftTail2Point10"></span>
+<img src="14-one-sample-mean_files/figure-html/tDistDF18LeftTail2Point10-1.png" alt="The $t$-distribution with 18 degrees of freedom. The area below -2.10 has been shaded." width="60%"><p class="caption">
+Figure 13.10: The <span class="math inline">\(t\)</span>-distribution with 18 degrees of freedom. The area below -2.10 has been shaded.
+</p>
+</div>
+<div class="workedexample">
+<p>A <span class="math inline">\(t\)</span>-distribution with 20 degrees of freedom is shown in Figure <a href="inference-one-mean.html#fig:tDistDF20RightTail1Point65">13.11</a>.
+Estimate the proportion of the distribution falling above 1.65.</p>
+<hr>
+<p>Note that with 20 degrees of freedom, the <span class="math inline">\(t\)</span>-distribution is relatively close to the normal distribution.
+With a normal distribution, this would correspond to about 0.05, so we should expect the <span class="math inline">\(t\)</span>-distribution to give us a value in this neighborhood.
+Using statistical software: 0.0573.</p>
+</div>
+<div class="sourceCode" id="cb103"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># use pt() to find probability under the $t$-distribution</span>
+<span class="fl">1</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/stats/TDist.html">pt</a></span><span class="op">(</span><span class="fl">1.65</span>, df <span class="op">=</span> <span class="fl">20</span><span class="op">)</span>
+<span class="co">#&gt; [1] 0.05728041</span></code></pre></div>
+<div class="figure">
+<span style="display:block;" id="fig:tDistDF20RightTail1Point65"></span>
+<img src="14-one-sample-mean_files/figure-html/tDistDF20RightTail1Point65-1.png" alt="Top: The $t$-distribution with 20 degrees of freedom, with the area above 1.65 shaded." width="50%"><p class="caption">
+Figure 13.11: Top: The <span class="math inline">\(t\)</span>-distribution with 20 degrees of freedom, with the area above 1.65 shaded.
+</p>
+</div>
+<div class="workedexample">
+<p>A <span class="math inline">\(t\)</span>-distribution with 2 degrees of freedom is shown in Figure <a href="inference-one-mean.html#fig:tDistDF23UnitsFromMean">13.12</a>.
+Estimate the proportion of the distribution falling more than 3 units from the mean (above or below).</p>
+<hr>
+<p>With so few degrees of freedom, the <span class="math inline">\(t\)</span>-distribution will give a more notably different value than the normal distribution.
+Under a normal distribution, the area would be about 0.003 using the 68-95-99.7 rule.
+For a <span class="math inline">\(t\)</span>-distribution with <span class="math inline">\(df = 2,\)</span> the area in both tails beyond 3 units totals 0.0955.
+This area is dramatically different than what we obtain from the normal distribution.</p>
+</div>
+<div class="sourceCode" id="cb104"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># use pt() to find probability under the $t$-distribution</span>
+<span class="fu"><a href="https://rdrr.io/r/stats/TDist.html">pt</a></span><span class="op">(</span><span class="op">-</span><span class="fl">3</span>, df <span class="op">=</span> <span class="fl">2</span><span class="op">)</span> <span class="op">+</span> <span class="op">(</span><span class="fl">1</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/stats/TDist.html">pt</a></span><span class="op">(</span><span class="fl">3</span>, df <span class="op">=</span> <span class="fl">2</span><span class="op">)</span><span class="op">)</span>
+<span class="co">#&gt; [1] 0.09546597</span></code></pre></div>
+<div class="figure">
+<span style="display:block;" id="fig:tDistDF23UnitsFromMean"></span>
+<img src="14-one-sample-mean_files/figure-html/tDistDF23UnitsFromMean-1.png" alt="The $t$-distribution with 2 degrees of freedom, with the area further than 3 units from 0 shaded." width="50%"><p class="caption">
+Figure 13.12: The <span class="math inline">\(t\)</span>-distribution with 2 degrees of freedom, with the area further than 3 units from 0 shaded.
+</p>
+</div>
+<div class="guidedpractice">
+<p>What proportion of the <span class="math inline">\(t\)</span>-distribution with 19 degrees of freedom falls above -1.79 units?
+Use your preferred method for finding tail areas.<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;We want to find the shaded area &lt;em&gt;above&lt;/em&gt; -1.79 (we leave the picture to you).
+The lower tail area has an area of 0.0447, so the upper area would have an area of &lt;span class="math inline"&gt;\(1 - 0.0447 = 0.9553.\)&lt;/span&gt;&lt;/p&gt;'><sup>83</sup></a></p>
+</div>
+<p></p>
+</div>
+<div id="one-sample-t-intervals" class="section level3">
+<h3>
+<span class="header-section-number">13.3.4</span> One sample t-intervals<a class="anchor" aria-label="anchor" href="#one-sample-t-intervals"><i class="fas fa-link"></i></a>
+</h3>
+<p>Let’s get our first taste of applying the <span class="math inline">\(t\)</span>-distribution in the context of an example about the mercury content of dolphin muscle.
+Elevated mercury concentrations are an important problem for both dolphins and other animals, like humans, who occasionally eat them.</p>
+<div class="figure">
+<span style="display:block;" id="fig:rissosDolphin"></span>
+<img src="inst/figures/rissosDolphin.jpg" alt="Photograph of a Risso's dolphin." width="75%"><p class="caption">
+Figure 13.13: A Risso’s dolphin. Photo by Mike Baird, www.bairdphotos.com
+</p>
+</div>
+<p>We will identify a confidence interval for the average mercury content in dolphin muscle using a sample of 19 Risso’s dolphins from the Taiji area in Japan.
+The data are summarized in Table <a href="inference-one-mean.html#tab:summaryStatsOfHgInMuscleOfRissosDolphins">13.1</a>.
+The minimum and maximum observed values can be used to evaluate whether or not there are clear outliers.</p>
+<div class="inline-table"><table class="table table-striped table-condensed" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<caption>
+<span id="tab:summaryStatsOfHgInMuscleOfRissosDolphins">Table 13.1: </span>Summary of mercury content in the muscle of 19 Risso’s dolphins from the Taiji area. Measurements are in micrograms of mercury per wet gram of muscle <span class="math inline">\((\mu\)</span>g/wet g).
+</caption>
+<thead><tr>
+<th style="text-align:center;">
+n
+</th>
+<th style="text-align:center;">
+Mean
+</th>
+<th style="text-align:center;">
+SD
+</th>
+<th style="text-align:center;">
+Min
+</th>
+<th style="text-align:center;">
+Max
+</th>
+</tr></thead>
+<tbody><tr>
+<td style="text-align:center;width: 6em; ">
+19
+</td>
+<td style="text-align:center;width: 6em; ">
+4.4
+</td>
+<td style="text-align:center;width: 6em; ">
+2.3
+</td>
+<td style="text-align:center;width: 6em; ">
+1.7
+</td>
+<td style="text-align:center;width: 6em; ">
+9.2
+</td>
+</tr></tbody>
+</table></div>
+<div class="workedexample">
+<p>Are the independence and normality conditions satisfied for this dataset?</p>
+<hr>
+<p>The observations are a simple random sample, therefore it is reasonable to assume that the dolphins are independent.
+The summary statistics in Table <a href="inference-one-mean.html#tab:summaryStatsOfHgInMuscleOfRissosDolphins">13.1</a> do not suggest any clear outliers, with all observations within 2.5 standard deviations of the mean.
+Based on this evidence, the normality condition seems reasonable.</p>
+</div>
+<p>In the normal model, we used <span class="math inline">\(z^{\star}\)</span> and the standard error to determine the width of a confidence interval.
+We revise the confidence interval formula slightly when using the <span class="math inline">\(t\)</span>-distribution:</p>
+<p><span class="math display">\[
+\begin{aligned}
+\text{point estimate} \ &amp;\pm\  t^{\star}_{df} \times SE \\
+\bar{y} \ &amp;\pm\  t^{\star}_{df} \times \frac{s}{\sqrt{n}}
+\end{aligned}
+\]</span></p>
+<div class="workedexample">
+<p>Using the summary statistics in Table <a href="inference-one-mean.html#tab:summaryStatsOfHgInMuscleOfRissosDolphins">13.1</a>, compute the standard error for the average mercury content in the <span class="math inline">\(n = 19\)</span> dolphins.</p>
+<hr>
+<p>We plug in <span class="math inline">\(s\)</span> and <span class="math inline">\(n\)</span> into the formula: <span class="math inline">\(SE = \frac{s}{\sqrt{n}} = \frac{2.3}{\sqrt{19}} = 0.528.\)</span></p>
+</div>
+<p>The value <span class="math inline">\(t^{\star}_{df}\)</span> is a cutoff we obtain based on the confidence level and the <span class="math inline">\(t\)</span>-distribution with <span class="math inline">\(df\)</span> degrees of freedom.
+That cutoff is found in the same way as with a normal distribution: we find <span class="math inline">\(t^{\star}_{df}\)</span> such that the fraction of the <span class="math inline">\(t\)</span>-distribution with <span class="math inline">\(df\)</span> degrees of freedom within a distance <span class="math inline">\(t^{\star}_{df}\)</span> of 0 matches the confidence level of interest.</p>
+<div class="workedexample">
+<p>When <span class="math inline">\(n = 19,\)</span> what is the appropriate degrees of freedom?
+Find <span class="math inline">\(t^{\star}_{df}\)</span> for this degrees of freedom and the confidence level of 95%</p>
+<hr>
+<p>The degrees of freedom is easy to calculate: <span class="math inline">\(df = n - 1 = 18.\)</span></p>
+<p>Using statistical software, we find the cutoff where the upper tail is equal to 2.5%: <span class="math inline">\(t^{\star}_{18} = 2.10.\)</span> The area below -2.10 will also be equal to 2.5%.
+That is, 95% of the <span class="math inline">\(t\)</span>-distribution with <span class="math inline">\(df = 18\)</span> lies within 2.10 units of 0.</p>
+</div>
+
+<div class="sourceCode" id="cb105"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># use qt() to find the t-cutoff (with 95% in the middle)</span>
+<span class="fu"><a href="https://rdrr.io/r/stats/TDist.html">qt</a></span><span class="op">(</span><span class="fl">0.025</span>, df <span class="op">=</span> <span class="fl">18</span><span class="op">)</span>
+<span class="co">#&gt; [1] -2.100922</span>
+<span class="fu"><a href="https://rdrr.io/r/stats/TDist.html">qt</a></span><span class="op">(</span><span class="fl">0.975</span>, df <span class="op">=</span> <span class="fl">18</span><span class="op">)</span>
+<span class="co">#&gt; [1] 2.100922</span></code></pre></div>
+<div class="important">
+<p><strong>Degrees of freedom for a single sample.</strong></p>
+<p>If the sample has <span class="math inline">\(n\)</span> observations and we are examining a single mean, then we use the <span class="math inline">\(t\)</span>-distribution with <span class="math inline">\(df=n-1\)</span> degrees of freedom.</p>
+</div>
+<div class="workedexample">
+<p>Compute and interpret the 95% confidence interval for the average mercury content in Risso’s dolphins.</p>
+<hr>
+<p>We can construct the confidence interval as</p>
+<p><span class="math display">\[
+\begin{aligned}
+\bar{y} \ &amp;\pm\  t^{\star}_{18} \times SE \\
+4.4 \ &amp;\pm\  2.10 \times 0.528 \\
+(3.29 \  &amp;, \ 5.51)
+\end{aligned} 
+\]</span></p>
+<p>We are 95% confident the average mercury content of muscles in Risso’s dolphins is between 3.29 and 5.51 <span class="math inline">\(\mu\)</span>g/wet gram, which is considered extremely high.</p>
+</div>
+<div class="important">
+<p><strong>Calculating a</strong> <span class="math inline">\(t\)</span><strong>-confidence interval for the mean,</strong> <span class="math inline">\(\mu.\)</span></p>
+<p>Based on a sample of <span class="math inline">\(n\)</span> independent and nearly normal observations, a confidence interval for the population mean is</p>
+<p><span class="math display">\[
+\begin{aligned}
+\text{point estimate} \ &amp;\pm\  t^{\star}_{df} \times SE \\
+\bar{y} \ &amp;\pm\  t^{\star}_{df} \times \frac{s}{\sqrt{n}}
+\end{aligned}
+\]</span></p>
+<p>where <span class="math inline">\(\bar{y}\)</span> is the sample mean, <span class="math inline">\(t^{\star}_{df}\)</span> corresponds to the confidence level and degrees of freedom <span class="math inline">\(df,\)</span> and <span class="math inline">\(SE\)</span> is the standard error as estimated by the sample.</p>
+</div>
+<div class="guidedpractice">
+<p>The FDA’s webpage provides some data on mercury content of fish.
+Based on a sample of 15 croaker white fish (Pacific), a sample mean and standard deviation were computed as 0.287 and 0.069 ppm (parts per million), respectively.
+The 15 observations ranged from 0.18 to 0.41 ppm.
+We will assume these observations are independent.
+Based on the summary statistics of the data, do you have any objections to the normality condition of the individual observations?<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content="&lt;p&gt;The sample size is under 30, so we check for obvious outliers: since all observations are within 2 standard deviations of the mean, there are no such clear outliers.&lt;/p&gt;"><sup>84</sup></a></p>
+</div>
+<div class="workedexample">
+<p>Estimate the standard error of <span class="math inline">\(\bar{y} = 0.287\)</span> ppm using the data summaries in the previous Guided Practice.
+If we are to use the <span class="math inline">\(t\)</span>-distribution to create a 90% confidence interval for the actual mean of the mercury content, identify the degrees of freedom and <span class="math inline">\(t^{\star}_{df}.\)</span></p>
+<hr>
+<p>The standard error: <span class="math inline">\(SE = \frac{0.069}{\sqrt{15}} = 0.0178.\)</span></p>
+<p>Degrees of freedom: <span class="math inline">\(df = n - 1 = 14.\)</span></p>
+<p>Since the goal is a 90% confidence interval, we choose <span class="math inline">\(t_{14}^{\star}\)</span> so that the two-tail area is 0.1: <span class="math inline">\(t^{\star}_{14} = 1.76.\)</span></p>
+</div>
+<div class="sourceCode" id="cb106"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># use qt() to find the t-cutoff (with 90% in the middle)</span>
+<span class="fu"><a href="https://rdrr.io/r/stats/TDist.html">qt</a></span><span class="op">(</span><span class="fl">0.05</span>, df <span class="op">=</span> <span class="fl">14</span><span class="op">)</span>
+<span class="co">#&gt; [1] -1.76131</span>
+<span class="fu"><a href="https://rdrr.io/r/stats/TDist.html">qt</a></span><span class="op">(</span><span class="fl">0.95</span>, df <span class="op">=</span> <span class="fl">14</span><span class="op">)</span>
+<span class="co">#&gt; [1] 1.76131</span></code></pre></div>
+<div class="guidedpractice">
+<p>Using the information and results of the previous Guided Practice and Example, compute a 90% confidence interval for the average mercury content of croaker white fish (Pacific).<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;&lt;span class="math inline"&gt;\(\bar{y} \ \pm\ t^{\star}_{14} \times SE \ \to\  0.287 \ \pm\  1.76 \times 0.0178 \ \to\ (0.256, 0.318).\)&lt;/span&gt; We are 90% confident that the average mercury content of croaker white fish (Pacific) is between 0.256 and 0.318 ppm.&lt;/p&gt;'><sup>85</sup></a></p>
+</div>
+<div class="guidedpractice">
+<p>The 90% confidence interval from the previous Guided Practice is 0.256 ppm to 0.318 ppm.
+Can we say that 90% of croaker white fish (Pacific) have mercury levels between 0.256 and 0.318 ppm?<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content="&lt;p&gt;No, a confidence interval only provides a range of plausible values for a population parameter, in this case the population mean.
+It does not describe what we might observe for individual observations.&lt;/p&gt;"><sup>86</sup></a></p>
+</div>
+<p>Recall that the margin of error is defined by the standard error.
+The margin of error for <span class="math inline">\(\bar{y}\)</span> can be directly obtained from <span class="math inline">\(SE(\bar{y}).\)</span></p>
+<div class="important">
+<p><strong>Margin of error for</strong> <span class="math inline">\(\bar{y}.\)</span></p>
+<p>The margin of error is <span class="math inline">\(t^\star_{df} \times s/\sqrt{n}\)</span> where <span class="math inline">\(t^\star_{df}\)</span> is calculated from a specified percentile on the t-distribution with <em>df</em> degrees of freedom.</p>
+</div>
+</div>
+<div id="one-sample-t-tests" class="section level3">
+<h3>
+<span class="header-section-number">13.3.5</span> One sample t-tests<a class="anchor" aria-label="anchor" href="#one-sample-t-tests"><i class="fas fa-link"></i></a>
+</h3>
+<p>Now that we’ve used the <span class="math inline">\(t\)</span>-distribution for making a confidence interval for a mean, let’s speed on through to hypothesis tests for the mean.</p>
+<div class="important">
+<p><strong>The test statistic for assessing a single mean is a T.</strong></p>
+<p>The T score is a ratio of how the sample mean differs from the hypothesized mean as compared to how the observations vary.</p>
+<p><span class="math display">\[ T = \frac{\bar{y} - \mbox{null value}}{s/\sqrt{n}} \]</span></p>
+<p>When the null hypothesis is true and the conditions are met, T has a t-distribution with <span class="math inline">\(df = n - 1.\)</span></p>
+<p>Conditions:</p>
+<ul>
+<li>Independent observations.</li>
+<li>Large samples and no extreme outliers.</li>
+</ul>
+</div>
+
+<p>Is the typical US runner getting faster or slower over time?
+We consider this question in the context of the Cherry Blossom Race, which is a 10-mile race in Washington, DC each spring.
+The average time for all runners who finished the Cherry Blossom Race in 2006 was 93.29 minutes (93 minutes and about 17 seconds).
+We want to determine using data from 100 participants in the 2017 Cherry Blossom Race whether runners in this race are getting faster or slower, versus the other possibility that there has been no change.</p>
+<div class="data">
+<p>The <a href="http://openintrostat.github.io/cherryblossom/reference/run17.html"><code>run17</code></a> data can be found in the <a href="http://openintrostat.github.io/cherryblossom"><strong>cherryblossom</strong></a> R package.</p>
+</div>
+
+<div class="guidedpractice">
+<p>What are appropriate hypotheses for this context?<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;&lt;span class="math inline"&gt;\(H_0:\)&lt;/span&gt; The average 10-mile run time was the same for 2006 and 2017.
+&lt;span class="math inline"&gt;\(\mu = 93.29\)&lt;/span&gt; minutes.
+&lt;span class="math inline"&gt;\(H_A:\)&lt;/span&gt; The average 10-mile run time for 2017 was &lt;em&gt;different&lt;/em&gt; than that of 2006.
+&lt;span class="math inline"&gt;\(\mu \neq 93.29\)&lt;/span&gt; minutes.&lt;/p&gt;'><sup>87</sup></a></p>
+</div>
+
+<div class="guidedpractice">
+<p>The data come from a simple random sample of all participants, so the observations are independent.</p>
+<div class="inline-figure"><img src="14-one-sample-mean_files/figure-html/unnamed-chunk-13-1.png" width="70%"></div>
+<p>A histogram of the race times is given to evaluate if we can move forward with a t-test.
+Is the normality condition met?<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content="&lt;p&gt;With a sample of 100, we should only be concerned if there is are particularly extreme outliers.
+The histogram of the data doesn’t show any outliers of concern (and arguably, no outliers at all).&lt;/p&gt;"><sup>88</sup></a></p>
+</div>
+<p>When completing a hypothesis test for the one-sample mean, the process is nearly identical to completing a hypothesis test for a single proportion.
+First, we find the Z score using the observed value, null value, and standard error; however, we call it a <strong>T score</strong> since we use a <span class="math inline">\(t\)</span>-distribution for calculating the tail area.
+Then we find the p-value using the same ideas we used previously: find the one-tail area under the sampling distribution, and double it.</p>
+<div class="workedexample">
+<p>With both the independence and normality conditions satisfied, we can proceed with a hypothesis test using the <span class="math inline">\(t\)</span>-distribution.
+The sample mean and sample standard deviation of the sample of 100 runners from the 2017 Cherry Blossom Race are 98.78 and 16.59 minutes, respectively.
+Recall that the average run time in 2006 was 93.29 minutes.
+Find the test statistic and p-value.
+What is your conclusion?</p>
+<hr>
+<p>To find the test statistic (T score), we first must determine the standard error:</p>
+<p><span class="math display">\[  SE = 16.6 / \sqrt{100} = 1.66 \]</span></p>
+<p>Now we can compute the <strong>T score</strong> using the sample mean (98.78), null value (93.29), and <span class="math inline">\(SE:\)</span></p>
+<p><span class="math display">\[ T = \frac{98.8 - 93.29}{1.66} = 3.32 \]</span></p>
+<p>For <span class="math inline">\(df = 100 - 1 = 99,\)</span> we can determine using statistical software (or a <span class="math inline">\(t\)</span>-table) that the one-tail area is 0.000631, which we double to get the p-value: 0.00126.</p>
+<p>Because the p-value is smaller than 0.05, we reject the null hypothesis.
+That is, the data provide convincing evidence that the average run time for the Cherry Blossom Run in 2017 is different than the 2006 average.</p>
+</div>
+<div class="sourceCode" id="cb107"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># using pt() to find the left tail and multiply by 2 to get both tails</span>
+<span class="op">(</span><span class="fl">1</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/stats/TDist.html">pt</a></span><span class="op">(</span><span class="fl">3.32</span>, df <span class="op">=</span> <span class="fl">99</span><span class="op">)</span><span class="op">)</span> <span class="op">*</span> <span class="fl">2</span> 
+<span class="co">#&gt; [1] 0.001261064</span></code></pre></div>
+<div class="important">
+<p><strong>When using a</strong> <span class="math inline">\(t\)</span><strong>-distribution, we use a T score (similar to a Z score).</strong></p>
+<p>To help us remember to use the <span class="math inline">\(t\)</span>-distribution, we use a <span class="math inline">\(T\)</span> to represent the test statistic, and we often call this a <strong>T score</strong>.
+The Z score and T score are computed in the exact same way and are conceptually identical: each represents how many standard errors the observed value is from the null value.</p>
+</div>
+
+</div>
+</div>
+<div id="chp19-review" class="section level2">
+<h2>
+<span class="header-section-number">13.4</span> Chapter review<a class="anchor" aria-label="anchor" href="#chp19-review"><i class="fas fa-link"></i></a>
+</h2>
+<div id="summary-5" class="section level3">
+<h3>
+<span class="header-section-number">13.4.1</span> Summary<a class="anchor" aria-label="anchor" href="#summary-5"><i class="fas fa-link"></i></a>
+</h3>
+<p>In this chapter we extended the randomization / bootstrap / mathematical model paradigm to questions involving quantitative variables of interest.
+When there is only one variable of interest, we are often hypothesizing or finding confidence intervals about the population mean.
+Note, however, the bootstrap method can be used for other statistics like the population median or the population IQR.
+When comparing a quantitative variable across two groups, the question often focuses on the difference in population means (or sometimes a paired difference in means).
+The questions revolving around one, two, and paired samples of means are addressed using the t-distribution; they are therefore called “t-tests” and “t-intervals.” When considering a quantitative variable across 3 or more groups, a method called ANOVA is applied.
+Again, almost all the research questions can be approached using computational methods (e.g., randomization tests or bootstrapping) or using mathematical models.
+We continue to emphasize the importance of experimental design in making conclusions about research claims.
+In particular, recall that variability can come from different sources (e.g., random sampling vs. random allocation).</p>
+</div>
+<div id="terms-1" class="section level3">
+<h3>
+<span class="header-section-number">13.4.2</span> Terms<a class="anchor" aria-label="anchor" href="#terms-1"><i class="fas fa-link"></i></a>
+</h3>
+<p>We introduced the following terms in the chapter.
+If you’re not sure what some of these terms mean, we recommend you go back in the text and review their definitions.
+We are purposefully presenting them in alphabetical order, instead of in order of appearance, so they will be a little more challenging to locate.
+However you should be able to easily spot them as <strong>bolded text</strong>.</p>
+<div class="inline-table"><table class="table table-striped table-condensed" style="margin-left: auto; margin-right: auto;"><tbody>
+<tr>
+<td style="text-align:left;">
+Central Limit Theorem
+</td>
+<td style="text-align:left;">
+point estimate
+</td>
+<td style="text-align:left;">
+T score single mean
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+degrees of freedom
+</td>
+<td style="text-align:left;">
+SD single mean
+</td>
+<td style="text-align:left;">
+t-distribution
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+numerical data
+</td>
+<td style="text-align:left;">
+SE single mean
+</td>
+<td style="text-align:left;">
+</td>
+</tr>
+</tbody></table></div>
+</div>
+</div>
+</div>
+
+  <div class="chapter-nav">
+<div class="prev"><a href="foundations-bootstrapping.html"><span class="header-section-number">12</span> Confidence intervals with bootstrapping</a></div>
+<div class="next"><a href="ChapBinom.html"><span class="header-section-number">14</span> Binomial Random Variable</a></div>
+</div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
+    <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
+      <ul class="nav navbar-nav">
+<li><a class="nav-link" href="#inference-one-mean"><span class="header-section-number">13</span> Inference for a single mean</a></li>
+<li><a class="nav-link" href="#introduction-1"><span class="header-section-number">13.1</span> Introduction</a></li>
+<li>
+<a class="nav-link" href="#boot1mean"><span class="header-section-number">13.2</span> Bootstrap confidence interval for a mean</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#observed-data-2"><span class="header-section-number">13.2.1</span> Observed data</a></li>
+<li><a class="nav-link" href="#variability-of-the-statistic-2"><span class="header-section-number">13.2.2</span> Variability of the statistic</a></li>
+<li><a class="nav-link" href="#bootstrap-se-confidence-interval"><span class="header-section-number">13.2.3</span> Bootstrap SE confidence interval</a></li>
+<li><a class="nav-link" href="#bootstrap-percentile-confidence-interval-for-a-standard-deviation"><span class="header-section-number">13.2.4</span> Bootstrap percentile confidence interval for a standard deviation</a></li>
+<li><a class="nav-link" href="#bootstrapping-is-not-a-solution-to-small-sample-sizes"><span class="header-section-number">13.2.5</span> Bootstrapping is not a solution to small sample sizes!</a></li>
+</ul>
+</li>
+<li>
+<a class="nav-link" href="#one-mean-math"><span class="header-section-number">13.3</span> Mathematical model for a mean</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#mathematical-distribution-of-the-sample-mean"><span class="header-section-number">13.3.1</span> Mathematical distribution of the sample mean</a></li>
+<li><a class="nav-link" href="#evaluating-the-two-conditions-required-for-modeling-bary"><span class="header-section-number">13.3.2</span> Evaluating the two conditions required for modeling \(\bar{y}\)</a></li>
+<li><a class="nav-link" href="#introducing-the-t-distribution"><span class="header-section-number">13.3.3</span> Introducing the t-distribution</a></li>
+<li><a class="nav-link" href="#one-sample-t-intervals"><span class="header-section-number">13.3.4</span> One sample t-intervals</a></li>
+<li><a class="nav-link" href="#one-sample-t-tests"><span class="header-section-number">13.3.5</span> One sample t-tests</a></li>
+</ul>
+</li>
+<li>
+<a class="nav-link" href="#chp19-review"><span class="header-section-number">13.4</span> Chapter review</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#summary-5"><span class="header-section-number">13.4.1</span> Summary</a></li>
+<li><a class="nav-link" href="#terms-1"><span class="header-section-number">13.4.2</span> Terms</a></li>
+</ul>
+</li>
+</ul>
+
+      <div class="book-extra">
+        <ul class="list-unstyled">
+          
+        </ul>
+</div>
+    </nav>
+</div>
+
+</div>
+</div> <!-- .container -->
+
+<footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>"<strong>EPIB607</strong>" was written by Sahir Bhatnagar and James A Hanley. It was last built on 2021-12-07.</p>
+  </div>
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>This book was built by the <a class="text-light" href="https://bookdown.org">bookdown</a> R package.</p>
+  </div>
+
+</div></div>
+</footer><!-- dynamically load mathjax for compatibility with self-contained --><script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script><script type="text/x-mathjax-config">const popovers = document.querySelectorAll('a.footnote-ref[data-toggle="popover"]');
+for (let popover of popovers) {
+  const div = document.createElement('div');
+  div.setAttribute('style', 'position: absolute; top: 0, left:0; width:0, height:0, overflow: hidden; visibility: hidden;');
+  div.innerHTML = popover.getAttribute('data-content');
+
+  var has_math = div.querySelector("span.math");
+  if (has_math) {
+    document.body.appendChild(div);
+    MathJax.Hub.Queue(["Typeset", MathJax.Hub, div]);
+    MathJax.Hub.Queue(function() {
+      popover.setAttribute('data-content', div.innerHTML);
+      document.body.removeChild(div);
+    })
+  }
+}
+</script>
+</body>
+</html>
