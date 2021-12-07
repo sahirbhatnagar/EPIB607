@@ -343,7 +343,7 @@ McGill University values academic integrity. Therefore, all students
 must understand the meaning and consequences of cheating, plagiarism and
 other academic offences under the Code of Student Conduct and
 Disciplinary Procedures (see
-[www.mcgill.ca/students/srr/honest/](www.mcgill.ca/students/srr/honest/)
+[www.mcgill.ca/students/srr/honest/](https://www.mcgill.ca/students/srr/honest/)
 for more information).
 
 L'université McGill attache une haute importance à l'honnêteté
@@ -353,7 +353,7 @@ académiques, ainsi que les conséquences que peuvent avoir de telles
 actions, selon le Code de conduite de l'étudiant et des procédures
 disciplinaires (pour de plus amples renseignements, veuillez consulter
 le site
-[www.mcgill.ca/students/srr/honest/](www.mcgill.ca/students/srr/honest/)).
+[www.mcgill.ca/students/srr/honest/](https://www.mcgill.ca/students/srr/honest/)).
 
 ### Text Matching Software {-}
 

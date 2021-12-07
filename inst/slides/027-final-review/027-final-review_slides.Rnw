@@ -2,8 +2,13 @@
 
 
 %\input{slides_header.tex}
-\input{/home/sahir/git_repositories/EPIB607/slides/slides_header2.tex}
-\graphicspath{{/home/sahir/git_repositories/EPIB607/slides/figure/}}
+\input{/home/sahir/git_repositories/epib607/inst/slides/slides_header2.tex}
+\graphicspath{{/home/sahir/git_repositories/epib607/inst/slides/figure/}}
+
+
+\newcommand{\Var}{\operatorname{Var}}
+\newcommand{\Expec}{\operatorname{E}}
+\newcommand{\Prob}{\operatorname{P}}
 
 %\let\oldShaded\Shaded
 %\let\endoldShaded\endShaded
@@ -34,39 +39,18 @@
 \end{textblock*}}
 
 \begin{document}
-
-	<<setup, include=FALSE>>=
-library(knitr)
-knitr::opts_chunk$set(cache=FALSE, message = FALSE, tidy = FALSE, warning = FALSE,
-echo = FALSE, 
-#fig.width = 8, 
-fig.asp = 0.75, 
-fig.align = 'center', 
-#out.width = "0.50\\linewidth", 
-size = 'tiny')
-
-# the kframe environment does not work with allowframebreaks, so remove it
-#knit_hooks$set(document = function(x) {
-#gsub('\\\\(begin|end)\\{kframe\\}', '', x)
-#})
-
-library(tidyverse)
-library(NCStats)
-options(digits = 2)
+	
+	<<echo=FALSE, warning=FALSE, message=FALSE, eval=TRUE, include=FALSE>>=
+	library(knitr)
+	knitr::read_chunk(here::here("inst/slides/knitr_options.R"))
+	@
+	
+	<<setup-slides, echo=FALSE, warning=FALSE, message=FALSE, eval=TRUE>>=
+	@
 
 
-#knitr::opts_chunk$set(background = '#FFFF00')
-library(tools) #needed for include_graphics2 function
-source("/home/sahir/git_repositories/EPIB607/slides/bin/include_graphics2.R")
-@
-
-%\title{Introduction to Regression Trees}
-%\author{Sahir Bhatnagar \inst{1}}
-%\author[shortname]{Sahir Rai Bhatnagar, PhD Candidate (Biostatistics) }
-%\institute[shortinst]{Department of Epidemiology, Biostatistics and Occupational Health}
-
-	\title{023 - Final Review}
-\author{EPIB 607 - FALL 2020}
+	\title{027 - Final Review}
+\author{EPIB 607}
 \institute{
 	Sahir Rai Bhatnagar\\
 	Department of Epidemiology, Biostatistics, and Occupational Health\\
@@ -95,14 +79,15 @@ source("/home/sahir/git_repositories/EPIB607/slides/bin/include_graphics2.R")
 	\small
 		\begin{itemize}
 	%	\setlength\itemsep{.51em}
-		\item \textbf{When:} Tuesday December 8, 2020. The exam will be made available on Crowdmark as of 9am EST for 48 hours. 
-		\item This is a timed assessment. As soon as you download the exam, you will have 6 hours to complete and upload your solutions to Crowdmark. \textbf{There will be a 5\% per hour lateness penalty. }
+		\item \textbf{When:} December 9, 2021. The exam will be made available on Crowdmark as of 9am EST for 24 hours. 
+		\item This is a timed assessment. As soon as you download the exam, you will have 6 hours to complete and upload your solutions to Crowdmark. 
+		\item \textbf{There will be a 5\% per hour lateness penalty.} Submissions by e-mail will not be accepted.
 		\item This is an open book exam. Any material on myCourses (EPIB607/613) and personal notes are permitted.
 		\item You are not permitted to use the internet and you must work alone. Using the internet or obtaining help from anyone else is considered Cheating as per \href{https://www.mcgill.ca/students/srr/academicrights/integrity/cheating}{Article 17 of the Code of Student Conduct and Disciplinary Procedures}
 %	\item The exam is out of 70. There are 7 questions, each worth 10 points. Write down all your answers in the provided booklet. 
 		\item Provide units and state your assumptions when applicable. Label axes and write answers in complete sentences when appropriate.
 		\item The format of the exam will follow the assignments and the midterm. That is, you will be required to complete a series of questions in an RMarkdown document and knit to pdf. Your solutions for each question must then be uploaded to Crowdmark. A template will be provided which will also include the questions. 
-		\item There will be no live zoom meeting. You can email me should you have questions. 
+		%\item There will be no live zoom meeting. You can email me should you have questions. 
 		%\item Some commonly used $z$ and $t$ quantiles will be provided in a Table. If a question requires the use of $z$ or $t$ probabilites/quantiles not found in the provided Table, write the corresponding R code instead. When possible, you should complete the calculations.		
 	\end{itemize}
 	
@@ -114,22 +99,22 @@ source("/home/sahir/git_repositories/EPIB607/slides/bin/include_graphics2.R")
 	
 	\begin{enumerate}
 		\setlength\itemsep{.51em}
-		\item Data visualization (histograms, boxplots, scatterplots, line plots), Tidy Data, Color Palettes
+		\item Data visualization (histograms, boxplots, scatterplots, line plots), Tidy Data, Color Palettes, grammar of graphics
 		\item Descriptive statistics (mean, median, range, IQR, sd, correlation)
 		\item Normal Curve Calculations, Sampling Distributions, CLT, Bootstrap
 		\item Confidence intervals, Hypothesis Testing, p-values 
 		\item One sample mean, one sample proportion, one sample rate
 		\item Power and Sample size calculations
 		\item Gaussian, Poisson, Binomial regression
-		\item $\chi^2$ goodness of fit and contingency tables
 		\item Permutation testing
+		\item $\chi^2$ goodness of fit and ROC curves
 	\end{enumerate}
 	
 \end{frame}
 
 \section{Part I}
 
-\subsection{Data visualization}
+\section{Data visualization}
 
 \begin{frame}{Aesthetics}
 	\begin{itemize}
@@ -150,31 +135,36 @@ source("/home/sahir/git_repositories/EPIB607/slides/bin/include_graphics2.R")
 	\end{itemize}
 \end{frame}
 
+\begin{frame}{How many scales are being used?}
+	\centering
+	\includegraphics[scale=0.4]{005-7.png}
+\end{frame}
+
 
 \begin{frame}[fragile]{Boxplots with qualitative palette}
-<<echo = TRUE, fig.asp=0.601>>=
-library(oibiostat); data("famuss")
-library(ggplot2)
-library(colorspace)
-
-ggplot(famuss, aes(x = actn3.r577x, y = bmi, fill = actn3.r577x)) + 
-geom_boxplot() + 
-colorspace::scale_fill_discrete_qualitative()
-@
+	<<echo = TRUE, fig.asp=0.601>>=
+	library(oibiostat); data("famuss")
+	library(ggplot2)
+	library(colorspace)
+	
+	ggplot(famuss, aes(x = actn3.r577x, y = bmi, fill = actn3.r577x)) + 
+	geom_boxplot() + 
+	colorspace::scale_fill_discrete_qualitative()
+	@
 \end{frame}
 
 
 \begin{frame}[fragile]{Conditional distribution of genotype \textit{given} race}
-<<echo = TRUE, fig.asp=0.681>>=
-sjPlot::plot_xtab(famuss$race, famuss$actn3.r577x, margin = "row")
-@
+	<<echo = TRUE, fig.asp=0.681>>=
+	sjPlot::plot_xtab(famuss$race, famuss$actn3.r577x, margin = "row")
+	@
 \end{frame}
 
 
 
 
 
-	\begin{frame}[fragile]{Scatter plots with sequential palette}
+\begin{frame}[fragile]{Scatter plots with sequential palette}
 	<<echo = TRUE, fig.asp=0.681>>=
 	ggplot(famuss, aes(x = height, y = weight, color = bmi)) + 
 	geom_point() + 
@@ -221,7 +211,7 @@ sjPlot::plot_xtab(famuss$race, famuss$actn3.r577x, margin = "row")
 	
 \end{frame}
 
-\subsection{Tidy Data}
+\section{Tidy Data}
 
 \begin{frame}{Tidy data}
 	
@@ -240,6 +230,120 @@ sjPlot::plot_xtab(famuss$race, famuss$actn3.r577x, margin = "row")
 
 
 
+\begin{frame}[fragile]{Example: Does a full moon affect behaviour?}
+	
+	\small
+	\begin{itemize}
+		\item Many people believe that the moon influences the actions of some individuals. 
+		\item A study of dementia patients in nursing homes recorded various types of disruptive behaviors every day for 12 weeks. 
+		\item Days were classified as moon days if they were in a 3-day period centered at the day of the full moon. 
+		\item For each patient, the average number of disruptive behaviors was computed for moon days and for all otherdays. 
+	\end{itemize}
+	
+	<<echo=FALSE, eval=TRUE, message=FALSE, size = 'footnotesize', comment=''>>=
+	df <- read.csv("https://raw.githubusercontent.com/sahirbhatnagar/cleandata/master/data/fullmoon.csv",
+	header = TRUE)
+	set.seed(123)
+	knitr::kable(df[1:7,], row.names = FALSE)
+	@
+	
+	
+	
+\end{frame}
+
+
+\begin{frame}[fragile]{Not tidy vs. tidy data}
+	
+	
+	%\Wider[4em]{
+	%\centering
+	
+	\includegraphics[scale=0.45]{001-tidy3.pdf}
+	
+	
+	%\framedgraphiccaption{tidy-fullmoon.jpg}{\texttt{text}}
+	%}
+	
+\end{frame}
+
+\begin{frame}[fragile]{Not tidy vs. tidy data}
+	
+	
+	%\Wider[4em]{
+	%\centering
+	
+	\includegraphics[scale=0.45]{001-tidy4.pdf}
+	
+	
+	%\framedgraphiccaption{tidy-fullmoon.jpg}{\texttt{text}}
+	%}
+	
+\end{frame}
+
+
+\begin{frame}[fragile]{\texttt{tidyr::pivot\_longer()}}
+	
+	
+	%\Wider[4em]{
+	%\centering
+	
+	\includegraphics[scale=0.45]{001-tidy1.pdf}
+	
+	%\pause
+	
+	<<echo=1, eval=FALSE, message=FALSE, size = 'tiny', comment=''>>=
+	tidyr::pivot_longer(data = df, cols = -patient, names_to = "day_type", values_to = "mean_behavior")
+	@
+	
+	%\framedgraphiccaption{tidy-fullmoon.jpg}{\texttt{text}}
+	%}
+	
+\end{frame}
+
+
+
+
+\begin{frame}[fragile]{Plotting with tidy data}
+	
+	<<echo=FALSE, eval=TRUE, message=FALSE, size = 'footnotesize', comment=''>>=
+	df_tidy <- df %>% gather(day_type, mean_behavior,-patient) %>% mutate(patient = factor(patient), day_type = factor(day_type))
+	set.seed(1234)
+	@
+	
+	<<echo=TRUE, eval=FALSE, message=FALSE, size = 'tiny', comment=''>>=
+	ggplot(data = df_tidy, mapping = aes(x = day_type, y = mean_behavior, group = patient)) + geom_line()
+	@
+	
+	<<echo=FALSE, eval=TRUE, message=FALSE, size = 'tiny', comment='', fig.asp=0.67>>=
+	ggplot(data = df_tidy, mapping = aes(x = day_type, y = mean_behavior, group = patient)) + geom_line() + ggpubr::theme_pubr()
+	@
+	
+	
+\end{frame}
+
+
+
+\begin{frame}[fragile]{Regression with tidy data}
+	
+	
+	<<echo=TRUE, eval=TRUE, message=FALSE, size = 'tiny'>>=
+	fit <- lme4::lmer(mean_behavior ~ day_type + (1|patient), data = df_tidy)
+	summary(fit)
+	@
+\end{frame}
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 \begin{frame}[fragile]{Example: Is it tidy?}
 	
@@ -249,7 +353,8 @@ sjPlot::plot_xtab(famuss$race, famuss$actn3.r577x, margin = "row")
 	
 \end{frame}
 
-\subsection{Descriptive statistics}
+
+\section{Descriptive statistics}
 
 
 \begin{frame}{Descriptive statistics}
@@ -269,10 +374,10 @@ sjPlot::plot_xtab(famuss$race, famuss$actn3.r577x, margin = "row")
 	library(dplyr)
 	
 	famuss %>% 
-	  dplyr::group_by(actn3.r577x) %>%
-	  dplyr::summarise(mean_bmi = mean(bmi), 
-	                   sd_bmi = sd(bmi))
-
+	dplyr::group_by(actn3.r577x) %>%
+	dplyr::summarise(mean_bmi = mean(bmi), 
+	sd_bmi = sd(bmi))
+	
 	@
 	
 \end{frame}
@@ -284,14 +389,14 @@ sjPlot::plot_xtab(famuss$race, famuss$actn3.r577x, margin = "row")
 	library(dplyr)
 	
 	f.male <- famuss %>% 
-	             dplyr::filter(sex == "Male")
+	dplyr::filter(sex == "Male")
 	
 	
 	f.male.cauc <- famuss %>% 
-	                  dplyr::filter(sex == "Male" & race == "Caucasian")
-
-    f.bmi.low <- famuss %>% 
-                     dplyr::filter(bmi <= 23)
+	dplyr::filter(sex == "Male" & race == "Caucasian")
+	
+	f.bmi.low <- famuss %>% 
+	dplyr::filter(bmi <= 23)
 	
 	@
 	
@@ -306,21 +411,286 @@ sjPlot::plot_xtab(famuss$race, famuss$actn3.r577x, margin = "row")
 	\end{itemize}
 	
 	
-	\begin{remarkm}[SE vs. SD]
+	\begin{remark}[SE vs. SD]
 		\begin{center}
 			In quantifying the instability of the sample mean ($\bar{y}$) statistic,
 			we talk of SE of the mean (SEM) \\ \ \\
 			SE($\bar{y}$) describes how far $\bar{y}$ could (typically) deviate from $\mu$; \\ \ \\
 			SD($y$) describes how far an individual $y$ (typically) deviates from $\mu$ (or from $\bar{y}$).
 		\end{center}
-	\end{remarkm}	
+	\end{remark}	
 	
 	
 \end{frame}
 
 
 
-\subsection{Sampling Distributions, CLT, Confidence Intervals and p-values}
+\section{Grammar of graphics}
+
+\begin{frame}{ggplot2 to make plots}
+	\begin{itemize}
+		\item ggplot provides you with a set of	tools to map data 
+		\begin{enumerate}
+			\item to visual elements on your plot
+			\item to specify the kind of plot you want, and 
+			\item then subsquently to control the fine details of how it will be displayed.
+		\end{enumerate}
+	\end{itemize}
+\end{frame}
+
+
+\begin{frame}{Aesthetic mappings}
+	\begin{columns}
+		\begin{column}{0.5\textwidth}  %%<--- here
+			\begin{center}
+				\includegraphics[scale=0.35]{ggplotflow1.png}
+			\end{center}
+		\end{column}
+		\begin{column}{0.5\textwidth}
+			\begin{itemize}
+				\item The code you write specifies the connections between the variables in your data,
+				and the colors, points, and shapes you see on the screen. 
+				\item In ggplot, these logical connections between your data and the plot elements are
+				called \textit{aesthetic mappings} or just \textit{aesthetics}. 
+				\item You begin every plot by telling the \texttt{ggplot()} function what your data is, and then how the
+				variables in this data logically map onto the plot's aesthetics. 
+			\end{itemize}
+		\end{column}
+	\end{columns}
+	
+\end{frame}
+
+
+
+
+\begin{frame}{Geometry}
+	\begin{columns}
+		\begin{column}{0.5\textwidth}  %%<--- here
+			\begin{center}
+				\includegraphics[scale=0.4]{ggplotflow2.png}
+			\end{center}
+		\end{column}
+		\begin{column}{0.5\textwidth}
+			\begin{itemize}
+				\item Then you take the result and say what general sort of plot you want, such
+				as a scatterplot, a boxplot, or a bar chart. In \texttt{ggplot}, the overall
+				type of plot is called a \texttt{geom}. 
+				\item Each geom has a function that creates it. For example, \texttt{geom\_point()} makes scatterplots, \texttt{geom\_bar()} makes barplots, \texttt{geom\_boxplot()} makes boxplots, and so on. 
+				\item You combine these two pieces, the \code{ggplot()} object and the \code{geom}, by literally
+				adding them together in an expression, using the ``+'' symbol.
+			\end{itemize}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+
+\begin{frame}{Customization}
+	\begin{columns}
+		\begin{column}{0.5\textwidth}  %%<--- here
+			\begin{center}
+				\includegraphics[scale=0.4]{ggplotflow3.png}
+			\end{center}
+		\end{column}
+		\begin{column}{0.5\textwidth}
+			\begin{itemize}
+				\item At this point, ggplot will have enough information to be able to draw
+				a plot for you. ggplot will use a set of defaults that try to be sensible about what gets drawn. 
+				\item But more often, you will want to specify exactly what you want, including
+				information about the scales, the labels of legends and axes, and
+				other guides that help people to read the plot. 
+				\item Each component has it own function, you provide arguments to it
+				specifying what to do, and you literally add it to the sequence of
+				instructions. 
+				\item In this way you systematically build your plot piece by
+				piece.
+			\end{itemize}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+
+
+\begin{frame}{Customization}
+	\centering
+	\includegraphics[scale=0.4]{ggplotflow4.png}
+\end{frame}
+
+
+
+\section{Parameters, probability, random variables}
+
+\begin{frame}[fragile]{Probability function}
+	\small
+	\begin{itemize}
+		
+		\item The probability function of a random variable is defined for any value
+		that the random variable may obtain and produces the \textbf{distribution} of
+		the random variable. The probability function may emerge as a relative
+		frequency as in the given example or it may be a result of theoretical
+		modeling.
+		
+		\item Consider the following probability distribution:
+		
+		<<echo=FALSE, size = 'small'>>=
+		tab1 = data.frame(Value=c(0,1,2,3),Probability=c(.5,.25,.15,.1),Cum.Prob=c(.5,.75,.9,1))
+		knitr::kable(
+		tab1, 
+		booktabs = TRUE
+		)
+		@
+		
+		\item What is $\Prob(Y=0)$, the probability that $Y$ is equal to 0?:
+		
+		\item What is the probability of $Y$ falling in the interval $[0.5, 2.3]$ ?
+		
+		
+	\end{itemize}
+	
+\end{frame}
+
+
+
+
+
+\begin{frame}[fragile]{Expectation}
+	\small
+	\begin{itemize}
+		
+		\item The average of the data can be computed as the weighted average of the values that are present
+		in the data, with weights given by the relative frequency. Specifically,
+		for the data
+		
+		$$1,\; 1,\; 1,\; 2,\; 2,\; 3,\; 4,\; 4,\; 4,\; 4,\; 4,$$ the mean can be calculated via
+		
+		\begin{align*}
+			\bar{y} &= \frac{1 + 1 + 1 + 2 + 2 + 3 + 4 + 4 + 4 + 4 + 4}{11}\\
+			& =	1\times \frac{3}{11} + 2 \times \frac{2}{11} + 3 \times \frac{1}{11} + 4 \times \frac{5}{11}
+		\end{align*}
+		
+		producing the value of $\bar y =2.727$ in both representations. 
+		
+		\item Using a formula, the equality between the two ways of computing the mean is
+		given in terms of the equation:
+		
+		$$\bar y = \frac{\sum_{i=1}^n y_i}{n} = \sum_y \big(y \times (f_y/n)\big)\;,$$
+		where $f_y$ represents the frequency of $y$ in the data. 
+		
+		
+		
+		
+	\end{itemize}
+	
+\end{frame}
+
+
+\begin{frame}[fragile]{Expectation}
+	\small
+	\begin{itemize}		
+		
+		\item Using a formula, the equality between the two ways of computing the mean is
+		given in terms of the equation:
+		
+		$$\bar y = \frac{\sum_{i=1}^n y_i}{n} = \sum_y \big(y \times (f_y/n)\big)\;,$$
+		where $f_y$ represents the frequency of $y$ in the data. 
+		
+		\item The expectation of a random variable is computed in the spirit of the
+		second formulation, and is define via the equation:
+		
+		$$\Expec(Y) = \sum_y \big(y \times \Prob(y)\big)\;.$$
+		
+		
+	\end{itemize}
+	
+\end{frame}
+
+
+
+\begin{frame}[fragile]{Variance}
+	\small
+	\begin{itemize}		
+		
+		\item The sample variance ($s^2$) is obtained as the sum of the squared
+		deviations from the average, divided by the sample size ($n$) minus 1:
+		
+		$$s^2 = \frac{\sum_{i=1}^n (y_i - \bar y)^2}{n-1}\;.$$ 
+		
+		\item  A second	formulation for the computation of the same quantity is via the use of
+		relative frequencies. The formula for the sample variance takes the form
+		
+		$$s^2 = \frac{n}{n-1}\sum_y \big((y - \bar y)^2\times (f_y/n)\big)\;.$$
+		
+		
+		\item In a similar way, the variance of a random variable may be defined via
+		the deviation from the expectation. This deviation is
+		then squared and multiplied by the probability of the value. The
+		multiplications are summed up in order to produce the variance:
+		
+		$$\Var(Y) = \sum_y\big( (y-\Expec(Y))^2 \times \Prob(y)\big)\;.$$
+		
+	\end{itemize}
+	
+\end{frame}
+
+
+\begin{frame}{Expected value for a discrete RV}
+	
+	\begin{definition}
+		Let $Y$ be a discrete random variable with set of possible values $D=\left\lbrace y_1, y_2, \ldots,y_k  \right\rbrace$ and corresponding probabilities for each value, e.g., $y_1$ with probability $\Prob(y_1)$, $y_2$ with probability $\Prob(y_2)$, $y_3$ with probability $\Prob(y_3)$, $\ldots$, $y_k$ with probability $\Prob(y_k)$. Furthermore, let $g(Y)$ be some real-valued function of $Y$. Then the expected value of $g(Y)$ is:
+		
+		$$\operatorname{E}(g(Y)) =  \sum_{y \in D} g(y) \times \operatorname{P}(y)\;.$$
+		i.e. it is a weighted mean of the $g(y)$'s, with $\Prob(y)$'s as weights.
+	\end{definition}
+	
+\end{frame}
+
+
+
+
+
+
+
+\begin{frame}[fragile]{A sum of $n$ random variables}
+	
+	\begin{itemize}
+		\setlength{\itemsep}{10pt}		
+		\item Up to now, to keep things general, we used $n$ non-identical -- but independent -- random variables. If we
+		consider the Variance and the sum of $n$ \textbf{identical} -- and independent -- random variables, so the $n$ Variances (each abbreviated to $\Var$) are all equal, the laws simplify:
+		
+		\item First, since the variances add, we have that	
+		$$ \Var(RV_1 + RV_2 + \dots + RV_n) = \Var_1 + \Var_2 + \dots + \Var_n = n \times \ each \ \Var.$$
+		
+		\item Taking square roots,	
+		$$ SD( \ RV_1 + RV_2 + \dots + RV_n \ ) = \sqrt{ \ n \times \ \textrm{each} \ \Var} = \sqrt{n} \ \times \ \textrm{each} \ SD$$
+		
+		
+		\item $$ SD\bigg(\frac{RV_1 + RV_2 + \dots + RV_n}{n}\bigg) = \frac{\sqrt{n} \ \times \ \textrm{each} \ SD}{n} = \frac{\textrm{common} \ SD}{\sqrt{n}} $$
+		
+		\item $$ \Var\bigg(\frac{RV_1 + RV_2 + \dots + RV_n}{n}\bigg) = \frac{\textrm{common} \ \Var}{n} $$
+		
+		
+		
+	\end{itemize}
+	
+\end{frame}
+
+
+\begin{frame}[fragile]{Difference of 2 Random Variables via Simulation}
+	<<fig.width=8, fig.height=4, echo = TRUE>>=
+	set.seed(12)
+	B <- 999; N <- 200
+	var_diff <- replicate(B, {
+	RV1 <- rnorm(N, mean = 2, sd = 3)
+	RV2 <- rnorm(N, mean = 4, sd = 4)
+	var(RV1 - RV2)
+	})
+	
+	hist(var_diff, col = "lightblue", xlab = "Var(RV1 - RV2)", 
+	main = sprintf("Median of Var(RV1-RV2) over 999 replications is %0.2f",median(var_diff)))
+	abline(v = median(var_diff), col = "red", lty = 2, lwd = 3)
+	@
+\end{frame}
+
+\section{Sampling Distributions, CLT, Confidence Intervals and p-values}
 
 
 \begin{frame}{Parameters,  Samples,  and  Statistics}
@@ -329,9 +699,9 @@ sjPlot::plot_xtab(famuss$race, famuss$actn3.r577x, margin = "row")
 		\begin{itemize}
 			\item $\mu$: population mean $\qquad\qquad$ $\pi$: population proportion
 		\end{itemize}
-
+		
 		\item \textbf{Statistic}: A  numerical  quantity  calculated  from  a  sample. The  empirical counterpart of the parameter,  used  to  \textit{estimate}  it.
-
+		
 		\begin{itemize}
 			\item $\bar{y}$: sample mean $\qquad\qquad$ $p$: sample proportion
 		\end{itemize}
@@ -390,13 +760,13 @@ sjPlot::plot_xtab(famuss$race, famuss$actn3.r577x, margin = "row")
 
 \frame{\frametitle{Sampling Distributions} 
 	
-	\begin{defm}[Sampling Distribution]
+	\begin{definition}[Sampling Distribution]
 		\begin{itemize}
 			\setlength\itemsep{1.5em}
 			\item The sampling distribution of a statistic is the distribution of values taken by the statistic in \textbf{all possible samples of the same size} from the same population.
 			\item The standard deviation of a sampling distribution is called a \textbf{standard error}
 		\end{itemize} 
-	\end{defm}
+	\end{definition}
 	
 	
 	
@@ -438,7 +808,7 @@ sjPlot::plot_xtab(famuss$race, famuss$actn3.r577x, margin = "row")
 	#water_results[,"Mean.5.depths"]
 	@
 	
-	<<echo=FALSE, eval=TRUE>>=
+	<<echo=FALSE, eval=TRUE, fig.width=6, fig.height=4>>=
 	d.BREAKS <- seq(1000,6000,500)
 	par(mfrow=c(2,1), mai = c(0.45,0.45,0.45,0.1))
 	hist(water_results[,"Mean.5.depths"], 
@@ -478,7 +848,7 @@ sjPlot::plot_xtab(famuss$race, famuss$actn3.r577x, margin = "row")
 	@
 	
 	
-	<<echo=FALSE>>=
+	<<echo=FALSE, fig.width=6, fig.height=4>>=
 	par(mfrow=c(2,1), mai = c(0.45,0.45,0.45,0.1))
 	plot(table(water_results[,"PropnW.5.locations"]), 
 	xlim = c(0,1),
@@ -574,26 +944,231 @@ sjPlot::plot_xtab(famuss$race, famuss$actn3.r577x, margin = "row")
 		\item The CLT applied also to a \underline{sample proportion}, \underline{slope}, \underline{correlation}, or any other statistic created by \underline{aggregation of individual observations}
 	\end{itemize}
 	
-	\begin{thm}[Central Limit Theorem]
+	\begin{theorem}[Central Limit Theorem]
 		\begin{center}
 			if $Y \sim ???(\mu_Y, \sigma_Y)$, then \\ \ \\
 			$\bar{y} \sim \mathcal{N}(\mu_Y, \sigma_Y / \sqrt{n})$
 		\end{center}
-	\end{thm}
+	\end{theorem}
 	
 	\vspace{1.25cm}
 	%pause
 }
 
+
+
+\begin{frame}[fragile,plain]
+	<<eval=T, echo=F, fig.align="center", fig.height=7, fig.width=9, warning=FALSE, message=F>>=
+	
+	dSemiElliptical = function(q,mean=0,radius=1) ( 2/(pi*radius^2) ) *
+	sqrt(radius^2 - (q-mean)^2)
+	
+	pSemiElliptical =  function(q,mean=0,radius=1) 1/2 + 
+	(q*sqrt(radius^2-q^2))/(pi*radius^2) + asin(q/radius)/pi 
+	
+	qSemiElliptical = function(p,mean=0,radius=1){
+	cdf = function(x) pSemiElliptical(x) - p 
+	root = uniroot(cdf, c(-1,1))$root
+	return(mean + root*radius)
+	}
+	
+	rSemiElliptical =  function(n=1,mean=0,radius=1) {
+	q = rep(NA,n)
+	Max = dSemiElliptical(mean,mean,radius)
+	i = 0
+	while(i < n){
+	u = mean + runif(1,-radius,radius)
+	h = runif(1,0,Max)
+	d = dSemiElliptical(u,mean,radius)
+	if( h < d ) {i=i+1; q[i] = u}
+	}
+	return(q)
+	}
+	
+	AGE = 18   # (7/8)*AGE
+	
+	radius.as.proportion = 0.125
+	
+	set.seed(1345437)
+	set.seed(2454375)
+	
+	age.hats = rSemiElliptical(4, AGE, radius.as.proportion*AGE)
+	
+	draw = function(conf.level){
+	
+	q.u = qSemiElliptical( (1+conf.level)/2 )
+	
+	half.alpha = toString( (1-conf.level)/2 )
+	
+	a.min=14; a.max=22; da=2
+	beta = 1
+	
+	dx=75
+	dy=0.4
+	
+	a.bottom = a.min - 1.75*da
+	
+	AGE = 18   # (7/8)*AGE
+	
+	par(mar = c(0,0,0,0))
+	
+	
+	for (example in 1) {
+	
+	n=1 ; if(example>1) n=4
+	
+	age.hat = age.hats[1:n]
+	
+	age.bar = mean(age.hat)
+	
+	div = 1; if (conf.level < 1) div=sqrt(n)
+	u.at.a.max = (1+radius.as.proportion/div)*beta*(a.max+1)
+	l.at.a.max = (1-radius.as.proportion/div)*beta*(a.max+1)
+	
+	u.at.a.min = (1+radius.as.proportion/div)*beta*a.min
+	l.at.a.min = (1-radius.as.proportion/div)*beta*a.min
+	
+	plot(c(a.min,a.max),c(l.at.a.min,u.at.a.max),col="white",
+	xlim=c(a.min-1.35*da/2,a.max+2.75*da/2),
+	ylim=c(a.min-2.6*da,a.max+1.6*da), frame=FALSE,
+	xaxt ="n", yaxt="n")
+	lines(c(a.min-da/2,a.min-da/2,a.max+da/2),
+	c(a.max+da,a.min-2*da,a.min-2*da))
+	text(( a.min+a.max)/2,a.min-2.5*da,
+	"True Chronological Age (A)", adj=c(0.5,1),cex=1.25)
+	txt = "Indirect\nMeasure\nof Age (a)"
+	if(n>1) txt = "Indirect\nMeasures\nof Age (a)"
+	text(a.min-da/2.5, a.max+da, txt,
+	adj=c(0,1),cex=1.05,font=4)
+	for(a in seq(a.min,a.max,da/2)){
+	text(a,a.min-2*da,toString(a), adj=c(0.5,1.5))
+	segments(a, a.min-2*da, a, a.min-2.05*da)
+	text(a.min-da/2,a,toString(a),adj=c(1.5,0.5))
+	segments(a.min-da/2, a, a.min-da/2-da/20, a)
+	} 
+	polygon(c(a.min,a.min,
+	a.max+1,a.max+1,a.min),
+	c(l.at.a.min,u.at.a.min,
+	u.at.a.max,l.at.a.max, l.at.a.min),
+	col="grey90",border=NA)
+	
+	segments(a.min,   a.min,
+	a.max+1, beta*(a.max+1),
+	col="white",lwd=2)
+	
+	arrows(a.max+1.2, l.at.a.max,
+	a.max+1.2, u.at.a.max,
+	code=3,length=0.05,angle=35)
+	arrows(a.min-0.2, l.at.a.min,
+	a.min-0.2, u.at.a.min,
+	code=3,length=0.05,angle=35)
+	text(a.min -0.3, a.min, 
+	paste( toString(100*conf.level),"%",sep=""),
+	adj=c(0.5,0),srt=90,cex=1)
+	
+	text(a.max+1.3, a.max+1, 
+	paste( toString(100*conf.level),"%",sep=""), cex = 1.25,
+	adj=c(0,0.5))
+	
+	UU = 100 ; LL = 0
+	
+	for (i in 1:n){
+	points(a.min-da/2 + i/6, age.hat[i], pch=19,cex=0.5)
+	if(conf.level < 1 & i==n & n>1) segments(
+	a.min-da/2 + 1/6 , age.bar ,
+	a.min-da/2 + n/6 , age.bar ) 
+	if(example==1) text(a.min-da/3,age.hat[i],
+	toString(round(age.hat[i],1)), cex=0.85,
+	adj=c(0,0.5),font=4)
+	M = age.hat[i] ; if(conf.level < 1 & n> 1) M = age.bar
+	L = M/(1+radius.as.proportion/div)
+	R = M/(1-radius.as.proportion/div)
+	segments(L, M, R, M, lty="dotted")
+	for(a in c(L,M,R)){
+	if(example==1 | conf.level < 1) arrows( 
+	a, a.bottom+3.5*dy,
+	a, a.bottom+1.5*dy, 
+	length=0.07,angle=30)
+	if(example==1 & a==L){
+	
+	aA  = toString(round(M,1))
+	AA  = toString(round(L,1))
+	txt = substitute(paste(
+	"P[ a > ",aA,
+	" | A =",AA, " ] = ", Pval,sep=""),
+	list(aA=aA,AA=AA,Pval=half.alpha))
+	arrows( 
+	a, L,
+	a, M,lwd=2,angle=35,length=0.07)
+	text(L,L,toString(round(L,1)),adj=c(0.5,1.5))
+	text(L,M+0.25,txt,adj=c(0,0.5),srt=75)
+	} 
+	if(example==1 & a==R){
+	aA  = toString(round(M,1))
+	AA  = toString(round(R,1))
+	txt = substitute(paste(
+	"P[ a < ",aA,
+	" | A =",AA, " ] = ", Pval,sep=""),
+	list(aA=aA,AA=AA,Pval=half.alpha))
+	arrows( 
+	a, R,
+	a, M,lwd=2,angle=35,length=0.07,code=2)
+	text(R,R,toString(round(R,1)),adj=c(0.5,-0.5))
+	text(R,M-0.25,txt,adj=c(0,0.5),srt=-55)
+	} 
+	}
+	if(conf.level ==1 | (conf.level < 1 & i==1 ) ) {
+	segments(L,a.bottom + i*dy, R,a.bottom + i*dy,lwd=1.25)
+	points(M,a.bottom+i*dy, pch=19,cex=0.5)
+	Limits = round(c(L,R),1)
+	if(conf.level < 1 | example == 1 ) text(L-0.1,a.bottom + i*dy,
+	toString(Limits[1]), adj=c(1,0.5),cex=0.8,font=2)
+	if(conf.level < 1 | example == 1)  text(R+0.1,a.bottom + i*dy,
+	toString(Limits[2]), adj=c(0,0.5),cex=0.8,font=2)
+	}
+	
+	UU = min(UU,R)
+	LL = max(LL,L)
+	} # i
+	
+	if(example > 1 & conf.level==1){
+	segments(LL, a.bottom, UU,  a.bottom, 
+	lwd=3)
+	segments(LL, a.bottom+dy, LL,  a.bottom +n*dy,  lty="dotted")
+	segments(UU, a.bottom+dy, UU,  a.bottom +n*dy,  lty="dotted")
+	Limits = round(c(LL,UU),1)
+	text(LL-0.1,a.bottom,toString(Limits[1]), adj=c(1,0.5),cex=0.8,
+	font=2)
+	text(UU+0.1,a.bottom,toString(Limits[2]), adj=c(0,0.5),cex=0.8,
+	font=2)
+	} 
+	if(example==1 ){ 
+	points(age.hat[i],age.hat[i], pch=19,cex=0.75)
+	points(age.hat[i],-1.0*dy, pch=19,cex=0.75)
+	}
+	} 
+	}
+	@
+	
+	
+	<<eval=T, echo=F, fig.align="center", fig.height=6, fig.width=9, warning=FALSE, message=F, fig.cap="100\\% Confidence Intervals for a person's chronological age when error distributions (that in this example are wider at the  older ages) are 100\\% confined within the shaded ranges. ">>=
+	conf.level = 1; 
+	draw(conf.level)
+	@
+	
+	
+\end{frame}
+
+
 \begin{frame}{Confidence Interval}
 	
-	\begin{defm}[Confidence Interval]
+	\begin{definition}[Confidence Interval]
 		A level $C$ confidence interval for a parameter has two parts:
 		\begin{enumerate}
 			\item An interval calculated from the data, \underline{usually} of the form $$\textrm{estimate} \pm \textrm{margin of error}$$ where the estimate is a sample statistic and the margin of error represents the accuracy of our guess for the parameter.
 			\item A confidence level $C$, which gives the probability that the interval will capture the true parameter value in \textit{different possible samples}. That is, the confidence level is the success rate for the method
 		\end{enumerate}
-	\end{defm}
+	\end{definition}
 	
 	%\framedgraphic{6899rule.png}
 	
@@ -615,9 +1190,9 @@ sjPlot::plot_xtab(famuss$race, famuss$actn3.r577x, margin = "row")
 \begin{frame}{Interpreting a frequentist confidence interval}
 	\begin{itemize}
 		\setlength\itemsep{1em}
-		\item The confidence level is the success rate of the method that produces the interval. \pause
+		\item The confidence level is the success rate of the method that produces the interval. 
 		\item We don't know whether the 95\% confidence interval from a \underline{particular
-			sample} is one of the 95\% that capture $\theta$ (the unknown population parameter), or one of the unlucky 5\% that miss. \pause
+			sample} is one of the 95\% that capture $\theta$ (the unknown population parameter), or one of the unlucky 5\% that miss. 
 		\item To say that we are \underline{95\% confident} that the unknown value of $\theta$
 		lies between $U$ and $L$ is shorthand for ``We got these numbers using a
 		method that gives correct results 95\% of the time.''
@@ -779,9 +1354,9 @@ sjPlot::plot_xtab(famuss$race, famuss$actn3.r577x, margin = "row")
 		\setlength\itemsep{2em}
 		\item It tells us that if we repeated this procedure again and again
 		(collecting a sample mean, and constructing a 95\% CI), 95\% of the
-		time, the CI would \textit{cover} $\mu$. \pause 
+		time, the CI would \textit{cover} $\mu$. 
 		\item That is, with 95\% probability, the \textit{procedure}
-		will include the true value of $\mu$. Note that we are making \underline{a probability statement about the CI}, not about the parameter. \pause
+		will include the true value of $\mu$. Note that we are making \underline{a probability statement about the CI}, not about the parameter. 
 		\item Unfortunately, \textcolor{blue}{we do not know whether the true value of $\mu$ is
 			contained in the CI in the particular experiment that we have
 			performed.}
@@ -790,15 +1365,15 @@ sjPlot::plot_xtab(famuss$race, famuss$actn3.r577x, margin = "row")
 
 
 
-\subsection{Bootstrap}
+\section{Bootstrap}
 
 \begin{frame}{Motivation for the Bootstrap}
 	\begin{itemize}
 		\setlength\itemsep{2em}
-		\item The $\pm$ and \texttt{qnorm} methods to calculate a CI both require the CLT
+		\item The $\pm$ and \texttt{qnorm}/\texttt{qt} methods to calculate a CI both require the CLT
 	\end{itemize}
 	
-	\pause
+	
 	
 	\vspace*{0.2in}
 	
@@ -842,7 +1417,7 @@ sjPlot::plot_xtab(famuss$race, famuss$actn3.r577x, margin = "row")
 	@
 	
 	<<echo = c(7,8), message = FALSE, warning = FALSE, tidy = FALSE, fig.width = 7, fig.asp = 0.618>>=
-	source("https://raw.githubusercontent.com/sahirbhatnagar/EPIB607/master/labs/003-ocean-depths/automate_water_task.R")
+	source("https://raw.githubusercontent.com/sahirbhatnagar/EPIB607/master/inst/labs/003-ocean-depths/automate_water_task.R")
 	index.n.20 <- c(2106,2107,2108,2109,2110,2111,2112,
 	2113,2114,2115,2116,2117,2118,2119,
 	2120,2121,2122,2123,2124,2125)
@@ -882,7 +1457,7 @@ sjPlot::plot_xtab(famuss$race, famuss$actn3.r577x, margin = "row")
 \end{frame}
 
 
-\subsection{One sample mean}
+\section{One sample mean}
 
 
 \begin{frame}{$\sigma$ known vs. unknown}
@@ -936,27 +1511,178 @@ sjPlot::plot_xtab(famuss$race, famuss$actn3.r577x, margin = "row")
 	}
 \end{frame}
 
-\subsection{One sample proportion}
 
-\begin{frame}
-	\begin{itemize}
-		\item Binomial calculations
-		\item Nomogram, Clopper-Pearson CI
-		\item Normal approximation
-	\end{itemize}
+\begin{frame}[fragile]{Application: How fast is your reaction time?}
+	<<echo = TRUE>>=
+	reaction.times <- c(325,327,357,299,378)/1000
+	summary(reaction.times)
+	round(sd(reaction.times),3)
+	length(reaction.times)
+	@
+	
 \end{frame}
 
 
-\subsection{p-values}
+\begin{frame}[fragile]{5 ways of calculating a confidence interval}
+	
+	We are interested in calculating a 95\% confidence interval for the mean reaction time based on the sample of 5 reaction times. \\ \ \\
+	\pause
+	Five ways of doing this:
+	\begin{enumerate}
+		\setlength\itemsep{1em}
+		\item By hand (using the $\pm$ formula and \texttt{R} as a calculator)
+		\item Using the quantile function for the $t$ distribution \texttt{stats::qt}
+		\item Fitting an intercept-only regression model ($y = \beta_0 + \varepsilon$)
+		\item Using a canned function (\texttt{mosaic::t.test}, \texttt{stats::t.test})
+		\item Bootstrap
+	\end{enumerate}
+	
+\end{frame}
+
+\begin{frame}[fragile]{1. By hand using the $\pm$ formula}
+	<<echo = c(-3,-5,-7,-9)>>=
+	n <- length(reaction.times)
+	SEM <- sd(reaction.times)/sqrt(n)
+	(SEM <- sd(reaction.times)/sqrt(n))
+	ybar <- mean(reaction.times)
+	(ybar <- mean(reaction.times))
+	multiple.for.95pct <- stats::qt(p = c(0.025, 0.975), df = n-1)
+	(multiple.for.95pct <- stats::qt(p = c(0.025, 0.975), df = n-1))
+	by_hand_CI <- ybar + multiple.for.95pct * SEM
+	round(by_hand_CI, 5)
+	@
+\end{frame}
+
+\begin{frame}[fragile]{2. Using \texttt{stats::qt}}
+	\textit{Note: \texttt{R} only provides the standard $t$ distribution. In order to get a scaled version we must define our own function.}
+	
+	\vspace*{0.2in}
+	
+	<<echo = TRUE>>=
+	n <- length(reaction.times)
+	SEM <- sd(reaction.times)/sqrt(n)
+	ybar <- mean(reaction.times)
+	
+	# scaled version of the standard t distribution
+	qt_ls <- function(p, df, mean, sd) qt(p = p, df = df) * sd + mean
+	
+	qt_ls(p = c(0.025, 0.975), df = n - 1, mean = ybar, sd = SEM)
+	@
+\end{frame}
+
+
+\begin{frame}[fragile]{3. Fitting an intercept-only regression model}
+	<<echo = TRUE>>=
+	fit <- stats::lm(reaction.times ~ 1)
+	summary(fit)
+	stats::confint(fit)
+	@
+\end{frame}
+
+
+\begin{frame}[fragile]{3. Fitting an intercept-only regression model}
+	In the regression output:
+	\begin{itemize}
+		\setlength\itemsep{1em}
+		\item \texttt{Estimate}: the mean reaction time (an estimate of the intercept $\beta_0$)
+		\item \texttt{t value}: the test statistic 
+		\item \texttt{Std. Error}: the standard error of the mean (SEM)
+		\item \texttt{Pr(>|t|)}: is the $p$-value
+	\end{itemize} 
+	
+	
+\end{frame}
+
+
+\begin{frame}[fragile]{3. Fitting an intercept-only regression model}
+	
+	<<>>=
+	options(digits = 3)
+	@
+	
+	\small
+	These are based on the (useless) null hypothesis $H_0: \mu_0 = 0$ \\ \ \\
+	
+	\begin{itemize}
+		\item \texttt{t value} = $\frac{\bar{y} - \mu_0}{s / \sqrt{n}}$ = $\frac{0.33720 - 0}{0.01373}$ = \Sexpr{round(coef(fit)[1]/SEM, 2)}
+		\item \texttt{Pr(>|t|)} \\ \ \\
+		= $P(\textrm{t value} > t_{(n-1)}) + P(-\textrm{t value} < t_{(n-1)})$ \\ \ \\
+		= \small{\texttt{pt(q = 24.56, df = n-1, lower.tail = FALSE)} +  \texttt{pt(q = -24.56, df = n-1)}} \\ \ \\
+		= \Sexpr{pt(q = 24.56, df = n-1, lower.tail = FALSE)} + \Sexpr{pt(q = -24.56, df = n-1)} = \Sexpr{pt(q = 24.56, df = n-1, lower.tail = FALSE)*2}
+	\end{itemize}
+	
+	
+\end{frame}
+
+
+
+\begin{frame}[fragile]{4. Canned function}
+	
+	<<echo = TRUE>>=
+	stats::t.test(reaction.times)
+	@
+	
+\end{frame}
+
+
+
+\begin{frame}[fragile]{5. Bootstrap}
+	
+	<<echo = 1:3, fig.asp=0.498>>=
+	df_react <- data.frame(reaction.times) # need data.frame to bootstrap
+	B <- 10000 ; N <- nrow(df_react)
+	R <- replicate(B, {
+	dplyr::sample_n(df_react, size = N, replace = TRUE) %>%
+	dplyr::summarize(r = mean(reaction.times)) %>%
+	dplyr::pull(r)
+	})
+	CI_95 <- quantile(R, probs = c(0.025, 0.975))
+	CI_95
+	
+	# plot sampling distribution
+	hist(R, breaks = 50, col = "#56B4E9",
+	main="",
+	xlab = "mean reaction time (s) from each bootstrap sample")
+	
+	# draw red line at the sample mean
+	abline(v = mean(reaction.times), lty =1, col = "red", lwd = 4)
+	
+	# draw black dotted lines at 95% CI
+	abline(v = CI_95[1], lty =2, col = "black", lwd = 4)
+	abline(v = CI_95[2], lty =2, col = "black", lwd = 4)
+	
+	# include legend
+	library(latex2exp)
+	legend("topright", 
+	legend = c(TeX("$\\bar{y} = 0.3372$"),
+	sprintf("95%% CI: [%.3f, %.3f]",CI_95[1], CI_95[2])), 
+	lty = c(1,1), 
+	col = c("red","black"), lwd = 4)
+	@
+	
+\end{frame}
+
+%\section{One sample proportion}
+
+%\begin{frame}
+%	\begin{itemize}
+%		\item Binomial calculations
+%		\item Nomogram, Clopper-Pearson CI
+%		\item Normal approximation
+%	\end{itemize}
+%\end{frame}
+
+
+\section{p-values}
 
 \begin{frame}
 	\frametitle{$p$-values and statistical tests}
 	
 	
 	%\vspace{18pt}
-	\begin{defm}[$p$-value]
+	\begin{definition}[$p$-value]
 		A \textbf{probability concerning the observed data}, calculated under a \textbf{Null Hypothesis} assumption, i.e., assuming that the only factor operating is sampling or measurement variation. 
-	\end{defm}
+	\end{definition}
 	
 	\begin{itemize} 
 		\item[\underline{Use}] To assess the evidence provided by the sample data
@@ -973,15 +1699,15 @@ sjPlot::plot_xtab(famuss$race, famuss$actn3.r577x, margin = "row")
 	%\begin{footnotesize}
 	\begin{itemize}
 		\setlength\itemsep{.3em}
-		\item The $p$-value is a \textbf{probability concerning data}, \textbf{conditional on the Null Hypothesis being true}. \pause
-		\item \textbf{It is not the probability that Null Hypothesis is true}, \textit{conditional on the data.} \pause
+		\item The $p$-value is a \textbf{probability concerning data}, \textbf{conditional on the Null Hypothesis being true}. 
+		\item \textbf{It is not the probability that Null Hypothesis is true}, \textit{conditional on the data.} 
 		%\item Very few MDs mix up complement of specificity (i.e. probability of a `positive'  test result when in fact patient does not have disease in question) with positive predictive value (i.e. probability that a patient who has had a `positive'  test result does  have disease in question).
 		\begin{align*}
 			p_{value} & = P(\textrm{this or more extreme data}| H_0) \\
 			& \neq P(H_0|\textrm{this or more extreme data}).
 		\end{align*}
 		
-		\pause 
+		
 		\item Statistical tests are often coded as statistically significant or not according to whether results are extreme or not with respect to a reference (null)  distribution.  But a test result  is just one piece of data, and needs to be considered \textit{along with  rest of evidence} before coming to a `conclusion.' \item \textbf{Likewise with statistical `tests': the $p$-value is just one more piece of \textit{evidence}, hardly enough to `conclude' anything}. 
 		%\item The probability that the DNA from the blood  of a randomly selected (innocent) person would match that from blood on crime-scene glove was 
 		%$p=10^{-17}$. \textit{Do not equate this} Prob[data $|$ innocent] \textit{with its transpose}:
@@ -990,6 +1716,100 @@ sjPlot::plot_xtab(famuss$race, famuss$actn3.r577x, margin = "row")
 	\end{itemize}
 	%\end{footnotesize}
 \end{frame}
+
+\begin{frame}
+	\frametitle{The prosecutor's fallacy \footnote{\tiny{The Bayesian flip
+				Correcting the prosecutor's fallacy. Significance. August 2015.}}}
+	
+	\begin{itemize}
+		\setlength\itemsep{1em}
+		\item Restating this both more succinctly, and in
+		terms better suited to a statistically literate
+		readership, the prosecutor’s fallacy is to
+		calculate P(evidence | innocence) and interpret
+		it as P(innocence | evidence). 
+		\item It may be true
+		that if the accused were innocent, there is only
+		one chance in 3 million of a DNA match. But
+		the DNA match does not necessarily imply
+		that there is only one chance in 3 million
+		of the accused being innocent. 
+		\item Stated more
+		generally, the prosecutor’s fallacy is
+		$$P(A | B) = P(B | A)
+		$$
+		\item We know, from Bayes’ rule, that
+		$$P(A | B) = \frac{P(B | A) P(A)}{P(B)}
+		$$
+	\end{itemize}
+	
+\end{frame}
+
+
+\begin{frame}{The Bayesian Flip}
+	
+	\begin{itemize}
+		\item In many investigations
+		we may be presented with
+		P(data | theory), but what
+		we would really like to
+		know is P(theory | data):
+		the probability that our
+		theory is correct, given what
+		we have observed
+		\item To move from P(data | theory) to
+		P(theory | data), we need to do the Bayesian
+		flip. 
+		\item Every year in the United States 38 million
+		women are tested for breast cancer with
+		mammograms. Of these, 140 000 have cancer.
+		Mammograms have been determined to be
+		90\% accurate for women with breast cancer. 
+		\item This figure was calculated by tallying all of
+		the women who were eventually determined
+		to have breast cancer and looking back to see
+		if their initial mammograms were positive,
+		thus: $$P(+mammogram | cancer) = 0.90$$
+		and, using a similar empirical investigation,
+		$$P(+mammogram | no cancer) = 0.10$$
+	\end{itemize}
+	
+\end{frame}
+
+
+\begin{frame}{The Bayesian Flip}
+	
+	\begin{itemize}
+		\item It is important to know that
+		a test is both powerful and has a relatively low
+		rate of false positives. But when one is faced
+		with a positive mammogram result, these are
+		hardly useful. We administer a mammogram
+		because we do not know whether or not
+		someone has cancer.
+		\item What we want to know is
+		$$P(cancer | +mammogram)$$ \pause 
+		\item This probability is a fraction
+		that has as its numerator the number of
+		women annually diagnosed with breast
+		cancer via mammograms, or 140 000, and
+		as its denominator the number of positive
+		mammograms (including both true cancer
+		cases and false positives):
+		\begin{align*}
+			P(cancer | +mammogram) &= \frac{True\, positives}{(True\,positives + False\, positives)} \\
+			&= 140 000 / (140 000 + 0.1 × 38\,million)
+			\\
+			&= 140 000 / (140 000 + 3 800 000)
+			\\
+			&= 140 000 / 3 940 000 = 0.036 = 3.6\%
+		\end{align*}
+	\end{itemize}
+	
+\end{frame}
+
+
+
 
 \begin{frame}
 	\frametitle{Close relationship between $p$-value and CI}
@@ -1011,143 +1831,129 @@ sjPlot::plot_xtab(famuss$race, famuss$actn3.r577x, margin = "row")
 \end{frame}
 
 
-\subsection{Power and sample size}
+
+
+\section{Power and sample size}
 
 \begin{frame}[fragile]{Power = $1 - \beta$}
-	
-	\vspace*{-0.2in}
-	
-	\begin{defm}[Power = $1-\beta$]
-		The probability that a fixed level $\alpha$ significance test will reject $H_0$ when a particular alternative value of the parameter is true is called the \textbf{power} of the test to detect the alternative. 
-	\end{defm}
-	
-	
-	\vspace*{-0.08in}
-	
-	\centering
-	\includegraphics[scale=0.31]{HypTest3-3.pdf}
-	
-	
+
+\vspace*{-0.2in}
+
+\begin{definition}[Power = $1-\beta$]
+	The probability that a fixed level $\alpha$ significance test will reject $H_0$ when a particular alternative value of the parameter is true is called the \textbf{power} of the test to detect the alternative. 
+\end{definition}
+
+
+\vspace*{-0.08in}
+
+\centering
+\includegraphics[scale=0.31]{HypTest3-3.pdf}
+
+
 \end{frame}
 
 \begin{frame}{Power and Sample Size: 3 questions}
-	
-	\begin{enumerate}
-		\setlength\itemsep{1em}
-		\item How much water a supplier could add to the milk before they have a 10\% , 50\%, 80\%
-		chance of getting caught, i.e., of the buyer detecting the cheating ? \pause
-		\item Assume a 99:1 mix of milk and water. What are the chances of detecting cheating if the buyer uses samples $n$=10, 15 or 20 rather than just 5 measurements? \pause
-		\item At what $n$ does the chance of detecting cheating reach 80\%? (\textit{a commonly used, but arbitrary, criterion used in sample-size planning by investigators seeking funding for their proposed research})
-	\end{enumerate}
-	
+
+\begin{enumerate}
+	\setlength\itemsep{1em}
+	\item How much water a supplier could add to the milk before they have a 10\% , 50\%, 80\%
+	chance of getting caught, i.e., of the buyer detecting the cheating ? 
+	\item Assume a 99:1 mix of milk and water. What are the chances of detecting cheating if the buyer uses samples $n$=10, 15 or 20 rather than just 5 measurements? 
+	\item At what $n$ does the chance of detecting cheating reach 80\%? (\textit{a commonly used, but arbitrary, criterion used in sample-size planning by investigators seeking funding for their proposed research})
+\end{enumerate}
+
 \end{frame}
 
 
 \begin{frame}[fragile]{If the supplier added 1\% water to the milk}
-	<<echo=FALSE, eval=TRUE>>=
-	source("https://raw.githubusercontent.com/sahirbhatnagar/EPIB607/master/slides/bin/plot_null_alt.R")
-	n <- 5
-	s <- 0.0080
-	mu0 <- -0.540
-	mha <- 0.99*-0.540
-	cutoff <- mu0 + qnorm(0.95) * s / sqrt(n)
-	power_plot(n = n, s = s,  
-	mu0 = mu0, mha = mha, 
-	cutoff = cutoff,
-	alternative = "greater",
-	xlab = "Freezing point (degrees C)")
-	@
+<<echo=FALSE, eval=TRUE>>=
+source("https://raw.githubusercontent.com/sahirbhatnagar/epib607/master/inst/slides/bin/plot_null_alt.R")
+n <- 5
+s <- 0.0080
+mu0 <- -0.540
+mha <- 0.99*-0.540
+cutoff <- mu0 + qnorm(0.95) * s / sqrt(n)
+power_plot(n = n, s = s,  
+mu0 = mu0, mha = mha, 
+cutoff = cutoff,
+alternative = "greater",
+xlab = "Freezing point (degrees C)")
+@
 \end{frame}
 
 
 
 \begin{frame}
-	
-	\begin{center}
-		\includegraphics[scale=0.45]{ProbDetectingWaterInMilk.pdf} 
-	\end{center}
-	
-	\vspace*{-0.18in}
-	
-	{ \footnotesize
-		The probabilities in red were calculated using the formula:
-		\texttt{stats::pnorm(cutoff, mean = mu.mixture, sd = SEM, lower.tail=FALSE)}
-	}
+
+\begin{center}
+	\includegraphics[scale=0.45]{ProbDetectingWaterInMilk.pdf} 
+\end{center}
+
+\vspace*{-0.18in}
+
+{ \footnotesize
+	The probabilities in red were calculated using the formula:
+	\texttt{stats::pnorm(cutoff, mean = mu.mixture, sd = SEM, lower.tail=FALSE)}
+}
 \end{frame}
 
 
-\begin{frame}
-	\begin{center}
-		\includegraphics[scale=0.5]{SampleSize1pctWaterAdded.pdf} 
-	\end{center}
-\end{frame}
 
 \begin{frame}[fragile]{The balancing formula}
-	<<echo=FALSE, eval=TRUE>>=
-	n <- 13.6
-	s <- 0.0080
-	mu0 <- -0.540
-	mha <- 0.99*-0.540
-	cutoff <- mu0 + qnorm(0.95) * s / sqrt(n)
-	power_plot(n = n, s = s,  
-	mu0 = mu0, mha = mha, 
-	cutoff = cutoff,
-	alternative = "greater",
-	xlab = "Freezing point (degrees C)")
-	I = 1
-	axis(2)
-	text(-0.5325,600,"qnorm(0.8, \nlower.tail=FALSE)=\n-0.84",
-	cex=.65,family="mono",adj=c(0,0.5),col="red")
-	x = (cutoff+mha)/2
-	text(x-.001, 330,
-	"0.84 * SEM",col="red",
-	adj=c(-0.1,0.5),cex=0.65)
-	cbPalette <- c("#999999", "#E69F00", "#56B4E9", "#009E73", 
-	"#F0E442", "#0072B2", "#D55E00", "#CC79A7")
-	text(-0.548,100,"qnorm(0.05, \nlower.tail=FALSE)=\n 1.645",
-	cex=0.65,family="mono",adj=c(0,0),col=cbPalette[6])
-	text(x-.001, 130, "1.645 * SEM",col=cbPalette[6], 
-	adj=c(1.1,0),cex=0.65)
-	arrows(mu0,   100,
-	mha,100,length=0.05,
-	code=3,angle=20,lwd=1.5)
-	text(mha-.0054,80, latex2exp::TeX("Delta = 1.645*SEM + 0.84*SEM"),
-	adj=c(-0.1,0.5), cex=0.75)
-	@
+<<echo=FALSE, eval=TRUE, fig.asp=0.601>>=
+n <- 13.6
+s <- 0.0080
+mu0 <- -0.540
+mha <- 0.99*-0.540
+cutoff <- mu0 + qnorm(0.95) * s / sqrt(n)
+power_plot(n = n, s = s,  
+mu0 = mu0, mha = mha, 
+cutoff = cutoff,
+alternative = "greater",
+xlab = "Freezing point (degrees C)")
+I = 1
+axis(2)
+text(-0.5325,600,"qnorm(0.8, \nlower.tail=FALSE)=\n-0.84",
+cex=.65,family="mono",adj=c(0,0.5),col="red")
+x = (cutoff+mha)/2
+text(x-.001, 330,
+"0.84 * SEM",col="red",
+adj=c(-0.1,0.5),cex=0.65)
+cbPalette <- c("#999999", "#E69F00", "#56B4E9", "#009E73", 
+"#F0E442", "#0072B2", "#D55E00", "#CC79A7")
+text(-0.548,100,"qnorm(0.05, \nlower.tail=FALSE)=\n 1.645",
+cex=0.65,family="mono",adj=c(0,0),col=cbPalette[6])
+text(x-.001, 130, "1.645 * SEM",col=cbPalette[6], 
+adj=c(1.1,0),cex=0.65)
+arrows(mu0,   100,
+mha,100,length=0.05,
+code=3,angle=20,lwd=1.5)
+text(mha-.0054,80, latex2exp::TeX("Delta = 1.645*SEM + 0.84*SEM"),
+adj=c(-0.1,0.5), cex=0.75)
+@
 \end{frame}
 
 
 \begin{frame}{What sample size needed?}
+
+\begin{itemize}
+	\setlength\itemsep{1em}
+	\item The `balancing formula', in SEM terms, is simply the $n$ where
+	$$ 1.645 \times SEM + 0.84 \times SEM = \Delta.$$
+	Replacing each of the  SEMs (assumed equal, because we assumed the variability
+	is approx. the same under both scenarios) by $\sigma/\sqrt{n}$,  i.e.,
 	
-	\begin{itemize}
-		\setlength\itemsep{1em}
-		\item The `balancing formula', in SEM terms, is simply the $n$ where
-		$$ 1.645 \times SEM + 0.84 \times SEM = \Delta.$$
-		Replacing each of the  SEMs (assumed equal, because we assumed the variability
-		is approx. the same under both scenarios) by $\sigma/\sqrt{n}$,  i.e.,
-		
-		$$ 1.645 \times \sigma/\sqrt{n} + 0.84 \times \sigma/\sqrt{n} = \Delta.$$
-		
-		and solving for $n$, one gets
-		
-		$$  n = (1.645 + 0.84)^2  \times \bigg\{ \frac{\sigma}{\Delta} \bigg\}^2 = 
-		(1.645 + 0.84)^2  \times \bigg\{ \frac{Noise}{Signal} \bigg\}^2 .$$
-	\end{itemize}
+	$$ 1.645 \times \sigma/\sqrt{n} + 0.84 \times \sigma/\sqrt{n} = \Delta.$$
 	
+	and solving for $n$, one gets
+	
+	$$  n = (1.645 + 0.84)^2  \times \bigg\{ \frac{\sigma}{\Delta} \bigg\}^2 = 
+	(1.645 + 0.84)^2  \times \bigg\{ \frac{Noise}{Signal} \bigg\}^2 .$$
+\end{itemize}
+
 \end{frame}
 
-\begin{frame}{What sample size needed? General Formula}
-	
-	\begin{itemize}
-		\setlength\itemsep{2em}
-		\item Two sided alternative:
-		$$\Delta = z_{1-\alpha/2} \times SEM + z_{1-\beta} \times SEM$$
-		
-		\item One sided alternative:
-		$$\Delta = z_{1-\alpha} \times SEM + z_{1-\beta} \times SEM$$
-	\end{itemize}
-	
-\end{frame}
+
 
 \section{Part II}
 
@@ -1253,7 +2059,7 @@ sjPlot::plot_xtab(famuss$race, famuss$actn3.r577x, margin = "row")
 
 
 \begin{frame}[fragile,plain]
-	\vspace*{-1.0in}
+	\vspace*{-0.3in}
 
 	
 	<<echo=TRUE, eval=TRUE>>=
@@ -1502,14 +2308,36 @@ sjPlot::plot_xtab(famuss$race, famuss$actn3.r577x, margin = "row")
 	\end{itemize}
 \end{frame}
 
-\subsection{Contingency Tables and Difference in Proportions}
+\section{ROC Curves}
 
-\begin{frame}{Contingency Tables and Difference in Proportions}
-	\begin{itemize}
-		\item The function \texttt{prop.test()} is used to conduct a hypothesis test for a single proportion or for the difference of two proportions, under the assumption that the sampling distribution for each sample proportion is approximately normal.
-		\item The function \texttt{binom.test()} is used to conduct a hypothesis test for a single proportion based on exact binomial probabilities.
-		\item \texttt{chisq.test()} performs chi-squared contingency table tests and goodness-of-fit tests. See Vu and Harrington section 8.3		
-	\end{itemize}
+\begin{frame}[fragile]{ROC Curves}
+<<fig.asp=0.601, echo = c(-1,-2,-5,-6,-7)>>=
+load(here::here("inst/assignments/a8/icu.rda"))
+icu <- icu %>% mutate(sta.int = as.numeric(sta) - 1)
+fit1 <- glm(sta ~ type, family=binomial(link=logit), data=icu)
+fit2 <- glm(sta ~ type + age, family=binomial(link=logit), data=icu)
+par(mfrow = c(1,2))
+boxplot(fitted(fit1) ~ icu$sta)
+boxplot(fitted(fit2) ~ icu$sta)
+@	
+\end{frame}
+
+
+\begin{frame}[fragile]{ROC Curves}
+	<<fig.asp=0.601>>=
+	library(pROC)
+plot.roc(icu$sta.int, fitted(fit1),
+percent=TRUE,
+ci=TRUE, # compute AUC (of AUC by default)
+print.auc=TRUE) # print the AUC (will contain the CI)
+
+plot.roc(icu$sta.int, fitted(fit2),
+percent=TRUE,
+ci=TRUE, # compute AUC (of AUC by default)
+print.auc=TRUE, 
+col = "red", print.auc.y = 20,
+add = TRUE) # print the AUC (will contain the CI)
+	@	
 \end{frame}
 
 

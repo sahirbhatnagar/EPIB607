@@ -1,0 +1,73 @@
+---
+title: "Final Review Question"
+output:
+  html_document:
+    toc: true
+    toc_float: true
+    number_sections: true
+    toc_depth: 4
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+# Packages
+
+```{r}
+pacman::p_load(dplyr)
+pacman::p_load(pROC)
+```
+
+
+# Question 7 (2018 Final) [20 marks] {-}
+
+This question is based on the NEJM article \textit{The mode of delivery and the risk of vertical transmission of human immunodeficiency virus type 1} by the International Perinatal HIV Group (1999). To evaluate the role of elective cesarean section in reducing the rate of vertical (mother-to-child) transmission of human immunodeficiency virus type 1 (HIV-1), the authors performed a meta-analysis using data on individual patients from 15 prospective cohort studies. 
+
+
+```{r echo=FALSE, eval=TRUE, message=FALSE, size = 'small'}
+ds <- read.csv("~/git_repositories/epib607/inst/slides/024-logistic-reg-1/hiv_Transmission.csv",header=TRUE)
+ds$n.hivneg <- ds$n.pairs - ds$n.hivpos
+ds$propn <- round(ds$n.hivpos/ds$n.pairs,3)
+```
+
+Two binomial regressions are fit to these data. The following is the summary output of \textbf{Model 1}:
+
+```{r echo=FALSE, eval=TRUE, message=FALSE, size = 'small'}
+fit.1 <- glm(cbind(n.hivpos,n.hivneg) ~ caesarian + ART1or2 + ART3 + m.advancedHIV + c.LBW,
+                family=binomial(link=logit), data=ds)
+print(summary(fit.1), show.call=TRUE, digits=2, signif.stars = FALSE)
+```
+
+The following is the summary output of \textbf{Model 2}:
+
+```{r echo=FALSE, eval=TRUE, message=FALSE, size = 'small'}
+fit.2 <- glm(cbind(n.hivpos,n.hivneg) ~ caesarian + ART1or2 + ART3 + m.advancedHIV + c.LBW,
+             family = binomial(link=log), data=ds)
+print(summary(fit.2), show.call=TRUE, digits=2, signif.stars = FALSE)
+
+curve(plogis(x), -5, 1, col = "blue", lwd = 3, 
+      ylab = "predicted probability",
+      xlab = "linear predictor (e.g. b0 + b1*x + b2*z)")
+curve(exp(x), -5, 1, add = TRUE, col = "red", lwd = 3)
+abline(h = 0.1)
+legend("topleft", legend = c("plogis","exp"), lwd = 3, col = c("blue","red"))
+
+# other, no ART, advanced, low birth weight
+lp1 <- -1.608 - 0.852 * 0 - 0.362 * 0 - 1.178 * 0 + 0.535 * 1 + 0.581 * 1
+lp2 <- -1.793 - 0.720 * 0 - 0.278 * 0 - 1.016 * 0 + 0.409 * 1 + 0.453 * 1
+plogis(lp1); exp(lp1)
+plogis(lp2); exp(lp2)
+
+
+plot(fitted(fit.1), fitted(fit.2), xlab = "fit1", ylab = "fit2")
+abline(a=0, b = 1)
+library(mice)
+mice::md.pattern()
+```
+
+
+
+
+
